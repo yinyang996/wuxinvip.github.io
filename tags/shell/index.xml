@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Shell on 无心技术簿</title>
-    <link>https://wuxinvip.github.io/tags/shell/</link>
+    <link>https://blog.wuxinvip.com/tags/shell/</link>
     <description>Recent content in Shell on 无心技术簿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 30 May 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://wuxinvip.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.wuxinvip.com/tags/shell/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>linux 清空缓存</title>
-      <link>https://wuxinvip.github.io/blog/shell/shell-3/</link>
+      <link>https://blog.wuxinvip.com/blog/shell/shell-3/</link>
       <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://wuxinvip.github.io/blog/shell/shell-3/</guid>
+      <guid>https://blog.wuxinvip.com/blog/shell/shell-3/</guid>
       <description>确认缓存或不用内存 free -m vi drop_caches.sh #页面缓存 echo 1 &amp;gt; /proc/sys/vm/drop_caches #目录缓存和inodes echo 2 &amp;gt; /proc/sys/vm/drop_caches #页面缓存，目录缓存和inodes echo 3 &amp;gt; /proc/sys/vm/drop_caches #清理文件系统缓存 sync save sh drop_caches.sh  注意: 上述所有命令都对系统无害，且只会有助于释放不用的内存。
 而且sync还会清理僵尸(zombie)对象和它们占用的内存。
 但是，如果你执行这些命令时正在写数据，你实际上在数据到达磁盘之前就将它从文件缓存中清除掉了, 这可能会造成很不好的影响。
@@ -34,46 +34,46 @@ vfs_cache_pressure=100是默认值，内核会尝试重新声明dentries和inode
     
     <item>
       <title>linux 监控服务脚本</title>
-      <link>https://wuxinvip.github.io/blog/shell/shell-4/</link>
+      <link>https://blog.wuxinvip.com/blog/shell/shell-4/</link>
       <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://wuxinvip.github.io/blog/shell/shell-4/</guid>
+      <guid>https://blog.wuxinvip.com/blog/shell/shell-4/</guid>
       <description>#!/bin/sh weblist=/shell/web_monit/weblist.txt for list in `cat $weblist|grep -E -v &amp;quot;#|^$&amp;quot;` do httpcode=`curl -o /dev/null -s -w %{http_code} &amp;quot;$list&amp;quot;` httptime=`curl -o /dev/null -s -w &amp;quot;time_connect: %{time_connect}\ntime_starttransfer: %{time_starttransfer}\ntime_total: %{time_total}\n&amp;quot; &amp;quot;$list&amp;quot;|grep time_total|awk -F &amp;quot;:&amp;quot; &#39;{print $2*1000}&#39;` if [ $httpcode = 500 ]||[ $httpcode = 502 ]||[ $httpcode = 503 ]||[ $httpcode = 504 ] then curl -d &amp;quot;mobile=13800008888&amp;amp;text=访问 $list 超时&amp;quot; &amp;quot;http://127.0.0.1/sms/&amp;quot; else echo &amp;quot;$list is checked ok!&amp;quot; fi if [ $httptime -ge 3000 ] then curl -d &amp;quot;mobile=13800008888&amp;amp;text=访问 $list 超时&amp;quot; &amp;quot;http://127.</description>
     </item>
     
     <item>
       <title>crontab</title>
-      <link>https://wuxinvip.github.io/blog/shell/crontab/</link>
+      <link>https://blog.wuxinvip.com/blog/shell/crontab/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://wuxinvip.github.io/blog/shell/crontab/</guid>
+      <guid>https://blog.wuxinvip.com/blog/shell/crontab/</guid>
       <description>/crond start //启动服务 /sbin/service crond stop //关闭服务 /sbin/service crond restart //重启服务 /sbin/service crond reload //重新载入配置&amp;lt;/pre&amp;gt; service crond status service crond start 查看crontab服务是否已设置为开机启动，执行命令： ntsysv 加入开机自动启动： chkconfig -level 35 crond on 定制脚本 crontab -e 相当于vim 文档加入 0 1 * * * root /data/bakdb.sh &amp;gt; /data/bak.log 2&amp;gt;&amp;amp;1 */2 * * * * /bin/bash -x /shell/web_monit/http_monit.sh &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 查看定时任务 crontab -u root -l  </description>
     </item>
     
     <item>
       <title>java后台升级命令</title>
-      <link>https://wuxinvip.github.io/blog/shell/shell-2/</link>
+      <link>https://blog.wuxinvip.com/blog/shell/shell-2/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://wuxinvip.github.io/blog/shell/shell-2/</guid>
+      <guid>https://blog.wuxinvip.com/blog/shell/shell-2/</guid>
       <description>top netstat netstat -ano | grep 8080 kill kill -9 chmod 777 123.txt chown root:root 123.txt sudo apt-get install sudo apt-get remove sudo yum install sudo yum remove sudo yum -y install sudo -s -H su root unzip -d 123.zip more readme.rxt  cat /proc/version awk if..else sleep man lsof -i:8080 useradd -r nexus #统计文件内容出现次数 grep -o &amp;quot;message&amp;quot; nohup.out | wc -l #scp远程拷贝 scp -r /usr/local/mongodb-3.6.5/ root@10.44.33.22:/opt/software/  </description>
     </item>
     
     <item>
       <title>java后台常用命令</title>
-      <link>https://wuxinvip.github.io/blog/shell/shell-1/</link>
+      <link>https://blog.wuxinvip.com/blog/shell/shell-1/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://wuxinvip.github.io/blog/shell/shell-1/</guid>
+      <guid>https://blog.wuxinvip.com/blog/shell/shell-1/</guid>
       <description>cd ps ps -ef ps -ef | grep &amp;quot;&amp;quot; | 管道符 mv cp cp -a sh .../*.sh vim 123.txt tail -f ../*.log tail -f -n1000 ../*.log  </description>
     </item>
     
     <item>
       <title>zsh</title>
-      <link>https://wuxinvip.github.io/blog/shell/zsh/</link>
+      <link>https://blog.wuxinvip.com/blog/shell/zsh/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://wuxinvip.github.io/blog/shell/zsh/</guid>
+      <guid>https://blog.wuxinvip.com/blog/shell/zsh/</guid>
       <description>zsh 安装: zsh 又名终极shell 出名于 oh my zsh 可配置主题 还有很多插件 功能 在此用作文件默认开启程序 和 alias使用也是极大方便
 centos:yum install zsh debian:apt-get install zsh  oh-my-zsh 安装:
 # via curl curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh # via wget wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sh  设置zsh为系统默认shell:
