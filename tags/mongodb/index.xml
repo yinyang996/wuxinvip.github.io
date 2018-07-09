@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mongodb on 无心技术簿</title>
+    <link>http://wuxinvip.github.io/tags/mongodb/</link>
+    <description>Recent content in Mongodb on 无心技术簿</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 06 Jun 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://wuxinvip.github.io/tags/mongodb/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>mongodb 使用</title>
+      <link>http://wuxinvip.github.io/blog/mongodb/mongodb-4/</link>
+      <pubDate>Wed, 06 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/mongodb/mongodb-4/</guid>
+      <description>mongodb 使用
+ 文档性数据库 针对类型、无格式文档、只根据id、type区分 代码 使用封装data-mongodb数据 @Autowired MongoTemplate mongoTemplate; mongoTemplate.save(logDocument); //入参 当前第1页、显示20条数据、搜索类型demo封装类 Query query = new Query(); //构造分页请求信息 Sort sort = new Sort(Sort.Direction.DESC,&amp;quot;createTime&amp;quot;); PageRequest pageRequest = new PageRequest(1,20,sort); query.with(pageRequest); query.addCriteria(Criteria.where(&amp;quot;id&amp;quot;).is(demo.getId()); mongoTemplate.find(query,LogDocument.class); ///指定全文模糊匹配检索 代码片段 用作以后参考 TextCriteria criteria = new TextCriteria(); Map&amp;lt;String,String&amp;gt; map = JsonUtil.beanToMap(demo); for(String string :map.values()){ criteria.matching(string); }  </description>
+    </item>
+    
+    <item>
+      <title>mongodb 命令</title>
+      <link>http://wuxinvip.github.io/blog/mongodb/mongodb-3/</link>
+      <pubDate>Wed, 06 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/mongodb/mongodb-3/</guid>
+      <description>mongodb 命令
+#启动 /opt/env/mongodb-3.6.5/bin/mongod --config /etc/mongod.conf --config 加载配置 --dbpath 数据存放路径 --port 启动端口 --fork 以守护方式启动进程 相当于 nohup **** &amp;amp; --logpath 日志路径 --append 追加日志 保留以前日志 --directoryperdb 每个数据库单独一个文件夹 #数据库操作 show dbs; show collections; show users; use &amp;lt;db_name&amp;gt;;//如果存在切换 如果不存在 新建并切换 #查看帮助 db.help(); db.foo.help(); db.foo.find(); db.foo.find({a:1}); #查看状态 db.status(); db.version(); #查看当前链接机器地址 db.getMongo(); db.shutdownServer(); #数据操作 db.user.find(); db.user.findOne(); db.user.update(); db.user.remove();  </description>
+    </item>
+    
+    <item>
+      <title>mongodb 简介</title>
+      <link>http://wuxinvip.github.io/blog/mongodb/mongodb-1/</link>
+      <pubDate>Wed, 06 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/mongodb/mongodb-1/</guid>
+      <description>mongodb 官方doc BSON格式文档型分片存储服务 BSON格式 与json类似 优点：解释快
+应用点：支持大量存储、数据格式灵活多样、广泛的索引结构、优秀的集群管理 缺点：不支持事务、成本高
+mongodb 组成部件
+1、实际存储服务分片--存储json数据 2、路由 mongos--负责把请求转发到正确的服务器上 3、配置服务器---跟踪服务集群状态 每个组件都是集群服务、即多进程服务、更稳定、预防节点宕机倒是集群gg  mongodb 数据结构
+与es一样 document文档行数据库 Collections ： 文档集合 document ： 文档 特殊存储 GridFS：因为bson对象的大小有限制，不适合存储大型文件，GridFS文件系统为大型文件提供了存储的方案，GridFS下的fs保存的是图片、视屏等大文件。  mongodb 存储方式
+集群 自动扩散是分片存储。 自动检测分片存储数据大小、数据自动流转到空闲节点、对外使用暴露统一服务调用  mongodb 存储引擎
+MongoDB支持多个存储引擎 MongoDB 3.2开始的默认存储引擎使用WiredTiger 它非常适合大多数工作负载，建议用于新部署。 WiredTiger提供了文档级并发模型，检查点和压缩等功能。在MongoDB Enterprise中，WiredTiger还支持静态 加密。 3.2之前的MongoDB版本的默认存储引擎 是 MMAPv1。 MMAPv1在具有大量读取和写入以及就地更新的工作量上表现良好。  mongodb 存储索引
+Single Field【单字段索引】 Compound Index【复合索引】 Multikey Index【多键索引】 Geospatial Index【地理空间索引】 Text Indexes【文本索引】 Hashed Indexes【hash索引】 Unique Indexes【唯一索引】 Partial Indexes【部分索引、3.2之后新加索引】 索引符合指定过滤器表达式的集合中的文档。 通过索引集合中的文档子集，部分索引的索引创建和维护的存储需求更低，性能成本更低。 部分索引提供了稀疏索引功能的超集，应该优先于稀疏索引。 Sparse Indexes【稀疏索引】 索引仅包含具有索引字段的文档的条目。索引跳过没有索引字段的文档。 TTL Indexes【TTL索引】  TTL索引是一些特殊的索引，MongoDB可以在一段时间后使用它自动从集合中删除文档。这对于某些类型的信息比如机器生成的事件数据，日志和会话信息是理想的，这些信息只需要在有限的时间内保留在数据库中。</description>
+    </item>
+    
+    <item>
+      <title>mongodb 集群</title>
+      <link>http://wuxinvip.github.io/blog/mongodb/mongodb-2/</link>
+      <pubDate>Wed, 06 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/mongodb/mongodb-2/</guid>
+      <description>mongodb 配置
+# mongod.conf # for documentation of all options, see: # http://docs.mongodb.org/manual/reference/configuration-options/ # where to write logging data. systemLog: destination: file logAppend: true #path: /var/log/mongodb/mongod.log path: /opt/env/mongodb-3.6.5/log/mongod.log # Where and how to store data. storage: #dbPath: /var/lib/mongo dbPath: /opt/env/mongodb-3.6.5/data journal: enabled: true # engine: # mmapv1: # wiredTiger: # how the process runs processManagement: fork: true # fork and run in background pidFilePath: /var/run/mongodb/mongod.pid # location of pidfile # network interfaces net: port: 27027 bindIp: 0.</description>
+    </item>
+    
+  </channel>
+</rss>

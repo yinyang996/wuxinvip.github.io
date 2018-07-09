@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>负载均衡 on 无心技术簿</title>
+    <link>http://wuxinvip.github.io/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</link>
+    <description>Recent content in 负载均衡 on 无心技术簿</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 24 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://wuxinvip.github.io/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>负载均衡</title>
+      <link>http://wuxinvip.github.io/blog/load-balance/total/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/load-balance/total/</guid>
+      <description>负载均衡起源
+将用户请求通过各种算法、均匀的分配到各个服务器上、以保证最大用户量的支撑、 同时服务实例又不会因为请求过载而gg  负载均衡工作模式
+说起负载均衡工作模式就得从网络请求说起、因为他工作于用户到服务器的请求路径上 目前基本网络协议 http、【七层】 物理、数据链路、网络、应用层、等等、、、、 基于物理层的 就算是硬件负载均衡设备、在网卡端口上设置算法、均衡服务实例请求量 基于网络层的 一般较软件负载均衡设备 常用的 ：nginx 工作在 4和7层 既有网络层【端口监听】、也有应用层【端口转发】    负载均衡   </description>
+    </item>
+    
+    <item>
+      <title>负载均衡算法</title>
+      <link>http://wuxinvip.github.io/blog/load-balance/algorithm/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/load-balance/algorithm/</guid>
+      <description>常见负载均衡算法 随机
+ public static String random() { //重新建立一个map,避免出现由于服务器上线和下线导致的并发问题 Map&amp;lt;String,Integer&amp;gt; serverMap = new HashMap&amp;lt;String,Integer&amp;gt;(); serverMap.putAll(serverWeigthMap); //获取ip列表list Set&amp;lt;String&amp;gt; keySet = serverMap.keySet(); ArrayList&amp;lt;String&amp;gt; keyList = new ArrayList&amp;lt;String&amp;gt;(); keyList.addAll(keySet); java.util.Random random = new java.util.Random(); int randomPos = random.nextInt(keyList.size()); String server = keyList.get(randomPos); return server; }  加权随机
+ public static String weightRandom() { //重新建立一个map,避免出现由于服务器上线和下线导致的并发问题 Map&amp;lt;String,Integer&amp;gt; serverMap = new HashMap&amp;lt;String,Integer&amp;gt;(); serverMap.putAll(serverWeigthMap); //获取ip列表list Set&amp;lt;String&amp;gt; keySet = serverMap.keySet(); Iterator&amp;lt;String&amp;gt; it = keySet.iterator(); List&amp;lt;String&amp;gt; serverList = new ArrayList&amp;lt;String&amp;gt;(); while (it.</description>
+    </item>
+    
+    <item>
+      <title>nginx</title>
+      <link>http://wuxinvip.github.io/blog/load-balance/nginx/</link>
+      <pubDate>Sun, 25 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/load-balance/nginx/</guid>
+      <description>原理 配置 支持并发量 常用命令 docker中使用
+转发配置
+conf.d/upstream.conf upstream demo{ server 127.0.0.1:8080 weight=1; } default.d/location.conf location /demo/{ http_proxy:http://demo; }  多域名配置
+ test.conf server { listen 80; server_name test.baidu.com; location / { proxy_set_header Host $http_host; proxy_pass http://127.0.0.1:8082/uc/; proxy_redirect off; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; } }  配置好了看看服务器443端口有没有配置安全组 【mmp 吃了小亏】 server { listen 80; server_name 39.107.82.228;#防攻击 return 502; } server { listen 80; server_name www.example.com; return 301 https://www.example.com$request_uri; location / { # proxy_set_header Host $http_host; # proxy_pass http://ip:port;# or http://example 使用upstream 转发 # proxy_redirect off; # proxy_set_header X-Real-IP $remote_addr; # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; } } server { listen 443; server_name www.</description>
+    </item>
+    
+    <item>
+      <title>DNS负载均衡</title>
+      <link>http://wuxinvip.github.io/blog/load-balance/dns/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/load-balance/dns/</guid>
+      <description>dns重定向 存储:本地.阿里云.万网dns服务器
+dns 在网络上其实就是域名解析到ip的一个过程叫dns解析
+本站域名 www.wuxinvip.com
+解析ip 为 39.107.82.228
+以此为例、过程
+ 1、用户请求数据、发送域名 2、将域名发送到dns服务解析器【万网dns服务器、阿里dns服务器】 一般你的域名在哪里买的 会有相应的dns解析服务器【免费提供】 当然这个解析的过程、请求会发到一个主机器、这个机器按照不同规则、将解析 分发个各个dns解析器、然后返回域名对应的外网ip地址 用户拿个这个ip 呼叫公网上叫这个ip的服务器 建立会话  </description>
+    </item>
+    
+    <item>
+      <title>maglev</title>
+      <link>http://wuxinvip.github.io/blog/load-balance/maglev/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://wuxinvip.github.io/blog/load-balance/maglev/</guid>
+      <description>简介 Google Maglev 是一个牛逼的负载均衡器，之所以牛逼，是因为它不用部署专门的物理设备，不像 LVS 一样工作在内核，它是运行在通用 Linux 服务器上的大型分布式软件系统。
+  Google Maglev 工作流程   每个 Google 服务都有一个或者多个 VIP，一个 VIP 和物理 IP 的区别在于 VIP 没有绑给某个特定的网卡。
+VIP 注解 Maglev 关联每个 VIP 到具体的 Endpoint，然后通过 BGP 将 VIP 宣告给上游路由器，然后路由器再把 VIP 宣告给 Google 的骨干网，这样使得 VIP 能被访问到。
+流程 当用户访问 www.google.com 时：
+ 浏览器先发送一个 DNS 请求， DNS 服务返回 VIP。 然后浏览器尝试与该 VIP 建立连接。 当路由器接收到 VIP 数据包，通过 ECMP 将数据包路由到 Maglev 集群中的某台机器上。 当 Maglev 的机器接收到数据包， 从关联到该 VIP 的 Endpoint 中选择一个， 然后用 GRE 封包发送，外层的 IP 即 Endpoint 的物理 IP。 当 Endpoint 处理完数据包进行响应时，源地址用 VIP 填充，目的地址为用户 IP。 使用直接服务返回(Direct Server Return， DSR) ，将响应直接发送给路由器， 这样 Maglev 无需处理响应包。    Google Maglev 结构   结构 Maglev 由控制器（Controller）和 转发器（Forwarder）组成：</description>
+    </item>
+    
+  </channel>
+</rss>
