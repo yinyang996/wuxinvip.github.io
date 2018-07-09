@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jvm on 无心技术簿</title>
-    <link>https://blog.wuxinvip.com/tags/jvm/</link>
+    <link>https://www.wuxinvip.com/tags/jvm/</link>
     <description>Recent content in Jvm on 无心技术簿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 24 Mar 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://blog.wuxinvip.com/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.wuxinvip.com/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>jvm内存一条线路</title>
-      <link>https://blog.wuxinvip.com/blog/jdk/jvm-total/</link>
+      <link>https://www.wuxinvip.com/blog/jdk/jvm-total/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/jdk/jvm-total/</guid>
+      <guid>https://www.wuxinvip.com/blog/jdk/jvm-total/</guid>
       <description>入手从collection开始
 集合常用 arrayList 底层数据结构 object[] 数组特点 内存连续 数据挨个存放 那么删除中间一个时候 后面的数据会挨个往前挪移 因为地址可知 查询节点数据 较快 通过下标获取 应对业务场景 插入后查询修改数据 如果执行删除操作会造成资源浪费 需要时间重新规划数组结构 linkedList 底层数据结构链表 链表特点 内存不连续 代码 node first、 last； object；存放前后节点hash值【待查询】 然后跟节点对象 该链表实现 Deque 接口，为 add、poll 提供先进先出队列操作，以及其他堆栈和双端队列操作。 应对业务场景 插入后 可能会删除某项数据 以作数据调整 hashMap 内存结构是hash散列 【我理解为 散着放的列表】 内存特点 hash值分桶存储【其实就一一小块内存】 当hash值冲突 会在该桶内维护一个链表 警告：暂时不晓得这个桶有多大 所以尽量避免hash冲突 万一桶满了是不是要重新规划内存 造成资源浪费？ linkedHashMap 内存特点 与hashMap一致 不同点 linkedHashMap 额外维护了一个双重链表来记录数据插入的顺序性 那么相比较hashMap 多了一个链表要维护 性能要有所下降 【业务需要 没办法】 treeMap 内存结构 红黑二叉树 内存特点：位置 对于二叉树还没搞明白 只晓得父红子黑【还不知道对不对】  说到数据内存 就要讲讲内存结构
 jvm内存分为五大块【程序计数器、虚拟机栈、本地方法栈、方法区、堆】 从线程是否共享分起： 线程共享：堆、方法区/非线程共享：程序计数器、虚拟机栈、本地方法栈 简单说下存储信息 1、程序计数器 用于存放下一条指令所在单元的地址的地方 【c与java的交界点用以存放执行指针】 2、虚拟机栈 【为java方法提供服务】 3、本地方法栈【为jvm提供使用native方法服务】 4、方法区 【存储类常量、静态变量等信息】 5、堆 【存放对象实例、对象成员变量】 对于一个obj： 类引用--stack中 类成员变量--Heap中【回收主要地方】 类静态变量、常量--Method Area中 类方法--以帧栈形式保存到栈中  那么内存存储规划完 就得看看 内存的回收机制</description>
@@ -24,10 +24,10 @@ jvm内存分为五大块【程序计数器、虚拟机栈、本地方法栈、�
     
     <item>
       <title>jvm内存回收</title>
-      <link>https://blog.wuxinvip.com/blog/jdk/jvm-memory-recovery/</link>
+      <link>https://www.wuxinvip.com/blog/jdk/jvm-memory-recovery/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/jdk/jvm-memory-recovery/</guid>
+      <guid>https://www.wuxinvip.com/blog/jdk/jvm-memory-recovery/</guid>
       <description>回收区域：堆【主要区域】、方法区【回收废弃常量、无用类】
 无用类定义： 1、jvm中不存在该实例 2、加载该类classLoader已被回收 3、任何地方都不存在引用
 回收算法： 1、标记清除 2、标记整理 3、复制 4、分代收集
@@ -46,10 +46,10 @@ G1 1、1.</description>
     
     <item>
       <title>jvm内存结构</title>
-      <link>https://blog.wuxinvip.com/blog/jdk/jvm-memory-structure/</link>
+      <link>https://www.wuxinvip.com/blog/jdk/jvm-memory-structure/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/jdk/jvm-memory-structure/</guid>
+      <guid>https://www.wuxinvip.com/blog/jdk/jvm-memory-structure/</guid>
       <description>jvm内存 一条线 线程共享 线程不共线【也叫非线程共享】
 线程共享： 堆【Heap】、 方法区【method area】 非线程共享： 程序计数器、虚拟机栈、本地方法栈
 方法区还包含 运行时常量池【类常量数据】 异常： jvm中定义两种异常 StackOverflow、outofmemory 一种是栈溢出 一种是内存溢出 官方定义栈溢出：线程请求深度大于虚拟机允许深度、抛出StackOverflow 官方定义内存溢出：java内存扩展、当虚拟机申请不到足够的内存、抛出outofmemory  jvm堆 细分：新生代、老年代【分代收集算法】 再细分：Eden、From Survivor、To Survivor空间 再内存分配黑可以分出多个线程私有的分配缓冲区 存放内容：对象实例、细致的划分只是为了更好的回收 堆是回收主要区域

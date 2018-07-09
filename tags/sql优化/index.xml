@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sql优化 on 无心技术簿</title>
-    <link>https://blog.wuxinvip.com/tags/sql%E4%BC%98%E5%8C%96/</link>
+    <link>https://www.wuxinvip.com/tags/sql%E4%BC%98%E5%8C%96/</link>
     <description>Recent content in Sql优化 on 无心技术簿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 24 Mar 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://blog.wuxinvip.com/tags/sql%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.wuxinvip.com/tags/sql%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>SQL优化【InnoDB-表优化】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-innodb/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-innodb/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-innodb/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-innodb/</guid>
       <description>innodb表优化
 8.5.1优化InnoDB表的存储布局
 一旦数据达到稳定的大小，或者增长表增加了几十或几百兆字节，请考虑使用该OPTIMIZE TABLE语句来重新组织表并压缩任何浪费的空间。 重新组织的表需要更少的磁盘I / O来执行全表扫描。 当其他技术（如改进索引使用或调整应用程序代码）不切实际时，这是一种直接技术，可以提高性能。 OPTIMIZE TABLE复制表格的数据部分并重建索引。 好处来自改进索引内数据的打包，并减少表空间和磁盘内的碎片。 好处取决于每个表中的数据。 您可能会发现某些人有显着的收益，而不是其他人，或者收益会随着时间的推移而下降，直到您再次优化表。 如果表很大或者重建的索引不适合缓冲池，则此操作可能会很慢。 向表中添加大量数据后的第一次运行通常比后期运行慢得多。 在中InnoDB，有一个很长的PRIMARY KEY（无论是一个长的值的单个列，还是多个形成一个长复合值的列）浪费了大量的磁盘空间。 一行中的主键值在所有指向同一行的二级索引记录中都是重复的。 （请参见第14.8.2.1节“集群索引和二级索引”。 ）AUTO_INCREMENT如果主键很长，或者索引长VARCHAR列的前缀而不是整列，则创建一个列作为主键。 使用VARCHAR数据类型而不是CHAR存储可变长度的字符串或具有多个NULL值的列 。 甲 列总是占据字符来存储数据，即使该字符串是较短，或者其值 。 较小的表适合缓冲池，并减少磁盘I / O。 CHAR(N)NNULL 使用COMPACT行格式（默认InnoDB格式）和可变长度字符集（如 utf8或）时sjis， 列占用可变数量的空间，但仍至少为字节。 CHAR(N)N 对于大的表或者包含大量重复的文本或数字数据的表，请考虑使用 COMPRESSED行格式。 将数据带入缓冲池或执行全表扫描需要较少的磁盘I / O。 在做出永久性决定之前，请测量使用行格式COMPRESSED与 您可以实现的压缩量 COMPACT。  8.5.2优化InnoDB事务管理
@@ -25,20 +25,20 @@
     
     <item>
       <title>SQL优化【MyISAM-表优化】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-myisam/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-myisam/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-myisam/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-myisam/</guid>
       <description>8.6.1优化MyISAM查询
 加快查询MyISAM表的一些常规提示 ： 为了帮助MySQL更好地优化查询，请使用 ANALYZE TABLE或运行 myisamchk -在载入数据之后对其进行分析。 这会更新每个索引部分的值，以指示具有相同值的平均行数。 （对于唯一索引，这总是1.）当你基于非常量表达式连接两个表时， MySQL使用它来决定选择哪个索引。 您可以通过使用和检查值来检查表格分析的结果 。 myisamchk --description --verbose显示索引分布信息。 SHOW INDEX FROM tbl_nameCardinality 要根据索引对索引和数据进行排序，请使用 myisamchk --sort-index --sort-records = 1 （假设您要对索引1进行排序）。 如果您有一个唯一索引，您希望根据索引按顺序读取所有行，则这是一种更快查询的好方法。 第一次以这种方式排列大表时，可能需要很长时间。 尽量避免SELECT 对MyISAM经常更新的表进行复杂的查询，以避免由于读者和作者之间的争用而发生的表锁定问题。 MyISAM支持并发插入：如果一个表在数据文件中间没有空闲块，那么可以INSERT在其他线程从表中读取数据的同时将新行插入到它中。 如果能做到这一点很重要，请考虑以避免删除行的方式使用表。 另一种可能性是OPTIMIZE TABLE在删除了很多行之后运行对表进行碎片整理。 这种行为是通过设置concurrent_insert变量来改变的 。 您可以强制添加新行（因此允许并发插入），即使在已删除行的表中也是如此。 请参见第8.11.3节“并发插入”。 对于MyISAM频繁更改的表，尽量避免所有变长列（VARCHAR， BLOB，和 TEXT）。 如果该表甚至包含单个可变长度列，该表使用动态行格式。 请参阅第15章，备用存储引擎。 仅仅因为行变大，将表分割成不同的表通常是没有用的。 在访问行时，最大的性能影响是找到行的第一个字节所需的磁盘查找。 找到数据后，大多数现代磁盘可以为大多数应用程序快速读取整行。 分割表格的唯一情况是，如果它是一个MyISAM使用动态行格式的 表格，您可以更改为固定的行大小，或者您经常需要扫描表格但不需要大多数列。 请参阅第15章，备用存储引擎。 如果您通常按顺序检索行， 请使用它 。 在对表格进行大量更改后使用此选项，您可能会获得更高的性能。 ALTER TABLE ... ORDER BY expr1, expr2, ...expr1, expr2, ... 如果您经常需要根据来自很多行的信息计算结果（如计数），则最好引入一个新表并实时更新计数器。 以下表单的更新速度非常快： UPDATE tbl_nameSET count_col= count_col+1 WHERE key_col= constant; 当你使用MySQL存储引擎时，这是非常重要的，例如MyISAM只有表级锁定（多个读者使用单个编写器）。 这也为大多数数据库系统提供了更好的性能，因为在这种情况下行锁管理器不太容易。 OPTIMIZE TABLE 定期 使用以避免使用动态格式MyISAM表进行分段 。 请参见 第15.</description>
     </item>
     
     <item>
       <title>SQL优化【SQL索引】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-indexes/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-indexes/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-indexes/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-indexes/</guid>
       <description>提高操作性能的最佳方法 SELECT是在查询中测试的一列或多列上创建索引。 索引条目就像指向表行的指针，允许查询快速确定哪些行与WHERE子句中的条件匹配，并检索这些行的其他列值。 所有的MySQL数据类型都可以被索引。
 尽管为查询中使用的每个可能的列创建索引是很诱人的，但不必要的索引会浪费空间并浪费时间让MySQL确定要使用的索引。 索引还会增加插入，更新和删除的成本，因为每个索引都必须更新。 您必须找到适当的平衡，才能使用最佳索引集实现快速查询。
 8.3.1 MySQL如何使用索引
@@ -47,20 +47,20 @@
     
     <item>
       <title>SQL优化【SQL语句】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-sentence/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-sentence/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-sentence/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-sentence/</guid>
       <description>1、select语句
 1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】 2、持续折叠 3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】 4、及时检测无效常量表达式 5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用 6、where 表达式尽量简单、便于快速建立where评估表 7、查询其他表之前首先查询所有常量表 【 SELECT * FROM t WHERE primary_key=1; SELECT * FROM t1,t2 WHERE t1.primary_key=1 AND t2.primary_key=t1.id; 】  2、范围优化 对于两种索引结构使用不同的范围条件【hash索引、B树索引】 ==========mmp 太难了 没办法写下去 只能贴图了 以后慢慢品鉴</description>
     </item>
     
     <item>
       <title>SQL优化【总方向】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-total/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-total/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-total/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-total/</guid>
       <description>老生常谈 SQL 优化 而且一百度一堆，却没有一个令人满意的
 秉承官方文档 原则 【MYSQL第八章 SQL优化】
 优化方向： SQL查询and存储
@@ -73,10 +73,10 @@ sql语句 sql索引 sql数据库结构 sql表【InnoDb表、MyISAM表、Memory�
     
     <item>
       <title>SQL优化【数据结构】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-data-structure/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-data-structure/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-data-structure/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-data-structure/</guid>
       <description>在作为数据库设计师的角色中，寻找组织模式，表和列的最有效方式。 与调整应用程序代码时一样，您可以最大限度地减少I / O，将相关项目集中在一起，并提前进行计划， 以便随着数据量的增加性能保持在较高水平 从高效的数据库设计开始， 团队成员可以更轻松地编写高性能的应用程序代码，并使数据库可以随应用程序的演变和重写而持续下去。
 8.4.1优化数据大小
 设计您的表格以尽量减少磁盘空间。 这可以通过减少写入和读取磁盘的数据量来实现巨大的改进。 在查询执行期间，较小的表格通常需要较少的主存储器，而其内容正在被主动处理。 表数据的任何空间减少也会导致可以更快处理的更小的索引。 MySQL支持许多不同的存储引擎（表格类型）和行格式。 对于每个表格，您可以决定使用哪种存储和索引方法。 为您的应用程序选择适当的表格格式可以为您带来巨大的性能提升。 请参阅 第14章InnoDB存储引擎和 第15章备用存储引擎。 通过使用此处列出的技术，您可以获得更好的表格性能并最小化存储空间： 表列 行格式 索引 加盟 正常化 表列 尽可能使用最有效（最小）的数据类型。 MySQL有很多专门的类型可以节省磁盘空间和内存。 例如，如果可能的话，使用较小的整数类型来获得较小的表格。 MEDIUMINT通常是一个更好的选择，INT因为一 MEDIUMINT列使用的空间减少了25％。 NOT NULL如果可能的话， 声明列。 通过更好地使用索引并消除测试每个值是否存在开销，它使SQL操作更快NULL。 您还可以节省一些存储空间，每列一位。 如果您真的需要NULL表格中的值，请使用它们。 只需避免允许NULL每列中的值的默认设置 。 行格式 InnoDB表格DYNAMIC默认使用行格式创建 。 要在a 或语句中明确使用除了DYNAMIC，配置 innodb_default_row_format或指定ROW_FORMAT选项以外的行格式。 CREATE TABLEALTER TABLE 行格式的紧凑系列，其中包括 COMPACT，DYNAMIC和COMPRESSED，以减少某些操作的CPU使用为代价来减少行存储空间。 如果您的工作负载是受缓存命中率和磁盘速度限制的典型负载，则可能会更快。 如果这是一个受CPU速度限制的罕见情况，则可能会变慢。 紧凑的行格式系列还可以CHAR在使用诸如utf8mb3或的可变长度字符集时优化 列存储 utf8mb4。 使用ROW_FORMAT=REDUNDANT， 占用字符集的最大字节长度×。 许多语言主要使用单字节字符编写 ，因此固定的存储长度通常会浪费空间。 使用紧凑的行格式系列，可在to 范围内分配可变数量的存储空间 CHAR(N)Nutf8InnoDBNN×通过去除尾部空格来为这些列设置字符集的最大字节长度。 最小存储长度为 N字节，便于在典型情况下进行就地更新。 有关更多信息，请参见 第14.8.1.2节“InnoDB表的物理行结构”。 要通过以压缩形式存储表数据来进一步减少空间，请ROW_FORMAT=COMPRESSED在创建InnoDB表时 指定 ，或在现有表上运行 myisampack命令 MyISAM。 （InnoDB压缩表是可读可写的，而MyISAM压缩表是只读的。 ） 对于MyISAM表中，如果没有任何可变长度列（VARCHAR， TEXT，或 BLOB列），一个固定大小的行格式被使用。 这会更快，但可能会浪费一些空间。 请参见第15.</description>
@@ -84,10 +84,10 @@ sql语句 sql索引 sql数据库结构 sql表【InnoDb表、MyISAM表、Memory�
     
     <item>
       <title>SQL优化【服务器优化】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-system/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-system/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-system/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-system/</guid>
       <description>本节讨论数据库服务器的优化技术，主要处理系统配置而不是调整SQL语句。 本节中的信息适用于想要确保他们管理的服务器的性能和可扩展性的DBA; 对于构建包括设置数据库的安装脚本的开发人员; 以及那些希望最大限度提高自身生产力的开发，测试等人员自己运行MySQL。
 8.12.1系统因素
 一些系统级因素可能会以主要方式影响性能： 如果有足够的RAM，则可以删除所有交换设备。 某些操作系统在某些情况下使用交换设备，即使您拥有可用内存。 避免对MyISAM表格进行外部锁定 。 默认值是禁用外部锁定。 在 --external-locking和 --skip-external-locking 选项明确地启用和禁用外部锁定。 只要您只运行一台服务器，禁用外部锁定不会影响MySQL的功能。 请记住在运行myisamchk之前取下服务器（或者锁定并冲洗相关的表格） 。 在某些系统中，强制禁用外部锁定是因为它无法工作。 唯一不能禁用外部锁定的情况是在 同一数据上运行多个MySQL 服务器（而不是客户端），或者如果您运行 myisamchk检查（而不是修复）表而不告知服务器先刷新和锁定表。 请注意 ，除了使用NDB群集时，通常不建议使用多个MySQL服务器同时访问相同的数据。 该LOCK TABLES和 UNLOCK TABLES语句使用内部锁定，所以你可以使用他们，即使外部锁定被禁用。  8.12.2优化磁盘I / O
@@ -96,10 +96,10 @@ sql语句 sql索引 sql数据库结构 sql表【InnoDb表、MyISAM表、Memory�
     
     <item>
       <title>SQL优化【查询器优化·一】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-selector-1/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-selector-1/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-selector-1/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-selector-1/</guid>
       <description>8.8.1使用EXPLAIN优化查询
 该EXPLAIN语句提供有关MySQL如何执行语句的信息： EXPLAIN作品有 SELECT， DELETE， INSERT， REPLACE，和 UPDATE语句。 当EXPLAIN与可解释的语句一起使用时，MySQL会显示来自优化器的关于语句执行计划的信息。 也就是说，MySQL解释了它将如何处理该语句，包括有关表如何连接以及按何种顺序的信息。 有关使用 EXPLAIN获取执行计划信息的信息，请参见第8.8.2节“EXPLAIN输出格式”。 当EXPLAIN与 可解释的语句一起使用时，它显示在命名连接中执行的语句的执行计划。 请参见第8.8.4节“获取命名连接的执行计划信息”。 FOR CONNECTION connection_id 对于SELECT语句， EXPLAIN产生可以使用显示的附加执行计划信息 SHOW WARNINGS。 请参见 第8.8.3节“扩展EXPLAIN输出格式”。 EXPLAIN对于检查涉及分区表的查询很有用。 请参见 第22.3.5节“获取有关分区的信息”。 该FORMAT选项可用于选择输出格式。 TRADITIONAL以表格格式显示输出。 如果没有FORMAT选项，这是默认值 。 JSON格式以JSON格式显示信息。 在帮助下EXPLAIN，您可以看到应该在哪里添加索引，以便通过使用索引查找行来更快地执行语句。 您还可以 EXPLAIN用来检查优化程序是否以最佳顺序加入表。 为了给优化器提示使用与SELECT语句中命名表的顺序相对应的连接顺序 ，请使用SELECT STRAIGHT_JOIN而不是仅仅开始语句SELECT。 （请参见 第13.2.9节“SELECT语法”。）但是， STRAIGHT_JOIN可能会阻止使用索引，因为它会禁用半连接转换。 看到 第8.2.2.1节“使用半连接转换优化子查询，派生表和视图引用”。 优化器跟踪有时可以提供与之相辅相成的信息EXPLAIN。 但是，优化器跟踪格式和内容在版本之间可能会发生变化。 有关详细信息，请参阅 MySQL内部：跟踪优化器。 如果您在确定索引时没有使用索引时遇到问题，请运行ANALYZE TABLE以更新表格统计信息（如键的基数），这些索引可能会影响优化程序的选择。 请参见 第13.7.2.1节“ANALYZE TABLE语法”。 注意 EXPLAIN也可以用于获取有关表中列的信息。 是和的 同义词。 有关更多信息，请参见第13.8.1节“DESCRIBE语法”和 第13.7.5.5节“SHOW COLUMNS语法”。 EXPLAIN tbl_nameDESCRIBE tbl_nameSHOW COLUMNS FROM tbl_name  8.8.2 EXPLAIN输出格式
 该EXPLAIN语句提供有关MySQL如何执行语句的信息。 EXPLAIN作品有 SELECT， DELETE， INSERT， REPLACE，和 UPDATE语句。 EXPLAIN为SELECT语句中使用的每个表返回一行信息 。 它按照MySQL在处理语句时读取它们的顺序列出输出中的表。 MySQL使用嵌套循环连接方法解析所有连接。 这意味着MySQL从第一个表中读取一行，然后在第二个表，第三个表等中找到匹配的行。 处理完所有表后，MySQL将通过表列表输出所选列和回溯，直到找到有更多匹配行的表。 下一行从该表中读取，并且该过程继续下一个表。 EXPLAIN输出包括分区信息。 另外，对于SELECT 语句，EXPLAIN生成扩展信息，可以按照SHOW WARNINGS以下 方式显示 EXPLAIN（参见 第8.</description>
@@ -107,10 +107,10 @@ sql语句 sql索引 sql数据库结构 sql表【InnoDb表、MyISAM表、Memory�
     
     <item>
       <title>SQL优化【查询器优化·二】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-selector-2/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-selector-2/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-selector-2/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-selector-2/</guid>
       <description>8.9.1控制查询计划评估
 查询优化器的任务是查找执行SQL查询的最佳计划。 由于“ 好 ”和“ 坏 ”之间的表现差异计划可以是数量级（即秒数与数小时甚至数天）， 大多数查询优化器（包括MySQL的查询优化器）在所有可能的查询评估计划中执行或多或少的穷举搜索优化计划。 对于连接查询，由MySQL优化器调查的可能计划的数量随着查询中引用的表的数量呈指数增长。 对于少量表格（通常小于7到10），这不是问题。 但是，当提交更大的查询时，查询优化花费的时间可能很容易成为服务器性能的主要瓶颈。 用于查询优化的更灵活的方法使用户能够控制优化器在搜索最优查询评估计划时的详尽程度。 总体思路是，优化程序调查的计划越少，编译查询花费的时间就越少。 另一方面，因为优化器跳过了一些计划，所以可能会错过找到最佳计划。 优化程序相对于其计算的计划数量的行为可以使用两个系统变量进行控制： 该optimizer_prune_level 变量告诉优化器根据每个表访问的行数的估计值跳过某些计划。 我们的经验表明，这种“ 受过教育的猜测 ”很少会错过最佳计划，并且可能大大减少查询编译时间。 这就是为什么这个选项optimizer_prune_level=1默认是on（）。 但是，如果您认为优化器错过了更好的查询计划，则可以关闭此选项（optimizer_prune_level=0）与查询编译可能花费更长时间的风险有关。 请注意，即使使用这种启发式，优化器仍然会探索大致指数级的计划。 这个optimizer_search_depth 变量告诉优化器应该看看每个不完整计划的“ 未来 ”有多远，以评估它是否应该进一步扩展。 较小的值 optimizer_search_depth可能会导致查询编译时间缩短几个数量级。 例如，如果optimizer_search_depth接近查询中的表的数量，具有12,13或更多表的查询可能很容易需要数小时甚至数天来编译 。 同时，如果编译一下 optimizer_search_depth 等于3或4，优化器可以在不到一分钟的时间内编译相同的查询。 如果您不确定合理的值是什么 optimizer_search_depth，则可以将此变量设置为0，以通知优化器自动确定该值。  8.9.2优化器提示
 控制优化器策略的一种方法是设置 optimizer_switch系统变量（参见第8.9.3节“可切换优化”）。 对此变量的更改影响所有后续查询的执行; 为了对另一个查询产生不同的影响，有必要optimizer_switch在每个查询之前进行更改 。 另一种控制优化器的方式是使用优化器提示，它可以在单个语句中指定。 由于优化器提示适用于每个语句的基础上，因此它们提供了对语句执行计划的更好的控制，而不是使用的方式 optimizer_switch。 例如，您可以在语句中为一个表启用优化，并禁用针对其他表的优化。 语句中的提示优先于 optimizer_switch标志。 例子： SELECT / * + NO_RANGE_OPTIMIZATION（t3 PRIMARY，f2_idx）* / f1 FROM t3 where f1&amp;gt; 30 AND f1 &amp;lt;33; SELECT / * + BKA（t1）NO_BKA（t2）* / *从t1 INNER JOIN t2 WHERE .</description>
@@ -118,10 +118,10 @@ sql语句 sql索引 sql数据库结构 sql表【InnoDb表、MyISAM表、Memory�
     
     <item>
       <title>SQL优化【线程信息检查】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-thread/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-thread/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-thread/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-thread/</guid>
       <description>8.14.1线程命令值 8.14.2一般线程状态 8.14.3查询缓存线程状态 8.14.4复制主线程状态 8.14.5复制从站I / O线程状态 8.14.6复制从属SQL线程状态 8.14.7复制从站连接线程状态 8.14.8 NDB集群线程状态 8.14.9事件调度程序线程状态
 当您试图确定MySQL服务器正在做什么时，检查进程列表会很有帮助，进程列表是当前在服务器中执行的线程集。可从以下来源获取流程列表信息：
 该SHOW [FULL] PROCESSLIST语句： 第13.7.5.29，“SHOW PROCESSLIST语法”
@@ -145,10 +145,10 @@ Info包含线程正在执行的语句的文本，或者NULL它是否正在执行
     
     <item>
       <title>SQL优化【绩效衡量】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-performance-measurement/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-performance-measurement/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-performance-measurement/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-performance-measurement/</guid>
       <description>8.13.1测量表达式和函数的速度 8.13.2使用您自己的基准 8.13.3使用performance_schema测量绩效 要衡量绩效，请考虑以下因素：
 无论您是在安静系统上测量单个操作的速度，还是在一段时间内如何操作一组操作（ “ 工作负载 ”）。通过简单的测试，您通常可以测试更改一个方面（配置设置，表上的索引集，查询中的SQL子句）如何影响性能。基准测试通常是长时间运行和精心设计的性能测试，其结果可能决定硬件和存储配置等高级选择，或者升级到新MySQL版本的时间。
 对于基准测试，有时您必须模拟繁重的数据库工作负载才能获得准确的图像。
@@ -169,10 +169,10 @@ MySQL的&amp;gt; SELECT BENCHMARK(1000000,1+1); + &amp;mdash;&amp;mdash;&amp;mda
     
     <item>
       <title>SQL优化【缓存优化】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-cached/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-cached/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-cached/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-cached/</guid>
       <description>8.10.1 InnoDB缓冲池优化 8.10.2 MyISAM密钥缓存 8.10.3 MySQL查询缓存 8.10.4准备好的语句和存储程序的缓存 MySQL使用几种策略来缓存内存缓冲区中的信息以提高性能。
 8.10.1 InnoDB缓冲池优化 InnoDB维护一个称为缓冲池的存储区域， 用于缓存内存中的数据和索引。知道InnoDB缓冲池如何 工作，并利用它来将频繁访问的数据保存在内存中，是MySQL调优的一个重要方面。
 有关InnoDB缓冲池内部工作原理的说明， LRU替换算法的概述以及常规配置信息，请参见第14.6.3.1节“InnoDB缓冲池”。
@@ -209,10 +209,10 @@ MySQL的&amp;gt; SELECT BENCHMARK(1000000,1+1); + &amp;mdash;&amp;mdash;&amp;mda
     
     <item>
       <title>SQL优化【锁优化】</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-lock/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-lock/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-lock/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-lock/</guid>
       <description>MySQL使用锁管理对表内容的争用 ：
 内部锁定在MySQL服务器内部执行，以管理多个线程对表内容的争用。 这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。 参见 第8.11.1节“内部锁定方法”。
 当服务器和其他程序锁定MyISAM表文件以相互协调哪个程序可以访问表时，发生外部锁定。 参见第8.11.5节“外部锁定”。
@@ -222,10 +222,10 @@ MySQL的&amp;gt; SELECT BENCHMARK(1000000,1+1); + &amp;mdash;&amp;mdash;&amp;mda
     
     <item>
       <title>常见MYSQL调优策略</title>
-      <link>https://blog.wuxinvip.com/blog/mysql/optimization-sql-total-2/</link>
+      <link>https://www.wuxinvip.com/blog/mysql/optimization-sql-total-2/</link>
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.wuxinvip.com/blog/mysql/optimization-sql-total-2/</guid>
+      <guid>https://www.wuxinvip.com/blog/mysql/optimization-sql-total-2/</guid>
       <description>调优层次：硬件层、磁盘IO、文件系统层、
 硬件层
 修改服务器BIOS设置 1.选择Performance Per Watt Optimized(DAPC)模式 、发挥cpu最大性能 2.Memory Frequency(内存频率)选择 Maximum Performance (最佳性能) 3.内存设置菜单中，启用Node Interleaving 避免NUMA问题  磁盘IO
