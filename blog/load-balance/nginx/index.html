@@ -125,11 +125,57 @@
       <time class="f6 mv4 dib tracked" datetime="2018-03-25T00:00:00Z">March 25, 2018</time>
     </header>
 
-    <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>原理
-配置
-支持并发量
-常用命令
-docker中使用</p>
+    <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><ul>
+<li>原理</li>
+</ul>
+
+<pre><code>一个主线程负责请求分发
+
+四个或者两个【可配置】子线程进行请求转发到端口
+
+</code></pre>
+
+<ul>
+<li><p>配置</p></li>
+
+<li><p>支持并发量</p></li>
+</ul>
+
+<pre><code>好像是大约支持50000 Pv/s
+
+</code></pre>
+
+<ul>
+<li>常用命令</li>
+</ul>
+
+<pre><code>service nginx start
+service nginx stop
+service nginx restart
+
+nginx -t /etc/nginx/conf.d/www.conf
+
+nginx -s reload
+
+net start nginx 
+net stop nginx 
+
+</code></pre>
+
+<ul>
+<li>docker中使用</li>
+</ul>
+
+<pre><code>
+docker pull nginx
+
+docker nginx -t 
+
+docker nginx -s reload
+
+docker service nginx start
+
+</code></pre>
 
 <p>转发配置</p>
 

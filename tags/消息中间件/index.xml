@@ -18,7 +18,8 @@
       
       <guid>https://www.wuxinvip.com/blog/message-queue/kafka-1/</guid>
       <description>Kafka 1.0.0发布的主要内容如下。
-0.10.0版本里开始引入的Streams API在1.0.0版本里继续演进，改进了builder API（KIP-120），新增了用于查看运行时活跃任务的API（KIP-130）和用于聚合分区的cogroup API（KIP-150）。增强的print()和writeAsText()方法让调试变得更容易（KIP-160）。其他更多信息可以参考Streams文档。 改进了Connect的度量指标（KIP-196），新增了大量用于健康监测的度量指标（KIP-188），并提供了集群的GloabalTopicCount和GlobalPartitionCount度量指标（KIP-168）。 支持Java 9，实现更快的TLS和CRC32C，加快了加密速度，降低了计算开销。 调整了SASL认证模块的错误处理逻辑（KIP-152），原先的认证错误信息现在被清晰地记录到日志当中。 更好地支持磁盘容错（KIP-112），更优雅地处理磁盘错误，单个JBOD上的磁盘错误不会导致整个集群崩溃。 0.11.0版本中引入的幂等性生产者需要将max.in.flight.requests.per.connection参数设置为1，这对吞吐量造成了一定的限制。而在1.0.0版本里，这个参数最大可以被设置为5（KAFKA-5949），极大提升了吞吐量范围。
+0.10.0版本里开始引入的Streams API在1.0.0版本里继续演进，改进了builder API（KIP-120）， 新增了用于查看运行时活跃任务的API（KIP-130）和用于聚合分区的cogroup API（KIP-150）。增强的print()和writeAsText()方法让调试变得更容易（KIP-160）。 其他更多信息可以参考Streams文档。
+改进了Connect的度量指标（KIP-196），新增了大量用于健康监测的度量指标（KIP-188）， 并提供了集群的GloabalTopicCount和GlobalPartitionCount度量指标（KIP-168）。 支持Java 9，实现更快的TLS和CRC32C，加快了加密速度，降低了计算开销。 调整了SASL认证模块的错误处理逻辑（KIP-152），原先的认证错误信息现在被清晰地记录到日志当中。 更好地支持磁盘容错（KIP-112），更优雅地处理磁盘错误，单个JBOD上的磁盘错误不会导致整个集群崩溃。 0.11.0版本中引入的幂等性生产者需要将max.in.flight.requests.per.connection参数设置为1，这对吞吐量造成了一定的限制。 而在1.0.0版本里，这个参数最大可以被设置为5（KAFKA-5949），极大提升了吞吐量范围。
 关于新版本更多的变化可以查看发布说明，也可以下载源代码和二进制包（Scala 2.11、Scala 2.12）。</description>
     </item>
     
@@ -73,7 +74,7 @@ queue两个 消费由业务房监听spring streamListener完成
 message-queue 模块
 安装
 curl -L -O https://github.com/alibaba/rocketmq/archive/v3.5.8.zip unzip v3.5.8.zip -d rocketmq  原理
-相见xmind文档  xmind 消息中间件
+xmind文档
 生产环境遇到的问题
 消息阻塞【扩consumer、查看log 是什么原因导致消息阻塞】 消息长时间不到达【优先级策略】 消息确认机制会影响消息消费速度、虽然保证了每条消费一次  </description>
     </item>

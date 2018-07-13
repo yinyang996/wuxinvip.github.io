@@ -49,7 +49,8 @@ interface Bank { @RequestLine(&amp;quot;POST /account/{id}&amp;quot;) Account ge
       
       <guid>https://www.wuxinvip.com/blog/spring-cloud/hystrix/</guid>
       <description>原理
-1、流程图 1、方法标注 @HystrixCommand注解 2、方法执行进入执行队列、方法执行、【图中标注 .toObservable()状态】 3、缓存是否可见【有 返回缓存数据；没有进入下一步判断】 4、断路器是否打开【未打开 直接判断信号量线程池是否拒绝 ；打开且触发断路进去fallback方法】 5、信号量线程池是否拒绝【未拒绝 创建线程池隔离舱执行业务逻辑 ；拒绝 执行fallback方法】 6、业务逻辑执行是否成功【成功 判断是否超时；未成功 执行fallback方法】 7、判断是否超时【超时 不返回 未超时返回数据】 8、fallback执行结果【成功 返回数据 ；失败 返回失败或者自行实现业务方法】 其中方法执行结果要返回断路器健康状态给断路器【也就是图中绿色4】  具体信息可见官方详细：https://github.com/Netflix/Hystrix/wiki/How-it-Works</description>
+1、流程图 1、方法标注 @HystrixCommand注解 2、方法执行进入执行队列、方法执行、【图中标注 .toObservable()状态】 3、缓存是否可见【有 返回缓存数据；没有进入下一步判断】 4、断路器是否打开【未打开 直接判断信号量线程池是否拒绝 ；打开且触发断路进去fallback方法】 5、信号量线程池是否拒绝【未拒绝 创建线程池隔离舱执行业务逻辑 ；拒绝 执行fallback方法】 6、业务逻辑执行是否成功【成功 判断是否超时；未成功 执行fallback方法】 7、判断是否超时【超时 不返回 未超时返回数据】 8、fallback执行结果【成功 返回数据 ；失败 返回失败或者自行实现业务方法】 其中方法执行结果要返回断路器健康状态给断路器【也就是图中绿色4】  具体信息可见官方详细：
+https://github.com/Netflix/Hystrix/wiki/How-it-Works</description>
     </item>
     
     <item>
@@ -58,18 +59,11 @@ interface Bank { @RequestLine(&amp;quot;POST /account/{id}&amp;quot;) Account ge
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>https://www.wuxinvip.com/blog/spring-cloud/reactor-core/</guid>
-      <description>本文从 介绍下 Reactor （反应堆） 首先简单介绍Reactor 是什么东西、 其次解决什么问题、 领域应用、 原理、 优点和缺点、
-1、简介 2、解决问题 3、领域应用 举个比较熟悉的例子 dubbo dubbo底层使用了netty线程模型 netty 中使用了reactor模式
-那么什么是reactor模式？ Reactor三种模型 Netty线程模型 Netty结构 dubbo中使用的netty 4、Reactor 原理介绍
-4.1 Reactor模式结构
-4.2Reactor模式模块之间的交互
-5、 Reactor优点
-Reactor An Object Behavioral Pattern for Demultiplexing and Dispatching Handles for Synchronous Events 解耦、提升复用性、模块化、可移植性、事件驱动、细力度的并发控制等。 相比 传统的实现、即线程的切换、同步、数据的移动会引起性能问题。也就是说从性能的角度上，它最大的提升就是减少了性能的使用，即不需要每个Client对应一个线程
+      <description>本文从以下介绍下 Reactor （反应堆）
+首先简单介绍Reactor 是什么东西、 其次解决什么问题、 领域应用、 原理、 优点和缺点、  1、简介 2、解决问题 ## 3、领域应用 ## 举个比较熟悉的例子 dubbo dubbo底层使用了netty线程模型 netty 中使用了reactor模式
+那么什么是reactor模式？ ### Reactor三种模型 ### Netty线程模型 ### Netty结构 ### dubbo中使用的netty 4、Reactor 原理介绍 ## 4.1 Reactor模式结构 ### 4.2Reactor模式模块之间的交互 5、 Reactor优点 ## Reactor An Object Behavioral Pattern for Demultiplexing and Dispatching Handles for Synchronous Events 解耦、提升复用性、模块化、可移植性、事件驱动、细力度的并发控制等。 相比 传统的实现、即线程的切换、同步、数据的移动会引起性能问题。也就是说从性能的角度上，它最大的提升就是减少了性能的使用，即不需要每个Client对应一个线程
 关于 减少使用线程使用 对性能提升的影响 可看这篇论文
-SEDA: Staged Event-Driven Architecture - An Architecture for Well-Conditioned, Scalable Internet Service
-对随着线程的增长带来性能降低做了一个统计：
-在这个统计中，每个线程从磁盘中读8KB数据，每个线程读同一个文件，因而数据本身是缓存在操作系统内部的，即减少IO的影响；所有线程是事先分配的，不会有线程启动的影响；所有任务在测试内部产生，因而不会有网络的影响。该统计数据运行环境：Linux 2.2.14，2GB内存，4-way 500MHz Pentium III。从图中可以看出，随着线程的增长，吞吐量在线程数为8个左右的时候开始线性下降，并且到64个以后而迅速下降，其相应事件也在线程达到256个后指数上升。即1+1&amp;lt;2，因为线程切换、同步、数据移动会有性能损失，线程数增加到一定数量时，这种性能影响效果会更加明显。
-6.Reactor模式的缺点</description>
+SEDA: Staged Event-Driven Architecture - An Architecture for Well-Conditioned, Scalable Internet Service</description>
     </item>
     
     <item>
@@ -79,10 +73,10 @@ SEDA: Staged Event-Driven Architecture - An Architecture for Well-Conditioned, S
       
       <guid>https://www.wuxinvip.com/blog/spring-cloud/ribbon/</guid>
       <description>官方wiki地址：https://github.com/Netflix/ribbon/wiki
-功能简介： 1、多重和可插入的负载平衡 2、与eureka服务整合 3、内置故障发现能力 4、云启用 5、与负载均衡器集成客户端 6、Archaius配置驱动客户端工厂
-三个子项目： ribbon-core：包括负载均衡器和客户端接口定义、通用负载均衡器实现、客户端与负载均衡器和客户端工厂集成 ribbon-eureka：包含基于Eureka客户端的负载均衡器实现、这是用于服务注册和发现的liberary ribbon-httpclient：包含基于JSR-311的Rest客户端与服务均衡器集成的实现
-配置 sample-client.properties
-# Max number of retries on the same server (excluding the first try) sample-client.ribbon.MaxAutoRetries=1 # Max number of next servers to retry (excluding the first server) sample-client.ribbon.MaxAutoRetriesNextServer=1 # Whether all operations can be retried for this client sample-client.ribbon.OkToRetryOnAllOperations=true # Interval to refresh the server list from the source sample-client.ribbon.ServerListRefreshInterval=2000 # Connect timeout used by Apache HttpClient sample-client.</description>
+功能简介： * 1、多重和可插入的负载平衡 * 2、与eureka服务整合 * 3、内置故障发现能力 * 4、云启用 * 5、与负载均衡器集成客户端 * 6、Archaius配置驱动客户端工厂
+三个子项目：
+ ribbon-core：包括负载均衡器和客户端接口定义、通用负载均衡器实现、客户端与负载均衡器和客户端工厂集成 ribbon-eureka：包含基于Eureka客户端的负载均衡器实现、这是用于服务注册和发现的liberary ribbon-httpclient：包含基于JSR-311的Rest客户端与服务均衡器集成的实现  配置 sample-client.properties
+# Max number of retries on the same server (excluding the first try) sample-client.ribbon.MaxAutoRetries=1 # Max number of next servers to retry (excluding the first server) sample-client.ribbon.MaxAutoRetriesNextServer=1 # Whether all operations can be retried for this client sample-client.ribbon.OkToRetryOnAllOperations=true # Interval to refresh the server list from the source sample-client.</description>
     </item>
     
     <item>

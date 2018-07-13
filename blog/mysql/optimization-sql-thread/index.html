@@ -127,15 +127,17 @@
 
     <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><img src="https://upload-images.jianshu.io/upload_images/6434888-71c274c3c88b4bda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" /></p>
 
-<p>8.14.1线程命令值
-8.14.2一般线程状态
-8.14.3查询缓存线程状态
-8.14.4复制主线程状态
-8.14.5复制从站I / O线程状态
-8.14.6复制从属SQL线程状态
-8.14.7复制从站连接线程状态
-8.14.8 NDB集群线程状态
-8.14.9事件调度程序线程状态</p>
+<ul>
+<li>8.14.1线程命令值</li>
+<li>8.14.2一般线程状态</li>
+<li>8.14.3查询缓存线程状态</li>
+<li>8.14.4复制主线程状态</li>
+<li>8.14.5复制从站I / O线程状态</li>
+<li>8.14.6复制从属SQL线程状态</li>
+<li>8.14.7复制从站连接线程状态</li>
+<li>8.14.8 NDB集群线程状态</li>
+<li>8.14.9事件调度程序线程状态</li>
+</ul>
 
 <p>当您试图确定MySQL服务器正在做什么时，检查进程列表会很有帮助，进程列表是当前在服务器中执行的线程集。可从以下来源获取流程列表信息：</p>
 
@@ -175,8 +177,10 @@
 
 <p>以下部分列出了可能的 Command值以及State 按类别分组的值。其中一些价值观的含义是不言而喻的。对于其他人，提供了另外的描述。</p>
 
-<p>8.14.1线程命令值
-线程可以具有以下任何 Command值：</p>
+<ul>
+<li>8.14.1线程命令值
+线程可以具有以下任何 Command值：</li>
+</ul>
 
 <p>Binlog Dump</p>
 
@@ -300,8 +304,10 @@
 
 <p>没用过。</p>
 
-<p>8.14.2一般线程状态
-以下列表描述了State 与常规查询处理相关联的线程值，而不是更复杂的特殊活动。其中许多仅用于查找服务器中的错误。</p>
+<ul>
+<li>8.14.2一般线程状态
+以下列表描述了State 与常规查询处理相关联的线程值，而不是更复杂的特殊活动。其中许多仅用于查找服务器中的错误。</li>
+</ul>
 
 <p>After create</p>
 
@@ -625,8 +631,10 @@
 
 <p>服务器正在将数据包写入网络。Sending to client从MySQL 5.7.8开始调用此状态。</p>
 
-<p>8.14.3查询缓存线程状态
-这些线程状态与查询缓存相关联（请参见 第8.10.3节“MySQL查询缓存”）。</p>
+<ul>
+<li>8.14.3查询缓存线程状态
+这些线程状态与查询缓存相关联（请参见 第8.10.3节“MySQL查询缓存”）。</li>
+</ul>
 
 <p>checking privileges on cached query</p>
 
@@ -652,8 +660,10 @@
 
 <p>在会话等待获取查询缓存锁定时发生此状态。对于需要执行某些查询缓存操作的任何语句，例如 使查询缓存无效INSERT或 查找缓存条目 DELETE的语句，等等，都会发生这种情况。 SELECTRESET QUERY CACHE</p>
 
-<p>8.14.4复制主线程状态
-以下列表显示了您可能在State主Binlog Dump线程的列中 看到的最常见状态。如果Binlog Dump在主服务器上看不到任何 线程，则表示复制未运行; 也就是说，当前没有连接任何奴隶。</p>
+<ul>
+<li>8.14.4复制主线程状态
+以下列表显示了您可能在State主Binlog Dump线程的列中 看到的最常见状态。如果Binlog Dump在主服务器上看不到任何 线程，则表示复制未运行; 也就是说，当前没有连接任何奴隶。</li>
+</ul>
 
 <p>Finished reading one binlog; switching to next binlog</p>
 
@@ -671,8 +681,10 @@
 
 <p>线程停止时发生的非常短暂的状态。</p>
 
-<p>8.14.5复制从站I / O线程状态
-以下列表显示了在State从属服务器I / O线程的列中看到的最常见状态 。此状态也出现在Slave_IO_State 显示的列中SHOW SLAVE STATUS，因此您可以通过使用该语句很好地了解正在发生的情况。</p>
+<ul>
+<li>8.14.5复制从站I / O线程状态
+以下列表显示了在State从属服务器I / O线程的列中看到的最常见状态 。此状态也出现在Slave_IO_State 显示的列中SHOW SLAVE STATUS，因此您可以通过使用该语句很好地了解正在发生的情况。</li>
+</ul>
 
 <p>Checking master version</p>
 
@@ -730,8 +742,10 @@
 
 <p>读取时发生错误（由于断开连接）。CHANGE MASTER TO在尝试重新连接之前，线程正在休眠该语句设置的秒数 （默认为60）。</p>
 
-<p>8.14.6复制从属SQL线程状态
-以下列表显示了您可能在State从属服务器SQL线程列中看到的最常见状态：</p>
+<ul>
+<li>8.14.6复制从属SQL线程状态
+以下列表显示了您可能在State从属服务器SQL线程列中看到的最常见状态：</li>
+</ul>
 
 <p>Killing slave</p>
 
@@ -775,8 +789,10 @@
 
 <p>InfoSQL线程 的列也可以显示语句的文本。这表明线程已从中继日志中读取事件，从中提取语句，并可能正在执行它。</p>
 
-<p>8.14.7复制从站连接线程状态
-这些线程状态出现在复制从属服务器上，但与连接线程相关联，而不是与I / O或SQL线程相关联。</p>
+<ul>
+<li>8.14.7复制从站连接线程状态
+这些线程状态出现在复制从属服务器上，但与连接线程相关联，而不是与I / O或SQL线程相关联。</li>
+</ul>
 
 <p>Changing master</p>
 
@@ -798,8 +814,10 @@
 
 <p>此状态发生在Reading master dump table data。</p>
 
-<p>8.14.8 NDB集群线程状态
-Committing events to binlog</p>
+<ul>
+<li>8.14.8 NDB集群线程状态
+Committing events to binlog</li>
+</ul>
 
 <p>Opening mysql.ndb_apply_status</p>
 
@@ -839,8 +857,10 @@ Committing events to binlog</p>
 
 <p>线程正在等待架构时期（即全局检查点）。</p>
 
-<p>8.14.9事件调度程序线程状态
-这些状态发生在Event Scheduler线程，为执行调度事件而创建的线程或终止调度程序的线程中。</p>
+<ul>
+<li>8.14.9事件调度程序线程状态
+这些状态发生在Event Scheduler线程，为执行调度事件而创建的线程或终止调度程序的线程中。</li>
+</ul>
 
 <p>Clearing</p>
 
@@ -898,14 +918,6 @@ Committing events to binlog</p>
     <ul class="pa0 list">
 	   
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-lock/">SQL优化【锁优化】</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-total-2/">常见MYSQL调优策略</a>
-        </li>
-	    
-	     <li  class="mb2">
           <a href="/blog/mysql/optimization-sql-data-structure/">SQL优化【数据结构】</a>
         </li>
 	    
@@ -914,11 +926,15 @@ Committing events to binlog</p>
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-myisam/">SQL优化【MyISAM-表优化】</a>
+          <a href="/blog/mysql/optimization-sql-performance-measurement/">SQL优化【绩效衡量】</a>
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-performance-measurement/">SQL优化【绩效衡量】</a>
+          <a href="/blog/mysql/optimization-sql-sentence/">SQL优化【SQL语句】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-lock/">SQL优化【锁优化】</a>
         </li>
 	    
 	     <li  class="mb2">
@@ -926,15 +942,7 @@ Committing events to binlog</p>
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-selector-2/">SQL优化【查询器优化·二】</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-selector-1/">SQL优化【查询器优化·一】</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-total/">SQL优化【总方向】</a>
+          <a href="/blog/mysql/optimization-sql-innodb/">SQL优化【InnoDB-表优化】</a>
         </li>
 	    
 	     <li  class="mb2">
@@ -942,11 +950,23 @@ Committing events to binlog</p>
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-innodb/">SQL优化【InnoDB-表优化】</a>
+          <a href="/blog/mysql/optimization-sql-selector-1/">SQL优化【查询器优化·一】</a>
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-sentence/">SQL优化【SQL语句】</a>
+          <a href="/blog/mysql/optimization-sql-total-2/">常见MYSQL调优策略</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-total/">SQL优化【总方向】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-selector-2/">SQL优化【查询器优化·二】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-myisam/">SQL优化【MyISAM-表优化】</a>
         </li>
 	    
     </ul>

@@ -39,10 +39,10 @@
       <pubDate>Sun, 25 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>https://www.wuxinvip.com/blog/load-balance/nginx/</guid>
-      <description>原理 配置 支持并发量 常用命令 docker中使用
-转发配置
-conf.d/upstream.conf upstream demo{ server 127.0.0.1:8080 weight=1; } default.d/location.conf location /demo/{ http_proxy:http://demo; }  多域名配置
- test.conf server { listen 80; server_name test.baidu.com; location / { proxy_set_header Host $http_host; proxy_pass http://127.0.0.1:8082/uc/; proxy_redirect off; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; } }  配置好了看看服务器443端口有没有配置安全组 【mmp 吃了小亏】 server { listen 80; server_name 39.107.82.228;#防攻击 return 502; } server { listen 80; server_name www.example.com; return 301 https://www.example.com$request_uri; location / { # proxy_set_header Host $http_host; # proxy_pass http://ip:port;# or http://example 使用upstream 转发 # proxy_redirect off; # proxy_set_header X-Real-IP $remote_addr; # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; } } server { listen 443; server_name www.</description>
+      <description>原理  一个主线程负责请求分发 四个或者两个【可配置】子线程进行请求转发到端口   配置
+ 支持并发量
+  好像是大约支持50000 Pv/s   常用命令  service nginx start service nginx stop service nginx restart nginx -t /etc/nginx/conf.d/www.conf nginx -s reload net start nginx net stop nginx   docker中使用   docker pull nginx docker nginx -t docker nginx -s reload docker service nginx start  转发配置
+conf.d/upstream.conf upstream demo{ server 127.0.0.1:8080 weight=1; } default.d/location.conf location /demo/{ http_proxy:http://demo; }  多域名配置</description>
     </item>
     
     <item>
@@ -51,12 +51,12 @@ conf.d/upstream.conf upstream demo{ server 127.0.0.1:8080 weight=1; } default.d/
       <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>https://www.wuxinvip.com/blog/load-balance/dns/</guid>
-      <description>dns重定向 存储:本地.阿里云.万网dns服务器
+      <description> 域名解析 dns重定向 存储:本地.阿里云.万网dns服务器
 dns 在网络上其实就是域名解析到ip的一个过程叫dns解析
 本站域名 www.wuxinvip.com
 解析ip 为 39.107.82.228
 以此为例、过程
- 1、用户请求数据、发送域名 2、将域名发送到dns服务解析器【万网dns服务器、阿里dns服务器】 一般你的域名在哪里买的 会有相应的dns解析服务器【免费提供】 当然这个解析的过程、请求会发到一个主机器、这个机器按照不同规则、将解析 分发个各个dns解析器、然后返回域名对应的外网ip地址 用户拿个这个ip 呼叫公网上叫这个ip的服务器 建立会话  </description>
+ 1、用户请求数据、发送域名到域名解析服务器 2、将域名发送到dns服务解析器【国外顶级域名dns服务器、万网dns服务器、阿里dns服务器】 一般你的域名在哪里买的 会有相应的dns解析服务器【免费提供】 当然这个解析的过程、请求会发到一个主机器、这个机器按照不同规则、将解析 分发个各个dns解析器、然后返回域名对应的外网ip地址 用户拿个这个ip 呼叫公网上叫这个ip的服务器 建立会话  域名攻击  域名直接污染 域名间接污染 域名直接污染: 在用户请求域名的ip地址途中、通过拦截域名解析、把ip指向别的服务器、 比如很普通的、当年百度网站被指向了一个荷兰的一个ip、这就是dns劫持攻击、简单暴力直接瘫痪你的网站 域名间接污染：这个就比较复杂了、dns解析服务器也是一个梯度服务器、上游将域名解析列表发送给下游服务器 如果在上游服务器到下游服务器之间做一个拦截、那么将导致下游的dns解析全部错误、 现在的google不能访问就是这个样子、所以有了各大host访问谷歌的功能、 不过把google真正的ip解析放到自己的电脑里直接访问ip方式、也只能解决很小一部分墙问题、这些ip后续防火墙也会封掉的、 这个就涉及到国家的网络与国际链接的国际出入口的防火墙上（像我天朝“G/.F/.W/.”）、基本上也算是最大的dns污染源  </description>
     </item>
     
     <item>

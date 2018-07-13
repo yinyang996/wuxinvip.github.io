@@ -130,7 +130,9 @@
 <p>本节讨论数据库服务器的优化技术，主要处理系统配置而不是调整SQL语句。
 本节中的信息适用于想要确保他们管理的服务器的性能和可扩展性的DBA; 对于构建包括设置数据库的安装脚本的开发人员; 以及那些希望最大限度提高自身生产力的开发，测试等人员自己运行MySQL。</p>
 
-<p>8.12.1系统因素</p>
+<ul>
+<li>8.12.1系统因素</li>
+</ul>
 
 <pre><code>一些系统级因素可能会以主要方式影响性能：
 
@@ -155,7 +157,9 @@
 该LOCK TABLES和 UNLOCK TABLES语句使用内部锁定，所以你可以使用他们，即使外部锁定被禁用。
 </code></pre>
 
-<p>8.12.2优化磁盘I / O</p>
+<ul>
+<li>8.12.2优化磁盘I / O</li>
+</ul>
 
 <pre><code>本节介绍如何在您将更多更快的存储硬件投入数据库服务器时配置存储设备。
 有关优化 InnoDB配置以提高I / O性能的信息，请参见第8.5.8节“优化InnoDB磁盘I / O”。
@@ -243,10 +247,12 @@ NFS版本3客户端支持较大的文件（最多64位偏移量）。
 
 </code></pre>
 
-<p>8.12.3使用符号链接
-8.12.3.1在Unix上使用数据库的符号链接
-8.12.3.2在Unix上使用MyISAM表的符号链接
-8.12.3.3在Windows上使用数据库的符号链接</p>
+<ul>
+<li>8.12.3使用符号链接</li>
+<li>8.12.3.1在Unix上使用数据库的符号链接</li>
+<li>8.12.3.2在Unix上使用MyISAM表的符号链接</li>
+<li>8.12.3.3在Windows上使用数据库的符号链接</li>
+</ul>
 
 <pre><code>您可以将数据库或表从数据库目录移动到其他位置，并用符号链接替换它们到新的位置。
 例如，您可能想要执行此操作，将数据库移动到具有更多可用空间的文件系统，或者通过将表分布到不同的磁盘来提高系统的速度。
@@ -265,7 +271,9 @@ NFS版本3客户端支持较大的文件（最多64位偏移量）。
 SHOW VARIABLES LIKE'datadir';
 </code></pre>
 
-<p>8.12.3.1在Unix上使用数据库的符号链接</p>
+<ul>
+<li>8.12.3.1在Unix上使用数据库的符号链接</li>
+</ul>
 
 <pre><code>在Unix上，符号链接数据库的方式首先是在有空闲空间的磁盘上创建一个目录，然后从MySQL数据目录创建一个到它的软链接。
 
@@ -283,7 +291,9 @@ shell&gt;cd /path/to/datadirln -s db1 db2
 
 </code></pre>
 
-<p>8.12.3.2在Unix上使用MyISAM表的符号链接</p>
+<ul>
+<li>8.12.3.2在Unix上使用MyISAM表的符号链接</li>
+</ul>
 
 <pre><code>符号链接仅完全支持 MyISAM表格。
 对于其他存储引擎的表使用的文件，如果尝试使用符号链接，则可能会遇到奇怪的问题。
@@ -358,7 +368,9 @@ ALTER声明 tbl2失败。
 
 </code></pre>
 
-<p>8.12.3.3在Windows上使用数据库的符号链接</p>
+<ul>
+<li>8.12.3.3在Windows上使用数据库的符号链接</li>
+</ul>
 
 <pre><code>在Windows上，符号链接可用于数据库目录。
 这使您可以通过设置数据库目录的不同位置（例如，在不同的磁盘上）来设置数据库目录的符号链接。
@@ -387,10 +399,12 @@ C：\&gt; mklink /d mydb D:\data\mydb
 
 </code></pre>
 
-<p>8.12.4优化内存使用
-8.12.4.1 MySQL如何使用内存
-8.12.4.2启用大页面支持
-8.12.4.1 MySQL如何使用内存</p>
+<ul>
+<li>8.12.4优化内存使用</li>
+<li>8.12.4.1 MySQL如何使用内存</li>
+<li>8.12.4.2启用大页面支持</li>
+<li>8.12.4.1 MySQL如何使用内存</li>
+</ul>
 
 <pre><code>MySQL分配缓冲区和缓存以提高数据库操作的性能。
 默认配置旨在允许MySQL服务器在具有大约512MB内存的虚拟机上启动。
@@ -662,7 +676,9 @@ MySQL的&gt; SELECT SUBSTRING_INDEX(event_name,'/',2) AS
 
 </code></pre>
 
-<p>8.12.4.2启用大页面支持</p>
+<ul>
+<li>8.12.4.2启用大页面支持</li>
+</ul>
 
 <pre><code>某些硬件/操作系统体系结构支持的内存页面大于默认值（通常为4KB）。
 这种支持的实际实施取决于底层硬件和操作系统。
@@ -772,10 +788,12 @@ HugePages_Surp：0
 Hugepagesize：4096 kB
 </code></pre>
 
-<p>8.12.5优化网络使用
-8.12.5.1 MySQL如何使用线程进行客户端连接
-8.12.5.2 DNS查找优化和主机缓存
-8.12.5.1 MySQL如何使用线程进行客户端连接</p>
+<ul>
+<li>8.12.5优化网络使用</li>
+<li>8.12.5.1 MySQL如何使用线程进行客户端连接</li>
+<li>8.12.5.2 DNS查找优化和主机缓存</li>
+<li>8.12.5.1 MySQL如何使用线程进行客户端连接</li>
+</ul>
 
 <pre><code>连接管理器线程处理服务器侦听的网络接口上的客户端连接请求。
 在所有平台上，一个管理器线程处理TCP / IP连接请求。
@@ -818,7 +836,9 @@ thread_cache_size可以在服务器启动时设置，也可以在服务器运行
  --thread_stack=N
 </code></pre>
 
-<p>8.12.5.2 DNS查找优化和主机缓存</p>
+<ul>
+<li>8.12.5.2 DNS查找优化和主机缓存</li>
+</ul>
 
 <pre><code>MySQL服务器在内存中维护一个包含客户端信息的主机缓存：IP地址，主机名和错误信息。
 在host_cache 性能架构表暴露主机缓存，以便它可以使用被检查的内容 SELECT陈述。
@@ -941,27 +961,7 @@ thread_cache_size可以在服务器启动时设置，也可以在服务器运行
     <ul class="pa0 list">
 	   
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-sentence/">SQL优化【SQL语句】</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-data-structure/">SQL优化【数据结构】</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-indexes/">SQL优化【SQL索引】</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-thread/">SQL优化【线程信息检查】</a>
-        </li>
-	    
-	     <li  class="mb2">
           <a href="/blog/mysql/optimization-sql-myisam/">SQL优化【MyISAM-表优化】</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-lock/">SQL优化【锁优化】</a>
         </li>
 	    
 	     <li  class="mb2">
@@ -969,11 +969,7 @@ thread_cache_size可以在服务器启动时设置，也可以在服务器运行
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-performance-measurement/">SQL优化【绩效衡量】</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-cached/">SQL优化【缓存优化】</a>
+          <a href="/blog/mysql/optimization-sql-data-structure/">SQL优化【数据结构】</a>
         </li>
 	    
 	     <li  class="mb2">
@@ -981,15 +977,39 @@ thread_cache_size可以在服务器启动时设置，也可以在服务器运行
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-selector-2/">SQL优化【查询器优化·二】</a>
+          <a href="/blog/mysql/optimization-sql-lock/">SQL优化【锁优化】</a>
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/mysql/optimization-sql-total/">SQL优化【总方向】</a>
+          <a href="/blog/mysql/optimization-sql-performance-measurement/">SQL优化【绩效衡量】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-sentence/">SQL优化【SQL语句】</a>
         </li>
 	    
 	     <li  class="mb2">
           <a href="/blog/mysql/optimization-sql-total-2/">常见MYSQL调优策略</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-cached/">SQL优化【缓存优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-indexes/">SQL优化【SQL索引】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-selector-2/">SQL优化【查询器优化·二】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-thread/">SQL优化【线程信息检查】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-total/">SQL优化【总方向】</a>
         </li>
 	    
     </ul>
