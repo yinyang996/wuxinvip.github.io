@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>日志收集 on 无心技术簿</title>
+    <link>https://www.wuxinvip.com/tags/%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/</link>
+    <description>Recent content in 日志收集 on 无心技术簿</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 04 Jun 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.wuxinvip.com/tags/%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>日志发展史</title>
+      <link>https://www.wuxinvip.com/blog/log/log-total/</link>
+      <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/log/log-total/</guid>
+      <description>日志总图   接口定制组建使用interface标识
+具体实现组建使用class标识
+you must know
+从log4j到log4j2.0 logback是log4j升级版 是slf4j完美实现
+sun出品的接口JUL、后来的commons-logging
+ceki写的slf4j、logback、log4j、log4j2.0
+这人简直神了 日志发展史上重要人物啊 写一个一个规则
+现在多数工厂都在用logback 不过想原文讲的log4j2.0 在针对新业务的特性上 有很大提升
+log4j特性、也奠定了日志大致方向
+1、允许应用记录日志对象、开发不考虑日志输出位置、日志信息以object传递 2、每个logger互相独立 以名字标识区分 3、Appender属性 配置日志输出路径【文件、consoler、DB、MQ、etc】 4、level 定制日志级别输出  logback特性
+xml配置方式和grovvy支持 自动重载有变更配置文件 自动压缩日志 打印异常信息自动包含package名称以及版本号 filters    日志组建发展时间图   slf4j简介   slf4j 结构图   使用“{}” 代替参数传输 绑定方式：混合绑定、桥接绑定  混合绑定
+两种方式：使用适配器接向底层实现interface 、或者直接实现slf4j 接口 适配器：slf4j+log4j[1.2.17] slf4j+JDK14[1.7.21] 接口实现：logback-classic[1.0.13]、slf4j-simple[1.7.21]    slf4j 混合绑定   桥接绑定</description>
+    </item>
+    
+    <item>
+      <title>日志服务的选型</title>
+      <link>https://www.wuxinvip.com/blog/log/log-selected/</link>
+      <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/log/log-selected/</guid>
+      <description>众所周知.
+日志系统分为：系统日志和业务日志 业务日志又可分为请求日志和操作日志
+系统日志
+cpu、内存、请求量、当前连接数、连接时间等等  请求日志
+谁、请求那个系统上的什么资源、 源ip 系统id 目标ip 目标url  操作日志
+ 需求：各个子系统统一业务日志收集、 这些日志消息包括： 操作系统标识 操作者 操作模块 操作类型 操作时间 操作内容 操作结果 简而言之：什么人在什么时候修改了什么系统上的哪些模块的哪些内容 who 、when、where、what、how、【4w1h】 至于why 日志是检测不出来的。。。  方案一：mysql+logback
+ 优点：简单随库、成本低;持久化不丢失、支持读写分离、 缺点：表设计不free、一旦设计好就不能随意添加字段 不支持定时清理日志、占用数据库链接、 如果建立大量检索索引、添加数据要慢、如果索引较少、检索数据有不会很准确、 现阶段mysql5.5以后使用innodb引擎、而这种引擎最大的优点就是支持了事务、 变相的也降低了他的读写性能、但是在需求上不需要事务的支持、  方案二：mongdb+logback
+ 优点：支持定时清理、支持数据字段任意扩充【文档型】、 支持读写分离、检索识别度高、支持索引结构比较广泛、支持多种形式查询 缺点：成本稍微高 比mysql数据库要贵点、  方案三：ELK
+【ELK】
+方案四：Splunk
+方案五：Fluentd
+一般用在 k8s 容器服务的日志收集 CSDN
+linux 运维
+方案六：Flume
+博客园
+方案六：KafKa+logback</description>
+    </item>
+    
+    <item>
+      <title>ELK 搭建</title>
+      <link>https://www.wuxinvip.com/blog/log/elk-1/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/log/elk-1/</guid>
+      <description>elasticsearch 安装
+官方下载地址：https://www.elastic.co/downloads/elasticsearch linux执行 ：
+curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz  下载解压 【建议使用zsh】
+修改配置文件 config/elasticsearch.yml
+# 集群的名字 cluster.name: cloud # 节点名字 node.name: node-1 # 数据存储目录（多个路径用逗号分隔） path.data: /usr/local/logUtils/elasticsearch/es-data # 日志目录 path.logs: /usr/local/logUtils/elasticsearch/log #本机的ip地址 network.host: 192.168.0.135 #设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点 discovery.zen.ping.unicast.hosts: [&amp;quot;192.168.161.128&amp;quot;] # 设置节点间交互的tcp端口（集群）,(默认9300) transport.tcp.port: 9300 # 监听端口（默认） http.port: 9200 # 增加参数，使head插件可以访问es http.cors.enabled: true http.cors.allow-origin: &amp;quot;*&amp;quot;  运行 bin下的 elasticsearch 进行启动 后台启动 bin/elasticsearch -d
+启动结果如下 启动会遇到的问题 1、非root权限启动 新建用户 es 然后把 elasticsearch 文件夹权限归给 新用户es
+chown -R es:es elasticsearch  2、 软硬进程限制</description>
+    </item>
+    
+    <item>
+      <title>ELK 简介</title>
+      <link>https://www.wuxinvip.com/blog/log/elk-2/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/log/elk-2/</guid>
+      <description>转载链接：http://www.jianshu.com/p/97fcb10c3556  ElasticSearch是一个基于Lucene构建的开源，分布式，RESTful 搜索引擎。
+Logstash传输和处理你的日志、事务或其他数据。
+Kibana将 Elasticsearch 的数据分析并渲染为可视化的报表。
+为什么使用 ELK ？
+对于有一定规模的公司来说，通常会很多个应用，并部署在大量的服务器上。运维和开发人员常常需要通过查看日志来定位问题。如果应用是集群化部署，试想如果登录一台台服务器去查看日志，是多么费时费力。
+而通过 ELK 这套解决方案，可以同时实现日志收集、日志搜索和日志分析的功能。
+ELK 架构
+说明
+以上是 ELK 技术栈的一个架构图。从图中可以清楚的看到数据流向。
+Beats 是单一用途的数据传输平台，它可以将多台机器的数据发送到 Logstash 或 ElasticSearch。但 Beats 并不是不可或缺的一环，所以本文中暂不介绍。
+Logstash 是一个动态数据收集管道。支持以 TCP/UDP/HTTP 多种方式收集数据（也可以接受 Beats 传输来的数据），并对数据做进一步丰富或提取字段处理。
+ElasticSearch 是一个基于 JSON 的分布式的搜索和分析引擎。作为 ELK 的核心，它集中存储数据。
+Kibana 是 ELK 的用户界面。它将收集的数据进行可视化展示（各种报表、图形化数据），并提供配置、管理 ELK 的界面。
+支持图形各种数据图形</description>
+    </item>
+    
+  </channel>
+</rss>

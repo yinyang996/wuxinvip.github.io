@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>密码加密 on 无心技术簿</title>
+    <link>https://www.wuxinvip.com/tags/%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86/</link>
+    <description>Recent content in 密码加密 on 无心技术簿</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 02 Jul 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.wuxinvip.com/tags/%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>慢哈希加密</title>
+      <link>https://www.wuxinvip.com/blog/encryption/password-java-pbkdf2/</link>
+      <pubDate>Mon, 02 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/encryption/password-java-pbkdf2/</guid>
+      <description>PBKDF2算法【三种】介绍：
+wiki
+加盐密码哈希：如何正确使用
+PBKDF2加密的实现
+//PBKDF2 import javax.crypto.SecretKeyFactory; import javax.crypto.spec.PBEKeySpec; import java.math.BigInteger; import java.security.NoSuchAlgorithmException; import java.security.SecureRandom; import java.security.spec.InvalidKeySpecException; /** * Created by huoyan403 on 3/21/2017. */ public class PasswordEncryption { public static final String PBKDF2_ALGORITHM = &amp;quot;PBKDF2WithHmacSHA1&amp;quot;; // The following constants may be changed without breaking existing hashes. /** * 盐的长度---不宜过短 */ public static final int SALT_BYTE_SIZE = 48 / 2; /** * 生成密文的长度 */ public static final int HASH_BYTE_SIZE = 32 / 2; /** * 迭代次数 */ public static final int PBKDF2_ITERATIONS = 1000; public static final int ITERATION_INDEX = 0; public static final int SALT_INDEX = 1; public static final int PBKDF2_INDEX = 2; /** * Returns a salted PBKDF2 hash of the password.</description>
+    </item>
+    
+    <item>
+      <title>密码加密方式</title>
+      <link>https://www.wuxinvip.com/blog/encryption/password-develop/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/encryption/password-develop/</guid>
+      <description>常见攻击方式： 字典攻击：早期base64+md5
+破解方式&amp;ndash;把常见密码进行base63+md5加密 通过重复登陆服务器 或者拖库进行匹配破解【破解方式属于开放状态】
+对称加密
+加密解密效率高、速度快、空间占用小、加密强度高 缺点是 参与多方都需要持有密钥、一旦有一个人泄露则安全性遭到破坏、另外再不容安全通道下分发密钥也是个问题 代表算法：DES、3DES、AES、IDEA等等 DES：其密钥长度为56位+8位校验 破解方式：暴力破解 3DES：3重DES操作 算法不能靠累积增加防御力 AES：分组算法、分组长度为128、192、256位三种、其优势在于 速度快 整个过程可以数学化描述、目前尚未有效破解手段 适用于大量数据加解密、不能用于签名场景 需要提前分法密钥  非对称加密
+ 即公钥+私钥 公钥是公开的、私钥是个人持有的 代表算法：RSA、EIGamal、椭圆算法 ECC RSA：经典的公钥算法 安全性未知 EIGamal：利用了模运算下求离散对数困难的特性 椭圆曲线算法：现代备受关注的算法系列，基于对椭圆曲线上特定点进行特殊乘法逆运算难以计算的特性。 RSA 算法等已被认为不够安全，一般推荐采用椭圆曲线系列算法。  混合加密机制
+先用计算复杂度高的非对称加密协商一个临时的对称加密密钥（会话密钥，一般相对内容来说要短得多），然后对方在通过对称加密对传递的大量数据进行加解密处理。 典型应用：现在大家常用的HTTPS机制、 HTTPS实际上是利用了Transport Layer Security/Secure Socket Layer（TLS/SSL）来实现可靠性传输、TLS为SSL升级版本 目前广泛应用的为 TLS1.0 对应到SSL3.1 版本  建立安全连接的具体步骤如下：
+ 客户端浏览器发送信息到服务器，包括随机数 R1，支持的加密算法类型、协议版本、压缩算法等。注意该过程为明文。 服务端返回信息，包括随机数 R2、选定加密算法类型、协议版本，以及服务器证书。注意该过程为明文。 浏览器检查带有该网站公钥的证书。该证书需要由第三方 CA 来签发，浏览器和操作系统会预置权威 CA 的根证书。如果证书被篡改作假（中间人攻击），很容易通过 CA 的证书验证出来。 如果证书没问题，则用证书中公钥加密随机数 R3，发送给服务器。此时，只有客户端和服务器都拥有 R1、R2 和 R3 信息，基于 R1、R2 和 R3，生成对称的会话密钥（如 AES算法）。后续通信都通过对称加密进行保护。  最简单的哈希加密</description>
+    </item>
+    
+    <item>
+      <title>在线随机密码生成工具</title>
+      <link>https://www.wuxinvip.com/blog/encryption/password-created/</link>
+      <pubDate>Thu, 13 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/encryption/password-created/</guid>
+      <description> 本站保证不收集任何生成密码、且全站使用https加密、请放心使用生成的密码   密码位数： （建议设置在10-50之间）
+ 大写字母　小写字母　数字　特殊字符
+ 生成密码    觉得不错就收藏下喽~~ </description>
+    </item>
+    
+  </channel>
+</rss>

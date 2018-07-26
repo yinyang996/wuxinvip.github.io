@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jdk on 无心技术簿</title>
+    <link>https://www.wuxinvip.com/tags/jdk/</link>
+    <description>Recent content in Jdk on 无心技术簿</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 24 Mar 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.wuxinvip.com/tags/jdk/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>jdk各个包 概述</title>
+      <link>https://www.wuxinvip.com/blog/jdk/jdk-total/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/jdk/jdk-total/</guid>
+      <description>java.applet 提供创建 applet 所必需的类和 applet 用来与其 applet 上下文通信的类。 java.awt 包含用于创建用户界面和绘制图形图像的所有类。 java.awt.color 提供用于颜色空间的类。 java.awt.datatransfer 提供在应用程序之间和在应用程序内部传输数据的接口和类。 java.awt.dnd Drag 和 Drop 是一种直接操作动作，在许多图形用户界面系统中都会遇到它，它提供了一种机制，能够在两个与 GUI 中显示元素逻辑相关的实体之间传输信息。 java.awt.event 提供处理由 AWT 组件所激发的各类事件的接口和类。 java.awt.font 提供与字体相关的类和接口。 java.awt.geom 提供用于在与二维几何形状相关的对象上定义和执行操作的 Java 2D 类。 java.awt.im 提供输入方法框架所需的类和接口。 java.awt.im.spi 提供启用可以与 Java 运行时环境一起使用的输入方法开发的接口。 java.awt.image 提供创建和修改图像的各种类。 java.awt.image.renderable 提供用于生成与呈现无关的图像的类和接口。 java.awt.print 为通用的打印 API 提供类和接口。 java.beans 包含与开发 beans 有关的类，即基于 JavaBeansTM 架构的组件。 java.beans.beancontext 提供与 bean 上下文有关的类和接口。 java.io 通过数据流、序列化和文件系统提供系统输入和输出。 java.lang 提供利用 Java 编程语言进行程序设计的基础类。 java.lang.annotation 为 Java 编程语言注释设施提供库支持。 java.lang.instrument 提供允许 Java 编程语言代理检测运行在 JVM 上的程序的服务。 java.</description>
+    </item>
+    
+    <item>
+      <title>事务</title>
+      <link>https://www.wuxinvip.com/blog/jdk/jdk-translation/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/jdk/jdk-translation/</guid>
+      <description>事务：用来保证几个操作一致性
+ 事务必须服从ISO/IEC所制定的ACID原则。 ACID是原子性（atomicity）、一致性（consistency）、隔离性 （isolation）和持久性（durability）的缩写。 事务的原子性表示事务执行过程中的任何失败都将导致事务所做的任何修改失效。 一致性表示 当事务执行失败时，所有被该事务影响的数据都应该恢复到事务执行前的状态。 隔离性表示在事务执行过程中对数据的修改，在事务提交之前对其他事务不可见。 持 久性表示已提交的数据在事务执行失败时，数据的状态都应该正确。  简单理解就是 保证一组sql语句的执行完整性、要么全部成功、要么全部失败 由于不同的业务环境对事物有不同的要求、通常把事物写到java程序中来控制sql语句通知db环境。 默认情况下是一条语句一个事物执行的
+java.sql.Connection 中提供了对于事物的控制方法
+public void setAutoCommit(boolean) public boolean getAutoCommit() public void commit() public void rollback()  JDBC的事务支持
+JDBC对事务的支持体现在三个方面：
+1.自动提交模式(Auto-commit mode)
+Connection提供了一个auto-commit的属性来指定事务何时结束。
+a.当auto-commit为true时，当每个独立SQL操作的执行完毕，事务立即自动提交，也就是说每个SQL操作都是一个事务。
+一个独立SQL操作什么时候算执行完毕，JDBC规范是这样规定的：
+对数据操作语言(DML，如insert,update,delete)和数据定义语言(如create,drop)，语句一执行完就视为执行完毕。
+对select语句，当与它关联的ResultSet对象关闭时，视为执行完毕。
+对存储过程或其他返回多个结果的语句，当与它关联的所有ResultSet对象全部关闭，所有update count(update,delete等语句操作影响的行数)和output parameter(存储过程的输出参数)都已经获取之后，视为执行完毕。
+b. 当auto-commit为false时，每个事务都必须显示调用commit方法进行提交，或者显示调用rollback方法进行回滚。auto-commit默认为true。
+JDBC提供了5种不同的事务隔离级别，在Connection中进行了定义。
+2.事务隔离级别(Transaction Isolation Levels)
+JDBC定义了五种事务隔离级别： TRANSACTION_NONE JDBC驱动不支持事务 TRANSACTION_READ_UNCOMMITTED 允许脏读、不可重复读和幻读。 TRANSACTION_READ_COMMITTED 禁止脏读，但允许不可重复读和幻读。 TRANSACTION_REPEATABLE_READ 禁止脏读和不可重复读，单运行幻读。 TRANSACTION_SERIALIZABLE 禁止脏读、不可重复读和幻读。  3.保存点(SavePoint)
+JDBC定义了SavePoint接口，提供在一个更细粒度的事务控制机制。 当设置了一个保存点后，可以rollback到该保存点处的状态，而不是rollback整个事务。 Connection接口的setSavepoint和releaseSavepoint方法可以设置和释放保存点。  JDBC规范虽然定义了事务的以上支持行为，但是各个JDBC驱动，数据库厂商对事务的支持程度可能各不相同。如果在程序中任意设置，可能得不到想要的效果。为此，JDBC提供了DatabaseMetaData接口，提供了一系列JDBC特性支持情况的获取方法。比如，通过DatabaseMetaData.supportsTransactionIsolationLevel方法可以判断对事务隔离级别的支持情况，通过DatabaseMetaData.supportsSavepoints方法可以判断对保存点的支持情况。
+与事务相关的理论
+1.事务(Transaction)的四个属性(ACID) 原子性(Atomic) 对数据的修改要么全部执行，要么全部不执行。 一致性(Consistent) 在事务执行前后，数据状态保持一致性。 隔离性(Isolated) 一个事务的处理不能影响另一个事务的处理。 持续性(Durable) 事务处理结束，其效果在数据库中持久化。 2.</description>
+    </item>
+    
+    <item>
+      <title>列表List</title>
+      <link>https://www.wuxinvip.com/blog/jdk/jdk-list/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/jdk/jdk-list/</guid>
+      <description>jdk8 ： vector arraylist都是 object[] 也就是数组
+linkedlist 是 node first ；node last 也就是链表
+另外arraylist中包含sort方法 是可排序的
+vector扩展 是double 倍数扩展
+ 关于数据结构想到这么一种描述方式： 种菜的园子 1、【数组】数据结构、茄子、土豆、冬瓜、南瓜 对应【int string boolean double ..】 我们规划一个园子、自然要分成一块块去种植不同的蔬菜【存放不同的数据】 **提取数据分类方式【数组】** 2、种菜不可避免的规则、一个萝卜一个坑、坑的位置就是数组的坐标、 左边第一排 从上往下数第二个、这个就是坐标、你姥姥让你去摘个茄子、总会让你告诉你摘哪一个、 有人会说了、他会让我采摘根据大小去采摘、那么成了数据的排序了 3、关于链表 链表有三个元素【上一个节点位置、下一个节点位置、本节点存数据】 清晰明了的现实对照物-----还是举例菜园子吧 菜园子分块种着不同的蔬菜、茄子、土豆、冬瓜、南瓜、北瓜、依次种植 那么我们从进出来看、对于人的认知、 茄子右边是土豆 土豆左边是茄子、右边是南瓜 ...一次类推 我们想摘个北瓜吃、就去菜园子里找北瓜的那一块、 我们可以从左往右找，也可从右往左找 这个找的过程就是【链表查找】 【单向链表、双向列表】 有人将我一眼就看到了那块是北瓜地、你忽略了你大脑为了处理你看到的视觉信息处理的过程  </description>
+    </item>
+    
+    <item>
+      <title>线程</title>
+      <link>https://www.wuxinvip.com/blog/jdk/jdk-thread/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/jdk/jdk-thread/</guid>
+      <description>线程四种 单线程 固定数目线程 缓存线程 定时线程
+关于线程:
+1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了 2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能 3.线程池数量 差不多是 CPU核数 * 2 4.阿里编码规范已不推荐使用ExcutorService方法使用线程
+【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样 的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。 说明：Executors 返回的线程池对象的弊端如下： 1）FixedThreadPool 和 SingleThreadPool: 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。 2）CachedThreadPool 和 ScheduledThreadPool: 允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。  代码地址:https://gitee.com/403403/xingchen/tree/master/excutor</description>
+    </item>
+    
+    <item>
+      <title>集合Map</title>
+      <link>https://www.wuxinvip.com/blog/jdk/jdk-map/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/jdk/jdk-map/</guid>
+      <description>Java Map 集合类简介
+【关键点】map的hash冲突
+Map 处理这些冲突的方法是在索引位置处插入一个链接列表，并简单地将元素添加到此链接列表
+public Object put(Object key, Object value) { //我们的内部数组是一个 Entry 对象数组 //Entry[] table; //获取哈希码，并映射到一个索引 int hash = key.hashCode(); int index = (hash &amp;amp; 0x7FFFFFFF) % table.length; //循环遍历位于 table[index] 处的链接列表，以查明 //我们是否拥有此键项 — 如果拥有，则覆盖它 for (Entry e = table[index] ; e != null ; e = e.next) { //必须检查键是否相等，原因是不同的键对象 //可能拥有相同的哈希 if ((e.hash == hash) &amp;amp;&amp;amp; e.key.equals(key)) { //这是相同键，覆盖该值 //并从该方法返回 old 值 Object old = e.value; e.value = value; return old; } } //仍然在此处，因此它是一个新键，只需添加一个新 Entry //Entry 对象包含 key 对象、 value 对象、一个整型的 hash、 //和一个指向列表中的下一个 Entry 的 next Entry //创建一个指向上一个列表开头的新 Entry， //并将此新 Entry 插入表中 Entry e = new Entry(hash, key, value, table[index]); table[index] = e; return null; }  </description>
+    </item>
+    
+    <item>
+      <title>集合Set</title>
+      <link>https://www.wuxinvip.com/blog/jdk/jdk-set/</link>
+      <pubDate>Sat, 24 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.wuxinvip.com/blog/jdk/jdk-set/</guid>
+      <description>结合set 底层实现方式是map 算是一次封装使用 既保证数据只能存放单个数据 又使用到了map的特性 hash 链表结构
+关键点 把value 作为key 存放到map中 而value值 则存放了一个 空object // Dummy value to associate with an Object in the backing Map private static final Object PRESENT = new Object();
+那么这么做 就使set 拥有了不同于 map的特性
+比如 treemap 可重复 可排序 就变成了 不可重复但是 由于链表形式 可排序
+hashSet 与 hashMap 一样都是无序
+linkedHashSet 与 linkedHashMap 一样 保证插入顺序 与输出顺序一致
+treeSet 和 treeMap 默认 取key的hash值以升序排列数据</description>
+    </item>
+    
+  </channel>
+</rss>

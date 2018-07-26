@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>无心技术簿  | maglev</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+    
+    <meta name="sogou_site_verification" content="OYyzP0Cdur"/>
+    
+    <meta name="baidu_union_verify" content="809cdfb6c64fa651335f2075e055a2e6">
+    
+    <meta name="baidu-site-verification" content="Vm6jkM9VW0" />
+    
+    <meta name="google-site-verification" content="USqpH0v0l7K80xnRcaNKjnDMeNAWKjKwPYSHK1wk0oY" />
+    
+    
+      
+    <link href='/dist/css/app.8e831b6359bad500b66d8214096381de.css' rel='stylesheet' type="text/css" data-turbolinks-track="reload" />
+      
+    <link href='/dist/css/search.css' rel='stylesheet' type="text/css" data-turbolinks-track="reload" />
+      
+    
+
+    
+      
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+    
+
+    
+
+    
+
+    
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8547276212175642",
+            enable_page_level_ads: true
+        });
+    </script>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+        <div class="flex-l justify-between items-center center" >
+          <a href="https://www.wuxinvip.com/" style="font-family:kaiti"class="f3 fw2 hover-white no-underline white-90 dib">
+            无心技术簿
+          </a>
+          
+          <div class="flex-3 items-end">
+            
+              <ul class="flex-l justify-between items-center center">
+                <li class="list f5 f5-ns fw4 dib pr3">
+                <a class="hover-white no-underline white-90" href="/blog/" title="咖啡系列">
+                  咖啡系列
+                </a>
+                </li>
+                <li class="list f5 f5-ns fw4 dib pr3">
+                  <a class="hover-white no-underline white-90" href="http://search.wuxinvip.com/" title="万站灯火家">
+                    万站灯火家
+                  </a>
+                </li>
+              </ul>
+            
+          </div>
+        </div>
+    
+    <div class="webdesigntuts-workshop"><input id="aa-search-input"  type="search" placeholder="搜索..." name="search" autocomplete="off"></div>
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+<script>
+    var client = algoliasearch("SC89XM72DY", "576959787929fc9893d43b70124b49cd");
+    var index = client.initIndex('wuxinvip');
+    autocomplete('#aa-search-input',
+        { hint: false}, {
+            source: autocomplete.sources.hits(index, {hitsPerPage: 8}),
+            displayKey: 'name',
+            templates: {
+                suggestion: function(suggestion) {
+                    console.log(suggestion);
+                    return '<span  class="webdesigntuts-span">' +
+                        '<a class="webdesigntuts-a" href="/' + suggestion.uri + '">' +
+                        suggestion.title + '</a></span><br/>';
+                }
+            }
+        });
+</script>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  <article class="flex-l flex-wrap justify-between mw10 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        咖啡系列
+      </p>
+      <h1 class="fw2 athelas mb1">maglev</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2018-03-24T00:00:00Z">March 24, 2018</time>
+    </header>
+
+    <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><strong>简介</strong>
+Google Maglev 是一个牛逼的负载均衡器，之所以牛逼，是因为它不用部署专门的物理设备，不像 LVS 一样工作在内核，它是运行在通用 Linux 服务器上的大型分布式软件系统。</p>
+
+
+<figure>
+    
+        <img src="/blog/load-balance/img/maglev.png" />
+    
+    
+    <figcaption>
+        <h4>Google Maglev 工作流程</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p>每个 Google 服务都有一个或者多个 VIP，一个 VIP 和物理 IP 的区别在于 VIP 没有绑给某个特定的网卡。</p>
+
+<p><strong>VIP 注解</strong>
+Maglev 关联每个 VIP 到具体的 Endpoint，然后通过 BGP 将 VIP 宣告给上游路由器，然后路由器再把 VIP 宣告给 Google 的骨干网，这样使得 VIP 能被访问到。</p>
+
+<p><strong>流程</strong>
+当用户访问 www.google.com 时：</p>
+
+<ul>
+<li>浏览器先发送一个 DNS 请求， DNS 服务返回 VIP。 然后浏览器尝试与该 VIP 建立连接。</li>
+<li>当路由器接收到 VIP 数据包，通过 ECMP 将数据包路由到 Maglev 集群中的某台机器上。</li>
+<li>当 Maglev 的机器接收到数据包， 从关联到该 VIP 的 Endpoint 中选择一个， 然后用 GRE 封包发送，外层的 IP 即 Endpoint 的物理 IP。</li>
+<li>当 Endpoint 处理完数据包进行响应时，源地址用 VIP 填充，目的地址为用户 IP。</li>
+<li>使用直接服务返回(Direct Server Return， DSR) ，将响应直接发送给路由器， 这样 Maglev 无需处理响应包。</li>
+</ul>
+
+
+<figure>
+    
+        <img src="/blog/load-balance/img/maglev-1.png" />
+    
+    
+    <figcaption>
+        <h4>Google Maglev 结构</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p><strong>结构</strong>
+Maglev 由控制器（Controller）和 转发器（Forwarder）组成：</p>
+
+<ul>
+<li>控制器向路由器宣告 VIP。控制器周期性地检查转发器的健康状态，来宣告或者撤回 VIP。确保路由器只转发包到健康的 Magvel。</li>
+<li>转发器转发 VIP 流量到 Endpoint。每个 VIP 都有一个后端池（BP），BP 可能包含 Endpoint 的 IP，也有可能包含其它 BP。
+每个 BP 会对 Endpoint 进行健康检查，保证数据包转发到健康的 Endpoint。</li>
+</ul>
+
+<p><strong>转发器的设计和实现</strong></p>
+
+
+<figure>
+    
+        <img src="/blog/load-balance/img/maglev-2.png" />
+    
+    
+    <figcaption>
+        <h4>Google Maglev 转发器结构</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p><strong>设计</strong>
+转发器直接从网卡接收数据包，通过 GRE/IP 封包，再将它们发回网卡。 Linux 内核不参与这个过程。</p>
+
+<ul>
+<li>Steering 处理从 NIC（网卡）接收来的数据包，通过五元组（IP地址，源端口，目的IP地址，目的端口和传输层协议）哈希，然后交给不同的接收队列。</li>
+<li>包重写线程从接收队列取包，然后进行后端选择，用 GRE 封包后，发送到传输队列。</li>
+<li>Muxing 轮询从所有的传输队列取包，再发送给网卡。</li>
+</ul>
+
+
+<figure>
+    
+        <img src="/blog/load-balance/img/maglev-3.png" />
+    
+    
+    <figcaption>
+        <h4>Google Maglev 快速包处理</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p><strong>Maglev 在包处理时绕开了 Linux 内核，因为内核开销非常严重。</strong></p>
+
+<p>如图，转发器和网卡共用数据包池（Packet Pool），转发器中的 Steering 和 Muxing 都通过指针的环形队列，指向该池。</p>
+
+<p>对于 Seering：</p>
+
+<ul>
+<li>当网卡接收到数据包时，放在 Recieved 所指位置，并向前移动指针。</li>
+<li>分发包到接收队列时，向前移动Processed 指针。</li>
+<li>预留未使用数据包，放入队列中并向前移动 Reserved 指针。</li>
+</ul>
+
+<p>对于 Muxing：</p>
+
+<ul>
+<li>网卡将 Sent 所指的数据包发出去，并向前移动指针。</li>
+<li>将被重写的数据包放入队列中，并向前移动 Ready 指针。</li>
+<li>同时将已被发送的包归回给数据包池，并向前移动 Recycled 指针。</li>
+<li>整个过程都没有包拷贝。</li>
+</ul>
+
+<p><strong>后端选择</strong></p>
+
+<p>Maglev首先检查本地的连接跟踪表，看看该数据包是否属于任何一个已有的连接，如果连接已经建立，则直接将数据包发到该连接对应的服务器上去。</p>
+
+<p>如果连接没有建立，此时就需要一致性哈希函数选择一个后端服务器了，并添加到连接跟踪表。</p>
+
+<p>Maglev 一致性哈希的基本思想就是：</p>
+
+<ul>
+<li>有一个共享的Entry表，可以通过Entry[Hash % M]选择对应后端，M为Entry表大小。</li>
+<li>每个后端对所有Entry表位置有自己的优先级排序，存在permutation表里。</li>
+<li>所有的后端通过优先级顺序轮流填充Entry 中的空白位置，直至填满。每次都填充自己优先级最高的空位置。
+例如，假设M = 6，且
+```
+B0: permutation[] = { 3, 0, 4, 1, 5, 2, 6 }
+B1: permutation[] = { 0, 2, 4, 6, 1, 3, 5 }
+B2: permutation[] = { 3, 4, 5, 6, 0, 1, 2 }</li>
+</ul>
+
+<p>permutation优先级是从大到小，那么最后填充后的Entry表为：</p>
+
+<p>Entry[] = { B1, B0, B1, B0, B2, B2, B0 }</p>
+
+<p>说明：</p>
+
+<p>B0 的优先级最高的位置是Entry[3]，其为空，则Entry[3] = B0。
+B1 是Entry[0]，则Entry[0]=B1。
+B2 是Entry[3]，但是已被占，下一个是Entry[4]，为空，则Entry[4]=B2。
+以此类推，直至填满。</p>
+
+<p>```</p>
+
+<p><strong>操作经验</strong></p>
+
+
+<figure>
+    
+        <img src="/blog/load-balance/img/maglev-4.png" />
+    
+    
+    <figcaption>
+        <h4>Google Maglev VIP 匹配</h4>
+        
+    </figcaption>
+    
+</figure>
+
+
+<p>有时候，我们需要利用 Maglev 封包将流量重定向到其他的集群中的相同服务，这就有点麻烦了，因为集群间是独立的，我们不知道其它集群相同服务的 VIP。</p>
+
+<p>VIP 可以通过最长前缀匹配，来决定集群，利用最长后缀匹配决定那个后端池。</p>
+
+<p>如图中的例子，当请求 173.194.71.1 时，通过最长前缀（173.194.71.0/24）选择 C2 集群，通过最长后缀（0.0.0.1/8）决定是 Service 1 后端池。</p>
+
+<p>假定 Maglev 需要将流量转发到 C3（173.194.72.0/24），只需要用相同的后缀构造出 VIP （173.194.72.1）进行转发，即可转发到 Maglev 的 Service 1 后端池。</p>
+
+<p><strong>分片处理</strong></p>
+
+<p>分片时，非首个分片只包含三元组（目的IP地址，目的端口和传输层协议），这便无法正确决定如何转发，因为转发根据的是五元组。</p>
+
+<p>解决方法是：</p>
+
+<ul>
+<li><p>每个 Maglev 配置了一个特殊的后端池，包含所有的 Maglev 机器。</p></li>
+
+<li><p>一旦接收到分片， Maglev 用三元组哈希选择特定的 Maglev 作为后端进行转发，将它们重定向给相同的 Maglev。</p></li>
+
+<li><p>Maglev 为未分片数据包和第二跳的首分片使用相同的后端决策算法，以保证非分片、首个分片和非首个分片选择同一个后端。</p></li>
+
+<li><p>Magelv 维护了一个固定大小的分片表，记录了首分片的转发决策。</p></li>
+
+<li><p>当 Maglev 收到一个第二跳非首分片， 会从分片表中查找，若匹配则立即转发； 否则，会缓存到分片表中，直到首分片收到或者老化。</p></li>
+</ul>
+
+<p><a href="https://simpleyyt.com/2017/07/05/introduction-to-google-maglev/">转载地址</a></p>
+<ul class="pa0">
+  
+   <li class="list" style="float: left;">
+     
+     <a href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1" style="color:#FFFFFF " class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">负载均衡</a>
+   </li>
+    <li class="list" style="float: left;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </li>
+  
+</ul>
+<div class="mt6"></div>
+
+
+<div id="SOHUCS" sid="/blog/load-balance/maglev/" ></div>
+<script type="text/javascript">
+    (function(){
+        var appid = 'cytHkUEmA';
+        var conf = 'prod_6e7b7d38e80b8603d4192a4d85f24774';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+
+    </main>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">相关文章</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/blog/load-balance/dns/">DNS负载均衡</a>
+        </li>
+	    
+    </ul>
+</div>
+
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0"  width=300 height=400
+        src="//music.163.com/outchain/player?type=0&id=2269118953&auto=0&height=430"></iframe>
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    
+<footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://www.wuxinvip.com/" >
+    &copy; 2018 京ICP备18026588号
+    
+  </a>
+  
+
+
+
+  <a href="https://twitter.com/huoyan403" class="link-transition twitter link dib z-999 pt3 pt0-l mr2" title="Twitter link">
+    <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+  </a>
+
+
+
+
+  <a href="http://www.linkedin.com/in/%e9%95%bf-%e8%bf%9e-05215b142/" class="link-transition linkedin link dib z-999 pt3 pt0-l mr2" title="LinkedIn link">
+    <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+  </a>
+
+
+  <a href="https://github.com/wuxinvip" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="/friends-chain/" >
+    友情链接
+  </a>
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="/contact/" >
+   联系站长
+  </a>
+
+  </div>
+
+
+</footer>
+
+    
+
+
+
+<div style="display:none">
+  <script src="https://s22.cnzz.com/z_stat.php?id=1273992689&web_id=1273992689" language="JavaScript"></script>
+</div>
+  </body>

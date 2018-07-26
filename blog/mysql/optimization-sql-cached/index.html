@@ -1,0 +1,832 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>无心技术簿  | SQL优化【缓存优化】</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+    
+    <meta name="sogou_site_verification" content="OYyzP0Cdur"/>
+    
+    <meta name="baidu_union_verify" content="809cdfb6c64fa651335f2075e055a2e6">
+    
+    <meta name="baidu-site-verification" content="Vm6jkM9VW0" />
+    
+    <meta name="google-site-verification" content="USqpH0v0l7K80xnRcaNKjnDMeNAWKjKwPYSHK1wk0oY" />
+    
+    
+      
+    <link href='/dist/css/app.8e831b6359bad500b66d8214096381de.css' rel='stylesheet' type="text/css" data-turbolinks-track="reload" />
+      
+    <link href='/dist/css/search.css' rel='stylesheet' type="text/css" data-turbolinks-track="reload" />
+      
+    
+
+    
+      
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+    
+
+    
+
+    
+
+    
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8547276212175642",
+            enable_page_level_ads: true
+        });
+    </script>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+        <div class="flex-l justify-between items-center center" >
+          <a href="https://www.wuxinvip.com/" style="font-family:kaiti"class="f3 fw2 hover-white no-underline white-90 dib">
+            无心技术簿
+          </a>
+          
+          <div class="flex-3 items-end">
+            
+              <ul class="flex-l justify-between items-center center">
+                <li class="list f5 f5-ns fw4 dib pr3">
+                <a class="hover-white no-underline white-90" href="/blog/" title="咖啡系列">
+                  咖啡系列
+                </a>
+                </li>
+                <li class="list f5 f5-ns fw4 dib pr3">
+                  <a class="hover-white no-underline white-90" href="http://search.wuxinvip.com/" title="万站灯火家">
+                    万站灯火家
+                  </a>
+                </li>
+              </ul>
+            
+          </div>
+        </div>
+    
+    <div class="webdesigntuts-workshop"><input id="aa-search-input"  type="search" placeholder="搜索..." name="search" autocomplete="off"></div>
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+<script>
+    var client = algoliasearch("SC89XM72DY", "576959787929fc9893d43b70124b49cd");
+    var index = client.initIndex('wuxinvip');
+    autocomplete('#aa-search-input',
+        { hint: false}, {
+            source: autocomplete.sources.hits(index, {hitsPerPage: 8}),
+            displayKey: 'name',
+            templates: {
+                suggestion: function(suggestion) {
+                    console.log(suggestion);
+                    return '<span  class="webdesigntuts-span">' +
+                        '<a class="webdesigntuts-a" href="/' + suggestion.uri + '">' +
+                        suggestion.title + '</a></span><br/>';
+                }
+            }
+        });
+</script>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  <article class="flex-l flex-wrap justify-between mw10 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        咖啡系列
+      </p>
+      <h1 class="fw2 athelas mb1">SQL优化【缓存优化】</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2018-03-24T00:00:00Z">March 24, 2018</time>
+    </header>
+
+    <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><img src="https://upload-images.jianshu.io/upload_images/6434888-d3a8321d9c17a82b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" /></p>
+
+<p>8.10.1 InnoDB缓冲池优化
+8.10.2 MyISAM密钥缓存
+8.10.3 MySQL查询缓存
+8.10.4准备好的语句和存储程序的缓存
+MySQL使用几种策略来缓存内存缓冲区中的信息以提高性能。</p>
+
+<p>8.10.1 InnoDB缓冲池优化
+InnoDB维护一个称为缓冲池的存储区域， 用于缓存内存中的数据和索引。知道InnoDB缓冲池如何 工作，并利用它来将频繁访问的数据保存在内存中，是MySQL调优的一个重要方面。</p>
+
+<p>有关InnoDB缓冲池内部工作原理的说明， LRU替换算法的概述以及常规配置信息，请参见第14.6.3.1节“InnoDB缓冲池”。</p>
+
+<p>有关其他InnoDB缓冲池配置和调整信息，请参阅以下部分：</p>
+
+<p>第14.6.3.5节“配置InnoDB缓冲池预取（预读）”</p>
+
+<p>第14.6.3.6节“配置InnoDB缓冲池刷新”</p>
+
+<p>第14.6.3.4节“使缓冲池扫描抗性”</p>
+
+<p>第14.6.3.3节“配置多个缓冲池实例”</p>
+
+<p>第14.6.3.8节“保存和恢复缓冲池状态”</p>
+
+<p>第14.6.3.7节“微调InnoDB缓冲池刷新”</p>
+
+<p>第14.6.3.2节“配置InnoDB缓冲池大小”</p>
+
+<p>8.10.2 MyISAM密钥缓存
+8.10.2.1共享密钥缓存访问
+8.10.2.2多个密钥缓存
+8.10.2.3中点插入策略
+8.10.2.4索引预加载
+8.10.2.5密钥缓存块大小
+8.10.2.6重构密钥缓存
+为了最小化磁盘I / O，MyISAM存储引擎利用许多数据库管理系统使用的策略。它采用缓存机制将最常访问的表块保存在内存中：</p>
+
+<p>对于索引块，维护称为密钥缓存（或 密钥缓冲区）的特殊结构 。该结构包含许多块缓冲区，其中放置了最常用的索引块。</p>
+
+<p>对于数据块，MySQL不使用特殊缓存。相反，它依赖于本机操作系统文件系统缓存。</p>
+
+<p>本节首先介绍MyISAM密钥缓存的基本操作 。然后讨论了可以提高密钥缓存性能并使您能够更好地控制缓存操作的功能：</p>
+
+<p>多个会话可以同时访问缓存。</p>
+
+<p>您可以设置多个密​​钥缓存并将表索引分配给特定缓存。</p>
+
+<p>要控制密钥缓存的大小，请使用 key_buffer_size系统变量。如果将此变量设置为零，则不使用密钥缓存。如果key_buffer_size值太小而无法分配最小数量的块缓冲区，则不使用密钥缓存 （8）。</p>
+
+<p>当密钥缓存不可操作时，仅使用操作系统提供的本机文件系统缓冲来访问索引文件。（换句话说，使用与表数据块相同的策略访问表索引块。）</p>
+
+<p>索引块是对MyISAM索引文件的连续访问单元 。通常，索引块的大小等于索引B树的节点大小。（索引在磁盘上使用B树数据结构表示。树底部的节点是叶节点。叶节点上方的节点是非叶节点。）</p>
+
+<p>密钥缓存结构中的所有块缓冲区大小相同。该大小可以等于，大于或小于表索引块的大小。通常这两个值中的一个是另一个的倍数。</p>
+
+<p>当必须访问来自任何表索引块的数据时，服务器首先检查它是否在密钥缓存的某个块缓冲区中可用。如果是，则服务器访问密钥缓存中的数据而不是磁盘上的数据。也就是说，它从缓存读取或写入其中而不是读取或写入磁盘。否则，服务器选择包含不同表索引块（或块）的高速缓存块缓冲区，并用必需的表索引块的副本替换那里的数据。只要新索引块位于缓存中，就可以访问索引数据。</p>
+
+<p>如果发生了选择替换的块已被修改，则该块被认为是“ 脏的。“在这种情况下，在被替换之前，其内容被刷新到它所来自的表索引。</p>
+
+<p>通常服务器遵循LRU（最近最少使用）策略：当选择要替换的块时，它选择最近最少使用的索引块。为了使这个选择更容易，密钥缓存模块将所有使用的块维护在按使用时间排序的特殊列表（LRU链）中。访问块时，它是最近使用的块，位于列表的末尾。当需要替换块时，列表开头的块是最近最少使用的块，并成为第一个驱逐的候选块。</p>
+
+<p>该InnoDB存储引擎还采用LRU算法来管理它的缓冲池。请参见 第14.6.3.1节“InnoDB缓冲池”。</p>
+
+<p>8.10.2.1共享密钥缓存访问
+线程可以同时访问密钥缓存缓冲区，但要符合以下条件：</p>
+
+<p>多个会话可以访问未更新的缓冲区。</p>
+
+<p>正在更新的缓冲区会导致需要使用它的会话等待更新完成。</p>
+
+<p>多个会话可以发起导致高速缓存块替换的请求，只要它们不相互干扰（即，只要它们需要不同的索引块，从而导致不同的高速缓存块被替换）。</p>
+
+<p>对密钥缓存的共享访问使服务器能够显着提高吞吐量。</p>
+
+<p>8.10.2.2多个密钥缓存
+对密钥缓存的共享访问可提高性能，但不会完全消除会话之间的争用。他们仍在竞争管理对密钥缓存缓冲区的访问的控制结构。为了进一步减少密钥缓存访问争用，MySQL还提供了多个密钥缓存。此功能使您可以将不同的表索引分配给不同的密钥缓存。</p>
+
+<p>在存在多个密钥缓存的情况下，服务器必须知道在处理给定MyISAM表的查询时要使用哪个缓存 。默认情况下，所有 MyISAM表索引都缓存在默认密钥缓存中。要将表索引分配给特定的键缓存，请使用该CACHE INDEX 语句（请参见第13.7.6.2节“CACHE INDEX语法”）。例如，下面的语句从表中分配指标 t1，t2以及 t3名为键缓存 hot_cache：</p>
+
+<p>MySQL的&gt; CACHE INDEX t1, t2, t3 IN hot_cache;
++ &mdash;&mdash;&mdash; + &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash;- + &mdash;&mdash;- &mdash; +
+| 表| Op | Msg_type | Msg_text |
++ &mdash;&mdash;&mdash; + &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash;- + &mdash;&mdash;- &mdash; +
+| test.t1 | assign_to_keycache | 状态| 好的
+| test.t2 | assign_to_keycache | 状态| 好的
+| test.t3 | assign_to_keycache | 状态| 好的
++ &mdash;&mdash;&mdash; + &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash;- + &mdash;&mdash;- &mdash; +
+CACHE INDEX可以SET GLOBAL通过使用参数设置语句或使用服务器启动选项设置其大小来创建语句中 引用的键高速缓存。例如：</p>
+
+<p>MySQL的&gt; SET GLOBAL keycache1.key_buffer_size=128*1024;
+要销毁密钥缓存，请将其大小设置为零：</p>
+
+<p>MySQL的&gt; SET GLOBAL keycache1.key_buffer_size=0;
+您无法销毁默认密钥缓存。任何尝试这样做都会被忽略：</p>
+
+<p>MySQL的&gt; SET GLOBAL key_buffer_size = 0;</p>
+
+<p>MySQL的&gt; SHOW VARIABLES LIKE &lsquo;key_buffer_size&rsquo;;
++ &mdash;&mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash; +
+| Variable_name | 值|
++ &mdash;&mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash; +
+| key_buffer_size | 8384512 |
++ &mdash;&mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash; +
+密钥缓存变量是具有名称和组件的结构化系统变量。For keycache1.key_buffer_size， keycache1是缓存变量名称， key_buffer_size是缓存组件。有关用于引用结构化密钥缓存系统变量的语法的说明，请参见第5.1.8.1节“结构化系统变量”。</p>
+
+<p>默认情况下，表索引分配给在服务器启动时创建的主（默认）密钥缓存。销毁密钥缓存时，分配给它的所有索引都将重新分配给默认密钥缓存。</p>
+
+<p>对于繁忙的服务器，您可以使用涉及三个密钥缓存的策略：</p>
+
+<p>一个“ 热 ”键高速占用分配给所有键高速缓冲空间的20％。对于大量用于搜索但未更新的表使用此选项。</p>
+
+<p>一个“ 冷 ”键高速占用分配给所有键高速缓冲空间的20％。将此缓存用于中型，密集修改的表，例如临时表。</p>
+
+<p>一个“ 温暖 ”键高速占用键高速缓冲空间的60％。将此作为默认密钥缓存，默认情况下用于所有其他表。</p>
+
+<p>使用三个密钥高速缓存有益的一个原因是对一个密钥高速缓存结构的访问不会阻止对其他密钥高速缓存的访问。访问分配给一个缓存的表的语句不会与访问分配给另一个缓存的表的语句竞争。性能提升也出于其他原因：</p>
+
+<p>热缓存仅用于检索查询，因此永远不会修改其内容。因此，每当需要从磁盘引入索引块时，不需要首先刷新选择用于替换的高速缓存块的内容。</p>
+
+<p>对于分配给热缓存的索引，如果不存在需要索引扫描的查询，则对应于索引B树的非叶节点的索引块很可能保留在缓存中。</p>
+
+<p>当更新的节点在高速缓存中并且不需要首先从磁盘读入时，对于临时表最频繁执行的更新操作执行得更快。如果临时表的索引的大小与冷键高速缓存的大小相当，则更新的节点在高速缓存中的概率非常高。</p>
+
+<p>该CACHE INDEX语句在表和密钥缓存之间建立关联，但每次服务器重新启动时关联都会丢失。如果希望关联在每次服务器启动时生效，则实现此目的的一种方法是使用选项文件：包括配置密钥缓存的变量设置，以及init-file命名包含CACHE INDEX 要执行的语句的文件的 选项。例如：</p>
+
+<p>key_buffer_size = 4G
+hot_cache.key_buffer_size = 2G
+cold_cache.key_buffer_size = 2G
+init_file = / path/ to/ data-directorymysqld_init.sql
+mysqld_init.sql每次服务器启动时都会执行 语句。该文件每行应包含一个SQL语句。以下示例分别为hot_cache和 分配了几个表cold_cache：</p>
+
+<p>CACHE INDEX db1.t1，db1.t2，db2.t3在hot_cache中
+CACHE INDEX db1.t4，db2.t5，db2.t6在cold_cache中
+8.10.2.3中点插入策略
+默认情况下，密钥缓存管理系统使用简单的LRU策略来选择要逐出的密钥缓存块，但它还支持称为中点插入策略的更复杂的方法 。</p>
+
+<p>使用中点插入策略时，LRU链分为两部分：热子列表和热子列表。两部分之间的分割点并不固定，但是密钥缓存管理系统注意到热部分不是 “ 太短 ”，总是包含至少 key_cache_division_limit 百分比的密钥缓存块。 key_cache_division_limit是结构化键缓存变量的组件，因此其值是可以为每个缓存设置的参数。</p>
+
+<p>当索引块从表中读入密钥缓存时，它将放在暖子列表的末尾。在一定数量的命中（访问块）之后，它被提升到热子列表。目前，促进块（3）所需的命中数对于所有索引块是相同的。</p>
+
+<p>升级到热子列表的块放在列表的末尾。然后该块在该子列表中循环。如果块在子列表的开头停留足够长的时间，则将其降级为暖子列表。此时间由key_cache_age_threshold 密钥缓存的组件的值确定 。</p>
+
+<p>阈值规定，对于包含N块的密钥缓存，在最后一次N * key_cache_age_threshold / 100命中内未访问的热子列表开头的块 将被移动到暖子列表的开头。然后它成为第一个被驱逐的候选者，因为替换的块总是从暖子列表的开头获取。</p>
+
+<p>中点插入策略使您可以将更多值的块始终保留在缓存中。如果您更喜欢使用普通LRU策略，请将 key_cache_division_limit 值设置为默认值100。</p>
+
+<p>当执行需要索引扫描的查询有效地从缓存中推出对应于有价值的高级B树节点的所有索引块时，中点插入策略有助于提高性能。为避免这种情况，您必须使用key_cache_division_limit设置为远小于100 的中点插入策略 。然后，在索引扫描操作期间，有价值的频繁命中节点也会保留在热子列表中。</p>
+
+<p>8.10.2.4索引预加载
+如果密钥缓存中有足够的块来保存整个索引的块，或者至少是与其非叶节点对应的块，则在开始使用之前使用索引块预加载密钥缓存是有意义的。预加载使您能够以最有效的方式将表索引块放入密钥缓存缓冲区：通过顺序从磁盘读取索引块。</p>
+
+<p>在没有预加载的情况下，块仍然根据查询的需要放入密钥缓存中。虽然这些块将保留在缓存中，因为所有缓冲区都有足够的缓冲区，它们是以随机顺序从磁盘中提取的，而不是按顺序提取的。</p>
+
+<p>要将索引预加载到缓存中，请使用该 LOAD INDEX INTO CACHE语句。例如，以下语句预加载表的索引的节点（索引块），t1并且t2：</p>
+
+<p>MySQL的&gt; LOAD INDEX INTO CACHE t1, t2 IGNORE LEAVES;
++ &mdash;&mdash;&mdash; + &mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash;- + &mdash;&mdash;&mdash;- +
+| 表| Op | Msg_type | Msg_text |
++ &mdash;&mdash;&mdash; + &mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash;- + &mdash;&mdash;&mdash;- +
+| test.t1 | preload_keys | 状态| 好的
+| test.t2 | preload_keys | 状态| 好的
++ &mdash;&mdash;&mdash; + &mdash;&mdash;&mdash;&mdash;&ndash; + &mdash;&mdash;&mdash;- + &mdash;&mdash;&mdash;- +
+所述IGNORE LEAVES改性剂导致要预装只为索引的非叶结点的块。因此，显示的语句预加载所有索引块t1，但仅从非叶节点预加载 t2。</p>
+
+<p>如果已使用CACHE INDEX语句将索引分配给键高速缓存 ，则预加载会将索引块放入该高速缓存中。否则，索引将加载到默认密钥缓存中。</p>
+
+<p>8.10.2.5密钥缓存块大小
+可以使用key_cache_block_size 变量为单个密钥缓存指定块缓冲区的大小 。这允许调整索引文件的I / O操作的性能。</p>
+
+<p>当读取缓冲区的大小等于本机操作系统I / O缓冲区的大小时，可以实现I / O操作的最佳性能。但是，将关键节点的大小设置为等于I / O缓冲区的大小并不总能确保最佳的整体性能。在读取大叶子节点时，服务器会吸入大量不必要的数据，有效地阻止了读取其他叶子节点。</p>
+
+<p>要控制表的.MYI 索引文件中块的大小MyISAM，请使用&ndash;myisam-block-size服务器启动时的 选项。</p>
+
+<p>8.10.2.6重构密钥缓存
+可以通过更新其参数值随时重新构建密钥缓存。例如：</p>
+
+<p>MySQL的&gt; SET GLOBAL cold_cache.key_buffer_size=4*1024*1024;
+如果为key_buffer_size或 key_cache_block_size缓存组件分配 的值与组件的当前值不同，则服务器会销毁缓存的旧结构并根据新值创建新结构。如果缓存包含任何脏块，则服务器会在销毁和重新创建缓存之前将它们保存到磁盘。如果更改其他键缓存参数，则不会进行重组。</p>
+
+<p>重构密钥缓存时，服务器首先将任何脏缓冲区的内容刷新到磁盘。之后，缓存内容变得不可用。但是，重组不会阻止需要使用分配给缓存的索引的查询。相反，服务器使用本机文件系统缓存直接访问表索引。文件系统缓存不如使用密钥缓存有效，因此尽管执行查询，但可以预期减速。重新构建缓存后，它将再次可用于缓存分配给它的索引，并且对索引的文件系统缓存的使用将停止。</p>
+
+<p>8.10.3 MySQL查询缓存
+8.10.3.1查询缓存的运行方式
+8.10.3.2查询缓存SELECT选项
+8.10.3.3查询缓存配置
+8.10.3.4查询缓存状态和维护
+注意
+从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+
+<p>查询缓存存储SELECT语句的文本以及 发送到客户端的相应结果。如果稍后收到相同的语句，则服务器从查询缓存中检索结果，而不是再次解析和执行语句。查询缓存在会话之间共享，因此可以发送由一个客户端生成的结果集以响应由另一个客户端发出的相同查询。</p>
+
+<p>查询缓存在您拥有不经常更改且服务器接收许多相同查询的表的环境中非常有用。这是许多基于数据库内容生成许多动态页面的Web服务器的典型情况。</p>
+
+<p>查询缓存不返回过时数据。修改表时，将刷新查询缓存中的所有相关条目。</p>
+
+<p>注意
+查询缓存在多个mysqld服务器更新相同 MyISAM表的环境中不起作用。</p>
+
+<p>查询高速缓存用于第8.10.3.1节“查询高速缓存如何操作”中描述的条件下的预准备语句。</p>
+
+<p>注意
+分区表不支持查询缓存，并且对涉及分区表的查询自动禁用查询缓存。无法为此类查询启用查询缓存。</p>
+
+<p>下面是查询缓存的一些性能数据。这些结果是通过在具有2GB RAM和64MB查询缓存的Linux Alpha 2×500MHz系统上运行MySQL基准测试套件生成的。</p>
+
+<p>如果您执行的所有查询都很简单（例如从具有一行的表中选择一行），但仍然不同以便无法缓存查询，则使查询缓存处于活动状态的开销为13％。这可能被认为是最糟糕的情况。在现实生活中，查询往往要复杂得多，因此开销通常会显着降低。</p>
+
+<p>在单行表中搜索单行的查询缓存比没有查询缓存快238％。这可以被视为接近缓存的查询所期望的最小加速。</p>
+
+<p>要在服务器启动时禁用查询缓存，请将query_cache_size系统变量设置 为0.通过禁用查询缓存代码，没有明显的开销。</p>
+
+<p>查询缓存提供了实质性性能改进的潜力，但不要假设它将在所有情况下都这样做。使用某些查询缓存配置或服务器工作负载，您实际上可能会看到性能下降：</p>
+
+<p>请谨慎调整查询缓存的大小，这会增加维护缓存所需的开销，可能超出启用缓存的优势。数十兆字节的大小通常是有益的。数百兆字节的大小可能不是。</p>
+
+<p>服务器工作负载对查询缓存效率有显着影响。几乎完全由一组固定SELECT 语句组成的查询混合更有可能从启用缓存中获益，而不是频繁INSERT语句导致缓存中结果连续失效的混合 。在某些情况下，解决方法是使用该 SQL_NO_CACHE选项来防止结果甚至为SELECT使用频繁修改的表的语句进入缓存 。（请参见 第8.10.3.2节“查询缓存SELECT选项”。）</p>
+
+<p>要验证启用查询缓存是否有益，请在启用和禁用缓存的情况下测试MySQL服务器的操作。然后定期重新测试，因为查询缓存效率可能会随着服</p>
+
+<p>8.10.3.1查询缓存的运行方式
+注意
+从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+
+<p>本节介绍查询缓存在运行时的工作方式。第8.10.3.3节“查询缓存配置”描述了如何控制它是否可操作。</p>
+
+<p>在解析之前，将传入的查询与查询缓存中的查询进行比较，因此查询缓存将以下两个查询视为不同：</p>
+
+<p>SELECT * FROM tbl_name
+选择*来自tbl_name
+查询必须完全相同（字节为字节）才能看作相同。另外，由于其他原因，可以将相同的查询字符串视为不同。使用不同数据库，不同协议版本或不同默认字符集的查询被视为不同的查询，并单独缓存。</p>
+
+<p>缓存不用于以下类型的查询：</p>
+
+<p>查询是外部查询的子查询</p>
+
+<p>在存储的函数，触发器或事件的主体内执行的查询</p>
+
+<p>在从查询缓存中获取查询结果之前，MySQL会检查用户是否拥有所 SELECT涉及的所有数据库和表的权限。如果不是这种情况，则不使用缓存的结果。</p>
+
+<p>如果从查询缓存返回查询结果，则服务器会递增Qcache_hits 状态变量，而不是Com_select。请参见 第8.10.3.4节“查询缓存状态和维护”。</p>
+
+<p>如果表更改，则使用该表的所有高速缓存查询都将变为无效并从高速缓存中删除。这包括使用MERGE映射到已更改表的表的查询。一个表可以被许多类型的语句，如被改变INSERT， UPDATE， DELETE， TRUNCATE TABLE， ALTER TABLE， DROP TABLE，或 DROP DATABASE。</p>
+
+<p>使用InnoDB表时，查询缓存也可在事务中使用 。</p>
+
+<p>SELECT缓存查询对视图 的结果。</p>
+
+<p>查询缓存适用于SELECT SQL_CALC_FOUND_ROWS &hellip;查询并存储由以下SELECT FOUND_ROWS()查询返回的值。 FOUND_ROWS()即使从缓存中提取了前面的查询，也会返回正确的值，因为找到的行数也存储在缓存中。该SELECT FOUND_ROWS()查询本身不能被缓存。</p>
+
+<p>使用mysql_stmt_prepare()和 使用二进制协议发布的预准备语句mysql_stmt_execute()（请参见 第27.8.8节“C API准备语句”）受限于缓存。与查询缓存中的语句的比较基于扩展?参数标记后的语句文本。该语句仅与使用二进制协议执行的其他缓存语句进行比较。也就是说，对于查询缓存目的，使用二进制协议发出的预准备语句与使用文本协议发布的预准备语句不同（请参见 第13.5节“准备的SQL语句语法”）。</p>
+
+<p>如果查询使用以下任何功能，则无法缓存该查询：</p>
+
+<p>AES_DECRYPT()</p>
+
+<p>AES_ENCRYPT()</p>
+
+<p>BENCHMARK()</p>
+
+<p>CONNECTION_ID()</p>
+
+<p>CONVERT_TZ()</p>
+
+<p>CURDATE()</p>
+
+<p>CURRENT_DATE()</p>
+
+<p>CURRENT_TIME()</p>
+
+<p>CURRENT_TIMESTAMP()</p>
+
+<p>CURRENT_USER()</p>
+
+<p>CURTIME()</p>
+
+<p>DATABASE()</p>
+
+<p>ENCRYPT() 有一个参数</p>
+
+<p>FOUND_ROWS()</p>
+
+<p>GET_LOCK()</p>
+
+<p>IS_FREE_LOCK()</p>
+
+<p>IS_USED_LOCK()</p>
+
+<p>LAST_INSERT_ID()</p>
+
+<p>LOAD_FILE()</p>
+
+<p>MASTER_POS_WAIT()</p>
+
+<p>NOW()</p>
+
+<p>PASSWORD()</p>
+
+<p>RAND()</p>
+
+<p>RANDOM_BYTES()</p>
+
+<p>RELEASE_ALL_LOCKS()</p>
+
+<p>RELEASE_LOCK()</p>
+
+<p>SLEEP()</p>
+
+<p>SYSDATE()</p>
+
+<p>UNIX_TIMESTAMP() 没有参数</p>
+
+<p>USER()</p>
+
+<p>UUID()</p>
+
+<p>UUID_SHORT()</p>
+
+<p>在这些条件下也不会缓存查询：</p>
+
+<p>它指的是用户定义的函数（UDF）或存储的函数。</p>
+
+<p>它指的是用户变量或本地存储的程序变量。</p>
+
+<p>它是指在表mysql， INFORMATION_SCHEMA或 performance_schema数据库。</p>
+
+<p>它指的是任何分区表。</p>
+
+<p>它具有以下任何一种形式：</p>
+
+<p>选择&hellip;锁定共享模式
+SELECT &hellip; FOR UPDATE
+SELECT &hellip; INTO OUTFILE &hellip;&hellip;
+SELECT &hellip; INTO DUMPFILE &hellip;
+SELECT * FROM &hellip; WHERE autoincrement_col为NULL
+最后一个表单未缓存，因为它用作ODBC解决方法以获取最后一个插入ID值。请参见第27章连接器和API的Connector / ODBC部分 。</p>
+
+<p>使用SERIALIZABLE隔离级别的事务中的语句 也无法缓存，因为它们使用LOCK IN SHARE MODE锁定。</p>
+
+<p>它使用TEMPORARY表格。</p>
+
+<p>它不使用任何表。</p>
+
+<p>它会生成警告。</p>
+
+<p>用户对任何涉及的表都具有列级权限。</p>
+
+<p>8.10.3.2查询缓存SELECT选项
+注意
+从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+
+<p>可以在SELECT语句中指定两个与查询缓存相关的选项 ：</p>
+
+<p>SQL_CACHE</p>
+
+<p>如果查询结果是可缓存的，并且query_cache_type系统变量的值为ON或 ，则缓存查询结果 DEMAND。</p>
+
+<p>SQL_NO_CACHE</p>
+
+<p>服务器不使用查询缓存。它既不检查查询缓存，也不检查结果是否已缓存，也不缓存查询结果。</p>
+
+<p>例子：</p>
+
+<p>SELECT SQL_CACHE id，name FROM customer;
+SELECT SQL_NO_CACHE id，name FROM customer;
+8.10.3.3查询缓存配置
+注意
+从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+
+<p>该have_query_cache服务器系统变量指示查询缓存是否可用：</p>
+
+<p>MySQL的&gt; SHOW VARIABLES LIKE &lsquo;have_query_cache&rsquo;;
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+| Variable_name | 值|
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+| have_query_cache | 是的|
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+使用标准MySQL二进制文件时YES，即使禁用了查询缓存，此值也始终 如此。</p>
+
+<p>其他几个系统变量控制查询缓存操作。这些可以在启动mysqld时在选项文件或命令行中设置。查询缓存系统变量都具有以&hellip;开头的名称 query_cache_。第5.1.7节“服务器系统变量”中对它们进行了简要介绍 ，并在此处给出了其他配置信息。</p>
+
+<p>要设置查询缓存的大小，请设置 query_cache_size系统变量。将其设置为0将禁用查询缓存，设置也是如此query_cache_type=0。默认情况下，禁用查询缓存。这是使用默认大小1M实现的，默认 query_cache_type值为0。</p>
+
+<p>要显着降低开销，请在query_cache_type=0不使用查询缓存的情况下启动服务器 。</p>
+
+<p>注意
+使用Windows配置向导安装或配置MySQL时，query_cache_size将根据可用的不同配置类型自动为您配置默认值 。使用Windows配置向导时，由于所选配置，可能会启用查询缓存（即设置为非零值）。查询缓存也由query_cache_type变量的设置控制 。配置完成后，检查my.ini文件中设置的这些变量的值 。</p>
+
+<p>设置query_cache_size 为非零值时，请记住查询缓存需要最小大小约40KB才能分配其结构。（确切的大小取决于系统架构。）如果将值设置得太小，您将收到警告，如下例所示：</p>
+
+<p>MySQL的&gt; SET GLOBAL query_cache_size = 40000;
+查询正常，0行受影响，1警告（0.00秒）</p>
+
+<p>MySQL的&gt; SHOW WARNINGS\G
+*************************** 1. row ******************** *******
+  等级：警告
+   代码：1282
+消息：查询缓存未能设置大小39936;
+         新查询缓存大小为0</p>
+
+<p>MySQL的&gt; SET GLOBAL query_cache_size = 41984;
+查询OK，0行受影响（0.00秒）</p>
+
+<p>MySQL的&gt; SHOW VARIABLES LIKE &lsquo;query_cache_size&rsquo;;
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+| Variable_name | 值|
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+| query_cache_size | 41984 |
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+要使查询缓存实际上能够保存任何查询结果，必须将其大小设置得更大：</p>
+
+<p>MySQL的&gt; SET GLOBAL query_cache_size = 1000000;
+查询正常，0行受影响（0.04秒）</p>
+
+<p>MySQL的&gt; SHOW VARIABLES LIKE &lsquo;query_cache_size&rsquo;;
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;&ndash; +
+| Variable_name | 值|
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;&ndash; +
+| query_cache_size | 999424 |
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;&ndash; +
+一排（0.00秒）
+该query_cache_size值与最近的1024字节块对齐。因此，报告的值可能与您指定的值不同。</p>
+
+<p>如果查询缓存大小大于0，则该 query_cache_type变量会影响其工作方式。此变量可以设置为以下值：</p>
+
+<p>值的 缓存0或OFF阻止缓存或检索缓存结果的值。</p>
+
+<p>除了以那些开头的语句之外的 值的值1或ON启用缓存 SELECT SQL_NO_CACHE。</p>
+
+<p>值的值2或 DEMAND导致仅缓存那些以＃开头的语句SELECT SQL_CACHE。</p>
+
+<p>如果query_cache_size为0，则还应将query_cache_type变量设置 为0.在这种情况下，服务器根本不会获取查询缓存互斥锁，这意味着无法在运行时启用查询缓存，并且减少了查询执行的开销。</p>
+
+<p>设置该GLOBAL query_cache_type值可确定在进行更改后连接的所有客户端的查询缓存行为。各个客户端可以通过设置SESSION query_cache_type值来控制自己连接的缓存行为 。例如，客户端可以禁用查询缓存的使用，如下所示：</p>
+
+<p>MySQL的&gt; SET SESSION query_cache_type = OFF;
+如果设置query_cache_type 为服务器启动（而不是在运行时使用 SET 语句），则只允许使用数值。</p>
+
+<p>要控制可以缓存的单个查询结果的最大大小，请设置 query_cache_limit系统变量。默认值为1MB。</p>
+
+<p>注意不要将缓存的大小设置得太大。由于线程需要在更新期间锁定缓存，因此您可能会看到一个非常大的缓存的锁争用问题。</p>
+
+<p>注意
+您可以SET 使用 命令行或配置文件中的选项，使用该语句 设置可在运行时为查询缓存指定的最大大小 。 &ndash;maximum-query_cache_size=32M</p>
+
+<p>当要缓存查询时，其结果（发送到客户端的数据）在结果检索期间存储在查询缓存中。因此，数据通常不会在一个大块中处理。查询高速缓存分配用于按需存储该数据的块，因此当填充一个块时，分配新块。由于内存分配操作成本高昂（按时间），查询缓存会分配具有query_cache_min_res_unit 系统变量给定的最小大小的块 。执行查询时，将最后一个结果块修剪为实际数据大小，以释放未使用的内存。根据服务器执行的查询类型，您可能会发现调整以下值的方法很有帮助 query_cache_min_res_unit：</p>
+
+<p>默认值为 query_cache_min_res_unit 4KB。这应该适用于大多数情况。</p>
+
+<p>如果您有大量具有较小结果的查询，则默认块大小可能会导致内存碎片，如大量空闲块所示。由于内存不足，碎片可以强制查询缓存从缓存中删除（删除）查询。在这种情况下，减少值 query_cache_min_res_unit。由于修剪而删除的空闲块和查询的数量由Qcache_free_blocks和 Qcache_lowmem_prunes 状态变量的值给出 。</p>
+
+<p>如果您的大多数查询都有大的结果（检查 Qcache_total_blocks和 Qcache_queries_in_cache 状态变量），您可以通过增加来提高性能 query_cache_min_res_unit。但是，请注意不要太大（请参阅上一项）。</p>
+
+<p>8.10.3.4查询缓存状态和维护
+注意
+从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+
+<p>要检查MySQL服务器中是否存在查询缓存，请使用以下语句：</p>
+
+<p>MySQL的&gt; SHOW VARIABLES LIKE &lsquo;have_query_cache&rsquo;;
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+| Variable_name | 值|
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+| have_query_cache | 是的|
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash; + &mdash;&mdash;- +
+您可以对查询缓存进行碎片整理，以便通过FLUSH QUERY CACHE语句更好地利用其内存。该语句不会从缓存中删除任何查询。</p>
+
+<p>该RESET QUERY CACHE语句从查询缓存中删除所有查询结果。该 FLUSH TABLES声明也做到这一点。</p>
+
+<p>要监视查询缓存性能，请使用 SHOW STATUS查看缓存状态变量：</p>
+
+<p>MySQL的&gt; SHOW STATUS LIKE &lsquo;Qcache%&rsquo;;
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- + &mdash;&mdash;&ndash; +
+| Variable_name | 值|
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- + &mdash;&mdash;&ndash; +
+| Qcache_free_blocks | 36 |
+| Qcache_free_memory | 138488 |
+| Qcache_hits | 79570 |
+| Qcache_inserts | 27087 |
+| Qcache_lowmem_prunes | 3114 |
+| Qcache_not_cached | 22989 |
+| Qcache_queries_in_cache | 415 |
+| Qcache_total_blocks | 912 |
++ &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- + &mdash;&mdash;&ndash; +
+第5.1.9节“服务器状态变量” 中给出了每个变量的描述 。这里描述了它们的一些用途。</p>
+
+<p>SELECT 查询 总数由以下公式给出：</p>
+
+<p>Com_select
++ Qcache_hits
++解析器发现错误的查询
+该Com_select值由以下公式给出：</p>
+
+<p>Qcache_inserts
++ Qcache_not_cached
++在列权限检查期间发现错误的查询
+查询缓存使用可变长度的块，所以 Qcache_total_blocks与 Qcache_free_blocks可指示查询高速缓冲存储器碎片。之后 FLUSH QUERY CACHE，只剩下一个空闲区块。</p>
+
+<p>每个缓存的查询至少需要两个块（一个用于查询文本，一个或多个用于查询结果）。此外，查询使用的每个表都需要一个块。但是，如果两个或多个查询使用同一个表，则只需要分配一个表块。</p>
+
+<p>Qcache_lowmem_prunes状态变量 提供的信息 可以帮助您调整查询缓存大小。它计算已从缓存中删除的查询数，以释放内存以缓存新查询。查询缓存使用最近最少使用（LRU）策略来决定从缓存中删除哪些查询。调整信息在 第8.10.3.3节“查询高速缓存配置”中给出。</p>
+
+<p>8.10.4准备好的语句和存储程序的缓存
+对于客户端可能在会话期间多次执行的某些语句，服务器会将语句转换为内部结构并缓存要在执行期间使用的结构。缓存使服务器能够更有效地执行，因为它避免了在会话期间再次需要时重新转换语句的开销。这些语句发生转换和缓存：</p>
+
+<p>准备好的语句，包括在SQL级别（使用PREPARE语句）处理的语句和使用二进制客户端/服务器协议（使用mysql_stmt_prepare()C API函数）处理的语句 。所述 max_prepared_stmt_count 系统变量控制语句的服务器高速缓存的总数量。（所有会话中准备好的语句总数。）</p>
+
+<p>存储的程序（存储过程和函数，触发器和事件）。在这种情况下，服务器转换并缓存整个程序体。该 stored_program_cache系统变量指示存储的程序每个会话的服务器缓存的大致数量。</p>
+
+<p>服务器基于每个会话维护预准备语句和存储程序的高速缓存。其他会话无法访问为一个会话缓存的语句。会话结束时，服务器会丢弃为其缓存的任何语句。</p>
+
+<p>当服务器使用缓存的内部语句结构时，必须注意结构不会过时。对于语句使用的对象，可能会发生元数据更改，从而导致当前对象定义与内部语句结构中表示的定义不匹配。DDL语句（例如创建，删除，更改，重命名或截断表，或分析，优化或修复表）的元数据发生更改。表内容更改（例如，使用INSERT或 UPDATE）不更改元数据，也不更改SELECT语句。</p>
+
+<p>以下是问题的说明。假设客户准备此声明：</p>
+
+<pre><code>从'SELECT * FROM t1'预备s1;
+将SELECT *内部结构扩展为表中列的列表。如果修改了表中的列集，则ALTER TABLE预准备语句将过期。如果服务器在下次客户端执行时未检测到此更改s1，则预准备语句将返回不正确的结果。
+
+为了避免由预准备语句引用的表或视图的元数据更改导致的问题，服务器会检测这些更改并在下次执行时自动重新表示该语句。也就是说，服务器重新声明语句并重建内部结构。在从表定义高速缓存中刷新引用的表或视图之后，也会发生重新分析，或者隐式地为缓存中的新条目腾出空间，或者显式由于FLUSH TABLES。
+
+同样，如果存储程序使用的对象发生更改，则服务器会重新编译程序中受影响的语句。
+
+服务器还检测表达式中对象的元数据更改。这些可能会在特定的存储方案，如语句中使用DECLARE CURSOR或流量控制语句，如 IF， CASE和 RETURN。
+
+为避免重新解析整个存储的程序，服务器仅在需要时重新编译程序中受影响的语句或表达式。例子：
+
+假设更改了表或视图的元数据。重新解析为一个发生SELECT *访问的表或视图的程序中，但不是一个 SELECT *不访问该表或视图。
+
+当语句受到影响时，如果可能，服务器仅对其进行部分重新分析。请考虑以下 CASE声明：
+
+情况case_expr
+  什么时候when_expr1......
+  什么时候when_expr2......
+  什么时候when_expr3......
+  ...
+结束案例
+如果元数据更改仅影响，则会重新解析该表达式。 并且其他表达式没有被重新解析。 WHEN when_expr3case_exprWHEN
+
+重新分析使用对原始转换为内部表单有效的默认数据库和SQL模式。
+
+服务器尝试最多重新解析三次。如果所有尝试都失败，则会发生错误
+
+重新分析是自动的，但在发生这种情况时，会减少准备好的语句和存储的程序性能。
+
+对于预处理语句， Com_stmt_reprepare 状态变量跟踪重新表示的数量。
+
+
+</code></pre>
+<ul class="pa0">
+  
+   <li class="list" style="float: left;">
+     
+     <a href="/tags/sql%E4%BC%98%E5%8C%96" style="color:#FFFFFF " class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">SQL优化</a>
+   </li>
+    <li class="list" style="float: left;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </li>
+  
+</ul>
+<div class="mt6"></div>
+
+
+<div id="SOHUCS" sid="/blog/mysql/optimization-sql-cached/" ></div>
+<script type="text/javascript">
+    (function(){
+        var appid = 'cytHkUEmA';
+        var conf = 'prod_6e7b7d38e80b8603d4192a4d85f24774';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+
+    </main>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">相关文章</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-selector-2/">SQL优化【查询器优化·二】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-thread/">SQL优化【线程信息检查】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-indexes/">SQL优化【SQL索引】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-system/">SQL优化【服务器优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-total/">SQL优化【总方向】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-myisam/">SQL优化【MyISAM-表优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-sentence/">SQL优化【SQL语句】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-selector-1/">SQL优化【查询器优化·一】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-performance-measurement/">SQL优化【绩效衡量】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-total-2/">常见MYSQL调优策略</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-data-structure/">SQL优化【数据结构】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-lock/">SQL优化【锁优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-innodb/">SQL优化【InnoDB-表优化】</a>
+        </li>
+	    
+    </ul>
+</div>
+
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0"  width=300 height=400
+        src="//music.163.com/outchain/player?type=0&id=2269118953&auto=0&height=430"></iframe>
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    
+<footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://www.wuxinvip.com/" >
+    &copy; 2018 京ICP备18026588号
+    
+  </a>
+  
+
+
+
+  <a href="https://twitter.com/huoyan403" class="link-transition twitter link dib z-999 pt3 pt0-l mr2" title="Twitter link">
+    <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+  </a>
+
+
+
+
+  <a href="http://www.linkedin.com/in/%e9%95%bf-%e8%bf%9e-05215b142/" class="link-transition linkedin link dib z-999 pt3 pt0-l mr2" title="LinkedIn link">
+    <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+  </a>
+
+
+  <a href="https://github.com/wuxinvip" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="/friends-chain/" >
+    友情链接
+  </a>
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="/contact/" >
+   联系站长
+  </a>
+
+  </div>
+
+
+</footer>
+
+    
+
+
+
+<div style="display:none">
+  <script src="https://s22.cnzz.com/z_stat.php?id=1273992689&web_id=1273992689" language="JavaScript"></script>
+</div>
+  </body>

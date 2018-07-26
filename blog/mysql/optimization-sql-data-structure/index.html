@@ -1,0 +1,715 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>无心技术簿  | SQL优化【数据结构】</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+    
+    <meta name="sogou_site_verification" content="OYyzP0Cdur"/>
+    
+    <meta name="baidu_union_verify" content="809cdfb6c64fa651335f2075e055a2e6">
+    
+    <meta name="baidu-site-verification" content="Vm6jkM9VW0" />
+    
+    <meta name="google-site-verification" content="USqpH0v0l7K80xnRcaNKjnDMeNAWKjKwPYSHK1wk0oY" />
+    
+    
+      
+    <link href='/dist/css/app.8e831b6359bad500b66d8214096381de.css' rel='stylesheet' type="text/css" data-turbolinks-track="reload" />
+      
+    <link href='/dist/css/search.css' rel='stylesheet' type="text/css" data-turbolinks-track="reload" />
+      
+    
+
+    
+      
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+    
+
+    
+
+    
+
+    
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8547276212175642",
+            enable_page_level_ads: true
+        });
+    </script>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+        <div class="flex-l justify-between items-center center" >
+          <a href="https://www.wuxinvip.com/" style="font-family:kaiti"class="f3 fw2 hover-white no-underline white-90 dib">
+            无心技术簿
+          </a>
+          
+          <div class="flex-3 items-end">
+            
+              <ul class="flex-l justify-between items-center center">
+                <li class="list f5 f5-ns fw4 dib pr3">
+                <a class="hover-white no-underline white-90" href="/blog/" title="咖啡系列">
+                  咖啡系列
+                </a>
+                </li>
+                <li class="list f5 f5-ns fw4 dib pr3">
+                  <a class="hover-white no-underline white-90" href="http://search.wuxinvip.com/" title="万站灯火家">
+                    万站灯火家
+                  </a>
+                </li>
+              </ul>
+            
+          </div>
+        </div>
+    
+    <div class="webdesigntuts-workshop"><input id="aa-search-input"  type="search" placeholder="搜索..." name="search" autocomplete="off"></div>
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+<script>
+    var client = algoliasearch("SC89XM72DY", "576959787929fc9893d43b70124b49cd");
+    var index = client.initIndex('wuxinvip');
+    autocomplete('#aa-search-input',
+        { hint: false}, {
+            source: autocomplete.sources.hits(index, {hitsPerPage: 8}),
+            displayKey: 'name',
+            templates: {
+                suggestion: function(suggestion) {
+                    console.log(suggestion);
+                    return '<span  class="webdesigntuts-span">' +
+                        '<a class="webdesigntuts-a" href="/' + suggestion.uri + '">' +
+                        suggestion.title + '</a></span><br/>';
+                }
+            }
+        });
+</script>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  <article class="flex-l flex-wrap justify-between mw10 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        咖啡系列
+      </p>
+      <h1 class="fw2 athelas mb1">SQL优化【数据结构】</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2018-03-24T00:00:00Z">March 24, 2018</time>
+    </header>
+
+    <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><img src="https://upload-images.jianshu.io/upload_images/6434888-99afb8532ed7f3db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" /></p>
+
+<p>在作为数据库设计师的角色中，寻找组织模式，表和列的最有效方式。
+与调整应用程序代码时一样，您可以最大限度地减少I / O，将相关项目集中在一起，并提前进行计划，
+以便随着数据量的增加性能保持在较高水平 从高效的数据库设计开始，
+团队成员可以更轻松地编写高性能的应用程序代码，并使数据库可以随应用程序的演变和重写而持续下去。</p>
+
+<p>8.4.1优化数据大小</p>
+
+<pre><code>设计您的表格以尽量减少磁盘空间。
+这可以通过减少写入和读取磁盘的数据量来实现巨大的改进。
+在查询执行期间，较小的表格通常需要较少的主存储器，而其内容正在被主动处理。
+表数据的任何空间减少也会导致可以更快处理的更小的索引。
+
+
+MySQL支持许多不同的存储引擎（表格类型）和行格式。
+对于每个表格，您可以决定使用哪种存储和索引方法。
+为您的应用程序选择适当的表格格式可以为您带来巨大的性能提升。
+请参阅 第14章InnoDB存储引擎和 第15章备用存储引擎。
+
+
+通过使用此处列出的技术，您可以获得更好的表格性能并最小化存储空间：
+
+表列
+
+行格式
+
+索引
+
+加盟
+
+正常化
+
+表列
+尽可能使用最有效（最小）的数据类型。
+MySQL有很多专门的类型可以节省磁盘空间和内存。
+例如，如果可能的话，使用较小的整数类型来获得较小的表格。
+ MEDIUMINT通常是一个更好的选择，INT因为一 MEDIUMINT列使用的空间减少了25％。
+
+
+NOT NULL如果可能的话， 声明列。
+通过更好地使用索引并消除测试每个值是否存在开销，它使SQL操作更快NULL。
+您还可以节省一些存储空间，每列一位。
+如果您真的需要NULL表格中的值，请使用它们。
+只需避免允许NULL每列中的值的默认设置 。
+
+
+行格式
+InnoDB表格DYNAMIC默认使用行格式创建 。
+要在a 或语句中明确使用除了DYNAMIC，配置 innodb_default_row_format或指定ROW_FORMAT选项以外的行格式。
+ CREATE TABLEALTER TABLE
+
+行格式的紧凑系列，其中包括 COMPACT，DYNAMIC和COMPRESSED，以减少某些操作的CPU使用为代价来减少行存储空间。
+如果您的工作负载是受缓存命中率和磁盘速度限制的典型负载，则可能会更快。
+如果这是一个受CPU速度限制的罕见情况，则可能会变慢。
+
+
+紧凑的行格式系列还可以CHAR在使用诸如utf8mb3或的可变长度字符集时优化 列存储 utf8mb4。
+使用ROW_FORMAT=REDUNDANT， 占用字符集的最大字节长度×。
+许多语言主要使用单字节字符编写 ，因此固定的存储长度通常会浪费空间。
+使用紧凑的行格式系列，可在to 范围内分配可变数量的存储空间 CHAR(N)Nutf8InnoDBNN×通过去除尾部空格来为这些列设置字符集的最大字节长度。
+最小存储长度为 N字节，便于在典型情况下进行就地更新。
+有关更多信息，请参见 第14.8.1.2节“InnoDB表的物理行结构”。
+
+
+要通过以压缩形式存储表数据来进一步减少空间，请ROW_FORMAT=COMPRESSED在创建InnoDB表时 指定 ，或在现有表上运行 myisampack命令 MyISAM。
+（InnoDB压缩表是可读可写的，而MyISAM压缩表是只读的。
+）
+
+对于MyISAM表中，如果没有任何可变长度列（VARCHAR， TEXT，或 BLOB列），一个固定大小的行格式被使用。
+这会更快，但可能会浪费一些空间。
+请参见第15.2.3节“MyISAM表格存储格式”。
+即使VARCHAR列中包含CREATE TABLE选项 ，您也可以提示您想要固定长度的行ROW_FORMAT=FIXED。
+
+
+索引
+表格的主要索引应尽可能短。
+这使得每一行的识别简单且高效。
+对于InnoDB表，主键列在每个二级索引条目中都是重复的，所以如果有很多二级索引，则较短的主键会节省相当多的空间。
+
+
+只创建您需要提高查询性能的索引。
+索引很适合检索，但会减慢插入和更新操作。
+如果您主要通过在列组合上搜索来访问表，请在其上创建一个合成索引，而不是每个列的单独索引。
+指数的第一部分应该是最常用的列。
+如果从表格中选择时总是使用多列，则索引中的第一列应该是重复次数最多的列，以便更好地压缩索引。
+
+
+如果长字符串列很可能在第一个字符数上有一个唯一的前缀，那么最好只索引这个前缀，使用MySQL支持在列的最左边部分创建一个索引（请参见第13.1.14节，“CREATE INDEX Syntax”）。
+更短的索引速度更快，不仅因为它们需要更少的磁盘空间，还因为它们还会在索引缓存中为您提供更多的点击量，因此磁盘搜索量更少。
+请参见 第5.1.1节“配置服务器”。
+
+
+加盟
+在某些情况下，分割成两个经常扫描的表格可能是有益的。
+如果它是一个动态格式的表格，并且可以使用一个较小的静态格式表格来扫描表格时可以用来查找相关的行，那么情况尤其如此。
+
+
+在具有相同数据类型的不同表中使用相同信息声明列，以根据相应列加快联接。
+
+
+保持列名简单，以便您可以在不同的表中使用相同的名称并简化连接查询。
+例如，在一个名为table的表中customer，使用一个列名来name代替 customer_name。
+为了让您的名字可移植到其他SQL服务器，请考虑将它们保持为少于18个字符。
+
+
+正常化
+通常，尽量保持所有数据不冗余（观察数据库理论中提到的 第三范式）。
+不必重复诸如名称和地址之类的冗长值，而是为它们分配唯一的ID，根据需要在多个较小的表中重复这些ID，并通过引用join子句中的ID来加入查询中的表。
+
+
+如果速度比磁盘空间更重要以及保留多个数据副本的维护成本（例如，在分析大型表中的所有数据的商业智能场景中），则可以放宽规范化规则，复制信息或创建汇总表以获得更多速度。
+
+</code></pre>
+
+<p>8.4.2优化MySQL数据类型
+8.4.2.1优化数字数据
+8.4.2.2优化字符和字符串类型
+8.4.2.3优化BLOB类型
+8.4.2.4使用PROCEDURE ANALYZE
+8.4.2.1优化数字数据</p>
+
+<pre><code>对于可以表示为字符串或数字的唯一ID或其他值，首选数字列来对字符串进行字符串。
+由于较大的数值可以以比相应的字符串更少的字节存储，因此速度更快，并且需要更少的内存来传输和比较它们。
+
+
+如果您使用的是数字数据，在许多情况下访问数据库（使用实时连接）的信息比访问文本文件要快。
+数据库中的信息可能以比文本文件更紧凑的格式存储，因此访问它涉及更少的磁盘访问。
+您还可以将代码保存在应用程序中，因为您可以避免解析文本文件以查找行和列边界。
+
+</code></pre>
+
+<p>8.4.2.2优化字符和字符串类型</p>
+
+<pre><code>对于字符和字符串列，请遵循以下准则：
+
+如果不需要特定于语言的归类功能，请使用二进制归类顺序进行快速比较和排序操作。
+您可以使用 BINARY操作员在特定查询中使用二进制排序规则。
+
+
+在比较不同列的值时，尽可能使用相同的字符集和归类来声明这些列，以避免在运行查询时进行字符串转换。
+
+
+对于小于8KB大小的列值，请使用二进制 VARCHAR代替 BLOB。
+该GROUP BY 和ORDER BY条款可以生成临时表，这些临时表可以使用的 MEMORY存储引擎，如果原来的表不包含任何BLOB 列。
+
+
+如果一个表包含字符串列（如名称和地址），但许多查询不检索这些列，请考虑将字符串列拆分为单独的表，并在必要时使用具有外键的连接查询。
+当MySQL从一行中检索任何值时，它会读取一个包含该行所有列（可能还有其他相邻行）的数据块。
+保持每行较小，只有最常用的列，允许更多的行适合每个数据块。
+这些紧凑的表格减少了常见查询的磁盘I / O和内存使用量。
+
+
+在表中使用随机生成的值作为主键InnoDB时，如果可能，请使用升序值（如当前日期和时间）作为前缀。
+当连续的主值被物理地存储在彼此附近时，InnoDB可以更快地插入和检索它们。
+
+
+有关数字列通常比等效字符串列更可取的原因，请参见第8.4.2.1节“针对数字数据优化”。
+
+</code></pre>
+
+<p>8.4.2.3优化BLOB类型</p>
+
+<pre><code>存储包含文本数据的大块时，请考虑先压缩它。
+当整个表被压缩，则不能使用这种技术 InnoDB或MyISAM。
+
+
+对于包含多个列的表，为了减少不使用BLOB列的查询的内存要求，请考虑将BLOB列拆分为单独的表，并在需要时使用连接查询引用它。
+
+
+由于检索和显示BLOB值的性能要求可能与其他数据类型有很大的不同，因此可以将BLOB特定的表放在不同的存储设备上，甚至是单独的数据库实例中。
+例如，要检索BLOB可能需要大量的顺序磁盘读取，这比较适合传统硬盘驱动器而非 SSD设备。
+
+
+有关二进制列有时比等效BLOB列更可取的原因，请参见第8.4.2.2节“优化字符和字符串类型”VARCHAR。
+
+
+您可以将列值的散列存储在单独的列中，对该列进行索引并在查询中测试散列值，而不是针对非常长的文本字符串测试相等性。
+（使用MD5()或 CRC32()函数来生成散列值。
+）由于散列函数可能会为不同的输入产生重复结果，因此您仍然在查询中包含一个子句 以防止错误匹配; 性能优势来自散列值的更小，易于扫描的索引。
+ AND blob_column = long_string_value
+</code></pre>
+
+<p>8.4.2.4使用PROCEDURE ANALYZE</p>
+
+<pre><code>ANALYSE([max_elements[,max_memory]])
+
+注意
+PROCEDURE ANALYSE() 从MySQL 5.7.18开始已弃用，并在MySQL 8.0中删除。
+
+
+ANALYSE()检查查询的结果并返回结果分析，为每列提供最佳数据类型，这可能有助于减小表格大小。
+要获得此分析，请附加PROCEDURE ANALYSE到SELECT声明的结尾处 ：
+
+SELECT ... FROM ... WHERE ... PROCEDURE ANALYZE（[ max_elements，[ max_memory]]）
+例如：
+
+SELECT col1，col2 FROM table1 PROCEDURE ANALYZE（10，2000）;
+结果显示查询返回值的一些统计信息，并为列提出最佳数据类型。
+这对于检查现有表格或导入新数据后可能会有所帮助。
+您可能需要为参数尝试不同的设置，以便在PROCEDURE ANALYSE()不适ENUM当时不会显示 数据类型。
+
+
+参数是可选的，使用如下：
+
+max_elements（默认值为256）是ANALYSE()每列通知的最大不同值的数量 。
+这用于ANALYSE()检查最佳数据类型是否应该是类型的 ENUM; 如果有多个max_elements不同的值，则ENUM不是建议的类型。
+
+
+max_memory（默认8192）是ANALYSE()在尝试查找所有不同值时应分配每列的最大内存量 。
+
+
+一个PROCEDURE条款是不是在允许的 UNION声明。
+
+
+8.4.3优化许多表
+8.4.3.1 MySQL如何打开和关闭表格
+8.4.3.2在同一数据库中创建多个表的缺点
+一些快速保存单个查询的技术涉及将数据分割到多个表中。
+当表的数量达到数千甚至数百万时，处理所有这些表的开销成为新的性能考虑因素。
+</code></pre>
+
+<p>8.4.3.1 MySQL如何打开和关闭表格</p>
+
+<pre><code>当你执行mysqladmin status 命令时，你应该看到如下所示的内容：
+
+正常运行时间：426正在运行的线程：1问题：11082
+重新加载：1打开表格：12
+Open tables如果你只有六张桌子，12 的价值可能会有点令人费解。
+
+
+MySQL是多线程的，因此可能有很多客户端同时为给定的表发出查询。
+为了尽量减少多个客户端会话在同一个表上具有不同状态的问题，该表由每个并发会话独立打开。
+这使用额外的内存，但通常会提高性能。
+使用MyISAM表格，打开表格的每个客户端的数据文件都需要一个额外的文件描述符。
+（相比之下，索引文件描述符在所有会话之间共享。
+）
+
+该table_open_cache和 max_connections系统变量影响服务器保持打开的文件的最大数量。
+如果您增加这些值中的一个或两个，则可能会遇到操作系统对每个进程打开的文件描述符数量施加的限制。
+许多操作系统允许您增加打开文件的限制，但方法在系统之间差别很大。
+请查阅您的操作系统文档以确定是否可以增加限制以及如何这样做。
+
+
+table_open_cache与...有关max_connections。
+例如，对于200个并发运行连接，请至少指定一个表缓存大小，其中 是您执行的任何查询中每个连接的最大表数量。
+您还必须为临时表和文件保留一些额外的文件描述符。
+ 200 * NN
+
+确保您的操作系统可以处理table_open_cache设置隐含的打开文件描述符的数量 。
+如果 table_open_cache设置得太高，MySQL可能会耗尽文件描述符并拒绝连接，无法执行查询，并且非常不可靠。
+
+
+您还应该考虑到MyISAM存储引擎对于每个独特的打开表格需要两个文件描述符的事实 。
+对于分区 MyISAM表，打开的表的每个分区都需要两个文件描述符。
+（还要注意，当MyISAM打开一个分区表时，它会打开这个表的每个分区，不管是否实际使用了一个给定的分区，参见 MyISAM和分区文件描述符的用法。
+）可以使用 --open-files-limit启动选项到mysqld。
+参见 第B.5.2.17节“找不到文件和类似的错误”。
+
+
+打开表格的缓存保存在table_open_cache条目级别 。
+服务器在启动时自动调整缓存大小。
+要明确设置大小，请table_open_cache在启动时设置 系统变量。
+请注意，MySQL可能暂时打开更多的表来执行查询。
+
+
+在下列情况下，MySQL会关闭一个未使用的表并将其从表缓存中删除：
+
+当缓存已满并且线程尝试打开不在缓存中的表时。
+
+
+当缓存包含多个table_open_cache条目并且缓存中 的表不再被任何线程使用时。
+
+
+表冲洗操作发生时。
+当有人发出FLUSH TABLES语句或执行 mysqladmin flush-tables或 mysqladmin refresh命令时会发生这种情况。
+
+
+当表缓存填满时，服务器使用以下过程来查找要使用的缓存条目：
+
+当前未使用的表格被释放，从最近使用的表格开始。
+
+
+如果需要打开新表，但缓存已满并且没有表可以释放，则缓存将根据需要暂时扩展。
+当缓存处于临时扩展状态并且表从已使用状态变为未使用状态时，表将关闭并从缓存中释放。
+
+
+MyISAM为每个并发访问打开 一个表。
+这意味着如果两个线程访问同一个表，或者一个线程在同一个查询中访问了两次表（例如，通过将表连接到它自己），则需要打开两次表。
+每个并发打开需要表缓存中的条目。
+任何MyISAM表的第一次打开 需要两个文件描述符：一个用于数据文件，一个用于索引文件。
+该表的每次额外使用仅为数据文件提供一个文件描述符。
+索引文件描述符在所有线程之间共享。
+
+
+如果您正在使用该语句打开一个表，则会为该线程分配一个专用表对象。
+此表对象不被其他线程共享，并且在线程调用或线程终止之前不会关闭。
+发生这种情况时，该表将放回表缓存中（如果缓存未满）。
+请参见 第13.2.4节“HANDLER语法”。
+ HANDLER tbl_name OPENHANDLER tbl_name CLOSE
+
+您可以通过检查mysqld状态变量来确定表缓存是否过小，该变量 Opened_tables指示自服务器启动以来的表开放操作数：
+
+MySQL的&gt; SHOW GLOBAL STATUS LIKE 'Opened_tables';
++ --------------- + ------- +
+| 变量名| 值|
++ --------------- + ------- +
+| Opened_tables | 2741 |
++ --------------- + ------- +
+如果该值非常大或快速增加，即使您没有发出很多FLUSH TABLES语句，也要增加表缓存大小。
+请参见第5.1.7节“服务器系统变量”和 第5.1.9节“服务器状态变量”。
+</code></pre>
+
+<p>8.4.3.2在同一数据库中创建多个表的缺点</p>
+
+<pre><code>如果MyISAM在同一数据库目录中有多个表，则打开，关闭和创建操作会很慢。
+如果您SELECT 在许多不同的表上执行语句，那么当表缓存满时会有一些开销，因为对于每个必须打开的表，必须关闭另一个表。
+您可以通过增加表缓存中允许的条目数来减少此开销。
+
+</code></pre>
+
+<p>8.4.4在MySQL中使用内部临时表</p>
+
+<pre><code>在某些情况下，服务器在处理语句时创建内部临时表。
+用户无法直接控制何时发生。
+
+
+服务器在如下条件下创建临时表：
+
+对UNION 报表的评估，稍后会有一些例外情况。
+
+
+评估一些视图，例如那些使用TEMPTABLE算法 UNION或聚合的视图 。
+
+
+派生表的评估（见 第13.2.10.8节“派生表”）。
+
+
+为子查询或半连接实现创建的表（请参见第8.2.2节“优化子查询，派生表和视图引用”）。
+
+
+评估包含一个ORDER BY子句和一个不同GROUP BY子句的语句，ORDER BY或者GROUP BY包含来自除连接队列中的第一个表以外的表的列或包含该列的语句。
+
+
+DISTINCT结合 评估ORDER BY可能需要临时表。
+
+
+对于使用SQL_SMALL_RESULT 修饰符的查询，MySQL使用内存中的临时表，除非查询还包含需要磁盘存储的元素（稍后介绍）。
+
+
+为了评估 INSERT ... SELECT从同一个表中选择并插入到同一个表中的语句，MySQL创建一个内部临时表来存放来自该表的行 SELECT，然后将这些行插入到目标表中。
+请参见 第13.2.5.1节“INSERT ... SELECT语法”。
+
+
+评估多表 UPDATE报表。
+
+
+评估GROUP_CONCAT() 或COUNT(DISTINCT) 表达。
+
+
+要确定某个语句是否需要临时表，请使用 EXPLAIN并检查该 Extra列以查看它是否显示 Using temporary（请参见 第8.8.1节“使用EXPLAIN优化查询”）。
+对于派生或物化临时表格EXPLAIN 不一定会说Using temporary。
+
+
+当服务器创建内部临时表（无论是在内存中还是在磁盘上）时，它都会增加 Created_tmp_tables状态变量。
+如果服务器在磁盘上创建表（最初或通过转换内存表），它将增加 Created_tmp_disk_tables状态变量。
+
+
+某些查询条件会阻止使用内存中的临时表，在这种情况下，服务器会使用磁盘上的表：
+
+表中存在一列BLOB或一 TEXT列。
+这包括具有字符串值的用户定义变量，因为它们被视为 BLOB或 TEXT列，这取决于它们的值分别是二进制还是非二进制字符串。
+
+
+SELECT如果使用UNION或 UNION ALL 使用列表中 最大长度大于512（二进制字符串的字节，非二进制字符串的字符）的任何字符串列。
+
+
+的SHOW COLUMNS和 DESCRIBE语句中使用 BLOB作为用于某些列的类型，从而用于结果的临时表是磁盘上的表。
+
+
+服务器不会为UNION符合某些资格的语句使用临时表 。
+相反，它从临时表创建中仅保留执行结果列类型转换所需的数据结构。
+该表没有完全实例化，没有行被写入或读取; 行直接发送到客户端。
+结果是内存和磁盘需求减少，第一行发送到客户端之前的延迟更小，因为服务器不需要等到最后一个查询块被执行。
+EXPLAIN而优化器跟踪输出反映了这种执行策略： UNION RESULT 查询块不存在，因为该块对应于从临时表读取的部分。
+
+
+这些条件有资格在UNION没有临时表的情况下进行评估：
+
+工会是UNION ALL，不是 UNION或UNION DISTINCT。
+
+
+没有全球ORDER BY条款。
+
+
+联合不是{INSERT | REPLACE} ... SELECT ... 语句的顶级查询块 。
+
+</code></pre>
+
+<p>内部临时表存储引擎</p>
+
+<pre><code>内部临时表可以在内存中保持并且由处理MEMORY存储引擎，或者由存储在磁盘上InnoDB或 MyISAM存储引擎。
+
+
+如果内部临时表被创建为内存表，但变得太大，MySQL会自动将其转换为磁盘上的表。
+内存中临时表的最大大小取决于哪个值tmp_table_size和 max_heap_table_size更小值 。
+这与MEMORY显式创建的表有所不同CREATE TABLE：对于这些表，只有 max_heap_table_size系统变量决定允许表增长多少，并且没有转换为磁盘格式。
+
+
+所述 internal_tmp_disk_storage_engine 系统变量确定哪个存储引擎服务器使用来管理的磁盘上的内部临时表。
+允许的值是INNODB（默认值）和 MYISAM。
+
+
+注意
+使用时 internal_tmp_disk_storage_engine=INNODB，生成超出InnoDB 行或列限制的磁盘内部临时表的查询 将返回行大小过大或列 错误过多。
+解决方法是设置 internal_tmp_disk_storage_engine 为MYISAM。
+
+
+内部临时表格存储格式
+内存中的临时表由MEMORY存储引擎管理，该 引擎使用固定长度的行格式。
+VARCHAR并且 VARBINARY列值被填充到最大列长度，实际上将它们存储为 CHAR和BINARY列。
+
+
+在磁盘上的临时表由管理 InnoDB或MyISAM存储引擎（取决于 internal_tmp_disk_storage_engine 设置）。
+两个引擎都使用动态宽度行格式存储临时表。
+列只根据需​​要获取尽可能多的存储空间，与使用固定长度行的磁盘表相比，它减少了磁盘I / O和空间要求以及处理时间。
+
+
+对于最初在内存中创建内部临时表的语句，然后将其转换为磁盘上表，通过跳过转换步骤并在磁盘上创建表开始，可以获得更好的性能。
+所述 big_tables系统变量可以用来迫使内部临时表的磁盘存储。
+</code></pre>
+<ul class="pa0">
+  
+   <li class="list" style="float: left;">
+     
+     <a href="/tags/sql%E4%BC%98%E5%8C%96" style="color:#FFFFFF " class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">SQL优化</a>
+   </li>
+    <li class="list" style="float: left;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </li>
+  
+</ul>
+<div class="mt6"></div>
+
+
+<div id="SOHUCS" sid="/blog/mysql/optimization-sql-data-structure/" ></div>
+<script type="text/javascript">
+    (function(){
+        var appid = 'cytHkUEmA';
+        var conf = 'prod_6e7b7d38e80b8603d4192a4d85f24774';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+
+    </main>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">相关文章</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-lock/">SQL优化【锁优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-innodb/">SQL优化【InnoDB-表优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-myisam/">SQL优化【MyISAM-表优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-performance-measurement/">SQL优化【绩效衡量】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-system/">SQL优化【服务器优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-total/">SQL优化【总方向】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-cached/">SQL优化【缓存优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-thread/">SQL优化【线程信息检查】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-selector-2/">SQL优化【查询器优化·二】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-total-2/">常见MYSQL调优策略</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-indexes/">SQL优化【SQL索引】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-selector-1/">SQL优化【查询器优化·一】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-sentence/">SQL优化【SQL语句】</a>
+        </li>
+	    
+    </ul>
+</div>
+
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0"  width=300 height=400
+        src="//music.163.com/outchain/player?type=0&id=2269118953&auto=0&height=430"></iframe>
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    
+<footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://www.wuxinvip.com/" >
+    &copy; 2018 京ICP备18026588号
+    
+  </a>
+  
+
+
+
+  <a href="https://twitter.com/huoyan403" class="link-transition twitter link dib z-999 pt3 pt0-l mr2" title="Twitter link">
+    <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+  </a>
+
+
+
+
+  <a href="http://www.linkedin.com/in/%e9%95%bf-%e8%bf%9e-05215b142/" class="link-transition linkedin link dib z-999 pt3 pt0-l mr2" title="LinkedIn link">
+    <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+  </a>
+
+
+  <a href="https://github.com/wuxinvip" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="/friends-chain/" >
+    友情链接
+  </a>
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="/contact/" >
+   联系站长
+  </a>
+
+  </div>
+
+
+</footer>
+
+    
+
+
+
+<div style="display:none">
+  <script src="https://s22.cnzz.com/z_stat.php?id=1273992689&web_id=1273992689" language="JavaScript"></script>
+</div>
+  </body>

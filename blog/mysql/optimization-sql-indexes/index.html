@@ -1,0 +1,955 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>无心技术簿  | SQL优化【SQL索引】</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+
+    
+    <meta name="sogou_site_verification" content="OYyzP0Cdur"/>
+    
+    <meta name="baidu_union_verify" content="809cdfb6c64fa651335f2075e055a2e6">
+    
+    <meta name="baidu-site-verification" content="Vm6jkM9VW0" />
+    
+    <meta name="google-site-verification" content="USqpH0v0l7K80xnRcaNKjnDMeNAWKjKwPYSHK1wk0oY" />
+    
+    
+      
+    <link href='/dist/css/app.8e831b6359bad500b66d8214096381de.css' rel='stylesheet' type="text/css" data-turbolinks-track="reload" />
+      
+    <link href='/dist/css/search.css' rel='stylesheet' type="text/css" data-turbolinks-track="reload" />
+      
+    
+
+    
+      
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+    
+
+    
+
+    
+
+    
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8547276212175642",
+            enable_page_level_ads: true
+        });
+    </script>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+        <div class="flex-l justify-between items-center center" >
+          <a href="https://www.wuxinvip.com/" style="font-family:kaiti"class="f3 fw2 hover-white no-underline white-90 dib">
+            无心技术簿
+          </a>
+          
+          <div class="flex-3 items-end">
+            
+              <ul class="flex-l justify-between items-center center">
+                <li class="list f5 f5-ns fw4 dib pr3">
+                <a class="hover-white no-underline white-90" href="/blog/" title="咖啡系列">
+                  咖啡系列
+                </a>
+                </li>
+                <li class="list f5 f5-ns fw4 dib pr3">
+                  <a class="hover-white no-underline white-90" href="http://search.wuxinvip.com/" title="万站灯火家">
+                    万站灯火家
+                  </a>
+                </li>
+              </ul>
+            
+          </div>
+        </div>
+    
+    <div class="webdesigntuts-workshop"><input id="aa-search-input"  type="search" placeholder="搜索..." name="search" autocomplete="off"></div>
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+<script>
+    var client = algoliasearch("SC89XM72DY", "576959787929fc9893d43b70124b49cd");
+    var index = client.initIndex('wuxinvip');
+    autocomplete('#aa-search-input',
+        { hint: false}, {
+            source: autocomplete.sources.hits(index, {hitsPerPage: 8}),
+            displayKey: 'name',
+            templates: {
+                suggestion: function(suggestion) {
+                    console.log(suggestion);
+                    return '<span  class="webdesigntuts-span">' +
+                        '<a class="webdesigntuts-a" href="/' + suggestion.uri + '">' +
+                        suggestion.title + '</a></span><br/>';
+                }
+            }
+        });
+</script>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  <article class="flex-l flex-wrap justify-between mw10 center">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        咖啡系列
+      </p>
+      <h1 class="fw2 athelas mb1">SQL优化【SQL索引】</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2018-03-24T00:00:00Z">March 24, 2018</time>
+    </header>
+
+    <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><img src="https://upload-images.jianshu.io/upload_images/6434888-3abe1a92a6358cf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" /></p>
+
+<p>提高操作性能的最佳方法 SELECT是在查询中测试的一列或多列上创建索引。
+索引条目就像指向表行的指针，允许查询快速确定哪些行与WHERE子句中的条件匹配，并检索这些行的其他列值。
+所有的MySQL数据类型都可以被索引。</p>
+
+<p>尽管为查询中使用的每个可能的列创建索引是很诱人的，但不必要的索引会浪费空间并浪费时间让MySQL确定要使用的索引。
+索引还会增加插入，更新和删除的成本，因为每个索引都必须更新。
+您必须找到适当的平衡，才能使用最佳索引集实现快速查询。</p>
+
+<p>8.3.1 MySQL如何使用索引</p>
+
+<pre><code>索引用于快速查找具有特定列值的行。
+如果没有索引，MySQL必须从第一行开始，然后读取整个表以查找相关行。
+表格越大，成本越高。
+如果表中有相关​​列的索引，MySQL可以快速确定在数据文件中间寻找的位置，而无需查看所有数据。
+这比按顺序读取每一行要快得多。
+
+
+大多数MySQL索引（PRIMARY KEY， UNIQUE，INDEX和 FULLTEXT）存储在 B树。
+例外：空间数据类型的索引使用R树; MEMORY 表还支持散列索引 ; 索引InnoDB使用倒排列表FULLTEXT。
+
+
+一般来说，索引的使用将在下面的讨论中描述。
+第8.3.8节“B树和散列索引的比较”MEMORY中描述了特定于散列索引的特性（如表中所用 ） 。
+
+
+MySQL使用这些操作的索引：
+
+WHERE快速 查找与子句匹配的行。
+
+
+考虑排除行。
+如果在多个索引之间有选择，MySQL通常使用找到最少行数的索引（最具 选择性的索引）。
+
+
+如果表具有多列索引，则优化器可以使用该索引的任何最左边的前缀来查找行。
+例如，如果你有一个三列索引上 (col1, col2, col3)，你有索引的搜索功能(col1)， (col1, col2)以及(col1, col2, col3)。
+有关更多信息，请参见 第8.3.5节“多列索引”。
+
+
+在执行连接时从其他表中检索行。
+如果它们被声明为相同的类型和大小，MySQL可以更有效地在列上使用索引。
+在这种情况下， VARCHAR与 CHAR被认为是相同的，如果它们被声明为相同的大小。
+例如， VARCHAR(10)和 CHAR(10)大小相同，但 VARCHAR(10)与 CHAR(15)不是。
+
+
+为了比较非二进制字符串列，两列应使用相同的字符集。
+例如，将utf8列与 latin1列进行比较将排除索引的使用。
+
+
+比较不同的列（例如，比较字符串列与时间或数字列）可能会阻止使用索引，如果无法直接比较值而不进行转换。
+对于给定的值，如1 在数值列，它可能比较等于在字符串列，例如任何数量的值 '1'，' 1'， '00001'，或'01.e1'。
+这排除了字符串列的任何索引的使用。
+
+
+查找特定索引列的值MIN()或 MAX()值key_col。
+这由预处理器进行了优化，该预处理器检查您是否使用 索引中之前发生的所有关键部件。
+在这种情况下，MySQL会为每个表达式或 单个表达式执行单键查找，并用常量替换它。
+如果所有表达式都被常量替换，则查询立即返回。
+例如： WHERE key_part_N = constantkey_colMIN()MAX()
+
+SELECT MIN（key_part2），MAX（key_part2）
+  FROM tbl_nameWHERE key_part1= 10;
+如果排序或分组是在可用索引的最左侧前缀（例如，）上完成，则对表排序或分组 。
+如果所有关键部件都紧随其后，则按相反的顺序读取钥匙。
+请参见 第8.2.1.13节“按优化排序”和 第8.2.1.14节“GROUP BY优化”。
+ ORDER BY key_part1, key_part2DESC
+
+在某些情况下，可以优化查询以在不查询数据行的情况下检索值。
+（为查询提供所有必要结果的索引称为 覆盖索引。
+）如果查询仅使用表中某些索引中包含的列，则可以从索引树中检索所选值以获得更高的速度：
+
+SELECT key_part3FROM tbl_name
+  WHERE key_part1= 1
+索引对于小型表或查询处理大部分或全部行的大型表的查询不太重要。
+当查询需要访问大多数行时，顺序读取比通过索引处理更快。
+即使并非查询所需的所有行，顺序读取也会使磁盘搜索次数最小化。
+有关详细信息，请参见第8.2.1.19节“避免全表扫描”。
+
+</code></pre>
+
+<p>8.3.2主键优化</p>
+
+<pre><code>表的主键表示您在最重要的查询中使用的一列或一组列。
+它有一个关联索引，用于快速查询性能。
+查询性能从NOT NULL优化中受益，因为它不能包含任何NULL值。
+通过InnoDB存储引擎，表格数据的物理组织可以进行超快速查找，并根据主键列进行排序。
+
+
+如果您的表格很重要，但没有明显的列或一组列作为主键，那么您可以创建一个带有自动增量值的单独列作为主键。
+当您使用外键连接表时，这些唯一ID可用作指向其他表中相应行的指针。
+
+</code></pre>
+
+<p>8.3.3外键优化</p>
+
+<pre><code>如果一个表有许多列，并且查询了许多不同的列组合，将不常用的数据拆分为每列有几列的单独表格，并通过复制数字ID将它们关联回主表可能很有效主表中的列。
+这样，每个小表可以有一个快速查找其数据的主键，并且可以使用连接操作仅查询需要的一组列。
+根据数据的分布情况，查询可能会执行较少的I / O并占用较少的缓存内存，因为相关列在磁盘上打包在一起。
+（为了最大限度提高性能，查询尝试从磁盘读取尽可能少的数据块;
+</code></pre>
+
+<p>8.3.4列索引</p>
+
+<pre><code>最常见的索引类型涉及单列，将该列中值的副本存储在数据结构中，从而允许快速查找具有相应列值的行。
+B树数据结构可以让索引快速查找特定值，一组值，或值的范围，对应于运营商，如=， &gt;，≤， BETWEEN，IN，等等，一在WHERE子句。
+
+
+每个表的最大索引数和最大索引长度是根据每个存储引擎定义的。
+请参阅 第14章InnoDB存储引擎和 第15章备用存储引擎。
+所有存储引擎每个表至少支持16个索引，总索引长度至少为256个字节。
+大多数存储引擎有更高的限制。
+
+
+有关列索引的其他信息，请参见 第13.1.14节“CREATE INDEX语法”。
+
+
+索引前缀
+
+FULLTEXT索引
+
+空间索引
+
+MEMORY存储引擎中的索引
+
+索引前缀
+使用 字符串列的索引规范中的语法，可以创建仅使用列的前几个字符的索引 。
+以这种方式仅索引列值的前缀可以使索引文件更小。
+索引一 列或一 列时，您 必须为该索引指定一个前缀长度。
+例如： col_name(N)NBLOBTEXT
+
+CREATE TABLE测试（blob_col BLOB，INDEX（blob_col（10）））;
+前缀长度可以达到1000字节（InnoDB表格为767字节 ，除非已 innodb_large_prefix设置）。
+
+
+注意
+前缀限制以字节为单位，而在前缀长度CREATE TABLE， 
+    ALTER TABLE和 CREATE INDEX语句被解释为非二进制串类型的字符数（CHAR， VARCHAR， TEXT二进制串类型（）和字节数BINARY， VARBINARY， BLOB）。
+为使用多字节字符集的非二进制字符串列指定前缀长度时，请考虑这一点。
+
+
+有关索引前缀的更多信息，请参见 第13.1.14节“CREATE INDEX语法”。
+
+
+FULLTEXT索引
+FULLTEXT索引用于全文搜索。
+只有InnoDB和 MyISAM存储引擎支持 FULLTEXT索引和仅适用于 CHAR， VARCHAR和 TEXT列。
+索引始终在整个列上进行，并且不支持列前缀索引。
+有关详细信息，请参见 第12.9节“全文搜索功能”。
+
+
+优化适用于FULLTEXT针对单个InnoDB表的某些类型的 查询 。
+具有这些特征的查询特别有效：
+
+FULLTEXT 只返回文档ID或文档ID和搜索等级的查询。
+
+
+FULLTEXT查询按匹配的降序对匹配的行进行排序，并应用一个 LIMIT子句获取前N个匹配行。
+为了应用这种优化，不得有 WHERE条款并且只有一个 ORDER BY条款按降序排列。
+
+
+FULLTEXT只检索COUNT(*)与搜索词相匹配的行的 值的查询，没有附加WHERE 子句。
+将该WHERE子句编码为 没有任何比较运算符。
+ WHERE MATCH(text) AGAINST ('other_text')&gt; 0
+
+对于包含全文表达式的查询，MySQL会在查询执行的优化阶段评估这些表达式。
+优化器不仅查看全文表达式并进行估计，而且在开发执行计划的过程中实际评估它们。
+
+
+此行为的含义是， EXPLAIN对于全文查询，通常比在优化阶段没有进行表达式评估的非全文查询要慢。
+
+
+EXPLAIN由于在优化过程中发生匹配，全文查询可能会显示Select tables optimized away在Extra列中; 在这种情况下，在稍后的执行过程中不需要进行表访问。
+
+
+空间索引
+您可以创建空间数据类型的索引。
+ MyISAM并InnoDB 支持空间类型的R-tree索引。
+其他存储引擎使用B树来索引空间类型（除了 ARCHIVE不支持空间类型索引）。
+
+
+MEMORY存储引擎中的索引
+该MEMORY存储引擎使用 HASH默认的索引，而且还支持 BTREE索引。
+
+</code></pre>
+
+<p>8.3.5多列索引</p>
+
+<pre><code>MySQL可以创建复合索引（即多列索引）。
+索引最多可以包含16列。
+对于某些数据类型，您可以索引列的前缀（请参见 第8.3.4节“列索引”）。
+
+
+MySQL可以对测试索引中所有列的查询使用多列索引，或者只测试第一列，前两列，前三列等等的查询。
+如果您在索引定义中以正确顺序指定列，则单个组合索引可以加速同一个表上的多种查询。
+
+
+多列索引可以被认为是一个有序数组，其行包含通过连接索引列的值创建的值。
+
+
+注意
+作为组合索引的替代方法，您可以引入基于来自其他列的信息的“ 哈希 ”列。
+如果此列较短，合理唯一且编制索引，则它可能比许多列上的“ 宽 ”索引更快。
+在MySQL中，使用这个额外的列非常容易：
+
+SELECT * FROM tbl_name
+  WHERE hash_col= MD5（CONCAT（val1，val2））
+  AND col1= val1AND col2= val2;
+假设一张表具有以下规格：
+
+CREATE TABLE测试（
+    id INT NOT NULL，
+    last_name CHAR（30）NOT NULL，
+    first_name CHAR（30）NOT NULL，
+    PRIMARY KEY（id），
+    INDEX名称（姓氏，名字）
+）;
+该name指数是在一个索引 last_name和first_name 列。
+该索引可用于在查询中查找，以指定已知范围中的 值last_name和first_name值的组合 。
+它也可以用于仅指定last_name值的查询， 因为该列是索引的最左边的前缀（如本节后面所述）。
+因此，该name索引用于以下查询中的查找：
+
+SELECT * FROM test WHERE last_name ='Widenius';
+
+SELECT * FROM测试
+  WHERE last_name ='Widenius'AND first_name ='Michael';
+
+SELECT * FROM测试
+  WHERE last_name ='Widenius'
+  AND（first_name ='Michael'OR first_name ='Monty'）;
+
+SELECT * FROM测试
+  WHERE last_name ='Widenius'
+  AND first_name&gt; ='M'AND first_name &lt;'N';
+但是，name索引 不用于以下查询中的查找：
+
+SELECT * FROM test WHERE first_name ='Michael';
+
+SELECT * FROM测试
+  WHERE last_name ='Widenius'OR first_name ='Michael';
+假设您发出以下 SELECT声明：
+
+SELECT * FROM tbl_name
+  WHERE col1 = val1AND col2 = val2;
+如果一个多列索引存在于col1和 col2，相应的行可以直接取出。
+如果在col1和上存在单独的单列索引 col2，优化器将尝试使用索引合并优化（请参见 第8.2.1.3节“索引合并优化”），
+    或尝试通过确定哪个索引排除更多行并使用它来尝试查找最具限制性的索引该索引来获取行。
+
+
+如果表具有多列索引，则优化器可以使用该索引的任何最左边的前缀来查找行。
+例如，如果你有一个三列索引上(col1, col2, col3)，你有索引的搜索功能 (col1)，(col1, col2)以及 (col1, col2, col3)。
+
+
+如果列不构成索引的最左边的前缀，则MySQL不能使用索引执行查找。
+假设你有SELECT这里显示的语句：
+
+SELECT * FROM tbl_nameWHERE col1 = val1;
+SELECT * FROM tbl_nameWHERE col1 = val1AND col2 = val2;
+
+SELECT * FROM tbl_nameWHERE col2 = val2;
+SELECT * FROM tbl_nameWHERE col2 = val2AND col3 = val3;
+如果索引存在(col1, col2, col3)，则只有前两个查询使用该索引。
+第三和第四个查询确实包括索引的列，但不使用索引来进行查找，因为(col2)和 (col2, col3)不是的最左边的前缀 (col1, col2, col3)。
+
+
+</code></pre>
+
+<p>8.3.6检验索引使用情况</p>
+
+<pre><code>始终检查您的所有查询是否确实使用您在表中创建的索引。
+EXPLAIN如第8.8.1节“使用EXPLAIN优化查询”中所述使用该 语句。
+
+</code></pre>
+
+<p>8.3.7 InnoDB和MyISAM指数统计收集</p>
+
+<pre><code>存储引擎收集关于优化器使用的表的统计信息。
+表统计信息基于值组，其中值组是具有相同关键字前缀值的一组行。
+为了优化器的目的，重要的统计数据是平均值组大小。
+
+
+MySQL通过以下方式使用平均值组大小：
+
+估计每次ref访问 必须读取的行数
+
+估计部分连接将产生多少行; 也就是说，这个表单的操作将会产生的行数：
+
+（...）JOIN tbl_nameON tbl_name。
+key=expr
+随着索引的平均值组大小增加，索引对于这两个目的的用处不大，因为每次查找的平均行数增加：为了使索引适合优化，最好每个索引值的目标是小表格中的行数。
+当一个给定的索引值产生大量的行时，该索引不太有用，而MySQL不太可能使用它。
+
+
+平均值组大小与表基数有关，这是值组的数量。
+该 SHOW INDEX语句基于表显示基数值N/S，其中 N表S是行中的行数，并且是平均值组大小。
+该比率在表格中产生了近似数量的值组。
+
+
+为联接基础上，&lt;=&gt;比较运营商，NULL没有从任何其它值区别对待：NULL &lt;=&gt; NULL，就像任何其他 。
+ N &lt;=&gt; NN
+
+但是，对于基于=运算符的连接， NULL与非NULL值不同： 在或 （或两者）都不 是真时 。
+这会影响 对表单进行比较的访问：如果当前值为is ，则MySQL将不访问表 ，因为比较不成立。
+ expr1 = expr2expr1expr2NULLreftbl_name.key = exprexprNULL
+
+为了=比较，NULL表中有多少个值并不重要。
+出于优化目的，相关值是非NULL值组的平均大小。
+但是，MySQL目前不支持收集或使用平均大小。
+
+
+对于 表InnoDB和MyISAM表，您可以分别通过innodb_stats_method和 myisam_stats_method系统变量来控制表统计信息的收集 。
+这些变量有三个可能的值，其不同之处如下：
+
+当变量设置为时nulls_equal，所有NULL值都被视为相同（即它们都形成单个值组）。
+
+
+如果NULL值组大小远高于平均非NULL值组大小，则此方法会向上倾斜平均值组大小。
+这使得索引对于优化器来说显得不如对于查找非NULL值的联接有用。
+因此，该 nulls_equal方法可能会导致优化器ref在应该访问时不使用索引进行 访问。
+
+
+当变量设置为时 nulls_unequal，NULL 值不被视为相同。
+相反，每个 NULL值形成一个大小为1的单独值组。
+
+
+如果您有很多NULL值，则此方法会向下倾斜平均值组大小。
+如果平均非NULL值组大小较大，则将值计算NULL为一组大小1会导致优化程序高估查找非NULL 值的连接的索引值。
+因此，当其他方法可能更好时，该nulls_unequal 方法可以使优化器使用该索引进行 ref查找。
+
+
+当变量设置为时 nulls_ignored，NULL 值将被忽略。
+
+
+如果你倾向于使用很多连接在使用 &lt;=&gt;，而不是=， NULL值并不特殊，在比较和一个NULL等于另一个。
+在这种情况下，nulls_equal是适当的统计方法。
+
+
+该innodb_stats_method系统变量具有全局值; 该 myisam_stats_method系统变量有全局和会话值。
+设置全局值会影响相应存储引擎中表的统计信息收集。
+设置会话值仅影响当前客户端连接的统计信息收集。
+这意味着您可以强制使用给定方法重新生成表的统计信息，而不会通过设置会话值来影响其他客户端 myisam_stats_method。
+
+
+要重新生成MyISAM表格统计信息，可以使用以下任何一种方法：
+
+执行myisamchk --stats_method = - method_name 分析
+
+更改表使其统计信息过期（例如，插入一行然后删除它），然后设置 myisam_stats_method并发布一个ANALYZE TABLE 语句
+
+关于使用innodb_stats_method和的 一些注意事项 myisam_stats_method：
+
+如刚才所描述的，您可以强制显示表格统计信息。
+但是，MySQL也可能会自动收集统计信息。
+例如，如果在为表执行语句的过程中，其中一些语句会修改表，MySQL可能会收集统计信息。
+（例如，对于批量插入或删除，或者某些ALTER TABLE语句，可能会发生 这种情况。
+）如果发生这种情况，统计信息将使用任何值 innodb_stats_method或 myisam_stats_method在那个时候。
+因此，如果您使用一种方法收集统计信息，但是稍后自动收集表的统计信息时将系统变量设置为另一种方法，则将使用其他方法。
+
+
+无法确定哪种方法用于为给定的表生成统计信息。
+
+
+这些变量仅适用于表格InnoDB和 MyISAM表格。
+其他存储引擎只有一种收集表格统计信息的方法。
+通常它更接近该nulls_equal方法。
+
+</code></pre>
+
+<p>8.3.8 B树和散列索引的比较</p>
+
+<pre><code>了解B树和散列数据结构可以帮助预测不同的查询在使用索引中的这些数据结构的不同存储引擎上的性能，特别是用于MEMORY允许您选择B树或散列索引的存储引擎。
+
+
+B树索引特征
+
+哈希指数特征
+
+B树索引特征
+A B树索引可以在使用表达式中使用的对列的比较 =， &gt;， &gt;=， &lt;， &lt;=，或BETWEEN运营商。
+LIKE 如果参数为LIKE不是以通配符开头的常量字符串，则索引也可用于比较 。
+例如，以下SELECT语句使用索引：
+
+选择*从tbl_name哪里key_col '帕特里克％';
+SELECT * FROM tbl_nameWHERE key_colLIKE '％专利％_ck';
+在第一条语句中，只考虑了行。
+在第二条语句中，只考虑了行。
+ 'Patrick' &lt;= key_col &lt; 'Patricl''Pat' &lt;= key_col &lt; 'Pau'
+
+以下SELECT语句不使用索引：
+
+选择*从tbl_name哪里key_col'％Patrick％';
+SELECT * FROM tbl_nameWHERE key_colLIKE other_col;
+在第一个语句中，该LIKE 值以通配符开头。
+在第二个声明中，该LIKE值不是一个常数。
+
+
+如果您使用并且 长度超过三个字符，则MySQL使用Turbo Boyer-Moore算法来初始化字符串的模式，然后使用此模式更快地执行搜索。
+ ... LIKE '%string%'string
+
+使用col_name IS NULL索引 搜索col_name索引。
+
+
+不跨越子句中所有AND级别的 任何索引 WHERE都不用于优化查询。
+换句话说，为了能够使用索引，必须在每个AND组中使用索引的前缀 。
+
+
+以下WHERE条款使用索引：
+
+... WHERE index_part1= 1 AND index_part2= 2 AND other_column= 3
+
+    / * index= 1 OR index= 2 * /
+... WHERE index= 1或A = 10 AND index= 2
+
+    / *优化如“ index_part1='hello'”* /
+... WHERE index_part1='你好'AND index_part3= 5
+
+    / *可以使用索引index1但不是index2或index3* /
+... WHERE index1= 1 AND index2= 2 OR index1= 3 AND index3= 3;
+这些WHERE条款 不使用索引：
+
+    / * index_part1未使用* /
+... WHERE index_part2= 1 AND index_part3= 2
+
+    / *索引不用于WHERE子句的两个部分* /
+... WHERE index= 1或A = 10
+
+    / *没有索引跨越所有行* /
+... WHERE index_part1= 1 OR index_part2= 10
+有时MySQL不使用索引，即使有索引。
+出现这种情况的一种情况是，优化程序估计使用索引需要MySQL访问表中非常大部分的行。
+（在这种情况下，表扫描可能会快得多，因为它需要更少的搜索。
+）但是，如果这样的查询LIMIT仅用于检索某些行，则MySQL无论如何都会使用索引，因为它可以更快地找到结果中返回的行数很少。
+
+
+哈希指数特征
+哈希索引与刚刚讨论的哈希索引有些不同：
+
+它们只用于使用等于比较 =或&lt;=&gt; 运营商（但非常快）。
+它们不用于比较运算符，比如 &lt;找到一系列值。
+依赖这种单值查找的系统被称为“ 键值存储 ” ; 为这些应用程序使用MySQL，尽可能使用散列索引。
+
+
+优化器不能使用散列索引来加速 ORDER BY操作。
+（这种类型的索引不能用于按顺序搜索下一个条目。
+）
+
+MySQL不能确定两个值之间大约有多少行（范围优化器使用它来决定使用哪个索引）。
+如果您将某个表MyISAM或 InnoDB表更改为散列索引 MEMORY表，这可能会影响某些查询。
+
+
+只有整个键才能用来搜索一行。
+（使用B树索引，可以使用密钥的任何最左边的前缀来查找行。
+）
+</code></pre>
+
+<p>8.3.9使用索引扩展</p>
+
+<pre><code>InnoDB通过附加主键列来自动扩展每个二级索引。
+考虑这个表格定义：
+
+CREATE TABLE t1（
+  i1 INT NOT NULL DEFAULT 0，
+  i2 INT NOT NULL DEFAULT 0，
+  d DATE DEFAULT NULL，
+  PRIMARY KEY（i1，i2），
+  INDEX k_d（d）
+）ENGINE = InnoDB;
+该表定义列上的主键(i1, i2)。
+它还k_d在列上定义了二级索引 (d)，但在内部InnoDB扩展此索引并将其视为列(d, i1, i2)。
+
+
+优化程序在确定如何以及是否使用该索引时会考虑扩展二级索引的主键列。
+这可以导致更高效的查询执行计划和更好的性能。
+
+
+优化器可以使用扩展次要索引 ref，range和 index_merge索引访问，为松散索引扫描，对于加入和排序的优化，以及用于 MIN()/ MAX() 优化。
+
+
+以下示例显示了执行计划如何受到优化程序是否使用扩展辅助索引的影响。
+假设t1这些行被填充：
+
+INSERT INTO t1 VALUES
+（1,1，'1998-01-01'），（1,2，'1999-01-01'），
+（1，3，'2000-01-01'），（1，4，'2001-01-01'），
+（1，5，'2002-01-01'），（2,1，'1998-01-01'），
+（2，2，'1999-01-01'），（2,3，'2000-01-01'），
+（2,4，'2001-01-01'），（2，5，'2002-01-01'），
+（3,1，'1998-01-01'），（3,2，'1999-01-01'），
+（3,3，'2000-01-01'），（3,4，'2001-01-01'），
+（3，5，'2002-01-01'），（4,1，'1998-01-01'），
+（4，2，'1999-01-01'），（4，3，'2000-01-01'），
+（4，4，'2001-01-01'），（4，5，'2002-01-01'），
+（5,1，'1998-01-01'），（5,2，'1999-01-01'），
+（5，3，'2000-01-01'），（5，4，'2001-01-01'），
+（5，5，'2002-01-01'）;
+现在考虑这个查询：
+
+EXPLAIN SELECT COUNT（*）FROM t1 WHERE i1 = 3 AND d ='2000-01-01'
+在这种情况下，优化器不能使用主键，因为它包含列(i1, i2)并且查询没有引用i2。
+取而代之的是，优化器可以使用二级索引k_d上 (d)，并且执行计划依赖于扩展索引是否被使用。
+
+
+当优化器不考虑索引扩展时，它将索引k_d视为唯一(d)。
+ EXPLAIN为查询产生这个结果：
+
+MySQL的&gt; EXPLAIN SELECT COUNT(*) FROM t1 WHERE i1 = 3 AND d = '2000-01-01'\G
+*************************** 1. row ******************** *******
+           ID：1
+  select_type：SIMPLE
+        表：t1
+         键入：ref
+possible_keys：PRIMARY，k_d
+          键：k_d
+      key_len：4
+          ref：const
+         行数：5
+        额外：使用where; 使用索引
+当优化需要索引扩展到帐户，它把k_d作为(d, i1, i2)。
+在这种情况下，它可以使用最左边的索引前缀(d, i1)来产生更好的执行计划：
+
+MySQL的&gt; EXPLAIN SELECT COUNT(*) FROM t1 WHERE i1 = 3 AND d = '2000-01-01'\G
+*************************** 1. row ******************** *******
+           ID：1
+  select_type：SIMPLE
+        表：t1
+         键入：ref
+possible_keys：PRIMARY，k_d
+          键：k_d
+      key_len：8
+          ref：const，const
+         行：1
+        额外：使用索引
+在这两种情况下，都key表示优化器将使用二级索引，k_d但EXPLAIN输出显示了使用扩展索引的这些改进：
+
+key_len从4个字节到8个字节去，表明键查找中使用的列d 和i1，而不仅仅是d。
+
+
+该ref从价值变动 const到const,const ，因为键查找使用两个关键部分，没有之一。
+
+
+的rows计数降低从5到1，表明InnoDB应该需要检查更少的行，以产生结果。
+
+
+该Extra值从变化 Using where; Using index到 Using index。
+这意味着可以仅使用索引读取行，而无需查阅数据行中的列。
+
+
+使用扩展索引的优化器行为差异也可以通过以下方式看出SHOW STATUS：
+
+FLUSH TABLE t1;
+FLUSH STATUS;
+SELECT COUNT（*）FROM t1 WHERE i1 = 3 AND d ='2000-01-01';
+SHOW STATUS LIKE'handler_read％'
+前面的语句包含FLUSH TABLES并FLUSH STATUS 刷新表缓存并清除状态计数器。
+
+
+没有索引扩展，SHOW STATUS产生这样的结果：
+
++ ----------------------- + ------- +
+| 变量名| 值|
++ ----------------------- + ------- +
+| Handler_read_first | 0 |
+| Handler_read_key | 1 |
+| Handler_read_last | 0 |
+| Handler_read_next | 5 |
+| Handler_read_prev | 0 |
+| Handler_read_rnd | 0 |
+| Handler_read_rnd_next | 0 |
++ ----------------------- + ------- +
+通过索引扩展，SHOW STATUS生成此结果。
+该 Handler_read_next值从5减少到1，表示更有效地使用该指数：
+
++ ----------------------- + ------- +
+| 变量名| 值|
++ ----------------------- + ------- +
+| Handler_read_first | 0 |
+| Handler_read_key | 1 |
+| Handler_read_last | 0 |
+| Handler_read_next | 1 |
+| Handler_read_prev | 0 |
+| Handler_read_rnd | 0 |
+| Handler_read_rnd_next | 0 |
++ ----------------------- + ------- +
+在确定如何使用表的二级索引时use_index_extensions，optimizer_switch系统变量 的标志 允许控制优化程序是否考虑主键列 InnoDB。
+默认情况下， use_index_extensions已启用。
+要检查禁用索引扩展是否会提高性能，请使用以下语句：
+
+SET optimizer_switch ='use_index_extensions = off';
+优化器使用索引扩展受索引（16）中关键部分数量和最大关键字长度（3072字节）的通常限制。
+
+</code></pre>
+
+<p>8.3.10优化器使用生成的列索引</p>
+
+<pre><code>MySQL支持生成列上的索引。
+例如：
+
+CREATE TABLE t1（f1 INT，gc INT AS（f1 + 1）STORED，INDEX（gc））;
+生成的列gc被定义为表达式f1 + 1。
+该列也被编入索引，并且优化程序可以在执行计划构建期间考虑该索引。
+在以下查询中，该 WHERE子句引用gc 并且优化器考虑该列上的索引是否产生更高效的计划：
+
+SELECT * FROM t1 WHERE gc&gt; 9;
+优化器可以在生成的列上使用索引来生成执行计划，即使在没有按名称对这些列进行查询时直接引用也是如此。
+会发生此如果 WHERE，ORDER BY或 GROUP BY条款是指一些索引生成列的定义相匹配的表达式。
+以下查询不直接引用，gc 但使用的表达式符合以下定义 gc：
+
+SELECT * FROM t1 WHERE f1 + 1&gt; 9;
+优化器识别出表达f1 + 1的定义相匹配gc，并且gc被索引，因此它认为执行计划在施工期间的索引。
+你可以看到这个使用 EXPLAIN：
+
+MySQL的&gt; EXPLAIN SELECT * FROM t1 WHERE f1 + 1 &gt; 9\G
+*************************** 1. row ******************** *******
+           ID：1
+  select_type：SIMPLE
+        表：t1
+   分区：NULL
+         键入：范围
+possible_keys：gc
+          key：gc
+      key_len：5
+          ref：NULL
+         行：1
+     过滤：100.00
+        额外：使用索引条件
+实际上，优化程序已将表达式替换为与表达式f1 + 1匹配的生成列的名称。
+在以下EXPLAIN 显示的扩展信息中可用的重写查询中也很明显SHOW WARNINGS：
+
+MySQL的&gt; SHOW WARNINGS\G
+*************************** 1. row ******************** *******
+  级别：注意
+   代码：1003
+Message：/ * select＃1 * / select`test`.`t1`.`f1` as``f1`，`test`.`t1`.`gc`
+         as```````````````gc`
+以下限制和条件适用于优化器使用生成的列索引：
+
+对于查询表达式来匹配生成的列定义，表达式必须是相同的，并且它必须具有相同的结果类型。
+例如，如果生成的列表达式是f1 + 1，如果查询使用1 + f1，或者f1 + 1 （整数表达式）与字符串进行比较，则优化器不会识别匹配 。
+
+
+优化适用于这些操作符： =， &lt;， &lt;=， &gt;， &gt;=， BETWEEN，和 IN()。
+
+
+对于BETWEEN和 以外的 IN()操作符，可以用匹配的生成列替换操作数。
+对于 BETWEEN和 IN()，只有第一个参数可以被匹配的生成列替换，其他参数必须具有相同的结果类型。
+ BETWEEN并且 IN()尚未支持涉及JSON值的比较。
+
+
+生成的列必须被定义为一个表达式，该表达式至少包含一个函数调用或上述项目中提到的某个操作符。
+表达式不能包含对另一列的简单引用。
+例如，gc INT AS (f1) STORED仅由一个列引用组成，因此gc不考虑索引 。
+
+
+为了将字符串与索引生成列进行比较，这些字段从返回带引号字符串的JSON函数计算值，JSON_UNQUOTE()需要在列定义中从函数值中删除多余的引号。
+（对于字符串与函数结果的直接比较，JSON比较器处理引用移除，但这不会发生在索引查找中）。
+例如，不是像这样写一个列定义：
+
+doc_name TEXT AS（JSON_EXTRACT（jdoc，'$ .name'））存储
+这样写：
+
+doc_name TEXT AS（JSON_UNQUOTE（JSON_EXTRACT（jdoc，'$ .name'）））STORED
+对于后者的定义，优化器可以检测这两个比较的匹配情况：
+
+... WHERE JSON_EXTRACT（jdoc，'$ .name'）=' some_string'...
+... WHERE JSON_UNQUOTE（JSON_EXTRACT（jdoc，'$ .name'））=' some_string'...
+如果没有JSON_UNQUOTE()在列定义中，优化器只会对这些比较中的第一个进行匹配。
+
+
+如果优化器未能选择所需的索引，则可以使用索引提示来强制优化器做出不同的选择。
+</code></pre>
+<ul class="pa0">
+  
+   <li class="list" style="float: left;">
+     
+     <a href="/tags/sql%E4%BC%98%E5%8C%96" style="color:#FFFFFF " class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">SQL优化</a>
+   </li>
+    <li class="list" style="float: left;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </li>
+  
+</ul>
+<div class="mt6"></div>
+
+
+<div id="SOHUCS" sid="/blog/mysql/optimization-sql-indexes/" ></div>
+<script type="text/javascript">
+    (function(){
+        var appid = 'cytHkUEmA';
+        var conf = 'prod_6e7b7d38e80b8603d4192a4d85f24774';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+
+    </main>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">相关文章</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-selector-1/">SQL优化【查询器优化·一】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-total-2/">常见MYSQL调优策略</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-thread/">SQL优化【线程信息检查】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-selector-2/">SQL优化【查询器优化·二】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-innodb/">SQL优化【InnoDB-表优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-data-structure/">SQL优化【数据结构】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-cached/">SQL优化【缓存优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-sentence/">SQL优化【SQL语句】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-performance-measurement/">SQL优化【绩效衡量】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-myisam/">SQL优化【MyISAM-表优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-lock/">SQL优化【锁优化】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-total/">SQL优化【总方向】</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/mysql/optimization-sql-system/">SQL优化【服务器优化】</a>
+        </li>
+	    
+    </ul>
+</div>
+
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0"  width=300 height=400
+        src="//music.163.com/outchain/player?type=0&id=2269118953&auto=0&height=430"></iframe>
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    
+<footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://www.wuxinvip.com/" >
+    &copy; 2018 京ICP备18026588号
+    
+  </a>
+  
+
+
+
+  <a href="https://twitter.com/huoyan403" class="link-transition twitter link dib z-999 pt3 pt0-l mr2" title="Twitter link">
+    <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+  </a>
+
+
+
+
+  <a href="http://www.linkedin.com/in/%e9%95%bf-%e8%bf%9e-05215b142/" class="link-transition linkedin link dib z-999 pt3 pt0-l mr2" title="LinkedIn link">
+    <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+  </a>
+
+
+  <a href="https://github.com/wuxinvip" class="link-transition github link dib z-999 pt3 pt0-l mr2" title="Github link">
+    <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+  </a>
+
+
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="/friends-chain/" >
+    友情链接
+  </a>
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="/contact/" >
+   联系站长
+  </a>
+
+  </div>
+
+
+</footer>
+
+    
+
+
+
+<div style="display:none">
+  <script src="https://s22.cnzz.com/z_stat.php?id=1273992689&web_id=1273992689" language="JavaScript"></script>
+</div>
+  </body>
