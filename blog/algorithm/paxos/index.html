@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>无心技术簿  | paxos</title>
+    <title>无心技术簿  | paxos【转】</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -120,7 +120,7 @@
           
         咖啡系列
       </p>
-      <h1 class="fw2 athelas mb1">paxos</h1>
+      <h1 class="fw2 athelas mb1">paxos【转】</h1>
       
       <time class="f6 mv4 dib tracked" datetime="2017-07-08T00:00:00Z">July 8, 2017</time>
     </header>
@@ -128,6 +128,121 @@
     <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><a href="https://zh.wikipedia.org/zh-cn/Paxos算法">wiki-paxos</a></p>
 
 <p><a href="http://cailin.iteye.com/blog/2014486">zk 原理 watcher 监听</a></p>
+
+<p>##paxos##</p>
+
+<p>转载地址：<a href="http://www.cnblogs.com/endsock/p/3480093.html">http://www.cnblogs.com/endsock/p/3480093.html</a></p>
+
+<pre><code>在paxos算法中，分为4种角色：
+
+  Proposer ：提议者
+
+  Acceptor：决策者
+
+  Client：产生议题者
+
+  Learner：最终决策学习者
+
+上面4种角色中，提议者和决策者是很重要的，其他的2个角色在整个算法中应该算做打酱油的，
+Proposer就像Client的使者，由Proposer使者拿着Client的议题去向Acceptor提议，让Acceptor来决策。
+这里上面出现了个新名词：最终决策。现在来系统的介绍一下paxos算法中所有的行为：
+
+    1、Proposer提出议题
+    2、Acceptor初步接受 或者 Acceptor初步不接受
+    3、如果上一步Acceptor初步接受则Proposer再次向Acceptor确认是否最终接受
+    4、Acceptor 最终接受 或者Acceptor 最终不接受
+    5、上面Learner最终学习的目标是Acceptor们最终接受了什么议题？注意，这里是向所有Acceptor学习，
+    6、如果有多数派个Acceptor最终接受了某提议，那就得到了最终的结果，算法的目的就达到了。
+    画一幅图来更加直观：
+</code></pre>
+
+
+<figure>
+    
+        <img src="/blog/algorithm/img/paxos-1.png" />
+    
+    
+</figure>
+
+
+<pre><code>
+    为什么需要3个Acceptor？因为Acceptor必须是最少大于等于3个，并且必须是奇数个，
+    因为要形成多数派嘛，如果是偶数个，比如4个，2个接受2个不接受，各执己见，没法搞下去了。
+
+    为什么是3个Proposer？ 其实无所谓是多少个了，1~n 都可以的；如果是1个proposer，毫无竞争压力，很顺利的完成2阶段提交，
+    Acceptor们最终批准了事。如果是多个proposer就比较复杂了，请继续看。
+
+ 
+
+    上面的图中是画了很多节点的，每个节点需要一台机器么？答案是不需要的，上面的图是逻辑图，
+    物理中，可以将Acceptor和Proposer以及Client放到一台机器上，只是使用了不同的端口号罢了，
+    Acceptor们启动不同端口的TCP监听，Proposer来主动连接即可；
+    完全可以将Client、Proposer、Acceptor、Learner合并到一个程序里面；
+
+这里举一个例子：
+    比如开发一个JOB程序，JOB程序部署在多台服务器上(数量为奇数)，这些JOB有可能同时处理一项任务，
+    现在使用paxos算法让这些JOB自己来商量由谁(哪台机器)来处理这项任务，这样JOB程序里就需要包含Client、
+    Proposer、Acceptor、Learner这4大功能，并且需要配置其他JOB服务器的IP地址。
+
+再举一个例子，zookeeper常常用来做分布式事务锁。Zookeeper所使用的zad协议也是类似paxos协议的。
+    所有分布式自协商一致性算法都是paxos算法的简化或者变种。
+    Client是使用zookeeper服务的机器，Zookeeper自身包含了Acceptor, Proposer, Learner。
+    Zookeeper领导选举就是paxos过程，还有Client对Zookeeper写Znode时，也是要进行Paxos过程的，
+    因为不同Client可能连接不同的Zookeeper服务器来写Znode，到底哪个Client才能写成功？
+    需要依靠Zookeeper的paxos保证一致性，写成功Znode的Client自然就是被最终接受了，
+    Znode包含了写入Client的IP与端口，其他的Client也可以读取到这个Znode来进行Learner。
+    也就是说在Zookeeper自身包含了Learner(因为Zookeeper为了保证自身的一致性而会进行领导选举，
+    所以需要有Learner的内部机制，多个Zookeeper服务器之间需要知道现在谁是领导了)，
+    Client端也可以Learner，Learner是广义的。
+    
+     
+
+现在通过一则故事来学习paxos的算法的流程(2阶段提交)，有2个Client(老板，老板之间是竞争关系)和3个Acceptor(政府官员)：
+
+现在需要对一项议题来进行paxos过程，议题是“A项目我要中标！”，这里的“我”指每个带着他的秘书Proposer的Client老板。
+
+    Proposer当然听老板的话了，赶紧带着议题和现金去找Acceptor政府官员。
+    作为政府官员，当然想谁给的钱多就把项目给谁。
+    Proposer-1小姐带着现金同时找到了Acceptor-1~Acceptor-3官员，1与2号官员分别收取了10比特币，找到第3号官员时，
+    没想到遭到了3号官员的鄙视，3号官员告诉她，Proposer-2给了11比特币。
+    不过没关系，Proposer-1已经得到了1,2两个官员的认可，形成了多数派(如果没有形成多数派，
+    Proposer-1会去银行提款在来找官员们给每人20比特币，这个过程一直重复每次+10比特币，直到多数派的形成)，
+    满意的找老板复命去了，但是此时Proposer-2保镖找到了1,2号官员，分别给了他们11比特币，
+    1,2号官员的态度立刻转变，都说Proposer-2的老板懂事，这下子Proposer-2放心了，搞定了3个官员，
+    找老板复命去了，当然这个过程是第一阶段提交，只是官员们初步接受贿赂而已。
+    故事中的比特币是编号，议题是value。
+
+　　　　这个过程保证了在某一时刻，某一个proposer的议题会形成一个多数派进行初步支持；
+
+ ===============华丽的分割线，第一阶段结束================
+
+　　5.　现在进入第二阶段提交，现在proposer-1小姐使用分身术(多线程并发)分了3个自己分别去找3位官员，
+    最先找到了1号官员签合同，遭到了1号官员的鄙视，1号官员告诉他proposer-2先生给了他11比特币，
+    因为上一条规则的性质proposer-1小姐知道proposer-2第一阶段在她之后又形成了多数派(至少有2位官员的赃款被更新了);
+    此时她赶紧去提款准备重新贿赂这3个官员(重新进入第一阶段)，每人20比特币。
+    刚给1号官员20比特币， 1号官员很高兴初步接受了议题，还没来得及见到2,3号官员的时候
+
+    这时proposer-2先生也使用分身术分别找3位官员(注意这里是proposer-2的第二阶段)，被第1号官员拒绝了告诉他收到了20比特币，
+    第2,3号官员顺利签了合同，这时2，3号官员记录client-2老板用了11比特币中标，因为形成了多数派，
+    所以最终接受了Client2老板中标这个议题，对于proposer-2先生已经出色的完成了工作；
+
+    这时proposer-1小姐找到了2号官员，官员告诉她合同已经签了，将合同给她看，proposer-1小姐是一个没有什么职业操守的聪明人，
+    觉得跟Client1老板混没什么前途，所以将自己的议题修改为“Client2老板中标”，并且给了2号官员20比特币，这样形成了一个多数派。
+    顺利的再次进入第二阶段。由于此时没有人竞争了，顺利的找3位官员签合同，3位官员看到议题与上次一次的合同是一致的，
+    所以最终接受了，形成了多数派，proposer-1小姐跳槽到Client2老板的公司去了。
+
+===============华丽的分割线，第二阶段结束===============
+
+　　Paxos过程结束了，这样，一致性得到了保证，算法运行到最后所有的proposer都投“client2中标”所有的acceptor都接受这个议题，
+    也就是说在最初的第二阶段，议题是先入为主的，谁先占了先机，后面的proposer在第一阶段就会学习到这个议题而修改自己本身的议题，
+    因为这样没职业操守，才能让一致性得到保证，这就是paxos算法的一个过程。
+
+    原来paxos算法里的角色都是这样的不靠谱，不过没关系，结果靠谱就可以了。该算法就是为了追求结果的一致性。
+
+
+</code></pre>
+
+<p>两阶段提交解决分布式事务 有瑕疵 还有个三阶段提交 2pc、3pc概念 以后再整理</p>
 <ul class="pa0">
   
    <li class="list" style="float: left;">
