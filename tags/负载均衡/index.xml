@@ -69,9 +69,18 @@
       <pubDate>Wed, 23 May 2018 00:00:00 +0000</pubDate>
       
       <guid>https://www.wuxinvip.com/blog/load-balance/algorithm/</guid>
-      <description>常见负载均衡算法 随机
- public static String random() { //重新建立一个map,避免出现由于服务器上线和下线导致的并发问题 Map&amp;lt;String,Integer&amp;gt; serverMap = new HashMap&amp;lt;String,Integer&amp;gt;(); serverMap.putAll(serverWeigthMap); //获取ip列表list Set&amp;lt;String&amp;gt; keySet = serverMap.keySet(); ArrayList&amp;lt;String&amp;gt; keyList = new ArrayList&amp;lt;String&amp;gt;(); keyList.addAll(keySet); java.util.Random random = new java.util.Random(); int randomPos = random.nextInt(keyList.size()); String server = keyList.get(randomPos); return server; }  加权随机
- public static String weightRandom() { //重新建立一个map,避免出现由于服务器上线和下线导致的并发问题 Map&amp;lt;String,Integer&amp;gt; serverMap = new HashMap&amp;lt;String,Integer&amp;gt;(); serverMap.putAll(serverWeigthMap); //获取ip列表list Set&amp;lt;String&amp;gt; keySet = serverMap.keySet(); Iterator&amp;lt;String&amp;gt; it = keySet.iterator(); List&amp;lt;String&amp;gt; serverList = new ArrayList&amp;lt;String&amp;gt;(); while (it.</description>
+      <description>LVS十种算法 4种静态算法 1、RR 依次轮调
+2、WRR 加权轮调
+3、DH 目标地址hash
+4、SH 源地址hash
+6种动态算法 1、 LC least connection 最小调用
+2、 WLC 加权重LC
+3、 SED 对WLC补充、加一、让其能够比较大小
+4、 NQ never queue
+5、LBLC DH+LC 使用于cache群
+6、LBLCR 带有复制功能的LBLC
+常见负载均衡算法 随机
+ public static String random() { //重新建立一个map,避免出现由于服务器上线和下线导致的并发问题 Map&amp;lt;String,Integer&amp;gt; serverMap = new HashMap&amp;lt;String,Integer&amp;gt;(); serverMap.putAll(serverWeigthMap); //获取ip列表list Set&amp;lt;String&amp;gt; keySet = serverMap.keySet(); ArrayList&amp;lt;String&amp;gt; keyList = new ArrayList&amp;lt;String&amp;gt;(); keyList.addAll(keySet); java.util.Random random = new java.util.Random(); int randomPos = random.nextInt(keyList.size()); String server = keyList.</description>
     </item>
     
     <item>
