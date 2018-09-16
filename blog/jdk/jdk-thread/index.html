@@ -12,13 +12,15 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1">
 
     
-    <meta name="sogou_site_verification" content="OYyzP0Cdur"/>
     
-    <meta name="baidu_union_verify" content="809cdfb6c64fa651335f2075e055a2e6">
     
-    <meta name="baidu-site-verification" content="Vm6jkM9VW0" />
     
-    <meta name="google-site-verification" content="USqpH0v0l7K80xnRcaNKjnDMeNAWKjKwPYSHK1wk0oY" />
+    
+    <meta name="baidu_union_verify" content="7d30605f30c8abfd28a0b738bb4d54f1">
+    
+    
+    
+    
     
     
       
@@ -124,20 +126,22 @@
 
 <p>关于线程:</p>
 
-<p>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了
-2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能
-3.线程池数量 差不多是 CPU核数 * 2
-4.阿里编码规范已不推荐使用ExcutorService方法使用线程</p>
-
-<pre><code>【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样
+<ul>
+<li>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了</li>
+<li>2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能</li>
+<li>3.线程池数量 差不多是 CPU核数 * 2</li>
+<li>4.阿里编码规范已不推荐使用ExcutorService方法使用线程
+```
+【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样
 的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。
 说明：Executors 返回的线程池对象的弊端如下：
 1）FixedThreadPool 和 SingleThreadPool:
 允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。
 2）CachedThreadPool 和 ScheduledThreadPool:
-允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。
+允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</li>
+</ul>
 
-</code></pre>
+<p>```</p>
 
 <p>代码地址:<a href="https://gitee.com/none_heart/xingchen/tree/master/excutor">https://gitee.com/none_heart/xingchen/tree/master/excutor</a></p>
 <ul class="pa0">
@@ -177,19 +181,19 @@
     <ul class="pa0 list">
 	   
 	     <li  class="mb2">
-          <a href="/blog/jdk/jdk-list/">列表List</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/jdk/jdk-set/">集合Set</a>
-        </li>
-	    
-	     <li  class="mb2">
           <a href="/blog/jdk/jdk-total/">jdk各个包 概述</a>
         </li>
 	    
 	     <li  class="mb2">
+          <a href="/blog/jdk/jdk-list/">列表List</a>
+        </li>
+	    
+	     <li  class="mb2">
           <a href="/blog/jdk/jdk-map/">集合Map</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/blog/jdk/jdk-set/">集合Set</a>
         </li>
 	    
 	     <li  class="mb2">
