@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>无心技术簿  | 日志服务的选型</title>
+    <title>无心技术簿  | 转知乎关于工作</title>
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
@@ -116,94 +116,39 @@
           
         咖啡系列
       </p>
-      <h1 class="fw2 athelas mb1">日志服务的选型</h1>
+      <h1 class="fw2 athelas mb1">转知乎关于工作</h1>
       
-      <time class="f6 mv4 dib tracked" datetime="2018-06-04T00:00:00Z">June 4, 2018</time>
+      <time class="f6 mv4 dib tracked" datetime="2017-08-20T00:00:00Z">August 20, 2017</time>
     </header>
 
-    <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><strong>众所周知.</strong></p>
+    <main class="nested-copy-line-height lh-copy serif f5 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><ul>
+<li><p>1、领导就是领导，无论你们年纪多么相近，无论你们之前多么相熟，在他是你的领导的时候，请你保持对领导的尊重，这也包括，你并不能把所有的想法都告诉他。</p></li>
 
-<p>日志系统分为：系统日志和业务日志
-业务日志又可分为请求日志和操作日志</p>
+<li><p>2、积极主动、落落大方。只要是同事，不论是什么部门的，你们能遇见，有说话的机会 ，比如一起在食堂吃饭、在会上遇见，请你积极主动和别人打招呼，并且保留联系方式。</p></li>
 
-<p><strong>系统日志</strong></p>
+<li><p>3、对于你认可而你领导不认可的意见，请你保留，直到你当上领导的那一天。</p></li>
 
-<pre><code>cpu、内存、请求量、当前连接数、连接时间等等
+<li><p>4、全面了解公司架构，并寻找自己的扩展机会。这不是让你换岗位，而是对外讲得清自己公司的架构，对内如果有主动或者被动的调整机会，你知道自己想去哪儿。</p></li>
 
-</code></pre>
+<li><p>5、积累、寻找上升机会。尤其是你怀才不遇的时候，如果你真的有“才”，只有你有话语权的时候，你才有更大的发展可能。</p></li>
 
-<p><strong>请求日志</strong></p>
+<li><p>6、保持平常心，顺势而为。做积极主动的努力，但并不执着于结果。很多职业上的发展是能力、机遇、人脉等各种综合作用的结果，并不被单一因素所决定。所以如果做了努力，但没有结果，不要灰心。付出不会浪费，可以寻找别的机会，也可以等待机会。</p></li>
 
-<pre><code>谁、请求那个系统上的什么资源、
-源ip
-系统id
-目标ip
-目标url
-</code></pre>
+<li><p>7、自己的成长才是最重要的。除了薪水、职位，在你发展过程中，不论在哪个单位的哪个进程中，都要不断成长，或者说拿到你想拿到的东西再离开。</p></li>
 
-<p><strong>操作日志</strong></p>
+<li><p>8、当你想换工作，又有一份你愿意尝试的工作愿意接受你的时候，不要太过犹豫自己是不是换工作换的太频繁，别人如何想。只要你进行过基本的分析，不会比现在差，就鼓励你尝试。尝试有50%的可能变好。要相信，时间是一张网，撒在哪里都会有收获。</p></li>
 
-<pre><code>  需求：各个子系统统一业务日志收集、
-  这些日志消息包括：
+<li><p>9、善于发挥自己的优势。如果你学历高，建议你去一个学历门槛比较重的单位，当然只是建议，依次类推。</p></li>
 
-      操作系统标识
+<li><p>10、不断学习。英语啊、各种证书啊，等等，在不耽误工作的基础上，学习和拿下工作不断推进。</p></li>
+</ul>
 
-      操作者
-      操作模块
-      操作类型
-      操作时间
-      操作内容
-      操作结果
-
-
-      简而言之：什么人在什么时候修改了什么系统上的哪些模块的哪些内容
-
-      who 、when、where、what、how、【4w1h】 至于why 日志是检测不出来的。。。
-
-
-</code></pre>
-
-<p><strong>方案一：mysql+logback</strong></p>
-
-<pre><code>    优点：简单随库、成本低;持久化不丢失、支持读写分离、
-    缺点：表设计不free、一旦设计好就不能随意添加字段
-          不支持定时清理日志、占用数据库链接、
-          如果建立大量检索索引、添加数据要慢、如果索引较少、检索数据有不会很准确、
-          现阶段mysql5.5以后使用innodb引擎、而这种引擎最大的优点就是支持了事务、
-          变相的也降低了他的读写性能、但是在需求上不需要事务的支持、
-</code></pre>
-
-<p><strong>方案二：mongdb+logback</strong></p>
-
-<pre><code>    优点：支持定时清理、支持数据字段任意扩充【文档型】、
-        支持读写分离、检索识别度高、支持索引结构比较广泛、支持多种形式查询
-
-    缺点：成本稍微高 比mysql数据库要贵点、
-</code></pre>
-
-<p><strong>方案三：ELK</strong></p>
-
-<p><a href="https://www.wuxinvip.com/tags/日志收集/">【ELK】</a></p>
-
-<p><strong>方案四：Splunk</strong></p>
-
-<p><strong>方案五：Fluentd</strong></p>
-
-<p>一般用在 k8s 容器服务的日志收集
-<a href="https://blog.csdn.net/zx84289061/article/details/70767643">CSDN</a></p>
-
-<p><a href="https://www.centos.bz/2017/06/collect-log-file-realtime-with-fluentd/">linux 运维</a></p>
-
-<p><strong>方案六：Flume</strong></p>
-
-<p><a href="https://www.cnblogs.com/wangtao1993/p/6404232.html">博客园</a></p>
-
-<p><strong>方案六：KafKa+logback</strong></p>
+<p><a href="https://www.zhihu.com/question/30147821/answer/222317278">原文地址</a></p>
 <ul class="pa0">
   
    <li class="list" style="float: left;">
      
-     <a href="/tags/%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86" style="color:#FFFFFF " class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">日志收集</a>
+     <a href="/tags/%E9%9A%8F%E7%AC%94" style="color:#FFFFFF " class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">随笔</a>
    </li>
     <li class="list" style="float: left;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -213,7 +158,7 @@
 <div class="mt6"></div>
 
 
-<div id="SOHUCS" sid="/blog/log/log-selected/" ></div>
+<div id="SOHUCS" sid="/blog/essay/essay-5/" ></div>
 <script type="text/javascript">
     (function(){
         var appid = 'cytHkUEmA';
@@ -236,15 +181,11 @@
     <ul class="pa0 list">
 	   
 	     <li  class="mb2">
-          <a href="/blog/log/log-total/">日志发展史</a>
+          <a href="/blog/essay/essay-3/">干了这一波毒鸡汤</a>
         </li>
 	    
 	     <li  class="mb2">
-          <a href="/blog/log/elk-2/">ELK 简介</a>
-        </li>
-	    
-	     <li  class="mb2">
-          <a href="/blog/log/elk-1/">ELK 搭建</a>
+          <a href="/blog/essay/essay-1/">随便写点</a>
         </li>
 	    
     </ul>
