@@ -335,7 +335,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring/springmvc/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/container/pouch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -354,8 +354,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring/springmvc/" itemprop="url">
-                  sringmvc
+                <a class="post-title-link" href="/2018/03/24/container/pouch/" itemprop="url">
+                  pouch
                 </a>
               
             
@@ -425,17 +425,6 @@
 
           
             
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2018/03/24/spring/springmvc/#SOHUCS" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span id="url::http://www.wuxinvip.com/2018/03/24/spring/springmvc/" class="cy_cmt_count" data-xid="2018/03/24/spring/springmvc/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
           
 
           
@@ -462,11 +451,23 @@
       
         
           
-            <p>启动加载顺序</p>
-<p><strong>spring加载流程</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.监听器加载spring</span><br><span class="line">2.加载配置文件</span><br><span class="line">3.工厂生产实例化对象</span><br><span class="line">4.放入ServletContext</span><br></pre></td></tr></table></figure></p>
-<p><strong>springmvc加载流程</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.Servlet加载（监听器之后即执行）Servlet的init()</span><br><span class="line">2.加载配置文件</span><br><span class="line">3.从ServletContext拿到spring初始化springmvc相关对象</span><br><span class="line">4.放入ServletContext</span><br></pre></td></tr></table></figure></p>
-<p><strong>springmvc执行流程</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.用户请求到DispatcherServlet</span><br><span class="line">2.DispatcherServlet查找HandlerMapping请求Handler并返回查找结果</span><br><span class="line">3.DispatcherServlet调用HandlerAdapter执行Handler并返回执行结果</span><br><span class="line">4.DispatcherServlet调用ResolverView生成视图并返回视图</span><br><span class="line">5.DispatcherServlet返回给用户</span><br></pre></td></tr></table></figure>
+            <p>2017.11.19正式开源pouch</p>
+<p>pouch 基于Apache2.0协议的容器技术</p>
+<p>介绍：<br>Pouch 是一个轻量级容器技术<br>特点：快速高效、可移植性高、资源占用少</p>
+<p>github：<a href="https://github.com/alibaba/pouch" target="_blank" rel="noopener">pouch</a></p>
+<p>11年基于Linux内核上的namespace、cgroup等技术开始成熟、阿里Pouch基于LXC研发的第一代容器t4<br>13年Docker横空出世、解决了行业多年的”软件封装”问题、阿里吸收其经验、打磨Pouch</p>
+<p>Pouch规模<br>2017 年双 11，巨额交易 1682 亿背后，Pouch 在”超级工程”中做到了：<br> 1、100% 的在线业务 Pouch 化<br>2、容器规模达到百万级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">阿里集团内部，Pouch 的日常服务已经覆盖绝大部分的事业部，</span><br><span class="line">覆盖的业务场景包括：电商、广告、搜索等；</span><br><span class="line">覆盖技术栈包括：电商应用、数据库、大数据、流计算等；</span><br><span class="line">覆盖编程语言：Java、C++、NodeJS 等。</span><br></pre></td></tr></table></figure></p>
+<p>Pouch 技术优势<br>1、隔离性强<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">众所周知，行业中的容器方案大多基于 Linux 内核提供的 cgroup 和 namespace 来实现隔离，然后这样的轻量级方案存在弊端：</span><br><span class="line"></span><br><span class="line">.容器间，容器与宿主间，共享同一个内核；</span><br><span class="line">.内核实现的隔离资源，维度不足。</span><br><span class="line"></span><br><span class="line">面对如此的内核现状，阿里巴巴采取了三个方面的工作，来解决容器的安全问题：</span><br><span class="line"></span><br><span class="line">用户态增强容器的隔离维度，比如网络带宽、磁盘使用量等；</span><br><span class="line">给内核提交 patch，修复容器的资源可见性问题，cgroup 方面的 bug；</span><br><span class="line">实现基于 Hypervisor 的容器，通过创建新内核来实现容器隔离。</span><br></pre></td></tr></table></figure></p>
+<p>2、P2P镜像分发<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">点对点分发镜像【相对于中央仓库分发镜像、极大见笑了中央仓库的网络压力】</span><br><span class="line"></span><br><span class="line">工具：阿里巴巴镜像分发工具&quot;蜻蜓&quot;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/alibaba/dragonfly" target="_blank" rel="noopener">蜻蜓地址</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-781bc5f086599150.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch 与蜻蜓的使用架构图"></p>
+<p>3、富容器技术<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> Pouch 技术可以说对业务没有任何的侵入性，也正是因为这一点在集团内部做到 100% 容器化。</span><br><span class="line">这样的容器技术，被无数阿里人称为“富容器”。</span><br><span class="line"></span><br><span class="line">“富容器”技术的实现，主要是为了在 Linux 内核上创建一个与虚拟机体验完全一致的容器。</span><br><span class="line">如此一来，比一般容器要功能强大，内部有完整的 init 进程，以及业务应用需要的任何服务，当然这也印证了 Pouch 为什么可以做到对应用没有“侵入性”。</span><br><span class="line">技术的实现过程中，Pouch 需要将容器的执行入口定义为 systemd，而在内核态，Pouch 引入了 cgroup namespace 这一最新的内核 patch，满足 systemd 在富容器模式的隔离性。</span><br><span class="line">从企业运维流程来看，富容器同样优势明显。</span><br><span class="line">它可以在应用的 Entrypoint 启动之前做一些事情，比如统一要做一些安全相关的事情，运维相关的 agent 拉起。</span><br><span class="line">这些需要统一做的事情，倘若放到用户的启动脚本，或镜像中就对用户的应用诞生了侵入性，而富容器可以透明的处理掉这些事情。</span><br></pre></td></tr></table></figure></p>
+<p>4、内核兼容性<br>可以理解为兼容老版本linux内核系统</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7a41c33b6c7eae05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch生态架构"></p>
+<p>Pouch 的生态架构可以从两个方面来看：第一，如何对接容器编排系统；第二，如何加强容器运行时。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ac732db7a31676b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch内部系统架构"></p>
+<p>传统的容器引擎方案相似，Pouch 也呈现出 C/S 的软件架构。命令行 CLI 层面，可以同时支持 Pouch CLI 以及 Docker CLI。对接容器 runtime，Pouch 内部通过 container client 通过 gRPC 调用 containerd。Pouch Daemon 的内部采取组件化的设计理念，抽离出相应的 System Manager、Container Manager、Image Manager、Network Manager、Volume Manager 提供统一化的对象管理方案。</p>
+<p><a href="http://www.infoq.com/cn/articles/alibaba-pouch" target="_blank" rel="noopener">以上内容来自 infoq阿里关于pouch介绍</a></p>
 
           
         
@@ -524,7 +525,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring/spring/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-boot/version-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -543,8 +544,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring/spring/" itemprop="url">
-                  spring
+                <a class="post-title-link" href="/2018/03/24/spring-boot/version-config/" itemprop="url">
+                  版本问题
                 </a>
               
             
@@ -614,17 +615,6 @@
 
           
             
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2018/03/24/spring/spring/#SOHUCS" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span id="url::http://www.wuxinvip.com/2018/03/24/spring/spring/" class="cy_cmt_count" data-xid="2018/03/24/spring/spring/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
           
 
           
@@ -651,13 +641,13 @@
       
         
           
-            <p>特性:IOC　AOP</p>
-<p>控制反转．面向切面编程</p>
-<p>由spring创建obj.</p>
-<p>独特的obj注入方式</p>
-<p>执行过程切面管理</p>
-<p>bean加载方式<br><img src="../img/spring-aop-1.jpg" alt="AOP"></p>
-<p>spring cglib代理织入切面方法执行<br><img src="../img/spring-ioc-1.jpg" alt="spring cglib代理织入切面方法执行"></p>
+            <p>springboot 1.x</p>
+<p>server.context-path=/demo</p>
+<p>springboot 2.x</p>
+<p>server.servlet.context-path=/demo<br>不兼容了许多组建:sleuth.</p>
+<p>1.5的springboot 对各大开源组件兼容的版本比较低 比如es、</p>
+<p>因项目中使用es。5.X、spring-boot1.5兼容到4.X版本</p>
+<p>而springboot对es5.x的兼容是spring-boot2.0版本、干的项目里前后不能相顾、很尴尬。。</p>
 
           
         
@@ -715,7 +705,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/ehcache/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/Hystrix/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -734,8 +724,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
-                  ehcache
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/Hystrix/" itemprop="url">
+                  Hystrix
                 </a>
               
             
@@ -805,17 +795,6 @@
 
           
             
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2018/03/24/cache/ehcache/#SOHUCS" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span id="url::http://www.wuxinvip.com/2018/03/24/cache/ehcache/" class="cy_cmt_count" data-xid="2018/03/24/cache/ehcache/" itemprop="commentsCount" ></span>
-                </a>
-              
-            
           
 
           
@@ -842,26 +821,11 @@
       
         
           
-            <p>ehcache service层缓存系统</p>
-<p><strong>发展史</strong></p>
-<pre><code>Ehcache
-开发者（S）    Terracotta，Inc。[1]
-稳定版本
-3.3.0 / 2017年2月1日; 16个月前
-写入    Java的
-操作系统    跨平台
-类型    高速缓存
-执照    Apache许可证 2.0
-网站    www.ehcache.org
+            <p><strong>原理</strong></p>
+<p>1、流程图<br><img src="http://upload-images.jianshu.io/upload_images/6434888-009577c3c4e7377a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方原版流程图"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、方法标注 @HystrixCommand注解</span><br><span class="line">2、方法执行进入执行队列、方法执行、【图中标注 .toObservable()状态】</span><br><span class="line">3、缓存是否可见【有 返回缓存数据；没有进入下一步判断】</span><br><span class="line">4、断路器是否打开【未打开 直接判断信号量线程池是否拒绝 ；打开且触发断路进去fallback方法】</span><br><span class="line">5、信号量线程池是否拒绝【未拒绝 创建线程池隔离舱执行业务逻辑 ；拒绝 执行fallback方法】</span><br><span class="line">6、业务逻辑执行是否成功【成功 判断是否超时；未成功 执行fallback方法】</span><br><span class="line">7、判断是否超时【超时 不返回 未超时返回数据】</span><br><span class="line">8、fallback执行结果【成功 返回数据 ；失败 返回失败或者自行实现业务方法】</span><br><span class="line"></span><br><span class="line">其中方法执行结果要返回断路器健康状态给断路器【也就是图中绿色4】</span><br></pre></td></tr></table></figure></p>
+<p>具体信息可见官方详细：</p>
+<p><a href="https://github.com/Netflix/Hystrix/wiki/How-it-Works" target="_blank" rel="noopener">https://github.com/Netflix/Hystrix/wiki/How-it-Works</a></p>
 
-Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
-
-Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
-
-该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
-
-2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
-</code></pre>
           
         
       
@@ -1296,10 +1260,19 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
 
 
 
-  
-    <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cytHkUEmA"></script>
-  
 
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
 
 
 
