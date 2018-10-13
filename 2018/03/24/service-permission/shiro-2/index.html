@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "511a53c9"
+    });
+  daovoice('update');
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=kaiti:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":true},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="权限分为：操作权限、业务权限、数据权限三种 １、操作权限 现阶段操作权限都是使用shiro进行控制  shiro 也是基于RBAC思想 【不懂的小朋友就去百度RBAC】  shiro 的表设计　 最基本的无张表：用户表、用户角色表、角色表、角色操作权限表、操作权限表、 一般也满足使用了　  复杂点有用户组表　角色组表　等等　这些RBAC都有介绍 那么　What is Apache Shiro?Ap">
+<meta name="keywords" content="权限认证">
+<meta property="og:type" content="article">
+<meta property="og:title" content="权限系统_shiro_验证流程">
+<meta property="og:url" content="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-2/index.html">
+<meta property="og:site_name" content="无心技术簿">
+<meta property="og:description" content="权限分为：操作权限、业务权限、数据权限三种 １、操作权限 现阶段操作权限都是使用shiro进行控制  shiro 也是基于RBAC思想 【不懂的小朋友就去百度RBAC】  shiro 的表设计　 最基本的无张表：用户表、用户角色表、角色表、角色操作权限表、操作权限表、 一般也满足使用了　  复杂点有用户组表　角色组表　等等　这些RBAC都有介绍 那么　What is Apache Shiro?Ap">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-ca7b498d80205016?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-812053f1688a5148?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-7916901ac0a8c963?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-fcde51aa1ec15518?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-7acaa4b459d97e2a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-c580f286351ecd1f?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-10-13T16:47:08.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="权限系统_shiro_验证流程">
+<meta name="twitter:description" content="权限分为：操作权限、业务权限、数据权限三种 １、操作权限 现阶段操作权限都是使用shiro进行控制  shiro 也是基于RBAC思想 【不懂的小朋友就去百度RBAC】  shiro 的表设计　 最基本的无张表：用户表、用户角色表、角色表、角色操作权限表、操作权限表、 一般也满足使用了　  复杂点有用户组表　角色组表　等等　这些RBAC都有介绍 那么　What is Apache Shiro?Ap">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/6434888-ca7b498d80205016?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="无心技术簿" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-2/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>权限系统_shiro_验证流程 | 无心技术簿</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">无心技术簿</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">42</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">5</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">207</span></a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">权限系统_shiro_验证流程
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-14 00:47:08" itemprop="dateModified" datetime="2018-10-14T00:47:08+08:00">2018-10-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/blog/" itemprop="url" rel="index"><span itemprop="name">blog</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/03/24/service-permission/shiro-2/#SOHUCS" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/03/24/service-permission/shiro-2/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>权限分为：操作权限、业务权限、数据权限三种</strong></p>
+<p>１、操作权限</p>
+<pre><code>现阶段操作权限都是使用shiro进行控制
+
+shiro 也是基于RBAC思想 【不懂的小朋友就去百度RBAC】
+
+shiro 的表设计　
+最基本的无张表：用户表、用户角色表、角色表、角色操作权限表、操作权限表、
+一般也满足使用了　
+
+复杂点有用户组表　角色组表　等等　这些RBAC都有介绍
+</code></pre><p>那么　<strong>What is Apache Shiro?</strong><br>Apache Shiro 是一个强大而灵活的开源安全框架，它干净利落地处理身份认证，授权，企业会话管理和加密。</p>
+<p>这个比较牛逼、集成了 shiro 什么权限怎么控制的你就不用管了、照着他的文档使用就可以了、页面操作按钮【可以使用Tag控制】<br>web.xml　添加了拦截器之后、他能保证整个会话中都知道用户的权限、一直放到缓存中、你在整个流程中想要什么时候查询整个用户的角色、ｉｄ都可以直接通过他的方法拿到、那么他是怎么实现的呢？<br>其实把他理解成一个封装工具或者一个安全框架也行、契合到项目中使用、简洁我们自己的代码、而且他这个工具还是Apache的　在安全方面还是比较值得信任的</p>
+<p><strong>那么他做了什么呢？</strong>　<br>    官方有以下说明：<br>        验证用户来核实用户身份<br>        对用户访问进行控制<br>            判断用户是否被分配了一个确定的安全角色<br>            判断用户是否被允许做某事<br>        在任何环境下使用SessionAPI　即使没有　web　EJB容器<br>        在身份验证、访问控制期间、会话的生命周期、对事件做出反应<br>        聚集一个或多个用户安全数据源、并作为一个单一复合用户“视图”<br>        启动单点登陆【SSO】功能<br>        为没有关联登陆的用户启用　Remember Me服务<br>        。。。</p>
+<p><strong>关于实现原理：</strong><br>    shiro 团队　把这四个功能成为　应用程序的四大基石：身份认证、授权、会话管理、加密</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ca7b498d80205016?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方原图"></p>
+<p><strong>shiro核心部分：</strong></p>
+<pre><code>Authentication：有时也简称为“登录”，这是一个证明用户是他们所说的他们是谁的行为。
+Authorization：访问控制的过程，也就是绝对“谁”去访问“什么”。
+Session Management：管理用户特定的会话，即使在非 Web 或 EJB 应用程序。
+Cryptography：通过使用加密算法保持数据安全同时易于使用。
+</code></pre><p>看不懂？那么想想我们自己的登陆系统应该是怎样的呢？<br><img src="http://upload-images.jianshu.io/upload_images/6434888-812053f1688a5148?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-7916901ac0a8c963?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"></p>
+<pre><code>那么这样就好理解了　登陆就像是Authentication　管理用户标识　谁是谁　
+那么Authorization就像是登陆系统中的查看角色权限等功能＼管理谁应该访问什么资源　
+Session　Management　就是一个管理会话的工具　将返还的ticket放置在哪里传递给用户
+Cryptography 暂时就理解为加密算法
+
+额外功能：
+
+    Web Support：Shiro 的 web 支持的 API 能够轻松地帮助保护 Web 应用程序。
+    Caching：缓存是 Apache Shiro 中的第一层公民，来确保安全操作快速而又高效。
+    Concurrency：Apache Shiro 利用它的并发特性来支持多线程应用程序。
+    Testing：测试支持的存在来帮助你编写单元测试和集成测试，并确保你的能够如预期的一样安全。
+    &quot;Run As&quot;：一个允许用户假设为另一个用户身份（如果允许）的功能，有时候在管理脚本很有用。
+    &quot;Remember Me&quot;：在会话中记住用户的身份，所以他们只需要在强制时候登录。
+</code></pre><p>分解下：<br>    先说认证 Authenticating Subjects （验证 Subjects）<br>    系统分为了三个不同的步骤：<br>        1、手机Subjects提交的Principals（身份）和Credentials（凭证）<br>        2、提交Principals（身份）和Credentials（凭证）进行认证<br>        3、如果提交成功、则允许访问、否则则重新认证或者阻止进行访问</p>
+<p>代码如下：<br>Step 1 ：收集 Subject 的 的 Principals( 身份)和 和 Credentials( 凭证)<br>    UsernamePasswordToken token = new UsernamePasswordToken(username, password);<br>Step 2 ：提交 Subject 的 的 Principals( 身份)和 和 Credentials(<br>    Subject currentUser = SecurityUtils.getSubject();<br>    currentUser.login(token);<br>Step3<br>    成功： 应用程序继续执行、并把subject.isAuthenticated(true)<br>    失败：返回登录？访问次数过多进行锁定？等等可以用户自己判断</p>
+<p>那么关于注销呢 也是easy<br>调用方法如下：<br>    currentUser.logout(); //removes all identifying information an invalidates their session too.</p>
+<p><strong>贴一下官方文档原图体会下具体流程：</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fcde51aa1ec15518?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-7acaa4b459d97e2a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-c580f286351ecd1f?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"></p>
+<p>功能模块定义<br>1、Authenticator（认证器）<br>    shiro中默认使用了一个ModularRealmAuthenticator实例<br>    这个实例中同样支持着一个Realm以及多个Realm的应用<br>通过配置也可以修改这个配置 在shiro.ini 中配置响应数据</p>
+<p>2、AuthenticationStrategy（认证策略）<br>    当一个应用程序配置了两个或者以上的Realm时候、就需要依靠内部组件来配置认证策略<br>    在这个规则中使用到了AuthenticationStrategy 一个无状态组件 在身份验证尝试中会询问4次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、在任何 Realm 被调用之前被询问；</span><br><span class="line">2. 在一个单独的 Realm 的 getAuthenticationInfo 方法被调用之前立即被询问；</span><br><span class="line">3. 在一个单独的 Realm 的 getAuthenticationInfo 方法被调用之后立即被询问；</span><br><span class="line">4. 在所有的 Realm 被调用后询问。</span><br></pre></td></tr></table></figure>
+<p>然后AuthenticationStrategy  会总结合并所有的返回值 并最终确定Subject的最终ID值 （即Principals身份）</p>
+<p>3、Realm  的验证顺序<br>    关于Realm的验证顺序 有两种 一种是Implicit ordering(隐式排列)  另一种是 Explicit Ordering(显示排列)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">在shiro.ini中配置如下：</span><br><span class="line"></span><br><span class="line">隐式排列：</span><br><span class="line">blahRealm = com.company.blah.Realm</span><br><span class="line">…</span><br><span class="line">fooRealm = com.company.foo.Realm</span><br><span class="line">…</span><br><span class="line">barRealm = com.company.another.Realm</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line">securityManager.realms = $blahRealm, $fooRealm, $barRealm</span><br><span class="line"></span><br><span class="line">显示排列</span><br><span class="line"></span><br><span class="line">	如果你想明确地定义 Realm 的交互顺序，忽略它们是如何定义的，你可以设置 securityManager 的属性作为一</span><br><span class="line">个明确的集合属性。例如，如果使用上面的定义，但你想 blahRealm 最后被请求而不是第一个：</span><br><span class="line">blahRealm = com.company.blah.Realm</span><br><span class="line">…</span><br><span class="line">fooRealm = com.company.foo.Realm</span><br><span class="line">…</span><br><span class="line">barRealm = com.company.another.Realm</span><br><span class="line">securityManager.realms = $fooRealm, $barRealm,$blahRealm</span><br><span class="line"></span><br><span class="line">当你显式地配置 securityManager.realms 的属性是，只有已引用的 Realm 将会在</span><br><span class="line">SecurityManager 中被配置。这意味着你能够在 INI 文件中定义 5 个 realm，但是实际上只能使用 3 个如果只有</span><br><span class="line">这 3 个被引用到 realm 的属性中的话.这是和隐式 realm 顺序不同的，所有可用的隐式的 realm 都将被使用。</span><br></pre></td></tr></table></figure>
+<p>至此 shiro身份认证顺序逻辑结束</p>
+<p>下一篇<a href="http://blog.csdn.net/huoyan403/article/details/78292072" target="_blank" rel="noopener">Shiro Authorization （ 授权）</a></p>
+<p>那么 shiro 的使用呢　<br>    maven 导入 shiro 包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;shiro-core&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.1.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency</span><br><span class="line"></span><br><span class="line">另外 shiro 使用了 slf4j 作为日志记录工具</span><br><span class="line">所以还要导入 slf4j 相关 jar 包</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.slf4j&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;slf4j-simple&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.6.1&lt;/version&gt;</span><br><span class="line">	&lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>无心</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-2/" title="权限系统_shiro_验证流程">http://www.wuxinvip.com/2018/03/24/service-permission/shiro-2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/权限认证/" rel="tag"># 权限认证</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/24/spring-boot/open-source-project/" rel="next" title="spring官网提供的 spring boot实例">
+                <i class="fa fa-chevron-left"></i> spring官网提供的 spring boot实例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="prev" title="SQL优化【MyISAM-表优化】">
+                SQL优化【MyISAM-表优化】 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="无心" />
+            
+              <p class="site-author-name" itemprop="name">无心</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">207</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wuxinvip" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wuxinvipcom@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i></a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.lanshiqin.com/" title="蓝士钦" target="_blank">蓝士钦</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">无心</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytHkUEmA';
+      var conf = 'prod_6e7b7d38e80b8603d4192a4d85f24774';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
