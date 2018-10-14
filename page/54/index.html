@@ -280,7 +280,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">6</span></a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">5</span></a>
   </li>
         
         
@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/design-pattern/structure/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-system/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/design-pattern/structure/" itemprop="url">
-                  设计模式-结构型
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-system/" itemprop="url">
+                  SQL优化【服务器优化】
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/design-pattern/structure/" class="leancloud_visitors" data-flag-title="设计模式-结构型">
+             <span id="/2018/03/24/mysql/optimization-sql-system/" class="leancloud_visitors" data-flag-title="SQL优化【服务器优化】">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,17 +489,57 @@
       
         
           
-            <p>设计模式-结构型–7种</p>
-<p>组合、适配器、过滤器、桥接、装饰、外观、享元、代理</p>
-<p>组合–最为常用–将对象组合成一个树状结构、例如菜单上做自循环</p>
-<p>适配器–播放器格式适配–对类型判定使用不同子类方法实例</p>
-<p>桥接–封装类组合形成一个复杂对象–把复杂对象拆分简单对象</p>
-<p>过滤器–使用不同标准来过滤一组对象</p>
-<p>装饰–不增加子类-扩展类属性</p>
-<p>外观–外部定义一个高层接口-直接使用其属性</p>
-<p>享元—不太了解</p>
-<p>代理–使用一个类来代理另一个类来执行业务逻辑–简单来讲-classB代理classA、classB来处理业务逻辑</p>
-
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-6042e18b04a9453d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>本节讨论数据库服务器的优化技术，主要处理系统配置而不是调整SQL语句。<br>本节中的信息适用于想要确保他们管理的服务器的性能和可扩展性的DBA; 对于构建包括设置数据库的安装脚本的开发人员; 以及那些希望最大限度提高自身生产力的开发，测试等人员自己运行MySQL。</p>
+<ul>
+<li>8.12.1系统因素</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">一些系统级因素可能会以主要方式影响性能：</span><br><span class="line"></span><br><span class="line">如果有足够的RAM，则可以删除所有交换设备。</span><br><span class="line">某些操作系统在某些情况下使用交换设备，即使您拥有可用内存。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">避免对MyISAM表格进行外部锁定 。</span><br><span class="line">默认值是禁用外部锁定。</span><br><span class="line">在 --external-locking和 --skip-external-locking 选项明确地启用和禁用外部锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">只要您只运行一台服务器，禁用外部锁定不会影响MySQL的功能。</span><br><span class="line">请记住在运行myisamchk之前取下服务器（或者锁定并冲洗相关的表格） 。</span><br><span class="line">在某些系统中，强制禁用外部锁定是因为它无法工作。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">唯一不能禁用外部锁定的情况是在 同一数据上运行多个MySQL 服务器（而不是客户端），或者如果您运行 myisamchk检查（而不是修复）表而不告知服务器先刷新和锁定表。</span><br><span class="line">请注意 ，除了使用NDB群集时，通常不建议使用多个MySQL服务器同时访问相同的数据。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该LOCK TABLES和 UNLOCK TABLES语句使用内部锁定，所以你可以使用他们，即使外部锁定被禁用。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.2优化磁盘I / O</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">本节介绍如何在您将更多更快的存储硬件投入数据库服务器时配置存储设备。</span><br><span class="line">有关优化 InnoDB配置以提高I / O性能的信息，请参见第8.5.8节“优化InnoDB磁盘I / O”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">磁盘寻求是一个巨大的性能瓶颈。</span><br><span class="line">当数据量开始变得如此之大以至于不能有效缓存时，这个问题就会变得更加明显。</span><br><span class="line">对于您可以随意访问数据的大型数据库，您可以确保至少需要一次磁盘查找以及一些磁盘写入操作。</span><br><span class="line">为了尽量减少这个问题，请使用低寻道时间的磁盘。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">通过将文件符号链接到不同的磁盘或剥离磁盘来增加可用磁盘主轴的数量（从而减少查找开销）：</span><br><span class="line"></span><br><span class="line">使用符号链接</span><br><span class="line"></span><br><span class="line">这意味着，对于MyISAM表，您可以将索引文件和数据文件从其在数据目录中的常用位置符号链接到另一个磁盘（也可以是条带化的）。</span><br><span class="line">这使得查找和读取时间更好，假设磁盘也不用于其他目的。</span><br><span class="line">参见 第8.12.3节“使用符号链接”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">符号链接不支持与InnoDB表一起使用 。</span><br><span class="line">但是，可以将InnoDB数据和日志文件放置在不同的物理磁盘上。</span><br><span class="line">有关更多信息，请参见第8.5.8节“优化InnoDB磁盘I / O”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">条带化</span><br><span class="line"></span><br><span class="line">条带化意味着您有许多磁盘，并将第一个磁盘块，第二个磁盘上的第二个磁盘N块和（）磁盘上的第 - 个磁盘块，依此类推。</span><br><span class="line">这意味着如果您的正常数据大小小于条带大小（或完全对齐），则可以获得更好的性能。</span><br><span class="line">分条非常依赖操作系统和条带大小，因此可以用不同的条带大小对应用程序进行基准测试。</span><br><span class="line">参见第8.13.2节“使用自己的基准”。</span><br><span class="line"> N MOD number_of_disks</span><br><span class="line"></span><br><span class="line">对于分拆的速度差是 非常依赖的参数。</span><br><span class="line">根据您设置条带参数和磁盘数量的方式，您可能会得到数量级差异。</span><br><span class="line">您必须选择针对随机或顺序访问进行优化。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了保证可靠性，您可能需要使用RAID 0 + 1（分条加镜像），但在这种情况下，您需要2个 N驱动器来保存 N数据驱动器。</span><br><span class="line">如果你有钱，这可能是最好的选择。</span><br><span class="line">但是，您可能还需要投资一些卷管理软件来有效处理它。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一个好的选择是根据数据类型的重要性来改变RAID级别。</span><br><span class="line">例如，存储可在RAID 0磁盘上重新生成的半重要数据，但存储真正重要的数据，例如主机信息和日志记录在RAID 0 + 1或RAID N磁盘上。</span><br><span class="line">N由于更新奇偶校验位所需的时间，如果您有很多写操作，则RAID 可能会成为问题。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您还可以设置数据库使用的文件系统的参数：</span><br><span class="line"></span><br><span class="line">如果您不需要知道上次访问文件的时间（这在数据库服务器上并不真正有用），则可以使用该-o noatime 选项安装文件系统。</span><br><span class="line">这会跳过对文件系统inode中最后一次访问时间的更新，从而避免一些磁盘搜索。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在许多操作系统上，可以通过将该-o async选项挂载来将文件系统设置为异步更新。</span><br><span class="line">如果您的计算机相当稳定，这应该可以提供更好的性能而不会牺牲太多的可靠性。</span><br><span class="line">（这个标志在Linux上默认打开。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">在MySQL中使用NFS</span><br><span class="line">建议在考虑使用NFS与MySQL时谨慎。</span><br><span class="line">潜在问题因操作系统和NFS版本而异，其中包括：</span><br><span class="line"></span><br><span class="line">放置在NFS卷上的MySQL数据和日志文件被锁定并无法使用。</span><br><span class="line">例如，如果多个MySQL实例访问相同的数据目录，或由于停电等原因导致MySQL不正确关闭，则可能会出现锁定问题。</span><br><span class="line">NFS版本4通过引入基于咨询和基于租约的锁定来解决潜在的锁定问题。</span><br><span class="line">但是，不建议在MySQL实例中共享数据目录。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">由于收到的消息乱序或网络流量丢失而​​导致数据不一致。</span><br><span class="line">要避免此问题，请使用TCP hard和 intr安装选项。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">最大文件大小限制。</span><br><span class="line">NFS版本2客户端只能访问文件的最低2GB（带符号32位偏移量）。</span><br><span class="line">NFS版本3客户端支持较大的文件（最多64位偏移量）。</span><br><span class="line">支持的最大文件大小还取决于NFS服务器的本地文件系统。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在专业SAN环境或其他存储系统中使用NFS往往比在这种环境之外使用NFS提供更高的可靠性。</span><br><span class="line">但是，SAN环境中的NFS可能比直接连接或总线连接的非循环存储要慢。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您选择使用NFS，建议使用NFS版本4或更高版本，与在部署到生产环境之前彻底测试NFS设置一样。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.3使用符号链接</li>
+<li>8.12.3.1在Unix上使用数据库的符号链接</li>
+<li>8.12.3.2在Unix上使用MyISAM表的符号链接</li>
+<li>8.12.3.3在Windows上使用数据库的符号链接</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">您可以将数据库或表从数据库目录移动到其他位置，并用符号链接替换它们到新的位置。</span><br><span class="line">例如，您可能想要执行此操作，将数据库移动到具有更多可用空间的文件系统，或者通过将表分布到不同的磁盘来提高系统的速度。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于InnoDB表，请使用语句中的DATA DIRECTORY子句CREATE TABLE而不是符号链接，如第14.7.5节“在数据目录之外创建文件 - 表 - 表空间”中所述。</span><br><span class="line">这项新功能是支持的跨平台技术。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">推荐的方法是将整个数据库目录符号链接到不同的磁盘。</span><br><span class="line">符号链接 MyISAM表仅作为最后的手段。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要确定数据目录的位置，请使用以下语句：</span><br><span class="line"></span><br><span class="line">SHOW VARIABLES LIKE&apos;datadir&apos;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.3.1在Unix上使用数据库的符号链接</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">在Unix上，符号链接数据库的方式首先是在有空闲空间的磁盘上创建一个目录，然后从MySQL数据目录创建一个到它的软链接。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">shell&gt; mkdir /dr1/databases/test</span><br><span class="line">shell&gt;ln -s /dr1/databases/test /path/to/datadir</span><br><span class="line">MySQL不支持将一个目录链接到多个数据库。</span><br><span class="line">只要不在数据库之间建立符号链接，用符号链接替换数据库目录就可以工作。</span><br><span class="line">假设您db1在MySQL数据目录下有一个数据库 ，然后创建一个符号链接db2指向 db1：</span><br><span class="line"></span><br><span class="line">shell&gt; </span><br><span class="line">shell&gt;cd /path/to/datadirln -s db1 db2</span><br><span class="line">其结果是，对于任何表tbl_a中 db1，也似乎是一个表 tbl_a中db2。</span><br><span class="line">如果一个客户端更新db1.tbl_a并且另一个客户端更新db2.tbl_a，则可能出现问题。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.3.2在Unix上使用MyISAM表的符号链接</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">符号链接仅完全支持 MyISAM表格。</span><br><span class="line">对于其他存储引擎的表使用的文件，如果尝试使用符号链接，则可能会遇到奇怪的问题。</span><br><span class="line">对于InnoDB表，请使用 第14.7.5节“在数据目录之外创建文件 - 表 - 表空间”中介绍的替代技术。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">不要在没有完全可操作realpath()调用的系统上建立符号链接表。</span><br><span class="line">（Linux和Solaris支持realpath()）。</span><br><span class="line">要确定您的系统是否支持符号链接，请have_symlink使用以下语句检查系统变量的值：</span><br><span class="line"></span><br><span class="line">SHOW VARIABLES LIKE&apos;have_symlink&apos;;</span><br><span class="line">处理MyISAM 表的符号链接的工作如下：</span><br><span class="line"></span><br><span class="line">在数据目录中，您始终拥有表格format（.frm）文件，data（.MYD）文件和index（.MYI）文件。</span><br><span class="line">数据文件和索引文件可以在别处移动并通过符号链接替换到数据目录中。</span><br><span class="line">格式文件不能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以将数据文件和索引文件独立链接到不同的目录。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要指示正在运行的MySQL服务器执行符号链接，请使用DATA DIRECTORY和 INDEX DIRECTORY选项 CREATE TABLE。</span><br><span class="line">请参见 第13.1.18节“CREATE TABLE语法”。</span><br><span class="line">或者，如果 mysqld未运行，则可以使用 命令行中的ln -s手动完成符号链接。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">用的一方或双方使用的路径DATA DIRECTORY和INDEX DIRECTORY选项可能不包括MySQL的 data目录。</span><br><span class="line">（错误＃32167）</span><br><span class="line"></span><br><span class="line">myisamchk不会替换数据文件或索引文件的符号链接。</span><br><span class="line">它直接在符号链接指向的文件上工作。</span><br><span class="line">任何临时文件都在数据文件或索引文件所在的目录中创建。</span><br><span class="line">同样是真实的 ALTER TABLE， OPTIMIZE TABLE和 REPAIR TABLE语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">当您删除使用符号链接的表时，符号 链接和符号链接点将被删除的文件。</span><br><span class="line">这是一个非常好的理由，不作为系统 运行 mysqldroot或允许系统用户拥有对MySQL数据库目录的写入权限。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果使用ALTER TABLE ... RENAMEor 重命名表 RENAME TABLE并且不将该表移动到另一个数据库，那么数据库目录中的符号链接将重命名为新名称，并相应地重命名数据文件和索引文件。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您使用 ALTER TABLE ... RENAME或RENAME TABLE将表移动到另一个数据库，则该表将移动到其他数据库目录。</span><br><span class="line">如果表名更改，新数据库目录中的符号链接将重命名为新名称，并相应地重命名数据文件和索引文件。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您不使用符号链接，请使用该 选项启动 mysqld， --skip-symbolic-links以确保没有人可以使用 mysqld删除或重命名数据目录之外的文件。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些表符号链接操作不受支持：</span><br><span class="line"></span><br><span class="line">ALTER TABLE忽略 DATA DIRECTORY和INDEX DIRECTORY表格选项。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如前所述，只有数据和索引文件可以是符号链接。</span><br><span class="line">该.frm文件绝 不能是符号链接。</span><br><span class="line">尝试执行此操作（例如，使一个表名称成为另一个表的同义词）会产生不正确的结果。</span><br><span class="line">假设你db1在MySQL数据目录下有一个数据库，tbl1在这个数据库中有一个表，并且在db1你创建一个tbl2指向符号链接的目录中 tbl1：</span><br><span class="line"></span><br><span class="line">shell&gt; </span><br><span class="line">shell&gt; </span><br><span class="line">shell&gt; </span><br><span class="line">shell&gt;cd /path/to/datadir/db1ln -s tbl1.frm tbl2.frmln -s tbl1.MYD tbl2.MYDln -s tbl1.MYI tbl2.MYI</span><br><span class="line">问题的结果，如果一个线程读取 db1.tbl1，而另一个线程更新 db1.tbl2：</span><br><span class="line"></span><br><span class="line">查询缓存是“ 被愚弄的 ”（它无法知道tbl1尚未更新，因此它会返回过期的结果）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ALTER声明 tbl2失败。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.3.3在Windows上使用数据库的符号链接</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">在Windows上，符号链接可用于数据库目录。</span><br><span class="line">这使您可以通过设置数据库目录的不同位置（例如，在不同的磁盘上）来设置数据库目录的符号链接。</span><br><span class="line">在Windows上使用数据库符号链接与在Unix上使用数据库符号链接类似，尽管设置链接的过程有所不同。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">假设你想要放置一个名为mydbat 的数据库的数据库目录D:\data\mydb。</span><br><span class="line">为此，请在指向的MySQL数据目录中创建一个符号链接 D:\data\mydb。</span><br><span class="line">但是，在创建符号链接之前，D:\data\mydb必要时通过创建它来确保该 目录存在。</span><br><span class="line">如果您已mydb在数据目录中指定了一个数据库目录，请将其移至D:\data。</span><br><span class="line">否则，符号链接将无效。</span><br><span class="line">为避免出现问题，请确保在移动数据库目录时服务器未运行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Windows Vista，Windows Server 2008或更新版本具有原生符号链接支持，因此您可以使用mklink命令创建符号链接 。</span><br><span class="line">该命令需要管理权限。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">将位置更改为数据目录：</span><br><span class="line"></span><br><span class="line">C：\&gt; cd \path\to\datadir</span><br><span class="line">在数据目录中，创建一个名为的mydb指向数据库目录位置的符号链接 ：</span><br><span class="line"></span><br><span class="line">C：\&gt; mklink /d mydb D:\data\mydb</span><br><span class="line">在此之后，数据库mydb中创建的所有表格 都将在中创建 D:\data\mydb。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.4优化内存使用</li>
+<li>8.12.4.1 MySQL如何使用内存</li>
+<li>8.12.4.2启用大页面支持</li>
+<li>8.12.4.1 MySQL如何使用内存</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br></pre></td><td class="code"><pre><span class="line">MySQL分配缓冲区和缓存以提高数据库操作的性能。</span><br><span class="line">默认配置旨在允许MySQL服务器在具有大约512MB内存的虚拟机上启动。</span><br><span class="line">您可以通过增加某些缓存和缓冲区相关系统变量的值来提高MySQL的性能。</span><br><span class="line">您还可以修改默认配置以在内存有限的系统上运行MySQL。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以下列表描述了MySQL使用内存的一些方式。</span><br><span class="line">在适用的情况下，引用相关的系统变量。</span><br><span class="line">有些项目是存储引擎或功能特定的。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所述InnoDB缓冲器池是保持缓存的存储区InnoDB表，索引，及其它辅助缓冲器中的数据。</span><br><span class="line">为了提高高容量读取操作的效率，缓冲池分为 可能包含多行的页面。</span><br><span class="line">为了高速缓存管理的效率，缓冲池被实现为页面的链接列表; 很少使用的数据使用LRU算法的变体超时缓存 。</span><br><span class="line">有关更多信息，请参见第14.6.3.1节“InnoDB缓冲池”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">缓冲池的大小对系统性能很重要：</span><br><span class="line"></span><br><span class="line">InnoDB在服务器启动时使用malloc()操作为整个缓冲池分配内存 。</span><br><span class="line">所述 innodb_buffer_pool_size 系统变量定义缓冲池大小。</span><br><span class="line">通常，推荐 innodb_buffer_pool_size 值是系统内存的50％到75％。</span><br><span class="line"> innodb_buffer_pool_size 可以在服务器运行时动态配置。</span><br><span class="line">有关更多信息，请参见 第14.6.3.2节“配置InnoDB缓冲池大小”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在具有大量内存的系统上，可以通过将缓冲池分为多个缓冲池实例来提高并发性 。</span><br><span class="line">所述 innodb_buffer_pool_instances 系统变量定义缓冲池实例的数量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">缓冲池太小可能会导致过度搅动，因为页面仅从缓冲池刷新到短时间内再次需要。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">由于竞争内存，缓冲池太大可能会导致交换。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所有线程共享MyISAM 密钥缓冲区。</span><br><span class="line">的 key_buffer_size系统变量决定其大小。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于MyISAM服务器打开的每个表，索引文件都打开一次; 对于每个访问表的并发运行线程，数据文件都会打开一次。</span><br><span class="line">对于每个并发线程，分配一个表结构，每列的列结构和一个大小的缓冲区 （其中是最大行长度，不包括 列）。</span><br><span class="line">一 列需要五到八个字节加上数据的长度 。</span><br><span class="line">该 存储引擎维护用于内部使用一个额外的行缓冲。</span><br><span class="line"> 3 * NNBLOBBLOBBLOBMyISAM</span><br><span class="line"></span><br><span class="line">所述myisam_use_mmap 系统变量可以被设置为1，使能对所有内存映射MyISAM表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果内部内存临时表变得太大（使用tmp_table_size和 max_heap_table_size 系统变量确定 ），MySQL会自动将表从内存转换为磁盘格式。</span><br><span class="line">磁盘上的临时表使用由internal_tmp_disk_storage_engine 系统变量定义的存储引擎 。</span><br><span class="line">您可以按照第8.4.4节“MySQL中的内部临时表使用”中所述增加允许的临时表大小 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于使用MEMORY明确创建的表CREATE TABLE，只有 max_heap_table_size 系统变量决定允许表增长多少，并且没有转换为磁盘格式。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在MySQL性能模式是在低级别监控MySQL服务器执行的功能。</span><br><span class="line">性能模式以增量方式动态分配内存，将其内存使用扩展到实际的服务器负载，而不是在服务器启动期间分配所需的内存。</span><br><span class="line">一旦分配内存，在服务器重新启动之前它不会被释放。</span><br><span class="line">有关更多信息，请参见 第25.16节“性能模式内存分配模型”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器用于管理客户端连接的每个线程都需要一些线程特定的空间。</span><br><span class="line">以下列表指示这些以及哪些系统变量控制其大小：</span><br><span class="line"></span><br><span class="line">堆栈（thread_stack）</span><br><span class="line"></span><br><span class="line">连接缓冲区（net_buffer_length）</span><br><span class="line"></span><br><span class="line">结果缓冲区（net_buffer_length）</span><br><span class="line"></span><br><span class="line">连接缓冲区和结果缓冲区每个都以大小等于net_buffer_length字节的大小开始 ，但max_allowed_packet根据需要动态放大到 字节。</span><br><span class="line">net_buffer_length在每个SQL语句之后，结果缓冲区会缩小为 字节。</span><br><span class="line">当语句正在运行时，还会分配当前语句字符串的副本。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">每个连接线程都使用内存来计算语句摘要。</span><br><span class="line">服务器分配 max_digest_length每个会话的字节数。</span><br><span class="line">请参见 第25.9节“性能架构语句摘要”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所有线程共享相同的基本内存。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当不再需要线程时，分配给它的内存将被释放并返回到系统，除非线程回到线程缓存中。</span><br><span class="line">在这种情况下，内存保持分配。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">每个执行表的顺序扫描的请求都会分配一个读取缓冲区。</span><br><span class="line">的 read_buffer_size系统变量决定缓冲器大小。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在以任意顺序读取行时（例如，在排序后）， 可能会分配一个 随机读取缓冲区以避免磁盘搜索。</span><br><span class="line">的 read_rnd_buffer_size 系统变量决定缓冲器大小。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所有连接都在一次执行中执行，大多数连接都可以在不使用临时表的情况下完成。</span><br><span class="line">大多数临时表是基于内存的哈希表。</span><br><span class="line">具有较大行长度（以所有列长度的总和计算）或包含BLOB列的临时表 存储在磁盘上。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">大多数执行排序的请求会根据结果集大小分配排序缓冲区和零到两个临时文件。</span><br><span class="line">请参见第B.5.3.5节“MySQL存储临时文件的位置”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">几乎所有的解析和计算都是在线程本地和可重用的内存池中完成的。</span><br><span class="line">小项目不需要内存开销，从而避免了正常的慢速内存分配和释放。</span><br><span class="line">内存仅分配给意外大的字符串。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于每个包含BLOB 列的表，动态地放大缓冲区以读取更大的BLOB值。</span><br><span class="line">如果您扫描一个表格，缓冲区会增大到 BLOB最大值。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL需要表缓存的内存和描述符。</span><br><span class="line">所有使用中表格的处理程序结构都保存在表格缓存中，并作为“ 先进先出 ”（FIFO）进行管理。</span><br><span class="line">所述 table_open_cache系统变量定义初始表高速缓存大小; 请参见 第8.4.3.1节“MySQL如何打开和关闭表”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL还需要用于表定义缓存的内存。</span><br><span class="line">所述 table_definition_cache 系统变量定义的表定义（距离的数量.frm可以存储在表中定义的高速缓存文件）。</span><br><span class="line">如果您使用大量表格，则可以创建大型表格定义缓存以加快表格的打开速度。</span><br><span class="line">与表缓存不同，表定义缓存占用更少的空间并且不使用文件描述符。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一个FLUSH TABLES语句或 中mysqladmin冲水表命令关闭不在使用一次的所有表，并标记所有在用的表被关闭当前正在执行的线程结束时。</span><br><span class="line">这有效地释放了大部分使用中的内存。</span><br><span class="line">FLUSH TABLES直到所有表都关闭后才会返回。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器在内存中缓存信息的结果 GRANT， CREATE USER， CREATE SERVER，和 INSTALL PLUGIN语句。</span><br><span class="line">该内存不能由相应的释放 REVOKE， DROP USER， DROP SERVER，和 UNINSTALL PLUGIN 语句，所以执行导致缓存报表的多个实例的服务器上，将有内存使用的增加。</span><br><span class="line">这个缓存的内存可以被释放FLUSH PRIVILEGES。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ps和其他系统状态程序可能会报告 mysqld使用大量内存。</span><br><span class="line">这可能是由不同内存地址上的线程堆栈引起的。</span><br><span class="line">例如，Solaris的 ps版本将 堆栈之间未使用的内存计为已用内存。</span><br><span class="line">要验证这一点，请检查可用的交换 swap -s。</span><br><span class="line">我们 用几个内存泄漏检测器（商业和开源）测试 mysqld，所以应该没有内存泄漏。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">监视MySQL内存使用情况</span><br><span class="line">以下示例演示如何使用 Performance Schema 和sys模式来监视MySQL内存使用情况。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">大多数性能架构内存工具默认情况下处于禁用状态。</span><br><span class="line">可以通过更新ENABLED性能模式setup_instruments表的列 来启用仪器 。</span><br><span class="line">记忆仪器的名称形式为 ，其中是诸如或的值，并且 是仪器的详细信息。</span><br><span class="line"> memory/code_area/instrument_namecode_areasqlinnodbinstrument_name</span><br><span class="line"></span><br><span class="line">要查看可用的MySQL内存工具，请查询性能架构 setup_instruments表。</span><br><span class="line">以下查询返回所有代码区域的数百个内存工具。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL的&gt; SELECT * FROM performance_schema.setup_instruments</span><br><span class="line">       WHERE NAME LIKE &apos;%memory%&apos;;</span><br><span class="line">您可以通过指定代码区域来缩小结果。</span><br><span class="line">例如，您可以InnoDB通过指定innodb代码区域将结果限制在 内存仪器中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL的&gt; SELECT * FROM performance_schema.setup_instruments</span><br><span class="line">       WHERE NAME LIKE &apos;%memory/innodb%&apos;;</span><br><span class="line">+ ------------------------------------------- + ----- ---- + ------- +</span><br><span class="line">| NAME | ENABLED | TIMED |</span><br><span class="line">+ ------------------------------------------- + ----- ---- + ------- +</span><br><span class="line">| 内存/ innodb /自适应哈希索引| NO | NO |</span><br><span class="line">| 内存/ innodb / buf_buf_pool | NO | NO |</span><br><span class="line">| 内存/ innodb / dict_stats_bg_recalc_pool_t | NO | NO |</span><br><span class="line">| 内存/ innodb / dict_stats_index_map_t | NO | NO |</span><br><span class="line">| 内存/ innodb / dict_stats_n_diff_on_level | NO | NO |</span><br><span class="line">| 内存/ innodb / other | NO | NO |</span><br><span class="line">| 内存/ innodb / row_log_buf | NO | NO |</span><br><span class="line">| 内存/ innodb / row_merge_sort | NO | NO |</span><br><span class="line">| 内存/ innodb / std | NO | NO |</span><br><span class="line">| 内存/ innodb / trx_sys_t :: rw_trx_ids | NO | NO |</span><br><span class="line">...</span><br><span class="line">根据您的MySQL安装代码区域可能包括performance_schema， sql，client， innodb，myisam， csv，memory， blackhole， archive， partition，和其他人。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要启用内存工具，performance-schema-instrument请在MySQL配置文件中添加一条 规则。</span><br><span class="line">例如，要启用所有内存工具，请将此规则添加到您的配置文件并重新启动服务器：</span><br><span class="line"></span><br><span class="line">性能架构仪器=“存储器/％=计数”</span><br><span class="line">注意</span><br><span class="line">在启动时启用内存工具可确保启动时发生的内存分配计数。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重新启动服务器后，ENABLEDPerformance Schema setup_instruments 表的 列应报告YES您启用的内存工具。</span><br><span class="line">内存操作未定时TIMED，setup_instruments表中的 列 被忽略。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL的&gt; SELECT * FROM performance_schema.setup_instruments</span><br><span class="line">       WHERE NAME LIKE &apos;%memory/innodb%&apos;;</span><br><span class="line">+ ------------------------------------------- + ----- ---- + ------- +</span><br><span class="line">| NAME | ENABLED | TIMED |</span><br><span class="line">+ ------------------------------------------- + ----- ---- + ------- +</span><br><span class="line">| 内存/ innodb /自适应哈希索引| NO | NO |</span><br><span class="line">| 内存/ innodb / buf_buf_pool | NO | NO |</span><br><span class="line">| 内存/ innodb / dict_stats_bg_recalc_pool_t | NO | NO |</span><br><span class="line">| 内存/ innodb / dict_stats_index_map_t | NO | NO |</span><br><span class="line">| 内存/ innodb / dict_stats_n_diff_on_level | NO | NO |</span><br><span class="line">| 内存/ innodb / other | NO | NO |</span><br><span class="line">| 内存/ innodb / row_log_buf | NO | NO |</span><br><span class="line">| 内存/ innodb / row_merge_sort | NO | NO |</span><br><span class="line">| 内存/ innodb / std | NO | NO |</span><br><span class="line">| 内存/ innodb / trx_sys_t :: rw_trx_ids | NO | NO |</span><br><span class="line">...</span><br><span class="line">查询记忆仪器数据。</span><br><span class="line">在本例中，内存仪器数据在Performance Schema memory_summary_global_by_event_name 表格中查询，该 表格通过对数据进行汇总 EVENT_NAME。</span><br><span class="line">这 EVENT_NAME是乐器的名称。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以下查询返回InnoDB缓冲池的内存数据 。</span><br><span class="line">有关列说明，请参见 第25.11.15.9节“内存汇总表”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL的&gt; SELECT * FROM performance_schema.memory_summary_global_by_event_name</span><br><span class="line">       WHERE EVENT_NAME LIKE &apos;memory/innodb/buf_buf_pool&apos;\G</span><br><span class="line">                  EVENT_NAME：内存/ innodb / buf_buf_pool</span><br><span class="line">                 COUNT_ALLOC：1</span><br><span class="line">                  COUNT_FREE：0</span><br><span class="line">   SUM_NUMBER_OF_BYTES_ALLOC：137428992</span><br><span class="line">    SUM_NUMBER_OF_BYTES_FREE：0</span><br><span class="line">              LOW_COUNT_USED：0</span><br><span class="line">          CURRENT_COUNT_USED：1</span><br><span class="line">             HIGH_COUNT_USED：1</span><br><span class="line">    LOW_NUMBER_OF_BYTES_USED：0</span><br><span class="line">CURRENT_NUMBER_OF_BYTES_USED：137428992</span><br><span class="line">   HIGH_NUMBER_OF_BYTES_USED：137428992</span><br><span class="line">可以使用sys架构memory_global_by_current_bytes 表来查询相同的底层数据，该 架构 表显示全局服务器当前的内存使用情况，按分配类型细分。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL的&gt; SELECT * FROM sys.memory_global_by_current_bytes</span><br><span class="line">       WHERE event_name LIKE &apos;memory/innodb/buf_buf_pool&apos;\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">       event_name：内存/ innodb / buf_buf_pool</span><br><span class="line">    current_count：1</span><br><span class="line">    current_alloc：131.06 MiB</span><br><span class="line">current_avg_alloc：131.06 MiB</span><br><span class="line">       high_count：1</span><br><span class="line">       high_alloc：131.06 MiB</span><br><span class="line">   high_avg_alloc：131.06 MiB</span><br><span class="line">该sys模式查询current_alloc通过代码区域聚合当前分配的内存（）：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; SELECT SUBSTRING_INDEX(event_name,&apos;/&apos;,2) AS</span><br><span class="line">       code_area, sys.format_bytes(SUM(current_alloc))</span><br><span class="line">       AS current_alloc</span><br><span class="line">       FROM sys.x$memory_global_by_current_bytes</span><br><span class="line">       GROUP BY SUBSTRING_INDEX(event_name,&apos;/&apos;,2)</span><br><span class="line">       ORDER BY SUM(current_alloc) DESC;</span><br><span class="line">+ --------------------------- + -------- +</span><br><span class="line">| code_area | current_alloc |</span><br><span class="line">+ --------------------------- + -------- +</span><br><span class="line">| 内存/ innodb | 843.24 MiB |</span><br><span class="line">| 内存/ performance_schema | 81.29 MiB |</span><br><span class="line">| 内存/ mysys | 8.20 MiB |</span><br><span class="line">| memory / sql | 2.47 MiB |</span><br><span class="line">| 内存/内存| 174.01 KiB |</span><br><span class="line">| 内存/ myisam | 46.53 KiB |</span><br><span class="line">| 内存/黑洞| 512字节|</span><br><span class="line">| 内存/联合| 512字节|</span><br><span class="line">| 内存/ csv | 512字节|</span><br><span class="line">| 记忆/ vio | 496字节|</span><br><span class="line">+ --------------------------- + -------- +</span><br><span class="line">有关sys模式的更多信息 ，请参阅 第26章MySQL sys模式。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.4.2启用大页面支持</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">某些硬件/操作系统体系结构支持的内存页面大于默认值（通常为4KB）。</span><br><span class="line">这种支持的实际实施取决于底层硬件和操作系统。</span><br><span class="line">执行大量内存访问的应用程序可能通过使用大页面来获得性能改进，这是因为减少了翻译旁视缓冲区（TLB）缺失。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在MySQL中，InnoDB可以使用大页面为其缓冲池和额外的内存池分配内存。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">标准使用MySQL中的大页面将尝试使用支持的最大大小，最大为4MB。</span><br><span class="line">在Solaris下， “ 超大页面 ”功能可以使用最多256MB的页面。</span><br><span class="line">此功能适用于最新的SPARC平台。</span><br><span class="line">可以使用--super-large-pages或 --skip-super-large-pages 选项启用或禁用它 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL还支持大型页面支持的Linux实现（在Linux中称为HugeTLB）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在Linux上可以使用大页面之前，必须启用内核来支持它们，并且需要配置HugeTLB内存池。</span><br><span class="line">作为参考，HugeTBL API记录在 Documentation/vm/hugetlbpage.txt您的Linux源文件中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">最近的一些系统（如红帽企业Linux）的内核似乎默认启用了大页面功能。</span><br><span class="line">要检查内核是否为真，请使用以下命令并查找包含“ 巨大 ”的输出行 ：</span><br><span class="line"></span><br><span class="line">外壳&gt; cat /proc/meminfo | grep -i huge</span><br><span class="line">HugePages_Total：0</span><br><span class="line">HugePages_Free：0</span><br><span class="line">HugePages_Rsvd：0</span><br><span class="line">HugePages_Surp：0</span><br><span class="line">Hugepagesize：4096 kB</span><br><span class="line">非空命令输出表示存在大页面支持，但零值表示没有配置页面供使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您的内核需要重新配置以支持大页面，请查阅该hugetlbpage.txt文件以获取说明。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">假设您的Linux内核已启用大页面支持，请使用以下命令将其配置为供MySQL使用。</span><br><span class="line">通常，将这些rc文件放入系统启动序列中执行的 文件或等效启动文件中，以便每次系统启动时执行这些命令。</span><br><span class="line">在MySQL服务器启动之前，命令应该在引导序列中尽早执行。</span><br><span class="line">请务必根据您的系统更改分配编号和组编号。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">＃设置要使用的页数。</span><br><span class="line"></span><br><span class="line">＃每页通常为2MB，因此值为20 = 40MB。</span><br><span class="line"></span><br><span class="line">＃这个命令实际上是分配内存，所以这么多</span><br><span class="line">＃内存必须可用。</span><br><span class="line"></span><br><span class="line">echo 20&gt; / proc / sys / vm / nr_hugepages</span><br><span class="line"></span><br><span class="line">＃设置允许访问的组号</span><br><span class="line">＃内存（在这种情况下为102）。</span><br><span class="line">mysql用户必须是</span><br><span class="line">＃此组的成员。</span><br><span class="line"></span><br><span class="line">echo 102&gt; / proc / sys / vm / hugetlb_shm_group</span><br><span class="line"></span><br><span class="line">＃增加每段允许的shmem数量</span><br><span class="line">＃（在这种情况下为12G）。</span><br><span class="line"></span><br><span class="line">echo 1560281088&gt; / proc / sys / kernel / shmmax</span><br><span class="line"></span><br><span class="line">＃增加共享内存总量。</span><br><span class="line">价值</span><br><span class="line">＃是页数。</span><br><span class="line">4KB /页，4194304 = 16GB。</span><br><span class="line"></span><br><span class="line">echo 4194304&gt; / proc / sys / kernel / shmall</span><br><span class="line">对于MySQL的使用情况，您通常希望值 shmmax接近的值 shmall。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要验证大页面配置，请/proc/meminfo按前面所述重新检查 。</span><br><span class="line">现在你应该看到一些非零值：</span><br><span class="line"></span><br><span class="line">外壳&gt; cat /proc/meminfo | grep -i huge</span><br><span class="line">HugePages_Total：20</span><br><span class="line">HugePages_Free：20</span><br><span class="line">HugePages_Rsvd：0</span><br><span class="line">HugePages_Surp：0</span><br><span class="line">Hugepagesize：4096 kB</span><br><span class="line">利用这个最后一步 hugetlb_shm_group就是为 mysql用户提供一个“ 无限 ”的 值，用于memlock限制。</span><br><span class="line">这可以通过编辑/etc/security/limits.conf或将以下命令添加到 mysqld_safe脚本来完成：</span><br><span class="line"></span><br><span class="line">ulimit -l无限制</span><br><span class="line">将ulimit命令添加到 mysqld_safe会导致 root用户unlimited在切换到mysql用户之前 设置memlock限制 。</span><br><span class="line">（这个假定 mysqld_safe由启动 root。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">MySQL中的大页面支持默认是禁用的。</span><br><span class="line">要启用它，请使用该--large-pages选项启动服务器 。</span><br><span class="line">例如，您可以在服务器my.cnf文件中使用以下行 ：</span><br><span class="line"></span><br><span class="line">的[mysqld]</span><br><span class="line">大型网页</span><br><span class="line">使用此选项时，会InnoDB自动为其缓冲池和附加内存池使用大页面。</span><br><span class="line">如果InnoDB不能这样做，则会回退到使用传统内存并向错误日志中写入警告：警告：使用常规内存池</span><br><span class="line"></span><br><span class="line">要验证是否正在使用大页面，请/proc/meminfo再次检查 ：</span><br><span class="line"></span><br><span class="line">外壳&gt; cat /proc/meminfo | grep -i huge</span><br><span class="line">HugePages_Total：20</span><br><span class="line">HugePages_Free：20</span><br><span class="line">HugePages_Rsvd：2</span><br><span class="line">HugePages_Surp：0</span><br><span class="line">Hugepagesize：4096 kB</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.5优化网络使用</li>
+<li>8.12.5.1 MySQL如何使用线程进行客户端连接</li>
+<li>8.12.5.2 DNS查找优化和主机缓存</li>
+<li>8.12.5.1 MySQL如何使用线程进行客户端连接</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">连接管理器线程处理服务器侦听的网络接口上的客户端连接请求。</span><br><span class="line">在所有平台上，一个管理器线程处理TCP / IP连接请求。</span><br><span class="line">在Unix上，这个管理器线程还处理Unix套接字文件连接请求。</span><br><span class="line">在Windows上，管理器线程处理共享内存连接请求，另一个处理命名管道连接请求。</span><br><span class="line">服务器不会创建线程来处理它不会听的接口。</span><br><span class="line">例如，不支持命名管道连接的Windows服务器不会创建线程来处理它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">连接管理器线程将每个客户端连接与专用于它的线程关联，以处理该连接的身份验证和请求处理。</span><br><span class="line">管理器线程在必要时创建一个新线程，但尝试通过首先查询线程缓存来查看它是否包含可用于连接的线程来避免这样做。</span><br><span class="line">当连接结束时，如果缓存未满，则其线程返回到线程缓存。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在这种连接线​​程模型中，线程数量与客户端当前连接的线程数量一样多，当服务器工作负载必须扩展以处理大量连接时，这有一些缺点。</span><br><span class="line">例如，线程创建和处理变得昂贵。</span><br><span class="line">另外，每个线程都需要服务器和内核资源，例如堆栈空间。</span><br><span class="line">为了容纳大量的同时连接，每个线程的堆栈大小必须保持很小，导致它或者太小或者服务器消耗大量内存。</span><br><span class="line">其他资源也可能耗尽，调度开销可能会变得很大。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要控制和监视服务器如何管理处理客户端连接的线程，几个系统和状态变量是相关的。</span><br><span class="line">（请参见第5.1.7节“服务器系统变量”和第5.1.9节“服务器状态变量”。）</span><br><span class="line"></span><br><span class="line">线程缓存的大小由thread_cache_size系统变量决定 。</span><br><span class="line">默认值为0（不缓存），这会导致为每个新连接设置线程并在连接终止时处理该线程。</span><br><span class="line">设置 thread_cache_size为 N启用 N缓存非活动连接线程。</span><br><span class="line">thread_cache_size可以在服务器启动时设置，也可以在服务器运行时更​​改。</span><br><span class="line">连接线程在与其关联的客户端连接终止时变为非活动状态。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了监测缓存的线程和多少个线程已创建的数量，因为一个线程无法从缓存中取，监视 Threads_cached和 Threads_created状态变量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以max_connections 在服务器启动时或运行时设置，以控制可同时连接的最大客户端数量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当线程堆栈太小时，这会限制服务器可以处理的SQL语句的复杂性，存储过程的递归深度以及其他耗费内存的操作。</span><br><span class="line">要N为每个线程设置字节的堆栈大小，请使用 以下命令启动服务器 。</span><br><span class="line"> --thread_stack=N</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8.12.5.2 DNS查找优化和主机缓存</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">MySQL服务器在内存中维护一个包含客户端信息的主机缓存：IP地址，主机名和错误信息。</span><br><span class="line">在host_cache 性能架构表暴露主机缓存，以便它可以使用被检查的内容 SELECT陈述。</span><br><span class="line">这可以帮助您诊断连接问题的原因。</span><br><span class="line">请参见 第25.11.16.1节“host_cache表”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器使用主机缓存有以下几个目的：</span><br><span class="line"></span><br><span class="line">通过缓存IP到主机名称查找的结果，服务器可避免为每个客户端连接执行DNS查找。</span><br><span class="line">相反，对于给定的主机，它只需要对来自该主机的第一个连接执行查找。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">缓存包含有关在连接过程中发生的错误的信息。</span><br><span class="line">有些错误被认为是 “ 阻塞”。</span><br><span class="line">“如果没有成功连接的情况下，从给定主机连续发生太多这样的事件，服务器将阻止来自该主机的进一步连接。</span><br><span class="line">的 max_connect_errors系统变量决定阻挡发生之前允许的错误的数目。</span><br><span class="line">参见第B.5.2.5节“主机&apos;host_name&apos;被阻止”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器为非本地TCP连接使用主机缓存。</span><br><span class="line">它不使用高速缓存来建立使用回送接口地址（例如127.0.0.1或::1）建立的TCP连接 ，或者使用Unix套接字文件，命名管道或共享内存建立的连接。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于每个新的客户端连接，服务器都使用客户端IP地址来检查客户端主机名是否在主机缓存中。</span><br><span class="line">如果没有，则服务器尝试解析主机名。</span><br><span class="line">首先，它将IP地址解析为主机名，并将该主机名解析为IP地址。</span><br><span class="line">然后将结果与原始IP地址进行比较，以确保它们相同。</span><br><span class="line">服务器将有关此操作结果的信息存储在主机缓存中。</span><br><span class="line">如果缓存已满，则丢弃最近最少使用的条目。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器像这样处理主机高速缓存中的条目：</span><br><span class="line"></span><br><span class="line">当第一个TCP客户端连接从给定IP地址到达服务器时，将创建一个新的缓存条目来记录客户端IP，主机名和客户端查找验证标志。</span><br><span class="line">最初，主机名被设置为 NULL并且标志为假。</span><br><span class="line">此条目也用于来自同一始发IP的后续客户端连接。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果客户端IP条目的验证标志为false，则服务器将尝试IP到主机名称的DNS解析。</span><br><span class="line">如果成功，则使用解析的主机名更新主机名，并将验证标志设置为true。</span><br><span class="line">如果解决不成功，则采取的行动取决于错误是永久性的还是暂时性的。</span><br><span class="line">对于永久性故障，主机名保持不变NULL ，验证标志设置为true。</span><br><span class="line">对于瞬态故障，主机名和验证标志保持不变。</span><br><span class="line">（在这种情况下，下一次客户端从此IP连接时会发生另一次DNS解析尝试。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">如果在处理来自给定IP地址的传入客户端连接时发生错误，则服务器将更新该IP项的相应错误计数器。</span><br><span class="line">有关所记录错误的说明，请参见 第25.11.16.1节“host_cache表”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器使用线程安全来执行主机名称解析， gethostbyaddr_r()并 gethostbyname_r()在操作系统支持它们时调用。</span><br><span class="line">否则，执行查找的线程会锁定互斥锁并调用 gethostbyaddr()， gethostbyname()而不是。</span><br><span class="line">在这种情况下，除非持有互斥锁的线程释放它，否则其他线程无法解析主机缓存中找不到的主机名。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要取消阻止阻止的主机，请通过发出FLUSH HOSTS语句或执行mysqladmin flush-hosts命令来刷新主机缓存 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">即使没有FLUSH HOSTS来自阻止主机的最后一次连接尝试后发生的来自其他主机的活动，阻止的主机也可能变为畅通无阻。</span><br><span class="line">发生这种情况的原因可能是服务器放弃了最近最少使用的高速缓存条目，以便在连接从不在高速缓存中的客户端IP到达时缓存已满时为新条目腾出空间。</span><br><span class="line">如果放弃的条目用于阻止的主机，则该主机将变为未阻止状态。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">主机缓存默认启用。</span><br><span class="line">要禁用它，请host_cache_size在服务器启动时或运行时将系统变量设置 为0。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要禁用DNS主机名查找，请使用该--skip-name-resolve选项启动服务器 。</span><br><span class="line">在这种情况下，服务器仅使用IP地址，而不使用主机名将连接主机与MySQL授权表中的行匹配。</span><br><span class="line">只能使用那些使用IP地址的表中指定的帐户。</span><br><span class="line">（如果不存在指定客户端IP地址的帐户，则客户端可能无法连接。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">如果您的DNS和主机速度非常慢，则可以通过禁用DNS查找来提高性能，--skip-name-resolve或者通过增大host_cache_size用于使主机缓存更大的值 来提高性能 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要完全禁止TCP / IP连接，请使用该--skip-networking选项启动服务器。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">某些连接错误与TCP连接无关，在连接过程中很早（甚至在知道IP地址之前），或者不特定于任何特定IP地址（如内存不足条件）。</span><br><span class="line">有关这些错误的信息，请检查 状态变量（请参见 第5.1.9节“服务器状态变量”）。</span><br><span class="line"> Connection_errors_xxx</span><br></pre></td></tr></table></figure>
           
         
       
@@ -556,7 +596,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-cached/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/design-pattern/behavior/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -575,8 +615,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-cached/" itemprop="url">
-                  SQL优化【缓存优化】
+                <a class="post-title-link" href="/2018/03/24/design-pattern/behavior/" itemprop="url">
+                  设计模式-行为型
                 </a>
               
             
@@ -634,7 +674,7 @@
 
           
           
-             <span id="/2018/03/24/mysql/optimization-sql-cached/" class="leancloud_visitors" data-flag-title="SQL优化【缓存优化】">
+             <span id="/2018/03/24/design-pattern/behavior/" class="leancloud_visitors" data-flag-title="设计模式-行为型">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -667,245 +707,34 @@
       
         
           
-            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-d3a8321d9c17a82b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>8.10.1 InnoDB缓冲池优化<br>8.10.2 MyISAM密钥缓存<br>8.10.3 MySQL查询缓存<br>8.10.4准备好的语句和存储程序的缓存<br>MySQL使用几种策略来缓存内存缓冲区中的信息以提高性能。</p>
-<p>8.10.1 InnoDB缓冲池优化<br>InnoDB维护一个称为缓冲池的存储区域， 用于缓存内存中的数据和索引。知道InnoDB缓冲池如何 工作，并利用它来将频繁访问的数据保存在内存中，是MySQL调优的一个重要方面。</p>
-<p>有关InnoDB缓冲池内部工作原理的说明， LRU替换算法的概述以及常规配置信息，请参见第14.6.3.1节“InnoDB缓冲池”。</p>
-<p>有关其他InnoDB缓冲池配置和调整信息，请参阅以下部分：</p>
-<p>第14.6.3.5节“配置InnoDB缓冲池预取（预读）”</p>
-<p>第14.6.3.6节“配置InnoDB缓冲池刷新”</p>
-<p>第14.6.3.4节“使缓冲池扫描抗性”</p>
-<p>第14.6.3.3节“配置多个缓冲池实例”</p>
-<p>第14.6.3.8节“保存和恢复缓冲池状态”</p>
-<p>第14.6.3.7节“微调InnoDB缓冲池刷新”</p>
-<p>第14.6.3.2节“配置InnoDB缓冲池大小”</p>
-<p>8.10.2 MyISAM密钥缓存<br>8.10.2.1共享密钥缓存访问<br>8.10.2.2多个密钥缓存<br>8.10.2.3中点插入策略<br>8.10.2.4索引预加载<br>8.10.2.5密钥缓存块大小<br>8.10.2.6重构密钥缓存<br>为了最小化磁盘I / O，MyISAM存储引擎利用许多数据库管理系统使用的策略。它采用缓存机制将最常访问的表块保存在内存中：</p>
-<p>对于索引块，维护称为密钥缓存（或 密钥缓冲区）的特殊结构 。该结构包含许多块缓冲区，其中放置了最常用的索引块。</p>
-<p>对于数据块，MySQL不使用特殊缓存。相反，它依赖于本机操作系统文件系统缓存。</p>
-<p>本节首先介绍MyISAM密钥缓存的基本操作 。然后讨论了可以提高密钥缓存性能并使您能够更好地控制缓存操作的功能：</p>
-<p>多个会话可以同时访问缓存。</p>
-<p>您可以设置多个密​​钥缓存并将表索引分配给特定缓存。</p>
-<p>要控制密钥缓存的大小，请使用 key_buffer_size系统变量。如果将此变量设置为零，则不使用密钥缓存。如果key_buffer_size值太小而无法分配最小数量的块缓冲区，则不使用密钥缓存 （8）。</p>
-<p>当密钥缓存不可操作时，仅使用操作系统提供的本机文件系统缓冲来访问索引文件。（换句话说，使用与表数据块相同的策略访问表索引块。）</p>
-<p>索引块是对MyISAM索引文件的连续访问单元 。通常，索引块的大小等于索引B树的节点大小。（索引在磁盘上使用B树数据结构表示。树底部的节点是叶节点。叶节点上方的节点是非叶节点。）</p>
-<p>密钥缓存结构中的所有块缓冲区大小相同。该大小可以等于，大于或小于表索引块的大小。通常这两个值中的一个是另一个的倍数。</p>
-<p>当必须访问来自任何表索引块的数据时，服务器首先检查它是否在密钥缓存的某个块缓冲区中可用。如果是，则服务器访问密钥缓存中的数据而不是磁盘上的数据。也就是说，它从缓存读取或写入其中而不是读取或写入磁盘。否则，服务器选择包含不同表索引块（或块）的高速缓存块缓冲区，并用必需的表索引块的副本替换那里的数据。只要新索引块位于缓存中，就可以访问索引数据。</p>
-<p>如果发生了选择替换的块已被修改，则该块被认为是“ 脏的。“在这种情况下，在被替换之前，其内容被刷新到它所来自的表索引。</p>
-<p>通常服务器遵循LRU（最近最少使用）策略：当选择要替换的块时，它选择最近最少使用的索引块。为了使这个选择更容易，密钥缓存模块将所有使用的块维护在按使用时间排序的特殊列表（LRU链）中。访问块时，它是最近使用的块，位于列表的末尾。当需要替换块时，列表开头的块是最近最少使用的块，并成为第一个驱逐的候选块。</p>
-<p>该InnoDB存储引擎还采用LRU算法来管理它的缓冲池。请参见 第14.6.3.1节“InnoDB缓冲池”。</p>
-<p>8.10.2.1共享密钥缓存访问<br>线程可以同时访问密钥缓存缓冲区，但要符合以下条件：</p>
-<p>多个会话可以访问未更新的缓冲区。</p>
-<p>正在更新的缓冲区会导致需要使用它的会话等待更新完成。</p>
-<p>多个会话可以发起导致高速缓存块替换的请求，只要它们不相互干扰（即，只要它们需要不同的索引块，从而导致不同的高速缓存块被替换）。</p>
-<p>对密钥缓存的共享访问使服务器能够显着提高吞吐量。</p>
-<p>8.10.2.2多个密钥缓存<br>对密钥缓存的共享访问可提高性能，但不会完全消除会话之间的争用。他们仍在竞争管理对密钥缓存缓冲区的访问的控制结构。为了进一步减少密钥缓存访问争用，MySQL还提供了多个密钥缓存。此功能使您可以将不同的表索引分配给不同的密钥缓存。</p>
-<p>在存在多个密钥缓存的情况下，服务器必须知道在处理给定MyISAM表的查询时要使用哪个缓存 。默认情况下，所有 MyISAM表索引都缓存在默认密钥缓存中。要将表索引分配给特定的键缓存，请使用该CACHE INDEX 语句（请参见第13.7.6.2节“CACHE INDEX语法”）。例如，下面的语句从表中分配指标 t1，t2以及 t3名为键缓存 hot_cache：</p>
-<p>MySQL的&gt; CACHE INDEX t1, t2, t3 IN hot_cache;</p>
+            <p>设计模式行为型–11种</p>
+<p>责任链—-请求创建了一个接收者对象的链。这种模式给予请求的类型，对请求的发送者和接收者进行解耦。</p>
+<p>命令—-请求以命令的形式包裹在对象中，并传给调用对象。调用对象寻找可以处理该命令的合适的对象，并把该命令传给相应的对象，该对象执行命令。</p>
+<p>解释器—-这种模式实现了一个表达式接口，该接口解释一个特定的上下文。这种模式被用在 SQL 解析、符号处理引擎等。</p>
+<p>迭代器—-这种模式用于顺序访问集合对象的元素，不需要知道集合对象的底层表示。</p>
+<p>中介者—-这种模式提供了一个中介类，该类通常处理不同类之间的通信，并支持松耦合，使代码易于维护。</p>
+<p>备忘录—-保存一个对象的某个状态，以便在适当的时候恢复对象。备忘录模式属于行为型模式。</p>
+<p>观察者—-当对象间存在一对多关系时，则使用观察者模式（Observer Pattern）。比如，当一个对象被修改时，则会自动通知它的依赖对象。</p>
+<p>状态—-我们创建表示各种状态的对象和一个行为随着状态对象改变而改变的 context 对象。</p>
+<p>空对象—-在空对象模式（Null Object Pattern）中，一个空对象取代 NULL 对象实例的检查。Null 对象不是检查空值，而是反应一个不做任何动作的关系。<br>        这样的 Null 对象也可以在数据不可用的时候提供默认的行为。</p>
+<p>策略</p>
 <ul>
-<li>——— + ——————– + ———- + ——- — +<br>| 表| Op | Msg_type | Msg_text |</li>
-<li>——— + ——————– + ———- + ——- — +<br>| test.t1 | assign_to_keycache | 状态| 好的<br>| test.t2 | assign_to_keycache | 状态| 好的<br>| test.t3 | assign_to_keycache | 状态| 好的</li>
-<li>——— + ——————– + ———- + ——- — +<br>CACHE INDEX可以SET GLOBAL通过使用参数设置语句或使用服务器启动选项设置其大小来创建语句中 引用的键高速缓存。例如：</li>
-</ul>
-<p>MySQL的&gt; SET GLOBAL keycache1.key_buffer_size=128*1024;<br>要销毁密钥缓存，请将其大小设置为零：</p>
-<p>MySQL的&gt; SET GLOBAL keycache1.key_buffer_size=0;<br>您无法销毁默认密钥缓存。任何尝试这样做都会被忽略：</p>
-<p>MySQL的&gt; SET GLOBAL key_buffer_size = 0;</p>
-<p>MySQL的&gt; SHOW VARIABLES LIKE ‘key_buffer_size’;</p>
-<ul>
-<li>—————– + ——— +<br>| Variable_name | 值|</li>
-<li>—————– + ——— +<br>| key_buffer_size | 8384512 |</li>
-<li>—————– + ——— +<br>密钥缓存变量是具有名称和组件的结构化系统变量。For keycache1.key_buffer_size， keycache1是缓存变量名称， key_buffer_size是缓存组件。有关用于引用结构化密钥缓存系统变量的语法的说明，请参见第5.1.8.1节“结构化系统变量”。</li>
-</ul>
-<p>默认情况下，表索引分配给在服务器启动时创建的主（默认）密钥缓存。销毁密钥缓存时，分配给它的所有索引都将重新分配给默认密钥缓存。</p>
-<p>对于繁忙的服务器，您可以使用涉及三个密钥缓存的策略：</p>
-<p>一个“ 热 ”键高速占用分配给所有键高速缓冲空间的20％。对于大量用于搜索但未更新的表使用此选项。</p>
-<p>一个“ 冷 ”键高速占用分配给所有键高速缓冲空间的20％。将此缓存用于中型，密集修改的表，例如临时表。</p>
-<p>一个“ 温暖 ”键高速占用键高速缓冲空间的60％。将此作为默认密钥缓存，默认情况下用于所有其他表。</p>
-<p>使用三个密钥高速缓存有益的一个原因是对一个密钥高速缓存结构的访问不会阻止对其他密钥高速缓存的访问。访问分配给一个缓存的表的语句不会与访问分配给另一个缓存的表的语句竞争。性能提升也出于其他原因：</p>
-<p>热缓存仅用于检索查询，因此永远不会修改其内容。因此，每当需要从磁盘引入索引块时，不需要首先刷新选择用于替换的高速缓存块的内容。</p>
-<p>对于分配给热缓存的索引，如果不存在需要索引扫描的查询，则对应于索引B树的非叶节点的索引块很可能保留在缓存中。</p>
-<p>当更新的节点在高速缓存中并且不需要首先从磁盘读入时，对于临时表最频繁执行的更新操作执行得更快。如果临时表的索引的大小与冷键高速缓存的大小相当，则更新的节点在高速缓存中的概率非常高。</p>
-<p>该CACHE INDEX语句在表和密钥缓存之间建立关联，但每次服务器重新启动时关联都会丢失。如果希望关联在每次服务器启动时生效，则实现此目的的一种方法是使用选项文件：包括配置密钥缓存的变量设置，以及init-file命名包含CACHE INDEX 要执行的语句的文件的 选项。例如：</p>
-<p>key_buffer_size = 4G<br>hot_cache.key_buffer_size = 2G<br>cold_cache.key_buffer_size = 2G<br>init_file = / path/ to/ data-directorymysqld_init.sql<br>mysqld_init.sql每次服务器启动时都会执行 语句。该文件每行应包含一个SQL语句。以下示例分别为hot_cache和 分配了几个表cold_cache：</p>
-<p>CACHE INDEX db1.t1，db1.t2，db2.t3在hot_cache中<br>CACHE INDEX db1.t4，db2.t5，db2.t6在cold_cache中<br>8.10.2.3中点插入策略<br>默认情况下，密钥缓存管理系统使用简单的LRU策略来选择要逐出的密钥缓存块，但它还支持称为中点插入策略的更复杂的方法 。</p>
-<p>使用中点插入策略时，LRU链分为两部分：热子列表和热子列表。两部分之间的分割点并不固定，但是密钥缓存管理系统注意到热部分不是 “ 太短 ”，总是包含至少 key_cache_division_limit 百分比的密钥缓存块。 key_cache_division_limit是结构化键缓存变量的组件，因此其值是可以为每个缓存设置的参数。</p>
-<p>当索引块从表中读入密钥缓存时，它将放在暖子列表的末尾。在一定数量的命中（访问块）之后，它被提升到热子列表。目前，促进块（3）所需的命中数对于所有索引块是相同的。</p>
-<p>升级到热子列表的块放在列表的末尾。然后该块在该子列表中循环。如果块在子列表的开头停留足够长的时间，则将其降级为暖子列表。此时间由key_cache_age_threshold 密钥缓存的组件的值确定 。</p>
-<p>阈值规定，对于包含N块的密钥缓存，在最后一次N * key_cache_age_threshold / 100命中内未访问的热子列表开头的块 将被移动到暖子列表的开头。然后它成为第一个被驱逐的候选者，因为替换的块总是从暖子列表的开头获取。</p>
-<p>中点插入策略使您可以将更多值的块始终保留在缓存中。如果您更喜欢使用普通LRU策略，请将 key_cache_division_limit 值设置为默认值100。</p>
-<p>当执行需要索引扫描的查询有效地从缓存中推出对应于有价值的高级B树节点的所有索引块时，中点插入策略有助于提高性能。为避免这种情况，您必须使用key_cache_division_limit设置为远小于100 的中点插入策略 。然后，在索引扫描操作期间，有价值的频繁命中节点也会保留在热子列表中。</p>
-<p>8.10.2.4索引预加载<br>如果密钥缓存中有足够的块来保存整个索引的块，或者至少是与其非叶节点对应的块，则在开始使用之前使用索引块预加载密钥缓存是有意义的。预加载使您能够以最有效的方式将表索引块放入密钥缓存缓冲区：通过顺序从磁盘读取索引块。</p>
-<p>在没有预加载的情况下，块仍然根据查询的需要放入密钥缓存中。虽然这些块将保留在缓存中，因为所有缓冲区都有足够的缓冲区，它们是以随机顺序从磁盘中提取的，而不是按顺序提取的。</p>
-<p>要将索引预加载到缓存中，请使用该 LOAD INDEX INTO CACHE语句。例如，以下语句预加载表的索引的节点（索引块），t1并且t2：</p>
-<p>MySQL的&gt; LOAD INDEX INTO CACHE t1, t2 IGNORE LEAVES;</p>
-<ul>
-<li>——— + ————– + ———- + ———- +<br>| 表| Op | Msg_type | Msg_text |</li>
-<li>——— + ————– + ———- + ———- +<br>| test.t1 | preload_keys | 状态| 好的<br>| test.t2 | preload_keys | 状态| 好的</li>
-<li>——— + ————– + ———- + ———- +<br>所述IGNORE LEAVES改性剂导致要预装只为索引的非叶结点的块。因此，显示的语句预加载所有索引块t1，但仅从非叶节点预加载 t2。</li>
-</ul>
-<p>如果已使用CACHE INDEX语句将索引分配给键高速缓存 ，则预加载会将索引块放入该高速缓存中。否则，索引将加载到默认密钥缓存中。</p>
-<p>8.10.2.5密钥缓存块大小<br>可以使用key_cache_block_size 变量为单个密钥缓存指定块缓冲区的大小 。这允许调整索引文件的I / O操作的性能。</p>
-<p>当读取缓冲区的大小等于本机操作系统I / O缓冲区的大小时，可以实现I / O操作的最佳性能。但是，将关键节点的大小设置为等于I / O缓冲区的大小并不总能确保最佳的整体性能。在读取大叶子节点时，服务器会吸入大量不必要的数据，有效地阻止了读取其他叶子节点。</p>
-<p>要控制表的.MYI 索引文件中块的大小MyISAM，请使用–myisam-block-size服务器启动时的 选项。</p>
-<p>8.10.2.6重构密钥缓存<br>可以通过更新其参数值随时重新构建密钥缓存。例如：</p>
-<p>MySQL的&gt; SET GLOBAL cold_cache.key_buffer_size=4<em>1024</em>1024;<br>如果为key_buffer_size或 key_cache_block_size缓存组件分配 的值与组件的当前值不同，则服务器会销毁缓存的旧结构并根据新值创建新结构。如果缓存包含任何脏块，则服务器会在销毁和重新创建缓存之前将它们保存到磁盘。如果更改其他键缓存参数，则不会进行重组。</p>
-<p>重构密钥缓存时，服务器首先将任何脏缓冲区的内容刷新到磁盘。之后，缓存内容变得不可用。但是，重组不会阻止需要使用分配给缓存的索引的查询。相反，服务器使用本机文件系统缓存直接访问表索引。文件系统缓存不如使用密钥缓存有效，因此尽管执行查询，但可以预期减速。重新构建缓存后，它将再次可用于缓存分配给它的索引，并且对索引的文件系统缓存的使用将停止。</p>
-<p>8.10.3 MySQL查询缓存<br>8.10.3.1查询缓存的运行方式<br>8.10.3.2查询缓存SELECT选项<br>8.10.3.3查询缓存配置<br>8.10.3.4查询缓存状态和维护<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
-<p>查询缓存存储SELECT语句的文本以及 发送到客户端的相应结果。如果稍后收到相同的语句，则服务器从查询缓存中检索结果，而不是再次解析和执行语句。查询缓存在会话之间共享，因此可以发送由一个客户端生成的结果集以响应由另一个客户端发出的相同查询。</p>
-<p>查询缓存在您拥有不经常更改且服务器接收许多相同查询的表的环境中非常有用。这是许多基于数据库内容生成许多动态页面的Web服务器的典型情况。</p>
-<p>查询缓存不返回过时数据。修改表时，将刷新查询缓存中的所有相关条目。</p>
-<p>注意<br>查询缓存在多个mysqld服务器更新相同 MyISAM表的环境中不起作用。</p>
-<p>查询高速缓存用于第8.10.3.1节“查询高速缓存如何操作”中描述的条件下的预准备语句。</p>
-<p>注意<br>分区表不支持查询缓存，并且对涉及分区表的查询自动禁用查询缓存。无法为此类查询启用查询缓存。</p>
-<p>下面是查询缓存的一些性能数据。这些结果是通过在具有2GB RAM和64MB查询缓存的Linux Alpha 2×500MHz系统上运行MySQL基准测试套件生成的。</p>
-<p>如果您执行的所有查询都很简单（例如从具有一行的表中选择一行），但仍然不同以便无法缓存查询，则使查询缓存处于活动状态的开销为13％。这可能被认为是最糟糕的情况。在现实生活中，查询往往要复杂得多，因此开销通常会显着降低。</p>
-<p>在单行表中搜索单行的查询缓存比没有查询缓存快238％。这可以被视为接近缓存的查询所期望的最小加速。</p>
-<p>要在服务器启动时禁用查询缓存，请将query_cache_size系统变量设置 为0.通过禁用查询缓存代码，没有明显的开销。</p>
-<p>查询缓存提供了实质性性能改进的潜力，但不要假设它将在所有情况下都这样做。使用某些查询缓存配置或服务器工作负载，您实际上可能会看到性能下降：</p>
-<p>请谨慎调整查询缓存的大小，这会增加维护缓存所需的开销，可能超出启用缓存的优势。数十兆字节的大小通常是有益的。数百兆字节的大小可能不是。</p>
-<p>服务器工作负载对查询缓存效率有显着影响。几乎完全由一组固定SELECT 语句组成的查询混合更有可能从启用缓存中获益，而不是频繁INSERT语句导致缓存中结果连续失效的混合 。在某些情况下，解决方法是使用该 SQL_NO_CACHE选项来防止结果甚至为SELECT使用频繁修改的表的语句进入缓存 。（请参见 第8.10.3.2节“查询缓存SELECT选项”。）</p>
-<p>要验证启用查询缓存是否有益，请在启用和禁用缓存的情况下测试MySQL服务器的操作。然后定期重新测试，因为查询缓存效率可能会随着服</p>
-<p>8.10.3.1查询缓存的运行方式<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
-<p>本节介绍查询缓存在运行时的工作方式。第8.10.3.3节“查询缓存配置”描述了如何控制它是否可操作。</p>
-<p>在解析之前，将传入的查询与查询缓存中的查询进行比较，因此查询缓存将以下两个查询视为不同：</p>
-<p>SELECT <em> FROM tbl_name<br>选择</em>来自tbl_name<br>查询必须完全相同（字节为字节）才能看作相同。另外，由于其他原因，可以将相同的查询字符串视为不同。使用不同数据库，不同协议版本或不同默认字符集的查询被视为不同的查询，并单独缓存。</p>
-<p>缓存不用于以下类型的查询：</p>
-<p>查询是外部查询的子查询</p>
-<p>在存储的函数，触发器或事件的主体内执行的查询</p>
-<p>在从查询缓存中获取查询结果之前，MySQL会检查用户是否拥有所 SELECT涉及的所有数据库和表的权限。如果不是这种情况，则不使用缓存的结果。</p>
-<p>如果从查询缓存返回查询结果，则服务器会递增Qcache_hits 状态变量，而不是Com_select。请参见 第8.10.3.4节“查询缓存状态和维护”。</p>
-<p>如果表更改，则使用该表的所有高速缓存查询都将变为无效并从高速缓存中删除。这包括使用MERGE映射到已更改表的表的查询。一个表可以被许多类型的语句，如被改变INSERT， UPDATE， DELETE， TRUNCATE TABLE， ALTER TABLE， DROP TABLE，或 DROP DATABASE。</p>
-<p>使用InnoDB表时，查询缓存也可在事务中使用 。</p>
-<p>SELECT缓存查询对视图 的结果。</p>
-<p>查询缓存适用于SELECT SQL_CALC_FOUND_ROWS …查询并存储由以下SELECT FOUND_ROWS()查询返回的值。 FOUND_ROWS()即使从缓存中提取了前面的查询，也会返回正确的值，因为找到的行数也存储在缓存中。该SELECT FOUND_ROWS()查询本身不能被缓存。</p>
-<p>使用mysql_stmt_prepare()和 使用二进制协议发布的预准备语句mysql_stmt_execute()（请参见 第27.8.8节“C API准备语句”）受限于缓存。与查询缓存中的语句的比较基于扩展?参数标记后的语句文本。该语句仅与使用二进制协议执行的其他缓存语句进行比较。也就是说，对于查询缓存目的，使用二进制协议发出的预准备语句与使用文本协议发布的预准备语句不同（请参见 第13.5节“准备的SQL语句语法”）。</p>
-<p>如果查询使用以下任何功能，则无法缓存该查询：</p>
-<p>AES_DECRYPT()</p>
-<p>AES_ENCRYPT()</p>
-<p>BENCHMARK()</p>
-<p>CONNECTION_ID()</p>
-<p>CONVERT_TZ()</p>
-<p>CURDATE()</p>
-<p>CURRENT_DATE()</p>
-<p>CURRENT_TIME()</p>
-<p>CURRENT_TIMESTAMP()</p>
-<p>CURRENT_USER()</p>
-<p>CURTIME()</p>
-<p>DATABASE()</p>
-<p>ENCRYPT() 有一个参数</p>
-<p>FOUND_ROWS()</p>
-<p>GET_LOCK()</p>
-<p>IS_FREE_LOCK()</p>
-<p>IS_USED_LOCK()</p>
-<p>LAST_INSERT_ID()</p>
-<p>LOAD_FILE()</p>
-<p>MASTER_POS_WAIT()</p>
-<p>NOW()</p>
-<p>PASSWORD()</p>
-<p>RAND()</p>
-<p>RANDOM_BYTES()</p>
-<p>RELEASE_ALL_LOCKS()</p>
-<p>RELEASE_LOCK()</p>
-<p>SLEEP()</p>
-<p>SYSDATE()</p>
-<p>UNIX_TIMESTAMP() 没有参数</p>
-<p>USER()</p>
-<p>UUID()</p>
-<p>UUID_SHORT()</p>
-<p>在这些条件下也不会缓存查询：</p>
-<p>它指的是用户定义的函数（UDF）或存储的函数。</p>
-<p>它指的是用户变量或本地存储的程序变量。</p>
-<p>它是指在表mysql， INFORMATION_SCHEMA或 performance_schema数据库。</p>
-<p>它指的是任何分区表。</p>
-<p>它具有以下任何一种形式：</p>
-<p>选择…锁定共享模式<br>SELECT … FOR UPDATE<br>SELECT … INTO OUTFILE ……<br>SELECT … INTO DUMPFILE …<br>SELECT * FROM … WHERE autoincrement_col为NULL<br>最后一个表单未缓存，因为它用作ODBC解决方法以获取最后一个插入ID值。请参见第27章连接器和API的Connector / ODBC部分 。</p>
-<p>使用SERIALIZABLE隔离级别的事务中的语句 也无法缓存，因为它们使用LOCK IN SHARE MODE锁定。</p>
-<p>它使用TEMPORARY表格。</p>
-<p>它不使用任何表。</p>
-<p>它会生成警告。</p>
-<p>用户对任何涉及的表都具有列级权限。</p>
-<p>8.10.3.2查询缓存SELECT选项<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
-<p>可以在SELECT语句中指定两个与查询缓存相关的选项 ：</p>
-<p>SQL_CACHE</p>
-<p>如果查询结果是可缓存的，并且query_cache_type系统变量的值为ON或 ，则缓存查询结果 DEMAND。</p>
-<p>SQL_NO_CACHE</p>
-<p>服务器不使用查询缓存。它既不检查查询缓存，也不检查结果是否已缓存，也不缓存查询结果。</p>
-<p>例子：</p>
-<p>SELECT SQL_CACHE id，name FROM customer;<br>SELECT SQL_NO_CACHE id，name FROM customer;<br>8.10.3.3查询缓存配置<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
-<p>该have_query_cache服务器系统变量指示查询缓存是否可用：</p>
-<p>MySQL的&gt; SHOW VARIABLES LIKE ‘have_query_cache’;</p>
-<ul>
-<li>—————— + ——- +<br>| Variable_name | 值|</li>
-<li>—————— + ——- +<br>| have_query_cache | 是的|</li>
-<li>—————— + ——- +<br>使用标准MySQL二进制文件时YES，即使禁用了查询缓存，此值也始终 如此。</li>
-</ul>
-<p>其他几个系统变量控制查询缓存操作。这些可以在启动mysqld时在选项文件或命令行中设置。查询缓存系统变量都具有以…开头的名称 query_cache_。第5.1.7节“服务器系统变量”中对它们进行了简要介绍 ，并在此处给出了其他配置信息。</p>
-<p>要设置查询缓存的大小，请设置 query_cache_size系统变量。将其设置为0将禁用查询缓存，设置也是如此query_cache_type=0。默认情况下，禁用查询缓存。这是使用默认大小1M实现的，默认 query_cache_type值为0。</p>
-<p>要显着降低开销，请在query_cache_type=0不使用查询缓存的情况下启动服务器 。</p>
-<p>注意<br>使用Windows配置向导安装或配置MySQL时，query_cache_size将根据可用的不同配置类型自动为您配置默认值 。使用Windows配置向导时，由于所选配置，可能会启用查询缓存（即设置为非零值）。查询缓存也由query_cache_type变量的设置控制 。配置完成后，检查my.ini文件中设置的这些变量的值 。</p>
-<p>设置query_cache_size 为非零值时，请记住查询缓存需要最小大小约40KB才能分配其结构。（确切的大小取决于系统架构。）如果将值设置得太小，您将收到警告，如下例所示：</p>
-<p>MySQL的&gt; SET GLOBAL query_cache_size = 40000;<br>查询正常，0行受影响，1警告（0.00秒）</p>
-<p>MySQL的&gt; SHOW WARNINGS\G<br><strong><strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong></strong> 1. row <strong><strong><strong><strong><em>**</em></strong></strong></strong></strong> <strong>***</strong><br>  等级：警告<br>   代码：1282<br>消息：查询缓存未能设置大小39936;<br>         新查询缓存大小为0</p>
-<p>MySQL的&gt; SET GLOBAL query_cache_size = 41984;<br>查询OK，0行受影响（0.00秒）</p>
-<p>MySQL的&gt; SHOW VARIABLES LIKE ‘query_cache_size’;</p>
-<ul>
-<li>—————— + ——- +<br>| Variable_name | 值|</li>
-<li>—————— + ——- +<br>| query_cache_size | 41984 |</li>
-<li>—————— + ——- +<br>要使查询缓存实际上能够保存任何查询结果，必须将其大小设置得更大：</li>
-</ul>
-<p>MySQL的&gt; SET GLOBAL query_cache_size = 1000000;<br>查询正常，0行受影响（0.04秒）</p>
-<p>MySQL的&gt; SHOW VARIABLES LIKE ‘query_cache_size’;</p>
-<ul>
-<li>—————— + ——– +<br>| Variable_name | 值|</li>
-<li>—————— + ——– +<br>| query_cache_size | 999424 |</li>
-<li>—————— + ——– +<br>一排（0.00秒）<br>该query_cache_size值与最近的1024字节块对齐。因此，报告的值可能与您指定的值不同。</li>
-</ul>
-<p>如果查询缓存大小大于0，则该 query_cache_type变量会影响其工作方式。此变量可以设置为以下值：</p>
-<p>值的 缓存0或OFF阻止缓存或检索缓存结果的值。</p>
-<p>除了以那些开头的语句之外的 值的值1或ON启用缓存 SELECT SQL_NO_CACHE。</p>
-<p>值的值2或 DEMAND导致仅缓存那些以＃开头的语句SELECT SQL_CACHE。</p>
-<p>如果query_cache_size为0，则还应将query_cache_type变量设置 为0.在这种情况下，服务器根本不会获取查询缓存互斥锁，这意味着无法在运行时启用查询缓存，并且减少了查询执行的开销。</p>
-<p>设置该GLOBAL query_cache_type值可确定在进行更改后连接的所有客户端的查询缓存行为。各个客户端可以通过设置SESSION query_cache_type值来控制自己连接的缓存行为 。例如，客户端可以禁用查询缓存的使用，如下所示：</p>
-<p>MySQL的&gt; SET SESSION query_cache_type = OFF;<br>如果设置query_cache_type 为服务器启动（而不是在运行时使用 SET 语句），则只允许使用数值。</p>
-<p>要控制可以缓存的单个查询结果的最大大小，请设置 query_cache_limit系统变量。默认值为1MB。</p>
-<p>注意不要将缓存的大小设置得太大。由于线程需要在更新期间锁定缓存，因此您可能会看到一个非常大的缓存的锁争用问题。</p>
-<p>注意<br>您可以SET 使用 命令行或配置文件中的选项，使用该语句 设置可在运行时为查询缓存指定的最大大小 。 –maximum-query_cache_size=32M</p>
-<p>当要缓存查询时，其结果（发送到客户端的数据）在结果检索期间存储在查询缓存中。因此，数据通常不会在一个大块中处理。查询高速缓存分配用于按需存储该数据的块，因此当填充一个块时，分配新块。由于内存分配操作成本高昂（按时间），查询缓存会分配具有query_cache_min_res_unit 系统变量给定的最小大小的块 。执行查询时，将最后一个结果块修剪为实际数据大小，以释放未使用的内存。根据服务器执行的查询类型，您可能会发现调整以下值的方法很有帮助 query_cache_min_res_unit：</p>
-<p>默认值为 query_cache_min_res_unit 4KB。这应该适用于大多数情况。</p>
-<p>如果您有大量具有较小结果的查询，则默认块大小可能会导致内存碎片，如大量空闲块所示。由于内存不足，碎片可以强制查询缓存从缓存中删除（删除）查询。在这种情况下，减少值 query_cache_min_res_unit。由于修剪而删除的空闲块和查询的数量由Qcache_free_blocks和 Qcache_lowmem_prunes 状态变量的值给出 。</p>
-<p>如果您的大多数查询都有大的结果（检查 Qcache_total_blocks和 Qcache_queries_in_cache 状态变量），您可以通过增加来提高性能 query_cache_min_res_unit。但是，请注意不要太大（请参阅上一项）。</p>
-<p>8.10.3.4查询缓存状态和维护<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
-<p>要检查MySQL服务器中是否存在查询缓存，请使用以下语句：</p>
-<p>MySQL的&gt; SHOW VARIABLES LIKE ‘have_query_cache’;</p>
-<ul>
-<li>—————— + ——- +<br>| Variable_name | 值|</li>
-<li>—————— + ——- +<br>| have_query_cache | 是的|</li>
-<li>—————— + ——- +<br>您可以对查询缓存进行碎片整理，以便通过FLUSH QUERY CACHE语句更好地利用其内存。该语句不会从缓存中删除任何查询。</li>
-</ul>
-<p>该RESET QUERY CACHE语句从查询缓存中删除所有查询结果。该 FLUSH TABLES声明也做到这一点。</p>
-<p>要监视查询缓存性能，请使用 SHOW STATUS查看缓存状态变量：</p>
-<p>MySQL的&gt; SHOW STATUS LIKE ‘Qcache%’;</p>
-<ul>
-<li>————————- + ——– +<br>| Variable_name | 值|</li>
-<li>————————- + ——– +<br>| Qcache_free_blocks | 36 |<br>| Qcache_free_memory | 138488 |<br>| Qcache_hits | 79570 |<br>| Qcache_inserts | 27087 |<br>| Qcache_lowmem_prunes | 3114 |<br>| Qcache_not_cached | 22989 |<br>| Qcache_queries_in_cache | 415 |<br>| Qcache_total_blocks | 912 |</li>
-<li>————————- + ——– +<br>第5.1.9节“服务器状态变量” 中给出了每个变量的描述 。这里描述了它们的一些用途。</li>
-</ul>
-<p>SELECT 查询 总数由以下公式给出：</p>
-<p>  Com_select</p>
-<ul>
-<li><p>Qcache_hits<br>+解析器发现错误的查询<br>该Com_select值由以下公式给出：</p>
-<p>Qcache_inserts</p>
+<li><p>在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。这种类型的设计模式属于行为型模式。</p>
 </li>
-<li>Qcache_not_cached<br>+在列权限检查期间发现错误的查询<br>查询缓存使用可变长度的块，所以 Qcache_total_blocks与 Qcache_free_blocks可指示查询高速缓冲存储器碎片。之后 FLUSH QUERY CACHE，只剩下一个空闲区块。</li>
+<li><p>在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。</p>
+</li>
 </ul>
-<p>每个缓存的查询至少需要两个块（一个用于查询文本，一个或多个用于查询结果）。此外，查询使用的每个表都需要一个块。但是，如果两个或多个查询使用同一个表，则只需要分配一个表块。</p>
-<p>Qcache_lowmem_prunes状态变量 提供的信息 可以帮助您调整查询缓存大小。它计算已从缓存中删除的查询数，以释放内存以缓存新查询。查询缓存使用最近最少使用（LRU）策略来决定从缓存中删除哪些查询。调整信息在 第8.10.3.3节“查询高速缓存配置”中给出。</p>
-<p>8.10.4准备好的语句和存储程序的缓存<br>对于客户端可能在会话期间多次执行的某些语句，服务器会将语句转换为内部结构并缓存要在执行期间使用的结构。缓存使服务器能够更有效地执行，因为它避免了在会话期间再次需要时重新转换语句的开销。这些语句发生转换和缓存：</p>
-<p>准备好的语句，包括在SQL级别（使用PREPARE语句）处理的语句和使用二进制客户端/服务器协议（使用mysql_stmt_prepare()C API函数）处理的语句 。所述 max_prepared_stmt_count 系统变量控制语句的服务器高速缓存的总数量。（所有会话中准备好的语句总数。）</p>
-<p>存储的程序（存储过程和函数，触发器和事件）。在这种情况下，服务器转换并缓存整个程序体。该 stored_program_cache系统变量指示存储的程序每个会话的服务器缓存的大致数量。</p>
-<p>服务器基于每个会话维护预准备语句和存储程序的高速缓存。其他会话无法访问为一个会话缓存的语句。会话结束时，服务器会丢弃为其缓存的任何语句。</p>
-<p>当服务器使用缓存的内部语句结构时，必须注意结构不会过时。对于语句使用的对象，可能会发生元数据更改，从而导致当前对象定义与内部语句结构中表示的定义不匹配。DDL语句（例如创建，删除，更改，重命名或截断表，或分析，优化或修复表）的元数据发生更改。表内容更改（例如，使用INSERT或 UPDATE）不更改元数据，也不更改SELECT语句。</p>
-<p>以下是问题的说明。假设客户准备此声明：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">从&apos;SELECT * FROM t1&apos;预备s1;</span><br><span class="line">将SELECT *内部结构扩展为表中列的列表。如果修改了表中的列集，则ALTER TABLE预准备语句将过期。如果服务器在下次客户端执行时未检测到此更改s1，则预准备语句将返回不正确的结果。</span><br><span class="line"></span><br><span class="line">为了避免由预准备语句引用的表或视图的元数据更改导致的问题，服务器会检测这些更改并在下次执行时自动重新表示该语句。也就是说，服务器重新声明语句并重建内部结构。在从表定义高速缓存中刷新引用的表或视图之后，也会发生重新分析，或者隐式地为缓存中的新条目腾出空间，或者显式由于FLUSH TABLES。</span><br><span class="line"></span><br><span class="line">同样，如果存储程序使用的对象发生更改，则服务器会重新编译程序中受影响的语句。</span><br><span class="line"></span><br><span class="line">服务器还检测表达式中对象的元数据更改。这些可能会在特定的存储方案，如语句中使用DECLARE CURSOR或流量控制语句，如 IF， CASE和 RETURN。</span><br><span class="line"></span><br><span class="line">为避免重新解析整个存储的程序，服务器仅在需要时重新编译程序中受影响的语句或表达式。例子：</span><br><span class="line"></span><br><span class="line">假设更改了表或视图的元数据。重新解析为一个发生SELECT *访问的表或视图的程序中，但不是一个 SELECT *不访问该表或视图。</span><br><span class="line"></span><br><span class="line">当语句受到影响时，如果可能，服务器仅对其进行部分重新分析。请考虑以下 CASE声明：</span><br><span class="line"></span><br><span class="line">情况case_expr</span><br><span class="line">  什么时候when_expr1......</span><br><span class="line">  什么时候when_expr2......</span><br><span class="line">  什么时候when_expr3......</span><br><span class="line">  ...</span><br><span class="line">结束案例</span><br><span class="line">如果元数据更改仅影响，则会重新解析该表达式。 并且其他表达式没有被重新解析。 WHEN when_expr3case_exprWHEN</span><br><span class="line"></span><br><span class="line">重新分析使用对原始转换为内部表单有效的默认数据库和SQL模式。</span><br><span class="line"></span><br><span class="line">服务器尝试最多重新解析三次。如果所有尝试都失败，则会发生错误</span><br><span class="line"></span><br><span class="line">重新分析是自动的，但在发生这种情况时，会减少准备好的语句和存储的程序性能。</span><br><span class="line"></span><br><span class="line">对于预处理语句， Com_stmt_reprepare 状态变量跟踪重新表示的数量。</span><br></pre></td></tr></table></figure>
+<p>模板</p>
+<ul>
+<li>在模板模式（Template Pattern）中，一个抽象类公开定义了执行它的方法的方式/模板。</li>
+<li>它的子类可以按需要重写方法实现，但调用将以抽象类中定义的方式进行。这种类型的设计模式属于行为型模式。</li>
+</ul>
+<p>访问</p>
+<ul>
+<li>在访问者模式（Visitor Pattern）中，我们使用了一个访问者类，它改变了元素类的执行算法。</li>
+<li>通过这种方式，元素的执行算法可以随着访问者改变而改变。这种类型的设计模式属于行为型模式。</li>
+<li>根据模式，元素对象已接受访问者对象，这样访问者对象就可以处理元素对象上的操作。</li>
+</ul>
 
           
         
@@ -963,7 +792,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/log/elk-2/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-exception/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -982,8 +811,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/log/elk-2/" itemprop="url">
-                  ELK 简介
+                <a class="post-title-link" href="/2018/03/24/message-queue/rabbitmq-exception/" itemprop="url">
+                  RabbitMQ Exception
                 </a>
               
             
@@ -1041,7 +870,7 @@
 
           
           
-             <span id="/2018/03/24/log/elk-2/" class="leancloud_visitors" data-flag-title="ELK 简介">
+             <span id="/2018/03/24/message-queue/rabbitmq-exception/" class="leancloud_visitors" data-flag-title="RabbitMQ Exception">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1074,22 +903,10 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">转载链接：http://www.jianshu.com/p/97fcb10c3556</span><br></pre></td></tr></table></figure>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a>是一个基于<a href="https://link.jianshu.com/?t=http://lucene.apache.org/core/documentation.html" target="_blank" rel="noopener">Lucene</a>构建的开源，分布式，RESTful 搜索引擎。</p>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a>传输和处理你的日志、事务或其他数据。</p>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a>将 Elasticsearch 的数据分析并渲染为可视化的报表。</p>
-<p>为什么使用 ELK ？</p>
-<p>对于有一定规模的公司来说，通常会很多个应用，并部署在大量的服务器上。运维和开发人员常常需要通过查看日志来定位问题。如果应用是集群化部署，试想如果登录一台台服务器去查看日志，是多么费时费力。</p>
-<p>而通过 ELK 这套解决方案，可以同时实现日志收集、日志搜索和日志分析的功能。</p>
-<p>ELK 架构</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-316ba06db8ae9b10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong>说明</strong></p>
-<p>以上是 ELK 技术栈的一个架构图。从图中可以清楚的看到数据流向。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/beats" target="_blank" rel="noopener">Beats</a> 是单一用途的数据传输平台，它可以将多台机器的数据发送到 Logstash 或 ElasticSearch。但 Beats 并不是不可或缺的一环，所以本文中暂不介绍。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a> 是一个动态数据收集管道。支持以 TCP/UDP/HTTP 多种方式收集数据（也可以接受 Beats 传输来的数据），并对数据做进一步丰富或提取字段处理。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a> 是一个基于 JSON 的分布式的搜索和分析引擎。作为 ELK 的核心，它集中存储数据。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a> 是 ELK 的用户界面。它将收集的数据进行可视化展示（各种报表、图形化数据），并提供配置、管理 ELK 的界面。</p>
-<p>支持图形各种数据图形</p>
+            <p>需求@RabbitListener - defining queues from properties</p>
+<p><a href="https://jira.spring.io/browse/AMQP-533?jql=project = AMQP AND fixVersion =" title="1.5 GA" target="_blank" rel="noopener">issues</a></p>
+<p>1.5.RA版本修复</p>
+<p>修复方式 spel表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@RabbitListener(queues = &#123;&quot;#&#123;&apos;$&#123;listener.channel&#125;&apos;.split(&apos;,&apos;)&#125;&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1226,9 +1043,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>

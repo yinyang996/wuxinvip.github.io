@@ -280,7 +280,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">6</span></a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">5</span></a>
   </li>
         
         
@@ -362,181 +362,6 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-sentence/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-sentence/" itemprop="url">
-                  SQL优化【SQL语句】
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/mysql/optimization-sql-sentence/" class="leancloud_visitors" data-flag-title="SQL优化【SQL语句】">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-83893c4315e86c69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录"></p>
-<p>1、select语句</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-188c121b283eff2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语句优化"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优化考虑点"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】</span><br><span class="line">2、持续折叠</span><br><span class="line">3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】</span><br><span class="line">4、及时检测无效常量表达式</span><br><span class="line">5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用</span><br><span class="line">6、where 表达式尽量简单、便于快速建立where评估表</span><br><span class="line">7、查询其他表之前首先查询所有常量表</span><br><span class="line">【</span><br><span class="line">        SELECT * FROM t WHERE primary_key=1;</span><br><span class="line">        SELECT * FROM t1,t2</span><br><span class="line">            WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</span><br><span class="line">】</span><br></pre></td></tr></table></figure>
-<p>2、范围优化<br><img src="https://upload-images.jianshu.io/upload_images/6434888-8c3818c4dbff38fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>对于两种索引结构使用不同的范围条件【hash索引、B树索引】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-9820225eacc468b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>==========mmp 太难了 没办法写下去 只能贴图了 以后慢慢品鉴</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
     
       
 
@@ -743,7 +568,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total-2/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-sentence/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -762,8 +587,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-total-2/" itemprop="url">
-                  常见MYSQL调优策略
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-sentence/" itemprop="url">
+                  SQL优化【SQL语句】
                 </a>
               
             
@@ -821,7 +646,7 @@
 
           
           
-             <span id="/2018/03/24/mysql/optimization-sql-total-2/" class="leancloud_visitors" data-flag-title="常见MYSQL调优策略">
+             <span id="/2018/03/24/mysql/optimization-sql-sentence/" class="leancloud_visitors" data-flag-title="SQL优化【SQL语句】">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -854,17 +679,218 @@
       
         
           
-            <p>调优层次：硬件层、磁盘IO、文件系统层、</p>
-<p><strong>硬件层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">修改服务器BIOS设置</span><br><span class="line">1.选择Performance Per Watt Optimized(DAPC)模式 、发挥cpu最大性能</span><br><span class="line">2.Memory Frequency(内存频率)选择 Maximum Performance (最佳性能)</span><br><span class="line">3.内存设置菜单中，启用Node Interleaving 避免NUMA问题</span><br></pre></td></tr></table></figure></p>
-<p><strong>磁盘IO</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用SSD磁盘(瞬时写入非常高、还可以避免很多技术问题)</span><br><span class="line">2.如果是磁盘阵列存储，建议阵列卡同时配备CACHE及BBU模块，可以明显提升IOPS。</span><br><span class="line">3.raid级别尽量选择raid10.而不是raid5(双io方式、也能提高安全性等等)</span><br></pre></td></tr></table></figure></p>
-<p><strong>文件系统层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用deadline/noop这两种I/O调度器。千万别用cfq</span><br><span class="line">2.使用xfs文件系统、千万别用ext3、ext4勉强可用、但是事务量很大一定要用xfs</span><br><span class="line">3.文件系统mount参数中增加：noatime，nodiratime，nobarrier几个选项(nobarrier是xfs文件系统特有的)</span><br></pre></td></tr></table></figure></p>
-<p><strong>内核参数优化</strong></p>
-<pre><code>1.修改vm.swappiness参数，降低swap使用率，RHEL7/centos7以上则慎重设置为0，可能引发OOM(物理内存使用到了90%之后才去修改、设为5-10就可以)
-2.调整vm.dirty_background_ratio(脏数据量占内存量百分比、超过后将脏数据刷到磁盘、最大值（阻塞写）10%)、vm.dirty ratio(标准值（非阻塞写）5%) 内核参数、以确保能持续将脏数据刷新到磁盘，避免瞬I/O写，产生等待。
-3.调整net.ipv4.tcp_tw_recycle、net.ipv4.tcp_tw_reuse都设置为1、减少Time_wait,提高TCP效率
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-83893c4315e86c69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录"></p>
+<p>1、select语句</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-188c121b283eff2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语句优化"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优化考虑点"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】</span><br><span class="line">2、持续折叠</span><br><span class="line">3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】</span><br><span class="line">4、及时检测无效常量表达式</span><br><span class="line">5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用</span><br><span class="line">6、where 表达式尽量简单、便于快速建立where评估表</span><br><span class="line">7、查询其他表之前首先查询所有常量表</span><br><span class="line">【</span><br><span class="line">        SELECT * FROM t WHERE primary_key=1;</span><br><span class="line">        SELECT * FROM t1,t2</span><br><span class="line">            WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</span><br><span class="line">】</span><br></pre></td></tr></table></figure>
+<p>2、范围优化<br><img src="https://upload-images.jianshu.io/upload_images/6434888-8c3818c4dbff38fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>对于两种索引结构使用不同的范围条件【hash索引、B树索引】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-9820225eacc468b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>==========mmp 太难了 没办法写下去 只能贴图了 以后慢慢品鉴</p>
 
-</code></pre><p><strong>MYSQL参数优化建议</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-799fd7a3af94d8ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-cdec42962ed0224d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2"></p>
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/rpc/dubbo-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/rpc/dubbo-0/" itemprop="url">
+                  假如让你设计一个dubbo【一】
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/24/rpc/dubbo-0/" class="leancloud_visitors" data-flag-title="假如让你设计一个dubbo【一】">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>假设我们开发一个rpc远程调用框架</p>
+<p>那么这个框架需要怎么去写</p>
+<ul>
+<li>1、首先有远程配置中心config</li>
+<li>2、有服务代理层【包装业务上的服务做一个代理】</li>
+<li>3、有服务注册中心【代理了服务之后 向该注册中心注册服务代理】</li>
+<li>4、有路由【远程调用先走路由获取服务代理实例、集群必备的东西】</li>
+<li>5、有远程调用层【发起服务调用】</li>
+<li>6、有网络传输层、有信息交换层【这个是一个传输协议的实现层】</li>
+<li>7、有序列化层【针对网络IO信息编码方式的统一、传输协议最基本的东西】</li>
+<li>8、服务监控【不属于RPC、但是服务监控必不可少】</li>
+</ul>
+<p>总结：</p>
+<ul>
+<li>核心配置：服务注册中心、服务代理和服务调用</li>
+<li>优化配置：配置中心、服务监控、</li>
+<li>基石配置：网络传输以及协议、序列化方式的定制</li>
+</ul>
+<p><a href="http://dubbo.apache.org/books/dubbo-dev-book/design.html" target="_blank" rel="noopener">dubbo框架设计</a></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-efad1aa420ebfed2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dubbo-framework.jpg"></p>
+<p><strong>简单用自己的语言描述这个图</strong></p>
+<ul>
+<li>1、左上角 Dubbo Framework</li>
+<li>2、左上角往右简单标识 每个颜色代表什么意思、更好理解图中数据流向</li>
+<li>消费者、提供者、开始、接口、类、继承关系、调用链方向、依赖方向</li>
+<li>3、左侧一竖列、黑体字 service\config、等等</li>
+<li>服务接口【service】、配置层【config】、服务代理层【proxy】、注册中心【registry】、</li>
+<li>路由【cluster】、监控中心【monitor】、远程调用【protocol】、</li>
+<li>信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
+</ul>
+<p>结合自己所想做一个分类</p>
+<ul>
+<li>核心配置：服务代理层【proxy】、注册中心【registry】、远程调用【protocol】</li>
+<li>优化配置：配置层【config】、路由【cluster】、监控中心【monitor】</li>
+<li>基石配置：信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
+</ul>
+<p><strong>简单猜想一下dubbo这么设计的代码架构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">service：对外暴露接口 API与SPI分离</span><br><span class="line"></span><br><span class="line">config：核心referenceConfig、ServiceConfig</span><br><span class="line">              serviceConfig----获取远程仓库配置、获取文件配置、貌似还可以获取环境变量</span><br><span class="line">              【实质上跟修改本地host一个道理、规定了一个locahost代理 然后操作系统去解析这个配置】</span><br><span class="line"></span><br><span class="line">referenceConfig--是消费端配置、其应该是从服务端获取配置信息</span><br><span class="line"></span><br><span class="line">proxy：不由想到代理模式、原业务逻辑bean不变、新建bean来实现原bean的代理【也算是一种封装】</span><br><span class="line"></span><br><span class="line">registry：注册中心、看过eureka、底层内存中维护了 一个双map结构数据列表、维护服务实例、服务地址、以及代理service等</span><br><span class="line"></span><br><span class="line">cluster：路由器、想到最简单的就是url转发、当然肯定没这么简单、应该还会有、实时获取服务列表、负载均衡算法等等</span><br><span class="line"></span><br><span class="line">monitor：监控中心、这个web服务把各路信息提上来做一个展示、应该没啥、最多维护一个硬盘文件</span><br><span class="line"></span><br><span class="line">protocol：远程调用、怎么调用--不太清楚--再看看</span><br><span class="line"></span><br><span class="line">exchange：信息交换、request、response封装</span><br><span class="line"></span><br><span class="line">transport：网络传输、大名鼎鼎的netty就在这吧~~</span><br><span class="line"></span><br><span class="line">seriallize：数据序列化、提供多重序列化方式、hessian【本地存根方式】、rmi等等吧</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1001,9 +1027,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>

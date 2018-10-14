@@ -280,7 +280,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">6</span></a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">5</span></a>
   </li>
         
         
@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/filter-xss/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud-exception/feign-exception-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/hack/filter-xss/" itemprop="url">
-                  Filter安全过滤高级最终行（XSS攻击）
+                <a class="post-title-link" href="/2018/03/24/spring-cloud-exception/feign-exception-1/" itemprop="url">
+                  cloud feign灵异事件
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/hack/filter-xss/" class="leancloud_visitors" data-flag-title="Filter安全过滤高级最终行（XSS攻击）">
+             <span id="/2018/03/24/spring-cloud-exception/feign-exception-1/" class="leancloud_visitors" data-flag-title="cloud feign灵异事件">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,114 +489,12 @@
       
         
           
-            <p>package com.what21.filter.xss;</p>
-<p>import java.io.IOException;<br>import java.util.LinkedHashMap;<br>import java.util.Map;</p>
-<p>import javax.servlet.Filter;<br>import javax.servlet.FilterChain;<br>import javax.servlet.FilterConfig;<br>import javax.servlet.ServletException;<br>import javax.servlet.ServletRequest;<br>import javax.servlet.ServletResponse;<br>import javax.servlet.http.HttpServletRequest;</p>
-<p>public class XSSFilter implements Filter {</p>
-<pre><code>// XSS处理Map
-private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();
-
-public void init(FilterConfig filterConfig) throws ServletException {
-    // 含有脚本： script
-    xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);
-    // 含有脚本 javascript
-    xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);
-    // 含有函数： eval
-    xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);
-    // 含有符号 &lt;
-    xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);
-    // 含有符号 &gt;
-    xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);
-    // 含有符号 (
-    xssMap.put(&quot;\\(&quot;, &quot;(&quot;);
-    // 含有符号 )
-    xssMap.put(&quot;\\)&quot;, &quot;)&quot;);
-    // 含有符号 &apos;
-    xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);
-    // 含有符号 &quot;
-    xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);
-}
-
-public void doFilter(ServletRequest request, ServletResponse response,
-        FilterChain chain) throws IOException, ServletException {
-    // 强制类型转换 HttpServletRequest
-    HttpServletRequest httpReq = (HttpServletRequest)request;
-    // 构造HttpRequestWrapper对象处理XSS
-    HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
-    //
-    chain.doFilter(httpReqWarp, response);
-
-}
-
-public void destroy() {
-
-}
-</code></pre><p>}</p>
-<p>=============================<br>package com.what21.filter.xss;</p>
-<p>import java.util.Map;<br>import java.util.Set;</p>
-<p>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletRequestWrapper;</p>
-<p>public final class HttpRequestWrapper extends HttpServletRequestWrapper {</p>
-<pre><code>private Map&lt;String, String&gt; xssMap;
-
-public HttpRequestWrapper(HttpServletRequest request) {
-    super(request);
-}
-
-public HttpRequestWrapper(HttpServletRequest request,
-        Map&lt;String, String&gt; xssMap) {
-    super(request);
-    this.xssMap = xssMap;
-}
-
-@Override
-public String[] getParameterValues(String parameter) {
-    String[] values = super.getParameterValues(parameter);
-    if (values == null) {
-        return null;
-    }
-    int count = values.length;
-    // 遍历每一个参数，检查是否含有
-    String[] encodedValues = new String[count];
-    for (int i = 0; i &lt; count; i++) {
-        encodedValues[i] = cleanXSS(values[i]);
-    }
-    return encodedValues;
-}
-
-@Override
-public String getParameter(String parameter) {
-    String value = super.getParameter(parameter);
-    if (value == null) {
-        return null;
-    }
-    return cleanXSS(value);
-}
-
-public String getHeader(String name) {
-    String value = super.getHeader(name);
-    if (value == null)
-        return null;
-    return cleanXSS(value);
-
-}
-</code></pre><p>/**</p>
-<pre><code> * 清除恶意的XSS脚本
- *
- * @param value
- * @return
- */
-private String cleanXSS(String value) {
-    Set&lt;String&gt; keySet = xssMap.keySet();
-    for(String key : keySet){
-        String v = xssMap.get(key);
-        value = value.replaceAll(key,v);
-    }
-    return value;
-}
-</code></pre><p>}</p>
-<p>=============================================================================</p>
-<p><filter><br>    <filter-name>XSSFilter</filter-name><br>    <filter-class>com.what21.filter.xss.XSSFilter</filter-class><br></filter></p>
-<p><filter-mapping><br>    <filter-name>XSSFilter</filter-name><br>    <url-pattern>/*</url-pattern><br></filter-mapping></p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">报错 ：</span><br><span class="line">Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &apos;dataSourceInitializerPostProcessor&apos;: Unsatisfied dependency expressed through field &apos;beanFactory&apos;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;com.****.feign.UserCenterFeignService&apos;: Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.feign.FeignClientFactoryBean] from ClassLoader [sun.misc.Launcher$AppClassLoader@61e4705b]</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7df99f9e93f72b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>解决办法 加入依赖</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-c71a9b346663d6f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原因未明 、创建项目时候导入了feign</span><br><span class="line">使用@EnableFeignClients注解 也ok 不报错 我就以为 feign包导入了  </span><br><span class="line">结果不知道哪来的包来的这个注解  导致 灵异事件</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-55ccd9dddc1f19e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">严重怀疑是这个包里的</span><br><span class="line"></span><br><span class="line">mmp  莫名其妙的好了 仿佛又回到从前</span><br><span class="line">你对java 一无所知......</span><br></pre></td></tr></table></figure>
 
           
         
@@ -654,7 +552,7 @@ private String cleanXSS(String value) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/ssh-violence/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jdk-list/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -673,8 +571,8 @@ private String cleanXSS(String value) {
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/hack/ssh-violence/" itemprop="url">
-                  ssh远程登陆破解
+                <a class="post-title-link" href="/2018/03/24/jdk/jdk-list/" itemprop="url">
+                  列表List
                 </a>
               
             
@@ -732,7 +630,7 @@ private String cleanXSS(String value) {
 
           
           
-             <span id="/2018/03/24/hack/ssh-violence/" class="leancloud_visitors" data-flag-title="ssh远程登陆破解">
+             <span id="/2018/03/24/jdk/jdk-list/" class="leancloud_visitors" data-flag-title="列表List">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -765,9 +663,33 @@ private String cleanXSS(String value) {
       
         
           
-            <p>利用ssh协议 暴力破解ssh密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#hydra -s 22 -v -l root -P /usr/share/wordlists/rockyou.txt 192.168.0.108 ssh</span><br><span class="line">ssh 端口22 破解</span><br><span class="line"></span><br><span class="line"># hydra -S -l test@163.com -P /usr/share/wordlists/rockyou.txt -e ns -V -s 465 -t 1 smtp.163.com smtp</span><br><span class="line">邮箱破解 现在都加了许多验证.怕是不太靠谱了</span><br></pre></td></tr></table></figure>
+            <p>jdk8 ：<br><img src="https://upload-images.jianshu.io/upload_images/6434888-355af25aed2af567.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="集合.jpg"></p>
+<p>vector arraylist都是 object[]<br>也就是数组</p>
+<p>linkedlist 是 node first ；node last<br>也就是链表</p>
+<p>另外arraylist中包含sort方法 是可排序的</p>
+<p>vector扩展 是double 倍数扩展</p>
+<pre><code>关于数据结构想到这么一种描述方式： 种菜的园子
+1、【数组】数据结构、茄子、土豆、冬瓜、南瓜 对应【int string boolean double ..】
+我们规划一个园子、自然要分成一块块去种植不同的蔬菜【存放不同的数据】
+**提取数据分类方式【数组】**
+2、种菜不可避免的规则、一个萝卜一个坑、坑的位置就是数组的坐标、
+    左边第一排 从上往下数第二个、这个就是坐标、你姥姥让你去摘个茄子、总会让你告诉你摘哪一个、
+    有人会说了、他会让我采摘根据大小去采摘、那么成了数据的排序了
 
+3、关于链表 链表有三个元素【上一个节点位置、下一个节点位置、本节点存数据】
+
+    清晰明了的现实对照物-----还是举例菜园子吧
+
+    菜园子分块种着不同的蔬菜、茄子、土豆、冬瓜、南瓜、北瓜、依次种植
+    那么我们从进出来看、对于人的认知、
+    茄子右边是土豆
+    土豆左边是茄子、右边是南瓜
+    ...一次类推
+    我们想摘个北瓜吃、就去菜园子里找北瓜的那一块、
+    我们可以从左往右找，也可从右往左找
+    这个找的过程就是【链表查找】 【单向链表、双向列表】
+    有人将我一眼就看到了那块是北瓜地、你忽略了你大脑为了处理你看到的视觉信息处理的过程
+</code></pre>
           
         
       
@@ -824,7 +746,7 @@ private String cleanXSS(String value) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-3/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud-exception/sleuth-exception-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -843,8 +765,8 @@ private String cleanXSS(String value) {
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/technical-summary/technical-summary-3/" itemprop="url">
-                  总结
+                <a class="post-title-link" href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" itemprop="url">
+                  sleuth灵异事件
                 </a>
               
             
@@ -902,7 +824,7 @@ private String cleanXSS(String value) {
 
           
           
-             <span id="/2018/03/24/technical-summary/technical-summary-3/" class="leancloud_visitors" data-flag-title="总结">
+             <span id="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" class="leancloud_visitors" data-flag-title="sleuth灵异事件">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -935,28 +857,12 @@ private String cleanXSS(String value) {
       
         
           
-            <p>梳理一下脑子里的东西按点整理一下</p>
-<p>消息中间件，ActiveMQ.Kafka.ZeroMQ.RabbitMQ.RocketMQ</p>
-<p>服务治理Dubbo.eureka.</p>
-<p>服务网springcloud</p>
-<p>cpu线程</p>
-<p>docker容器</p>
-<p>负载均衡lvs radware nginx keepalived</p>
-<p>端口转发，网卡驱动</p>
-<p>jvm内存 . 堆.栈 规则  一个线程会占用掉多少内存.一个对象会占用多少内存</p>
-<p>javac 编译后文件 字节码文件</p>
-<p>数据库mysql.alisql.oracle (并发.事物.存储过程)</p>
-<p>Nosql.redis.memcached.ecache.mongdb</p>
-<p>算法、负载均衡算法，缓存淘汰算法，排序算法，数据整理算法</p>
-<p>uml设计.部署图，流程图，ER图，时序图。</p>
-<p>搜索引擎</p>
-<p>权限架构</p>
-<p>IO:AIO　BIO  NIO　</p>
-<p>消息流　Netty</p>
-<p>怎么讲呢 今年大脑经历了大量信息的冲击.有些东西可能会很快忘记.留下的只有感悟.经验</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">总结.构建知识体系.</span><br><span class="line"></span><br><span class="line">分流:负载均衡(软硬件).算法(随机.权重.最小调用).</span><br><span class="line">软件:nginx.vortex.radware</span><br><span class="line">硬件:LVS.F5</span><br><span class="line"></span><br><span class="line">缓存: Redis.   Memcached. Mongdb. ehcache</span><br><span class="line">问题:缓存击穿.缓存同步</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">并发.线程.</span><br><span class="line"></span><br><span class="line">数据库:mysql.AliSQL</span><br><span class="line">容量.并发线程.事物提交.存储过程</span><br><span class="line"></span><br><span class="line">java基本功.io.util.sql.</span><br><span class="line"></span><br><span class="line">主流中间件:</span><br><span class="line">RPC:dubbo. eureka</span><br><span class="line">消息中间件rocketmq.rabbitmq.zeromq.</span><br><span class="line"></span><br><span class="line">技术架构:springcloud</span><br><span class="line"></span><br><span class="line">服务架构:SOA</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">渗透:</span><br><span class="line">1.基本工具使用</span><br><span class="line"></span><br><span class="line">比如wifi劫持.https劫持.session劫持.</span><br><span class="line"></span><br><span class="line">1.5.网站探测:whois.钟馗之眼.</span><br><span class="line"></span><br><span class="line">2.跳点搭建.vpn.或者直接控制肉鸡进行跳点</span><br><span class="line"></span><br><span class="line">3.主机扫描.漏洞扫描.关注国家网络安全网发布的漏洞.</span><br><span class="line"></span><br><span class="line">4.脚本攻击.shell脚本 python脚本</span><br><span class="line"></span><br><span class="line">5.日志清除.</span><br></pre></td></tr></table></figure>
-<p>今日起 关注人工智能、进军人工智能。以备将来使用。</p>
+            <p>分布式 服务跟踪系统</p>
+<p>客户端发送ok<br><img src="http://upload-images.jianshu.io/upload_images/6434888-39e03c88f9cbc91d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>server端 启动ok<br>但是就是没有数据</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-0873f181258771f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">灵异原因：可能是版本不一致</span><br><span class="line"></span><br><span class="line">要保证 客户端 cloud version</span><br><span class="line">和sleuth server  cloud version 版本一致</span><br><span class="line">修改方式：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-332963ea8a515ceb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 
           
         
@@ -1093,9 +999,7 @@ private String cleanXSS(String value) {
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
