@@ -237,6 +237,10 @@
       </a>
     </div>
     
+      
+        <h1 class="site-subtitle" itemprop="description">花开，若相惜</h1>
+      
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -374,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/art-infiltration/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/Hystrix/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -393,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/hack/art-infiltration/" itemprop="url">
-                  渗透的艺术
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/Hystrix/" itemprop="url">
+                  Hystrix
                 </a>
               
             
@@ -468,7 +472,7 @@
 
           
           
-             <span id="/2018/03/24/hack/art-infiltration/" class="leancloud_visitors" data-flag-title="渗透的艺术">
+             <span id="/2018/03/24/spring-cloud/Hystrix/" class="leancloud_visitors" data-flag-title="Hystrix">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -501,46 +505,10 @@
       
         
           
-            <table>
-<thead>
-<tr>
-<th style="text-align:left">分类</th>
-<th style="text-align:left">描述内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">信息收集</td>
-<td style="text-align:left">收集域名、服务器ip、指纹</td>
-</tr>
-<tr>
-<td style="text-align:left">漏洞挖掘</td>
-<td style="text-align:left">组件指纹、应用层</td>
-</tr>
-<tr>
-<td style="text-align:left">漏洞利用</td>
-<td style="text-align:left">目的、ddos、</td>
-</tr>
-<tr>
-<td style="text-align:left">权限提升</td>
-<td style="text-align:left">提升shell权限</td>
-</tr>
-<tr>
-<td style="text-align:left">后门</td>
-<td style="text-align:left">留下下次访问后门 肉鸡</td>
-</tr>
-<tr>
-<td style="text-align:left">日志清扫</td>
-<td style="text-align:left">删除系统日志</td>
-</tr>
-<tr>
-<td style="text-align:left">经验总结</td>
-<td style="text-align:left">记录攻击漏洞、肉鸡ip</td>
-</tr>
-</tbody>
-</table>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-b92aa8e517475659.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="套路总结.jpg"></p>
-<p>别人总结的　<br>如有侵犯　请私信　　哈哈．．．</p>
+            <p><strong>原理</strong></p>
+<p>1、流程图<br><img src="http://upload-images.jianshu.io/upload_images/6434888-009577c3c4e7377a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方原版流程图"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、方法标注 @HystrixCommand注解</span><br><span class="line">2、方法执行进入执行队列、方法执行、【图中标注 .toObservable()状态】</span><br><span class="line">3、缓存是否可见【有 返回缓存数据；没有进入下一步判断】</span><br><span class="line">4、断路器是否打开【未打开 直接判断信号量线程池是否拒绝 ；打开且触发断路进去fallback方法】</span><br><span class="line">5、信号量线程池是否拒绝【未拒绝 创建线程池隔离舱执行业务逻辑 ；拒绝 执行fallback方法】</span><br><span class="line">6、业务逻辑执行是否成功【成功 判断是否超时；未成功 执行fallback方法】</span><br><span class="line">7、判断是否超时【超时 不返回 未超时返回数据】</span><br><span class="line">8、fallback执行结果【成功 返回数据 ；失败 返回失败或者自行实现业务方法】</span><br><span class="line"></span><br><span class="line">其中方法执行结果要返回断路器健康状态给断路器【也就是图中绿色4】</span><br></pre></td></tr></table></figure></p>
+<p>具体信息可见官方详细：</p>
+<p><a href="https://github.com/Netflix/Hystrix/wiki/How-it-Works" target="_blank" rel="noopener">https://github.com/Netflix/Hystrix/wiki/How-it-Works</a></p>
 
           
         
@@ -598,7 +566,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/dos/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/filter-xss/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -617,8 +585,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/hack/dos/" itemprop="url">
-                  DOS攻击工具
+                <a class="post-title-link" href="/2018/03/24/hack/filter-xss/" itemprop="url">
+                  Filter安全过滤高级最终行（XSS攻击）
                 </a>
               
             
@@ -692,7 +660,7 @@
 
           
           
-             <span id="/2018/03/24/hack/dos/" class="leancloud_visitors" data-flag-title="DOS攻击工具">
+             <span id="/2018/03/24/hack/filter-xss/" class="leancloud_visitors" data-flag-title="Filter安全过滤高级最终行（XSS攻击）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -725,10 +693,114 @@
       
         
           
-            <p>1.slowhttptest<br>慢速dos攻击 原理 发送一个不完整的数据包.引起服务器保留链接资源.以达成耗费服务器资源目的</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">bt5 r3安装过程是这样的,你先移动到根目录 运行命令：</span><br><span class="line">wget http://slowhttptest.googlecode.com/files/slowhttptest-1.5.tar.gz 第一条：下载</span><br><span class="line">tar -vxf slowhttptest-1.5.tar.gz 解压</span><br><span class="line">cd slowhttptest-1.5/ 进入目录</span><br><span class="line">./configure 再往下你懂的</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line">测试白帽攻击是这样的：</span><br><span class="line">slowhttptest -c 1000 -X -g -o -slow_read_stats -r 200 -w 512 -y 1024 -n 5 -z 32 -k 3 -u http://www.loveuv.net -p 3</span><br><span class="line">参数：</span><br><span class="line">—a —开始开始值范围说明符用于范围头测试</span><br><span class="line">-b 将字节限制的范围说明符用于范围头测试</span><br><span class="line">- c 的连接数限制为65539</span><br><span class="line">- d proxy host:port 用于指导所有流量通过web代理</span><br><span class="line">- e proxy host:port 端口用于指导只有探针交通通过web代理</span><br><span class="line">- h,B,R或x 指定减缓在头部分或在消息体,- R 允许范围检验,使慢读测试- x</span><br><span class="line">- g 生成统计数据在CSV和HTML格式,模式是缓慢的xxx。csv / html,其中xxx是时间和日期</span><br><span class="line">- i seconds 秒间隔跟踪数据在几秒钟内,每个连接</span><br><span class="line">- k 管道因子次数重复请求在同一连接慢读测试如果服务器支持HTTP管道内衬。</span><br><span class="line">- l 在几秒钟内，秒测试时间</span><br><span class="line">- n 秒间隔从接收缓冲区读取操作</span><br><span class="line">- o 文件定义输出文件路径和/或名称,如果指定有效- g</span><br><span class="line">- p 秒超时等待HTTP响应在探头连接后,服务器被认为是不可访问的</span><br><span class="line">- r seconds 连接速度</span><br><span class="line">- s 字节值的内容长度标题详细说明,如果指定- b</span><br><span class="line">- t verb 自定义</span><br><span class="line">- u URL 目标URL,相同的格式键入浏览器,e。g https://host[:port]/</span><br><span class="line">- v level 冗长等级0 - 4的日志</span><br><span class="line">- w 字节范围广告的窗口大小会选择从</span><br><span class="line">- x 字节最大长度的跟踪数据结束</span><br><span class="line">- y 字节范围广告的窗口大小会选择从</span><br><span class="line">- z 字节从接收缓冲区读取字节与单一的read()操作</span><br></pre></td></tr></table></figure>
-<p>也可以查看 man slowhttptest</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-2154e6343cf62f9f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/q/50" alt="图片发自简书App"></p>
+            <p>package com.what21.filter.xss;</p>
+<p>import java.io.IOException;<br>import java.util.LinkedHashMap;<br>import java.util.Map;</p>
+<p>import javax.servlet.Filter;<br>import javax.servlet.FilterChain;<br>import javax.servlet.FilterConfig;<br>import javax.servlet.ServletException;<br>import javax.servlet.ServletRequest;<br>import javax.servlet.ServletResponse;<br>import javax.servlet.http.HttpServletRequest;</p>
+<p>public class XSSFilter implements Filter {</p>
+<pre><code>// XSS处理Map
+private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();
+
+public void init(FilterConfig filterConfig) throws ServletException {
+    // 含有脚本： script
+    xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);
+    // 含有脚本 javascript
+    xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);
+    // 含有函数： eval
+    xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);
+    // 含有符号 &lt;
+    xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);
+    // 含有符号 &gt;
+    xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);
+    // 含有符号 (
+    xssMap.put(&quot;\\(&quot;, &quot;(&quot;);
+    // 含有符号 )
+    xssMap.put(&quot;\\)&quot;, &quot;)&quot;);
+    // 含有符号 &apos;
+    xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);
+    // 含有符号 &quot;
+    xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);
+}
+
+public void doFilter(ServletRequest request, ServletResponse response,
+        FilterChain chain) throws IOException, ServletException {
+    // 强制类型转换 HttpServletRequest
+    HttpServletRequest httpReq = (HttpServletRequest)request;
+    // 构造HttpRequestWrapper对象处理XSS
+    HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
+    //
+    chain.doFilter(httpReqWarp, response);
+
+}
+
+public void destroy() {
+
+}
+</code></pre><p>}</p>
+<p>=============================<br>package com.what21.filter.xss;</p>
+<p>import java.util.Map;<br>import java.util.Set;</p>
+<p>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletRequestWrapper;</p>
+<p>public final class HttpRequestWrapper extends HttpServletRequestWrapper {</p>
+<pre><code>private Map&lt;String, String&gt; xssMap;
+
+public HttpRequestWrapper(HttpServletRequest request) {
+    super(request);
+}
+
+public HttpRequestWrapper(HttpServletRequest request,
+        Map&lt;String, String&gt; xssMap) {
+    super(request);
+    this.xssMap = xssMap;
+}
+
+@Override
+public String[] getParameterValues(String parameter) {
+    String[] values = super.getParameterValues(parameter);
+    if (values == null) {
+        return null;
+    }
+    int count = values.length;
+    // 遍历每一个参数，检查是否含有
+    String[] encodedValues = new String[count];
+    for (int i = 0; i &lt; count; i++) {
+        encodedValues[i] = cleanXSS(values[i]);
+    }
+    return encodedValues;
+}
+
+@Override
+public String getParameter(String parameter) {
+    String value = super.getParameter(parameter);
+    if (value == null) {
+        return null;
+    }
+    return cleanXSS(value);
+}
+
+public String getHeader(String name) {
+    String value = super.getHeader(name);
+    if (value == null)
+        return null;
+    return cleanXSS(value);
+
+}
+</code></pre><p>/**</p>
+<pre><code> * 清除恶意的XSS脚本
+ *
+ * @param value
+ * @return
+ */
+private String cleanXSS(String value) {
+    Set&lt;String&gt; keySet = xssMap.keySet();
+    for(String key : keySet){
+        String v = xssMap.get(key);
+        value = value.replaceAll(key,v);
+    }
+    return value;
+}
+</code></pre><p>}</p>
+<p>=============================================================================</p>
+<p><filter><br>    <filter-name>XSSFilter</filter-name><br>    <filter-class>com.what21.filter.xss.XSSFilter</filter-class><br></filter></p>
+<p><filter-mapping><br>    <filter-name>XSSFilter</filter-name><br>    <url-pattern>/*</url-pattern><br></filter-mapping></p>
 
           
         
@@ -786,7 +858,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/eureka-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/reactor-core/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -805,8 +877,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/eureka-1/" itemprop="url">
-                  EUREKA服务治理
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/reactor-core/" itemprop="url">
+                  Reactor Core
                 </a>
               
             
@@ -880,7 +952,7 @@
 
           
           
-             <span id="/2018/03/24/spring-cloud/eureka-1/" class="leancloud_visitors" data-flag-title="EUREKA服务治理">
+             <span id="/2018/03/24/spring-cloud/reactor-core/" class="leancloud_visitors" data-flag-title="Reactor Core">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -913,19 +985,28 @@
       
         
           
-            <p><strong>1、服务治理三个核心点、服务提供者、服务消费者、服务注册中心</strong></p>
-<p>结合Ribbon 服务治理图<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e7b588c219c8e47b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>服务治理时序图</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cd6d188d9cddbfdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong>服务提供者功能：</strong></p>
-<p>1、服务注册<br>2、服务同步<br>3、服务续约<br>4、..<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">服务注册：</span><br><span class="line">服务提供者在启动时候通过rest请求 、将自己注册到Eureka Server上、同时携带自身服务的一些元数据信息、</span><br><span class="line">Eureka Server接收到这个rest请求后 将这些元数据存储到一个双层结构Map中、其中第一层map 的key是服务名字、第二层key是具体服务实例名、</span><br><span class="line">相关配置：</span><br><span class="line">eureka.client.register-with-eureka=true 【默认 true】</span><br><span class="line"></span><br><span class="line">服务同步：</span><br><span class="line">情景：两个相同的服务提供者实例、注册到了不同的服务注册中心、那么由于两个服务注册中心互相注册、服务注册中心会将服务注册信息发送给Eureka-server的其他机器、【还有一种说法是eureka-server 有信息服务功能、server与server之间 有消息同步、不确定这两种说法那个是真是的底层机制、后者是官方的说法、前者是 翟永超书里的说法、也就是说服务同步是由Eureka-server来完成的】</span><br><span class="line"></span><br><span class="line">服务续约：</span><br><span class="line">服务注册后、会维持一个心跳来维持服务不被剔除</span><br><span class="line"></span><br><span class="line">相关配置：</span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    status-page-url-path: /info    //服务信息</span><br><span class="line">    health-check-url-path: /health    //服务健康状态</span><br><span class="line">    lease-expiration-duration-in-seconds: 90  //服务失效时间</span><br><span class="line">    lease-renewal-interval-in-seconds: 30  //服务续约持续调用时间</span><br></pre></td></tr></table></figure></p>
-<p><strong>服务消费者功能：</strong></p>
-<p>1、获取服务<br>2、服务调用<br>3、服务下线<br>4、..<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">获取服务：</span><br><span class="line">服务消费者会发送一个rest请求获取一个服务列表、Eureka-server会发给client一个只读的服务列表、且该列表会30s刷新一次</span><br><span class="line">相关配置：</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    fetch-registry: true //默认为true 设为false则无法获取服务</span><br><span class="line">    registry-fetch-interval-seconds: 30  //服务清单刷新时间</span><br><span class="line"></span><br><span class="line">服务调用：</span><br><span class="line">集成Ribbon后、默认会使用轮询机制来调取服务实例信息</span><br><span class="line">对于实例选择、在eureka中会有Region和Zone概念</span><br><span class="line">一个Region会有很多Zone、每个服务都需要被注册到一个Zone中、所以每个client对应一个Region和一个Zone、服务调用时候会优先访问Zone下列表、没有在访问同一个Region不同Zone下的服务、</span><br><span class="line">服务下线：</span><br><span class="line">当服务实例jinx你给正常的关闭时、client会给server发送一个server、告知 &quot;我要下线了&quot;</span><br></pre></td></tr></table></figure></p>
-<p><strong>服务注册中心功能：</strong></p>
-<p>1、失效剔除<br>2、自我保护<br>3、..<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">失效剔除：server会每隔一段时间【默认90s】剔除不正常实例【主要是没有续约的】</span><br><span class="line">自我保护：如果同一时间段内由于网络原因大量服务都没有续约、server会继续保持服务列表、而不丢弃这个服务清单列表、也就是触发自我保护机制</span><br><span class="line">其主要应对是网络忽然中断、大量服务都被剔除导致服务不可访问危险【牺牲了服务高可用性、zookeeper是全部剔除的 zk是服务强高可用性】</span><br><span class="line">相关配置：</span><br><span class="line">eureka.server.enable-self-preservation=false //可关闭自我保护机制</span><br></pre></td></tr></table></figure></p>
-<p>关于版本升级<br>1.0升级2.0  添加了获取感兴趣服务实例列表功能、毕竟在几千台服务注册中心上、有些服务实例也不是100%用到、节省了client服务实例清单的内存消耗、<br>还优化一些获取服务算法、<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0f906bd4e1344d7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>以下为官方地址：</p>
-<p><a href="https://github.com/Netflix/eureka/wiki" target="_blank" rel="noopener">https://github.com/Netflix/eureka/wiki</a></p>
+            <p>本文从以下介绍下 Reactor （反应堆）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">首先简单介绍Reactor 是什么东西、</span><br><span class="line">其次解决什么问题、</span><br><span class="line">领域应用、</span><br><span class="line">原理、</span><br><span class="line">优点和缺点、</span><br></pre></td></tr></table></figure></p>
+<h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-8bbb8b631b3797b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="2、解决问题"><a href="#2、解决问题" class="headerlink" title="2、解决问题"></a>2、解决问题</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-57e816852fa46e19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="3、领域应用"><a href="#3、领域应用" class="headerlink" title="3、领域应用"></a>3、领域应用</h2><p>举个比较熟悉的例子 dubbo<br>dubbo底层使用了netty线程模型  netty 中使用了reactor模式</p>
+<h3 id="那么什么是reactor模式？"><a href="#那么什么是reactor模式？" class="headerlink" title="那么什么是reactor模式？"></a>那么什么是reactor模式？</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-858fe9a54def75b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="Reactor三种模型"><a href="#Reactor三种模型" class="headerlink" title="Reactor三种模型"></a>Reactor三种模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-2406b26b0cca44ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="Netty线程模型"><a href="#Netty线程模型" class="headerlink" title="Netty线程模型"></a>Netty线程模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-7fac4e58c9c1fe4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="Netty结构"><a href="#Netty结构" class="headerlink" title="Netty结构"></a>Netty结构</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-44f3e9b29ec969cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="dubbo中使用的netty"><a href="#dubbo中使用的netty" class="headerlink" title="dubbo中使用的netty"></a>dubbo中使用的netty</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-6a1f8184f9fcfae3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="4、Reactor-原理介绍"><a href="#4、Reactor-原理介绍" class="headerlink" title="4、Reactor 原理介绍"></a>4、Reactor 原理介绍</h2><h3 id="4-1-Reactor模式结构"><a href="#4-1-Reactor模式结构" class="headerlink" title="4.1 Reactor模式结构"></a>4.1 Reactor模式结构</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-fc4c0369774e482d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-1c48977348cea778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="4-2Reactor模式模块之间的交互"><a href="#4-2Reactor模式模块之间的交互" class="headerlink" title="4.2Reactor模式模块之间的交互"></a>4.2Reactor模式模块之间的交互</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-420d7e53a12f5a5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-9b0b54d48117cc51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-76867da8faa4836f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-de7a2593190a5eb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="5、-Reactor优点"><a href="#5、-Reactor优点" class="headerlink" title="5、  Reactor优点"></a>5、  Reactor优点</h2><p><a href="http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf" target="_blank" rel="noopener">Reactor An Object Behavioral Pattern for Demultiplexing and Dispatching Handles for Synchronous Events</a><br>解耦、提升复用性、模块化、可移植性、事件驱动、细力度的并发控制等。<br>相比 传统的实现、即线程的切换、同步、数据的移动会引起性能问题。也就是说从性能的角度上，它最大的提升就是减少了性能的使用，即不需要每个Client对应一个线程</p>
+<p>关于 减少使用线程使用 对性能提升的影响 可看这篇论文</p>
+<p><a href="http://www.eecs.harvard.edu/~mdw/papers/seda-sosp01.pdf" target="_blank" rel="noopener">SEDA: Staged Event-Driven Architecture - An Architecture for Well-Conditioned, Scalable Internet Service</a></p>
+<p>对随着线程的增长带来性能降低做了一个统计：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-27a8db8c88ddbcc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>在这个统计中，每个线程从磁盘中读8KB数据，每个线程读同一个文件，因而数据本身是缓存在操作系统内部的，即减少IO的影响；所有线程是事先分配的，不会有线程启动的影响；所有任务在测试内部产生，因而不会有网络的影响。该统计数据运行环境：Linux 2.2.14，2GB内存，4-way 500MHz Pentium III。从图中可以看出，随着线程的增长，吞吐量在线程数为8个左右的时候开始线性下降，并且到64个以后而迅速下降，其相应事件也在线程达到256个后指数上升。即1+1&lt;2，因为线程切换、同步、数据移动会有性能损失，线程数增加到一定数量时，这种性能影响效果会更加明显。</p>
+<h2 id="6-Reactor模式的缺点"><a href="#6-Reactor模式的缺点" class="headerlink" title="6.Reactor模式的缺点"></a>6.Reactor模式的缺点</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-fc5e8ab386e2f710.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 
           
         

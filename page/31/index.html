@@ -237,6 +237,10 @@
       </a>
     </div>
     
+      
+        <h1 class="site-subtitle" itemprop="description">花开，若相惜</h1>
+      
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -374,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/https/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-deploy/bandwidth/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -393,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/https/" itemprop="url">
-                  Https协议
+                <a class="post-title-link" href="/2018/03/24/service-deploy/bandwidth/" itemprop="url">
+                  服务器带宽
                 </a>
               
             
@@ -468,7 +472,7 @@
 
           
           
-             <span id="/2018/03/24/agreement/https/" class="leancloud_visitors" data-flag-title="Https协议">
+             <span id="/2018/03/24/service-deploy/bandwidth/" class="leancloud_visitors" data-flag-title="服务器带宽">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -501,17 +505,19 @@
       
         
           
-            <p><strong>http+ssl</strong></p>
-<pre><code>使用http进行通信 ssl作为数据通信加密方式
-使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
-</code></pre><p>混合加密方式</p>
-<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
-<ul>
-<li>1、客户端 发送公钥、支持加密方式、版本号</li>
-<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
-<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
-<li>4、使用协商后的加密方式加密http请求</li>
-</ul>
+            <p><strong>首先要知道影响在线人数的因素</strong></p>
+<p>1，访问量</p>
+<p>2，网站类型：如果是出文字的网站(如小说站)，1M带宽带动日均5000IP，还勉强。如果是普通网站有图片，有文字、论坛、新闻资讯类型网站 大概1M能带一千IP。考虑到高峰期并发，1M高峰期还会卡。【最低配 单核CPU+512内存。1千IP CPU占用10%左右，内存200到300之间】。</p>
+<p><strong>下面根据影响因素计算下1M带宽能同时承受多少人在线(以网络状况良好为前提)</strong></p>
+<p>1、</p>
+<p><a href="http://www.wusiwei.com/post-904.html" target="_blank" rel="noopener">打开网站8秒原则</a>;</p>
+<p>2、 评判的只是：用户从云服务器下载文件的速度;</p>
+<p>3、 页面的标准尺寸大小为：60KB;</p>
+<p>参考公式：<strong>支持连接个人 = 服务器带宽/页面尺寸大小</strong></p>
+<p>通过计算大致结果是，1Mbps的带宽(服务器的1M带宽最快上下速度能达到1M/s，跟我们家用的带宽稍有区别)支持的连接数为：17个</p>
+<p>因此，N M带宽可以支持的同时在线人数大概为N*17个</p>
+<p>所以，1M带宽的云主机，日均3000IP以下应该没问题。当然如果你的每个页面都比较大的话，那就没这么多了。具体多少，可以按照上面的算法算下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">初次访问 362kb</span><br><span class="line">第二次访问 36kb</span><br><span class="line"></span><br><span class="line">pv 8641+2007+1000 = 11648</span><br><span class="line"></span><br><span class="line">pv * 362 = 4216576kb = 4117.75MB  4GB流量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">market</span><br><span class="line">初次171kb</span><br><span class="line">第二次 28kb</span><br><span class="line"></span><br><span class="line">pv= 3000</span><br><span class="line"></span><br><span class="line">pv * 171 = 513000 = =500.97MB</span><br><span class="line"></span><br><span class="line">一天按5GB 流量</span><br><span class="line"></span><br><span class="line">30天 是 150GB流量</span><br><span class="line"></span><br><span class="line">0.8 * 150 = 120RMB</span><br><span class="line"></span><br><span class="line">带宽</span><br><span class="line"></span><br><span class="line">5 Mbps  125 RMB</span><br><span class="line"></span><br><span class="line">10 Mbps  125 + （10 - 5 ）* 80RMB = =525 RMB元</span><br></pre></td></tr></table></figure>
 
           
         
@@ -569,7 +575,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-config/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -588,8 +594,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/search-engine/elasticsearch-config/" itemprop="url">
-                  elasticsearch-config
+                <a class="post-title-link" href="/2018/03/24/cache/redis/" itemprop="url">
+                  redis
                 </a>
               
             
@@ -663,7 +669,7 @@
 
           
           
-             <span id="/2018/03/24/search-engine/elasticsearch-config/" class="leancloud_visitors" data-flag-title="elasticsearch-config">
+             <span id="/2018/03/24/cache/redis/" class="leancloud_visitors" data-flag-title="redis">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -696,7 +702,15 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># ---------------------------------- Cluster -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 为群集使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#cluster.name: my-application</span><br><span class="line">#</span><br><span class="line"># ------------------------------------ Node ------------------------------------</span><br><span class="line">#</span><br><span class="line">#为节点使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#node.name: node-1</span><br><span class="line">#</span><br><span class="line">#  向节点添加自定义属性:</span><br><span class="line">#</span><br><span class="line">#node.attr.rack: r1</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Paths ------------------------------------</span><br><span class="line">#</span><br><span class="line"># 路径到目录存储数据的位置 (用逗号分隔多个位置):</span><br><span class="line">#</span><br><span class="line">#path.data: /path/to/data</span><br><span class="line">#</span><br><span class="line"># 日志文件的路径:</span><br><span class="line">#</span><br><span class="line">#path.logs: /path/to/logs</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Memory -----------------------------------</span><br><span class="line">#</span><br><span class="line">#  启动时锁定内存:</span><br><span class="line">#</span><br><span class="line">#bootstrap.memory_lock: true</span><br><span class="line">#</span><br><span class="line">#确保堆大小设置为大约一半的可用内存在系统上, 并且允许进程的所有者使用此限制。</span><br><span class="line">#</span><br><span class="line"># 当系统交换内存时, Elasticsearch 执行得很差。</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Network -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 将绑定地址设置为特定 IP (IPv4 或 IPv6):</span><br><span class="line">#</span><br><span class="line">#network.host: 192.168.0.1</span><br><span class="line">#</span><br><span class="line"># 为 HTTP 设置自定义端口:</span><br><span class="line">#</span><br><span class="line">#http.port: 9200</span><br><span class="line">#</span><br><span class="line"># 有关详细信息, 请参阅网络模块文档。</span><br><span class="line">#</span><br><span class="line"># --------------------------------- Discovery ----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在启动新节点时传递初始主机列表以执行发现:</span><br><span class="line"># 主机的默认列表为 [ &quot;127.0.0.1 &quot;, [:: 1] &quot;]</span><br><span class="line">#</span><br><span class="line">#discovery. zen.ping.unicast.hosts: [ &quot;host1 &quot;, &quot;host2 &quot;]</span><br><span class="line">#</span><br><span class="line"># 通过配置大多数节点 (主合格节点总数/2 + 1) 来防止 &quot;分裂大脑 &quot;:</span><br><span class="line">#</span><br><span class="line">#discovery.zen.minimum_master_nodes:</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Gateway -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在完全群集重新启动后阻止初始恢复, 直到开始 N 个节点:</span><br><span class="line">#</span><br><span class="line">#gateway.recover_after_nodes: 3</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Various -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 删除索引时需要显式名称:</span><br><span class="line">#</span><br><span class="line">#action.destructive_requires_name: true</span><br></pre></td></tr></table></figure>
+            <p>1、使用ANSIC编写 （基于BSD协议）<br>2、开源、内存中数据结构存储<br>3、可以用作数据库、缓存、消息中间件</p>
+<p>支持多种数据结构<br>String、hash、list、set、sorted sets、bitmaps、geospatial<br>字符串、散列、列表、集合、有序集合、bitmaps、地理空间</p>
+<p>redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations) 和不同级别的硬盘持久化<br>并通过redis哨兵(sentinel)和自动分区(cluster)提高可用性</p>
+<p>Redis支持每隔一段时间将数据导出磁盘、支持主从复制、且第一次是快速非阻塞形式</p>
+<p>由于组合式压缩、内存使用率要高于memcached<br>其他：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">事物</span><br><span class="line">订阅分发</span><br><span class="line">lua脚本</span><br><span class="line">过期自动删除key</span><br><span class="line">自动故障转移</span><br></pre></td></tr></table></figure></p>
+<p>优势<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">性能极高、读11W次/s  写8.1W次/s</span><br><span class="line">丰富的数据类型</span><br><span class="line">原子性操作</span><br><span class="line">丰富特性、支持publish、sub scribe 通知 key过期等等</span><br></pre></td></tr></table></figure></p>
+<p>redis命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">创建当前备份 save</span><br><span class="line">恢复数据：config get dit &quot;dir&quot; &quot;usr/local/redis/bin&quot;</span><br><span class="line">将dump移动到安装目录 并启动服务即可</span><br><span class="line">创建备份：</span><br><span class="line">Bg save</span><br><span class="line">background saving started 该命令后台执行</span><br><span class="line">恢复备份</span><br><span class="line">redis-cli --rdb /tmp/dump.rdb</span><br><span class="line">检查主从数据流：从模式 redis-cli --slave</span><br><span class="line">从配置修改: slave-read-only yes</span><br><span class="line">从数据库: slave of host:port</span><br><span class="line">清空: flushall</span><br><span class="line">远程连接: redis-cli -h host -p port -a password</span><br></pre></td></tr></table></figure></p>
+<p>redis发布订阅<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">声明客户端 subscribe  redischat</span><br><span class="line">推动消息 publish redischat &quot;this is a exp&quot;</span><br><span class="line">创建集合 sadd a redis</span><br><span class="line">set sadd a memcached</span><br><span class="line">smembers a</span><br><span class="line">创建列表结合list</span><br><span class="line">lpush a redis</span><br><span class="line">lpush a mysql</span><br><span class="line">lrange a 0/0</span><br></pre></td></tr></table></figure></p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum install redis -y</span><br><span class="line"></span><br><span class="line">cat /etc/redis.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">默认配置可能要修改的数据</span><br><span class="line">logfile /var/log/redis/redis.log</span><br><span class="line">slave-serve-stale-data yes</span><br><span class="line">slave-read-only yes</span><br><span class="line">#requirepass redisPassword</span><br><span class="line"></span><br><span class="line"># The filename where to dump the DB</span><br><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -754,7 +768,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/ehcache/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/container/pouch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -773,8 +787,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
-                  ehcache
+                <a class="post-title-link" href="/2018/03/24/container/pouch/" itemprop="url">
+                  pouch
                 </a>
               
             
@@ -848,7 +862,7 @@
 
           
           
-             <span id="/2018/03/24/cache/ehcache/" class="leancloud_visitors" data-flag-title="ehcache">
+             <span id="/2018/03/24/container/pouch/" class="leancloud_visitors" data-flag-title="pouch">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -881,26 +895,24 @@
       
         
           
-            <p>ehcache service层缓存系统</p>
-<p><strong>发展史</strong></p>
-<pre><code>Ehcache
-开发者（S）    Terracotta，Inc。[1]
-稳定版本
-3.3.0 / 2017年2月1日; 16个月前
-写入    Java的
-操作系统    跨平台
-类型    高速缓存
-执照    Apache许可证 2.0
-网站    www.ehcache.org
+            <p>2017.11.19正式开源pouch</p>
+<p>pouch 基于Apache2.0协议的容器技术</p>
+<p>介绍：<br>Pouch 是一个轻量级容器技术<br>特点：快速高效、可移植性高、资源占用少</p>
+<p>github：<a href="https://github.com/alibaba/pouch" target="_blank" rel="noopener">pouch</a></p>
+<p>11年基于Linux内核上的namespace、cgroup等技术开始成熟、阿里Pouch基于LXC研发的第一代容器t4<br>13年Docker横空出世、解决了行业多年的”软件封装”问题、阿里吸收其经验、打磨Pouch</p>
+<p>Pouch规模<br>2017 年双 11，巨额交易 1682 亿背后，Pouch 在”超级工程”中做到了：<br> 1、100% 的在线业务 Pouch 化<br>2、容器规模达到百万级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">阿里集团内部，Pouch 的日常服务已经覆盖绝大部分的事业部，</span><br><span class="line">覆盖的业务场景包括：电商、广告、搜索等；</span><br><span class="line">覆盖技术栈包括：电商应用、数据库、大数据、流计算等；</span><br><span class="line">覆盖编程语言：Java、C++、NodeJS 等。</span><br></pre></td></tr></table></figure></p>
+<p>Pouch 技术优势<br>1、隔离性强<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">众所周知，行业中的容器方案大多基于 Linux 内核提供的 cgroup 和 namespace 来实现隔离，然后这样的轻量级方案存在弊端：</span><br><span class="line"></span><br><span class="line">.容器间，容器与宿主间，共享同一个内核；</span><br><span class="line">.内核实现的隔离资源，维度不足。</span><br><span class="line"></span><br><span class="line">面对如此的内核现状，阿里巴巴采取了三个方面的工作，来解决容器的安全问题：</span><br><span class="line"></span><br><span class="line">用户态增强容器的隔离维度，比如网络带宽、磁盘使用量等；</span><br><span class="line">给内核提交 patch，修复容器的资源可见性问题，cgroup 方面的 bug；</span><br><span class="line">实现基于 Hypervisor 的容器，通过创建新内核来实现容器隔离。</span><br></pre></td></tr></table></figure></p>
+<p>2、P2P镜像分发<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">点对点分发镜像【相对于中央仓库分发镜像、极大见笑了中央仓库的网络压力】</span><br><span class="line"></span><br><span class="line">工具：阿里巴巴镜像分发工具&quot;蜻蜓&quot;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/alibaba/dragonfly" target="_blank" rel="noopener">蜻蜓地址</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-781bc5f086599150.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch 与蜻蜓的使用架构图"></p>
+<p>3、富容器技术<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> Pouch 技术可以说对业务没有任何的侵入性，也正是因为这一点在集团内部做到 100% 容器化。</span><br><span class="line">这样的容器技术，被无数阿里人称为“富容器”。</span><br><span class="line"></span><br><span class="line">“富容器”技术的实现，主要是为了在 Linux 内核上创建一个与虚拟机体验完全一致的容器。</span><br><span class="line">如此一来，比一般容器要功能强大，内部有完整的 init 进程，以及业务应用需要的任何服务，当然这也印证了 Pouch 为什么可以做到对应用没有“侵入性”。</span><br><span class="line">技术的实现过程中，Pouch 需要将容器的执行入口定义为 systemd，而在内核态，Pouch 引入了 cgroup namespace 这一最新的内核 patch，满足 systemd 在富容器模式的隔离性。</span><br><span class="line">从企业运维流程来看，富容器同样优势明显。</span><br><span class="line">它可以在应用的 Entrypoint 启动之前做一些事情，比如统一要做一些安全相关的事情，运维相关的 agent 拉起。</span><br><span class="line">这些需要统一做的事情，倘若放到用户的启动脚本，或镜像中就对用户的应用诞生了侵入性，而富容器可以透明的处理掉这些事情。</span><br></pre></td></tr></table></figure></p>
+<p>4、内核兼容性<br>可以理解为兼容老版本linux内核系统</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7a41c33b6c7eae05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch生态架构"></p>
+<p>Pouch 的生态架构可以从两个方面来看：第一，如何对接容器编排系统；第二，如何加强容器运行时。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ac732db7a31676b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch内部系统架构"></p>
+<p>传统的容器引擎方案相似，Pouch 也呈现出 C/S 的软件架构。命令行 CLI 层面，可以同时支持 Pouch CLI 以及 Docker CLI。对接容器 runtime，Pouch 内部通过 container client 通过 gRPC 调用 containerd。Pouch Daemon 的内部采取组件化的设计理念，抽离出相应的 System Manager、Container Manager、Image Manager、Network Manager、Volume Manager 提供统一化的对象管理方案。</p>
+<p><a href="http://www.infoq.com/cn/articles/alibaba-pouch" target="_blank" rel="noopener">以上内容来自 infoq阿里关于pouch介绍</a></p>
 
-Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
-
-Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
-
-该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
-
-2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
-</code></pre>
           
         
       
