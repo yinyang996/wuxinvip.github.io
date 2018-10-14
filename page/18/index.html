@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/30/essay/essay-8/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/30/mysql/mysql-indexes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/30/essay/essay-8/" itemprop="url">
-                  为什么你成不了架构师
+                <a class="post-title-link" href="/2018/05/30/mysql/mysql-indexes/" itemprop="url">
+                  mysql 索引
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/05/30/essay/essay-8/" class="leancloud_visitors" data-flag-title="为什么你成不了架构师">
+             <span id="/2018/05/30/mysql/mysql-indexes/" class="leancloud_visitors" data-flag-title="mysql 索引">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -488,15 +488,13 @@
 
       
         
-          <p>近期入职新公司 接手架构重构 感慨颇多、也学到不少东西、<br><br>学会了时间不使用timestamp 使用bigint、价格不使用decimal 而是int or bigint<br><br>以前常念叨 适合业务的技术才是最好的技术、却少有感慨</p>
-<p><strong>为什么使用bigint作为时间单位？</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1、首先兼容oracle、其次项目内部流转不容易异常【项目中是这个说法、貌似timestamp我也没碰到过异常】&lt;br&gt;</span><br><span class="line">2、还有就是int值比较容易比较 尤其针对范围查询 较快些吧、估计timestamp底层比较就是int方式</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/30/essay/essay-8/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p><strong>mysql 索引</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">单列索引</span><br><span class="line">1、普通索引--允许null和重复--优点就是查询快</span><br><span class="line">2、唯一索引--允许null  但是不可重复</span><br><span class="line">3、主键索引--不允许null 不可重复</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">组合索引</span><br><span class="line">1、联合索引【组合索引】</span><br><span class="line">    多个字段创建一个索引健、只有最左边的索引被用到 联合索引才能被用到</span><br><span class="line">    索引最多包含16列</span><br><span class="line">全文索引</span><br><span class="line">1、全文索引</span><br><span class="line">    MyISAM 引擎独有 只能用在 char varchar text使用 检索文字关键字</span><br><span class="line">空间索引</span><br><span class="line">1、空间索引</span><br><span class="line">    针对空间数据类型的字段所建立的索引</span><br><span class="line">    MyISAM 引擎独有 空间引擎所在列 not null</span><br><span class="line">    支持数据类型 geometry、point、linestring、polygon</span><br><span class="line">    创建索引使用 spatial 关键字</span><br><span class="line">    </span><br><span class="line">    纠正： MyISAM并InnoDB 支持空间类型的R-tree索引。</span><br><span class="line">    其他存储引擎使用B树来索引空间类型（除了 ARCHIVE不支持空间类型索引）。</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">所有的索引 必须合适业务使用在创建 </span><br><span class="line">    对于更新频繁 检索较少的不得加除了主键索引之外的任何索引 徒增insert 和 update delete 消耗</span><br></pre></td></tr></table></figure>
+<p>B树和散列索引的比较<br>    了解B树和散列数据结构可以帮助预测不同的查询在使用索引中的这些数据结构的不同存储引擎上的性能。<br><br>    特别是用于MEMORY允许您选择B树或散列索引的存储引擎。<br>    B树 区分大小 【小于 大于 大于等于 小于等于】<br>    hash树 确定值【等于】</p>
+<p>检索索引是否有效 explain</p>
+
+          
         
       
     </div>
@@ -534,6 +532,19 @@
   
   
   </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 
 
     
@@ -704,6 +715,19 @@
   
   
   </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 
 
     
@@ -878,6 +902,19 @@
   
   
   </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 
 
     

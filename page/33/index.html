@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-thread/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/ehcache/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-thread/" itemprop="url">
-                  SQL优化【线程信息检查】
+                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
+                  ehcache
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/mysql/optimization-sql-thread/" class="leancloud_visitors" data-flag-title="SQL优化【线程信息检查】">
+             <span id="/2018/03/24/cache/ehcache/" class="leancloud_visitors" data-flag-title="ehcache">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,395 +489,26 @@
       
         
           
-            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-71c274c3c88b4bda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<ul>
-<li>8.14.1线程命令值</li>
-<li>8.14.2一般线程状态</li>
-<li>8.14.3查询缓存线程状态</li>
-<li>8.14.4复制主线程状态</li>
-<li>8.14.5复制从站I / O线程状态</li>
-<li>8.14.6复制从属SQL线程状态</li>
-<li>8.14.7复制从站连接线程状态</li>
-<li>8.14.8 NDB集群线程状态</li>
-<li>8.14.9事件调度程序线程状态</li>
-</ul>
-<p>当您试图确定MySQL服务器正在做什么时，检查进程列表会很有帮助，进程列表是当前在服务器中执行的线程集。可从以下来源获取流程列表信息：</p>
-<p>该SHOW [FULL] PROCESSLIST语句： 第13.7.5.29，“SHOW PROCESSLIST语法”</p>
-<p>该SHOW PROFILE语句： 第13.7.5.31，“显示配置文件语法”</p>
-<p>该INFORMATION_SCHEMA PROCESSLIST表： 第24.17，“该INFORMATION_SCHEMA PROCESSLIST表”</p>
-<p>在中mysqladmin processlist的命令： 第4.5.2节“ 中mysqladmin -客户端管理MySQL服务器”</p>
-<p>性能模式threads 表，阶段表和锁定表： 第25.11.16节“性能模式杂项表”， 第25.11.5节“性能模式阶段事件表”， 第25.11.12节“性能模式锁定表”。</p>
-<p>该sys架构 processlist视图，呈现从性能架构信息 threads表中更方便的格式：第26.4.3.22，“ProcessList中和X $ PROCESSLIST意见”</p>
-<p>该sys架构 session视图，其中介绍有关用户会话的信息（如 sys架构 processlist视图，但是过滤掉后台进程）： 第26.4.3.33，“会议和X $会话视图”</p>
-<p>访问threads不需要互斥锁，对服务器性能的影响最小。 INFORMATION_SCHEMA.PROCESSLIST并且SHOW PROCESSLIST因为它们需要互斥锁而 产生负面的性能影响。 threads还显示有关后台线程的信息，有哪些 INFORMATION_SCHEMA.PROCESSLIST， SHOW PROCESSLIST有时没有。这意味着threads可以用来监视其他线程信息源不能的活动。</p>
-<p>您始终可以查看有关自己的线程的信息。要查看有关正在为其他帐户执行的线程的信息，您必须具有该PROCESS权限。</p>
-<p>每个进程列表条目包含几条信息：</p>
-<p>Id 是与线程关联的客户端的连接标识符。</p>
-<p>User并Host指明与该线程关联的帐户。</p>
-<p>db是线程的默认数据库，或者NULL如果没有选择。</p>
-<p>Command并State 指出线程正在做什么。</p>
-<p>大多数州对应于非常快速的操作。如果一个线程停留在给定状态很多秒，则可能存在需要调查的问题。</p>
-<p>Time表示线程处于当前状态的时间。在某些情况下，线程的当前时间概念可能会改变：线程可以改变时间。对于正在处理来自主站的事件的从站上运行的线程，线程时间设置为在事件中找到的时间，因此反映了主站而不是从站的当前时间。 SET TIMESTAMP = value</p>
-<p>Info包含线程正在执行的语句的文本，或者NULL它是否正在执行。默认情况下，此值仅包含语句的前100个字符。要查看完整的语句，请使用 SHOW FULL PROCESSLIST。</p>
-<p>以下部分列出了可能的 Command值以及State 按类别分组的值。其中一些价值观的含义是不言而喻的。对于其他人，提供了另外的描述。</p>
-<ul>
-<li>8.14.1线程命令值<br>线程可以具有以下任何 Command值：</li>
-</ul>
-<p>Binlog Dump</p>
-<p>这是主服务器上的一个线程，用于将二进制日志内容发送到从属服务器。</p>
-<p>Change user</p>
-<p>线程正在执行更改用户操作。</p>
-<p>Close stmt</p>
-<p>线程正在关闭准备好的声明。</p>
-<p>Connect</p>
-<p>复制从站连接到其主站。</p>
-<p>Connect Out</p>
-<p>复制从站正在连接到其主站。</p>
-<p>Create DB</p>
-<p>线程正在执行create-database操作。</p>
-<p>Daemon</p>
-<p>此线程是服务器的内部线程，而不是为客户端连接提供服务的线程。</p>
-<p>Debug</p>
-<p>该线程正在生成调试信息。</p>
-<p>Delayed insert</p>
-<p>该线程是一个延迟插入处理程序。</p>
-<p>Drop DB</p>
-<p>该线程正在执行drop-database操作。</p>
-<p>Error</p>
-<p>Execute</p>
-<p>线程正在执行预准备语句。</p>
-<p>Fetch</p>
-<p>该线程正在从执行预准备语句中获取结果。</p>
-<p>Field List</p>
-<p>该线程正在检索表列的信息。</p>
-<p>Init DB</p>
-<p>该线程正在选择默认数据库。</p>
-<p>Kill</p>
-<p>该线程正在杀死另一个线程。</p>
-<p>Long Data</p>
-<p>线程正在检索执行预准备语句的结果中的长数据。</p>
-<p>Ping</p>
-<p>该线程正在处理服务器ping请求。</p>
-<p>Prepare</p>
-<p>线程正在准备一份准备好的声明。</p>
-<p>Processlist</p>
-<p>该线程正在生成有关服务器线程的信息。</p>
-<p>Query</p>
-<p>线程正在执行一个语句。</p>
-<p>Quit</p>
-<p>线程正在终止。</p>
-<p>Refresh</p>
-<p>该线程正在刷新表，日志或缓存，或重置状态变量或复制服务器信息。</p>
-<p>Register Slave</p>
-<p>线程正在注册从服务器。</p>
-<p>Reset stmt</p>
-<p>该线程正在重置准备好的语句。</p>
-<p>Set option</p>
-<p>该线程正在设置或重置客户端语句执行选项。</p>
-<p>Shutdown</p>
-<p>该线程正在关闭服务器。</p>
-<p>Sleep</p>
-<p>线程正在等待客户端向其发送新语句。</p>
-<p>Statistics</p>
-<p>该线程正在生成服务器状态信息。</p>
-<p>Table Dump</p>
-<p>线程正在将表内容发送到从属服务器。</p>
-<p>Time</p>
-<p>没用过。</p>
-<ul>
-<li>8.14.2一般线程状态<br>以下列表描述了State 与常规查询处理相关联的线程值，而不是更复杂的特殊活动。其中许多仅用于查找服务器中的错误。</li>
-</ul>
-<p>After create</p>
-<p>当线程在创建表的函数末尾创建表（包括内部临时表）时，会发生这种情况。即使由于某些错误而无法创建表，也会使用此状态。</p>
-<p>Analyzing</p>
-<p>线程正在计算MyISAM表键分布（例如，for ANALYZE TABLE）。</p>
-<p>checking permissions</p>
-<p>线程正在检查服务器是否具有执行该语句所需的权限。</p>
-<p>Checking table</p>
-<p>该线程正在执行表检查操作。</p>
-<p>cleaning up</p>
-<p>该线程已经处理了一个命令，并准备释放内存并重置某些状态变量。</p>
-<p>closing tables</p>
-<p>该线程正在将更改的表数据刷新到磁盘并关闭已使用的表。这应该是一个快速的操作。如果没有，请验证您没有完整磁盘并且磁盘使用不是很大。</p>
-<p>converting HEAP to ondisk</p>
-<p>该线程正在将内部临时表从 MEMORY表转换为磁盘表。</p>
-<p>copy to tmp table</p>
-<p>线程正在处理一个ALTER TABLE语句。这种状态发生在创建新结构的表之后，但在将行复制到其中之前。</p>
-<p>对于处于此状态的线程，可以使用性能模式来获取有关复制操作的进度。请参见 第25.11.5节“性能模式阶段事件表”。</p>
-<p>Copying to group table</p>
-<p>如果语句具有不同ORDER BY和 GROUP BY标准，各行按组排列和复制到一个临时表。</p>
-<p>Copying to tmp table</p>
-<p>服务器正在复制到内存中的临时表。</p>
-<p>altering table</p>
-<p>服务器正在执行就地 ALTER TABLE。</p>
-<p>Copying to tmp table on disk</p>
-<p>服务器正在复制到磁盘上的临时表。临时结果集变得太大（请参见 第8.4.4节“MySQL中的内部临时表使用”）。因此，线程正在将临时表从内存更改为基于磁盘的格式以节省内存。</p>
-<p>Creating index</p>
-<p>线程正在处理ALTER TABLE … ENABLE KEYS一个MyISAM表。</p>
-<p>Creating sort index</p>
-<p>线程正在处理SELECT使用内部临时表解析的线程 。</p>
-<p>creating table</p>
-<p>线程正在创建一个表。这包括创建临时表。</p>
-<p>Creating tmp table</p>
-<p>该线程正在内存或磁盘上创建临时表。如果表在内存中创建但稍后转换为磁盘表，则该操作期间的状态将为Copying to tmp table on disk。</p>
-<p>committing alter table to storage engine</p>
-<p>服务器已就地完成 ALTER TABLE并正在提交结果。</p>
-<p>deleting from main table</p>
-<p>服务器正在执行多表删除的第一部分。它仅从第一个表中删除，并保存用于从其他（引用）表中删除的列和偏移量。</p>
-<p>deleting from reference tables</p>
-<p>服务器正在执行多表删除的第二部分，并从其他表中删除匹配的行。</p>
-<p>discard_or_import_tablespace</p>
-<p>线程正在处理ALTER TABLE … DISCARD TABLESPACE或ALTER TABLE … IMPORT TABLESPACE声明。</p>
-<p>end</p>
-<p>这发生在结束，但的清理之前 ALTER TABLE， CREATE VIEW， DELETE， INSERT， SELECT，或 UPDATE语句。</p>
-<p>executing</p>
-<p>线程已开始执行语句。</p>
-<p>Execution of init_command</p>
-<p>线程正在执行init_command系统变量值中的语句 。</p>
-<p>freeing items</p>
-<p>线程执行了一个命令。在此状态期间完成的一些项目的释放涉及查询缓存。这种状态通常紧随其后cleaning up。</p>
-<p>FULLTEXT initialization</p>
-<p>服务器正准备执行自然语言全文搜索。</p>
-<p>init</p>
-<p>出现这种情况的初始化之前 ALTER TABLE， DELETE， INSERT， SELECT，或 UPDATE语句。服务器在此状态下采取的操作包括刷新二进制日志，InnoDB日志和一些查询缓存清理操作。</p>
-<p>对于end州，可能会发生以下操作：</p>
-<p>删除表中的数据后删除查询缓存条目</p>
-<p>将事件写入二进制日志</p>
-<p>释放内存缓冲区，包括blob</p>
-<p>Killed</p>
-<p>有人KILL 向线程发送了一个语句，它应该在下次检查kill标志时中止。在MySQL中的每个主循环中检查该标志，但在某些情况下，线程可能仍然需要很短的时间才能死掉。如果线程被某个其他线程锁定，则一旦另一个线程释放其锁定，kill就会生效。</p>
-<p>logging slow query</p>
-<p>该线程正在向慢查询日志写一条语句。</p>
-<p>login</p>
-<p>连接线程的初始状态，直到客户端成功通过身份验证。</p>
-<p>manage keys</p>
-<p>服务器正在启用或禁用表索引。</p>
-<p>NULL</p>
-<p>该状态用于该SHOW PROCESSLIST状态。</p>
-<p>Opening tables</p>
-<p>该线程正在尝试打开一个表。这应该是非常快的程序，除非有什么东西阻止打开。例如，一个ALTER TABLE或一个 LOCK TABLE语句可以阻止在语句结束之前打开表。还值得检查您的table_open_cache价值是否足够大。</p>
-<p>optimizing</p>
-<p>服务器正在对查询执行初始优化。</p>
-<p>preparing</p>
-<p>在查询优化期间发生此状态。</p>
-<p>Purging old relay logs</p>
-<p>该线程正在删除不需要的中继日志文件。</p>
-<p>query end</p>
-<p>处理查询后但在freeing items状态之前发生此 状态。</p>
-<p>Receiving from client</p>
-<p>服务器正在从客户端读取数据包。Reading from net在MySQL 5.7.8之前调用此状态。</p>
-<p>Removing duplicates</p>
-<p>该查询使用 SELECT DISTINCT的方式是MySQL无法在早期阶段优化掉不同的操作。因此，在将结果发送到客户端之前，MySQL需要额外的阶段来删除所有重复的行。</p>
-<p>removing tmp table</p>
-<p>该线程在处理SELECT 语句后删除内部临时表。如果未创建临时表，则不使用此状态。</p>
-<p>rename</p>
-<p>该线程正在重命名一个表。</p>
-<p>rename result table</p>
-<p>线程正在处理一个ALTER TABLE语句，创建了新表，并重命名它以替换原始表。</p>
-<p>Reopen tables</p>
-<p>线程获得了表的锁定，但在获取锁定后注意到基础表结构发生了变化。它释放了锁，关闭了桌子，并试图重新打开它。</p>
-<p>Repair by sorting</p>
-<p>修复代码使用排序来创建索引。</p>
-<p>preparing for alter table</p>
-<p>服务器正准备执行就地 ALTER TABLE。</p>
-<p>Repair done</p>
-<p>该线程已完成对MyISAM表的多线程修复 。</p>
-<p>Repair with keycache</p>
-<p>修复代码通过密钥缓存逐个创建密钥。这比慢得多Repair by sorting。</p>
-<p>Rolling back</p>
-<p>该线程正在回滚一个事务。</p>
-<p>Saving state</p>
-<p>对于MyISAM诸如修复或分析的表操作，线程将新表状态保存到.MYI文件头。State包括诸如行数， AUTO_INCREMENT计数器和密钥分发之类的信息。</p>
-<p>Searching rows for update</p>
-<p>该线程正在进行第一阶段以在更新之前查找所有匹配的行。如果 UPDATE要更改用于查找所涉及行的索引，则必须执行此操作。</p>
-<p>Sending data</p>
-<p>线程正在读取和处理SELECT语句的行 ，并将数据发送到客户端。由于在此状态期间发生的操作往往会执行大量磁盘访问（读取），因此它通常是给定查询生命周期中运行时间最长的状态。</p>
-<p>Sending to client</p>
-<p>服务器正在将数据包写入客户端。Writing to net在MySQL 5.7.8之前调用此状态。</p>
-<p>setup</p>
-<p>线程正在开始一个ALTER TABLE操作。</p>
-<p>Sorting for group</p>
-<p>线程正在进行排序以满足a GROUP BY。</p>
-<p>Sorting for order</p>
-<p>线程正在进行排序以满足ORDER BY。</p>
-<p>Sorting index</p>
-<p>线程正在对索引页进行排序，以便在MyISAM表优化操作期间进行更有效的访问。</p>
-<p>Sorting result</p>
-<p>对于SELECT声明，这类似于Creating sort index非临时表。</p>
-<p>statistics</p>
-<p>服务器正在计算统计信息以开发查询执行计划。如果线程长时间处于此状态，则服务器可能是磁盘绑定执行其他工作。</p>
-<p>System lock</p>
-<p>线程已调用mysql_lock_tables() ，并且线程状态尚未更新。这是一个非常普遍的状态，可能由于许多原因而发生。</p>
-<p>例如，线程将要求或正在等待表的内部或外部系统锁定。InnoDB在执行期间等待表级锁定时会 发生这种情况LOCK TABLES。如果此状态是由外部锁的请求引起的，并且您没有使用多个访问相同 表的mysqld服务器，则MyISAM可以使用该–skip-external-locking 选项禁用外部系统锁 。但是，默认情况下禁用外部锁定，因此该选项很可能无效。对于 SHOW PROFILE，这个状态意味着线程正在请求锁定（不等待它）。</p>
-<p>update</p>
-<p>线程正准备开始更新表。</p>
-<p>Updating</p>
-<p>线程正在搜索要更新的行并正在更新它们。</p>
-<p>updating main table</p>
-<p>服务器正在执行多表更新的第一部分。它仅更新第一个表，并保存用于更新其他（引用）表的列和偏移量。</p>
-<p>updating reference tables</p>
-<p>服务器正在执行多表更新的第二部分，并更新其他表中的匹配行。</p>
-<p>User lock</p>
-<p>该线程将要求或正在等待通过GET_LOCK()呼叫请求的咨询锁 。对于 SHOW PROFILE，此状态表示线程正在请求锁定（不等待它）。</p>
-<p>User sleep</p>
-<p>该线程已经调用了一个 SLEEP()调用。</p>
-<p>Waiting for commit lock</p>
-<p>FLUSH TABLES WITH READ LOCK 正在等待提交锁定。</p>
-<p>Waiting for global read lock</p>
-<p>FLUSH TABLES WITH READ LOCK 正在等待全局读锁定或read_only正在设置全局 系统变量。</p>
-<p>Waiting for tables</p>
-<p>该线程得到一个通知，表明表的底层结构已经改变，它需要重新打开表以获得新结构。但是，要重新打开表，它必须等到所有其他线程关闭了相关表。</p>
-<p>该通知发生如果另一个线程已使用 FLUSH TABLES或有问题的表下面的语句之一： ， ， ， ， ，或 。 FLUSH TABLES tbl_nameALTER TABLERENAME TABLEREPAIR TABLEANALYZE TABLEOPTIMIZE TABLE</p>
-<p>Waiting for table flush</p>
-<p>线程正在执行FLUSH TABLES并正在等待所有线程关闭它们的表，或者线程得到一个表的基础结构已经更改的通知，并且需要重新打开表以获取新结构。但是，要重新打开表，它必须等到所有其他线程关闭了相关表。</p>
-<p>该通知发生如果另一个线程已使用 FLUSH TABLES或有问题的表下面的语句之一： ， ， ， ， ，或 。 FLUSH TABLES tbl_nameALTER TABLERENAME TABLEREPAIR TABLEANALYZE TABLEOPTIMIZE TABLE</p>
-<p>Waiting for lock_type lock</p>
-<p>服务器正在等待THR_LOCK从元数据锁定子系统获取 锁定或锁定，其中 lock_type指示锁定的类型。</p>
-<p>此状态表示等待 THR_LOCK：</p>
-<p>Waiting for table level lock</p>
-<p>这些状态表示等待元数据锁定：</p>
-<p>Waiting for event metadata lock</p>
-<p>Waiting for global read lock</p>
-<p>Waiting for schema metadata lock</p>
-<p>Waiting for stored function metadata lock</p>
-<p>Waiting for stored procedure metadata lock</p>
-<p>Waiting for table metadata lock</p>
-<p>Waiting for trigger metadata lock</p>
-<p>有关表锁指示器的信息，请参见 第8.11.1节“内部锁定方法”。有关元数据锁定的信息，请参见第8.11.4节“元数据锁定”。要查看哪些锁阻止了锁请求，请使用 第25.11.12节“性能模式锁表”中所述的性能模式锁表。</p>
-<p>Waiting on cond</p>
-<p>线程正在等待条件变为真的通用状态。没有具体的州信息。</p>
-<p>Writing to net</p>
-<p>服务器正在将数据包写入网络。Sending to client从MySQL 5.7.8开始调用此状态。</p>
-<ul>
-<li>8.14.3查询缓存线程状态<br>这些线程状态与查询缓存相关联（请参见 第8.10.3节“MySQL查询缓存”）。</li>
-</ul>
-<p>checking privileges on cached query</p>
-<p>服务器正在检查用户是否具有访问缓存查询结果的权限。</p>
-<p>checking query cache for query</p>
-<p>服务器正在检查查询缓存中是否存在当前查询。</p>
-<p>invalidating query cache entries</p>
-<p>查询缓存条目被标记为无效，因为基础表已更改。</p>
-<p>sending cached result to client</p>
-<p>服务器从查询缓存中获取查询结果并将其发送到客户端。</p>
-<p>storing result in query cache</p>
-<p>服务器将查询结果存储在查询缓存中。</p>
-<p>Waiting for query cache lock</p>
-<p>在会话等待获取查询缓存锁定时发生此状态。对于需要执行某些查询缓存操作的任何语句，例如 使查询缓存无效INSERT或 查找缓存条目 DELETE的语句，等等，都会发生这种情况。 SELECTRESET QUERY CACHE</p>
-<ul>
-<li>8.14.4复制主线程状态<br>以下列表显示了您可能在State主Binlog Dump线程的列中 看到的最常见状态。如果Binlog Dump在主服务器上看不到任何 线程，则表示复制未运行; 也就是说，当前没有连接任何奴隶。</li>
-</ul>
-<p>Finished reading one binlog; switching to next binlog</p>
-<p>线程已经读完二进制日志文件并打开下一个发送给从属的文件。</p>
-<p>Master has sent all binlog to slave; waiting for more updates</p>
-<p>该线程已从二进制日志中读取所有剩余更新并将其发送给从属。该线程现在处于空闲状态，等待主事件上发生的新更新导致二进制日志中出现新事件。</p>
-<p>Sending binlog event to slave</p>
-<p>二进制日志由事件组成，其中事件通常是更新以及一些其他信息。线程已从二进制日志中读取事件，现在将其发送给从站。</p>
-<p>Waiting to finalize termination</p>
-<p>线程停止时发生的非常短暂的状态。</p>
-<ul>
-<li>8.14.5复制从站I / O线程状态<br>以下列表显示了在State从属服务器I / O线程的列中看到的最常见状态 。此状态也出现在Slave_IO_State 显示的列中SHOW SLAVE STATUS，因此您可以通过使用该语句很好地了解正在发生的情况。</li>
-</ul>
-<p>Checking master version</p>
-<p>在建立与主站的连接之后非常短暂地发生的状态。</p>
-<p>Connecting to master</p>
-<p>线程正在尝试连接到主服务器。</p>
-<p>Queueing master event to the relay log</p>
-<p>线程已读取事件并将其复制到中继日志，以便SQL线程可以处理它。</p>
-<p>Reconnecting after a failed binlog dump request</p>
-<p>线程正在尝试重新连接到主服务器。</p>
-<p>Reconnecting after a failed master event read</p>
-<p>线程正在尝试重新连接到主服务器。当再次建立连接时，状态变为 Waiting for master to send event。</p>
-<p>Registering slave on master</p>
-<p>建立与主站连接后非常短暂发生的状态。</p>
-<p>Requesting binlog dump</p>
-<p>在建立与主站的连接之后非常短暂地发生的状态。线程从请求的二进制日志文件名和位置开始向主机发送对其二进制日志内容的请求。</p>
-<p>Waiting for its turn to commit</p>
-<p>slave_preserve_commit_order 启用 了从属线程等待较旧的工作线程提交时发生的状态 。</p>
-<p>Waiting for master to send event</p>
-<p>线程已连接到主服务器并正在等待二进制日志事件到达。如果主站空闲，这可能会持续很长时间。如果等待持续 slave_net_timeout几秒钟，则发生超时。此时，线程认为连接被破坏并尝试重新连接。</p>
-<p>Waiting for master update</p>
-<p>之前的初始状态Connecting to master。</p>
-<p>Waiting for slave mutex on exit</p>
-<p>线程停止时短暂发生的状态。</p>
-<p>Waiting for the slave SQL thread to free enough relay log space</p>
-<p>您使用的是非零 relay_log_space_limit 值，并且中继日志已经增长到足以使其组合大小超过此值。I / O线程正在等待，直到SQL线程通过处理中继日志内容释放足够的空间，以便它可以删除一些中继日志文件。</p>
-<p>Waiting to reconnect after a failed binlog dump request</p>
-<p>如果二进制日志转储请求失败（由于断开连接），则线程在休眠时进入此状态，然后尝试定期重新连接。可以使用CHANGE MASTER TO语句指定重试之间的间隔 。</p>
-<p>Waiting to reconnect after a failed master event read</p>
-<p>读取时发生错误（由于断开连接）。CHANGE MASTER TO在尝试重新连接之前，线程正在休眠该语句设置的秒数 （默认为60）。</p>
-<ul>
-<li>8.14.6复制从属SQL线程状态<br>以下列表显示了您可能在State从属服务器SQL线程列中看到的最常见状态：</li>
-</ul>
-<p>Killing slave</p>
-<p>线程正在处理一个STOP SLAVE 语句。</p>
-<p>Making temporary file (append) before replaying LOAD DATA INFILE</p>
-<p>线程正在执行一个 LOAD DATA INFILE语句，并将数据附加到一个临时文件中，该文件包含从属将从中读取行的数据。</p>
-<p>Making temporary file (create) before replaying LOAD DATA INFILE</p>
-<p>线程正在执行一个 LOAD DATA INFILE语句，并且正在创建一个临时文件，其中包含从属将从中读取行的数据。只有在LOAD DATA INFILE运行早于5.0.3版本的MySQL版本的主机记录原始语句时，才会遇到此状态 。</p>
-<p>Reading event from the relay log</p>
-<p>线程已从中继日志中读取事件，以便可以处理事件。</p>
-<p>Slave has read all relay log; waiting for more updates</p>
-<p>该线程已处理中继日志文件中的所有事件，现在正在等待I / O线程将新事件写入中继日志。</p>
-<p>Waiting for an event from Coordinator</p>
-<p>使用多线程从属（slave_parallel_workers大于1），其中一个从属工作线程正在等待来自协调器线程的事件。</p>
-<p>Waiting for slave mutex on exit</p>
-<p>线程停止时发生的非常短暂的状态。</p>
-<p>Waiting for Slave Workers to free pending events</p>
-<p>当Workers正在处理的事件的总大小超过slave_pending_jobs_size_max 系统变量的大小时，会发生此等待操作 。当大小低于此限制时，协调器将恢复计划。仅当slave_parallel_workers设置大于0 时才会出现此状态 。</p>
-<p>Waiting for the next event in relay log</p>
-<p>之前的初始状态Reading event from the relay log。</p>
-<p>Waiting until MASTER_DELAY seconds after master executed event</p>
-<p>SQL线程已读取一个事件，但正在等待从属延迟失效。此延迟通过 MASTER_DELAY选项设置 CHANGE MASTER TO。</p>
-<p>InfoSQL线程 的列也可以显示语句的文本。这表明线程已从中继日志中读取事件，从中提取语句，并可能正在执行它。</p>
-<ul>
-<li>8.14.7复制从站连接线程状态<br>这些线程状态出现在复制从属服务器上，但与连接线程相关联，而不是与I / O或SQL线程相关联。</li>
-</ul>
-<p>Changing master</p>
-<p>线程正在处理一个CHANGE MASTER TO语句。</p>
-<p>Killing slave</p>
-<p>线程正在处理一个STOP SLAVE 语句。</p>
-<p>Opening master dump table</p>
-<p>此状态发生在Creating table from master dump。</p>
-<p>Reading master dump table data</p>
-<p>此状态发生在Opening master dump table。</p>
-<p>Rebuilding the index on master dump table</p>
-<p>此状态发生在Reading master dump table data。</p>
-<ul>
-<li>8.14.8 NDB集群线程状态<br>Committing events to binlog</li>
-</ul>
-<p>Opening mysql.ndb_apply_status</p>
-<p>Processing events</p>
-<p>该线程正在处理二进制日志记录的事件。</p>
-<p>Processing events from schema table</p>
-<p>该线程正在进行模式复制的工作。</p>
-<p>Shutting down</p>
-<p>Syncing ndb table schema operation and binlog</p>
-<p>这用于为NDB提供正确的模式操作二进制日志。</p>
-<p>Waiting for allowed to take ndbcluster global schema lock</p>
-<p>线程正在等待获取全局模式锁的权限。</p>
-<p>Waiting for event from ndbcluster</p>
-<p>服务器充当NDB群集中的SQL节点，并连接到群集管理节点。</p>
-<p>Waiting for first event from ndbcluster</p>
-<p>Waiting for ndbcluster binlog update to reach current position</p>
-<p>Waiting for ndbcluster global schema lock</p>
-<p>线程正在等待另一个线程持有的全局模式锁定被释放。</p>
-<p>Waiting for ndbcluster to start</p>
-<p>Waiting for schema epoch</p>
-<p>线程正在等待架构时期（即全局检查点）。</p>
-<ul>
-<li>8.14.9事件调度程序线程状态<br>这些状态发生在Event Scheduler线程，为执行调度事件而创建的线程或终止调度程序的线程中。</li>
-</ul>
-<p>Clearing</p>
-<p>调度程序线程或正在执行事件的线程正在终止并即将结束。</p>
-<p>Initialized</p>
-<p>调度程序线程或将执行事件的线程已初始化。</p>
-<p>Waiting for next activation</p>
-<p>调度程序具有非空事件队列，但下一次激活是将来的。</p>
-<p>Waiting for scheduler to stop</p>
-<p>线程已发出SET GLOBAL event_scheduler=OFF并正在等待调度程序停止。</p>
-<p>Waiting on empty queue</p>
-<p>调度程序的事件队列为空并且正在休眠。</p>
+            <p>ehcache service层缓存系统</p>
+<p><strong>发展史</strong></p>
+<pre><code>Ehcache
+开发者（S）    Terracotta，Inc。[1]
+稳定版本
+3.3.0 / 2017年2月1日; 16个月前
+写入    Java的
+操作系统    跨平台
+类型    高速缓存
+执照    Apache许可证 2.0
+网站    www.ehcache.org
 
+Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
+
+Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
+
+该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
+
+2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
+</code></pre>
           
         
       
@@ -916,6 +547,19 @@
   
   
   </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 
 
     
@@ -934,7 +578,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-innodb/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-deploy/bandwidth/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -953,8 +597,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-innodb/" itemprop="url">
-                  SQL优化【InnoDB-表优化】
+                <a class="post-title-link" href="/2018/03/24/service-deploy/bandwidth/" itemprop="url">
+                  服务器带宽
                 </a>
               
             
@@ -1012,7 +656,7 @@
 
           
           
-             <span id="/2018/03/24/mysql/optimization-sql-innodb/" class="leancloud_visitors" data-flag-title="SQL优化【InnoDB-表优化】">
+             <span id="/2018/03/24/service-deploy/bandwidth/" class="leancloud_visitors" data-flag-title="服务器带宽">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1045,18 +689,19 @@
       
         
           
-            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-9ddb3d7a935ae42f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>innodb表优化</p>
-<p>8.5.1优化InnoDB表的存储布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">一旦数据达到稳定的大小，或者增长表增加了几十或几百兆字节，请考虑使用该OPTIMIZE TABLE语句来重新组织表并压缩任何浪费的空间。</span><br><span class="line"></span><br><span class="line">重新组织的表需要更少的磁盘I / O来执行全表扫描。</span><br><span class="line">当其他技术（如改进索引使用或调整应用程序代码）不切实际时，这是一种直接技术，可以提高性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OPTIMIZE TABLE复制表格的数据部分并重建索引。</span><br><span class="line">好处来自改进索引内数据的打包，并减少表空间和磁盘内的碎片。</span><br><span class="line">好处取决于每个表中的数据。</span><br><span class="line">您可能会发现某些人有显着的收益，而不是其他人，或者收益会随着时间的推移而下降，直到您再次优化表。</span><br><span class="line">如果表很大或者重建的索引不适合缓冲池，则此操作可能会很慢。</span><br><span class="line">向表中添加大量数据后的第一次运行通常比后期运行慢得多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在中InnoDB，有一个很长的PRIMARY KEY（无论是一个长的值的单个列，还是多个形成一个长复合值的列）浪费了大量的磁盘空间。</span><br><span class="line">一行中的主键值在所有指向同一行的二级索引记录中都是重复的。</span><br><span class="line">（请参见第14.8.2.1节“集群索引和二级索引”。</span><br><span class="line">）AUTO_INCREMENT如果主键很长，或者索引长VARCHAR列的前缀而不是整列，则创建一个列作为主键。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用VARCHAR数据类型而不是CHAR存储可变长度的字符串或具有多个NULL值的列 。</span><br><span class="line">甲 列总是占据字符来存储数据，即使该字符串是较短，或者其值 。</span><br><span class="line">较小的表适合缓冲池，并减少磁盘I / O。</span><br><span class="line"> CHAR(N)NNULL</span><br><span class="line"></span><br><span class="line">使用COMPACT行格式（默认InnoDB格式）和可变长度字符集（如 utf8或）时sjis， 列占用可变数量的空间，但仍至少为字节。</span><br><span class="line"> CHAR(N)N</span><br><span class="line"></span><br><span class="line">对于大的表或者包含大量重复的文本或数字数据的表，请考虑使用 COMPRESSED行格式。</span><br><span class="line">将数据带入缓冲池或执行全表扫描需要较少的磁盘I / O。</span><br><span class="line">在做出永久性决定之前，请测量使用行格式COMPRESSED与 您可以实现的压缩量 COMPACT。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.2优化InnoDB事务管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">要优化InnoDB事务处理，请在事务功能的性能开销和服务器的工作负载之间找到理想的平衡点。</span><br><span class="line">例如，如果应用程序每秒提交数千次，则应用程序可能会遇到性能问题，如果应用程序每2-3小时提交一次，则会出现不同的性能问题。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">默认的MySQL设置AUTOCOMMIT=1 可能会对繁忙的数据库服务器造成性能限制。</span><br><span class="line">在可行的情况下，在进行所有更改后，通过发布SET AUTOCOMMIT=0或START TRANSACTION声明将几个相关的数据更改操作包括到单个事务中 ，然后包含 COMMIT声明。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">InnoDB如果该事务对数据库进行了修改，则必须在每次事务提交时将日志刷新到磁盘。</span><br><span class="line">当每次更改之后都进行提交（与默认的自动提交设置一样）时，存储设备的I / O吞吐量会对每秒潜在操作的数量设置上限。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">或者，对于仅由单个SELECT语句组成的事务，开启AUTOCOMMIT有助于 InnoDB识别只读事务并优化它们。</span><br><span class="line">有关要求，请参见 第8.5.3节“优化InnoDB只读事务”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">避免在插入，更新或删除大量行后执行回滚。</span><br><span class="line">如果一个大事务正在降低服务器的性能，那么回滚会导致问题变得更糟，可能需要几次才能执行原始数据更改操作。</span><br><span class="line">杀死数据库进程无济于事，因为在服务器启动时会再次开始回滚。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了尽量减少发生此问题的机会：</span><br><span class="line"></span><br><span class="line">增加缓冲池的大小， 以便可以缓存所有数据更改更改，而不是立即写入磁盘。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">设置 innodb_change_buffering=all 以便更新和删除操作在插入之外进行缓冲。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">考虑COMMIT在大数据更改操作期间定期发布语句，可能会将单个删除或更新分为多个在较少数量的行上操作的语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为避免出现失控回滚，请增加缓冲池，以便回滚变为受CPU限制且运行速度很快，或者innodb_force_recovery=3按照第14.18.2节“InnoDB恢复”中的说明关闭服务器并重新启动 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">预计这个问题很少出现在默认设置下 innodb_change_buffering=all，这样可以将更新和删除操作缓存到内存中，从而使它们在第一时间执行得更快，并且如果需要还可以更快地回滚。</span><br><span class="line">确保在处理长时间运行事务的服务器上使用此参数设置，并进行多次插入，更新或删除操作。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果发生崩溃时可以承受某些最新已提交事务的丢失，则可以将该innodb_flush_log_at_trx_commit 参数设置 为0. InnoDB尽管无法保证刷新，但试图每秒刷新一次日志。</span><br><span class="line">另外，将值设置 innodb_support_xa为0，这将减少由于在磁盘数据和二进制日志上同步而导致的磁盘刷新次数。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">innodb_support_xa已弃用，将在未来版本中删除。</span><br><span class="line">从MySQL 5.7.10开始，InnoDB对XA事务中的两阶段提交的支持始终处于启用状态，并且innodb_support_xa不再允许禁用 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当行被修改或删除时，行和关联的 撤消日志不会立即被物理删除，甚至在事务提交后立即被删除。</span><br><span class="line">保留旧数据，直到完成较早或同时开始的事务，以便这些事务可以访问修改行或已删除行的先前状态。</span><br><span class="line">因此，长时间运行的事务可以防止InnoDB清除不同事务更改的数据。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当在长时间运行的事务中修改或删除行时，使用READ COMMITTED和 REPEATABLE READ隔离级别的其他事务在 读取相同行时必须执行更多工作才能重新构建旧数据。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当长时间运行的事务修改表时，其他事务对该表的查询不使用覆盖索引技术。</span><br><span class="line">通常可以从辅助索引中检索所有结果列的查询，而是从表格数据中查找适当的值。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果发现二级索引页面 PAGE_MAX_TRX_ID太新，或者二级索引中的记录被删除标记，则 InnoDB可能需要使用聚簇索引查找记录。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.3优化InnoDB只读事务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">InnoDB可以避免与为已知为只读的事务设置事务ID（TRX_ID字段）相关联的开销。</span><br><span class="line">只有可能执行写入操作或锁定读取的事务才需要事务ID ， 例如 。</span><br><span class="line">消除不必要的事务ID会减少每次查询或数据更改语句构造读取视图时查阅的内部数据结构的大小。</span><br><span class="line"> SELECT ... FOR UPDATE</span><br><span class="line"></span><br><span class="line">InnoDB 在以下情况下检测只读事务：</span><br><span class="line"></span><br><span class="line">交易以START TRANSACTION READ ONLY声明开始 。</span><br><span class="line">在这种情况下，尝试更改数据库（for InnoDB， MyISAM或其他类型的表）会导致错误，并且事务以只读状态继续：</span><br><span class="line"></span><br><span class="line">错误1792（25006）：无法在READ ONLY事务中执行语句。</span><br><span class="line"></span><br><span class="line">您仍然可以在只读事务中更改特定于会话的临时表，或者为它们发出锁定查询，因为这些更改和锁对任何其他事务都不可见。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该autocommit设置处于打开状态，以便事务保证为单个语句，构成事务的单个语句为“ 非锁定 ” SELECT语句。</span><br><span class="line">也就是说 SELECT，它不使用一个FOR UPDATE或一个LOCK IN SHARED MODE 子句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">事务在没有READ ONLY选项的情况下启动，但没有显式锁定行的更新或语句已经执行。</span><br><span class="line">在需要更新或显式锁定之前，事务处于只读模式。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">因此，对于读取密集型应用，如报表生成器，您可以调整的序列，InnoDB 由内而外将它们分组查询 START TRANSACTION READ ONLY和 COMMIT，</span><br><span class="line">    或通过打开autocommit 运行之前设置SELECT语句，或简单地避免与查询穿插任何数据更改语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关信息 START TRANSACTION，并 autocommit请参见 13.3.1节，“START TRANSACTION，COMMIT和ROLLBACK语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">具有自动提交，非锁定和只读（AC-NL-RO）资格的事务处于特定内部 InnoDB数据结构之外，因此未在SHOW ENGINE INNODB STATUS输出中列出 。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.4优化InnoDB重做日志<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">考虑以下关于优化重做日志的指导原则：</span><br><span class="line"></span><br><span class="line">使您的重做日志文件变大，甚至与缓冲池一样大 。</span><br><span class="line">当 InnoDB写完重做日志文件时，它必须将检查点中缓冲池的修改内容写入磁盘 。</span><br><span class="line"></span><br><span class="line">    小的重做日志文件导致许多不必要的磁盘写入。</span><br><span class="line">虽然历史上重要的重做日志文件会导致冗长的恢复时间，但现在恢复速度更快，</span><br><span class="line">    您可以放心地使用大型重做日志文件。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重做日志文件的大小和数量使用innodb_log_file_size 和 innodb_log_files_in_group 配置选项进行配置。</span><br><span class="line"></span><br><span class="line">    有关修改现有重做日志文件配置的信息，请参见 第14.7.2节“更改InnoDB重做日志文件的数量或大小”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">考虑增加日志缓冲区的大小 。</span><br><span class="line">大型日志缓冲区允许大型 事务运行，而无需在事务提交之前将日志写入磁盘。</span><br><span class="line"></span><br><span class="line">    因此，如果您有更新，插入或删除多行的事务，则使日志缓冲区更大可节省磁盘I / O。</span><br><span class="line"></span><br><span class="line">    日志缓冲区大小使用innodb_log_buffer_size 配置选项进行 配置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">配置 innodb_log_write_ahead_size 配置选项以避免“ 读写 ”。</span><br><span class="line">该选项定义重做日志的预写块大小。</span><br><span class="line"></span><br><span class="line">    设置 innodb_log_write_ahead_size 为匹配操作系统或文件系统缓存块大小。</span><br><span class="line"></span><br><span class="line">    由于重做日志的预写块大小与操作系统或文件系统高速缓存块大小之间的不匹配，</span><br><span class="line">    重做日志块未完全缓存到操作系统或文件系统时发生了写入时读写。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有效值 innodb_log_write_ahead_size 是InnoDB日志文件块大小（2 n）的倍数。</span><br><span class="line">最小值是InnoDB日志文件块大小（512）。</span><br><span class="line"></span><br><span class="line">    指定最小值时不发生预写。</span><br><span class="line">最大值等于该 innodb_page_size值。</span><br><span class="line"></span><br><span class="line">    如果您指定的值 innodb_log_write_ahead_size 大于该 innodb_page_size值，则该 innodb_log_write_ahead_size 设置将被截断为该 innodb_page_size值。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_log_write_ahead_size 相对于操作系统或文件系统缓存块大小 设置 值太低会导致写入时读写。</span><br><span class="line">fsync由于一次写入多个块，因此将值设置得过高可能会对日志文件写入的性能产生轻微影响 。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.5 InnoDB表的批量数据加载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">这些性能提示补充了第8.2.4.1节“优化INSERT语句”中有关快速插入的一般准则。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">将数据导入时InnoDB，请关闭自动提交模式，因为它会为每个插入操作执行日志刷新到磁盘。</span><br><span class="line">为了您的导入操作过程中禁用自动提交，与环绕它 SET autocommit和 COMMIT语句：</span><br><span class="line"></span><br><span class="line">SET autocommit = 0;</span><br><span class="line">... SQL import statements ...</span><br><span class="line">承诺;</span><br><span class="line">该mysqldump的选项 --opt创建这样的快速导入到转储文件InnoDB 表，即使没有与他们包装 SET autocommit和 COMMIT报表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您UNIQUE对辅助键有限制，可以通过在导入会话期间暂时关闭唯一性检查来加快表导入的速度：</span><br><span class="line"></span><br><span class="line">SET unique_checks = 0;</span><br><span class="line">... SQL import statements ...</span><br><span class="line">SET unique_checks = 1;</span><br><span class="line">对于大表而言，这可以节省大量的磁盘I / O，因为 InnoDB可以使用其更改缓冲区来批量写入二级索引记录。</span><br><span class="line">确保数据不包含重复的密钥。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您FOREIGN KEY的表中存在约束，则可以通过在导入会话期间关闭外键检查来加速表导入：</span><br><span class="line"></span><br><span class="line">SET foreign_key_checks = 0;</span><br><span class="line">... SQL import statements ...</span><br><span class="line">SET foreign_key_checks = 1;</span><br><span class="line">对于大表，这可以节省大量的磁盘I / O。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">INSERT 如果您需要插入多行， 请使用多行语法来减少客户端和服务器之间的通信开销：</span><br><span class="line"></span><br><span class="line">INSERT INTO的值（1,2），（5,5），...;</span><br><span class="line">此提示适用于插入任何表格，而不仅限于 InnoDB表格。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当对具有自动增量列的表进行批量插入时，请将其设置 innodb_autoinc_lock_mode为2而不是默认值1.有关详细信息，</span><br><span class="line">    请参见 第14.8.1.5节“InnoDB中的AUTO_INCREMENT处理”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行批量插入时，按PRIMARY KEY顺序插入行速度更快 。</span><br><span class="line"> InnoDB表使用 聚集索引，这使得使用数据的顺序相对较快PRIMARY KEY。</span><br><span class="line"></span><br><span class="line">    按PRIMARY KEY顺序执行批量插入对于完全不适合缓冲池的表格尤为重要。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了将数据加载到InnoDB FULLTEXT索引时获得最佳性能 ，请按照以下步骤操作：</span><br><span class="line"></span><br><span class="line">FTS_DOC_ID在创建表的时候 定义一个类型为BIGINT UNSIGNED NOT NULL，具有唯一索引的列 FTS_DOC_ID_INDEX。</span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">CREATE TABLE t1（</span><br><span class="line">FTS_DOC_ID BIGINT unsigned NOT NULL AUTO_INCREMENT，</span><br><span class="line">title varchar（255）NOT NULL DEFAULT&apos;&apos;，</span><br><span class="line">文本中文NOT NULL，</span><br><span class="line">PRIMARY KEY（`FTS_DOC_ID`）</span><br><span class="line">）ENGINE = InnoDB DEFAULT CHARSET = latin1;</span><br><span class="line">在t1（FTS_DOC_ID）上创建唯一索引FTS_DOC_ID_INDEX;</span><br><span class="line">将数据加载到表中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FULLTEXT数据加载完成后 创建索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">FTS_DOC_ID在创建表格 时添加列时，确保在 FTS_DOC_ID更新 FULLTEXT索引列时更新列，因为FTS_DOC_ID每个INSERTor 必须单调递增 UPDATE。</span><br><span class="line"></span><br><span class="line">    如果您选择不添加FTS_DOC_IDat表创建时间并InnoDB为您管理DOC ID，InnoDB则会FTS_DOC_ID在下一次CREATE FULLTEXT INDEX调用时将其添加 为隐藏列。</span><br><span class="line"></span><br><span class="line">    但是，这种方法需要重建表格，这会影响性能。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.6优化InnoDB查询<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">要调整InnoDB表的查询，请在每个表上创建一组适当的索引。</span><br><span class="line">有关详细信息，请参见 第8.3.1节“MySQL如何使用索引”。</span><br><span class="line"></span><br><span class="line">遵循这些InnoDB索引的指标：</span><br><span class="line"></span><br><span class="line">由于每个InnoDB表都有一个 主键（无论您是否要求），请为每个表指定一组主键列，这些列用于最重要且时间关键的查询中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">不要在主键中指定太多或太长的列，因为这些列值在每个二级索引中都是重复的。</span><br><span class="line"></span><br><span class="line">当索引包含不必要的数据时，读取此数据和内存以进行缓存的I / O会降低服务器的性能和可伸缩性。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">不要 为每列创建单独的 二级索引，因为每个查询只能使用一个索引。</span><br><span class="line">仅有少数不同值的很少测试的列或列索引可能对任何查询都没有帮助。</span><br><span class="line"></span><br><span class="line">    如果您对同一个表有很多查询，那么测试不同的列组合，尝试创建少量 连接索引而不是大量单列索引。</span><br><span class="line"></span><br><span class="line">    如果索引包含结果集所需的所有列（称为 覆盖索引），则查询可能完全避免读取表数据。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果索引列不能包含任何 NULL值，请NOT NULL在创建表时声明它。</span><br><span class="line">当知道每列是否包含NULL值时，</span><br><span class="line">    优化器可以更好地确定哪个索引最有效地用于查询 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以InnoDB使用第8.5.3节“优化InnoDB只读事务”中的技术优化表的 单一查询事务 。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.7优化InnoDB DDL操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">对于表和索引（CREATE，ALTER和 DROP语句）的DDL操作，</span><br><span class="line">    表中最重要的方面InnoDB是在MySQL 5.5和更高版本中创建和删除二级索引比在早期版本中快得多。</span><br><span class="line"></span><br><span class="line">    有关详细信息，请参见 第14.13.1节“在线DDL概述”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">“ 快速索引创建 ”使得在某些情况下，在将数据加载到表中之前删除索引，然后在加载数据后重新创建索引会更快。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用TRUNCATE TABLE空表，不。</span><br><span class="line">外键约束，可以使一个语句的工作像一个普通的声明，在这种情况下，命令序列喜欢 和 可能是最快的。</span><br><span class="line"></span><br><span class="line"> DELETE FROM tbl_nameTRUNCATEDELETEDROP TABLECREATE TABLE</span><br><span class="line"></span><br><span class="line">因为主键是每个InnoDB表的存储布局不可分割的组成部分，并且更改主键的定义涉及重新组织整个表，</span><br><span class="line">    所以始终将主键设置为CREATE TABLE语句的一部分 ，并提前进行计划，以便您不需要 ALTER或DROP之后的主键。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.8优化InnoDB磁盘I / O<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br></pre></td><td class="code"><pre><span class="line">如果您遵循SQL操作的数据库设计和调优技术的最佳实践，但由于繁重的磁盘I / O活动导致数据库仍然很慢，请考虑这些磁盘I / O优化。</span><br><span class="line"></span><br><span class="line">    如果Unix top工具或Windows任务管理器显示工作负载的CPU使用百分比低于70％，那么您的工作负载可能是磁盘限制的。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">增加缓冲池大小</span><br><span class="line"></span><br><span class="line">当表数据缓存在InnoDB 缓冲池中时，可以通过查询重复访问它，而不需要任何磁盘I / O。</span><br><span class="line"></span><br><span class="line">    用innodb_buffer_pool_size 选项指定缓冲池的大小 。</span><br><span class="line"></span><br><span class="line">        该内存区域非常重要，通常建议将 innodb_buffer_pool_size其配置为系统内存的50％至75％。</span><br><span class="line"></span><br><span class="line">        有关更多信息，请参见第8.12.4.1节“MySQL如何使用内存”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">调整冲洗方法</span><br><span class="line"></span><br><span class="line">在GNU / Linux和Unix的某些版本中fsync()，InnoDB使用Unix 调用（ 默认使用）和类似方法将文件刷新到磁盘的速度惊人地慢。</span><br><span class="line"></span><br><span class="line">    如果数据库写入性能出现问题，请使用innodb_flush_method 参数集进行基准测试 O_DSYNC。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在Linux上使用本机AIO的noop或截止日期I / O调度程序</span><br><span class="line"></span><br><span class="line">InnoDB使用Linux上的异步I / O子系统（本机AIO）来执行数据文件页面的预读和写入请求。</span><br><span class="line"></span><br><span class="line">    此行为innodb_use_native_aio 由默认情况下启用的配置选项控制 。</span><br><span class="line"></span><br><span class="line">    使用本机AIO时，I / O调度程序的类型对I / O性能有更大的影响。</span><br><span class="line"></span><br><span class="line">    通常，建议使用noop和截止日期I / O调度程序。</span><br><span class="line">进行基准测试以确定哪个I / O调度程序为您的工作负载和环境提供最佳结果。</span><br><span class="line"></span><br><span class="line">    有关更多信息，请参见 第14.6.8节“在Linux上使用异步I / O”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在x86_64体系结构的Solaris 10上使用直接I / O</span><br><span class="line"></span><br><span class="line">在InnoDBx86_64体系结构（AMD Opteron）的Solaris 10上使用存储引擎时，请使用直接I / O InnoDB相关文件以避免性能下降InnoDB。</span><br><span class="line"></span><br><span class="line">    要为用于存储InnoDB相关文件的整个UFS文件系统使用直接I / O，请 使用该forcedirectio选项安装它 ; 见 mount_ufs(1M)。</span><br><span class="line"></span><br><span class="line">    （Solaris 10 / x86_64上的默认设置不是使用此选项。</span><br><span class="line">）</span><br><span class="line">    要仅将直接I / O应用于InnoDB文件操作而不是整个文件系统，请设置 innodb_flush_method = O_DIRECT。</span><br><span class="line"></span><br><span class="line">    使用此设置， InnoDB呼叫 directio()而不是 fcntl() 用于I / O到数据文件（不用于I / O到日志文件）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在Solaris 2.6或更高版本中使用原始存储来存储数据和日志文件</span><br><span class="line"></span><br><span class="line">在任何版本的Solaris 2.6及更高版本和任何平台（sparc / x86 / x64 / amd64）上InnoDB使用具有较大innodb_buffer_pool_size值 的存储引擎时，</span><br><span class="line">请 InnoDB在裸设备上或单独的直接I / O UFS上使用数据文件和日志文件进行基准测试 文件系统，使用forcedirectio前面所述的安装选项。</span><br><span class="line"></span><br><span class="line">（innodb_flush_method如果需要对日志文件进行直接I / O ，则必须使用装入选项而不是设置 。</span><br><span class="line">）</span><br><span class="line">Veritas文件系统VxFS的用户应使用 convosync=direct装入选项。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">不要将其他MySQL数据文件（如MyISAM表的那些文件） 放在直接I / O文件系统上。</span><br><span class="line">不能将可执行文件或库放置在直接I / O文件系统上。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用额外的存储设备</span><br><span class="line"></span><br><span class="line">可以使用其他存储设备来设置RAID配置。</span><br><span class="line">有关相关信息，请参见 第8.12.2节“优化磁盘I / O”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">或者，InnoDB表空间数据文件和日志文件可以放在不同的物理磁盘上。</span><br><span class="line">有关更多信息，请参阅以下部分：</span><br><span class="line"></span><br><span class="line">第14.6.1节“InnoDB启动配置”</span><br><span class="line"></span><br><span class="line">第14.7.5节“在数据目录之外创建文件 - 表 - 表 - 表空间”</span><br><span class="line"></span><br><span class="line">创建一个通用表空间</span><br><span class="line"></span><br><span class="line">第14.8.1.3节“移动或复制InnoDB表”</span><br><span class="line"></span><br><span class="line">考虑非旋转存储</span><br><span class="line"></span><br><span class="line">非循环存储通常为随机I / O操作提供更好的性能; 和顺序I / O操作的旋转存储。</span><br><span class="line"></span><br><span class="line">在通过旋转和非旋转存储设备分发数据和日志文件时，请考虑主要在每个文件上执行的I / O操作的类型。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">随机I /面向O形文件通常包括 文件的每个表 和普通表空间的数据文件， 撤销表空间 文件和 临时表空间文件。</span><br><span class="line"></span><br><span class="line">    连续的面向I / O的文件包括InnoDB 系统表空间文件（由于 二次写入缓冲和 更改缓冲）以及日志文件（如二进制日志文件和重做日志文件）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用非循环存储时，请查看以下配置选项的设置：</span><br><span class="line"></span><br><span class="line">innodb_checksum_algorithm</span><br><span class="line"></span><br><span class="line">该crc32选件使用更快的校验和算法，推荐用于快速存储系统。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_flush_neighbors</span><br><span class="line"></span><br><span class="line">该选项优化了旋转存储设备的I / O。</span><br><span class="line">禁用它用于非旋转存储或混合旋转和非旋转存储。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_io_capacity</span><br><span class="line"></span><br><span class="line">对于较低端的非旋转存储设备，默认设置200通常是足够的。</span><br><span class="line">对于更高端的总线连接设备，请考虑更高的设置，例如1000。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_io_capacity_max</span><br><span class="line"></span><br><span class="line">默认值2000适用于使用非循环存储的工作负载。</span><br><span class="line">对于高端，总线连接的非旋转存储设备，考虑更高的设置，如2500。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_log_compressed_pages</span><br><span class="line"></span><br><span class="line">如果重做日志位于非循环存储中，请考虑禁用此选项以减少日志记录。</span><br><span class="line">请参阅 禁用压缩页面的记录。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_log_file_size</span><br><span class="line"></span><br><span class="line">如果重做日志位于非循环存储中，请配置此选项以最大化高速缓存和写入组合。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_page_size</span><br><span class="line"></span><br><span class="line">考虑使用与磁盘的内部扇区大小相匹配的页面大小。</span><br><span class="line">早期的SSD设备通常具有4k扇区大小。</span><br><span class="line">一些较新的设备具有16k扇区大小。</span><br><span class="line"></span><br><span class="line">    默认InnoDB 页面大小为16k。</span><br><span class="line">保持页面大小接近存储设备块大小可将重写到磁盘的未更改数据量减到最少。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">binlog_row_image</span><br><span class="line"></span><br><span class="line">如果二进制日志位于非循环存储中，并且所有表都有主键，请考虑设置此选项minimal以减少日志记录。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">确保为您的操作系统启用TRIM支持。</span><br><span class="line">它通常默认启用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">增加I / O容量以避免积压</span><br><span class="line"></span><br><span class="line">如果由于InnoDB 检查点 操作导致吞吐量周期性下降 ，请考虑增加innodb_io_capacity 配置选项的值 。</span><br><span class="line"></span><br><span class="line">    较高的值会导致更频繁的 刷新，从而避免可能导致吞吐量下降的工作积压。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果冲洗不落后，则I / O容量降低</span><br><span class="line"></span><br><span class="line">如果系统不会因InnoDB 冲洗操作而落后 ，请考虑降低innodb_io_capacity 配置选项的值 。</span><br><span class="line"></span><br><span class="line">    通常情况下，您保持该选项的值尽可能低，但不能太低，以至于导致吞吐量的周期性下降，如前面的项目符号所述。</span><br><span class="line"></span><br><span class="line">    在可以降低选项值的典型场景中，您可能会在以下输出中看到类似的组合 SHOW ENGINE INNODB STATUS：</span><br><span class="line"></span><br><span class="line">历史名单长度低，低于几千。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">插入缓冲区合并接近插入的行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">修改缓冲池中的页面始终远低于 innodb_max_dirty_pages_pct 缓冲池。</span><br><span class="line">（在服务器没有进行批量插入时进行测量;在批量插入时修改的页面百分比显着增加，这是正常的。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">Log sequence number - Last checkpoint 小于7/8或理想情况下小于InnoDB 日志文件总大小的6/8 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">将系统表空间文件存储在Fusion-io设备上</span><br><span class="line"></span><br><span class="line">通过在支持原子写入的Fusion-io设备上存储系统表空间文件（“ ibdata文件 ”），您可以利用与双写缓冲区相关的I / O优化。</span><br><span class="line"></span><br><span class="line">    在这种情况下，innodb_doublewrite自动禁用doublewrite buffering（），并且Fusion-io原子写入用于所有数据文件。</span><br><span class="line"></span><br><span class="line">   此功能仅在Fusion-io硬件上受支持，并且仅适用于Linux上的Fusion-io NVMFS。</span><br><span class="line"></span><br><span class="line">   要充分利用此功能，建议使用此 innodb_flush_method设置O_DIRECT。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">由于双写缓冲区设置是全局性的，所以对于驻留在非Fusion-io硬件上的数据文件，也会禁用双写缓冲。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">禁用压缩页面的日志记录</span><br><span class="line"></span><br><span class="line">使用InnoDB表格 压缩功能时，当对压缩数据进行更改时，重新压缩页面的图像 将写入 重做日志。</span><br><span class="line"></span><br><span class="line">    此行为innodb_log_compressed_pages由默认情况下启用的控制 ，以防止zlib 在恢复期间使用不同版本的压缩算法时可能发生的损坏。</span><br><span class="line"></span><br><span class="line">    如果您确定zlib版本不会更改，请禁用 innodb_log_compressed_pages 以减少修改压缩数据的工作负载的重做日志生成。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.9优化InnoDB配置变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">不同的设置对于服务器的工作效率最高，可以预测负载较轻，而服务器则始终处于满负荷运行状态，或者遇到高活动的峰值。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">由于InnoDB存储引擎会自动执行许多优化，因此许多性能调整任务都需要进行监视，以确保数据库性能良好，并在性能下降时更改配置选项。</span><br><span class="line"></span><br><span class="line">有关详细的性能监控信息，请参见 第14.16节“InnoDB与MySQL性能架构的集成”InnoDB。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以执行的主要配置步骤包括：</span><br><span class="line"></span><br><span class="line">允许InnoDB在包含它们的系统上使用高性能内存分配器。</span><br><span class="line">请参见 第14.6.4节“为InnoDB配置内存分配器”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">控制哪些InnoDB缓冲区更改数据的数据更改操作的类型 ，以避免频繁的小磁盘写入。</span><br><span class="line">请参见 第14.6.5节“配置InnoDB更改缓冲”。</span><br><span class="line"></span><br><span class="line">由于默认设置是缓冲所有类型的数据更改操作，因此只有在需要减少缓冲量时才更改此设置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用该innodb_adaptive_hash_index 选项打开和关闭自适应哈希索引功能 。</span><br><span class="line">有关更多信息，请参见第14.4.3节“自适应散列索引”。</span><br><span class="line"></span><br><span class="line">    您可能会在非正常活动期间更改此设置，然后将其恢复到原始设置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">InnoDB如果上下文切换是瓶颈，则 设置对并发线程数量的 限制。</span><br><span class="line">请参见 第14.6.6节“为InnoDB配置线程并发”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">控制InnoDB与其预读操作相关的预取量 。</span><br><span class="line">当系统没有使用I / O容量时，更多的预读可以提高查询的性能。</span><br><span class="line"></span><br><span class="line">    预读过多会导致重负载系统的性能周期性下降。</span><br><span class="line">请参见 第14.6.3.5节“配置InnoDB缓冲池预取（预读）”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您有一个高端I / O子系统未被默认值充分利用，则增加读取或写入操作的后台线程数。</span><br><span class="line">请参见 第14.6.7节“配置背景InnoDB I / O线程数”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">控制I / O InnoDB在后台执行多少操作。</span><br><span class="line">请参见 第14.6.9节“配置InnoDB主线程I / O速率”。</span><br><span class="line"></span><br><span class="line">    如果您观察到性能的周期性下降，您可能会缩减此设置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">控制确定何时InnoDB执行某些类型的背景写入的算法 。</span><br><span class="line">请参见 第14.6.3.6节“配置InnoDB缓冲池刷新”。</span><br><span class="line"></span><br><span class="line">该算法适用于某些类型的工作负载，但不适用于其他类型的工作负载，因此如果观察到性能下降，可能会关闭此设置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">利用多核处理器及其高速缓存存储器配置，尽量减少上下文切换的延迟。</span><br><span class="line">请参见 第14.6.10节“配置旋转锁定轮询”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">防止诸如表扫描之类的一次性操作干扰存储在InnoDB缓冲区高速缓存中的经常访问的数据 。</span><br><span class="line">请参见 第14.6.3.4节“使缓冲池抗扫描”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">将日志文件调整为适合可靠性和崩溃恢复的大小。</span><br><span class="line">InnoDB 日志文件通常很小，以避免崩溃后的长时间启动。</span><br><span class="line"></span><br><span class="line">MySQL 5.5中引入的优化加速了崩溃恢复过程的某些步骤 。</span><br><span class="line">尤其是，由于改进了内存管理算法，扫描 重做日志和应用重做日志速度更快。</span><br><span class="line"></span><br><span class="line">如果为了避免很长的启动时间而将您的日志文件人为保留较小，现在可以考虑增加日志文件大小以减少由于重做日志记录的回收而发生的I / O。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为InnoDB缓冲池配置实例的大小和数量， 对于具有多千兆字节缓冲池的系统尤为重要。</span><br><span class="line">请参见 第14.6.3.3节“配置多个缓冲池实例”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">增加并发事务的最大数量，这极大地提高了最繁忙数据库的可伸缩性。</span><br><span class="line">请参见第14.4.8节“撤消日志”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">将清除操作（一种垃圾收集）移动到后台线程中。</span><br><span class="line">请参见 第14.6.11节“配置InnoDB清除计划”。</span><br><span class="line"></span><br><span class="line">要有效测量此设置的结果，请首先调整其他I / O相关和线程相关的配置设置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">减少InnoDB并发线程之间的交换量 ，以便繁忙服务器上的SQL操作不会排队并形成“ 交通拥堵 ”。</span><br><span class="line"></span><br><span class="line">为该innodb_thread_concurrency 选项设置一个值， 对于高性能的现代系统，最高可达约32。</span><br><span class="line"></span><br><span class="line">增加该innodb_concurrency_tickets 选项的值 ，通常为5000左右。</span><br><span class="line"></span><br><span class="line">这些选项的组合设置了线程数量的上限 InnoDB 在任何时候都可以进行处理，并且允许每个线程在被换出之前做大量的工作，</span><br><span class="line">以便等待的线程数量保持低，并且操作可以在没有过度上下文切换的情况下完成。</span><br></pre></td></tr></table></figure></p>
-<p>8.5.10为具有多个表的系统优化InnoDB<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">如果您已配置 的非持久性优化统计（非默认配置）， InnoDB计算指标 基数值表中的第一次表，启动后访问，而不是在表中存储这些值。</span><br><span class="line"></span><br><span class="line">在将数据分割成多个表的系统上，此步骤可能会花费大量时间。</span><br><span class="line">由于此开销仅适用于初始表打开操作，要“ 预热 ” 表供以后使用，</span><br><span class="line">请在启动后立即通过发出诸如“&gt;”之类的语句来访问它。</span><br><span class="line"> SELECT 1 FROM tbl_name LIMIT 1</span><br><span class="line"></span><br><span class="line">优化器统计信息默认保存到磁盘，由innodb_stats_persistent 配置选项启用 。</span><br><span class="line">有关持久化优化器统计信息的信息，</span><br><span class="line">请参见 第14.6.12.1节“配置持久性优化器统计信息参数”。</span><br></pre></td></tr></table></figure></p>
+            <p><strong>首先要知道影响在线人数的因素</strong></p>
+<p>1，访问量</p>
+<p>2，网站类型：如果是出文字的网站(如小说站)，1M带宽带动日均5000IP，还勉强。如果是普通网站有图片，有文字、论坛、新闻资讯类型网站 大概1M能带一千IP。考虑到高峰期并发，1M高峰期还会卡。【最低配 单核CPU+512内存。1千IP CPU占用10%左右，内存200到300之间】。</p>
+<p><strong>下面根据影响因素计算下1M带宽能同时承受多少人在线(以网络状况良好为前提)</strong></p>
+<p>1、</p>
+<p><a href="http://www.wusiwei.com/post-904.html" target="_blank" rel="noopener">打开网站8秒原则</a>;</p>
+<p>2、 评判的只是：用户从云服务器下载文件的速度;</p>
+<p>3、 页面的标准尺寸大小为：60KB;</p>
+<p>参考公式：<strong>支持连接个人 = 服务器带宽/页面尺寸大小</strong></p>
+<p>通过计算大致结果是，1Mbps的带宽(服务器的1M带宽最快上下速度能达到1M/s，跟我们家用的带宽稍有区别)支持的连接数为：17个</p>
+<p>因此，N M带宽可以支持的同时在线人数大概为N*17个</p>
+<p>所以，1M带宽的云主机，日均3000IP以下应该没问题。当然如果你的每个页面都比较大的话，那就没这么多了。具体多少，可以按照上面的算法算下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">初次访问 362kb</span><br><span class="line">第二次访问 36kb</span><br><span class="line"></span><br><span class="line">pv 8641+2007+1000 = 11648</span><br><span class="line"></span><br><span class="line">pv * 362 = 4216576kb = 4117.75MB  4GB流量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">market</span><br><span class="line">初次171kb</span><br><span class="line">第二次 28kb</span><br><span class="line"></span><br><span class="line">pv= 3000</span><br><span class="line"></span><br><span class="line">pv * 171 = 513000 = =500.97MB</span><br><span class="line"></span><br><span class="line">一天按5GB 流量</span><br><span class="line"></span><br><span class="line">30天 是 150GB流量</span><br><span class="line"></span><br><span class="line">0.8 * 150 = 120RMB</span><br><span class="line"></span><br><span class="line">带宽</span><br><span class="line"></span><br><span class="line">5 Mbps  125 RMB</span><br><span class="line"></span><br><span class="line">10 Mbps  125 + （10 - 5 ）* 80RMB = =525 RMB元</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1096,6 +741,19 @@
   
   
   </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 
 
     
@@ -1114,7 +772,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-0/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/http/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -1133,8 +791,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-0/" itemprop="url">
-                  系统设计一些基本原则
+                <a class="post-title-link" href="/2018/03/24/agreement/http/" itemprop="url">
+                  http协议
                 </a>
               
             
@@ -1192,7 +850,7 @@
 
           
           
-             <span id="/2018/03/24/service-design/design-0/" class="leancloud_visitors" data-flag-title="系统设计一些基本原则">
+             <span id="/2018/03/24/agreement/http/" class="leancloud_visitors" data-flag-title="http协议">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1225,10 +883,11 @@
       
         
           
-            <p>参照梁飞–dubbo创始人—<a href="http://dubbo.io/books/dubbo-dev-book/principals/general-knowledge.html" target="_blank" rel="noopener">一些设计上的基本常识</a></p>
-<p>不看不知道 一看吓一跳<br>原来一个复杂的服务系统这么多门道</p>
-<p>以前只晓得 API SPI分离。。。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">API 与 SPI 分离</span><br><span class="line"></span><br><span class="line">服务域/实体域/会话域分离</span><br><span class="line"></span><br><span class="line">在重要的过程上设置拦截接口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重要的状态的变更发送事件并留出监听接口</span><br><span class="line"></span><br><span class="line">扩展接口职责尽可能单一，具有可组合性</span><br><span class="line"></span><br><span class="line">微核插件式，平等对待第三方</span><br><span class="line"></span><br><span class="line">不要控制外部对象的生命周期</span><br><span class="line"></span><br><span class="line">可配置一定可编程，并保持友好的 CoC 约定</span><br><span class="line"></span><br><span class="line">区分命令与查询，明确前置条件与后置条件</span><br><span class="line"></span><br><span class="line">增量式扩展，而不要扩充原始核心概念</span><br></pre></td></tr></table></figure>
+            <p>http协议<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2a523de3228d986b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发展年历"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-cdf479dfba52d38b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="97年协定1.1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fdc25911c760f33f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http数据流向图"></p>
+<p>HTTP　定义了　消息发送流程与信息格式</p>
+<p>发送端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、请求行</span><br><span class="line">2、请求头</span><br><span class="line">3、请求体</span><br></pre></td></tr></table></figure></p>
+<p>接受端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、响应行</span><br><span class="line">2、响应头</span><br><span class="line">3、响应体</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1268,6 +927,19 @@
   
   
   </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 
 
     

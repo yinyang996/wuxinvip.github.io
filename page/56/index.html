@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/design-pattern/behavior/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/log/elk-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/design-pattern/behavior/" itemprop="url">
-                  设计模式-行为型
+                <a class="post-title-link" href="/2018/03/24/log/elk-1/" itemprop="url">
+                  ELK 搭建
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/design-pattern/behavior/" class="leancloud_visitors" data-flag-title="设计模式-行为型">
+             <span id="/2018/03/24/log/elk-1/" class="leancloud_visitors" data-flag-title="ELK 搭建">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,34 +489,41 @@
       
         
           
-            <p>设计模式行为型–11种</p>
-<p>责任链—-请求创建了一个接收者对象的链。这种模式给予请求的类型，对请求的发送者和接收者进行解耦。</p>
-<p>命令—-请求以命令的形式包裹在对象中，并传给调用对象。调用对象寻找可以处理该命令的合适的对象，并把该命令传给相应的对象，该对象执行命令。</p>
-<p>解释器—-这种模式实现了一个表达式接口，该接口解释一个特定的上下文。这种模式被用在 SQL 解析、符号处理引擎等。</p>
-<p>迭代器—-这种模式用于顺序访问集合对象的元素，不需要知道集合对象的底层表示。</p>
-<p>中介者—-这种模式提供了一个中介类，该类通常处理不同类之间的通信，并支持松耦合，使代码易于维护。</p>
-<p>备忘录—-保存一个对象的某个状态，以便在适当的时候恢复对象。备忘录模式属于行为型模式。</p>
-<p>观察者—-当对象间存在一对多关系时，则使用观察者模式（Observer Pattern）。比如，当一个对象被修改时，则会自动通知它的依赖对象。</p>
-<p>状态—-我们创建表示各种状态的对象和一个行为随着状态对象改变而改变的 context 对象。</p>
-<p>空对象—-在空对象模式（Null Object Pattern）中，一个空对象取代 NULL 对象实例的检查。Null 对象不是检查空值，而是反应一个不做任何动作的关系。<br>        这样的 Null 对象也可以在数据不可用的时候提供默认的行为。</p>
-<p>策略</p>
-<ul>
-<li><p>在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。这种类型的设计模式属于行为型模式。</p>
-</li>
-<li><p>在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。</p>
-</li>
-</ul>
-<p>模板</p>
-<ul>
-<li>在模板模式（Template Pattern）中，一个抽象类公开定义了执行它的方法的方式/模板。</li>
-<li>它的子类可以按需要重写方法实现，但调用将以抽象类中定义的方式进行。这种类型的设计模式属于行为型模式。</li>
-</ul>
-<p>访问</p>
-<ul>
-<li>在访问者模式（Visitor Pattern）中，我们使用了一个访问者类，它改变了元素类的执行算法。</li>
-<li>通过这种方式，元素的执行算法可以随着访问者改变而改变。这种类型的设计模式属于行为型模式。</li>
-<li>根据模式，元素对象已接受访问者对象，这样访问者对象就可以处理元素对象上的操作。</li>
-</ul>
+            <p><strong>elasticsearch 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/downloads/elasticsearch</a><br>linux执行 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>下载解压 【建议使用zsh】</p>
+<p>修改配置文件<br>config/elasticsearch.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 集群的名字  </span><br><span class="line">cluster.name: cloud</span><br><span class="line"># 节点名字  </span><br><span class="line">node.name: node-1   </span><br><span class="line"># 数据存储目录（多个路径用逗号分隔）  </span><br><span class="line">path.data: /usr/local/logUtils/elasticsearch/es-data</span><br><span class="line"># 日志目录  </span><br><span class="line">path.logs: /usr/local/logUtils/elasticsearch/log</span><br><span class="line">#本机的ip地址</span><br><span class="line">network.host: 192.168.0.135  </span><br><span class="line">#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;192.168.161.128&quot;]</span><br><span class="line"># 设置节点间交互的tcp端口（集群）,(默认9300)  </span><br><span class="line">transport.tcp.port: 9300  </span><br><span class="line"># 监听端口（默认）  </span><br><span class="line">http.port: 9200  </span><br><span class="line"># 增加参数，使head插件可以访问es  </span><br><span class="line">http.cors.enabled: true  </span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+<p>运行 bin下的 elasticsearch 进行启动<br>后台启动 bin/elasticsearch  -d</p>
+<p>启动结果如下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-c3defbf97ceb3d06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>启动会遇到的问题<br>1、非root权限启动<br>新建用户  es<br>然后把 elasticsearch 文件夹权限归给 新用户es<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R  es:es  elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>2、 软硬进程限制</p>
+<p>max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]</p>
+<p>解决办法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf</span><br></pre></td></tr></table></figure></p>
+<p>文后添加<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2291db66448586cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>然后使用source 重新加载<br>并使用 ulimit -n 查看 是否为 65536 如果还是1024 那么重新连接linux 试下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-032a906cd27eeca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>3、<br>.max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</p>
+<p>解决办法 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">执行    ：sysctl -w vm.max_map_count=655360</span><br><span class="line">查看执行结果 ： sysctl -a | grep vm.max_map_count</span><br></pre></td></tr></table></figure></p>
+<p><strong>elasticsearch 插件 head 安装</strong></p>
+<p>下载head插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/mobz/elasticsearch-head/archive/master.zip</span><br><span class="line">安装node</span><br><span class="line">wget https://npm.taobao.org/mirrors/node/latest-v4.x/node-v4.4.7-linux-x64.tar.gz</span><br><span class="line">tar -zxvf node-v4.4.7-linux-x64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>配置环境变量<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b86cce5f1787b61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>安装 grunt<br>cd /opt/elasticsearch-head-master<br>npm install -g grunt-cli  //执行后会生成node_modules文件夹<br>grunt是基于Node.js的项目构建工具，可以进行打包压缩、测试、执行等等的工作，head插件就是通过grunt启动</p>
+<p>检查是否安装成功<br>grunt -version</p>
+<p>修改head 插件源码<br>vi  Gruntfile.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e777189ec26ea9b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>vi _site/app.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-99ec0f1955f299a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>文件较大 建议下载下来 使用文本编辑器查找<br>或者使用命令替换localhost 为 你的ip</p>
+<p>运行head<br>head根目录<br>运行 npm install<br>启动head grunt server<br>后台启动 nohup grunt server  &amp;<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e00e0f1850d2b2f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Logstash 安装</strong></p>
+<p>官方下载地址 ：<a href="https://www.elastic.co/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/downloads/logstash</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">linux安装：curl -L -O https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz</span><br><span class="line"></span><br><span class="line">config 添加 配置文件</span><br><span class="line"></span><br><span class="line">vi logstash.conf</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  # stdin &#123; &#125;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    # host:port就是上面appender中的 destination，</span><br><span class="line">    # 这里其实把logstash作为服务，开启9250端口接收logback发出的消息</span><br><span class="line">    host =&gt; &quot;192.168.0.135&quot;</span><br><span class="line">     port =&gt; 9250</span><br><span class="line">     mode =&gt; &quot;server&quot;</span><br><span class="line">    tags :&gt; [&quot;tags&quot;]</span><br><span class="line">    codec =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123; hosts =&gt; [&quot;localhost:9200&quot;] &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动logstash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./logstash -f ../config/logstash.conf  &amp;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Kibana 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/kibana" target="_blank" rel="noopener">https://www.elastic.co/downloads/kibana</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim config/kibana.yml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server.host:&quot;192.168.0.135&quot;</span><br><span class="line">elasticsearch.url:http://192.168.0.135:9200</span><br><span class="line"></span><br><span class="line">启动kibana</span><br><span class="line"></span><br><span class="line">bin/kibana</span><br></pre></td></tr></table></figure></p>
+<p>启动服务 <a href="http://192.168.0.135:5601" target="_blank" rel="noopener">http://192.168.0.135:5601</a></p>
+<p>至此 ELK服务单机版部署完成</p>
+<p>springcloud 集成logback</p>
+<p>引入pom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志发送logstash--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>logback-spring.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=&quot;LOGSTASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        destination 是 logstash 服务的 host:port，</span><br><span class="line">        相当于和 logstash 建立了管道，将日志数据定向传输到 logstash</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;destination&gt;192.168.0.135:9250&lt;/destination&gt;</span><br><span class="line">        &lt;encoder charset=&quot;UTF-8&quot; class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">  &lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">          &lt;appender-ref ref=&quot;LOGSTASH&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -556,6 +563,19 @@
   
   
   </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 
 
     
@@ -741,6 +761,19 @@
   
   </article>
 
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
 
     
       
@@ -909,6 +942,19 @@
   
   
   </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
 
 
     
