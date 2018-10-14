@@ -374,215 +374,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/service-permission/shiro-1/" itemprop="url">
-                  权限系统_shiro_授权流程
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-14 12:53:46" itemprop="dateModified" datetime="2018-10-14T12:53:46+08:00">2018-10-14</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/service-permission/shiro-1/" class="leancloud_visitors" data-flag-title="权限系统_shiro_授权流程">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Shiro Authorization （ 授权）</p>
-<p>官方授权图片</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-336b0632fee6bb6a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>步骤：<br><img src="http://upload-images.jianshu.io/upload_images/6434888-d44d3592576f6485?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>授权成功后</p>
-<p>关于权限使用有三种方式</p>
-<p>1、编写代码</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-05cdfe309a99ea49?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>2、JDK标签</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-09b04e1663976962?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>3、JSPGSP标签库</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-118318e60b08f8e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这里要解释下 RBAC </p>
-<p>以前的RBAC是 Role-Based-Access-Control</p>
-<p>基于角色的访问控制</p>
-<p>权限表 是 用户表-角色表-操作url表 【Menu】</p>
-<p>控制方式是 用户拥有某权限——–权限拥有某url【controller】 才可以访问 </p>
-<p>麻烦点就是 后台判断用户是否拥有权限时，判断用户角色 那么就是把角色和资源绑定到一起、这样后期开发会发生这么一种情况、就是有个默认角色后期我可能要删除、使用新角色来控制这些资源、那么 到时候就要更新代码重新发布 </p>
-<p>而最新的RBAC是 Resource-Based-Access-Control </p>
-<p>基于资源的访问控制</p>
-<p>权限表是 用户表【user】-角色表-功能许可表【Permission】</p>
-<p>控制方式就是 用户拥有某一角色——–角色拥有这一资源许可——-资源许可和代码【controller】绑定在一起 后期要更改角色权限 就把这个角色删掉就可以了 并不会影响代码 不需要重构代码</p>
-<p>shiro中同时使用两种方式进行 权限判断 用户可以自行选择 </p>
-<p>相关使用方法 参加xmind</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3de54131aeffcc67?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/permission-data/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -737,6 +528,215 @@
 </ul>
 <p>其原理也是sql拼接  不写了</p>
 <p>参考地址：<a href="http://leapframework.org/doc/security/op_perm.html" target="_blank" rel="noopener">http://leapframework.org/doc/security/op_perm.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/service-permission/shiro-1/" itemprop="url">
+                  权限系统_shiro_授权流程
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-14 12:53:46" itemprop="dateModified" datetime="2018-10-14T12:53:46+08:00">2018-10-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/24/service-permission/shiro-1/" class="leancloud_visitors" data-flag-title="权限系统_shiro_授权流程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Shiro Authorization （ 授权）</p>
+<p>官方授权图片</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-336b0632fee6bb6a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>步骤：<br><img src="http://upload-images.jianshu.io/upload_images/6434888-d44d3592576f6485?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>授权成功后</p>
+<p>关于权限使用有三种方式</p>
+<p>1、编写代码</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-05cdfe309a99ea49?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>2、JDK标签</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-09b04e1663976962?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>3、JSPGSP标签库</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-118318e60b08f8e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这里要解释下 RBAC </p>
+<p>以前的RBAC是 Role-Based-Access-Control</p>
+<p>基于角色的访问控制</p>
+<p>权限表 是 用户表-角色表-操作url表 【Menu】</p>
+<p>控制方式是 用户拥有某权限——–权限拥有某url【controller】 才可以访问 </p>
+<p>麻烦点就是 后台判断用户是否拥有权限时，判断用户角色 那么就是把角色和资源绑定到一起、这样后期开发会发生这么一种情况、就是有个默认角色后期我可能要删除、使用新角色来控制这些资源、那么 到时候就要更新代码重新发布 </p>
+<p>而最新的RBAC是 Resource-Based-Access-Control </p>
+<p>基于资源的访问控制</p>
+<p>权限表是 用户表【user】-角色表-功能许可表【Permission】</p>
+<p>控制方式就是 用户拥有某一角色——–角色拥有这一资源许可——-资源许可和代码【controller】绑定在一起 后期要更改角色权限 就把这个角色删掉就可以了 并不会影响代码 不需要重构代码</p>
+<p>shiro中同时使用两种方式进行 权限判断 用户可以自行选择 </p>
+<p>相关使用方法 参加xmind</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3de54131aeffcc67?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 
           
         
@@ -1250,6 +1250,12 @@
 
 
 
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1273992689&web_id=1273992689" language="JavaScript"></script>
+  </div>
 
 
 

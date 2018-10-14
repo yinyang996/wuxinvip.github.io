@@ -374,7 +374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/load-balance/maglev/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jdk-thread/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -393,8 +393,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/load-balance/maglev/" itemprop="url">
-                  maglev
+                <a class="post-title-link" href="/2018/03/24/jdk/jdk-thread/" itemprop="url">
+                  线程
                 </a>
               
             
@@ -468,7 +468,7 @@
 
           
           
-             <span id="/2018/03/24/load-balance/maglev/" class="leancloud_visitors" data-flag-title="maglev">
+             <span id="/2018/03/24/jdk/jdk-thread/" class="leancloud_visitors" data-flag-title="线程">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -501,80 +501,16 @@
       
         
           
-            <p><strong>简介</strong><br>Google Maglev 是一个牛逼的负载均衡器，之所以牛逼，是因为它不用部署专门的物理设备，不像 LVS 一样工作在内核，它是运行在通用 Linux 服务器上的大型分布式软件系统。</p>
-<p><img src="/img/load-balance/img/maglev.png" alt="图片">Google Maglev 工作流程</p>
-<p>每个 Google 服务都有一个或者多个 VIP，一个 VIP 和物理 IP 的区别在于 VIP 没有绑给某个特定的网卡。</p>
-<p><strong>VIP 注解</strong><br>Maglev 关联每个 VIP 到具体的 Endpoint，然后通过 BGP 将 VIP 宣告给上游路由器，然后路由器再把 VIP 宣告给 Google 的骨干网，这样使得 VIP 能被访问到。</p>
-<p><strong>流程</strong><br>当用户访问 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 时：</p>
+            <p>线程四种<br>单线程 固定数目线程 缓存线程 定时线程</p>
+<p>关于线程:</p>
 <ul>
-<li>浏览器先发送一个 DNS 请求， DNS 服务返回 VIP。 然后浏览器尝试与该 VIP 建立连接。</li>
-<li>当路由器接收到 VIP 数据包，通过 ECMP 将数据包路由到 Maglev 集群中的某台机器上。</li>
-<li>当 Maglev 的机器接收到数据包， 从关联到该 VIP 的 Endpoint 中选择一个， 然后用 GRE 封包发送，外层的 IP 即 Endpoint 的物理 IP。</li>
-<li>当 Endpoint 处理完数据包进行响应时，源地址用 VIP 填充，目的地址为用户 IP。</li>
-<li>使用直接服务返回(Direct Server Return， DSR) ，将响应直接发送给路由器， 这样 Maglev 无需处理响应包。</li>
-</ul>
-<p><img src="/img/load-balance/img/maglev-1.png" alt="图片">Google Maglev 结构”&gt;}}</p>
-<p><strong>结构</strong><br>Maglev 由控制器（Controller）和 转发器（Forwarder）组成：</p>
-<ul>
-<li>控制器向路由器宣告 VIP。控制器周期性地检查转发器的健康状态，来宣告或者撤回 VIP。确保路由器只转发包到健康的 Magvel。</li>
-<li>转发器转发 VIP 流量到 Endpoint。每个 VIP 都有一个后端池（BP），BP 可能包含 Endpoint 的 IP，也有可能包含其它 BP。<br>每个 BP 会对 Endpoint 进行健康检查，保证数据包转发到健康的 Endpoint。</li>
-</ul>
-<p><strong>转发器的设计和实现</strong></p>
-<p><img src="/img/load-balance/img/maglev-2.png" alt="图片">Google Maglev 转发器结构”&gt;}}</p>
-<p><strong>设计</strong><br>转发器直接从网卡接收数据包，通过 GRE/IP 封包，再将它们发回网卡。 Linux 内核不参与这个过程。</p>
-<ul>
-<li>Steering 处理从 NIC（网卡）接收来的数据包，通过五元组（IP地址，源端口，目的IP地址，目的端口和传输层协议）哈希，然后交给不同的接收队列。</li>
-<li>包重写线程从接收队列取包，然后进行后端选择，用 GRE 封包后，发送到传输队列。</li>
-<li>Muxing 轮询从所有的传输队列取包，再发送给网卡。</li>
-</ul>
-<p><img src="/img/load-balance/img/maglev-3.png" alt="图片">Google Maglev 快速包处理”&gt;}}</p>
-<p><strong>Maglev 在包处理时绕开了 Linux 内核，因为内核开销非常严重。</strong></p>
-<p>如图，转发器和网卡共用数据包池（Packet Pool），转发器中的 Steering 和 Muxing 都通过指针的环形队列，指向该池。</p>
-<p>对于 Seering：</p>
-<ul>
-<li>当网卡接收到数据包时，放在 Recieved 所指位置，并向前移动指针。</li>
-<li>分发包到接收队列时，向前移动Processed 指针。</li>
-<li>预留未使用数据包，放入队列中并向前移动 Reserved 指针。</li>
-</ul>
-<p>对于 Muxing：</p>
-<ul>
-<li>网卡将 Sent 所指的数据包发出去，并向前移动指针。</li>
-<li>将被重写的数据包放入队列中，并向前移动 Ready 指针。</li>
-<li>同时将已被发送的包归回给数据包池，并向前移动 Recycled 指针。</li>
-<li>整个过程都没有包拷贝。</li>
-</ul>
-<p><strong>后端选择</strong></p>
-<p>Maglev首先检查本地的连接跟踪表，看看该数据包是否属于任何一个已有的连接，如果连接已经建立，则直接将数据包发到该连接对应的服务器上去。</p>
-<p>如果连接没有建立，此时就需要一致性哈希函数选择一个后端服务器了，并添加到连接跟踪表。</p>
-<p>Maglev 一致性哈希的基本思想就是：</p>
-<ul>
-<li>有一个共享的Entry表，可以通过Entry[Hash % M]选择对应后端，M为Entry表大小。</li>
-<li>每个后端对所有Entry表位置有自己的优先级排序，存在permutation表里。</li>
-<li>所有的后端通过优先级顺序轮流填充Entry 中的空白位置，直至填满。每次都填充自己优先级最高的空位置。<br>例如，假设M = 6，且<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">B0: permutation[] = &#123; 3, 0, 4, 1, 5, 2, 6 &#125;</span><br><span class="line">B1: permutation[] = &#123; 0, 2, 4, 6, 1, 3, 5 &#125;</span><br><span class="line">B2: permutation[] = &#123; 3, 4, 5, 6, 0, 1, 2 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">permutation优先级是从大到小，那么最后填充后的Entry表为：</span><br><span class="line"></span><br><span class="line">Entry[] = &#123; B1, B0, B1, B0, B2, B2, B0 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">说明：</span><br><span class="line"></span><br><span class="line">B0 的优先级最高的位置是Entry[3]，其为空，则Entry[3] = B0。</span><br><span class="line">B1 是Entry[0]，则Entry[0]=B1。</span><br><span class="line">B2 是Entry[3]，但是已被占，下一个是Entry[4]，为空，则Entry[4]=B2。</span><br><span class="line">以此类推，直至填满。</span><br></pre></td></tr></table></figure>
+<li>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了</li>
+<li>2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能</li>
+<li>3.线程池数量 差不多是 CPU核数 * 2</li>
+<li>4.阿里编码规范已不推荐使用ExcutorService方法使用线程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样</span><br><span class="line">的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。</span><br><span class="line">说明：Executors 返回的线程池对象的弊端如下：</span><br><span class="line">1）FixedThreadPool 和 SingleThreadPool:</span><br><span class="line">允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。</span><br><span class="line">2）CachedThreadPool 和 ScheduledThreadPool:</span><br><span class="line">允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><strong>操作经验</strong></p>
-<p><img src="/img/load-balance/img/maglev-4.png" alt="图片">Google Maglev VIP 匹配”&gt;}}</p>
-<p>有时候，我们需要利用 Maglev 封包将流量重定向到其他的集群中的相同服务，这就有点麻烦了，因为集群间是独立的，我们不知道其它集群相同服务的 VIP。</p>
-<p>VIP 可以通过最长前缀匹配，来决定集群，利用最长后缀匹配决定那个后端池。</p>
-<p>如图中的例子，当请求 173.194.71.1 时，通过最长前缀（173.194.71.0/24）选择 C2 集群，通过最长后缀（0.0.0.1/8）决定是 Service 1 后端池。</p>
-<p>假定 Maglev 需要将流量转发到 C3（173.194.72.0/24），只需要用相同的后缀构造出 VIP （173.194.72.1）进行转发，即可转发到 Maglev 的 Service 1 后端池。</p>
-<p><strong>分片处理</strong></p>
-<p>分片时，非首个分片只包含三元组（目的IP地址，目的端口和传输层协议），这便无法正确决定如何转发，因为转发根据的是五元组。</p>
-<p>解决方法是：</p>
-<ul>
-<li><p>每个 Maglev 配置了一个特殊的后端池，包含所有的 Maglev 机器。</p>
-</li>
-<li><p>一旦接收到分片， Maglev 用三元组哈希选择特定的 Maglev 作为后端进行转发，将它们重定向给相同的 Maglev。</p>
-</li>
-<li><p>Maglev 为未分片数据包和第二跳的首分片使用相同的后端决策算法，以保证非分片、首个分片和非首个分片选择同一个后端。</p>
-</li>
-<li><p>Magelv 维护了一个固定大小的分片表，记录了首分片的转发决策。</p>
-</li>
-<li><p>当 Maglev 收到一个第二跳非首分片， 会从分片表中查找，若匹配则立即转发； 否则，会缓存到分片表中，直到首分片收到或者老化。</p>
-</li>
-</ul>
-<p><a href="https://simpleyyt.com/2017/07/05/introduction-to-google-maglev/" target="_blank" rel="noopener">转载地址</a></p>
+<p>代码地址:<a href="https://gitee.com/none_heart/xingchen/tree/master/excutor" target="_blank" rel="noopener">https://gitee.com/none_heart/xingchen/tree/master/excutor</a></p>
 
           
         
@@ -632,7 +568,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/ehcache/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jdk-translation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -651,8 +587,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
-                  ehcache
+                <a class="post-title-link" href="/2018/03/24/jdk/jdk-translation/" itemprop="url">
+                  事务
                 </a>
               
             
@@ -726,7 +662,7 @@
 
           
           
-             <span id="/2018/03/24/cache/ehcache/" class="leancloud_visitors" data-flag-title="ehcache">
+             <span id="/2018/03/24/jdk/jdk-translation/" class="leancloud_visitors" data-flag-title="事务">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -759,26 +695,26 @@
       
         
           
-            <p>ehcache service层缓存系统</p>
-<p><strong>发展史</strong></p>
-<pre><code>Ehcache
-开发者（S）    Terracotta，Inc。[1]
-稳定版本
-3.3.0 / 2017年2月1日; 16个月前
-写入    Java的
-操作系统    跨平台
-类型    高速缓存
-执照    Apache许可证 2.0
-网站    www.ehcache.org
+            <p>事务：用来保证几个操作一致性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> 事务必须服从ISO/IEC所制定的ACID原则。</span><br><span class="line"></span><br><span class="line">ACID是原子性（atomicity）、一致性（consistency）、隔离性 （isolation）和持久性（durability）的缩写。</span><br><span class="line"></span><br><span class="line">事务的原子性表示事务执行过程中的任何失败都将导致事务所做的任何修改失效。</span><br><span class="line">一致性表示 当事务执行失败时，所有被该事务影响的数据都应该恢复到事务执行前的状态。</span><br><span class="line">隔离性表示在事务执行过程中对数据的修改，在事务提交之前对其他事务不可见。</span><br><span class="line">持 久性表示已提交的数据在事务执行失败时，数据的状态都应该正确。</span><br></pre></td></tr></table></figure></p>
+<p>简单理解就是 保证一组sql语句的执行完整性、要么全部成功、要么全部失败<br>由于不同的业务环境对事物有不同的要求、通常把事物写到java程序中来控制sql语句通知db环境。<br>默认情况下是一条语句一个事物执行的</p>
+<p>java.sql.Connection  中提供了对于事物的控制方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void setAutoCommit(boolean)</span><br><span class="line">public boolean getAutoCommit()</span><br><span class="line">public void commit()</span><br><span class="line">public void rollback()</span><br></pre></td></tr></table></figure></p>
+<p>JDBC的事务支持</p>
+<p>JDBC对事务的支持体现在三个方面：</p>
+<p>1.自动提交模式(Auto-commit mode)</p>
+<p>Connection提供了一个auto-commit的属性来指定事务何时结束。</p>
+<p>a.当auto-commit为true时，当每个独立SQL操作的执行完毕，事务立即自动提交，也就是说每个SQL操作都是一个事务。</p>
+<p>一个独立SQL操作什么时候算执行完毕，JDBC规范是这样规定的：</p>
+<p>对数据操作语言(DML，如insert,update,delete)和数据定义语言(如create,drop)，语句一执行完就视为执行完毕。</p>
+<p>对select语句，当与它关联的ResultSet对象关闭时，视为执行完毕。</p>
+<p>对存储过程或其他返回多个结果的语句，当与它关联的所有ResultSet对象全部关闭，所有update count(update,delete等语句操作影响的行数)和output parameter(存储过程的输出参数)都已经获取之后，视为执行完毕。</p>
+<p>b. 当auto-commit为false时，每个事务都必须显示调用commit方法进行提交，或者显示调用rollback方法进行回滚。auto-commit默认为true。</p>
+<p>JDBC提供了5种不同的事务隔离级别，在Connection中进行了定义。</p>
+<p>2.事务隔离级别(Transaction Isolation Levels)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">JDBC定义了五种事务隔离级别：</span><br><span class="line"></span><br><span class="line">TRANSACTION_NONE JDBC驱动不支持事务</span><br><span class="line"></span><br><span class="line">TRANSACTION_READ_UNCOMMITTED 允许脏读、不可重复读和幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_READ_COMMITTED 禁止脏读，但允许不可重复读和幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_REPEATABLE_READ 禁止脏读和不可重复读，单运行幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_SERIALIZABLE 禁止脏读、不可重复读和幻读。</span><br></pre></td></tr></table></figure></p>
+<p>3.保存点(SavePoint)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JDBC定义了SavePoint接口，提供在一个更细粒度的事务控制机制。</span><br><span class="line">当设置了一个保存点后，可以rollback到该保存点处的状态，而不是rollback整个事务。</span><br><span class="line"></span><br><span class="line">Connection接口的setSavepoint和releaseSavepoint方法可以设置和释放保存点。</span><br></pre></td></tr></table></figure></p>
+<p>JDBC规范虽然定义了事务的以上支持行为，但是各个JDBC驱动，数据库厂商对事务的支持程度可能各不相同。如果在程序中任意设置，可能得不到想要的效果。为此，JDBC提供了DatabaseMetaData接口，提供了一系列JDBC特性支持情况的获取方法。比如，通过DatabaseMetaData.supportsTransactionIsolationLevel方法可以判断对事务隔离级别的支持情况，通过DatabaseMetaData.supportsSavepoints方法可以判断对保存点的支持情况。</p>
+<p>与事务相关的理论<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1.事务(Transaction)的四个属性(ACID)</span><br><span class="line"></span><br><span class="line">原子性(Atomic) 对数据的修改要么全部执行，要么全部不执行。</span><br><span class="line"></span><br><span class="line">一致性(Consistent) 在事务执行前后，数据状态保持一致性。</span><br><span class="line"></span><br><span class="line">隔离性(Isolated) 一个事务的处理不能影响另一个事务的处理。</span><br><span class="line"></span><br><span class="line">持续性(Durable) 事务处理结束，其效果在数据库中持久化。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2.事务并发处理可能引起的问题</span><br><span class="line"></span><br><span class="line">脏读(dirty read) 一个事务读取了另一个事务尚未提交的数据，</span><br><span class="line"></span><br><span class="line">不可重复读(non-repeatable read) 一个事务的操作导致另一个事务前后两次读取到不同的数据</span><br><span class="line"></span><br><span class="line">幻读(phantom read) 一个事务的操作导致另一个事务前后两次查询的结果数据量不同。</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line"></span><br><span class="line">事务A、B并发执行时，</span><br><span class="line"></span><br><span class="line">当A事务update后，B事务select读取到A尚未提交的数据，此时A事务rollback，则B读到的数据是无效的&quot;脏&quot;数据。</span><br><span class="line"></span><br><span class="line">当B事务select读取数据后，A事务update操作更改B事务select到的数据，此时B事务再次读去该数据，发现前后两次的数据不一样。</span><br><span class="line"></span><br><span class="line">当B事务select读取数据后，A事务insert或delete了一条满足A事务的select条件的记录，此时B事务再次select，发现查询到前次不存在的记录(&quot;幻影&quot;)，或者前次的某个记录不见了。</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://blog.csdn.net/sinat_33536912/article/details/51200630" target="_blank" rel="noopener">转载地址</a><br><a href="https://github.com/davenkin/java_transaction_workshop.git" target="_blank" rel="noopener">github相关使用整理</a></p>
 
-Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
-
-Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
-
-该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
-
-2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
-</code></pre>
           
         
       
@@ -835,7 +771,7 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/redis/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-recovery/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -854,8 +790,8 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/redis/" itemprop="url">
-                  redis
+                <a class="post-title-link" href="/2018/03/24/jdk/jvm-memory-recovery/" itemprop="url">
+                  jvm内存回收
                 </a>
               
             
@@ -929,7 +865,7 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
 
           
           
-             <span id="/2018/03/24/cache/redis/" class="leancloud_visitors" data-flag-title="redis">
+             <span id="/2018/03/24/jdk/jvm-memory-recovery/" class="leancloud_visitors" data-flag-title="jvm内存回收">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -962,15 +898,20 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
       
         
           
-            <p>1、使用ANSIC编写 （基于BSD协议）<br>2、开源、内存中数据结构存储<br>3、可以用作数据库、缓存、消息中间件</p>
-<p>支持多种数据结构<br>String、hash、list、set、sorted sets、bitmaps、geospatial<br>字符串、散列、列表、集合、有序集合、bitmaps、地理空间</p>
-<p>redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations) 和不同级别的硬盘持久化<br>并通过redis哨兵(sentinel)和自动分区(cluster)提高可用性</p>
-<p>Redis支持每隔一段时间将数据导出磁盘、支持主从复制、且第一次是快速非阻塞形式</p>
-<p>由于组合式压缩、内存使用率要高于memcached<br>其他：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">事物</span><br><span class="line">订阅分发</span><br><span class="line">lua脚本</span><br><span class="line">过期自动删除key</span><br><span class="line">自动故障转移</span><br></pre></td></tr></table></figure></p>
-<p>优势<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">性能极高、读11W次/s  写8.1W次/s</span><br><span class="line">丰富的数据类型</span><br><span class="line">原子性操作</span><br><span class="line">丰富特性、支持publish、sub scribe 通知 key过期等等</span><br></pre></td></tr></table></figure></p>
-<p>redis命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">创建当前备份 save</span><br><span class="line">恢复数据：config get dit &quot;dir&quot; &quot;usr/local/redis/bin&quot;</span><br><span class="line">将dump移动到安装目录 并启动服务即可</span><br><span class="line">创建备份：</span><br><span class="line">Bg save</span><br><span class="line">background saving started 该命令后台执行</span><br><span class="line">恢复备份</span><br><span class="line">redis-cli --rdb /tmp/dump.rdb</span><br><span class="line">检查主从数据流：从模式 redis-cli --slave</span><br><span class="line">从配置修改: slave-read-only yes</span><br><span class="line">从数据库: slave of host:port</span><br><span class="line">清空: flushall</span><br><span class="line">远程连接: redis-cli -h host -p port -a password</span><br></pre></td></tr></table></figure></p>
-<p>redis发布订阅<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">声明客户端 subscribe  redischat</span><br><span class="line">推动消息 publish redischat &quot;this is a exp&quot;</span><br><span class="line">创建集合 sadd a redis</span><br><span class="line">set sadd a memcached</span><br><span class="line">smembers a</span><br><span class="line">创建列表结合list</span><br><span class="line">lpush a redis</span><br><span class="line">lpush a mysql</span><br><span class="line">lrange a 0/0</span><br></pre></td></tr></table></figure></p>
-<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum install redis -y</span><br><span class="line"></span><br><span class="line">cat /etc/redis.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">默认配置可能要修改的数据</span><br><span class="line">logfile /var/log/redis/redis.log</span><br><span class="line">slave-serve-stale-data yes</span><br><span class="line">slave-read-only yes</span><br><span class="line">#requirepass redisPassword</span><br><span class="line"></span><br><span class="line"># The filename where to dump the DB</span><br><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure></p>
+            <p>回收区域：堆【主要区域】、方法区【回收废弃常量、无用类】</p>
+<p>无用类定义：<br>1、jvm中不存在该实例<br>2、加载该类classLoader已被回收<br>3、任何地方都不存在引用</p>
+<p>回收算法：<br>1、标记清除<br>2、标记整理<br>3、复制<br>4、分代收集</p>
+<p>回收器：<br>单线程<br>1、serial<br>2、serial old<br>多线程<br>1、parNew<br>2、parallel scavenge<br>3、parallel old<br>4、cms<br>5、G1</p>
+<p>回收新生代<br>serial、parNew、parallel scavenge</p>
+<p>回收老年代<br>cms、serial old、parallel old</p>
+<p>分代收集 G1</p>
+<p><strong>serial</strong><br>最老、也是默认回收算法、单线程<br>缺点：暂定所有用户进程来回收垃圾、每一小时有五分钟不能给用户提供服务<br>优点:   简单高效<br>适合场景、clent模式</p>
+<p><strong>ParNew</strong><br>serial多线程版本<br>场景：参考serial 多核处理器</p>
+<p><strong>Parallel scavenge</strong><br>1、复制算法<br>2、目标、回收达到一个可控的吞吐量【吞吐量=运行代码时间/（运行代码时间+GC时间）】<br>3、吞吐量优先收集器</p>
+<p><strong>serial old</strong><br>1、单线程、标记整理算法<br>2、serial 老版本<br>3、jdk1.5之前配合Parallel scavenge、cms后备预案</p>
+<p><strong>parallel old</strong><br>1、Parallel scavenge老版本<br>2、标记整理算法<br>3、注重吞吐量以及CPU资源敏感场景、使用Parallel scavenge  ++ parallel old<br>4、吞吐量优先</p>
+<p><strong>CMS</strong><br>1、标记清除<br>2、目标：最短回收停顿时间<br>3、四个步骤：初始标记、并发标记、重新标记、并发清除</p>
+<p><strong>G1</strong><br>1、1.7HotSpot重要进化特征<br>2、优点：并行并发、分代收集、空间整合【标记整理】、可预测停顿<br>3、四个步骤：初始标记、并发标记、最终标记、筛选回收</p>
 
           
         
@@ -1299,6 +1240,12 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
 
 
 
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1273992689&web_id=1273992689" language="JavaScript"></script>
+  </div>
 
 
 

@@ -771,7 +771,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -790,8 +790,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-total/" itemprop="url">
-                  SQL优化【总方向】
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-total-2/" itemprop="url">
+                  常见MYSQL调优策略
                 </a>
               
             
@@ -865,7 +865,7 @@
 
           
           
-             <span id="/2018/03/24/mysql/optimization-sql-total/" class="leancloud_visitors" data-flag-title="SQL优化【总方向】">
+             <span id="/2018/03/24/mysql/optimization-sql-total-2/" class="leancloud_visitors" data-flag-title="常见MYSQL调优策略">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -898,15 +898,17 @@
       
         
           
-            <p>老生常谈 SQL 优化<br>而且一百度一堆，却没有一个令人满意的</p>
-<p>秉承官方文档 原则 【MYSQL第八章 SQL优化】</p>
-<p>优化方向：<br>SQL查询and存储<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sql语句</span><br><span class="line">sql索引</span><br><span class="line">sql数据库结构</span><br><span class="line">sql表【InnoDb表、MyISAM表、Memory表】</span><br></pre></td></tr></table></figure></p>
-<p>缓存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">查询优化器</span><br><span class="line">缓冲和高速缓冲区</span><br></pre></td></tr></table></figure></p>
-<p>锁<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">优化锁定操作</span><br></pre></td></tr></table></figure></p>
-<p>MYSQL服务器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">系统因素-并发量</span><br><span class="line">磁盘IO</span><br><span class="line">内存使用</span><br><span class="line">网络使用</span><br></pre></td></tr></table></figure></p>
-<p>检查<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">检查线程信息</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-2cec330583be3f8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-4a09738bdf68cbfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+            <p>调优层次：硬件层、磁盘IO、文件系统层、</p>
+<p><strong>硬件层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">修改服务器BIOS设置</span><br><span class="line">1.选择Performance Per Watt Optimized(DAPC)模式 、发挥cpu最大性能</span><br><span class="line">2.Memory Frequency(内存频率)选择 Maximum Performance (最佳性能)</span><br><span class="line">3.内存设置菜单中，启用Node Interleaving 避免NUMA问题</span><br></pre></td></tr></table></figure></p>
+<p><strong>磁盘IO</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用SSD磁盘(瞬时写入非常高、还可以避免很多技术问题)</span><br><span class="line">2.如果是磁盘阵列存储，建议阵列卡同时配备CACHE及BBU模块，可以明显提升IOPS。</span><br><span class="line">3.raid级别尽量选择raid10.而不是raid5(双io方式、也能提高安全性等等)</span><br></pre></td></tr></table></figure></p>
+<p><strong>文件系统层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用deadline/noop这两种I/O调度器。千万别用cfq</span><br><span class="line">2.使用xfs文件系统、千万别用ext3、ext4勉强可用、但是事务量很大一定要用xfs</span><br><span class="line">3.文件系统mount参数中增加：noatime，nodiratime，nobarrier几个选项(nobarrier是xfs文件系统特有的)</span><br></pre></td></tr></table></figure></p>
+<p><strong>内核参数优化</strong></p>
+<pre><code>1.修改vm.swappiness参数，降低swap使用率，RHEL7/centos7以上则慎重设置为0，可能引发OOM(物理内存使用到了90%之后才去修改、设为5-10就可以)
+2.调整vm.dirty_background_ratio(脏数据量占内存量百分比、超过后将脏数据刷到磁盘、最大值（阻塞写）10%)、vm.dirty ratio(标准值（非阻塞写）5%) 内核参数、以确保能持续将脏数据刷新到磁盘，避免瞬I/O写，产生等待。
+3.调整net.ipv4.tcp_tw_recycle、net.ipv4.tcp_tw_reuse都设置为1、减少Time_wait,提高TCP效率
+
+</code></pre><p><strong>MYSQL参数优化建议</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-799fd7a3af94d8ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-cdec42962ed0224d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2"></p>
 
           
         
@@ -1235,6 +1237,12 @@
 
 
 
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1273992689&web_id=1273992689" language="JavaScript"></script>
+  </div>
 
 
 
