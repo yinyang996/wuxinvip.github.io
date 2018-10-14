@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/zuul/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/spring-cloud-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/zuul/" itemprop="url">
-                  zuul
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/spring-cloud-1/" itemprop="url">
+                  spring cloud 总 架构图
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/spring-cloud/zuul/" class="leancloud_visitors" data-flag-title="zuul">
+             <span id="/2018/03/24/spring-cloud/spring-cloud-1/" class="leancloud_visitors" data-flag-title="spring cloud 总 架构图">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,20 +489,14 @@
       
         
           
-            <p>zuul</p>
-<p>是架设在整个springcloud微服务服务网中的门户模块<br>所有的外界访问请求 都要经过 这个模块<br>zuul结合eureka 可以做到动态服务代理</p>
-<p>实现功能：</p>
-<ul>
-<li>1、身份验证和安全性-识别每个资源的身份验证要求并拒绝不满足的要求</li>
-<li>2、洞察和检测-在边缘跟踪有意义的数据和统计数据、以便为我们提供准确的生产视图</li>
-<li>3、动态路由-根据需要将请求动态路由到不同的后端集群</li>
-<li>4、压力测试-逐渐增加到群集的流量，以衡量表现</li>
-<li>5、加载Shedding-为每种类型的请求分配容量，并删除超出限制的请求</li>
-<li>6、静态响应处理-直接边缘建立响应、而不是将他们转发到内部群集</li>
-<li>7、多区域弹性-跨AWS区域的路由请求、以使我们的ELB使用多样化、并使我们的边缘更接近我们的成员</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">组件包含：</span><br><span class="line">zuul-core ：包含编译和执行过滤器的核心功能的库</span><br><span class="line">zuul-simple-webapp ：它显示了如何用zuul-core 构建一个应用程序的简单例子</span><br><span class="line">zuul-netflix ： 将其他NetflixOSS组件添加到Zuul的库 使用功能区来执行路由请求</span><br><span class="line">zuul-netflix-webapp ：webapp 把zuul-core 和 zuul-netflix 组合成一个 易于使用的软件包</span><br></pre></td></tr></table></figure>
-<p>官方架构<br><img src="http://upload-images.jianshu.io/upload_images/6434888-5569728ff93abbdf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-d7f0fb7315ad664a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-6001018c84d36f24.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-aa10c11f1f366701.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.jpg"></p>
+<p>版权所有 转载 请表明出处</p>
+<p><a href="https://gitee.com/none_heart/base-cloud.git" target="_blank" rel="noopener">相关代码地址</a></p>
+<p>纠正：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cli 是 结合grovy脚本 工程</span><br><span class="line">consul 是服务注册中心 不过可以结合docker做更容易扩散的集群中心</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">总结下 ： 可以说 spring cloud 服务中 包括各种spring 基础服务也有了很多更新</span><br><span class="line"></span><br><span class="line">有RPC 框架的 注册 netflix</span><br><span class="line">有 关于配置的 远程仓库配置 config</span><br><span class="line">有 关于消息 bus stream</span><br><span class="line">有关于app的 for android (提供RestTemplate)</span><br><span class="line">有关任务调度 的 task</span><br><span class="line">有关于 shell 编程</span><br><span class="line">有关于安全方面的</span><br><span class="line">有关于系统拦截 zuul</span><br><span class="line">等等。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">那么看名字可以分为两种</span><br><span class="line">1、Spring * --- spring 为了完善&quot;应用&quot;增加的功能机制  例如 spring security 、spring vault、等等</span><br><span class="line">2、Spring Cloud * ---spring cloud * 是在 微服务中 为了&quot;微服务系统&quot;更方便的集成 对各个功能模块进行封装的结果、</span><br></pre></td></tr></table></figure>
 
           
         
@@ -542,19 +536,6 @@
   
   
   </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 
 
     
@@ -573,7 +554,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/spring-roo/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/dos/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -592,8 +573,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/spring-roo/" itemprop="url">
-                  spring Roo
+                <a class="post-title-link" href="/2018/03/24/hack/dos/" itemprop="url">
+                  DOS攻击工具
                 </a>
               
             
@@ -651,7 +632,7 @@
 
           
           
-             <span id="/2018/03/24/spring-cloud/spring-roo/" class="leancloud_visitors" data-flag-title="spring Roo">
+             <span id="/2018/03/24/hack/dos/" class="leancloud_visitors" data-flag-title="DOS攻击工具">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -684,9 +665,10 @@
       
         
           
-            <p>what？<br>      使用命令行形式构建项目</p>
-<p>下载地址：<a href="https://projects.spring.io/spring-roo/#running-from-shell" target="_blank" rel="noopener">https://projects.spring.io/spring-roo/#running-from-shell</a></p>
-<p>快速搭建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mkdir hello</span><br><span class="line">cd hello</span><br><span class="line">roo.sh</span><br><span class="line">roo&gt; project setup --topLevelPackage com.foo</span><br><span class="line">roo&gt; jpa setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY</span><br><span class="line">roo&gt; entity jpa --class ~.domain.Timer</span><br><span class="line">roo&gt; field string --fieldName message --notNull</span><br><span class="line">roo&gt; repository jpa --all</span><br><span class="line">roo&gt; service --all</span><br><span class="line">roo&gt; web mvc setup</span><br><span class="line">roo&gt; web mvc view setup --type THYMELEAF</span><br><span class="line">roo&gt; web mvc controller --all --responseType THYMELEAF</span><br><span class="line">roo&gt; web mvc controller --all --pathPrefix /api</span><br><span class="line">roo&gt; quit</span><br><span class="line">mvn spring-boot:run</span><br></pre></td></tr></table></figure></p>
+            <p>1.slowhttptest<br>慢速dos攻击 原理 发送一个不完整的数据包.引起服务器保留链接资源.以达成耗费服务器资源目的</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">bt5 r3安装过程是这样的,你先移动到根目录 运行命令：</span><br><span class="line">wget http://slowhttptest.googlecode.com/files/slowhttptest-1.5.tar.gz 第一条：下载</span><br><span class="line">tar -vxf slowhttptest-1.5.tar.gz 解压</span><br><span class="line">cd slowhttptest-1.5/ 进入目录</span><br><span class="line">./configure 再往下你懂的</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line">测试白帽攻击是这样的：</span><br><span class="line">slowhttptest -c 1000 -X -g -o -slow_read_stats -r 200 -w 512 -y 1024 -n 5 -z 32 -k 3 -u http://www.loveuv.net -p 3</span><br><span class="line">参数：</span><br><span class="line">—a —开始开始值范围说明符用于范围头测试</span><br><span class="line">-b 将字节限制的范围说明符用于范围头测试</span><br><span class="line">- c 的连接数限制为65539</span><br><span class="line">- d proxy host:port 用于指导所有流量通过web代理</span><br><span class="line">- e proxy host:port 端口用于指导只有探针交通通过web代理</span><br><span class="line">- h,B,R或x 指定减缓在头部分或在消息体,- R 允许范围检验,使慢读测试- x</span><br><span class="line">- g 生成统计数据在CSV和HTML格式,模式是缓慢的xxx。csv / html,其中xxx是时间和日期</span><br><span class="line">- i seconds 秒间隔跟踪数据在几秒钟内,每个连接</span><br><span class="line">- k 管道因子次数重复请求在同一连接慢读测试如果服务器支持HTTP管道内衬。</span><br><span class="line">- l 在几秒钟内，秒测试时间</span><br><span class="line">- n 秒间隔从接收缓冲区读取操作</span><br><span class="line">- o 文件定义输出文件路径和/或名称,如果指定有效- g</span><br><span class="line">- p 秒超时等待HTTP响应在探头连接后,服务器被认为是不可访问的</span><br><span class="line">- r seconds 连接速度</span><br><span class="line">- s 字节值的内容长度标题详细说明,如果指定- b</span><br><span class="line">- t verb 自定义</span><br><span class="line">- u URL 目标URL,相同的格式键入浏览器,e。g https://host[:port]/</span><br><span class="line">- v level 冗长等级0 - 4的日志</span><br><span class="line">- w 字节范围广告的窗口大小会选择从</span><br><span class="line">- x 字节最大长度的跟踪数据结束</span><br><span class="line">- y 字节范围广告的窗口大小会选择从</span><br><span class="line">- z 字节从接收缓冲区读取字节与单一的read()操作</span><br></pre></td></tr></table></figure>
+<p>也可以查看 man slowhttptest</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-2154e6343cf62f9f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/q/50" alt="图片发自简书App"></p>
 
           
         
@@ -726,19 +708,6 @@
   
   
   </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 
 
     
@@ -757,7 +726,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring/spring-crontab/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/spring-cloud-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -776,8 +745,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring/spring-crontab/" itemprop="url">
-                  spring-定时任务
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/spring-cloud-2/" itemprop="url">
+                  spring cloud 族谱
                 </a>
               
             
@@ -835,7 +804,7 @@
 
           
           
-             <span id="/2018/03/24/spring/spring-crontab/" class="leancloud_visitors" data-flag-title="spring-定时任务">
+             <span id="/2018/03/24/spring-cloud/spring-cloud-2/" class="leancloud_visitors" data-flag-title="spring cloud 族谱">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -868,7 +837,13 @@
       
         
           
-            <p>@scheduled注解执行表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">0 0 10,14,16 * * ? 每天上午10点，下午2点，4点</span><br><span class="line">0 0/30 9-17 * * ?   朝九晚五工作时间内每半小时</span><br><span class="line">0 0 12 ? * WED 表示每个星期三中午12点</span><br><span class="line">&quot;0 0 12 * * ?&quot; 每天中午12点触发</span><br><span class="line">&quot;0 15 10 ? * *&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ?&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ? *&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ? 2005&quot; 2005年的每天上午10:15触发</span><br><span class="line">&quot;0 * 14 * * ?&quot; 在每天下午2点到下午2:59期间的每1分钟触发</span><br><span class="line">&quot;0 0/5 14 * * ?&quot; 在每天下午2点到下午2:55期间的每5分钟触发</span><br><span class="line">&quot;0 0/5 14,18 * * ?&quot; 在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发</span><br><span class="line">&quot;0 0-5 14 * * ?&quot; 在每天下午2点到下午2:05期间的每1分钟触发</span><br><span class="line">&quot;0 10,44 14 ? 3 WED&quot; 每年三月的星期三的下午2:10和2:44触发</span><br><span class="line">&quot;0 15 10 ? * MON-FRI&quot; 周一至周五的上午10:15触发</span><br><span class="line">&quot;0 15 10 15 * ?&quot; 每月15日上午10:15触发</span><br><span class="line">&quot;0 15 10 L * ?&quot; 每月最后一日的上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6L&quot; 每月的最后一个星期五上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6L 2002-2005&quot; 2002年至2005年的每月的最后一个星期五上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6#3&quot; 每月的第三个星期五上午10:15触发</span><br></pre></td></tr></table></figure></p>
+            <p>功能简介来自官网<br>整理人：无心</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-62c252d188cc323b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （一）_7.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cbaa0e5231ad5957.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （二）_8.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-d83fdc2d81c655a0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （三）_9.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-8ae4d6293e2169ea.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （四）_10.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-81c3451edd0b17ef.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （五）_11.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">总结下 ： 可以说 spring cloud 服务中 包括各种spring 基础服务也有了很多更新</span><br><span class="line"></span><br><span class="line">有RPC 框架的 注册 netflix</span><br><span class="line">有 关于配置的 远程仓库配置 config</span><br><span class="line">有 关于消息 bus stream</span><br><span class="line">有关于app的 for android (提供RestTemplate)</span><br><span class="line">有关任务调度 的 task</span><br><span class="line">有关于 shell 编程</span><br><span class="line">有关于安全方面的</span><br><span class="line">有关于系统拦截 zuul</span><br><span class="line">等等。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">那么看名字可以分为两种</span><br><span class="line">1、Spring * --- spring 为了完善&quot;应用&quot;增加的功能机制  例如 spring security 、spring vault、等等</span><br><span class="line">2、Spring Cloud * ---spring cloud * 是在 微服务中 为了&quot;微服务系统&quot;更方便的集成 对各个功能模块进行封装的结果、</span><br></pre></td></tr></table></figure>
 
           
         
@@ -908,25 +883,28 @@
   
   
   </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 
 
     
   </section>
 
   
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/43/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><span class="page-number current">44</span><a class="page-number" href="/page/45/">45</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="extend next" rel="next" href="/page/45/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1161,6 +1139,10 @@
       </section>
 
       
+      
+
+
+      
 
       
         <div class="back-to-top">
@@ -1170,7 +1152,6 @@
           
         </div>
       
-
     </div>
   </aside>
 

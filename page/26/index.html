@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/rpc/dubbo-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/essay/essay-13/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/rpc/dubbo-1/" itemprop="url">
-                  dubbo分析
+                <a class="post-title-link" href="/2018/03/24/essay/essay-13/" itemprop="url">
+                  阿里面霸总结的面试题
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/rpc/dubbo-1/" class="leancloud_visitors" data-flag-title="dubbo分析">
+             <span id="/2018/03/24/essay/essay-13/" class="leancloud_visitors" data-flag-title="阿里面霸总结的面试题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,18 +489,9 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">手册地址:https://gitee.com/none_heart/RPC/raw/master/dubbo/doc/dubbo-用户指南-带标签.pdf</span><br></pre></td></tr></table></figure>
-<p>RPC Remote Procedure call 远程过程调用</p>
-<p>一个RPC框架有几个特点:<br>远程调用.协议.暴露端口方式<br>稳定性.一致性.容错性<br>并发性.<br>简单插入性.高度解耦</p>
-<p>那么从这几个方面来思考dubbo</p>
-<p><strong>协议:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dubbo缺省协议采用单一长连接和NIO异步通讯，适合于小数据量大并发的服务调用，以及服务消费者机器数远大于服务提供者机器数的情况。</span><br><span class="line"></span><br><span class="line">缺省协议，使用基于mina1.1.7+hessian3.2.1的tbremoting交互。</span><br><span class="line"></span><br><span class="line">连接个数：单连接</span><br><span class="line">连接方式：长连接</span><br><span class="line">传输协议：TCP</span><br><span class="line">传输方式：NIO异步传输</span><br><span class="line">序列化：Hessian二进制序列化</span><br><span class="line">适用范围：传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</span><br><span class="line">适用场景：常规远程服务方法调用</span><br></pre></td></tr></table></figure></p>
-<p><strong>高可用-容错性:</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-330842d2593cb2af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>五种回调方式:Failover.Failfast.Failsafe.Failback.Forking<br>应对不同场景使用不同回调方式</p>
-<p><strong>高可用-负载均衡</strong><br>dubbo支持 随机.轮询.最小调用次数调用.hash值余数调用</p>
-<p><strong>并发-线程</strong><br><img src="http://upload-images.jianshu.io/upload_images/6434888-44726a6f519dd60e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>没什么可说的.该用就得用.但是不能乱用.</p>
-<p><strong>服务暴露地址:多协议.多注册方式.无中心化</strong><br><img src="http://upload-images.jianshu.io/upload_images/6434888-5e36e7fdf0869da0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong>参数校验.服务分组等等</strong></p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">（1）自我介绍，做过什么项目。</span><br><span class="line">（2）java虚拟机的区域如何划分，每一个区的动能，这一块自由发挥。</span><br><span class="line">（3）双亲委派模型中，从顶层到底层，都是哪些类加载器，分别加载哪些类？</span><br><span class="line">（4）有没有可能父类加载器和子类加载器，加载同一个类？如果加载同一个类，该使用哪一个类？</span><br><span class="line">（5）HashMap的结构，get()，put()是如何实现的？HashMap有哪些问题？</span><br><span class="line">（6）ConcurrentHashMap的get()，put()，又是如何实现的？ConcurrentHashMap有哪些问题？ ConcurrentHashMap的锁是读锁还是写锁？</span><br><span class="line">（7） HashMap与HashTable的区别</span><br><span class="line">（8）sleep()和wait()分别是哪个类的方法，有什么区别？synchronized底层如何实现的？用在代码块和方法上有什么区别？</span><br><span class="line">（9）什么是线程池？如果让你设计一个动态大小的线程池，如何设计，应该有哪些方法？</span><br><span class="line">（10）什么是死锁？JVM线程死锁，你该如何判断是因为什么？如果用VisualVM，dump线程信息出来，会有哪些信息？这一块问的很多....问的我懵了. 因为并没有实际操作过 = =</span><br><span class="line">（11）查看jvm虚拟机里面堆、线程的信息，你用过什么命令？我只用过图形界面VisualVM。。。</span><br><span class="line">（12）垃圾回收算法有哪些？CMS知道吗？如何工作的？</span><br><span class="line">（13）数据库中什么是事务？事务的隔离级别？事务的四个特性？什么是脏读，幻读，不可重复读？</span><br><span class="line">（14）数据库索引的结构有哪些？我说B树和B+树，他说只有这两个吗。我又说全文倒排索引。然后介绍B+树的结构。</span><br><span class="line">（15）数据库中的分页查询语句怎么写？</span><br><span class="line">（16）什么是一致性哈希？用来解决什么问题？</span><br><span class="line">（17）Redis的存储结构，或者说如何工作的，与mysql的区别？有哪些数据类型？</span><br><span class="line">（18）项目中用到redis，为什么选用redis，了解其他NoSQL数据库吗？在你的项目中是如何运用redis的？key是什么，value是什么？</span><br><span class="line">（19）归并排序的过程？时间复杂度？空间复杂度？</span><br><span class="line">（20）你平常用什么排序？快速排序。说说在那些场景下适用，哪些场景下不适用。</span><br><span class="line">（21）你在项目中做什么？因为我用到Solr，他就问我Solr是如何工作的？</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">（1）自我介绍。</span><br><span class="line">（2）JVM如何加载一个类的过程，双亲委派模型中有哪些方法？</span><br><span class="line">（3）HashMap如何实现的？</span><br><span class="line">（4）HashMap和Concurrent HashMap区别， Concurrent HashMap 线程安全吗， Concurrent HashMap如何保证 线程安全？</span><br><span class="line">（5）HashMap和HashTable 区别，HashTable线程安全吗？</span><br><span class="line">（6）进程间通信有哪几种方式？</span><br><span class="line">（7）JVM分为哪些区，每一个区干吗的？</span><br><span class="line">（8）JVM如何GC，新生代，老年代，持久代，都存储哪些东西？</span><br><span class="line">（9）GC用的引用可达性分析算法中，哪些对象可作为GC Roots对象？</span><br><span class="line">（10）快速排序，过程，复杂度？</span><br><span class="line">（11）什么是二叉平衡树，如何插入节点，删除节点，说出关键步骤。</span><br><span class="line">（12）TCP如何保证可靠传输？三次握手过程？</span><br><span class="line">（13）TCP和UDP区别？</span><br><span class="line">（14）滑动窗口算法？</span><br><span class="line">（15）Linux下如何进行进程调度的？</span><br><span class="line">（16）Linux下你常用的命令有哪些？</span><br><span class="line">（17）操作系统什么情况下会死锁？</span><br><span class="line">（18）常用的hash算法有哪些？</span><br><span class="line">（19）什么是一致性哈希？</span><br><span class="line">（20）如何理解分布式锁？</span><br><span class="line">（21）数据库中的范式有哪些？</span><br><span class="line">（22）数据库中的索引的结构？什么情况下适合建索引？</span><br><span class="line">（23）Java中的NIO，BIO，AIO分别是什么？</span><br><span class="line">（24）用什么工具调试程序？JConsole，用过吗？</span><br><span class="line">（25）现在JVM中有一个线程挂起了，如何用工具查出原因？</span><br><span class="line">（26）线程同步与阻塞的关系？同步一定阻塞吗？阻塞一定同步吗？</span><br><span class="line">（27）同步和异步有什么区别？</span><br><span class="line">（28）线程池用过吗？</span><br><span class="line">（29）如何创建单例模式？说了双重检查，他说不是线程安全的。如何高效的创建一个线程安全的单例？</span><br><span class="line">（30）concurrent包下面，都用过什么？</span><br><span class="line">（31）常用的数据库有哪些？redis用过吗？</span><br><span class="line">（32）了解hadoop吗？说说hadoop的组件有哪些？hdfs，hive,hbase,zookeeper。说下mapreduce编程模型。</span><br><span class="line">（33）你知道的开源协议有哪些？</span><br><span class="line">（34）你知道的开源软件有哪些？</span><br><span class="line">（35）你最近在看的书有哪些？</span><br><span class="line">（36）你有什么问题要问我吗？</span><br><span class="line">（37）了解哪些设计模式？说说都用过哪些设计模式</span><br><span class="line">（38）如何判断一个单链表是否有环？</span><br><span class="line">（39）操作系统如何进行分页调度？</span><br><span class="line">（40）匿名内部类是什么？如何访问在其外面定义的变量？</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HashMap和Hashtable的区别</span><br><span class="line">实现一个保证迭代顺序的HashMap</span><br><span class="line">说一说排序算法，稳定性，复杂度</span><br><span class="line">说一说GC</span><br><span class="line">可以保证的实习时长</span><br><span class="line">职业规划</span><br></pre></td></tr></table></figure>
 
           
         
@@ -540,19 +531,6 @@
   
   
   </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 
 
     
@@ -571,7 +549,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/rpc/dubbo-0/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-care-point/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -590,8 +568,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/rpc/dubbo-0/" itemprop="url">
-                  假如让你设计一个dubbo【一】
+                <a class="post-title-link" href="/2018/03/24/mysql/mysql-care-point/" itemprop="url">
+                  mysql-care点
                 </a>
               
             
@@ -649,7 +627,7 @@
 
           
           
-             <span id="/2018/03/24/rpc/dubbo-0/" class="leancloud_visitors" data-flag-title="假如让你设计一个dubbo【一】">
+             <span id="/2018/03/24/mysql/mysql-care-point/" class="leancloud_visitors" data-flag-title="mysql-care点">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -682,43 +660,7 @@
       
         
           
-            <p>假设我们开发一个rpc远程调用框架</p>
-<p>那么这个框架需要怎么去写</p>
-<ul>
-<li>1、首先有远程配置中心config</li>
-<li>2、有服务代理层【包装业务上的服务做一个代理】</li>
-<li>3、有服务注册中心【代理了服务之后 向该注册中心注册服务代理】</li>
-<li>4、有路由【远程调用先走路由获取服务代理实例、集群必备的东西】</li>
-<li>5、有远程调用层【发起服务调用】</li>
-<li>6、有网络传输层、有信息交换层【这个是一个传输协议的实现层】</li>
-<li>7、有序列化层【针对网络IO信息编码方式的统一、传输协议最基本的东西】</li>
-<li>8、服务监控【不属于RPC、但是服务监控必不可少】</li>
-</ul>
-<p>总结：</p>
-<ul>
-<li>核心配置：服务注册中心、服务代理和服务调用</li>
-<li>优化配置：配置中心、服务监控、</li>
-<li>基石配置：网络传输以及协议、序列化方式的定制</li>
-</ul>
-<p><a href="http://dubbo.apache.org/books/dubbo-dev-book/design.html" target="_blank" rel="noopener">dubbo框架设计</a></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-efad1aa420ebfed2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dubbo-framework.jpg"></p>
-<p><strong>简单用自己的语言描述这个图</strong></p>
-<ul>
-<li>1、左上角 Dubbo Framework</li>
-<li>2、左上角往右简单标识 每个颜色代表什么意思、更好理解图中数据流向</li>
-<li>消费者、提供者、开始、接口、类、继承关系、调用链方向、依赖方向</li>
-<li>3、左侧一竖列、黑体字 service\config、等等</li>
-<li>服务接口【service】、配置层【config】、服务代理层【proxy】、注册中心【registry】、</li>
-<li>路由【cluster】、监控中心【monitor】、远程调用【protocol】、</li>
-<li>信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
-</ul>
-<p>结合自己所想做一个分类</p>
-<ul>
-<li>核心配置：服务代理层【proxy】、注册中心【registry】、远程调用【protocol】</li>
-<li>优化配置：配置层【config】、路由【cluster】、监控中心【monitor】</li>
-<li>基石配置：信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
-</ul>
-<p><strong>简单猜想一下dubbo这么设计的代码架构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">service：对外暴露接口 API与SPI分离</span><br><span class="line"></span><br><span class="line">config：核心referenceConfig、ServiceConfig</span><br><span class="line">              serviceConfig----获取远程仓库配置、获取文件配置、貌似还可以获取环境变量</span><br><span class="line">              【实质上跟修改本地host一个道理、规定了一个locahost代理 然后操作系统去解析这个配置】</span><br><span class="line"></span><br><span class="line">referenceConfig--是消费端配置、其应该是从服务端获取配置信息</span><br><span class="line"></span><br><span class="line">proxy：不由想到代理模式、原业务逻辑bean不变、新建bean来实现原bean的代理【也算是一种封装】</span><br><span class="line"></span><br><span class="line">registry：注册中心、看过eureka、底层内存中维护了 一个双map结构数据列表、维护服务实例、服务地址、以及代理service等</span><br><span class="line"></span><br><span class="line">cluster：路由器、想到最简单的就是url转发、当然肯定没这么简单、应该还会有、实时获取服务列表、负载均衡算法等等</span><br><span class="line"></span><br><span class="line">monitor：监控中心、这个web服务把各路信息提上来做一个展示、应该没啥、最多维护一个硬盘文件</span><br><span class="line"></span><br><span class="line">protocol：远程调用、怎么调用--不太清楚--再看看</span><br><span class="line"></span><br><span class="line">exchange：信息交换、request、response封装</span><br><span class="line"></span><br><span class="line">transport：网络传输、大名鼎鼎的netty就在这吧~~</span><br><span class="line"></span><br><span class="line">seriallize：数据序列化、提供多重序列化方式、hessian【本地存根方式】、rmi等等吧</span><br></pre></td></tr></table></figure></p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">查询缓存从 Mysql5.7.20开始已经弃用、并在MySQL8.0中删除</span><br></pre></td></tr></table></figure>
 
           
         
@@ -758,19 +700,6 @@
   
   
   </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 
 
     
@@ -789,7 +718,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/essay/essay-10/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-design-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -808,8 +737,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/essay/essay-10/" itemprop="url">
-                  架构师之路
+                <a class="post-title-link" href="/2018/03/24/mysql/mysql-design-1/" itemprop="url">
+                  数据库设计三大范式
                 </a>
               
             
@@ -867,7 +796,7 @@
 
           
           
-             <span id="/2018/03/24/essay/essay-10/" class="leancloud_visitors" data-flag-title="架构师之路">
+             <span id="/2018/03/24/mysql/mysql-design-1/" class="leancloud_visitors" data-flag-title="数据库设计三大范式">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -900,18 +829,26 @@
       
         
           
-            <p>本着对技术的兴趣 进入了软件开发行业</p>
-<p>可以说是如鱼得水的发展 凭借着年轻 挑灯夜战 掌握了许多技术应用、但仍脱不开技术应用者的领域</p>
-<p>如今职业发展遇到瓶颈-该思考何去何从</p>
-<p>想来想去只有选择架构师为发展方向</p>
-<p><strong>怎样成为一个架构师？</strong></p>
-<p><strong>首先什么是架构师？</strong></p>
-<p>随着互联网应用的快速发展、各个领域相继进入互联网、各种业务形式的应用、一个合理的架构应对服务流量冲击显得尤为重要</p>
-<p>那么应用架构针对应用更好的优化、分解、先有soa、后有微服务概念、<br>对于这个整体的请求走势要做到心中有数、到细节中每个请求的所经过的服务器心里有谱、对服务器承载能力有着清晰的认识</p>
-<p>脑海里要有一个三维网络图</p>
-<p>同时能细节看到某个节点内部的工作方式、又能从宏观角度看的到请求流转、敏锐感知节点中的压力点</p>
-<p>然后针对业务领域、每个请求的频率、有一个经验教训、才能更好的使用脑海中的技术架构去整合起来业务压力</p>
-<p>外包待出的毛病，除了用，啥都不会</p>
+            <p>1．第一范式(确保每列保持原子性)</p>
+<p>2．第二范式(确保表中的每列都和主键相关)</p>
+<p>3．第三范式(确保每列都和主键列直接相关,而不是间接相关)</p>
+<p>一、第一范式是最基本的范式。如果数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。</p>
+<p>第一范式的合理遵循需要根据系统的实际需求来定。比如某些数据库系统中需要用到“地址”这个属性，本来直接将“地址”属性设计成一个数据库表的字段就行。但是如果系统经常会访问“地址”属性中的“城市”部分，那么就非要将“地址”这个属性重新拆分为省份、城市、详细地址等多个部分进行存储，这样在对地址中某一部分操作的时候将非常方便。这样设计才算满足了数据库的第一范式，如下表所示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-35bd6c5b8893c700.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>上表所示的用户信息遵循了第一范式的要求，这样在对用户使用城市进行分类的时候就非常方便，也提高了数据库的性能。</p>
+<p>二、第二范式在第一范式的基础之上更进一层。第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。</p>
+<p>比如要设计一个订单信息表，因为订单中可能会有多种商品，所以要将订单编号和商品编号作为数据库表的联合主键，如下表所示。</p>
+<p><strong>订单信息表</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-626b1b6125b7b4cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这样就产生一个问题：这个表中是以订单编号和商品编号作为联合主键。这样在该表中商品名称、单位、商品价格等信息不与该表的主键相关，而仅仅是与商品编号相关。所以在这里违反了第二范式的设计原则。</p>
+<p>而如果把这个订单信息表进行拆分，把商品信息分离到另一个表中，把订单项目表也分离到另一个表中，就非常完美了。如下所示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-eb948cdf1c46f67b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这样设计，在很大程度上减小了数据库的冗余。如果要获取订单的商品信息，使用商品编号到商品信息表中查询即可。</p>
+<p>三、第三范式需要确保数据表中的每一列数据都和主键直接相关，而不能间接相关。</p>
+<p>比如在设计一个订单数据表的时候，可以将客户编号作为一个外键和订单表建立相应的关系。而不可以在订单表中添加关于客户其它信息（比如姓名、所属公司等）的字段。如下面这两个表所示的设计就是一个满足第三范式的数据库表。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-5b21ec7fd1581109.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这样在查询订单信息的时候，就可以使用客户编号来引用客户信息表中的记录，也不必在订单信息表中多次输入客户信息的内容，减小了数据冗余。</p>
+<p><a href="https://www.cnblogs.com/chenyang920/p/5268153.html" target="_blank" rel="noopener">转载地址</a></p>
 
           
         
@@ -951,25 +888,28 @@
   
   
   </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 
 
     
   </section>
 
   
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/25/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="extend next" rel="next" href="/page/27/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1204,6 +1144,10 @@
       </section>
 
       
+      
+
+
+      
 
       
         <div class="back-to-top">
@@ -1213,7 +1157,6 @@
           
         </div>
       
-
     </div>
   </aside>
 

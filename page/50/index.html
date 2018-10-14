@@ -534,219 +534,6 @@
   
   </article>
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jdk-translation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/jdk/jdk-translation/" itemprop="url">
-                  事务
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/jdk/jdk-translation/" class="leancloud_visitors" data-flag-title="事务">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>事务：用来保证几个操作一致性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> 事务必须服从ISO/IEC所制定的ACID原则。</span><br><span class="line"></span><br><span class="line">ACID是原子性（atomicity）、一致性（consistency）、隔离性 （isolation）和持久性（durability）的缩写。</span><br><span class="line"></span><br><span class="line">事务的原子性表示事务执行过程中的任何失败都将导致事务所做的任何修改失效。</span><br><span class="line">一致性表示 当事务执行失败时，所有被该事务影响的数据都应该恢复到事务执行前的状态。</span><br><span class="line">隔离性表示在事务执行过程中对数据的修改，在事务提交之前对其他事务不可见。</span><br><span class="line">持 久性表示已提交的数据在事务执行失败时，数据的状态都应该正确。</span><br></pre></td></tr></table></figure></p>
-<p>简单理解就是 保证一组sql语句的执行完整性、要么全部成功、要么全部失败<br>由于不同的业务环境对事物有不同的要求、通常把事物写到java程序中来控制sql语句通知db环境。<br>默认情况下是一条语句一个事物执行的</p>
-<p>java.sql.Connection  中提供了对于事物的控制方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void setAutoCommit(boolean)</span><br><span class="line">public boolean getAutoCommit()</span><br><span class="line">public void commit()</span><br><span class="line">public void rollback()</span><br></pre></td></tr></table></figure></p>
-<p>JDBC的事务支持</p>
-<p>JDBC对事务的支持体现在三个方面：</p>
-<p>1.自动提交模式(Auto-commit mode)</p>
-<p>Connection提供了一个auto-commit的属性来指定事务何时结束。</p>
-<p>a.当auto-commit为true时，当每个独立SQL操作的执行完毕，事务立即自动提交，也就是说每个SQL操作都是一个事务。</p>
-<p>一个独立SQL操作什么时候算执行完毕，JDBC规范是这样规定的：</p>
-<p>对数据操作语言(DML，如insert,update,delete)和数据定义语言(如create,drop)，语句一执行完就视为执行完毕。</p>
-<p>对select语句，当与它关联的ResultSet对象关闭时，视为执行完毕。</p>
-<p>对存储过程或其他返回多个结果的语句，当与它关联的所有ResultSet对象全部关闭，所有update count(update,delete等语句操作影响的行数)和output parameter(存储过程的输出参数)都已经获取之后，视为执行完毕。</p>
-<p>b. 当auto-commit为false时，每个事务都必须显示调用commit方法进行提交，或者显示调用rollback方法进行回滚。auto-commit默认为true。</p>
-<p>JDBC提供了5种不同的事务隔离级别，在Connection中进行了定义。</p>
-<p>2.事务隔离级别(Transaction Isolation Levels)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">JDBC定义了五种事务隔离级别：</span><br><span class="line"></span><br><span class="line">TRANSACTION_NONE JDBC驱动不支持事务</span><br><span class="line"></span><br><span class="line">TRANSACTION_READ_UNCOMMITTED 允许脏读、不可重复读和幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_READ_COMMITTED 禁止脏读，但允许不可重复读和幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_REPEATABLE_READ 禁止脏读和不可重复读，单运行幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_SERIALIZABLE 禁止脏读、不可重复读和幻读。</span><br></pre></td></tr></table></figure></p>
-<p>3.保存点(SavePoint)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JDBC定义了SavePoint接口，提供在一个更细粒度的事务控制机制。</span><br><span class="line">当设置了一个保存点后，可以rollback到该保存点处的状态，而不是rollback整个事务。</span><br><span class="line"></span><br><span class="line">Connection接口的setSavepoint和releaseSavepoint方法可以设置和释放保存点。</span><br></pre></td></tr></table></figure></p>
-<p>JDBC规范虽然定义了事务的以上支持行为，但是各个JDBC驱动，数据库厂商对事务的支持程度可能各不相同。如果在程序中任意设置，可能得不到想要的效果。为此，JDBC提供了DatabaseMetaData接口，提供了一系列JDBC特性支持情况的获取方法。比如，通过DatabaseMetaData.supportsTransactionIsolationLevel方法可以判断对事务隔离级别的支持情况，通过DatabaseMetaData.supportsSavepoints方法可以判断对保存点的支持情况。</p>
-<p>与事务相关的理论<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1.事务(Transaction)的四个属性(ACID)</span><br><span class="line"></span><br><span class="line">原子性(Atomic) 对数据的修改要么全部执行，要么全部不执行。</span><br><span class="line"></span><br><span class="line">一致性(Consistent) 在事务执行前后，数据状态保持一致性。</span><br><span class="line"></span><br><span class="line">隔离性(Isolated) 一个事务的处理不能影响另一个事务的处理。</span><br><span class="line"></span><br><span class="line">持续性(Durable) 事务处理结束，其效果在数据库中持久化。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2.事务并发处理可能引起的问题</span><br><span class="line"></span><br><span class="line">脏读(dirty read) 一个事务读取了另一个事务尚未提交的数据，</span><br><span class="line"></span><br><span class="line">不可重复读(non-repeatable read) 一个事务的操作导致另一个事务前后两次读取到不同的数据</span><br><span class="line"></span><br><span class="line">幻读(phantom read) 一个事务的操作导致另一个事务前后两次查询的结果数据量不同。</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line"></span><br><span class="line">事务A、B并发执行时，</span><br><span class="line"></span><br><span class="line">当A事务update后，B事务select读取到A尚未提交的数据，此时A事务rollback，则B读到的数据是无效的&quot;脏&quot;数据。</span><br><span class="line"></span><br><span class="line">当B事务select读取数据后，A事务update操作更改B事务select到的数据，此时B事务再次读去该数据，发现前后两次的数据不一样。</span><br><span class="line"></span><br><span class="line">当B事务select读取数据后，A事务insert或delete了一条满足A事务的select条件的记录，此时B事务再次select，发现查询到前次不存在的记录(&quot;幻影&quot;)，或者前次的某个记录不见了。</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://blog.csdn.net/sinat_33536912/article/details/51200630" target="_blank" rel="noopener">转载地址</a><br><a href="https://github.com/davenkin/java_transaction_workshop.git" target="_blank" rel="noopener">github相关使用整理</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
 
     
       
@@ -923,7 +710,191 @@
   
   </article>
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jdk-thread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/jdk/jdk-thread/" itemprop="url">
+                  线程
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/24/jdk/jdk-thread/" class="leancloud_visitors" data-flag-title="线程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>线程四种<br>单线程 固定数目线程 缓存线程 定时线程</p>
+<p>关于线程:</p>
+<ul>
+<li>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了</li>
+<li>2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能</li>
+<li>3.线程池数量 差不多是 CPU核数 * 2</li>
+<li>4.阿里编码规范已不推荐使用ExcutorService方法使用线程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样</span><br><span class="line">的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。</span><br><span class="line">说明：Executors 返回的线程池对象的弊端如下：</span><br><span class="line">1）FixedThreadPool 和 SingleThreadPool:</span><br><span class="line">允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。</span><br><span class="line">2）CachedThreadPool 和 ScheduledThreadPool:</span><br><span class="line">允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>代码地址:<a href="https://gitee.com/none_heart/xingchen/tree/master/excutor" target="_blank" rel="noopener">https://gitee.com/none_heart/xingchen/tree/master/excutor</a></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 首页间隔 -->
 <ins class="adsbygoogle"
      style="display:block"
@@ -937,10 +908,7 @@
 
 
 
-    
-  </section>
 
-  
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/49/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><span class="page-number current">50</span><a class="page-number" href="/page/51/">51</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="extend next" rel="next" href="/page/51/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1175,6 +1143,10 @@
       </section>
 
       
+      
+
+
+      
 
       
         <div class="back-to-top">
@@ -1184,7 +1156,6 @@
           
         </div>
       
-
     </div>
   </aside>
 

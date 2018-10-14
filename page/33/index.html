@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/rpc/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/amqp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/rpc/" itemprop="url">
-                  RPC
+                <a class="post-title-link" href="/2018/03/24/agreement/amqp/" itemprop="url">
+                  AMQP
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/agreement/rpc/" class="leancloud_visitors" data-flag-title="RPC">
+             <span id="/2018/03/24/agreement/amqp/" class="leancloud_visitors" data-flag-title="AMQP">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,23 +489,13 @@
       
         
           
-            <p>RPC（Remote Procedure Call）—远程过程调用</p>
-<p><strong>工作原理</strong></p>
-<ul>
-<li>1.调用客户端句柄；执行传送参数</li>
-<li>2.调用本地系统内核发送网络消息</li>
-<li>3.消息传送到远程主机</li>
-<li>4.服务器句柄得到消息并取得参数</li>
-<li><p>5.执行远程过程</p>
-</li>
-<li><p>6.执行的过程将结果返回服务器句柄</p>
-</li>
-<li>7.服务器句柄返回结果，调用远程系统内核</li>
-<li>8.消息传回本地主机</li>
-<li>9.客户句柄由内核接收消息</li>
-<li>10.客户接收句柄返回的数据</li>
-</ul>
-<p><strong>协议结构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">远程过程调用（RPC）信息协议由两个不同结构组成：调用信息和答复信息。信息流程如下所示：</span><br><span class="line">RPC：远程过程调用流程</span><br><span class="line">RPC 调用信息：每条远程过程调用信息包括以下无符号整数字段，以独立识别远程过程：</span><br><span class="line">程序号（Program number）</span><br><span class="line">程序版本号（Program version number）</span><br><span class="line">过程号（Procedure number）</span><br><span class="line">RPC 调用信息主体形式如下：</span><br><span class="line">struct call_body &#123;</span><br><span class="line">unsigned int rpcvers;</span><br><span class="line">unsigned int prog;</span><br><span class="line">unsigned int vers;</span><br><span class="line">unsigned int proc;</span><br><span class="line">opaque_auth cred;</span><br><span class="line">opaque_auth verf;</span><br><span class="line">1 parameter</span><br><span class="line">2 parameter . . . &#125;；</span><br><span class="line">RPC 答复信息：RPC 协议的答复信息的改变取决于网络服务器对调用信息是接收还是拒绝。答复信息请求包括区别以下情形的各种信息：</span><br><span class="line">RPC 成功执行调用信息。.</span><br><span class="line">RPC 的远程实现不是协议第二版，返回 RPC 支持的最低和最高版本号。</span><br><span class="line">在远程系统中，远程程序不可用。</span><br><span class="line">远程程序不支持被请求的版本号。返回远程程序所支持的最低和最高版本号。</span><br><span class="line">请求的过程号不存在。通常是呼叫方协议或程序差错。</span><br><span class="line">RPC答复信息形式如下：</span><br><span class="line">enum reply_stat stat</span><br><span class="line">&#123;MSG_ACCEPTED = 0,</span><br><span class="line">MSG_DENIED = 1 &#125;;</span><br></pre></td></tr></table></figure></p>
+            <p>AMQP，即Advanced Message Queuing Protocol、高级队列消息协议</p>
+<p>一个提供统一消息服务的应用层标准高级消息队列协议,是应用层协议的一个开放标准,为面向消息的中间件设计。<br>基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。<br>Erlang中的实现有 RabbitMQ等。</p>
+<p><strong>协议特性</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、消息方向</span><br><span class="line">2、消息队列</span><br><span class="line">3、消息路由</span><br><span class="line">4、消息可靠性</span><br><span class="line">5、消息安全性</span><br></pre></td></tr></table></figure>
+<p><strong>协议元素</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、producer---生产者</span><br><span class="line">2、consumer---消费者</span><br><span class="line">3、virtual host --虚拟主机</span><br><span class="line">4、exchange----交换器</span><br><span class="line">5、queue----消息队列</span><br><span class="line">6、message--消息</span><br></pre></td></tr></table></figure>
+<p>定义了 消息发送过程 以及消息系统必须的特性和<br>具体的消息流转实现   发送方式 可以看看RabbitMQ　消息发送流程<br>rabbitMQ严格按照AMQP协议定制实现的</p>
 
           
         
@@ -545,19 +535,6 @@
   
   
   </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
 
 
     
@@ -730,19 +707,6 @@
   
   </article>
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
 
     
       
@@ -760,7 +724,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/ehcache/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -779,8 +743,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
-                  ehcache
+                <a class="post-title-link" href="/2018/03/24/cache/redis/" itemprop="url">
+                  redis
                 </a>
               
             
@@ -838,7 +802,7 @@
 
           
           
-             <span id="/2018/03/24/cache/ehcache/" class="leancloud_visitors" data-flag-title="ehcache">
+             <span id="/2018/03/24/cache/redis/" class="leancloud_visitors" data-flag-title="redis">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -871,26 +835,16 @@
       
         
           
-            <p>ehcache service层缓存系统</p>
-<p><strong>发展史</strong></p>
-<pre><code>Ehcache
-开发者（S）    Terracotta，Inc。[1]
-稳定版本
-3.3.0 / 2017年2月1日; 16个月前
-写入    Java的
-操作系统    跨平台
-类型    高速缓存
-执照    Apache许可证 2.0
-网站    www.ehcache.org
+            <p>1、使用ANSIC编写 （基于BSD协议）<br>2、开源、内存中数据结构存储<br>3、可以用作数据库、缓存、消息中间件</p>
+<p>支持多种数据结构<br>String、hash、list、set、sorted sets、bitmaps、geospatial<br>字符串、散列、列表、集合、有序集合、bitmaps、地理空间</p>
+<p>redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations) 和不同级别的硬盘持久化<br>并通过redis哨兵(sentinel)和自动分区(cluster)提高可用性</p>
+<p>Redis支持每隔一段时间将数据导出磁盘、支持主从复制、且第一次是快速非阻塞形式</p>
+<p>由于组合式压缩、内存使用率要高于memcached<br>其他：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">事物</span><br><span class="line">订阅分发</span><br><span class="line">lua脚本</span><br><span class="line">过期自动删除key</span><br><span class="line">自动故障转移</span><br></pre></td></tr></table></figure></p>
+<p>优势<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">性能极高、读11W次/s  写8.1W次/s</span><br><span class="line">丰富的数据类型</span><br><span class="line">原子性操作</span><br><span class="line">丰富特性、支持publish、sub scribe 通知 key过期等等</span><br></pre></td></tr></table></figure></p>
+<p>redis命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">创建当前备份 save</span><br><span class="line">恢复数据：config get dit &quot;dir&quot; &quot;usr/local/redis/bin&quot;</span><br><span class="line">将dump移动到安装目录 并启动服务即可</span><br><span class="line">创建备份：</span><br><span class="line">Bg save</span><br><span class="line">background saving started 该命令后台执行</span><br><span class="line">恢复备份</span><br><span class="line">redis-cli --rdb /tmp/dump.rdb</span><br><span class="line">检查主从数据流：从模式 redis-cli --slave</span><br><span class="line">从配置修改: slave-read-only yes</span><br><span class="line">从数据库: slave of host:port</span><br><span class="line">清空: flushall</span><br><span class="line">远程连接: redis-cli -h host -p port -a password</span><br></pre></td></tr></table></figure></p>
+<p>redis发布订阅<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">声明客户端 subscribe  redischat</span><br><span class="line">推动消息 publish redischat &quot;this is a exp&quot;</span><br><span class="line">创建集合 sadd a redis</span><br><span class="line">set sadd a memcached</span><br><span class="line">smembers a</span><br><span class="line">创建列表结合list</span><br><span class="line">lpush a redis</span><br><span class="line">lpush a mysql</span><br><span class="line">lrange a 0/0</span><br></pre></td></tr></table></figure></p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum install redis -y</span><br><span class="line"></span><br><span class="line">cat /etc/redis.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">默认配置可能要修改的数据</span><br><span class="line">logfile /var/log/redis/redis.log</span><br><span class="line">slave-serve-stale-data yes</span><br><span class="line">slave-read-only yes</span><br><span class="line">#requirepass redisPassword</span><br><span class="line"></span><br><span class="line"># The filename where to dump the DB</span><br><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure></p>
 
-Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
-
-Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
-
-该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
-
-2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
-</code></pre>
           
         
       
@@ -930,7 +884,13 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
   
   </article>
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    
+  </section>
+
+  
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 首页间隔 -->
 <ins class="adsbygoogle"
      style="display:block"
@@ -944,10 +904,7 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
 
 
 
-    
-  </section>
 
-  
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/32/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="extend next" rel="next" href="/page/34/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1182,6 +1139,10 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
       </section>
 
       
+      
+
+
+      
 
       
         <div class="back-to-top">
@@ -1191,7 +1152,6 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
           
         </div>
       
-
     </div>
   </aside>
 

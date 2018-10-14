@@ -378,190 +378,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/30/shell/shell-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/30/shell/shell-4/" itemprop="url">
-                  linux 监控服务脚本
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-30 08:00:00" itemprop="dateCreated datePublished" datetime="2018-05-30T08:00:00+08:00">2018-05-30</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/05/30/shell/shell-4/" class="leancloud_visitors" data-flag-title="linux 监控服务脚本">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">#!/bin/sh</span><br><span class="line">weblist=/shell/web_monit/weblist.txt                      </span><br><span class="line">for list in `cat $weblist|grep -E -v &quot;#|^$&quot;`               </span><br><span class="line">do</span><br><span class="line">httpcode=`curl -o /dev/null -s -w %&#123;http_code&#125; &quot;$list&quot;`        </span><br><span class="line">httptime=`curl -o /dev/null -s -w &quot;time_connect: %&#123;time_connect&#125;\ntime_starttransfer: %&#123;time_starttransfer&#125;\ntime_total: %&#123;time_total&#125;\n&quot; &quot;$list&quot;|grep time_total|awk -F &quot;:&quot; &apos;&#123;print $2*1000&#125;&apos;`</span><br><span class="line">if [ $httpcode = 500 ]||[ $httpcode = 502 ]||[ $httpcode = 503 ]||[ $httpcode = 504 ]</span><br><span class="line">then</span><br><span class="line">      curl -d &quot;mobile=13800008888&amp;text=访问 $list 超时&quot; &quot;http://127.0.0.1/sms/&quot;</span><br><span class="line">else</span><br><span class="line">   echo &quot;$list is checked ok!&quot;</span><br><span class="line">fi</span><br><span class="line"> </span><br><span class="line">if [ $httptime -ge 3000 ]</span><br><span class="line">then</span><br><span class="line">   curl -d &quot;mobile=13800008888&amp;text=访问 $list 超时&quot; &quot;http://127.0.0.1/sms/&quot;</span><br><span class="line">else</span><br><span class="line">  echo &quot;$list is connect ok!&quot;</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>同目录下 建立 weblist.txt</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:www.wuxinvip.com</span><br><span class="line">https://www.wuxinvip.com</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/30/mysql/mysql-indexes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -717,19 +533,6 @@
   
   </article>
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
 
     
       
@@ -747,7 +550,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/30/essay/essay-8/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/30/shell/shell-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -766,8 +569,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/30/essay/essay-8/" itemprop="url">
-                  为什么你成不了架构师
+                <a class="post-title-link" href="/2018/05/30/shell/shell-3/" itemprop="url">
+                  linux 清空缓存
                 </a>
               
             
@@ -825,7 +628,7 @@
 
           
           
-             <span id="/2018/05/30/essay/essay-8/" class="leancloud_visitors" data-flag-title="为什么你成不了架构师">
+             <span id="/2018/05/30/shell/shell-3/" class="leancloud_visitors" data-flag-title="linux 清空缓存">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -857,15 +660,15 @@
 
       
         
-          <p>近期入职新公司 接手架构重构 感慨颇多、也学到不少东西、<br><br>学会了时间不使用timestamp 使用bigint、价格不使用decimal 而是int or bigint<br><br>以前常念叨 适合业务的技术才是最好的技术、却少有感慨</p>
-<p><strong>为什么使用bigint作为时间单位？</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1、首先兼容oracle、其次项目内部流转不容易异常【项目中是这个说法、貌似timestamp我也没碰到过异常】&lt;br&gt;</span><br><span class="line">2、还有就是int值比较容易比较 尤其针对范围查询 较快些吧、估计timestamp底层比较就是int方式</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/30/essay/essay-8/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> 确认缓存或不用内存</span><br><span class="line">free -m</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vi drop_caches.sh</span><br><span class="line"></span><br><span class="line">#页面缓存</span><br><span class="line">echo 1 &gt; /proc/sys/vm/drop_caches</span><br><span class="line">#目录缓存和inodes</span><br><span class="line">echo 2 &gt; /proc/sys/vm/drop_caches</span><br><span class="line">#页面缓存，目录缓存和inodes</span><br><span class="line">echo 3 &gt; /proc/sys/vm/drop_caches</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#清理文件系统缓存</span><br><span class="line">sync</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">save  </span><br><span class="line"></span><br><span class="line">sh drop_caches.sh</span><br></pre></td></tr></table></figure>
+<p>注意: 上述所有命令都对系统无害，且只会有助于释放不用的内存。<br><br>    而且sync还会清理僵尸(zombie)对象和它们占用的内存。</p>
+<p>但是，如果你执行这些命令时正在写数据，你实际上在数据到达磁盘之前就将它从文件缓存中清除掉了,<br>    这可能会造成很不好的影响。<br></p>
+<p>所以，为了避免这种事情发生，你可以echo值到/proc/sys/vm/vfs_cache_pressure中，<br><br>    告诉内核，当清理inoe/dentry缓存时应该用什么样的优先级。<br><br>    LinuxInSight对值的范围解释得很清楚:<br></p>
+<p>vfs_cache_pressure=100是默认值，内核会尝试重新声明dentries和inodes，<br><br>    并采用一种相对于页面缓存和交换缓存比较”合理”的比例。<br><br>    减少vfs_cache_pressure会导致内核倾向于保留dentry和inode缓存。<br><br>    而增加vfs_cache_pressure超过100时，则会导致内核倾向于重新声明dentries和inodes<br></p>
+<p>简而言之，小于100的值不会导致缓存的大量减少。超过100的值则会告诉内核你希望以高优先级来清理缓存。<br><br>其实，无论你采用什么值，内核清理缓存的速度都是比较低的。<br><br>如果将此值设置为10000，系统将会将缓存减少到一个合理的水平。<br></p>
+
+          
         
       
     </div>
@@ -904,7 +707,184 @@
   
   </article>
 
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/30/shell/shell-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/30/shell/shell-4/" itemprop="url">
+                  linux 监控服务脚本
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-30 08:00:00" itemprop="dateCreated datePublished" datetime="2018-05-30T08:00:00+08:00">2018-05-30</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/30/shell/shell-4/" class="leancloud_visitors" data-flag-title="linux 监控服务脚本">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">#!/bin/sh</span><br><span class="line">weblist=/shell/web_monit/weblist.txt                      </span><br><span class="line">for list in `cat $weblist|grep -E -v &quot;#|^$&quot;`               </span><br><span class="line">do</span><br><span class="line">httpcode=`curl -o /dev/null -s -w %&#123;http_code&#125; &quot;$list&quot;`        </span><br><span class="line">httptime=`curl -o /dev/null -s -w &quot;time_connect: %&#123;time_connect&#125;\ntime_starttransfer: %&#123;time_starttransfer&#125;\ntime_total: %&#123;time_total&#125;\n&quot; &quot;$list&quot;|grep time_total|awk -F &quot;:&quot; &apos;&#123;print $2*1000&#125;&apos;`</span><br><span class="line">if [ $httpcode = 500 ]||[ $httpcode = 502 ]||[ $httpcode = 503 ]||[ $httpcode = 504 ]</span><br><span class="line">then</span><br><span class="line">      curl -d &quot;mobile=13800008888&amp;text=访问 $list 超时&quot; &quot;http://127.0.0.1/sms/&quot;</span><br><span class="line">else</span><br><span class="line">   echo &quot;$list is checked ok!&quot;</span><br><span class="line">fi</span><br><span class="line"> </span><br><span class="line">if [ $httptime -ge 3000 ]</span><br><span class="line">then</span><br><span class="line">   curl -d &quot;mobile=13800008888&amp;text=访问 $list 超时&quot; &quot;http://127.0.0.1/sms/&quot;</span><br><span class="line">else</span><br><span class="line">  echo &quot;$list is connect ok!&quot;</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>同目录下 建立 weblist.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:www.wuxinvip.com</span><br><span class="line">https://www.wuxinvip.com</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 首页间隔 -->
 <ins class="adsbygoogle"
      style="display:block"
@@ -918,10 +898,7 @@
 
 
 
-    
-  </section>
 
-  
   <nav class="pagination">
     <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -1156,6 +1133,10 @@
       </section>
 
       
+      
+
+
+      
 
       
         <div class="back-to-top">
@@ -1165,7 +1146,6 @@
           
         </div>
       
-
     </div>
   </aside>
 
