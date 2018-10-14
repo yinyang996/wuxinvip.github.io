@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-1/" itemprop="url">
-                  分布式架构
+                <a class="post-title-link" href="/2018/03/24/service-design/design-5/" itemprop="url">
+                  风控系统
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/service-design/design-1/" class="leancloud_visitors" data-flag-title="分布式架构">
+             <span id="/2018/03/24/service-design/design-5/" class="leancloud_visitors" data-flag-title="风控系统">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,13 +489,231 @@
       
         
           
-            <p>最近几年关于架构的信息<br>高并发架构、<br>异地多活架构【出自淘宝】<br>容器化【知名docker、阿里Pouch】<br>微服务架构【spring cloud】<br>高可用架构<br>弹性架构【DB中间件 需要极致的弹性】</p>
-<p>相关的技术<br>DevOps、应用监控、自动化运维、SOA服务治理、去IOE等等</p>
-<p>分布式能解决的两大问题：<br>1、系统容量更大<br>  面对的业务量与日俱增、垂直水平拆分系统业务<br>2、系统可用性更强<br>  整个系统不会因为一个单点故障而导致整个系统不可用<br>  分布式冗余节点、以消除单点故障</p>
-<p>分布式优势：<br>1、模块化、系统模块重用度更高<br>2、模块化、服务开发、发布更快<br>3、系统扩展性更高<br>4、团队协作更有效率</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-602679b1c02a5335.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="传统架构与分布式服务架构对比"></p>
-<p>分布式存在的问题：<br>1、设计复杂<br>2、部署单个简单、部署多个复杂<br>3、系统吞吐量增大、系统反应变慢<br>4、运维复杂<br>5、学习难度加大<br>6、测试复杂<br>7、技术复杂、带来维护复杂<br>8、系统中的服务调度、监控等等复杂</p>
-<p>分布式前景：<br>可以说分布式是无法避免的、随着业务量的增大不可能单点跑应用、不同的应用场景会产出不用的服务架构、学习成本是逐渐加大的、等分布式更加成熟形成了体系、应该会产出更加系统的学习方案和应用方案、</p>
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
+</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
+    针对各类支付业务交易风险事件进行监测与控制
+
+同步反馈、
+    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
+
+联动控制、
+    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
+
+持续迭代、
+    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
+    或者与外部资源共享等进行持续动态更新
+</code></pre><h4 id="非功能性需求"><a href="#非功能性需求" class="headerlink" title="非功能性需求"></a>非功能性需求</h4><pre><code>灵活性、
+    风控规则经常调整、由此能与不同业务系统集成
+
+性能、
+    100ms异步操作、以及高吞吐量
+
+准确性、
+    冻结账户以及相关交易单元
+
+平衡点、   
+    准确性低与大面积投诉请求、公司形象
+
+盲点：不可以盲目追求数据一致性
+</code></pre><h3 id="风控实时引擎"><a href="#风控实时引擎" class="headerlink" title="风控实时引擎"></a>风控实时引擎</h3><pre><code>0--------100
+不可评估-----风险值越高、风险越大
+
+公司风控数据主要来自风控引擎
+</code></pre><h4 id="规则引擎优缺点"><a href="#规则引擎优缺点" class="headerlink" title="规则引擎优缺点"></a>规则引擎优缺点</h4><pre><code>优点：规则变动比较频繁、其他部分相对稳定
+通过引入规则引擎可以结构系统与规则、提高复杂逻辑的可维护性、提高规则可理解性
+</code></pre><h5 id="风控准实时引擎"><a href="#风控准实时引擎" class="headerlink" title="风控准实时引擎"></a>风控准实时引擎</h5><pre><code>某些情况下、需要通过对最近一段时间内数据分析
+
+例：对最近半个月数据分析、
+分工准实时引擎、
+从消息服务器获取交易数据
+对交易数据进行异步分析、
+分析结果通过分控服务存入风控数据库、
+供实时风控引擎评估风险
+
+
+风控准实施引擎从发现异常到风控数据生效时间在100ms以内、可有效防止交易风险增大
+
+风控系统初始建设中风控准实时引擎、
+往往是通过消息监听器消息、把中间数据存储redis、对数据进行多维度分析
+</code></pre><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><pre><code>1、每月进行一次数据风控数据处理
+2、实时分析引擎
+3、数据落地服务
+4、规则引擎：本地数据、第三方消费数据
+5、奖励、处罚
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/http/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/agreement/http/" itemprop="url">
+                  http协议
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/24/agreement/http/" class="leancloud_visitors" data-flag-title="http协议">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>http协议<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2a523de3228d986b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发展年历"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-cdf479dfba52d38b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="97年协定1.1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fdc25911c760f33f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http数据流向图"></p>
+<p>HTTP　定义了　消息发送流程与信息格式</p>
+<p>发送端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、请求行</span><br><span class="line">2、请求头</span><br><span class="line">3、请求体</span><br></pre></td></tr></table></figure></p>
+<p>接受端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、响应行</span><br><span class="line">2、响应头</span><br><span class="line">3、响应体</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -553,7 +771,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/https/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -572,8 +790,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/https/" itemprop="url">
-                  Https协议
+                <a class="post-title-link" href="/2018/03/24/service-design/design-4/" itemprop="url">
+                  用户池系统 构思
                 </a>
               
             
@@ -631,7 +849,7 @@
 
           
           
-             <span id="/2018/03/24/agreement/https/" class="leancloud_visitors" data-flag-title="Https协议">
+             <span id="/2018/03/24/service-design/design-4/" class="leancloud_visitors" data-flag-title="用户池系统 构思">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -664,187 +882,16 @@
       
         
           
-            <p><strong>http+ssl</strong></p>
-<pre><code>使用http进行通信 ssl作为数据通信加密方式
-使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
-</code></pre><p>混合加密方式</p>
-<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
-<ul>
-<li>1、客户端 发送公钥、支持加密方式、版本号</li>
-<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
-<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
-<li>4、使用协商后的加密方式加密http请求</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/service-design/design-3/" itemprop="url">
-                  千万级别系统搭建
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/service-design/design-3/" class="leancloud_visitors" data-flag-title="千万级别系统搭建">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
-<p>限流<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">限制瞬时并发</span><br><span class="line">限制总并发数</span><br><span class="line">限制时间窗口内平均速率</span><br><span class="line"></span><br><span class="line">相关算法：滑动窗口协议 漏桶---   令牌桶----应对突发流量   计数器</span><br></pre></td></tr></table></figure></p>
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
+<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
+<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
+<p>不同的key对应不同的分组数据</p>
+<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
+<p>获取不同排序 前端发送不同的key值即可</p>
+<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
+<p>问题:<br>1.用户抢单后要削减用户列表.元列表并发存在修改问题<br>解决:在最终抢单时候来后台查询已抢单列表就行.修不修改的有错误也没事.</p>
+<p>(使用mysql存储数据? 也不能解决这个问题 反而会触及mysql并发量问题)</p>
+<p>目前方案:mysql主从复制.从”从sql”查询数据</p>
 
           
         
@@ -891,7 +938,8 @@
 
   
 
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+   <div class="pagination">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 首页间隔 -->
 <ins class="adsbygoogle"
      style="display:block"
@@ -903,6 +951,7 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
+   </div>
 
 
 

@@ -722,7 +722,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-test/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/rocketmq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -741,8 +741,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/message-queue/rabbitmq-test/" itemprop="url">
-                  RabbitMQ test
+                <a class="post-title-link" href="/2018/03/24/message-queue/rocketmq/" itemprop="url">
+                  RocketMQ
                 </a>
               
             
@@ -800,7 +800,7 @@
 
           
           
-             <span id="/2018/03/24/message-queue/rabbitmq-test/" class="leancloud_visitors" data-flag-title="RabbitMQ test">
+             <span id="/2018/03/24/message-queue/rocketmq/" class="leancloud_visitors" data-flag-title="RocketMQ">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -833,15 +833,23 @@
       
         
           
-            <p>累积 36万条消息堆积</p>
-<p>启动消费端【单机】</p>
-<p>开始消费time 00:52:28  结束时间00:54:40</p>
-<p>测试环境 三台rabbit集群  两台持久化【n/2+1】 一台非持久化</p>
-<p>queue两个 消费由业务房监听spring streamListener完成</p>
-<p>总计366178消息 总计消费时间132s<br>平均每秒2774条</p>
-<p>单机实例消费水平收到限制</p>
-<p>如果启动多实例消费 那么距离理论4000+4000+12000 = 20000条 有待考证 不过压力不大</p>
-
+            <p>解决问题</p>
+<pre><code>分布式各系统之间的消息通讯【一般用来解决事务性提交】
+</code></pre><p>应用场景</p>
+<pre><code>各模块之间 消息调用、
+高并发的数据落地
+事务解决方案
+</code></pre><p>使用方式</p>
+<p><a href="https://gitee.com/none_heart/base-cloud/tree/develop/" target="_blank" rel="noopener">我的开源服务中集成代码</a></p>
+<p><strong>message-queue 模块</strong></p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://github.com/alibaba/rocketmq/archive/v3.5.8.zip</span><br><span class="line"></span><br><span class="line">unzip v3.5.8.zip -d rocketmq</span><br></pre></td></tr></table></figure></p>
+<p>原理</p>
+<p><a href="https://www.wuxinvip.com/blog/xmind/xmind-%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">xmind文档</a></p>
+<p>生产环境遇到的问题</p>
+<pre><code>消息阻塞【扩consumer、查看log 是什么原因导致消息阻塞】
+消息长时间不到达【优先级策略】
+消息确认机制会影响消息消费速度、虽然保证了每条消费一次
+</code></pre>
           
         
       
@@ -887,7 +895,8 @@
 
   
 
-  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+   <div class="pagination">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 首页间隔 -->
 <ins class="adsbygoogle"
      style="display:block"
@@ -899,6 +908,7 @@
     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
+   </div>
 
 
 
