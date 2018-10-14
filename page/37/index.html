@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/permission-data/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/about-hack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-permission/permission-data/" itemprop="url">
-                  权限系统_数据权限控制
+                <a class="post-title-link" href="/2018/03/24/hack/about-hack/" itemprop="url">
+                  关于漏洞和攻击
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/service-permission/permission-data/" class="leancloud_visitors" data-flag-title="权限系统_数据权限控制">
+             <span id="/2018/03/24/hack/about-hack/" class="leancloud_visitors" data-flag-title="关于漏洞和攻击">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,33 +489,11 @@
       
         
           
-            <ul>
-<li>1、使用 query filter</li>
-</ul>
-<p>先举例说明一下数据权限，假设一个工作任务应用有以下的需求：</p>
-<p>普通员工可以查看自己的工作项<br>部门经理可以查看自己管理部门的所有工作项<br>对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。</p>
-<p>数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数据权限。</p>
-<ul>
-<li>1.1 查询过滤器（Query Filter）</li>
-</ul>
-<p>查询过滤器是 ORM 模块中的功能，默认是关闭的，开启后所有的查询语句都会在 where 语句的最后自动加上类似 @filter(User) 的表达式。</p>
-<p>假设执行查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user u where u.name = :name</span><br><span class="line">那么开启 Query Filter 后将会自动变为：</span><br><span class="line"></span><br><span class="line">select * from user u where ( u.name = :name )&#123;? and ( @filter(User) )&#125;</span><br><span class="line">关于查询过滤器的细节在这里不展开细说，下面具体说明如何使用查询过滤器实现数据权限。</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>1.2 基于 Query Filter 实现数据权限</p>
-</li>
-<li><p>1.3 开启</p>
-</li>
-</ul>
-<p>修改 src/main/resources/conf/config.xml ，增加以下配置属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties prefix=&quot;orm&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;query_filter.enabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>1.4 实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">编写类 SecurityQueryFilter.java ：</span><br><span class="line"></span><br><span class="line">package hello.beans;</span><br><span class="line">import leap.lang.params.Params;</span><br><span class="line">import leap.orm.sql.Sql;</span><br><span class="line">import leap.orm.sql.SqlContext;</span><br><span class="line">import leap.orm.sql.SqlTag;</span><br><span class="line">import leap.orm.sql.SqlTagProcessor;</span><br><span class="line">public class SecurityQueryFilter implements SqlTagProcessor &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String processTag(SqlContext context, Sql sql, SqlTag tag, Params params) &#123;</span><br><span class="line">        String entityName = tag.getContent();</span><br><span class="line">        if(entityName.equals(&quot;User&quot;)) &#123;</span><br><span class="line">            return &quot;t.id = #&#123;env.user.id&#125;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">返回的表达式语法请看数据访问章节，其中别名 t. 是固定写法，在执行中会被替换为真正的别名。</span><br><span class="line"></span><br><span class="line">配置 bean 生效：</span><br><span class="line"></span><br><span class="line">&lt;bean name=&quot;filter&quot; type=&quot;leap.orm.sql.SqlTagProcessor&quot; class=&quot;hello.beans.SecurityQueryFilter&quot;/&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>2.使用sqlMAP进行sql拼接</p>
-</li>
-</ul>
-<p>其原理也是sql拼接  不写了</p>
-<p>参考地址：<a href="http://leapframework.org/doc/security/op_perm.html" target="_blank" rel="noopener">http://leapframework.org/doc/security/op_perm.html</a></p>
+            <p>看过一篇子电影 《没有绝对安全的系统》</p>
+<p>首先黑客是怎么攻击一个系统的呢？<br>一个系统又是怎么在黑客攻击下崩溃的？</p>
+<p>我的猜想：<br>1、任何系统都是有代码组成、这些系统都是为人服务，需要人为输入数据进行分析、<br>重点来了 那么这些数据有些就是正常数据、有些则可能是恶意数据、没有任何一个系统是不需要数据输入的、即便都是定制化属性有用户来进行选择、那么我们可以仿造代码进行替换、【语言这个东西又不是只有你一个人会】、<br>2、然后通过发送请求、测试请求信息、伪造一个请求信息、写成脚本<br>3、将请求脚本【也就是攻击脚本分发各个肉鸡】、由肉鸡进行攻击</p>
+<p>使用肉鸡的原因有几个<br>1、安全、不暴露攻击者本机ip【攻击时候作死：ping服务器不算】<br>2、数量可控、可针对不同系统吞吐量 控制不同数量的肉鸡进行攻击</p>
+<p>那么什么是恶意数据？<br>黑客们精心编制的一组数据、与业务代码中代码进行耦合、以早成运行器崩溃、虚拟机泄漏等等。或者早成无限循环等等</p>
 
           
         
@@ -573,7 +551,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/shell-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -592,8 +570,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/shell/shell-1/" itemprop="url">
-                  java后台常用命令
+                <a class="post-title-link" href="/2018/03/24/cache/redis/" itemprop="url">
+                  redis
                 </a>
               
             
@@ -651,7 +629,7 @@
 
           
           
-             <span id="/2018/03/24/shell/shell-1/" class="leancloud_visitors" data-flag-title="java后台常用命令">
+             <span id="/2018/03/24/cache/redis/" class="leancloud_visitors" data-flag-title="redis">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -684,7 +662,15 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br><span class="line"></span><br><span class="line">ps</span><br><span class="line"></span><br><span class="line">ps -ef</span><br><span class="line"></span><br><span class="line">ps -ef | grep &quot;&quot;</span><br><span class="line"></span><br><span class="line">| 管道符</span><br><span class="line">#移动文件</span><br><span class="line">mv  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db</span><br><span class="line"></span><br><span class="line">#复制文件</span><br><span class="line">cp  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db.backup</span><br><span class="line">#复制文件夹</span><br><span class="line">cp -a /usr/bin/  /var/data/mysql/</span><br><span class="line"></span><br><span class="line"> mkdir New_Dir</span><br><span class="line"> mkdir -p New_Dir/Sub_Dir/Under_Dir </span><br><span class="line"></span><br><span class="line">sh .../*.sh</span><br><span class="line"></span><br><span class="line">vim 123.txt</span><br><span class="line"></span><br><span class="line">tail -f ../*.log </span><br><span class="line">tail -f -n1000 ../*.log</span><br></pre></td></tr></table></figure>
+            <p>1、使用ANSIC编写 （基于BSD协议）<br>2、开源、内存中数据结构存储<br>3、可以用作数据库、缓存、消息中间件</p>
+<p>支持多种数据结构<br>String、hash、list、set、sorted sets、bitmaps、geospatial<br>字符串、散列、列表、集合、有序集合、bitmaps、地理空间</p>
+<p>redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations) 和不同级别的硬盘持久化<br>并通过redis哨兵(sentinel)和自动分区(cluster)提高可用性</p>
+<p>Redis支持每隔一段时间将数据导出磁盘、支持主从复制、且第一次是快速非阻塞形式</p>
+<p>由于组合式压缩、内存使用率要高于memcached<br>其他：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">事物</span><br><span class="line">订阅分发</span><br><span class="line">lua脚本</span><br><span class="line">过期自动删除key</span><br><span class="line">自动故障转移</span><br></pre></td></tr></table></figure></p>
+<p>优势<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">性能极高、读11W次/s  写8.1W次/s</span><br><span class="line">丰富的数据类型</span><br><span class="line">原子性操作</span><br><span class="line">丰富特性、支持publish、sub scribe 通知 key过期等等</span><br></pre></td></tr></table></figure></p>
+<p>redis命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">创建当前备份 save</span><br><span class="line">恢复数据：config get dit &quot;dir&quot; &quot;usr/local/redis/bin&quot;</span><br><span class="line">将dump移动到安装目录 并启动服务即可</span><br><span class="line">创建备份：</span><br><span class="line">Bg save</span><br><span class="line">background saving started 该命令后台执行</span><br><span class="line">恢复备份</span><br><span class="line">redis-cli --rdb /tmp/dump.rdb</span><br><span class="line">检查主从数据流：从模式 redis-cli --slave</span><br><span class="line">从配置修改: slave-read-only yes</span><br><span class="line">从数据库: slave of host:port</span><br><span class="line">清空: flushall</span><br><span class="line">远程连接: redis-cli -h host -p port -a password</span><br></pre></td></tr></table></figure></p>
+<p>redis发布订阅<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">声明客户端 subscribe  redischat</span><br><span class="line">推动消息 publish redischat &quot;this is a exp&quot;</span><br><span class="line">创建集合 sadd a redis</span><br><span class="line">set sadd a memcached</span><br><span class="line">smembers a</span><br><span class="line">创建列表结合list</span><br><span class="line">lpush a redis</span><br><span class="line">lpush a mysql</span><br><span class="line">lrange a 0/0</span><br></pre></td></tr></table></figure></p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum install redis -y</span><br><span class="line"></span><br><span class="line">cat /etc/redis.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">默认配置可能要修改的数据</span><br><span class="line">logfile /var/log/redis/redis.log</span><br><span class="line">slave-serve-stale-data yes</span><br><span class="line">slave-read-only yes</span><br><span class="line">#requirepass redisPassword</span><br><span class="line"></span><br><span class="line"># The filename where to dump the DB</span><br><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -742,7 +728,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/zsh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -761,8 +747,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-permission/shiro-1/" itemprop="url">
-                  权限系统_shiro_授权流程
+                <a class="post-title-link" href="/2018/03/24/shell/zsh/" itemprop="url">
+                  zsh
                 </a>
               
             
@@ -820,7 +806,7 @@
 
           
           
-             <span id="/2018/03/24/service-permission/shiro-1/" class="leancloud_visitors" data-flag-title="权限系统_shiro_授权流程">
+             <span id="/2018/03/24/shell/zsh/" class="leancloud_visitors" data-flag-title="zsh">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -853,31 +839,16 @@
       
         
           
-            <p>Shiro Authorization （ 授权）</p>
-<p>官方授权图片</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-336b0632fee6bb6a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>步骤：<br><img src="http://upload-images.jianshu.io/upload_images/6434888-d44d3592576f6485?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>授权成功后</p>
-<p>关于权限使用有三种方式</p>
-<p>1、编写代码</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-05cdfe309a99ea49?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>2、JDK标签</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-09b04e1663976962?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>3、JSPGSP标签库</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-118318e60b08f8e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这里要解释下 RBAC </p>
-<p>以前的RBAC是 Role-Based-Access-Control</p>
-<p>基于角色的访问控制</p>
-<p>权限表 是 用户表-角色表-操作url表 【Menu】</p>
-<p>控制方式是 用户拥有某权限——–权限拥有某url【controller】 才可以访问 </p>
-<p>麻烦点就是 后台判断用户是否拥有权限时，判断用户角色 那么就是把角色和资源绑定到一起、这样后期开发会发生这么一种情况、就是有个默认角色后期我可能要删除、使用新角色来控制这些资源、那么 到时候就要更新代码重新发布 </p>
-<p>而最新的RBAC是 Resource-Based-Access-Control </p>
-<p>基于资源的访问控制</p>
-<p>权限表是 用户表【user】-角色表-功能许可表【Permission】</p>
-<p>控制方式就是 用户拥有某一角色——–角色拥有这一资源许可——-资源许可和代码【controller】绑定在一起 后期要更改角色权限 就把这个角色删掉就可以了 并不会影响代码 不需要重构代码</p>
-<p>shiro中同时使用两种方式进行 权限判断 用户可以自行选择 </p>
-<p>相关使用方法 参加xmind</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3de54131aeffcc67?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+            <p>zsh    安装:<br>zsh 又名终极shell<br>出名于 oh my zsh 可配置主题<br>还有很多插件 功能<br>在此用作文件默认开启程序  和 alias使用也是极大方便<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">centos:yum install zsh</span><br><span class="line"></span><br><span class="line">debian:apt-get install zsh</span><br></pre></td></tr></table></figure></p>
+<p>oh-my-zsh 安装:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># via curl</span><br><span class="line"></span><br><span class="line">curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh</span><br><span class="line"></span><br><span class="line"># via wget</span><br><span class="line"></span><br><span class="line">wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
+<p>设置zsh为系统默认shell:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 为root用户修改默认shell为zsh</span><br><span class="line">chsh -s /bin/zsh root</span><br><span class="line"># 为当前用户修改默认shell为zsh</span><br><span class="line">chsh -s /bin/zsh</span><br><span class="line"># or</span><br><span class="line">chsh -s `which zsh`</span><br><span class="line"></span><br><span class="line"># 恢复命令</span><br><span class="line">chsh -s /bin/bash</span><br></pre></td></tr></table></figure>
+<p><em>add to ~/.zshrc</em>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br><span class="line">#export PATH=$PATH:/Applications/MAMP/bin/php/php5.6.10/bin:/Users/GZM/composer:/Users/GZM/.composer/vendor/bin</span><br><span class="line">#export GOPATH=/Users/GZM/work/go</span><br><span class="line">#export GOPATH=/Volumes/Transcend/git/360/private_cloud_server_code/tools/gowork/</span><br><span class="line">#export GOBIN=$GOPATH/bin</span><br><span class="line">#export GO15VENDOREXPERIMENT=1</span><br><span class="line">LC_CTYPE=en_US.UTF-8</span><br><span class="line">LC_ALL=en_US.UTF-8</span><br></pre></td></tr></table></figure></p>
+<p>升级:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upgrade_oh_my_zsh</span><br></pre></td></tr></table></figure>
+<p>vim /etc/zsh/zshrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">alias cls=&apos;clear&apos;</span><br><span class="line">alias ll=&apos;ls -l&apos;</span><br><span class="line">alias l=&apos;ls -l&apos;</span><br><span class="line">alias la=&apos;ls -a&apos;</span><br><span class="line">alias vi=&apos;vim&apos;</span><br><span class="line">alias rm=&apos;rm -rf&apos;</span><br><span class="line">alias javac=&quot;javac -J-Dfile.encoding=utf8&quot;</span><br><span class="line">alias -s html=mate   # 在命令行直接输入后缀为 html 的文件名，会在 TextMate 中打开</span><br><span class="line">alias -s rb=mate     # 在命令行直接输入 ruby 文件，会在 TextMate 中打开</span><br><span class="line">alias -s py=vi       # 在命令行直接输入 python 文件，会用 vim 中打开，以下类似</span><br><span class="line">alias -s js=vi</span><br><span class="line">alias -s c=vi</span><br><span class="line">alias -s java=vi</span><br><span class="line">alias -s txt=vi</span><br><span class="line">alias -s gz=&apos;tar -xzvf&apos;</span><br><span class="line">alias -s tgz=&apos;tar -xzvf&apos;</span><br><span class="line">alias -s zip=&apos;unzip&apos;</span><br><span class="line">alias -s bz2=&apos;tar -xjvf&apos;</span><br></pre></td></tr></table></figure>
 
           
         

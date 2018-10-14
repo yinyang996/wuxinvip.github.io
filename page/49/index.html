@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/filter-xss/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-recovery/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/hack/filter-xss/" itemprop="url">
-                  Filter安全过滤高级最终行（XSS攻击）
+                <a class="post-title-link" href="/2018/03/24/jdk/jvm-memory-recovery/" itemprop="url">
+                  jvm内存回收
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/hack/filter-xss/" class="leancloud_visitors" data-flag-title="Filter安全过滤高级最终行（XSS攻击）">
+             <span id="/2018/03/24/jdk/jvm-memory-recovery/" class="leancloud_visitors" data-flag-title="jvm内存回收">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,114 +489,20 @@
       
         
           
-            <p>package com.what21.filter.xss;</p>
-<p>import java.io.IOException;<br>import java.util.LinkedHashMap;<br>import java.util.Map;</p>
-<p>import javax.servlet.Filter;<br>import javax.servlet.FilterChain;<br>import javax.servlet.FilterConfig;<br>import javax.servlet.ServletException;<br>import javax.servlet.ServletRequest;<br>import javax.servlet.ServletResponse;<br>import javax.servlet.http.HttpServletRequest;</p>
-<p>public class XSSFilter implements Filter {</p>
-<pre><code>// XSS处理Map
-private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();
-
-public void init(FilterConfig filterConfig) throws ServletException {
-    // 含有脚本： script
-    xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);
-    // 含有脚本 javascript
-    xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);
-    // 含有函数： eval
-    xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);
-    // 含有符号 &lt;
-    xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);
-    // 含有符号 &gt;
-    xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);
-    // 含有符号 (
-    xssMap.put(&quot;\\(&quot;, &quot;(&quot;);
-    // 含有符号 )
-    xssMap.put(&quot;\\)&quot;, &quot;)&quot;);
-    // 含有符号 &apos;
-    xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);
-    // 含有符号 &quot;
-    xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);
-}
-
-public void doFilter(ServletRequest request, ServletResponse response,
-        FilterChain chain) throws IOException, ServletException {
-    // 强制类型转换 HttpServletRequest
-    HttpServletRequest httpReq = (HttpServletRequest)request;
-    // 构造HttpRequestWrapper对象处理XSS
-    HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
-    //
-    chain.doFilter(httpReqWarp, response);
-
-}
-
-public void destroy() {
-
-}
-</code></pre><p>}</p>
-<p>=============================<br>package com.what21.filter.xss;</p>
-<p>import java.util.Map;<br>import java.util.Set;</p>
-<p>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletRequestWrapper;</p>
-<p>public final class HttpRequestWrapper extends HttpServletRequestWrapper {</p>
-<pre><code>private Map&lt;String, String&gt; xssMap;
-
-public HttpRequestWrapper(HttpServletRequest request) {
-    super(request);
-}
-
-public HttpRequestWrapper(HttpServletRequest request,
-        Map&lt;String, String&gt; xssMap) {
-    super(request);
-    this.xssMap = xssMap;
-}
-
-@Override
-public String[] getParameterValues(String parameter) {
-    String[] values = super.getParameterValues(parameter);
-    if (values == null) {
-        return null;
-    }
-    int count = values.length;
-    // 遍历每一个参数，检查是否含有
-    String[] encodedValues = new String[count];
-    for (int i = 0; i &lt; count; i++) {
-        encodedValues[i] = cleanXSS(values[i]);
-    }
-    return encodedValues;
-}
-
-@Override
-public String getParameter(String parameter) {
-    String value = super.getParameter(parameter);
-    if (value == null) {
-        return null;
-    }
-    return cleanXSS(value);
-}
-
-public String getHeader(String name) {
-    String value = super.getHeader(name);
-    if (value == null)
-        return null;
-    return cleanXSS(value);
-
-}
-</code></pre><p>/**</p>
-<pre><code> * 清除恶意的XSS脚本
- *
- * @param value
- * @return
- */
-private String cleanXSS(String value) {
-    Set&lt;String&gt; keySet = xssMap.keySet();
-    for(String key : keySet){
-        String v = xssMap.get(key);
-        value = value.replaceAll(key,v);
-    }
-    return value;
-}
-</code></pre><p>}</p>
-<p>=============================================================================</p>
-<p><filter><br>    <filter-name>XSSFilter</filter-name><br>    <filter-class>com.what21.filter.xss.XSSFilter</filter-class><br></filter></p>
-<p><filter-mapping><br>    <filter-name>XSSFilter</filter-name><br>    <url-pattern>/*</url-pattern><br></filter-mapping></p>
+            <p>回收区域：堆【主要区域】、方法区【回收废弃常量、无用类】</p>
+<p>无用类定义：<br>1、jvm中不存在该实例<br>2、加载该类classLoader已被回收<br>3、任何地方都不存在引用</p>
+<p>回收算法：<br>1、标记清除<br>2、标记整理<br>3、复制<br>4、分代收集</p>
+<p>回收器：<br>单线程<br>1、serial<br>2、serial old<br>多线程<br>1、parNew<br>2、parallel scavenge<br>3、parallel old<br>4、cms<br>5、G1</p>
+<p>回收新生代<br>serial、parNew、parallel scavenge</p>
+<p>回收老年代<br>cms、serial old、parallel old</p>
+<p>分代收集 G1</p>
+<p><strong>serial</strong><br>最老、也是默认回收算法、单线程<br>缺点：暂定所有用户进程来回收垃圾、每一小时有五分钟不能给用户提供服务<br>优点:   简单高效<br>适合场景、clent模式</p>
+<p><strong>ParNew</strong><br>serial多线程版本<br>场景：参考serial 多核处理器</p>
+<p><strong>Parallel scavenge</strong><br>1、复制算法<br>2、目标、回收达到一个可控的吞吐量【吞吐量=运行代码时间/（运行代码时间+GC时间）】<br>3、吞吐量优先收集器</p>
+<p><strong>serial old</strong><br>1、单线程、标记整理算法<br>2、serial 老版本<br>3、jdk1.5之前配合Parallel scavenge、cms后备预案</p>
+<p><strong>parallel old</strong><br>1、Parallel scavenge老版本<br>2、标记整理算法<br>3、注重吞吐量以及CPU资源敏感场景、使用Parallel scavenge  ++ parallel old<br>4、吞吐量优先</p>
+<p><strong>CMS</strong><br>1、标记清除<br>2、目标：最短回收停顿时间<br>3、四个步骤：初始标记、并发标记、重新标记、并发清除</p>
+<p><strong>G1</strong><br>1、1.7HotSpot重要进化特征<br>2、优点：并行并发、分代收集、空间整合【标记整理】、可预测停顿<br>3、四个步骤：初始标记、并发标记、最终标记、筛选回收</p>
 
           
         
@@ -654,7 +560,7 @@ private String cleanXSS(String value) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud-exception/exception-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/container/pouch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -673,8 +579,8 @@ private String cleanXSS(String value) {
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud-exception/exception-1/" itemprop="url">
-                  容器已经关闭
+                <a class="post-title-link" href="/2018/03/24/container/pouch/" itemprop="url">
+                  pouch
                 </a>
               
             
@@ -732,7 +638,7 @@ private String cleanXSS(String value) {
 
           
           
-             <span id="/2018/03/24/spring-cloud-exception/exception-1/" class="leancloud_visitors" data-flag-title="容器已经关闭">
+             <span id="/2018/03/24/container/pouch/" class="leancloud_visitors" data-flag-title="pouch">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -765,17 +671,23 @@ private String cleanXSS(String value) {
       
         
           
-            <p>spring cloud task 启动报错 context  has been closed already</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3cd5e3be89b57280.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法<br><img src="http://upload-images.jianshu.io/upload_images/6434888-6b79c65a09e5f95f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.5.2 版本ok</span><br><span class="line">2.0.0 报错容器已关闭</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">解决办法</span><br><span class="line"></span><br><span class="line">#spring.cloud.task.closecontext_enabled=false</span><br></pre></td></tr></table></figure>
-<p>spring cloud Ribbon</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-5ecbb7d4b4281217.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-4359cf1b075c1e4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>写到启动类就行</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-6d1ec769099be987.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">spring boot &lt;= 1.3</span><br><span class="line">无需定义</span><br><span class="line"></span><br><span class="line">spring boot &gt;= 1.4</span><br><span class="line"></span><br><span class="line">springboot不在维护 需要自己定义RestTempalte</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Bean</span><br><span class="line">public RestTemplate restTemplate (RestTemplateBuilder builder)&#123;</span><br><span class="line">  //Do any additional configuration here</span><br><span class="line">  return builder.build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>2017.11.19正式开源pouch</p>
+<p>pouch 基于Apache2.0协议的容器技术</p>
+<p>介绍：<br>Pouch 是一个轻量级容器技术<br>特点：快速高效、可移植性高、资源占用少</p>
+<p>github：<a href="https://github.com/alibaba/pouch" target="_blank" rel="noopener">pouch</a></p>
+<p>11年基于Linux内核上的namespace、cgroup等技术开始成熟、阿里Pouch基于LXC研发的第一代容器t4<br>13年Docker横空出世、解决了行业多年的”软件封装”问题、阿里吸收其经验、打磨Pouch</p>
+<p>Pouch规模<br>2017 年双 11，巨额交易 1682 亿背后，Pouch 在”超级工程”中做到了：<br> 1、100% 的在线业务 Pouch 化<br>2、容器规模达到百万级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">阿里集团内部，Pouch 的日常服务已经覆盖绝大部分的事业部，</span><br><span class="line">覆盖的业务场景包括：电商、广告、搜索等；</span><br><span class="line">覆盖技术栈包括：电商应用、数据库、大数据、流计算等；</span><br><span class="line">覆盖编程语言：Java、C++、NodeJS 等。</span><br></pre></td></tr></table></figure></p>
+<p>Pouch 技术优势<br>1、隔离性强<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">众所周知，行业中的容器方案大多基于 Linux 内核提供的 cgroup 和 namespace 来实现隔离，然后这样的轻量级方案存在弊端：</span><br><span class="line"></span><br><span class="line">.容器间，容器与宿主间，共享同一个内核；</span><br><span class="line">.内核实现的隔离资源，维度不足。</span><br><span class="line"></span><br><span class="line">面对如此的内核现状，阿里巴巴采取了三个方面的工作，来解决容器的安全问题：</span><br><span class="line"></span><br><span class="line">用户态增强容器的隔离维度，比如网络带宽、磁盘使用量等；</span><br><span class="line">给内核提交 patch，修复容器的资源可见性问题，cgroup 方面的 bug；</span><br><span class="line">实现基于 Hypervisor 的容器，通过创建新内核来实现容器隔离。</span><br></pre></td></tr></table></figure></p>
+<p>2、P2P镜像分发<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">点对点分发镜像【相对于中央仓库分发镜像、极大见笑了中央仓库的网络压力】</span><br><span class="line"></span><br><span class="line">工具：阿里巴巴镜像分发工具&quot;蜻蜓&quot;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/alibaba/dragonfly" target="_blank" rel="noopener">蜻蜓地址</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-781bc5f086599150.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch 与蜻蜓的使用架构图"></p>
+<p>3、富容器技术<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> Pouch 技术可以说对业务没有任何的侵入性，也正是因为这一点在集团内部做到 100% 容器化。</span><br><span class="line">这样的容器技术，被无数阿里人称为“富容器”。</span><br><span class="line"></span><br><span class="line">“富容器”技术的实现，主要是为了在 Linux 内核上创建一个与虚拟机体验完全一致的容器。</span><br><span class="line">如此一来，比一般容器要功能强大，内部有完整的 init 进程，以及业务应用需要的任何服务，当然这也印证了 Pouch 为什么可以做到对应用没有“侵入性”。</span><br><span class="line">技术的实现过程中，Pouch 需要将容器的执行入口定义为 systemd，而在内核态，Pouch 引入了 cgroup namespace 这一最新的内核 patch，满足 systemd 在富容器模式的隔离性。</span><br><span class="line">从企业运维流程来看，富容器同样优势明显。</span><br><span class="line">它可以在应用的 Entrypoint 启动之前做一些事情，比如统一要做一些安全相关的事情，运维相关的 agent 拉起。</span><br><span class="line">这些需要统一做的事情，倘若放到用户的启动脚本，或镜像中就对用户的应用诞生了侵入性，而富容器可以透明的处理掉这些事情。</span><br></pre></td></tr></table></figure></p>
+<p>4、内核兼容性<br>可以理解为兼容老版本linux内核系统</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7a41c33b6c7eae05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch生态架构"></p>
+<p>Pouch 的生态架构可以从两个方面来看：第一，如何对接容器编排系统；第二，如何加强容器运行时。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ac732db7a31676b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch内部系统架构"></p>
+<p>传统的容器引擎方案相似，Pouch 也呈现出 C/S 的软件架构。命令行 CLI 层面，可以同时支持 Pouch CLI 以及 Docker CLI。对接容器 runtime，Pouch 内部通过 container client 通过 gRPC 调用 containerd。Pouch Daemon 的内部采取组件化的设计理念，抽离出相应的 System Manager、Container Manager、Image Manager、Network Manager、Volume Manager 提供统一化的对象管理方案。</p>
+<p><a href="http://www.infoq.com/cn/articles/alibaba-pouch" target="_blank" rel="noopener">以上内容来自 infoq阿里关于pouch介绍</a></p>
 
           
         
@@ -833,7 +745,7 @@ private String cleanXSS(String value) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/wifi-violence/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-structure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -852,8 +764,8 @@ private String cleanXSS(String value) {
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/hack/wifi-violence/" itemprop="url">
-                  wifi破解
+                <a class="post-title-link" href="/2018/03/24/jdk/jvm-memory-structure/" itemprop="url">
+                  jvm内存结构
                 </a>
               
             
@@ -911,7 +823,7 @@ private String cleanXSS(String value) {
 
           
           
-             <span id="/2018/03/24/hack/wifi-violence/" class="leancloud_visitors" data-flag-title="wifi破解">
+             <span id="/2018/03/24/jdk/jvm-memory-structure/" class="leancloud_visitors" data-flag-title="jvm内存结构">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -944,8 +856,17 @@ private String cleanXSS(String value) {
       
         
           
-            <p>利用网卡监控模式<br>监控wifi热点 .然后强制断开用户与路由连接.利用用户与路由四次握手机会获取握手包.然后跑字典</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># airmon-ng</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># airmon-ng start wlan0</span><br><span class="line">#wlan0为 上一个命令的Interface</span><br><span class="line"></span><br><span class="line"># airodump-ng wlan0mon</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># airodump-ng -c 6 --bssid C8:3A:35:30:3E:C8 -w ~/ wlan0mon</span><br><span class="line">-c 6:表示信道6 (ch)</span><br><span class="line"></span><br><span class="line"># aireplay-ng -0 2 -a C8:3A:35:30:3E:C8 -c B8:E8:56:09:CC:9C wlan0mon</span><br><span class="line"></span><br><span class="line"># airmon-ng stop wlan0mon</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># aircrack-ng -a2 -b C8:3A:35:30:3E:C8 -w /usr/share/wordlists/rockyou.txt ~/*.cap</span><br><span class="line">#跑字典</span><br></pre></td></tr></table></figure>
+            <p>jvm内存 一条线<br>线程共享 线程不共线【也叫非线程共享】</p>
+<p>线程共享： 堆【Heap】、 方法区【method area】<br>非线程共享： 程序计数器、虚拟机栈、本地方法栈</p>
+<p>方法区还包含 运行时常量池【类常量数据】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-56f59944c8ae5b02.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="内存.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">异常：</span><br><span class="line">jvm中定义两种异常 StackOverflow、outofmemory</span><br><span class="line">一种是栈溢出 一种是内存溢出</span><br><span class="line">官方定义栈溢出：线程请求深度大于虚拟机允许深度、抛出StackOverflow</span><br><span class="line">官方定义内存溢出：java内存扩展、当虚拟机申请不到足够的内存、抛出outofmemory</span><br></pre></td></tr></table></figure>
+<p><strong>jvm堆</strong><br>细分：新生代、老年代【分代收集算法】<br>再细分：Eden、From Survivor、To Survivor空间<br>再内存分配黑可以分出多个线程私有的分配缓冲区<br>存放内容：对象实例、细致的划分只是为了更好的回收<br>堆是回收主要区域</p>
+<p><strong>jvm方法区</strong><br>1、线程共享<br>2、存储已被虚拟机加载、类信息、常量、静态变量、即时编译器编译后的代码数据</p>
+<p><strong>jvm运行时常量池</strong><br>1、方法区一部分<br>2、存放编译期生成各种字面量和符号引用、</p>
+<p><strong>直接内存</strong><br>1、不属于jvm运行时数据取一部分 再五大板块外、<br>2、jdk1.4中 引入NIO、引用了一种基于通道（channel）与缓冲区（Buffer）的IO方式、它可以使用Native函数库直接分配对外内存、然后通过一个存储再java堆中的DirectByteBuffer对象来作为这一块内存引用、来进行操作、避免了java堆和native堆中来回复制数据<br>3、该内存受限于 操作系统和物理内存</p>
+<p><strong>虚拟机栈</strong><br>1、虚拟机执行java程序使用栈</p>
+<p><strong>本地方法栈</strong><br>1、执行native方法使用栈</p>
+<p><strong>程序计数器</strong><br>1、与c交界点、一个线程一个程序计数器、内存耗费较小、记录执行指针</p>
 
           
         

@@ -598,7 +598,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-4/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/crontab/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -617,8 +617,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-4/" itemprop="url">
-                  用户池系统 构思
+                <a class="post-title-link" href="/2018/03/24/shell/crontab/" itemprop="url">
+                  crontab
                 </a>
               
             
@@ -676,7 +676,7 @@
 
           
           
-             <span id="/2018/03/24/service-design/design-4/" class="leancloud_visitors" data-flag-title="用户池系统 构思">
+             <span id="/2018/03/24/shell/crontab/" class="leancloud_visitors" data-flag-title="crontab">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -709,16 +709,7 @@
       
         
           
-            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
-<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
-<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
-<p>不同的key对应不同的分组数据</p>
-<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
-<p>获取不同排序 前端发送不同的key值即可</p>
-<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
-<p>问题:<br>1.用户抢单后要削减用户列表.元列表并发存在修改问题<br>解决:在最终抢单时候来后台查询已抢单列表就行.修不修改的有错误也没事.</p>
-<p>(使用mysql存储数据? 也不能解决这个问题 反而会触及mysql并发量问题)</p>
-<p>目前方案:mysql主从复制.从”从sql”查询数据</p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/crond start    //启动服务</span><br><span class="line">/sbin/service crond stop     //关闭服务</span><br><span class="line">/sbin/service crond restart  //重启服务</span><br><span class="line">/sbin/service crond reload   //重新载入配置&lt;/pre&gt;</span><br><span class="line"></span><br><span class="line">service crond status</span><br><span class="line">service crond start</span><br><span class="line"></span><br><span class="line">查看crontab服务是否已设置为开机启动，执行命令：</span><br><span class="line">ntsysv</span><br><span class="line">加入开机自动启动：</span><br><span class="line">chkconfig -level 35 crond on</span><br><span class="line"></span><br><span class="line">定制脚本</span><br><span class="line">crontab -e  </span><br><span class="line">相当于vim</span><br><span class="line">文档加入</span><br><span class="line">0 1 * * * root /data/bakdb.sh  &gt; /data/bak.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">*/2 * * * * /bin/bash -x /shell/web_monit/http_monit.sh  &gt; /dev/null 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">查看定时任务</span><br><span class="line">crontab -u root -l</span><br></pre></td></tr></table></figure>
 
           
         
@@ -776,7 +767,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/oauth-oauth2/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/shell-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -795,8 +786,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-permission/oauth-oauth2/" itemprop="url">
-                  OAuth OAuth2
+                <a class="post-title-link" href="/2018/03/24/shell/shell-1/" itemprop="url">
+                  java后台常用命令
                 </a>
               
             
@@ -854,7 +845,7 @@
 
           
           
-             <span id="/2018/03/24/service-permission/oauth-oauth2/" class="leancloud_visitors" data-flag-title="OAuth OAuth2">
+             <span id="/2018/03/24/shell/shell-1/" class="leancloud_visitors" data-flag-title="java后台常用命令">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -887,17 +878,7 @@
       
         
           
-            <p>翻了几篇子 认证 csdn  一个模样 连错误都一样</p>
-<p>《用访问令牌到授权服务器换取访问令牌(accesstoken&amp;secret)》<br>这叫人怎么理解 ？？</p>
-<p>果断找官网<br><a href="https://oauth.net/core/1.0a/" target="_blank" rel="noopener">https://oauth.net/core/1.0a/</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-11e716dc12557360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><a href="https://oauth.net/2/" target="_blank" rel="noopener">https://oauth.net/2/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">OAuth2 授权类型</span><br><span class="line">1、运行在网络服务器，基于浏览器和移动应用程序的应用程序的授权码【web授权】</span><br><span class="line">2、密码为与登录用户名和密码</span><br><span class="line">3、客户端凭证的应用程序访问</span><br><span class="line">4、Implicit以前曾被推荐给没有秘密的客户，但已被使用授权代码授权而没有秘密取代。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OAuth认证和授权的过程如下:</span><br><span class="line"></span><br><span class="line">1、用户访问第三方网站网站，想对用户存放在服务商的某些资源进行操作。</span><br><span class="line"></span><br><span class="line">2、第三方网站向服务商请求一个临时令牌。</span><br><span class="line"></span><br><span class="line">3、服务商验证第三方网站的身份后，授予一个临时令牌。</span><br><span class="line"></span><br><span class="line">4、第三方网站获得临时令牌后，将用户导向至服务商的授权页面请求用户授权，然后这个过程中将临时令牌和第三方网站的返回地址发送给服务商。</span><br><span class="line"></span><br><span class="line">5、用户在服务商的授权页面上输入自己的用户名和密码，授权第三方网站访问所相应的资源。</span><br><span class="line"></span><br><span class="line">6、授权成功后，服务商将用户导向第三方网站的返回地址。</span><br><span class="line"></span><br><span class="line">7、第三方网站根据临时令牌从服务商那里获取访问令牌。</span><br><span class="line"></span><br><span class="line">8、服务商根据令牌和用户的授权情况授予第三方网站访问令牌。</span><br><span class="line"></span><br><span class="line">9、第三方网站使用获取到的访问令牌访问存放在服务商的对应的用户资源。</span><br></pre></td></tr></table></figure>
-<p>国外文档：<a href="https://aaronparecki.com/oauth-2-simplified/" target="_blank" rel="noopener">https://aaronparecki.com/oauth-2-simplified/</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ef3df8c7008fc91b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.jpg"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ed27155395dbbf55.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.jpg"></p>
-<p>看不懂的用有道翻译啊[捂脸笑][捂脸笑][捂脸笑]</p>
-<p>巨详细的请求解释 看看国内的 mmp</p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br><span class="line"></span><br><span class="line">ps</span><br><span class="line"></span><br><span class="line">ps -ef</span><br><span class="line"></span><br><span class="line">ps -ef | grep &quot;&quot;</span><br><span class="line"></span><br><span class="line">| 管道符</span><br><span class="line">#移动文件</span><br><span class="line">mv  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db</span><br><span class="line"></span><br><span class="line">#复制文件</span><br><span class="line">cp  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db.backup</span><br><span class="line">#复制文件夹</span><br><span class="line">cp -a /usr/bin/  /var/data/mysql/</span><br><span class="line"></span><br><span class="line"> mkdir New_Dir</span><br><span class="line"> mkdir -p New_Dir/Sub_Dir/Under_Dir </span><br><span class="line"></span><br><span class="line">sh .../*.sh</span><br><span class="line"></span><br><span class="line">vim 123.txt</span><br><span class="line"></span><br><span class="line">tail -f ../*.log </span><br><span class="line">tail -f -n1000 ../*.log</span><br></pre></td></tr></table></figure>
 
           
         
