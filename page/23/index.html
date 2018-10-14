@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/design-pattern/establish/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/kafka-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/design-pattern/establish/" itemprop="url">
-                  设计模式-创建型
+                <a class="post-title-link" href="/2018/03/24/message-queue/kafka-1/" itemprop="url">
+                  Kafka-1.0.0版本
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/design-pattern/establish/" class="leancloud_visitors" data-flag-title="设计模式-创建型">
+             <span id="/2018/03/24/message-queue/kafka-1/" class="leancloud_visitors" data-flag-title="Kafka-1.0.0版本">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,22 +489,10 @@
       
         
           
-            <p>设计模式创建型–5种</p>
-<p>单例—-创建线程安全类</p>
-<p>工厂—-创建bean工厂</p>
-<p>抽象工厂—-创建bean工厂的工厂</p>
-<p>原型—-clone模式 —用于数据流转中对象快速复制</p>
-<p>建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean</p>
-<p><strong>单例</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Created by huoyan403 on 2017/8/14.</span><br><span class="line"> */</span><br><span class="line">public class Singleton &#123;</span><br><span class="line"></span><br><span class="line">    //防止被引用 赋值为null  目的实现延迟加载</span><br><span class="line">    private static Singleton singleton = null;</span><br><span class="line"></span><br><span class="line">    //私有化构造方法</span><br><span class="line">    private Singleton() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //静态工程方法 创建实例</span><br><span class="line">    public static Singleton getSingleton()&#123;</span><br><span class="line">        if(singleton == null)&#123;</span><br><span class="line">                    //synchronized关键字锁住的是这个对象，这样的用法，在性能上会有所下降，因为每次调用getInstance()，</span><br><span class="line">                    // 都要对对象上锁，事实上，只有在第一次创建对象的时候需要加锁，之后就不需要了</span><br><span class="line">            synchronized (singleton)&#123;</span><br><span class="line">                if(singleton == null) &#123;</span><br><span class="line">                    singleton = new Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return  singleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //如果该对象被用于序列化 可以保证在序列化前后保持一致</span><br><span class="line">    public Object readResolve()&#123;</span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>工厂</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f8c880dfe1e8dad0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="工厂模式_1.jpg"></p>
-<p><strong>抽象工厂</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-74e3ecaccbeb4027.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="抽象工厂_2.jpg"></p>
-<p><strong>原型</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-cf7bf5dbf48f4286.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="原型模式_4.jpg"></p>
-<p><strong>建造者</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-0684b09801236edd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="建造者_3.jpg"></p>
+            <p>Kafka 1.0.0发布的主要内容如下。</p>
+<p>0.10.0版本里开始引入的Streams API在1.0.0版本里继续演进，改进了builder API（KIP-120），<br>新增了用于查看运行时活跃任务的API（KIP-130）和用于聚合分区的cogroup<br>API（KIP-150）。增强的print()和writeAsText()方法让调试变得更容易（KIP-160）。<br>其他更多信息可以参考Streams文档。</p>
+<p>改进了Connect的度量指标（KIP-196），新增了大量用于健康监测的度量指标（KIP-188），<br>并提供了集群的GloabalTopicCount和GlobalPartitionCount度量指标（KIP-168）。<br>支持Java 9，实现更快的TLS和CRC32C，加快了加密速度，降低了计算开销。<br>调整了SASL认证模块的错误处理逻辑（KIP-152），原先的认证错误信息现在被清晰地记录到日志当中。<br>更好地支持磁盘容错（KIP-112），更优雅地处理磁盘错误，单个JBOD上的磁盘错误不会导致整个集群崩溃。<br>0.11.0版本中引入的幂等性生产者需要将max.in.flight.requests.per.connection参数设置为1，这对吞吐量造成了一定的限制。<br>而在1.0.0版本里，这个参数最大可以被设置为5（KAFKA-5949），极大提升了吞吐量范围。</p>
+<p>关于新版本更多的变化可以查看<a href="https://dist.apache.org/repos/dist/release/kafka/1.0.0/RELEASE_NOTES.html" target="_blank" rel="noopener">发布说明</a>，也可以下载<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka-1.0.0-src.tgz" target="_blank" rel="noopener">源代码</a>和二进制包（<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.11-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.11</a>、<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.12-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.12</a>）。</p>
 
           
         
@@ -562,7 +550,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/essay/essay-10/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -581,8 +569,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/essay/essay-10/" itemprop="url">
-                  架构师之路
+                <a class="post-title-link" href="/2018/03/24/message-queue/rabbitmq-install/" itemprop="url">
+                  Rabbitmq 安装
                 </a>
               
             
@@ -640,7 +628,7 @@
 
           
           
-             <span id="/2018/03/24/essay/essay-10/" class="leancloud_visitors" data-flag-title="架构师之路">
+             <span id="/2018/03/24/message-queue/rabbitmq-install/" class="leancloud_visitors" data-flag-title="Rabbitmq 安装">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -673,18 +661,7 @@
       
         
           
-            <p>本着对技术的兴趣 进入了软件开发行业</p>
-<p>可以说是如鱼得水的发展 凭借着年轻 挑灯夜战 掌握了许多技术应用、但仍脱不开技术应用者的领域</p>
-<p>如今职业发展遇到瓶颈-该思考何去何从</p>
-<p>想来想去只有选择架构师为发展方向</p>
-<p><strong>怎样成为一个架构师？</strong></p>
-<p><strong>首先什么是架构师？</strong></p>
-<p>随着互联网应用的快速发展、各个领域相继进入互联网、各种业务形式的应用、一个合理的架构应对服务流量冲击显得尤为重要</p>
-<p>那么应用架构针对应用更好的优化、分解、先有soa、后有微服务概念、<br>对于这个整体的请求走势要做到心中有数、到细节中每个请求的所经过的服务器心里有谱、对服务器承载能力有着清晰的认识</p>
-<p>脑海里要有一个三维网络图</p>
-<p>同时能细节看到某个节点内部的工作方式、又能从宏观角度看的到请求流转、敏锐感知节点中的压力点</p>
-<p>然后针对业务领域、每个请求的频率、有一个经验教训、才能更好的使用脑海中的技术架构去整合起来业务压力</p>
-<p>外包待出的毛病，除了用，啥都不会</p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">eralng官方地址 : https://github.com/rabbitmq/erlang-rpm/releases</span><br><span class="line"></span><br><span class="line">socat官方地址 : https://centos.pkgs.org/7/lux/socat-1.7.3.2-5.el7.lux.x86_64.rpm.html</span><br><span class="line"></span><br><span class="line">rabbitmq 官方地址: http://www.rabbitmq.com/install-rpm.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下载命令</span><br><span class="line"></span><br><span class="line">erlang : curl -L -O https://github.com/rabbitmq/erlang-rpm/releases/download/v20.1.7/erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">安装: socat</span><br><span class="line">yum  install socat</span><br><span class="line"></span><br><span class="line">rabbitmq : curl -L -O https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.0/rabbitmq-server-3.7.0-1.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh rabbitmq-server-3.7.0-1.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看 rabbit状态</span><br><span class="line">service rabbitmq-server status</span><br><span class="line"></span><br><span class="line">启动rabbit</span><br><span class="line"></span><br><span class="line">service rabbitmq-server start</span><br><span class="line"></span><br><span class="line">安装 web插件</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br><span class="line"></span><br><span class="line">添加用户</span><br><span class="line">rabbitmqctl add_user  admin admin</span><br><span class="line"></span><br><span class="line">给予管理权限</span><br><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
 
           
         
@@ -742,7 +719,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/http/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-test/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -761,8 +738,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/http/" itemprop="url">
-                  http协议
+                <a class="post-title-link" href="/2018/03/24/message-queue/rabbitmq-test/" itemprop="url">
+                  RabbitMQ test
                 </a>
               
             
@@ -820,7 +797,7 @@
 
           
           
-             <span id="/2018/03/24/agreement/http/" class="leancloud_visitors" data-flag-title="http协议">
+             <span id="/2018/03/24/message-queue/rabbitmq-test/" class="leancloud_visitors" data-flag-title="RabbitMQ test">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -853,11 +830,14 @@
       
         
           
-            <p>http协议<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2a523de3228d986b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发展年历"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-cdf479dfba52d38b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="97年协定1.1"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fdc25911c760f33f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http数据流向图"></p>
-<p>HTTP　定义了　消息发送流程与信息格式</p>
-<p>发送端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、请求行</span><br><span class="line">2、请求头</span><br><span class="line">3、请求体</span><br></pre></td></tr></table></figure></p>
-<p>接受端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、响应行</span><br><span class="line">2、响应头</span><br><span class="line">3、响应体</span><br></pre></td></tr></table></figure></p>
+            <p>累积 36万条消息堆积</p>
+<p>启动消费端【单机】</p>
+<p>开始消费time 00:52:28  结束时间00:54:40</p>
+<p>测试环境 三台rabbit集群  两台持久化【n/2+1】 一台非持久化</p>
+<p>queue两个 消费由业务房监听spring streamListener完成</p>
+<p>总计366178消息 总计消费时间132s<br>平均每秒2774条</p>
+<p>单机实例消费水平收到限制</p>
+<p>如果启动多实例消费 那么距离理论4000+4000+12000 = 20000条 有待考证 不过压力不大</p>
 
           
         
