@@ -378,194 +378,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-design-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/mysql/mysql-design-1/" itemprop="url">
-                  数据库设计三大范式
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/mysql/mysql-design-1/" class="leancloud_visitors" data-flag-title="数据库设计三大范式">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1．第一范式(确保每列保持原子性)</p>
-<p>2．第二范式(确保表中的每列都和主键相关)</p>
-<p>3．第三范式(确保每列都和主键列直接相关,而不是间接相关)</p>
-<p>一、第一范式是最基本的范式。如果数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。</p>
-<p>第一范式的合理遵循需要根据系统的实际需求来定。比如某些数据库系统中需要用到“地址”这个属性，本来直接将“地址”属性设计成一个数据库表的字段就行。但是如果系统经常会访问“地址”属性中的“城市”部分，那么就非要将“地址”这个属性重新拆分为省份、城市、详细地址等多个部分进行存储，这样在对地址中某一部分操作的时候将非常方便。这样设计才算满足了数据库的第一范式，如下表所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-35bd6c5b8893c700.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>上表所示的用户信息遵循了第一范式的要求，这样在对用户使用城市进行分类的时候就非常方便，也提高了数据库的性能。</p>
-<p>二、第二范式在第一范式的基础之上更进一层。第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。</p>
-<p>比如要设计一个订单信息表，因为订单中可能会有多种商品，所以要将订单编号和商品编号作为数据库表的联合主键，如下表所示。</p>
-<p><strong>订单信息表</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-626b1b6125b7b4cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这样就产生一个问题：这个表中是以订单编号和商品编号作为联合主键。这样在该表中商品名称、单位、商品价格等信息不与该表的主键相关，而仅仅是与商品编号相关。所以在这里违反了第二范式的设计原则。</p>
-<p>而如果把这个订单信息表进行拆分，把商品信息分离到另一个表中，把订单项目表也分离到另一个表中，就非常完美了。如下所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-eb948cdf1c46f67b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这样设计，在很大程度上减小了数据库的冗余。如果要获取订单的商品信息，使用商品编号到商品信息表中查询即可。</p>
-<p>三、第三范式需要确保数据表中的每一列数据都和主键直接相关，而不能间接相关。</p>
-<p>比如在设计一个订单数据表的时候，可以将客户编号作为一个外键和订单表建立相应的关系。而不可以在订单表中添加关于客户其它信息（比如姓名、所属公司等）的字段。如下面这两个表所示的设计就是一个满足第三范式的数据库表。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-5b21ec7fd1581109.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这样在查询订单信息的时候，就可以使用客户编号来引用客户信息表中的记录，也不必在订单信息表中多次输入客户信息的内容，减小了数据冗余。</p>
-<p><a href="https://www.cnblogs.com/chenyang920/p/5268153.html" target="_blank" rel="noopener">转载地址</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-max-connects/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -850,6 +662,197 @@
           
             <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">use user;</span><br><span class="line"></span><br><span class="line">drop database user;</span><br><span class="line"></span><br><span class="line">use mysql</span><br><span class="line"></span><br><span class="line">select Host,User,authentication_string from mysql.user;</span><br><span class="line"></span><br><span class="line">grant all privileges on *.* to &apos;root&apos;@&apos;115.171.60.75&apos;identified by &apos;root&apos; with grant option;</span><br><span class="line"></span><br><span class="line">all insert update ...</span><br><span class="line">*.*    :    数据库.表名</span><br><span class="line">root    :   用户名</span><br><span class="line">115.170.*.*     :   远程访问ip地址</span><br><span class="line"></span><br><span class="line">刷新配置</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line">delete from mysql.user where user=root and host = 115.171.60.75;</span><br></pre></td></tr></table></figure>
 <p>安装 原装地址：<a href="http://www.cnblogs.com/5201351/p/4912614.html" target="_blank" rel="noopener">http://www.cnblogs.com/5201351/p/4912614.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">卸载mriadb包</span><br><span class="line">[root@5201351 ~]# rpm -qa|grep mariadb</span><br><span class="line">mariadb-libs-5.5.41-2.el7_0.x86_64</span><br><span class="line">[root@5201351 ~]# rpm -e mariadb-libs-5.5.41-2.el7_0.x86_64 --nodeps</span><br><span class="line"></span><br><span class="line">安装</span><br><span class="line">mysql 安装包 https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.20-1.el7.x86_64.rpm-bundle.tar</span><br><span class="line">rpm -ivh *.rpm</span><br><span class="line"></span><br><span class="line">安装顺序 common libs client server</span><br><span class="line"></span><br><span class="line">两种初始化启动方式</span><br><span class="line">[root@5201351 ~]# mysql_install_db --datadir=/var/lib/mysql   //必须指定datadir,执行后会生成~/.mysql_secret密码文件</span><br><span class="line">[root@5201351 ~]# mysqld --initialize                         //新版的推荐此方法，执行生会在/var/log/mysqld.log生成随机密码</span><br><span class="line"></span><br><span class="line">启动mysql</span><br><span class="line">[root@5201351 ~]# chown mysql:mysql /var/lib/mysql -R</span><br><span class="line">[root@5201351 ~]# systemctl start mysqld.service      </span><br><span class="line"></span><br><span class="line">查看密码</span><br><span class="line">cat ~/.mysql_secret</span><br><span class="line">cat  /var/log/mysqld.log</span><br><span class="line"></span><br><span class="line">登录</span><br><span class="line">[root@5201351 ~]# mysql -uroot -p&apos;)j#)=uRig4yJ&apos;</span><br><span class="line">mysql&gt; set password=password(&apos;www.cnblogs.com/5201351&apos;);</span><br><span class="line"></span><br><span class="line">创建用户以及分配权限</span><br><span class="line">mysql&gt; create user &apos;root&apos;@&apos;192.168.100.2&apos; identified by &apos;QQ5201351&apos;;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON dbname.* to &apos;root&apos;@&apos;192.168.100.2&apos;;</span><br><span class="line">mysql&gt; flush privileges</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/essay/essay-12/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/essay/essay-12/" itemprop="url">
+                  阿里电面总结
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/24/essay/essay-12/" class="leancloud_visitors" data-flag-title="阿里电面总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>先说问到的东西</p>
+<p>负载均衡 DNS LVS  Nginx  常用的 原理 路由转发</p>
+<p>数据库:分库分表.底层</p>
+<p>dubbo 注册原理 dubbo与springcloud 区别</p>
+<p>java常用工具包</p>
+<p>conllection底层  IO 底层  多线程技术 executoService</p>
+<p>shell 查看网络连接 查看系统版本 从文件中找到最大数</p>
+<p>算法:排序.负载均衡算法.缓存淘汰算法</p>
+<p>python vb脚本 渗透. 加分项 ps:能说明你对技术感兴趣</p>
+<p>反正大公司就是各种底层.原理.机制等等</p>
+<p>说下我对java的理解</p>
+<p>concurrentHashMap 锁结构</p>
+<p>是否能重入</p>
+<p>spring aop</p>
+<p>spring事务 传播性 等等</p>
+<p>分布式事务一致性</p>
+<p>ThreadPool</p>
+<p>就像开车一样.每个技术都是别人发明的.用规章制度才能更好的驾驭别人开发出来的武器.<br>不要怀疑别人为什么那么写(至少你还不够那个资格).<br>不要问为什么这么写.应该问别人为什么会这么做(是不是开起车来.更快更稳).还是那句话.</p>
+<p>还有底层.我一个小二本.没本事入大公司法眼.自然也就不会’更’关注底层.先了解了架构.数据流向.</p>
+<p>你至少应该明白你做的系统是个什么东西.你做的是那一块.需要什么样的性能</p>
+<p>在这个基础上.有些人会不再钻研技术.走向管理岗位.这也是很多管理广而不细.</p>
+<p>还有一些人开始了技术底层之路.也就是资深人士.</p>
+<p>现在进不去没关系.以后我会的.</p>
 
           
         
