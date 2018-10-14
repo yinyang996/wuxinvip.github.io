@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/design-pattern/structure/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/log/elk-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/design-pattern/structure/" itemprop="url">
-                  设计模式-结构型
+                <a class="post-title-link" href="/2018/03/24/log/elk-1/" itemprop="url">
+                  ELK 搭建
                 </a>
               
             
@@ -478,16 +478,41 @@
       
         
           
-            <p>设计模式-结构型–7种</p>
-<p>组合、适配器、过滤器、桥接、装饰、外观、享元、代理</p>
-<p>组合–最为常用–将对象组合成一个树状结构、例如菜单上做自循环</p>
-<p>适配器–播放器格式适配–对类型判定使用不同子类方法实例</p>
-<p>桥接–封装类组合形成一个复杂对象–把复杂对象拆分简单对象</p>
-<p>过滤器–使用不同标准来过滤一组对象</p>
-<p>装饰–不增加子类-扩展类属性</p>
-<p>外观–外部定义一个高层接口-直接使用其属性</p>
-<p>享元—不太了解</p>
-<p>代理–使用一个类来代理另一个类来执行业务逻辑–简单来讲-classB代理classA、classB来处理业务逻辑</p>
+            <p><strong>elasticsearch 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/downloads/elasticsearch</a><br>linux执行 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>下载解压 【建议使用zsh】</p>
+<p>修改配置文件<br>config/elasticsearch.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 集群的名字  </span><br><span class="line">cluster.name: cloud</span><br><span class="line"># 节点名字  </span><br><span class="line">node.name: node-1   </span><br><span class="line"># 数据存储目录（多个路径用逗号分隔）  </span><br><span class="line">path.data: /usr/local/logUtils/elasticsearch/es-data</span><br><span class="line"># 日志目录  </span><br><span class="line">path.logs: /usr/local/logUtils/elasticsearch/log</span><br><span class="line">#本机的ip地址</span><br><span class="line">network.host: 192.168.0.135  </span><br><span class="line">#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;192.168.161.128&quot;]</span><br><span class="line"># 设置节点间交互的tcp端口（集群）,(默认9300)  </span><br><span class="line">transport.tcp.port: 9300  </span><br><span class="line"># 监听端口（默认）  </span><br><span class="line">http.port: 9200  </span><br><span class="line"># 增加参数，使head插件可以访问es  </span><br><span class="line">http.cors.enabled: true  </span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+<p>运行 bin下的 elasticsearch 进行启动<br>后台启动 bin/elasticsearch  -d</p>
+<p>启动结果如下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-c3defbf97ceb3d06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>启动会遇到的问题<br>1、非root权限启动<br>新建用户  es<br>然后把 elasticsearch 文件夹权限归给 新用户es<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R  es:es  elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>2、 软硬进程限制</p>
+<p>max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]</p>
+<p>解决办法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf</span><br></pre></td></tr></table></figure></p>
+<p>文后添加<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2291db66448586cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>然后使用source 重新加载<br>并使用 ulimit -n 查看 是否为 65536 如果还是1024 那么重新连接linux 试下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-032a906cd27eeca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>3、<br>.max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</p>
+<p>解决办法 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">执行    ：sysctl -w vm.max_map_count=655360</span><br><span class="line">查看执行结果 ： sysctl -a | grep vm.max_map_count</span><br></pre></td></tr></table></figure></p>
+<p><strong>elasticsearch 插件 head 安装</strong></p>
+<p>下载head插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/mobz/elasticsearch-head/archive/master.zip</span><br><span class="line">安装node</span><br><span class="line">wget https://npm.taobao.org/mirrors/node/latest-v4.x/node-v4.4.7-linux-x64.tar.gz</span><br><span class="line">tar -zxvf node-v4.4.7-linux-x64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>配置环境变量<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b86cce5f1787b61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>安装 grunt<br>cd /opt/elasticsearch-head-master<br>npm install -g grunt-cli  //执行后会生成node_modules文件夹<br>grunt是基于Node.js的项目构建工具，可以进行打包压缩、测试、执行等等的工作，head插件就是通过grunt启动</p>
+<p>检查是否安装成功<br>grunt -version</p>
+<p>修改head 插件源码<br>vi  Gruntfile.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e777189ec26ea9b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>vi _site/app.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-99ec0f1955f299a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>文件较大 建议下载下来 使用文本编辑器查找<br>或者使用命令替换localhost 为 你的ip</p>
+<p>运行head<br>head根目录<br>运行 npm install<br>启动head grunt server<br>后台启动 nohup grunt server  &amp;<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e00e0f1850d2b2f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Logstash 安装</strong></p>
+<p>官方下载地址 ：<a href="https://www.elastic.co/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/downloads/logstash</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">linux安装：curl -L -O https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz</span><br><span class="line"></span><br><span class="line">config 添加 配置文件</span><br><span class="line"></span><br><span class="line">vi logstash.conf</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  # stdin &#123; &#125;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    # host:port就是上面appender中的 destination，</span><br><span class="line">    # 这里其实把logstash作为服务，开启9250端口接收logback发出的消息</span><br><span class="line">    host =&gt; &quot;192.168.0.135&quot;</span><br><span class="line">     port =&gt; 9250</span><br><span class="line">     mode =&gt; &quot;server&quot;</span><br><span class="line">    tags :&gt; [&quot;tags&quot;]</span><br><span class="line">    codec =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123; hosts =&gt; [&quot;localhost:9200&quot;] &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动logstash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./logstash -f ../config/logstash.conf  &amp;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Kibana 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/kibana" target="_blank" rel="noopener">https://www.elastic.co/downloads/kibana</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim config/kibana.yml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server.host:&quot;192.168.0.135&quot;</span><br><span class="line">elasticsearch.url:http://192.168.0.135:9200</span><br><span class="line"></span><br><span class="line">启动kibana</span><br><span class="line"></span><br><span class="line">bin/kibana</span><br></pre></td></tr></table></figure></p>
+<p>启动服务 <a href="http://192.168.0.135:5601" target="_blank" rel="noopener">http://192.168.0.135:5601</a></p>
+<p>至此 ELK服务单机版部署完成</p>
+<p>springcloud 集成logback</p>
+<p>引入pom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志发送logstash--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>logback-spring.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=&quot;LOGSTASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        destination 是 logstash 服务的 host:port，</span><br><span class="line">        相当于和 logstash 建立了管道，将日志数据定向传输到 logstash</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;destination&gt;192.168.0.135:9250&lt;/destination&gt;</span><br><span class="line">        &lt;encoder charset=&quot;UTF-8&quot; class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">  &lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">          &lt;appender-ref ref=&quot;LOGSTASH&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -503,14 +528,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/design-pattern/behavior/" rel="bookmark">设计模式-行为型</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/design-pattern/establish/" rel="bookmark">设计模式-创建型</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
       
     </li>
   
@@ -694,7 +726,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
       
     </li>
   
@@ -906,14 +938,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-translation/" rel="bookmark">事务</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-thread/" rel="bookmark">线程</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-thread/" rel="bookmark">线程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-translation/" rel="bookmark">事务</a></div>
       
     </li>
   
@@ -1169,6 +1201,16 @@
                 </span>
               
                 <span class="links-of-author-item">
+                  <a href="https://gitee.com/none_heart" target="_blank" title="Gitee" rel="external nofollow"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://blog.csdn.net/huoyan403" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-stack-overflow"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
                   <a href="mailto:wuxinvipcom@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i></a>
                   
                 </span>
@@ -1228,7 +1270,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

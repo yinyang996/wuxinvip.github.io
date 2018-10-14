@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/load-balance/dns/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-structure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/load-balance/dns/" itemprop="url">
-                  DNS负载均衡
+                <a class="post-title-link" href="/2018/03/24/jdk/jvm-memory-structure/" itemprop="url">
+                  jvm内存结构
                 </a>
               
             
@@ -478,20 +478,17 @@
       
         
           
-            <h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>dns重定向<br>存储:本地.阿里云.万网dns服务器</p>
-<p>dns 在网络上其实就是域名解析到ip的一个过程叫dns解析</p>
-<p>本站域名 <a href="http://www.wuxinvip.com">www.wuxinvip.com</a> </p>
-<p>解析ip 为 39.107.82.228 </p>
-<p>以此为例、过程</p>
-<pre><code>1、用户请求数据、发送域名到域名解析服务器
-2、将域名发送到dns服务解析器【国外顶级域名dns服务器、万网dns服务器、阿里dns服务器】
-一般你的域名在哪里买的 会有相应的dns解析服务器【免费提供】
-
-当然这个解析的过程、请求会发到一个主机器、这个机器按照不同规则、将解析
-分发个各个dns解析器、然后返回域名对应的外网ip地址
-
-用户拿个这个ip 呼叫公网上叫这个ip的服务器 建立会话
-</code></pre><h2 id="域名攻击"><a href="#域名攻击" class="headerlink" title="域名攻击"></a>域名攻击</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    域名直接污染</span><br><span class="line">    域名间接污染</span><br><span class="line"></span><br><span class="line">域名直接污染: 在用户请求域名的ip地址途中、通过拦截域名解析、把ip指向别的服务器、</span><br><span class="line">    比如很普通的、当年百度网站被指向了一个荷兰的一个ip、这就是dns劫持攻击、简单暴力直接瘫痪你的网站</span><br><span class="line">    </span><br><span class="line">域名间接污染：这个就比较复杂了、dns解析服务器也是一个梯度服务器、上游将域名解析列表发送给下游服务器</span><br><span class="line"></span><br><span class="line">如果在上游服务器到下游服务器之间做一个拦截、那么将导致下游的dns解析全部错误、</span><br><span class="line">现在的google不能访问就是这个样子、所以有了各大host访问谷歌的功能、</span><br><span class="line"></span><br><span class="line">不过把google真正的ip解析放到自己的电脑里直接访问ip方式、也只能解决很小一部分墙问题、这些ip后续防火墙也会封掉的、</span><br><span class="line"></span><br><span class="line">这个就涉及到国家的网络与国际链接的国际出入口的防火墙上（像我天朝“G/.F/.W/.”）、基本上也算是最大的dns污染源</span><br></pre></td></tr></table></figure>
+            <p>jvm内存 一条线<br>线程共享 线程不共线【也叫非线程共享】</p>
+<p>线程共享： 堆【Heap】、 方法区【method area】<br>非线程共享： 程序计数器、虚拟机栈、本地方法栈</p>
+<p>方法区还包含 运行时常量池【类常量数据】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-56f59944c8ae5b02.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="内存.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">异常：</span><br><span class="line">jvm中定义两种异常 StackOverflow、outofmemory</span><br><span class="line">一种是栈溢出 一种是内存溢出</span><br><span class="line">官方定义栈溢出：线程请求深度大于虚拟机允许深度、抛出StackOverflow</span><br><span class="line">官方定义内存溢出：java内存扩展、当虚拟机申请不到足够的内存、抛出outofmemory</span><br></pre></td></tr></table></figure>
+<p><strong>jvm堆</strong><br>细分：新生代、老年代【分代收集算法】<br>再细分：Eden、From Survivor、To Survivor空间<br>再内存分配黑可以分出多个线程私有的分配缓冲区<br>存放内容：对象实例、细致的划分只是为了更好的回收<br>堆是回收主要区域</p>
+<p><strong>jvm方法区</strong><br>1、线程共享<br>2、存储已被虚拟机加载、类信息、常量、静态变量、即时编译器编译后的代码数据</p>
+<p><strong>jvm运行时常量池</strong><br>1、方法区一部分<br>2、存放编译期生成各种字面量和符号引用、</p>
+<p><strong>直接内存</strong><br>1、不属于jvm运行时数据取一部分 再五大板块外、<br>2、jdk1.4中 引入NIO、引用了一种基于通道（channel）与缓冲区（Buffer）的IO方式、它可以使用Native函数库直接分配对外内存、然后通过一个存储再java堆中的DirectByteBuffer对象来作为这一块内存引用、来进行操作、避免了java堆和native堆中来回复制数据<br>3、该内存受限于 操作系统和物理内存</p>
+<p><strong>虚拟机栈</strong><br>1、虚拟机执行java程序使用栈</p>
+<p><strong>本地方法栈</strong><br>1、执行native方法使用栈</p>
+<p><strong>程序计数器</strong><br>1、与c交界点、一个线程一个程序计数器、内存耗费较小、记录执行指针</p>
 
           
         
@@ -507,35 +504,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/maglev/" rel="bookmark">maglev</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
       
     </li>
   
@@ -792,13 +768,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
       
     </li>
@@ -807,6 +776,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
       
     </li>
   
@@ -860,7 +836,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/ehcache/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/container/what-docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -879,8 +855,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
-                  ehcache
+                <a class="post-title-link" href="/2018/03/24/container/what-docker/" itemprop="url">
+                  what is the docker
                 </a>
               
             
@@ -960,26 +936,27 @@
       
         
           
-            <p>ehcache service层缓存系统</p>
-<p><strong>发展史</strong></p>
-<pre><code>Ehcache
-开发者（S）    Terracotta，Inc。[1]
-稳定版本
-3.3.0 / 2017年2月1日; 16个月前
-写入    Java的
-操作系统    跨平台
-类型    高速缓存
-执照    Apache许可证 2.0
-网站    www.ehcache.org
+            <p><strong>what is docker?</strong></p>
+<p>百度 告诉我们docker是一个容器</p>
+<p>作为java码头搬砖的 我想到了 spring也是叫做容器</p>
+<p>那么容器是一个什么样的概念? 不由想到了水缸—容器   容器装载水的 与水毫无关系</p>
+<p>spring容器 IOC AOP 都晓得<br>IOC 把对象创建交给spring管理 然后加载到jvm中运行java 程序<br>AOP 面向切面编程.其实就是提供了一个切面模式.能够很好地控制类的加载顺序.或者类的执行顺序</p>
+<p>但是本质上spring容器就是装载java程序的</p>
+<p>那么docker?<br>装载各种程序的.暂时可以理解为一个系统.系统也是一个容器.装载我们运行的程序<br>window装载 exe.        linux装载rpm.        android 装载一类apk的程序             ios装载一类ipa的程序</p>
+<p> 那么官网是怎么吹皮的呢?<br>Docker是推动集装箱运动的公司，也是唯一一家能够解决混合云中的每个应用的集装箱平台提供商。当今的企业面临数字化转型的压力，但受到现有应用程序和基础架构的制约，同时合理化日益多样化的云，数据中心和应用程序体系结构。Docker实现了应用程序和基础架构与开发人员和IT运营商之间的真正独立性，从而发挥其潜力，并创建更好的协作和创新模式。</p>
+<p><strong>docker给我们提供了什么样的先进功能? 也是我们要用它的原因</strong></p>
+<p>1.敏捷<br>  通过13X加速软件开发和部署，并立即响应客户的需求。<br>2.可移植性<br>一劳永逸地消除“在我的机器上工作”。在本地和云环境中获得独立性。<br>3.安全<br>通过内置的安全功能和配置，在整个生命周期中提供更安全的应用程序。<br>4.节约成本<br>优化基础架构资源的使用并简化操作，以节省总成本的50％。</p>
+<p>在使用上:<br> 1.简单<br>Docker为应用创建和编排提供了强大的工具<br>2.透明度<br>采用开源技术和模块化设计构建，可轻松集成到现有环境中。<br>3.独立<br>Docker在开发人员和IT部门之间以及应用程序和基础架构之间创建了一个关注点，以解锁创新</p>
+<p>在行业上<br>1.现代化传统应用[MTA]<br>Docker的第一步是现有的应用程序组合。将现有应用程序打包到容器中可以立即提高安全性，降低成本并获得云的便携性。这种转换将现代属性应用于遗留应用程序 - 所有这些都不需要更改一行代码。</p>
+<p>2.混合云<br>云迁移，多云或混合云基础架构需要应用程序的无缝移植。Docker将应用程序及其依赖关系打包到一个独立的容器中，使它们可以移植到任何基础架构中 一劳永逸地消除“在我的机器上工作”的问题。Docker认证的基础架构确保集装箱化的应用程序一直工作。</p>
+<p>3.持续集成和部署[DEVOPS]<br>集成现代方法并通过集成Docker和DevOps来自动化开发流程。通过消除应用程序冲突并提高开发人员的生产力，容器的独立性使其有助于快速变化的环境。Docker实现了关注的真正分离，加速了DevOps流程的采用。</p>
+<p>4.微服务<br>Docker容器在设计上是轻量级的，是实现微服务应用程序开发的理想选择。加速作为单个应用程序组成的数十个或数百个容器的开发，部署和回滚。无论是构建新的微服务还是将小块服务转换为更小的服务，简单易用的工具都可以轻松组合，部署和维护复杂的应用程序。</p>
+<p>docker安装:<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">https://docs.docker.com/engine/installation/</a></p>
+<p>docker与虚拟机区别<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b1a9ef4bb7dc455.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="docekr与虚拟机区别.png"></p>
+<p>可看出虚拟机拥有较强的隔离技术。虚拟机承载的镜像都是互相独立的。<br>而且虚拟机中执行的进程是被虚拟机管理的，并不与主机进程等价。</p>
+<p>docker容器技术中，最主要一点就是容器进程与主机进程等价。省去了虚拟机进程管理的消耗。<br>但是这样也带来了问题。容器隔离度安全问题。</p>
+<p>另外docker中可以两个应用共用一个库。而虚拟机因为隔离性太强，只能各用个的。</p>
 
-Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
-
-Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
-
-该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
-
-2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
-</code></pre>
           
         
       
@@ -994,21 +971,14 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/container/install-docker/" rel="bookmark">install docker</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/container/pouch/" rel="bookmark">pouch</a></div>
       
     </li>
   
@@ -1264,6 +1234,16 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
                 </span>
               
                 <span class="links-of-author-item">
+                  <a href="https://gitee.com/none_heart" target="_blank" title="Gitee" rel="external nofollow"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://blog.csdn.net/huoyan403" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-stack-overflow"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
                   <a href="mailto:wuxinvipcom@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i></a>
                   
                 </span>
@@ -1323,7 +1303,7 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

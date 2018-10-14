@@ -378,408 +378,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/oauth-oauth2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/service-permission/oauth-oauth2/" itemprop="url">
-                  OAuth OAuth2
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>翻了几篇子 认证 csdn  一个模样 连错误都一样</p>
-<p>《用访问令牌到授权服务器换取访问令牌(accesstoken&amp;secret)》<br>这叫人怎么理解 ？？</p>
-<p>果断找官网<br><a href="https://oauth.net/core/1.0a/" target="_blank" rel="noopener">https://oauth.net/core/1.0a/</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-11e716dc12557360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><a href="https://oauth.net/2/" target="_blank" rel="noopener">https://oauth.net/2/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">OAuth2 授权类型</span><br><span class="line">1、运行在网络服务器，基于浏览器和移动应用程序的应用程序的授权码【web授权】</span><br><span class="line">2、密码为与登录用户名和密码</span><br><span class="line">3、客户端凭证的应用程序访问</span><br><span class="line">4、Implicit以前曾被推荐给没有秘密的客户，但已被使用授权代码授权而没有秘密取代。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OAuth认证和授权的过程如下:</span><br><span class="line"></span><br><span class="line">1、用户访问第三方网站网站，想对用户存放在服务商的某些资源进行操作。</span><br><span class="line"></span><br><span class="line">2、第三方网站向服务商请求一个临时令牌。</span><br><span class="line"></span><br><span class="line">3、服务商验证第三方网站的身份后，授予一个临时令牌。</span><br><span class="line"></span><br><span class="line">4、第三方网站获得临时令牌后，将用户导向至服务商的授权页面请求用户授权，然后这个过程中将临时令牌和第三方网站的返回地址发送给服务商。</span><br><span class="line"></span><br><span class="line">5、用户在服务商的授权页面上输入自己的用户名和密码，授权第三方网站访问所相应的资源。</span><br><span class="line"></span><br><span class="line">6、授权成功后，服务商将用户导向第三方网站的返回地址。</span><br><span class="line"></span><br><span class="line">7、第三方网站根据临时令牌从服务商那里获取访问令牌。</span><br><span class="line"></span><br><span class="line">8、服务商根据令牌和用户的授权情况授予第三方网站访问令牌。</span><br><span class="line"></span><br><span class="line">9、第三方网站使用获取到的访问令牌访问存放在服务商的对应的用户资源。</span><br></pre></td></tr></table></figure>
-<p>国外文档：<a href="https://aaronparecki.com/oauth-2-simplified/" target="_blank" rel="noopener">https://aaronparecki.com/oauth-2-simplified/</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ef3df8c7008fc91b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.jpg"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ed27155395dbbf55.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.jpg"></p>
-<p>看不懂的用有道翻译啊[捂脸笑][捂脸笑][捂脸笑]</p>
-<p>巨详细的请求解释 看看国内的 mmp</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/service-permission/shiro-1/" itemprop="url">
-                  权限系统_shiro_授权流程
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Shiro Authorization （ 授权）</p>
-<p>官方授权图片</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-336b0632fee6bb6a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>步骤：<br><img src="http://upload-images.jianshu.io/upload_images/6434888-d44d3592576f6485?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>授权成功后</p>
-<p>关于权限使用有三种方式</p>
-<p>1、编写代码</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-05cdfe309a99ea49?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>2、JDK标签</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-09b04e1663976962?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>3、JSPGSP标签库</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-118318e60b08f8e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这里要解释下 RBAC </p>
-<p>以前的RBAC是 Role-Based-Access-Control</p>
-<p>基于角色的访问控制</p>
-<p>权限表 是 用户表-角色表-操作url表 【Menu】</p>
-<p>控制方式是 用户拥有某权限——–权限拥有某url【controller】 才可以访问 </p>
-<p>麻烦点就是 后台判断用户是否拥有权限时，判断用户角色 那么就是把角色和资源绑定到一起、这样后期开发会发生这么一种情况、就是有个默认角色后期我可能要删除、使用新角色来控制这些资源、那么 到时候就要更新代码重新发布 </p>
-<p>而最新的RBAC是 Resource-Based-Access-Control </p>
-<p>基于资源的访问控制</p>
-<p>权限表是 用户表【user】-角色表-功能许可表【Permission】</p>
-<p>控制方式就是 用户拥有某一角色——–角色拥有这一资源许可——-资源许可和代码【controller】绑定在一起 后期要更改角色权限 就把这个角色删掉就可以了 并不会影响代码 不需要重构代码</p>
-<p>shiro中同时使用两种方式进行 权限判断 用户可以自行选择 </p>
-<p>相关使用方法 参加xmind</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3de54131aeffcc67?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/crontab/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -910,7 +508,198 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-2/" rel="bookmark">java后台升级命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/zsh/" rel="bookmark">zsh</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/shell-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/shell/shell-1/" itemprop="url">
+                  java后台常用命令
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br><span class="line"></span><br><span class="line">ps</span><br><span class="line"></span><br><span class="line">ps -ef</span><br><span class="line"></span><br><span class="line">ps -ef | grep &quot;&quot;</span><br><span class="line"></span><br><span class="line">| 管道符</span><br><span class="line">#移动文件</span><br><span class="line">mv  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db</span><br><span class="line"></span><br><span class="line">#复制文件</span><br><span class="line">cp  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db.backup</span><br><span class="line">#复制文件夹</span><br><span class="line">cp -a /usr/bin/  /var/data/mysql/</span><br><span class="line"></span><br><span class="line"> mkdir New_Dir</span><br><span class="line"> mkdir -p New_Dir/Sub_Dir/Under_Dir </span><br><span class="line"></span><br><span class="line">sh .../*.sh</span><br><span class="line"></span><br><span class="line">vim 123.txt</span><br><span class="line"></span><br><span class="line">tail -f ../*.log </span><br><span class="line">tail -f -n1000 ../*.log</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
       
     </li>
   
@@ -924,7 +713,208 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/shell/zsh/" rel="bookmark">zsh</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/about-agreement/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/agreement/about-agreement/" itemprop="url">
+                  关于协议
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>what 协议？<br>人民币算不算是一种协议？买家和卖家协议一张纸为 10元 、50元、100元</p>
+<p>so ： 协议在互联网届就是发送方和接收方商量好的一种消息模式，</p>
+<p>Http：规定两个ip、一个发送ip、一个接收ip、这两个ip进行数据交互时候、先握手、确定数据畅通、然后在进行数据通信、<br>握手协议：规定握手消息格式【一系列参数的排序】、<br>数据通信规定http发送消息体消息格式。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-477f618f1456f9ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
       
     </li>
   
@@ -1180,6 +1170,16 @@
                 </span>
               
                 <span class="links-of-author-item">
+                  <a href="https://gitee.com/none_heart" target="_blank" title="Gitee" rel="external nofollow"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://blog.csdn.net/huoyan403" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-stack-overflow"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
                   <a href="mailto:wuxinvipcom@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i></a>
                   
                 </span>
@@ -1239,7 +1239,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/rpc/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/memcached/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/rpc/" itemprop="url">
-                  RPC
+                <a class="post-title-link" href="/2018/03/24/cache/memcached/" itemprop="url">
+                  memcached
                 </a>
               
             
@@ -478,24 +478,42 @@
       
         
           
-            <p>RPC（Remote Procedure Call）—远程过程调用</p>
-<p><strong>工作原理</strong></p>
-<ul>
-<li>1.调用客户端句柄；执行传送参数</li>
-<li>2.调用本地系统内核发送网络消息</li>
-<li>3.消息传送到远程主机</li>
-<li>4.服务器句柄得到消息并取得参数</li>
-<li><p>5.执行远程过程</p>
-</li>
-<li><p>6.执行的过程将结果返回服务器句柄</p>
-</li>
-<li>7.服务器句柄返回结果，调用远程系统内核</li>
-<li>8.消息传回本地主机</li>
-<li>9.客户句柄由内核接收消息</li>
-<li>10.客户接收句柄返回的数据</li>
-</ul>
-<p><strong>协议结构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">远程过程调用（RPC）信息协议由两个不同结构组成：调用信息和答复信息。信息流程如下所示：</span><br><span class="line">RPC：远程过程调用流程</span><br><span class="line">RPC 调用信息：每条远程过程调用信息包括以下无符号整数字段，以独立识别远程过程：</span><br><span class="line">程序号（Program number）</span><br><span class="line">程序版本号（Program version number）</span><br><span class="line">过程号（Procedure number）</span><br><span class="line">RPC 调用信息主体形式如下：</span><br><span class="line">struct call_body &#123;</span><br><span class="line">unsigned int rpcvers;</span><br><span class="line">unsigned int prog;</span><br><span class="line">unsigned int vers;</span><br><span class="line">unsigned int proc;</span><br><span class="line">opaque_auth cred;</span><br><span class="line">opaque_auth verf;</span><br><span class="line">1 parameter</span><br><span class="line">2 parameter . . . &#125;；</span><br><span class="line">RPC 答复信息：RPC 协议的答复信息的改变取决于网络服务器对调用信息是接收还是拒绝。答复信息请求包括区别以下情形的各种信息：</span><br><span class="line">RPC 成功执行调用信息。.</span><br><span class="line">RPC 的远程实现不是协议第二版，返回 RPC 支持的最低和最高版本号。</span><br><span class="line">在远程系统中，远程程序不可用。</span><br><span class="line">远程程序不支持被请求的版本号。返回远程程序所支持的最低和最高版本号。</span><br><span class="line">请求的过程号不存在。通常是呼叫方协议或程序差错。</span><br><span class="line">RPC答复信息形式如下：</span><br><span class="line">enum reply_stat stat</span><br><span class="line">&#123;MSG_ACCEPTED = 0,</span><br><span class="line">MSG_DENIED = 1 &#125;;</span><br></pre></td></tr></table></figure></p>
+            <p>memcached</p>
+<p><strong>简介</strong></p>
+<pre><code>Memcached的
+Memcached.svg
+开发者（S）    Danga Interactive
+初始发行    2003年5月22日
+稳定版本
+1.5.8 / 2018年5月25日; 39天前[1]
+知识库
+https://github.com/memcached/memcached
+在维基数据上编辑此内容
+写入    C
+操作系统    跨平台
+类型    分布式内存缓存系统
+执照    修订BSD许可证[2]
+网站    memcached .org
+Memcached（发音：mem-cash-dee，mem-cashed）是一种通用的分布式内存缓存系统。它通常用于通过在RAM中缓存数据和对象来加速动态数据库驱动的网站，以减少必须读取外部数据源（如数据库或API）的次数。Memcached是免费的开源软件，根据修订的BSD许可证授权。[2] Memcached在类Unix操作系统（至少是Linux和OS X）和Microsoft Windows上运行。这取决于libevent库。
 
+Memcached的API提供了一个分布在多台机器上的非常大的哈希表。当表已满时，后续插入会导致较旧的数据以最近最少使用（LRU）顺序被清除。[3] [4]使用Memcached的应用程序通常将请求和添加分层到RAM中，然后再回到较慢的后备存储（例如数据库）上。
+
+Memcached没有内部机制来跟踪可能发生的未命中，但是，某些第三方实用程序提供此功能。
+</code></pre><p><strong>数据结构</strong></p>
+<pre><code>key-value【string】
+</code></pre><p><strong>特点</strong></p>
+<pre><code>client-server 结构
+服务端、维护key-value 互不通信
+客户端、自行管理数据在各个服务间的分配
+</code></pre><p><strong>性能</strong></p>
+<pre><code>get获取时间戳、懒校验
+内存不足 LRU算法、主动淘汰
+多核存储、集群性能要高于redis
+内存利用率要高于redis
+</code></pre><p><strong>集群</strong></p>
+<pre><code>服务器互相独立
+客户端hash存储数据
+</code></pre>
           
         
       
@@ -510,28 +528,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
       
     </li>
   
@@ -585,7 +596,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/container/pouch/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -604,8 +615,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/container/pouch/" itemprop="url">
-                  pouch
+                <a class="post-title-link" href="/2018/03/24/service-design/design-0/" itemprop="url">
+                  系统设计一些基本原则
                 </a>
               
             
@@ -685,23 +696,10 @@
       
         
           
-            <p>2017.11.19正式开源pouch</p>
-<p>pouch 基于Apache2.0协议的容器技术</p>
-<p>介绍：<br>Pouch 是一个轻量级容器技术<br>特点：快速高效、可移植性高、资源占用少</p>
-<p>github：<a href="https://github.com/alibaba/pouch" target="_blank" rel="noopener">pouch</a></p>
-<p>11年基于Linux内核上的namespace、cgroup等技术开始成熟、阿里Pouch基于LXC研发的第一代容器t4<br>13年Docker横空出世、解决了行业多年的”软件封装”问题、阿里吸收其经验、打磨Pouch</p>
-<p>Pouch规模<br>2017 年双 11，巨额交易 1682 亿背后，Pouch 在”超级工程”中做到了：<br> 1、100% 的在线业务 Pouch 化<br>2、容器规模达到百万级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">阿里集团内部，Pouch 的日常服务已经覆盖绝大部分的事业部，</span><br><span class="line">覆盖的业务场景包括：电商、广告、搜索等；</span><br><span class="line">覆盖技术栈包括：电商应用、数据库、大数据、流计算等；</span><br><span class="line">覆盖编程语言：Java、C++、NodeJS 等。</span><br></pre></td></tr></table></figure></p>
-<p>Pouch 技术优势<br>1、隔离性强<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">众所周知，行业中的容器方案大多基于 Linux 内核提供的 cgroup 和 namespace 来实现隔离，然后这样的轻量级方案存在弊端：</span><br><span class="line"></span><br><span class="line">.容器间，容器与宿主间，共享同一个内核；</span><br><span class="line">.内核实现的隔离资源，维度不足。</span><br><span class="line"></span><br><span class="line">面对如此的内核现状，阿里巴巴采取了三个方面的工作，来解决容器的安全问题：</span><br><span class="line"></span><br><span class="line">用户态增强容器的隔离维度，比如网络带宽、磁盘使用量等；</span><br><span class="line">给内核提交 patch，修复容器的资源可见性问题，cgroup 方面的 bug；</span><br><span class="line">实现基于 Hypervisor 的容器，通过创建新内核来实现容器隔离。</span><br></pre></td></tr></table></figure></p>
-<p>2、P2P镜像分发<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">点对点分发镜像【相对于中央仓库分发镜像、极大见笑了中央仓库的网络压力】</span><br><span class="line"></span><br><span class="line">工具：阿里巴巴镜像分发工具&quot;蜻蜓&quot;</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://github.com/alibaba/dragonfly" target="_blank" rel="noopener">蜻蜓地址</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-781bc5f086599150.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch 与蜻蜓的使用架构图"></p>
-<p>3、富容器技术<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> Pouch 技术可以说对业务没有任何的侵入性，也正是因为这一点在集团内部做到 100% 容器化。</span><br><span class="line">这样的容器技术，被无数阿里人称为“富容器”。</span><br><span class="line"></span><br><span class="line">“富容器”技术的实现，主要是为了在 Linux 内核上创建一个与虚拟机体验完全一致的容器。</span><br><span class="line">如此一来，比一般容器要功能强大，内部有完整的 init 进程，以及业务应用需要的任何服务，当然这也印证了 Pouch 为什么可以做到对应用没有“侵入性”。</span><br><span class="line">技术的实现过程中，Pouch 需要将容器的执行入口定义为 systemd，而在内核态，Pouch 引入了 cgroup namespace 这一最新的内核 patch，满足 systemd 在富容器模式的隔离性。</span><br><span class="line">从企业运维流程来看，富容器同样优势明显。</span><br><span class="line">它可以在应用的 Entrypoint 启动之前做一些事情，比如统一要做一些安全相关的事情，运维相关的 agent 拉起。</span><br><span class="line">这些需要统一做的事情，倘若放到用户的启动脚本，或镜像中就对用户的应用诞生了侵入性，而富容器可以透明的处理掉这些事情。</span><br></pre></td></tr></table></figure></p>
-<p>4、内核兼容性<br>可以理解为兼容老版本linux内核系统</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7a41c33b6c7eae05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch生态架构"></p>
-<p>Pouch 的生态架构可以从两个方面来看：第一，如何对接容器编排系统；第二，如何加强容器运行时。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ac732db7a31676b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Pouch内部系统架构"></p>
-<p>传统的容器引擎方案相似，Pouch 也呈现出 C/S 的软件架构。命令行 CLI 层面，可以同时支持 Pouch CLI 以及 Docker CLI。对接容器 runtime，Pouch 内部通过 container client 通过 gRPC 调用 containerd。Pouch Daemon 的内部采取组件化的设计理念，抽离出相应的 System Manager、Container Manager、Image Manager、Network Manager、Volume Manager 提供统一化的对象管理方案。</p>
-<p><a href="http://www.infoq.com/cn/articles/alibaba-pouch" target="_blank" rel="noopener">以上内容来自 infoq阿里关于pouch介绍</a></p>
+            <p>参照梁飞–dubbo创始人—<a href="http://dubbo.io/books/dubbo-dev-book/principals/general-knowledge.html" target="_blank" rel="noopener">一些设计上的基本常识</a></p>
+<p>不看不知道 一看吓一跳<br>原来一个复杂的服务系统这么多门道</p>
+<p>以前只晓得 API SPI分离。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">API 与 SPI 分离</span><br><span class="line"></span><br><span class="line">服务域/实体域/会话域分离</span><br><span class="line"></span><br><span class="line">在重要的过程上设置拦截接口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重要的状态的变更发送事件并留出监听接口</span><br><span class="line"></span><br><span class="line">扩展接口职责尽可能单一，具有可组合性</span><br><span class="line"></span><br><span class="line">微核插件式，平等对待第三方</span><br><span class="line"></span><br><span class="line">不要控制外部对象的生命周期</span><br><span class="line"></span><br><span class="line">可配置一定可编程，并保持友好的 CoC 约定</span><br><span class="line"></span><br><span class="line">区分命令与查询，明确前置条件与后置条件</span><br><span class="line"></span><br><span class="line">增量式扩展，而不要扩充原始核心概念</span><br></pre></td></tr></table></figure>
 
           
         
@@ -717,14 +715,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/container/install-docker/" rel="bookmark">install docker</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/container/what-docker/" rel="bookmark">what is the docker</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">千万级别系统搭建</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-5/" rel="bookmark">风控系统</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
       
     </li>
   
@@ -778,7 +797,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-deploy/bandwidth/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -797,8 +816,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-deploy/bandwidth/" itemprop="url">
-                  服务器带宽
+                <a class="post-title-link" href="/2018/03/24/service-design/design-1/" itemprop="url">
+                  分布式架构
                 </a>
               
             
@@ -878,19 +897,13 @@
       
         
           
-            <p><strong>首先要知道影响在线人数的因素</strong></p>
-<p>1，访问量</p>
-<p>2，网站类型：如果是出文字的网站(如小说站)，1M带宽带动日均5000IP，还勉强。如果是普通网站有图片，有文字、论坛、新闻资讯类型网站 大概1M能带一千IP。考虑到高峰期并发，1M高峰期还会卡。【最低配 单核CPU+512内存。1千IP CPU占用10%左右，内存200到300之间】。</p>
-<p><strong>下面根据影响因素计算下1M带宽能同时承受多少人在线(以网络状况良好为前提)</strong></p>
-<p>1、</p>
-<p><a href="http://www.wusiwei.com/post-904.html" target="_blank" rel="noopener">打开网站8秒原则</a>;</p>
-<p>2、 评判的只是：用户从云服务器下载文件的速度;</p>
-<p>3、 页面的标准尺寸大小为：60KB;</p>
-<p>参考公式：<strong>支持连接个人 = 服务器带宽/页面尺寸大小</strong></p>
-<p>通过计算大致结果是，1Mbps的带宽(服务器的1M带宽最快上下速度能达到1M/s，跟我们家用的带宽稍有区别)支持的连接数为：17个</p>
-<p>因此，N M带宽可以支持的同时在线人数大概为N*17个</p>
-<p>所以，1M带宽的云主机，日均3000IP以下应该没问题。当然如果你的每个页面都比较大的话，那就没这么多了。具体多少，可以按照上面的算法算下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">初次访问 362kb</span><br><span class="line">第二次访问 36kb</span><br><span class="line"></span><br><span class="line">pv 8641+2007+1000 = 11648</span><br><span class="line"></span><br><span class="line">pv * 362 = 4216576kb = 4117.75MB  4GB流量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">market</span><br><span class="line">初次171kb</span><br><span class="line">第二次 28kb</span><br><span class="line"></span><br><span class="line">pv= 3000</span><br><span class="line"></span><br><span class="line">pv * 171 = 513000 = =500.97MB</span><br><span class="line"></span><br><span class="line">一天按5GB 流量</span><br><span class="line"></span><br><span class="line">30天 是 150GB流量</span><br><span class="line"></span><br><span class="line">0.8 * 150 = 120RMB</span><br><span class="line"></span><br><span class="line">带宽</span><br><span class="line"></span><br><span class="line">5 Mbps  125 RMB</span><br><span class="line"></span><br><span class="line">10 Mbps  125 + （10 - 5 ）* 80RMB = =525 RMB元</span><br></pre></td></tr></table></figure>
+            <p>最近几年关于架构的信息<br>高并发架构、<br>异地多活架构【出自淘宝】<br>容器化【知名docker、阿里Pouch】<br>微服务架构【spring cloud】<br>高可用架构<br>弹性架构【DB中间件 需要极致的弹性】</p>
+<p>相关的技术<br>DevOps、应用监控、自动化运维、SOA服务治理、去IOE等等</p>
+<p>分布式能解决的两大问题：<br>1、系统容量更大<br>  面对的业务量与日俱增、垂直水平拆分系统业务<br>2、系统可用性更强<br>  整个系统不会因为一个单点故障而导致整个系统不可用<br>  分布式冗余节点、以消除单点故障</p>
+<p>分布式优势：<br>1、模块化、系统模块重用度更高<br>2、模块化、服务开发、发布更快<br>3、系统扩展性更高<br>4、团队协作更有效率</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-602679b1c02a5335.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="传统架构与分布式服务架构对比"></p>
+<p>分布式存在的问题：<br>1、设计复杂<br>2、部署单个简单、部署多个复杂<br>3、系统吞吐量增大、系统反应变慢<br>4、运维复杂<br>5、学习难度加大<br>6、测试复杂<br>7、技术复杂、带来维护复杂<br>8、系统中的服务调度、监控等等复杂</p>
+<p>分布式前景：<br>可以说分布式是无法避免的、随着业务量的增大不可能单点跑应用、不同的应用场景会产出不用的服务架构、学习成本是逐渐加大的、等分布式更加成熟形成了体系、应该会产出更加系统的学习方案和应用方案、</p>
 
           
         
@@ -906,21 +919,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/04/service-deploy/ftp/" rel="bookmark">ftp部署</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/jenkins/" rel="bookmark">jenkins部署</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">千万级别系统搭建</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-5/" rel="bookmark">风控系统</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
       
     </li>
   
@@ -1176,6 +1203,16 @@
                 </span>
               
                 <span class="links-of-author-item">
+                  <a href="https://gitee.com/none_heart" target="_blank" title="Gitee" rel="external nofollow"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://blog.csdn.net/huoyan403" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-stack-overflow"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
                   <a href="mailto:wuxinvipcom@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i></a>
                   
                 </span>
@@ -1235,7 +1272,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

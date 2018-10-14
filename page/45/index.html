@@ -378,311 +378,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/filter-xss/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/hack/filter-xss/" itemprop="url">
-                  Filter安全过滤高级最终行（XSS攻击）
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>package com.what21.filter.xss;</p>
-<p>import java.io.IOException;<br>import java.util.LinkedHashMap;<br>import java.util.Map;</p>
-<p>import javax.servlet.Filter;<br>import javax.servlet.FilterChain;<br>import javax.servlet.FilterConfig;<br>import javax.servlet.ServletException;<br>import javax.servlet.ServletRequest;<br>import javax.servlet.ServletResponse;<br>import javax.servlet.http.HttpServletRequest;</p>
-<p>public class XSSFilter implements Filter {</p>
-<pre><code>// XSS处理Map
-private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();
-
-public void init(FilterConfig filterConfig) throws ServletException {
-    // 含有脚本： script
-    xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);
-    // 含有脚本 javascript
-    xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);
-    // 含有函数： eval
-    xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);
-    // 含有符号 &lt;
-    xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);
-    // 含有符号 &gt;
-    xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);
-    // 含有符号 (
-    xssMap.put(&quot;\\(&quot;, &quot;(&quot;);
-    // 含有符号 )
-    xssMap.put(&quot;\\)&quot;, &quot;)&quot;);
-    // 含有符号 &apos;
-    xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);
-    // 含有符号 &quot;
-    xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);
-}
-
-public void doFilter(ServletRequest request, ServletResponse response,
-        FilterChain chain) throws IOException, ServletException {
-    // 强制类型转换 HttpServletRequest
-    HttpServletRequest httpReq = (HttpServletRequest)request;
-    // 构造HttpRequestWrapper对象处理XSS
-    HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
-    //
-    chain.doFilter(httpReqWarp, response);
-
-}
-
-public void destroy() {
-
-}
-</code></pre><p>}</p>
-<p>=============================<br>package com.what21.filter.xss;</p>
-<p>import java.util.Map;<br>import java.util.Set;</p>
-<p>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletRequestWrapper;</p>
-<p>public final class HttpRequestWrapper extends HttpServletRequestWrapper {</p>
-<pre><code>private Map&lt;String, String&gt; xssMap;
-
-public HttpRequestWrapper(HttpServletRequest request) {
-    super(request);
-}
-
-public HttpRequestWrapper(HttpServletRequest request,
-        Map&lt;String, String&gt; xssMap) {
-    super(request);
-    this.xssMap = xssMap;
-}
-
-@Override
-public String[] getParameterValues(String parameter) {
-    String[] values = super.getParameterValues(parameter);
-    if (values == null) {
-        return null;
-    }
-    int count = values.length;
-    // 遍历每一个参数，检查是否含有
-    String[] encodedValues = new String[count];
-    for (int i = 0; i &lt; count; i++) {
-        encodedValues[i] = cleanXSS(values[i]);
-    }
-    return encodedValues;
-}
-
-@Override
-public String getParameter(String parameter) {
-    String value = super.getParameter(parameter);
-    if (value == null) {
-        return null;
-    }
-    return cleanXSS(value);
-}
-
-public String getHeader(String name) {
-    String value = super.getHeader(name);
-    if (value == null)
-        return null;
-    return cleanXSS(value);
-
-}
-</code></pre><p>/**</p>
-<pre><code> * 清除恶意的XSS脚本
- *
- * @param value
- * @return
- */
-private String cleanXSS(String value) {
-    Set&lt;String&gt; keySet = xssMap.keySet();
-    for(String key : keySet){
-        String v = xssMap.get(key);
-        value = value.replaceAll(key,v);
-    }
-    return value;
-}
-</code></pre><p>}</p>
-<p>=============================================================================</p>
-<p><filter><br>    <filter-name>XSSFilter</filter-name><br>    <filter-class>com.what21.filter.xss.XSSFilter</filter-class><br></filter></p>
-<p><filter-mapping><br>    <filter-name>XSSFilter</filter-name><br>    <url-pattern>/*</url-pattern><br></filter-mapping></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/zuul/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -812,7 +507,7 @@ private String cleanXSS(String value) {
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
       
     </li>
   
@@ -826,7 +521,7 @@ private String cleanXSS(String value) {
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
       
     </li>
   
@@ -840,7 +535,7 @@ private String cleanXSS(String value) {
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
       
     </li>
   
@@ -894,7 +589,7 @@ private String cleanXSS(String value) {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud-exception/feign-exception-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/spring-roo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -913,8 +608,8 @@ private String cleanXSS(String value) {
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud-exception/feign-exception-1/" itemprop="url">
-                  cloud feign灵异事件
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/spring-roo/" itemprop="url">
+                  spring Roo
                 </a>
               
             
@@ -994,12 +689,9 @@ private String cleanXSS(String value) {
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">报错 ：</span><br><span class="line">Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &apos;dataSourceInitializerPostProcessor&apos;: Unsatisfied dependency expressed through field &apos;beanFactory&apos;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;com.****.feign.UserCenterFeignService&apos;: Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.feign.FeignClientFactoryBean] from ClassLoader [sun.misc.Launcher$AppClassLoader@61e4705b]</span><br></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7df99f9e93f72b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法 加入依赖</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-c71a9b346663d6f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原因未明 、创建项目时候导入了feign</span><br><span class="line">使用@EnableFeignClients注解 也ok 不报错 我就以为 feign包导入了  </span><br><span class="line">结果不知道哪来的包来的这个注解  导致 灵异事件</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-55ccd9dddc1f19e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">严重怀疑是这个包里的</span><br><span class="line"></span><br><span class="line">mmp  莫名其妙的好了 仿佛又回到从前</span><br><span class="line">你对java 一无所知......</span><br></pre></td></tr></table></figure>
+            <p>what？<br>      使用命令行形式构建项目</p>
+<p>下载地址：<a href="https://projects.spring.io/spring-roo/#running-from-shell" target="_blank" rel="noopener">https://projects.spring.io/spring-roo/#running-from-shell</a></p>
+<p>快速搭建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mkdir hello</span><br><span class="line">cd hello</span><br><span class="line">roo.sh</span><br><span class="line">roo&gt; project setup --topLevelPackage com.foo</span><br><span class="line">roo&gt; jpa setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY</span><br><span class="line">roo&gt; entity jpa --class ~.domain.Timer</span><br><span class="line">roo&gt; field string --fieldName message --notNull</span><br><span class="line">roo&gt; repository jpa --all</span><br><span class="line">roo&gt; service --all</span><br><span class="line">roo&gt; web mvc setup</span><br><span class="line">roo&gt; web mvc view setup --type THYMELEAF</span><br><span class="line">roo&gt; web mvc controller --all --responseType THYMELEAF</span><br><span class="line">roo&gt; web mvc controller --all --pathPrefix /api</span><br><span class="line">roo&gt; quit</span><br><span class="line">mvn spring-boot:run</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1015,7 +707,7 @@ private String cleanXSS(String value) {
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
       
     </li>
   
@@ -1029,7 +721,7 @@ private String cleanXSS(String value) {
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
       
     </li>
   
@@ -1043,7 +735,199 @@ private String cleanXSS(String value) {
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/technical-summary/technical-summary-0/" itemprop="url">
+                  技术发展
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>从qq的点对点通信<br>到微博的多人群聊话题<br>到电商 人类进化就有的课题–交易<br>交易的大量订单促使了–数据分析<br>数据分析的性能要求–出现了云计算<br>云计算的产生又引发了–人工智能<br>【人工智能就是根据数据分析做出一个合理的判断、大概模式就是 从一个大的数据库里寻找最合理的返回答案】</p>
+<p>那么下一个阶段是什么？</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-3/" rel="bookmark">总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-4/" rel="bookmark">高并发</a></div>
       
     </li>
   
@@ -1299,6 +1183,16 @@ private String cleanXSS(String value) {
                 </span>
               
                 <span class="links-of-author-item">
+                  <a href="https://gitee.com/none_heart" target="_blank" title="Gitee" rel="external nofollow"><i class="fa fa-fw fa-github"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://blog.csdn.net/huoyan403" target="_blank" title="CSDN" rel="external nofollow"><i class="fa fa-fw fa-stack-overflow"></i></a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
                   <a href="mailto:wuxinvipcom@gmail.com" target="_blank" title="E-Mail" rel="external nofollow"><i class="fa fa-fw fa-envelope"></i></a>
                   
                 </span>
@@ -1358,7 +1252,7 @@ private String cleanXSS(String value) {
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2017 – <span itemprop="copyrightYear">2018</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
