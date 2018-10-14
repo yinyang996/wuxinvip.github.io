@@ -378,6 +378,386 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-sentence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-sentence/" itemprop="url">
+                  SQL优化【SQL语句】
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/24/mysql/optimization-sql-sentence/" class="leancloud_visitors" data-flag-title="SQL优化【SQL语句】">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-83893c4315e86c69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录"></p>
+<p>1、select语句</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-188c121b283eff2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语句优化"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优化考虑点"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】</span><br><span class="line">2、持续折叠</span><br><span class="line">3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】</span><br><span class="line">4、及时检测无效常量表达式</span><br><span class="line">5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用</span><br><span class="line">6、where 表达式尽量简单、便于快速建立where评估表</span><br><span class="line">7、查询其他表之前首先查询所有常量表</span><br><span class="line">【</span><br><span class="line">        SELECT * FROM t WHERE primary_key=1;</span><br><span class="line">        SELECT * FROM t1,t2</span><br><span class="line">            WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</span><br><span class="line">】</span><br></pre></td></tr></table></figure>
+<p>2、范围优化<br><img src="https://upload-images.jianshu.io/upload_images/6434888-8c3818c4dbff38fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>对于两种索引结构使用不同的范围条件【hash索引、B树索引】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-9820225eacc468b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>==========mmp 太难了 没办法写下去 只能贴图了 以后慢慢品鉴</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-total-2/" itemprop="url">
+                  常见MYSQL调优策略
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/24/mysql/optimization-sql-total-2/" class="leancloud_visitors" data-flag-title="常见MYSQL调优策略">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>调优层次：硬件层、磁盘IO、文件系统层、</p>
+<p><strong>硬件层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">修改服务器BIOS设置</span><br><span class="line">1.选择Performance Per Watt Optimized(DAPC)模式 、发挥cpu最大性能</span><br><span class="line">2.Memory Frequency(内存频率)选择 Maximum Performance (最佳性能)</span><br><span class="line">3.内存设置菜单中，启用Node Interleaving 避免NUMA问题</span><br></pre></td></tr></table></figure></p>
+<p><strong>磁盘IO</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用SSD磁盘(瞬时写入非常高、还可以避免很多技术问题)</span><br><span class="line">2.如果是磁盘阵列存储，建议阵列卡同时配备CACHE及BBU模块，可以明显提升IOPS。</span><br><span class="line">3.raid级别尽量选择raid10.而不是raid5(双io方式、也能提高安全性等等)</span><br></pre></td></tr></table></figure></p>
+<p><strong>文件系统层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用deadline/noop这两种I/O调度器。千万别用cfq</span><br><span class="line">2.使用xfs文件系统、千万别用ext3、ext4勉强可用、但是事务量很大一定要用xfs</span><br><span class="line">3.文件系统mount参数中增加：noatime，nodiratime，nobarrier几个选项(nobarrier是xfs文件系统特有的)</span><br></pre></td></tr></table></figure></p>
+<p><strong>内核参数优化</strong></p>
+<pre><code>1.修改vm.swappiness参数，降低swap使用率，RHEL7/centos7以上则慎重设置为0，可能引发OOM(物理内存使用到了90%之后才去修改、设为5-10就可以)
+2.调整vm.dirty_background_ratio(脏数据量占内存量百分比、超过后将脏数据刷到磁盘、最大值（阻塞写）10%)、vm.dirty ratio(标准值（非阻塞写）5%) 内核参数、以确保能持续将脏数据刷新到磁盘，避免瞬I/O写，产生等待。
+3.调整net.ipv4.tcp_tw_recycle、net.ipv4.tcp_tw_reuse都设置为1、减少Time_wait,提高TCP效率
+
+</code></pre><p><strong>MYSQL参数优化建议</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-799fd7a3af94d8ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-cdec42962ed0224d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -498,429 +878,6 @@
 <p>检查<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">检查线程信息</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://upload-images.jianshu.io/upload_images/6434888-2cec330583be3f8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p><img src="https://upload-images.jianshu.io/upload_images/6434888-4a09738bdf68cbfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/essay/essay-12/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/essay/essay-12/" itemprop="url">
-                  阿里电面总结
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/essay/essay-12/" class="leancloud_visitors" data-flag-title="阿里电面总结">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>先说问到的东西</p>
-<p>负载均衡 DNS LVS  Nginx  常用的 原理 路由转发</p>
-<p>数据库:分库分表.底层</p>
-<p>dubbo 注册原理 dubbo与springcloud 区别</p>
-<p>java常用工具包</p>
-<p>conllection底层  IO 底层  多线程技术 executoService</p>
-<p>shell 查看网络连接 查看系统版本 从文件中找到最大数</p>
-<p>算法:排序.负载均衡算法.缓存淘汰算法</p>
-<p>python vb脚本 渗透. 加分项 ps:能说明你对技术感兴趣</p>
-<p>反正大公司就是各种底层.原理.机制等等</p>
-<p>说下我对java的理解</p>
-<p>concurrentHashMap 锁结构</p>
-<p>是否能重入</p>
-<p>spring aop</p>
-<p>spring事务 传播性 等等</p>
-<p>分布式事务一致性</p>
-<p>ThreadPool</p>
-<p>就像开车一样.每个技术都是别人发明的.用规章制度才能更好的驾驭别人开发出来的武器.<br>不要怀疑别人为什么那么写(至少你还不够那个资格).<br>不要问为什么这么写.应该问别人为什么会这么做(是不是开起车来.更快更稳).还是那句话.</p>
-<p>还有底层.我一个小二本.没本事入大公司法眼.自然也就不会’更’关注底层.先了解了架构.数据流向.</p>
-<p>你至少应该明白你做的系统是个什么东西.你做的是那一块.需要什么样的性能</p>
-<p>在这个基础上.有些人会不再钻研技术.走向管理岗位.这也是很多管理广而不细.</p>
-<p>还有一些人开始了技术底层之路.也就是资深人士.</p>
-<p>现在进不去没关系.以后我会的.</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/search-engine/elasticsearch-1/" itemprop="url">
-                  elasticsearch内部存储执行机制
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/search-engine/elasticsearch-1/" class="leancloud_visitors" data-flag-title="elasticsearch内部存储执行机制">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>新建、索引和删除单个文档</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-2206994bb24e32f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="elas_0402.png"></p>
-<p>以下是在主副分片和任何副本分片上面成功新建，索引和删除文档所需要的步骤顺序：</p>
-<ol>
-<li>客户端向 <code>Node 1</code> 发送新建、索引或者删除请求。</li>
-<li>节点使用文档的 <code>_id</code> 确定文档属于分片 0 。请求会被转发到 <code>Node 3</code>，因为分片 0 的主分片目前被分配在 <code>Node 3</code> 上。</li>
-<li><code>Node 3</code> 在主分片上面执行请求。如果成功了，它将请求并行转发到 <code>Node 1</code> 和 <code>Node 2</code> 的副本分片上。一旦所有的副本分片都报告成功, <code>Node 3</code> 将向协调节点报告成功，协调节点向客户端报告成功。</li>
-</ol>
-<p>在客户端收到成功响应时，文档变更已经在主分片和所有副本分片执行完成，变更是安全的。</p>
-<p><strong>取回单个文档</strong><br><img src="https://upload-images.jianshu.io/upload_images/6434888-40f118ca06e87882.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="elas_0403.png"></p>
-<p>以下是从主分片或者副本分片检索文档的步骤顺序：</p>
-<p>1、客户端向 Node 1 发送获取请求<br>2、节点使用文档的 _id 来确定文档属于分片 0 。分片 0 的副本分片存在于所有的三个节点上。 在这种情况下，它将请求转发到 Node 2<br>3、Node 2 将文档返回给 Node 1 ，然后将文档返回给客户端。</p>
-<p>在处理读取请求时，协调结点在每次请求的时候都会通过轮询所有的副本分片来达到负载均衡</p>
-<p><strong>局部更新文档</strong><br><img src="https://upload-images.jianshu.io/upload_images/6434888-b83f4e939fcbbbce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="elas_0404.png"></p>
-<p>以下是部分更新一个文档的步骤：</p>
-<ol>
-<li>客户端向 <code>Node 1</code> 发送更新请求。</li>
-<li>它将请求转发到主分片所在的 <code>Node 3</code> 。</li>
-<li><code>Node 3</code> 从主分片检索文档，修改 <code>_source</code> 字段中的 JSON ，并且尝试重新索引主分片的文档。 如果文档已经被另一个进程修改，它会重试步骤 3 ，超过 <code>retry_on_conflict</code> 次后放弃。</li>
-<li>如果 <code>Node 3</code> 成功地更新文档，它将新版本的文档并行转发到 <code>Node 1</code> 和 <code>Node 2</code> 上的副本分片，重新建立索引。 一旦所有副本分片都返回成功， <code>Node 3</code> 向协调节点也返回成功，协调节点向客户端返回成功。</li>
-</ol>
-<p><code>update</code> API 还接受在 <a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/distrib-write.html" title="新建、索引和删除文档" target="_blank" rel="noopener">新建、索引和删除文档</a> 章节中介绍的 <code>routing</code> 、 <code>replication</code> 、 <code>consistency</code> 和 <code>timeout</code> 参数。</p>
-<p><strong>使用 mget 取回多个文档</strong><br><img src="https://upload-images.jianshu.io/upload_images/6434888-3ea01b2d8cb39577.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>以下是使用单个 <code>mget</code> 请求取回多个文档所需的步骤顺序：</p>
-<ol>
-<li>客户端向 <code>Node 1</code> 发送 <code>mget</code> 请求。</li>
-<li><code>Node 1</code> 为每个分片构建多文档获取请求，然后并行转发这些请求到托管在每个所需的主分片或者副本分片的节点上。一旦收到所有答复， <code>Node 1</code> 构建响应并将其返回给客户端。</li>
-</ol>
-<p>可以对 <code>docs</code> 数组中每个文档设置 <code>routing</code> <a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/distrib-multi-doc.html#id-1.4.6.10.7.3" target="_blank" rel="noopener"></a>参数。</p>
-<p><strong>使用 bulk 修改多个文档</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-ff58a76d37ab2bb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><code>bulk</code> API按如下步骤顺序执行：</p>
-<ol>
-<li>客户端向 <code>Node 1</code> 发送 <code>bulk</code> 请求。</li>
-<li><code>Node 1</code> 为每个节点创建一个批量请求，并将这些请求并行转发到每个包含主分片的节点主机。</li>
-<li>主分片一个接一个按顺序执行每个操作。当每个操作成功时，主分片并行转发新文档（或删除）到副本分片，然后执行下一个操作。 一旦所有的副本分片报告所有操作成功，该节点将向协调节点报告成功，协调节点将这些响应收集整理并返回给客户端。</li>
-</ol>
-<p><code>bulk</code> API 还可以在整个批量请求的最顶层使用 <code>consistency</code> 参数，以及在每个请求中的元数据中使用 <code>routing</code> 参数。</p>
 
           
         

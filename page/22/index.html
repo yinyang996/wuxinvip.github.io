@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-4/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-4/" itemprop="url">
-                  用户池系统 构思
+                <a class="post-title-link" href="/2018/03/24/service-design/design-5/" itemprop="url">
+                  风控系统
                 </a>
               
             
@@ -456,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/service-design/design-4/" class="leancloud_visitors" data-flag-title="用户池系统 构思">
+             <span id="/2018/03/24/service-design/design-5/" class="leancloud_visitors" data-flag-title="风控系统">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -489,16 +489,309 @@
       
         
           
-            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
-<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
-<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
-<p>不同的key对应不同的分组数据</p>
-<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
-<p>获取不同排序 前端发送不同的key值即可</p>
-<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
-<p>问题:<br>1.用户抢单后要削减用户列表.元列表并发存在修改问题<br>解决:在最终抢单时候来后台查询已抢单列表就行.修不修改的有错误也没事.</p>
-<p>(使用mysql存储数据? 也不能解决这个问题 反而会触及mysql并发量问题)</p>
-<p>目前方案:mysql主从复制.从”从sql”查询数据</p>
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
+</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
+    针对各类支付业务交易风险事件进行监测与控制
+
+同步反馈、
+    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
+
+联动控制、
+    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
+
+持续迭代、
+    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
+    或者与外部资源共享等进行持续动态更新
+</code></pre><h4 id="非功能性需求"><a href="#非功能性需求" class="headerlink" title="非功能性需求"></a>非功能性需求</h4><pre><code>灵活性、
+    风控规则经常调整、由此能与不同业务系统集成
+
+性能、
+    100ms异步操作、以及高吞吐量
+
+准确性、
+    冻结账户以及相关交易单元
+
+平衡点、   
+    准确性低与大面积投诉请求、公司形象
+
+盲点：不可以盲目追求数据一致性
+</code></pre><h3 id="风控实时引擎"><a href="#风控实时引擎" class="headerlink" title="风控实时引擎"></a>风控实时引擎</h3><pre><code>0--------100
+不可评估-----风险值越高、风险越大
+
+公司风控数据主要来自风控引擎
+</code></pre><h4 id="规则引擎优缺点"><a href="#规则引擎优缺点" class="headerlink" title="规则引擎优缺点"></a>规则引擎优缺点</h4><pre><code>优点：规则变动比较频繁、其他部分相对稳定
+通过引入规则引擎可以结构系统与规则、提高复杂逻辑的可维护性、提高规则可理解性
+</code></pre><h5 id="风控准实时引擎"><a href="#风控准实时引擎" class="headerlink" title="风控准实时引擎"></a>风控准实时引擎</h5><pre><code>某些情况下、需要通过对最近一段时间内数据分析
+
+例：对最近半个月数据分析、
+分工准实时引擎、
+从消息服务器获取交易数据
+对交易数据进行异步分析、
+分析结果通过分控服务存入风控数据库、
+供实时风控引擎评估风险
+
+
+风控准实施引擎从发现异常到风控数据生效时间在100ms以内、可有效防止交易风险增大
+
+风控系统初始建设中风控准实时引擎、
+往往是通过消息监听器消息、把中间数据存储redis、对数据进行多维度分析
+</code></pre><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><pre><code>1、每月进行一次数据风控数据处理
+2、实时分析引擎
+3、数据落地服务
+4、规则引擎：本地数据、第三方消费数据
+5、奖励、处罚
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 首页间隔 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8547276212175642"
+     data-ad-slot="9207557139"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/encryption/password-develop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/encryption/password-develop/" itemprop="url">
+                  密码加密方式
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/24/encryption/password-develop/" class="leancloud_visitors" data-flag-title="密码加密方式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>常见攻击方式：<br>字典攻击：早期base64+md5</p>
+<p>破解方式–把常见密码进行base63+md5加密 通过重复登陆服务器 或者拖库进行匹配破解【破解方式属于开放状态】</p>
+<p><strong>对称加密</strong></p>
+<pre><code>加密解密效率高、速度快、空间占用小、加密强度高
+缺点是 参与多方都需要持有密钥、一旦有一个人泄露则安全性遭到破坏、另外再不容安全通道下分发密钥也是个问题
+
+    代表算法：DES、3DES、AES、IDEA等等
+    DES：其密钥长度为56位+8位校验  破解方式：暴力破解
+    3DES：3重DES操作 算法不能靠累积增加防御力
+    AES：分组算法、分组长度为128、192、256位三种、其优势在于 速度快 整个过程可以数学化描述、目前尚未有效破解手段
+
+
+    适用于大量数据加解密、不能用于签名场景 需要提前分法密钥
+</code></pre><p><strong>非对称加密</strong></p>
+<pre><code>    即公钥+私钥 公钥是公开的、私钥是个人持有的
+
+    代表算法：RSA、EIGamal、椭圆算法 ECC
+    RSA：经典的公钥算法 安全性未知
+    EIGamal：利用了模运算下求离散对数困难的特性
+    椭圆曲线算法：现代备受关注的算法系列，基于对椭圆曲线上特定点进行特殊乘法逆运算难以计算的特性。
+
+RSA 算法等已被认为不够安全，一般推荐采用椭圆曲线系列算法。
+</code></pre><p><strong>混合加密机制</strong></p>
+<pre><code>先用计算复杂度高的非对称加密协商一个临时的对称加密密钥（会话密钥，一般相对内容来说要短得多），然后对方在通过对称加密对传递的大量数据进行加解密处理。
+
+典型应用：现在大家常用的HTTPS机制、
+    HTTPS实际上是利用了Transport Layer Security/Secure Socket Layer（TLS/SSL）来实现可靠性传输、TLS为SSL升级版本
+    目前广泛应用的为  TLS1.0  对应到SSL3.1 版本
+</code></pre><p>建立安全连接的具体步骤如下：</p>
+<pre><code>客户端浏览器发送信息到服务器，包括随机数 R1，支持的加密算法类型、协议版本、压缩算法等。注意该过程为明文。
+服务端返回信息，包括随机数 R2、选定加密算法类型、协议版本，以及服务器证书。注意该过程为明文。
+浏览器检查带有该网站公钥的证书。该证书需要由第三方 CA 来签发，浏览器和操作系统会预置权威 CA 的根证书。如果证书被篡改作假（中间人攻击），很容易通过 CA 的证书验证出来。
+如果证书没问题，则用证书中公钥加密随机数 R3，发送给服务器。此时，只有客户端和服务器都拥有 R1、R2 和 R3 信息，基于 R1、R2 和 R3，生成对称的会话密钥（如 AES算法）。后续通信都通过对称加密进行保护。
+</code></pre><p><strong>最简单的哈希加密</strong></p>
+<p>例如SHA256，SHA512，RipeMD和WHIRLPOOL。</p>
+<p>hash(“hello”) = 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824</p>
+<p>破解方式：字典攻击 、暴力攻击<br>加密算法公开<br>    将常见密码哈希之后与目标进行比对<br>    暴力攻击尝试每一个在给定长度下各种字符的组合<br>    彩虹表枚举哈希值-来更高效的破解密码</p>
+<p>加盐方式</p>
+<pre><code>加盐需要注意两点：短盐值、盐值重复
+
+两大弊端：盐值重复或者硬编到软件中、可以通过破解软件、专门为这个软件生成彩虹表和查询表
+盐值太短：就相当于降低密码复杂度、这使得破解字典体积更小、跑字典破解更快
+</code></pre><p><strong>组合哈希函数</strong></p>
+<pre><code>md5(sha1(password))
+md5(md5(salt) + md5(password))
+sha1(sha1(password))
+sha1(str_rot13(password + salt))
+md5(sha1(md5(md5(password) + sha1(password)) + md5(password)))
+
+源码一丢、系统完蛋
+</code></pre><p>盐值应该使用基于加密的伪随机数生成器<br>（Cryptographically Secure Pseudo-Random Number Generator – CSPRNG）来生成<br>java.security.SecureRandom</p>
+<p>存储密码的步骤</p>
+<p><strong>使用CSPRNG生成一个长度足够的盐值</strong></p>
+<p>将盐值混入密码，并使用标准的加密哈希函数进行加密，如SHA256<br>把哈希值和盐值一起存入数据库中对应此用户的那条记录</p>
+<p>校验密码的步骤</p>
+<p>从数据库取出用户的密码哈希值和对应盐值<br>将盐值混入用户输入的密码，并且使用同样的哈希函数进行加密<br>比较上一步的结果和数据库储存的哈希值是否相同，如果相同那么密码正确，反之密码错误</p>
+<pre><code>    在Web程序中，永远在服务器端进行哈希加密
+    让密码更难破解：慢哈希函数
+
+PBKDF2、BCRYPT、SCRYPT曾经是最常用的三种密码Hash算法，
+至于哪种算法最好，多年以来密码学家们并无定论。但可以确定的是，这三种算法都不完美，各有缺点。
+其中
+PBKDF2因为计算过程需要内存少所以可被GPU/ASIC加速，
+BCRYPT不支持内存占用调整且容易被FPGA加速，
+SCRYPT不支持单独调整内存或计算时间占用且可能被ASIC加速并有被旁路攻击的可能。
+</code></pre><p>关于密码学的另一篇文章<br><a href="http://www.qingruanit.net/blog/23930/note3641.html" target="_blank" rel="noopener">http://www.qingruanit.net/blog/23930/note3641.html</a></p>
+<p>PBKDF2算法【三种】介绍：</p>
+<p><a href="https://en.wikipedia.org/wiki/PBKDF2" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/PBKDF2</a></p>
+<p><a href="http://blog.jobbole.com/61872/#java" target="_blank" rel="noopener">http://blog.jobbole.com/61872/#java</a></p>
+<p><a href="http://blog.csdn.net/u014375869/article/details/46773995" target="_blank" rel="noopener">http://blog.csdn.net/u014375869/article/details/46773995</a></p>
 
           
         
@@ -569,7 +862,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/rpc/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/design-pattern/structure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -588,8 +881,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/rpc/" itemprop="url">
-                  RPC
+                <a class="post-title-link" href="/2018/03/24/design-pattern/structure/" itemprop="url">
+                  设计模式-结构型
                 </a>
               
             
@@ -647,7 +940,7 @@
 
           
           
-             <span id="/2018/03/24/agreement/rpc/" class="leancloud_visitors" data-flag-title="RPC">
+             <span id="/2018/03/24/design-pattern/structure/" class="leancloud_visitors" data-flag-title="设计模式-结构型">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -680,208 +973,16 @@
       
         
           
-            <p>RPC（Remote Procedure Call）—远程过程调用</p>
-<p><strong>工作原理</strong></p>
-<ul>
-<li>1.调用客户端句柄；执行传送参数</li>
-<li>2.调用本地系统内核发送网络消息</li>
-<li>3.消息传送到远程主机</li>
-<li>4.服务器句柄得到消息并取得参数</li>
-<li><p>5.执行远程过程</p>
-</li>
-<li><p>6.执行的过程将结果返回服务器句柄</p>
-</li>
-<li>7.服务器句柄返回结果，调用远程系统内核</li>
-<li>8.消息传回本地主机</li>
-<li>9.客户句柄由内核接收消息</li>
-<li>10.客户接收句柄返回的数据</li>
-</ul>
-<p><strong>协议结构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">远程过程调用（RPC）信息协议由两个不同结构组成：调用信息和答复信息。信息流程如下所示：</span><br><span class="line">RPC：远程过程调用流程</span><br><span class="line">RPC 调用信息：每条远程过程调用信息包括以下无符号整数字段，以独立识别远程过程：</span><br><span class="line">程序号（Program number）</span><br><span class="line">程序版本号（Program version number）</span><br><span class="line">过程号（Procedure number）</span><br><span class="line">RPC 调用信息主体形式如下：</span><br><span class="line">struct call_body &#123;</span><br><span class="line">unsigned int rpcvers;</span><br><span class="line">unsigned int prog;</span><br><span class="line">unsigned int vers;</span><br><span class="line">unsigned int proc;</span><br><span class="line">opaque_auth cred;</span><br><span class="line">opaque_auth verf;</span><br><span class="line">1 parameter</span><br><span class="line">2 parameter . . . &#125;；</span><br><span class="line">RPC 答复信息：RPC 协议的答复信息的改变取决于网络服务器对调用信息是接收还是拒绝。答复信息请求包括区别以下情形的各种信息：</span><br><span class="line">RPC 成功执行调用信息。.</span><br><span class="line">RPC 的远程实现不是协议第二版，返回 RPC 支持的最低和最高版本号。</span><br><span class="line">在远程系统中，远程程序不可用。</span><br><span class="line">远程程序不支持被请求的版本号。返回远程程序所支持的最低和最高版本号。</span><br><span class="line">请求的过程号不存在。通常是呼叫方协议或程序差错。</span><br><span class="line">RPC答复信息形式如下：</span><br><span class="line">enum reply_stat stat</span><br><span class="line">&#123;MSG_ACCEPTED = 0,</span><br><span class="line">MSG_DENIED = 1 &#125;;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/kafka-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/message-queue/kafka-1/" itemprop="url">
-                  Kafka-1.0.0版本
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/message-queue/kafka-1/" class="leancloud_visitors" data-flag-title="Kafka-1.0.0版本">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Kafka 1.0.0发布的主要内容如下。</p>
-<p>0.10.0版本里开始引入的Streams API在1.0.0版本里继续演进，改进了builder API（KIP-120），<br>新增了用于查看运行时活跃任务的API（KIP-130）和用于聚合分区的cogroup<br>API（KIP-150）。增强的print()和writeAsText()方法让调试变得更容易（KIP-160）。<br>其他更多信息可以参考Streams文档。</p>
-<p>改进了Connect的度量指标（KIP-196），新增了大量用于健康监测的度量指标（KIP-188），<br>并提供了集群的GloabalTopicCount和GlobalPartitionCount度量指标（KIP-168）。<br>支持Java 9，实现更快的TLS和CRC32C，加快了加密速度，降低了计算开销。<br>调整了SASL认证模块的错误处理逻辑（KIP-152），原先的认证错误信息现在被清晰地记录到日志当中。<br>更好地支持磁盘容错（KIP-112），更优雅地处理磁盘错误，单个JBOD上的磁盘错误不会导致整个集群崩溃。<br>0.11.0版本中引入的幂等性生产者需要将max.in.flight.requests.per.connection参数设置为1，这对吞吐量造成了一定的限制。<br>而在1.0.0版本里，这个参数最大可以被设置为5（KAFKA-5949），极大提升了吞吐量范围。</p>
-<p>关于新版本更多的变化可以查看<a href="https://dist.apache.org/repos/dist/release/kafka/1.0.0/RELEASE_NOTES.html" target="_blank" rel="noopener">发布说明</a>，也可以下载<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka-1.0.0-src.tgz" target="_blank" rel="noopener">源代码</a>和二进制包（<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.11-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.11</a>、<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.12-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.12</a>）。</p>
+            <p>设计模式-结构型–7种</p>
+<p>组合、适配器、过滤器、桥接、装饰、外观、享元、代理</p>
+<p>组合–最为常用–将对象组合成一个树状结构、例如菜单上做自循环</p>
+<p>适配器–播放器格式适配–对类型判定使用不同子类方法实例</p>
+<p>桥接–封装类组合形成一个复杂对象–把复杂对象拆分简单对象</p>
+<p>过滤器–使用不同标准来过滤一组对象</p>
+<p>装饰–不增加子类-扩展类属性</p>
+<p>外观–外部定义一个高层接口-直接使用其属性</p>
+<p>享元—不太了解</p>
+<p>代理–使用一个类来代理另一个类来执行业务逻辑–简单来讲-classB代理classA、classB来处理业务逻辑</p>
 
           
         

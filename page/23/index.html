@@ -563,7 +563,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/https/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-test/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -582,8 +582,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/https/" itemprop="url">
-                  Https协议
+                <a class="post-title-link" href="/2018/03/24/message-queue/rabbitmq-test/" itemprop="url">
+                  RabbitMQ test
                 </a>
               
             
@@ -641,7 +641,7 @@
 
           
           
-             <span id="/2018/03/24/agreement/https/" class="leancloud_visitors" data-flag-title="Https协议">
+             <span id="/2018/03/24/message-queue/rabbitmq-test/" class="leancloud_visitors" data-flag-title="RabbitMQ test">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -674,17 +674,14 @@
       
         
           
-            <p><strong>http+ssl</strong></p>
-<pre><code>使用http进行通信 ssl作为数据通信加密方式
-使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
-</code></pre><p>混合加密方式</p>
-<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
-<ul>
-<li>1、客户端 发送公钥、支持加密方式、版本号</li>
-<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
-<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
-<li>4、使用协商后的加密方式加密http请求</li>
-</ul>
+            <p>累积 36万条消息堆积</p>
+<p>启动消费端【单机】</p>
+<p>开始消费time 00:52:28  结束时间00:54:40</p>
+<p>测试环境 三台rabbit集群  两台持久化【n/2+1】 一台非持久化</p>
+<p>queue两个 消费由业务房监听spring streamListener完成</p>
+<p>总计366178消息 总计消费时间132s<br>平均每秒2774条</p>
+<p>单机实例消费水平收到限制</p>
+<p>如果启动多实例消费 那么距离理论4000+4000+12000 = 20000条 有待考证 不过压力不大</p>
 
           
         
@@ -755,7 +752,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-install/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/kafka-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -774,8 +771,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/message-queue/rabbitmq-install/" itemprop="url">
-                  Rabbitmq 安装
+                <a class="post-title-link" href="/2018/03/24/message-queue/kafka-1/" itemprop="url">
+                  Kafka-1.0.0版本
                 </a>
               
             
@@ -833,7 +830,7 @@
 
           
           
-             <span id="/2018/03/24/message-queue/rabbitmq-install/" class="leancloud_visitors" data-flag-title="Rabbitmq 安装">
+             <span id="/2018/03/24/message-queue/kafka-1/" class="leancloud_visitors" data-flag-title="Kafka-1.0.0版本">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -866,7 +863,10 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">eralng官方地址 : https://github.com/rabbitmq/erlang-rpm/releases</span><br><span class="line"></span><br><span class="line">socat官方地址 : https://centos.pkgs.org/7/lux/socat-1.7.3.2-5.el7.lux.x86_64.rpm.html</span><br><span class="line"></span><br><span class="line">rabbitmq 官方地址: http://www.rabbitmq.com/install-rpm.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下载命令</span><br><span class="line"></span><br><span class="line">erlang : curl -L -O https://github.com/rabbitmq/erlang-rpm/releases/download/v20.1.7/erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">安装: socat</span><br><span class="line">yum  install socat</span><br><span class="line"></span><br><span class="line">rabbitmq : curl -L -O https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.0/rabbitmq-server-3.7.0-1.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh rabbitmq-server-3.7.0-1.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看 rabbit状态</span><br><span class="line">service rabbitmq-server status</span><br><span class="line"></span><br><span class="line">启动rabbit</span><br><span class="line"></span><br><span class="line">service rabbitmq-server start</span><br><span class="line"></span><br><span class="line">安装 web插件</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br><span class="line"></span><br><span class="line">添加用户</span><br><span class="line">rabbitmqctl add_user  admin admin</span><br><span class="line"></span><br><span class="line">给予管理权限</span><br><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
+            <p>Kafka 1.0.0发布的主要内容如下。</p>
+<p>0.10.0版本里开始引入的Streams API在1.0.0版本里继续演进，改进了builder API（KIP-120），<br>新增了用于查看运行时活跃任务的API（KIP-130）和用于聚合分区的cogroup<br>API（KIP-150）。增强的print()和writeAsText()方法让调试变得更容易（KIP-160）。<br>其他更多信息可以参考Streams文档。</p>
+<p>改进了Connect的度量指标（KIP-196），新增了大量用于健康监测的度量指标（KIP-188），<br>并提供了集群的GloabalTopicCount和GlobalPartitionCount度量指标（KIP-168）。<br>支持Java 9，实现更快的TLS和CRC32C，加快了加密速度，降低了计算开销。<br>调整了SASL认证模块的错误处理逻辑（KIP-152），原先的认证错误信息现在被清晰地记录到日志当中。<br>更好地支持磁盘容错（KIP-112），更优雅地处理磁盘错误，单个JBOD上的磁盘错误不会导致整个集群崩溃。<br>0.11.0版本中引入的幂等性生产者需要将max.in.flight.requests.per.connection参数设置为1，这对吞吐量造成了一定的限制。<br>而在1.0.0版本里，这个参数最大可以被设置为5（KAFKA-5949），极大提升了吞吐量范围。</p>
+<p>关于新版本更多的变化可以查看<a href="https://dist.apache.org/repos/dist/release/kafka/1.0.0/RELEASE_NOTES.html" target="_blank" rel="noopener">发布说明</a>，也可以下载<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka-1.0.0-src.tgz" target="_blank" rel="noopener">源代码</a>和二进制包（<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.11-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.11</a>、<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.12-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.12</a>）。</p>
 
           
         
