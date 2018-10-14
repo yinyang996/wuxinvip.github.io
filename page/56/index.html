@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/load-balance/maglev/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/rpc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/load-balance/maglev/" itemprop="url">
-                  maglev
+                <a class="post-title-link" href="/2018/03/24/agreement/rpc/" itemprop="url">
+                  RPC
                 </a>
               
             
@@ -428,22 +428,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-14 12:53:47" itemprop="dateModified" datetime="2018-10-14T12:53:47+08:00">2018-10-14</time>
-              
-            
           </span>
 
           
@@ -472,7 +456,7 @@
 
           
           
-             <span id="/2018/03/24/load-balance/maglev/" class="leancloud_visitors" data-flag-title="maglev">
+             <span id="/2018/03/24/agreement/rpc/" class="leancloud_visitors" data-flag-title="RPC">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -505,80 +489,23 @@
       
         
           
-            <p><strong>简介</strong><br>Google Maglev 是一个牛逼的负载均衡器，之所以牛逼，是因为它不用部署专门的物理设备，不像 LVS 一样工作在内核，它是运行在通用 Linux 服务器上的大型分布式软件系统。</p>
-<p><img src="/img/load-balance/img/maglev.png" alt="图片">Google Maglev 工作流程</p>
-<p>每个 Google 服务都有一个或者多个 VIP，一个 VIP 和物理 IP 的区别在于 VIP 没有绑给某个特定的网卡。</p>
-<p><strong>VIP 注解</strong><br>Maglev 关联每个 VIP 到具体的 Endpoint，然后通过 BGP 将 VIP 宣告给上游路由器，然后路由器再把 VIP 宣告给 Google 的骨干网，这样使得 VIP 能被访问到。</p>
-<p><strong>流程</strong><br>当用户访问 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 时：</p>
+            <p>RPC（Remote Procedure Call）—远程过程调用</p>
+<p><strong>工作原理</strong></p>
 <ul>
-<li>浏览器先发送一个 DNS 请求， DNS 服务返回 VIP。 然后浏览器尝试与该 VIP 建立连接。</li>
-<li>当路由器接收到 VIP 数据包，通过 ECMP 将数据包路由到 Maglev 集群中的某台机器上。</li>
-<li>当 Maglev 的机器接收到数据包， 从关联到该 VIP 的 Endpoint 中选择一个， 然后用 GRE 封包发送，外层的 IP 即 Endpoint 的物理 IP。</li>
-<li>当 Endpoint 处理完数据包进行响应时，源地址用 VIP 填充，目的地址为用户 IP。</li>
-<li>使用直接服务返回(Direct Server Return， DSR) ，将响应直接发送给路由器， 这样 Maglev 无需处理响应包。</li>
-</ul>
-<p><img src="/img/load-balance/img/maglev-1.png" alt="图片">Google Maglev 结构”&gt;}}</p>
-<p><strong>结构</strong><br>Maglev 由控制器（Controller）和 转发器（Forwarder）组成：</p>
-<ul>
-<li>控制器向路由器宣告 VIP。控制器周期性地检查转发器的健康状态，来宣告或者撤回 VIP。确保路由器只转发包到健康的 Magvel。</li>
-<li>转发器转发 VIP 流量到 Endpoint。每个 VIP 都有一个后端池（BP），BP 可能包含 Endpoint 的 IP，也有可能包含其它 BP。<br>每个 BP 会对 Endpoint 进行健康检查，保证数据包转发到健康的 Endpoint。</li>
-</ul>
-<p><strong>转发器的设计和实现</strong></p>
-<p><img src="/img/load-balance/img/maglev-2.png" alt="图片">Google Maglev 转发器结构”&gt;}}</p>
-<p><strong>设计</strong><br>转发器直接从网卡接收数据包，通过 GRE/IP 封包，再将它们发回网卡。 Linux 内核不参与这个过程。</p>
-<ul>
-<li>Steering 处理从 NIC（网卡）接收来的数据包，通过五元组（IP地址，源端口，目的IP地址，目的端口和传输层协议）哈希，然后交给不同的接收队列。</li>
-<li>包重写线程从接收队列取包，然后进行后端选择，用 GRE 封包后，发送到传输队列。</li>
-<li>Muxing 轮询从所有的传输队列取包，再发送给网卡。</li>
-</ul>
-<p><img src="/img/load-balance/img/maglev-3.png" alt="图片">Google Maglev 快速包处理”&gt;}}</p>
-<p><strong>Maglev 在包处理时绕开了 Linux 内核，因为内核开销非常严重。</strong></p>
-<p>如图，转发器和网卡共用数据包池（Packet Pool），转发器中的 Steering 和 Muxing 都通过指针的环形队列，指向该池。</p>
-<p>对于 Seering：</p>
-<ul>
-<li>当网卡接收到数据包时，放在 Recieved 所指位置，并向前移动指针。</li>
-<li>分发包到接收队列时，向前移动Processed 指针。</li>
-<li>预留未使用数据包，放入队列中并向前移动 Reserved 指针。</li>
-</ul>
-<p>对于 Muxing：</p>
-<ul>
-<li>网卡将 Sent 所指的数据包发出去，并向前移动指针。</li>
-<li>将被重写的数据包放入队列中，并向前移动 Ready 指针。</li>
-<li>同时将已被发送的包归回给数据包池，并向前移动 Recycled 指针。</li>
-<li>整个过程都没有包拷贝。</li>
-</ul>
-<p><strong>后端选择</strong></p>
-<p>Maglev首先检查本地的连接跟踪表，看看该数据包是否属于任何一个已有的连接，如果连接已经建立，则直接将数据包发到该连接对应的服务器上去。</p>
-<p>如果连接没有建立，此时就需要一致性哈希函数选择一个后端服务器了，并添加到连接跟踪表。</p>
-<p>Maglev 一致性哈希的基本思想就是：</p>
-<ul>
-<li>有一个共享的Entry表，可以通过Entry[Hash % M]选择对应后端，M为Entry表大小。</li>
-<li>每个后端对所有Entry表位置有自己的优先级排序，存在permutation表里。</li>
-<li>所有的后端通过优先级顺序轮流填充Entry 中的空白位置，直至填满。每次都填充自己优先级最高的空位置。<br>例如，假设M = 6，且<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">B0: permutation[] = &#123; 3, 0, 4, 1, 5, 2, 6 &#125;</span><br><span class="line">B1: permutation[] = &#123; 0, 2, 4, 6, 1, 3, 5 &#125;</span><br><span class="line">B2: permutation[] = &#123; 3, 4, 5, 6, 0, 1, 2 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">permutation优先级是从大到小，那么最后填充后的Entry表为：</span><br><span class="line"></span><br><span class="line">Entry[] = &#123; B1, B0, B1, B0, B2, B2, B0 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">说明：</span><br><span class="line"></span><br><span class="line">B0 的优先级最高的位置是Entry[3]，其为空，则Entry[3] = B0。</span><br><span class="line">B1 是Entry[0]，则Entry[0]=B1。</span><br><span class="line">B2 是Entry[3]，但是已被占，下一个是Entry[4]，为空，则Entry[4]=B2。</span><br><span class="line">以此类推，直至填满。</span><br></pre></td></tr></table></figure>
+<li>1.调用客户端句柄；执行传送参数</li>
+<li>2.调用本地系统内核发送网络消息</li>
+<li>3.消息传送到远程主机</li>
+<li>4.服务器句柄得到消息并取得参数</li>
+<li><p>5.执行远程过程</p>
 </li>
+<li><p>6.执行的过程将结果返回服务器句柄</p>
+</li>
+<li>7.服务器句柄返回结果，调用远程系统内核</li>
+<li>8.消息传回本地主机</li>
+<li>9.客户句柄由内核接收消息</li>
+<li>10.客户接收句柄返回的数据</li>
 </ul>
-<p><strong>操作经验</strong></p>
-<p><img src="/img/load-balance/img/maglev-4.png" alt="图片">Google Maglev VIP 匹配”&gt;}}</p>
-<p>有时候，我们需要利用 Maglev 封包将流量重定向到其他的集群中的相同服务，这就有点麻烦了，因为集群间是独立的，我们不知道其它集群相同服务的 VIP。</p>
-<p>VIP 可以通过最长前缀匹配，来决定集群，利用最长后缀匹配决定那个后端池。</p>
-<p>如图中的例子，当请求 173.194.71.1 时，通过最长前缀（173.194.71.0/24）选择 C2 集群，通过最长后缀（0.0.0.1/8）决定是 Service 1 后端池。</p>
-<p>假定 Maglev 需要将流量转发到 C3（173.194.72.0/24），只需要用相同的后缀构造出 VIP （173.194.72.1）进行转发，即可转发到 Maglev 的 Service 1 后端池。</p>
-<p><strong>分片处理</strong></p>
-<p>分片时，非首个分片只包含三元组（目的IP地址，目的端口和传输层协议），这便无法正确决定如何转发，因为转发根据的是五元组。</p>
-<p>解决方法是：</p>
-<ul>
-<li><p>每个 Maglev 配置了一个特殊的后端池，包含所有的 Maglev 机器。</p>
-</li>
-<li><p>一旦接收到分片， Maglev 用三元组哈希选择特定的 Maglev 作为后端进行转发，将它们重定向给相同的 Maglev。</p>
-</li>
-<li><p>Maglev 为未分片数据包和第二跳的首分片使用相同的后端决策算法，以保证非分片、首个分片和非首个分片选择同一个后端。</p>
-</li>
-<li><p>Magelv 维护了一个固定大小的分片表，记录了首分片的转发决策。</p>
-</li>
-<li><p>当 Maglev 收到一个第二跳非首分片， 会从分片表中查找，若匹配则立即转发； 否则，会缓存到分片表中，直到首分片收到或者老化。</p>
-</li>
-</ul>
-<p><a href="https://simpleyyt.com/2017/07/05/introduction-to-google-maglev/" target="_blank" rel="noopener">转载地址</a></p>
+<p><strong>协议结构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">远程过程调用（RPC）信息协议由两个不同结构组成：调用信息和答复信息。信息流程如下所示：</span><br><span class="line">RPC：远程过程调用流程</span><br><span class="line">RPC 调用信息：每条远程过程调用信息包括以下无符号整数字段，以独立识别远程过程：</span><br><span class="line">程序号（Program number）</span><br><span class="line">程序版本号（Program version number）</span><br><span class="line">过程号（Procedure number）</span><br><span class="line">RPC 调用信息主体形式如下：</span><br><span class="line">struct call_body &#123;</span><br><span class="line">unsigned int rpcvers;</span><br><span class="line">unsigned int prog;</span><br><span class="line">unsigned int vers;</span><br><span class="line">unsigned int proc;</span><br><span class="line">opaque_auth cred;</span><br><span class="line">opaque_auth verf;</span><br><span class="line">1 parameter</span><br><span class="line">2 parameter . . . &#125;；</span><br><span class="line">RPC 答复信息：RPC 协议的答复信息的改变取决于网络服务器对调用信息是接收还是拒绝。答复信息请求包括区别以下情形的各种信息：</span><br><span class="line">RPC 成功执行调用信息。.</span><br><span class="line">RPC 的远程实现不是协议第二版，返回 RPC 支持的最低和最高版本号。</span><br><span class="line">在远程系统中，远程程序不可用。</span><br><span class="line">远程程序不支持被请求的版本号。返回远程程序所支持的最低和最高版本号。</span><br><span class="line">请求的过程号不存在。通常是呼叫方协议或程序差错。</span><br><span class="line">RPC答复信息形式如下：</span><br><span class="line">enum reply_stat stat</span><br><span class="line">&#123;MSG_ACCEPTED = 0,</span><br><span class="line">MSG_DENIED = 1 &#125;;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -636,7 +563,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/https/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-data-structure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -655,8 +582,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/https/" itemprop="url">
-                  Https协议
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-data-structure/" itemprop="url">
+                  SQL优化【数据结构】
                 </a>
               
             
@@ -686,22 +613,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-14 12:53:47" itemprop="dateModified" datetime="2018-10-14T12:53:47+08:00">2018-10-14</time>
-              
-            
           </span>
 
           
@@ -730,7 +641,7 @@
 
           
           
-             <span id="/2018/03/24/agreement/https/" class="leancloud_visitors" data-flag-title="Https协议">
+             <span id="/2018/03/24/mysql/optimization-sql-data-structure/" class="leancloud_visitors" data-flag-title="SQL优化【数据结构】">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -763,17 +674,17 @@
       
         
           
-            <p><strong>http+ssl</strong></p>
-<pre><code>使用http进行通信 ssl作为数据通信加密方式
-使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
-</code></pre><p>混合加密方式</p>
-<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
-<ul>
-<li>1、客户端 发送公钥、支持加密方式、版本号</li>
-<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
-<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
-<li>4、使用协商后的加密方式加密http请求</li>
-</ul>
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-99afb8532ed7f3db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>在作为数据库设计师的角色中，寻找组织模式，表和列的最有效方式。<br>与调整应用程序代码时一样，您可以最大限度地减少I / O，将相关项目集中在一起，并提前进行计划，<br>以便随着数据量的增加性能保持在较高水平 从高效的数据库设计开始，<br>团队成员可以更轻松地编写高性能的应用程序代码，并使数据库可以随应用程序的演变和重写而持续下去。</p>
+<p>8.4.1优化数据大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">设计您的表格以尽量减少磁盘空间。</span><br><span class="line">这可以通过减少写入和读取磁盘的数据量来实现巨大的改进。</span><br><span class="line">在查询执行期间，较小的表格通常需要较少的主存储器，而其内容正在被主动处理。</span><br><span class="line">表数据的任何空间减少也会导致可以更快处理的更小的索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL支持许多不同的存储引擎（表格类型）和行格式。</span><br><span class="line">对于每个表格，您可以决定使用哪种存储和索引方法。</span><br><span class="line">为您的应用程序选择适当的表格格式可以为您带来巨大的性能提升。</span><br><span class="line">请参阅 第14章InnoDB存储引擎和 第15章备用存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">通过使用此处列出的技术，您可以获得更好的表格性能并最小化存储空间：</span><br><span class="line"></span><br><span class="line">表列</span><br><span class="line"></span><br><span class="line">行格式</span><br><span class="line"></span><br><span class="line">索引</span><br><span class="line"></span><br><span class="line">加盟</span><br><span class="line"></span><br><span class="line">正常化</span><br><span class="line"></span><br><span class="line">表列</span><br><span class="line">尽可能使用最有效（最小）的数据类型。</span><br><span class="line">MySQL有很多专门的类型可以节省磁盘空间和内存。</span><br><span class="line">例如，如果可能的话，使用较小的整数类型来获得较小的表格。</span><br><span class="line"> MEDIUMINT通常是一个更好的选择，INT因为一 MEDIUMINT列使用的空间减少了25％。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NOT NULL如果可能的话， 声明列。</span><br><span class="line">通过更好地使用索引并消除测试每个值是否存在开销，它使SQL操作更快NULL。</span><br><span class="line">您还可以节省一些存储空间，每列一位。</span><br><span class="line">如果您真的需要NULL表格中的值，请使用它们。</span><br><span class="line">只需避免允许NULL每列中的值的默认设置 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行格式</span><br><span class="line">InnoDB表格DYNAMIC默认使用行格式创建 。</span><br><span class="line">要在a 或语句中明确使用除了DYNAMIC，配置 innodb_default_row_format或指定ROW_FORMAT选项以外的行格式。</span><br><span class="line"> CREATE TABLEALTER TABLE</span><br><span class="line"></span><br><span class="line">行格式的紧凑系列，其中包括 COMPACT，DYNAMIC和COMPRESSED，以减少某些操作的CPU使用为代价来减少行存储空间。</span><br><span class="line">如果您的工作负载是受缓存命中率和磁盘速度限制的典型负载，则可能会更快。</span><br><span class="line">如果这是一个受CPU速度限制的罕见情况，则可能会变慢。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">紧凑的行格式系列还可以CHAR在使用诸如utf8mb3或的可变长度字符集时优化 列存储 utf8mb4。</span><br><span class="line">使用ROW_FORMAT=REDUNDANT， 占用字符集的最大字节长度×。</span><br><span class="line">许多语言主要使用单字节字符编写 ，因此固定的存储长度通常会浪费空间。</span><br><span class="line">使用紧凑的行格式系列，可在to 范围内分配可变数量的存储空间 CHAR(N)Nutf8InnoDBNN×通过去除尾部空格来为这些列设置字符集的最大字节长度。</span><br><span class="line">最小存储长度为 N字节，便于在典型情况下进行就地更新。</span><br><span class="line">有关更多信息，请参见 第14.8.1.2节“InnoDB表的物理行结构”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要通过以压缩形式存储表数据来进一步减少空间，请ROW_FORMAT=COMPRESSED在创建InnoDB表时 指定 ，或在现有表上运行 myisampack命令 MyISAM。</span><br><span class="line">（InnoDB压缩表是可读可写的，而MyISAM压缩表是只读的。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">对于MyISAM表中，如果没有任何可变长度列（VARCHAR， TEXT，或 BLOB列），一个固定大小的行格式被使用。</span><br><span class="line">这会更快，但可能会浪费一些空间。</span><br><span class="line">请参见第15.2.3节“MyISAM表格存储格式”。</span><br><span class="line">即使VARCHAR列中包含CREATE TABLE选项 ，您也可以提示您想要固定长度的行ROW_FORMAT=FIXED。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">索引</span><br><span class="line">表格的主要索引应尽可能短。</span><br><span class="line">这使得每一行的识别简单且高效。</span><br><span class="line">对于InnoDB表，主键列在每个二级索引条目中都是重复的，所以如果有很多二级索引，则较短的主键会节省相当多的空间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">只创建您需要提高查询性能的索引。</span><br><span class="line">索引很适合检索，但会减慢插入和更新操作。</span><br><span class="line">如果您主要通过在列组合上搜索来访问表，请在其上创建一个合成索引，而不是每个列的单独索引。</span><br><span class="line">指数的第一部分应该是最常用的列。</span><br><span class="line">如果从表格中选择时总是使用多列，则索引中的第一列应该是重复次数最多的列，以便更好地压缩索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果长字符串列很可能在第一个字符数上有一个唯一的前缀，那么最好只索引这个前缀，使用MySQL支持在列的最左边部分创建一个索引（请参见第13.1.14节，“CREATE INDEX Syntax”）。</span><br><span class="line">更短的索引速度更快，不仅因为它们需要更少的磁盘空间，还因为它们还会在索引缓存中为您提供更多的点击量，因此磁盘搜索量更少。</span><br><span class="line">请参见 第5.1.1节“配置服务器”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">加盟</span><br><span class="line">在某些情况下，分割成两个经常扫描的表格可能是有益的。</span><br><span class="line">如果它是一个动态格式的表格，并且可以使用一个较小的静态格式表格来扫描表格时可以用来查找相关的行，那么情况尤其如此。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在具有相同数据类型的不同表中使用相同信息声明列，以根据相应列加快联接。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">保持列名简单，以便您可以在不同的表中使用相同的名称并简化连接查询。</span><br><span class="line">例如，在一个名为table的表中customer，使用一个列名来name代替 customer_name。</span><br><span class="line">为了让您的名字可移植到其他SQL服务器，请考虑将它们保持为少于18个字符。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">正常化</span><br><span class="line">通常，尽量保持所有数据不冗余（观察数据库理论中提到的 第三范式）。</span><br><span class="line">不必重复诸如名称和地址之类的冗长值，而是为它们分配唯一的ID，根据需要在多个较小的表中重复这些ID，并通过引用join子句中的ID来加入查询中的表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果速度比磁盘空间更重要以及保留多个数据副本的维护成本（例如，在分析大型表中的所有数据的商业智能场景中），则可以放宽规范化规则，复制信息或创建汇总表以获得更多速度。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.2优化MySQL数据类型<br>8.4.2.1优化数字数据<br>8.4.2.2优化字符和字符串类型<br>8.4.2.3优化BLOB类型<br>8.4.2.4使用PROCEDURE ANALYZE<br>8.4.2.1优化数字数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">对于可以表示为字符串或数字的唯一ID或其他值，首选数字列来对字符串进行字符串。</span><br><span class="line">由于较大的数值可以以比相应的字符串更少的字节存储，因此速度更快，并且需要更少的内存来传输和比较它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您使用的是数字数据，在许多情况下访问数据库（使用实时连接）的信息比访问文本文件要快。</span><br><span class="line">数据库中的信息可能以比文本文件更紧凑的格式存储，因此访问它涉及更少的磁盘访问。</span><br><span class="line">您还可以将代码保存在应用程序中，因为您可以避免解析文本文件以查找行和列边界。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.2.2优化字符和字符串类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">对于字符和字符串列，请遵循以下准则：</span><br><span class="line"></span><br><span class="line">如果不需要特定于语言的归类功能，请使用二进制归类顺序进行快速比较和排序操作。</span><br><span class="line">您可以使用 BINARY操作员在特定查询中使用二进制排序规则。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在比较不同列的值时，尽可能使用相同的字符集和归类来声明这些列，以避免在运行查询时进行字符串转换。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于小于8KB大小的列值，请使用二进制 VARCHAR代替 BLOB。</span><br><span class="line">该GROUP BY 和ORDER BY条款可以生成临时表，这些临时表可以使用的 MEMORY存储引擎，如果原来的表不包含任何BLOB 列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果一个表包含字符串列（如名称和地址），但许多查询不检索这些列，请考虑将字符串列拆分为单独的表，并在必要时使用具有外键的连接查询。</span><br><span class="line">当MySQL从一行中检索任何值时，它会读取一个包含该行所有列（可能还有其他相邻行）的数据块。</span><br><span class="line">保持每行较小，只有最常用的列，允许更多的行适合每个数据块。</span><br><span class="line">这些紧凑的表格减少了常见查询的磁盘I / O和内存使用量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在表中使用随机生成的值作为主键InnoDB时，如果可能，请使用升序值（如当前日期和时间）作为前缀。</span><br><span class="line">当连续的主值被物理地存储在彼此附近时，InnoDB可以更快地插入和检索它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关数字列通常比等效字符串列更可取的原因，请参见第8.4.2.1节“针对数字数据优化”。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.2.3优化BLOB类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">存储包含文本数据的大块时，请考虑先压缩它。</span><br><span class="line">当整个表被压缩，则不能使用这种技术 InnoDB或MyISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于包含多个列的表，为了减少不使用BLOB列的查询的内存要求，请考虑将BLOB列拆分为单独的表，并在需要时使用连接查询引用它。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">由于检索和显示BLOB值的性能要求可能与其他数据类型有很大的不同，因此可以将BLOB特定的表放在不同的存储设备上，甚至是单独的数据库实例中。</span><br><span class="line">例如，要检索BLOB可能需要大量的顺序磁盘读取，这比较适合传统硬盘驱动器而非 SSD设备。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关二进制列有时比等效BLOB列更可取的原因，请参见第8.4.2.2节“优化字符和字符串类型”VARCHAR。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以将列值的散列存储在单独的列中，对该列进行索引并在查询中测试散列值，而不是针对非常长的文本字符串测试相等性。</span><br><span class="line">（使用MD5()或 CRC32()函数来生成散列值。</span><br><span class="line">）由于散列函数可能会为不同的输入产生重复结果，因此您仍然在查询中包含一个子句 以防止错误匹配; 性能优势来自散列值的更小，易于扫描的索引。</span><br><span class="line"> AND blob_column = long_string_value</span><br></pre></td></tr></table></figure></p>
+<p>8.4.2.4使用PROCEDURE ANALYZE<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">ANALYSE([max_elements[,max_memory]])</span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">PROCEDURE ANALYSE() 从MySQL 5.7.18开始已弃用，并在MySQL 8.0中删除。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ANALYSE()检查查询的结果并返回结果分析，为每列提供最佳数据类型，这可能有助于减小表格大小。</span><br><span class="line">要获得此分析，请附加PROCEDURE ANALYSE到SELECT声明的结尾处 ：</span><br><span class="line"></span><br><span class="line">SELECT ... FROM ... WHERE ... PROCEDURE ANALYZE（[ max_elements，[ max_memory]]）</span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">SELECT col1，col2 FROM table1 PROCEDURE ANALYZE（10，2000）;</span><br><span class="line">结果显示查询返回值的一些统计信息，并为列提出最佳数据类型。</span><br><span class="line">这对于检查现有表格或导入新数据后可能会有所帮助。</span><br><span class="line">您可能需要为参数尝试不同的设置，以便在PROCEDURE ANALYSE()不适ENUM当时不会显示 数据类型。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">参数是可选的，使用如下：</span><br><span class="line"></span><br><span class="line">max_elements（默认值为256）是ANALYSE()每列通知的最大不同值的数量 。</span><br><span class="line">这用于ANALYSE()检查最佳数据类型是否应该是类型的 ENUM; 如果有多个max_elements不同的值，则ENUM不是建议的类型。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">max_memory（默认8192）是ANALYSE()在尝试查找所有不同值时应分配每列的最大内存量 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一个PROCEDURE条款是不是在允许的 UNION声明。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">8.4.3优化许多表</span><br><span class="line">8.4.3.1 MySQL如何打开和关闭表格</span><br><span class="line">8.4.3.2在同一数据库中创建多个表的缺点</span><br><span class="line">一些快速保存单个查询的技术涉及将数据分割到多个表中。</span><br><span class="line">当表的数量达到数千甚至数百万时，处理所有这些表的开销成为新的性能考虑因素。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.3.1 MySQL如何打开和关闭表格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">当你执行mysqladmin status 命令时，你应该看到如下所示的内容：</span><br><span class="line"></span><br><span class="line">正常运行时间：426正在运行的线程：1问题：11082</span><br><span class="line">重新加载：1打开表格：12</span><br><span class="line">Open tables如果你只有六张桌子，12 的价值可能会有点令人费解。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL是多线程的，因此可能有很多客户端同时为给定的表发出查询。</span><br><span class="line">为了尽量减少多个客户端会话在同一个表上具有不同状态的问题，该表由每个并发会话独立打开。</span><br><span class="line">这使用额外的内存，但通常会提高性能。</span><br><span class="line">使用MyISAM表格，打开表格的每个客户端的数据文件都需要一个额外的文件描述符。</span><br><span class="line">（相比之下，索引文件描述符在所有会话之间共享。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">该table_open_cache和 max_connections系统变量影响服务器保持打开的文件的最大数量。</span><br><span class="line">如果您增加这些值中的一个或两个，则可能会遇到操作系统对每个进程打开的文件描述符数量施加的限制。</span><br><span class="line">许多操作系统允许您增加打开文件的限制，但方法在系统之间差别很大。</span><br><span class="line">请查阅您的操作系统文档以确定是否可以增加限制以及如何这样做。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">table_open_cache与...有关max_connections。</span><br><span class="line">例如，对于200个并发运行连接，请至少指定一个表缓存大小，其中 是您执行的任何查询中每个连接的最大表数量。</span><br><span class="line">您还必须为临时表和文件保留一些额外的文件描述符。</span><br><span class="line"> 200 * NN</span><br><span class="line"></span><br><span class="line">确保您的操作系统可以处理table_open_cache设置隐含的打开文件描述符的数量 。</span><br><span class="line">如果 table_open_cache设置得太高，MySQL可能会耗尽文件描述符并拒绝连接，无法执行查询，并且非常不可靠。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您还应该考虑到MyISAM存储引擎对于每个独特的打开表格需要两个文件描述符的事实 。</span><br><span class="line">对于分区 MyISAM表，打开的表的每个分区都需要两个文件描述符。</span><br><span class="line">（还要注意，当MyISAM打开一个分区表时，它会打开这个表的每个分区，不管是否实际使用了一个给定的分区，参见 MyISAM和分区文件描述符的用法。</span><br><span class="line">）可以使用 --open-files-limit启动选项到mysqld。</span><br><span class="line">参见 第B.5.2.17节“找不到文件和类似的错误”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">打开表格的缓存保存在table_open_cache条目级别 。</span><br><span class="line">服务器在启动时自动调整缓存大小。</span><br><span class="line">要明确设置大小，请table_open_cache在启动时设置 系统变量。</span><br><span class="line">请注意，MySQL可能暂时打开更多的表来执行查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在下列情况下，MySQL会关闭一个未使用的表并将其从表缓存中删除：</span><br><span class="line"></span><br><span class="line">当缓存已满并且线程尝试打开不在缓存中的表时。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当缓存包含多个table_open_cache条目并且缓存中 的表不再被任何线程使用时。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表冲洗操作发生时。</span><br><span class="line">当有人发出FLUSH TABLES语句或执行 mysqladmin flush-tables或 mysqladmin refresh命令时会发生这种情况。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当表缓存填满时，服务器使用以下过程来查找要使用的缓存条目：</span><br><span class="line"></span><br><span class="line">当前未使用的表格被释放，从最近使用的表格开始。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果需要打开新表，但缓存已满并且没有表可以释放，则缓存将根据需要暂时扩展。</span><br><span class="line">当缓存处于临时扩展状态并且表从已使用状态变为未使用状态时，表将关闭并从缓存中释放。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MyISAM为每个并发访问打开 一个表。</span><br><span class="line">这意味着如果两个线程访问同一个表，或者一个线程在同一个查询中访问了两次表（例如，通过将表连接到它自己），则需要打开两次表。</span><br><span class="line">每个并发打开需要表缓存中的条目。</span><br><span class="line">任何MyISAM表的第一次打开 需要两个文件描述符：一个用于数据文件，一个用于索引文件。</span><br><span class="line">该表的每次额外使用仅为数据文件提供一个文件描述符。</span><br><span class="line">索引文件描述符在所有线程之间共享。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您正在使用该语句打开一个表，则会为该线程分配一个专用表对象。</span><br><span class="line">此表对象不被其他线程共享，并且在线程调用或线程终止之前不会关闭。</span><br><span class="line">发生这种情况时，该表将放回表缓存中（如果缓存未满）。</span><br><span class="line">请参见 第13.2.4节“HANDLER语法”。</span><br><span class="line"> HANDLER tbl_name OPENHANDLER tbl_name CLOSE</span><br><span class="line"></span><br><span class="line">您可以通过检查mysqld状态变量来确定表缓存是否过小，该变量 Opened_tables指示自服务器启动以来的表开放操作数：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; SHOW GLOBAL STATUS LIKE &apos;Opened_tables&apos;;</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">| Opened_tables | 2741 |</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">如果该值非常大或快速增加，即使您没有发出很多FLUSH TABLES语句，也要增加表缓存大小。</span><br><span class="line">请参见第5.1.7节“服务器系统变量”和 第5.1.9节“服务器状态变量”。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.3.2在同一数据库中创建多个表的缺点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果MyISAM在同一数据库目录中有多个表，则打开，关闭和创建操作会很慢。</span><br><span class="line">如果您SELECT 在许多不同的表上执行语句，那么当表缓存满时会有一些开销，因为对于每个必须打开的表，必须关闭另一个表。</span><br><span class="line">您可以通过增加表缓存中允许的条目数来减少此开销。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.4在MySQL中使用内部临时表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">在某些情况下，服务器在处理语句时创建内部临时表。</span><br><span class="line">用户无法直接控制何时发生。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器在如下条件下创建临时表：</span><br><span class="line"></span><br><span class="line">对UNION 报表的评估，稍后会有一些例外情况。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估一些视图，例如那些使用TEMPTABLE算法 UNION或聚合的视图 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">派生表的评估（见 第13.2.10.8节“派生表”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为子查询或半连接实现创建的表（请参见第8.2.2节“优化子查询，派生表和视图引用”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估包含一个ORDER BY子句和一个不同GROUP BY子句的语句，ORDER BY或者GROUP BY包含来自除连接队列中的第一个表以外的表的列或包含该列的语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DISTINCT结合 评估ORDER BY可能需要临时表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于使用SQL_SMALL_RESULT 修饰符的查询，MySQL使用内存中的临时表，除非查询还包含需要磁盘存储的元素（稍后介绍）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了评估 INSERT ... SELECT从同一个表中选择并插入到同一个表中的语句，MySQL创建一个内部临时表来存放来自该表的行 SELECT，然后将这些行插入到目标表中。</span><br><span class="line">请参见 第13.2.5.1节“INSERT ... SELECT语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估多表 UPDATE报表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估GROUP_CONCAT() 或COUNT(DISTINCT) 表达。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要确定某个语句是否需要临时表，请使用 EXPLAIN并检查该 Extra列以查看它是否显示 Using temporary（请参见 第8.8.1节“使用EXPLAIN优化查询”）。</span><br><span class="line">对于派生或物化临时表格EXPLAIN 不一定会说Using temporary。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当服务器创建内部临时表（无论是在内存中还是在磁盘上）时，它都会增加 Created_tmp_tables状态变量。</span><br><span class="line">如果服务器在磁盘上创建表（最初或通过转换内存表），它将增加 Created_tmp_disk_tables状态变量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">某些查询条件会阻止使用内存中的临时表，在这种情况下，服务器会使用磁盘上的表：</span><br><span class="line"></span><br><span class="line">表中存在一列BLOB或一 TEXT列。</span><br><span class="line">这包括具有字符串值的用户定义变量，因为它们被视为 BLOB或 TEXT列，这取决于它们的值分别是二进制还是非二进制字符串。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SELECT如果使用UNION或 UNION ALL 使用列表中 最大长度大于512（二进制字符串的字节，非二进制字符串的字符）的任何字符串列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">的SHOW COLUMNS和 DESCRIBE语句中使用 BLOB作为用于某些列的类型，从而用于结果的临时表是磁盘上的表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器不会为UNION符合某些资格的语句使用临时表 。</span><br><span class="line">相反，它从临时表创建中仅保留执行结果列类型转换所需的数据结构。</span><br><span class="line">该表没有完全实例化，没有行被写入或读取; 行直接发送到客户端。</span><br><span class="line">结果是内存和磁盘需求减少，第一行发送到客户端之前的延迟更小，因为服务器不需要等到最后一个查询块被执行。</span><br><span class="line">EXPLAIN而优化器跟踪输出反映了这种执行策略： UNION RESULT 查询块不存在，因为该块对应于从临时表读取的部分。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些条件有资格在UNION没有临时表的情况下进行评估：</span><br><span class="line"></span><br><span class="line">工会是UNION ALL，不是 UNION或UNION DISTINCT。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">没有全球ORDER BY条款。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">联合不是&#123;INSERT | REPLACE&#125; ... SELECT ... 语句的顶级查询块 。</span><br></pre></td></tr></table></figure></p>
+<p>内部临时表存储引擎<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">内部临时表可以在内存中保持并且由处理MEMORY存储引擎，或者由存储在磁盘上InnoDB或 MyISAM存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果内部临时表被创建为内存表，但变得太大，MySQL会自动将其转换为磁盘上的表。</span><br><span class="line">内存中临时表的最大大小取决于哪个值tmp_table_size和 max_heap_table_size更小值 。</span><br><span class="line">这与MEMORY显式创建的表有所不同CREATE TABLE：对于这些表，只有 max_heap_table_size系统变量决定允许表增长多少，并且没有转换为磁盘格式。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所述 internal_tmp_disk_storage_engine 系统变量确定哪个存储引擎服务器使用来管理的磁盘上的内部临时表。</span><br><span class="line">允许的值是INNODB（默认值）和 MYISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">使用时 internal_tmp_disk_storage_engine=INNODB，生成超出InnoDB 行或列限制的磁盘内部临时表的查询 将返回行大小过大或列 错误过多。</span><br><span class="line">解决方法是设置 internal_tmp_disk_storage_engine 为MYISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">内部临时表格存储格式</span><br><span class="line">内存中的临时表由MEMORY存储引擎管理，该 引擎使用固定长度的行格式。</span><br><span class="line">VARCHAR并且 VARBINARY列值被填充到最大列长度，实际上将它们存储为 CHAR和BINARY列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在磁盘上的临时表由管理 InnoDB或MyISAM存储引擎（取决于 internal_tmp_disk_storage_engine 设置）。</span><br><span class="line">两个引擎都使用动态宽度行格式存储临时表。</span><br><span class="line">列只根据需​​要获取尽可能多的存储空间，与使用固定长度行的磁盘表相比，它减少了磁盘I / O和空间要求以及处理时间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于最初在内存中创建内部临时表的语句，然后将其转换为磁盘上表，通过跳过转换步骤并在磁盘上创建表开始，可以获得更好的性能。</span><br><span class="line">所述 big_tables系统变量可以用来迫使内部临时表的磁盘存储。</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -880,22 +791,6 @@
               <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
             
 
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-14 12:53:47" itemprop="dateModified" datetime="2018-10-14T12:53:47+08:00">2018-10-14</time>
-              
             
           </span>
 
