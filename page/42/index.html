@@ -276,7 +276,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">5</span></a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">6</span></a>
   </li>
         
         
@@ -286,14 +286,53 @@
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">207</span></a>
   </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
 
       
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
       
     </ul>
   
 
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -335,7 +374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/feign-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/art-infiltration/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -354,8 +393,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/feign-1/" itemprop="url">
-                  Feign服务调用
+                <a class="post-title-link" href="/2018/03/24/hack/art-infiltration/" itemprop="url">
+                  渗透的艺术
                 </a>
               
             
@@ -398,7 +437,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-14 00:47:08" itemprop="dateModified" datetime="2018-10-14T00:47:08+08:00">2018-10-14</time>
+                <time title="修改时间：2018-10-14 12:53:46" itemprop="dateModified" datetime="2018-10-14T12:53:46+08:00">2018-10-14</time>
               
             
           </span>
@@ -415,7 +454,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/blog/" itemprop="url" rel="index"><span itemprop="name">blog</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -428,6 +467,17 @@
           
 
           
+          
+             <span id="/2018/03/24/hack/art-infiltration/" class="leancloud_visitors" data-flag-title="渗透的艺术">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
@@ -451,14 +501,46 @@
       
         
           
-            <p>为了服务之间的服务调用 基于<a href="https://github.com/square/retrofit" target="_blank" rel="noopener">Retrofit</a>,</p>
-<p><a href="https://jax-rs-spec.java.net/nonav/2.0/apidocs/index.html" target="_blank" rel="noopener">JAXRS-2.0</a>,</p>
-<p>and<a href="http://www.oracle.com/technetwork/articles/java/jsr356-1937161.html" target="_blank" rel="noopener">WebSocket</a>.</p>
-<p>开发的 客户端调用工具</p>
-<p>更简单方便的调用服务信息</p>
-<p>以下是官方简单介绍以及基本用法示例</p>
-<p><a href="https://github.com/OpenFeign/feign" target="_blank" rel="noopener">github</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">interface Bank &#123;</span><br><span class="line">  @RequestLine(&quot;POST /account/&#123;id&#125;&quot;)</span><br><span class="line">  Account getAccountInfo(@Param(&quot;id&quot;) String id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@RequestMapping(value = &quot;/test/&quot;,method = RequestMethod.GET)</span><br><span class="line">RestResponse test(@RequestParam(&quot;test&quot;)Long test);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">    * 带参调用方法</span><br><span class="line">    * @RequestLine(&quot;POST /uc/login0&quot;)</span><br><span class="line">    * @Headers(&quot;Content-type: application/json&quot;)</span><br><span class="line">    * String example0(@RequestParam(&quot;id&quot;) String id);</span><br><span class="line"></span><br><span class="line">    * @RequestLine(&quot;PUT /uc/login1&quot;)</span><br><span class="line">    * @Headers(&quot;Content-type: application/json&quot;)</span><br><span class="line">    * String example1(@RequestBody UserVO userVO);</span><br><span class="line">    *</span><br><span class="line">    */</span><br></pre></td></tr></table></figure>
+            <table>
+<thead>
+<tr>
+<th style="text-align:left">分类</th>
+<th style="text-align:left">描述内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">信息收集</td>
+<td style="text-align:left">收集域名、服务器ip、指纹</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞挖掘</td>
+<td style="text-align:left">组件指纹、应用层</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞利用</td>
+<td style="text-align:left">目的、ddos、</td>
+</tr>
+<tr>
+<td style="text-align:left">权限提升</td>
+<td style="text-align:left">提升shell权限</td>
+</tr>
+<tr>
+<td style="text-align:left">后门</td>
+<td style="text-align:left">留下下次访问后门 肉鸡</td>
+</tr>
+<tr>
+<td style="text-align:left">日志清扫</td>
+<td style="text-align:left">删除系统日志</td>
+</tr>
+<tr>
+<td style="text-align:left">经验总结</td>
+<td style="text-align:left">记录攻击漏洞、肉鸡ip</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-b92aa8e517475659.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="套路总结.jpg"></p>
+<p>别人总结的　<br>如有侵犯　请私信　　哈哈．．．</p>
 
           
         
@@ -516,7 +598,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/reactor-core/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/dos/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -535,8 +617,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/reactor-core/" itemprop="url">
-                  Reactor Core
+                <a class="post-title-link" href="/2018/03/24/hack/dos/" itemprop="url">
+                  DOS攻击工具
                 </a>
               
             
@@ -579,7 +661,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-14 00:47:08" itemprop="dateModified" datetime="2018-10-14T00:47:08+08:00">2018-10-14</time>
+                <time title="修改时间：2018-10-14 12:53:47" itemprop="dateModified" datetime="2018-10-14T12:53:47+08:00">2018-10-14</time>
               
             
           </span>
@@ -596,7 +678,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/blog/" itemprop="url" rel="index"><span itemprop="name">blog</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -609,6 +691,17 @@
           
 
           
+          
+             <span id="/2018/03/24/hack/dos/" class="leancloud_visitors" data-flag-title="DOS攻击工具">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
@@ -632,28 +725,10 @@
       
         
           
-            <p>本文从以下介绍下 Reactor （反应堆）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">首先简单介绍Reactor 是什么东西、</span><br><span class="line">其次解决什么问题、</span><br><span class="line">领域应用、</span><br><span class="line">原理、</span><br><span class="line">优点和缺点、</span><br></pre></td></tr></table></figure></p>
-<h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-8bbb8b631b3797b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h2 id="2、解决问题"><a href="#2、解决问题" class="headerlink" title="2、解决问题"></a>2、解决问题</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-57e816852fa46e19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h2 id="3、领域应用"><a href="#3、领域应用" class="headerlink" title="3、领域应用"></a>3、领域应用</h2><p>举个比较熟悉的例子 dubbo<br>dubbo底层使用了netty线程模型  netty 中使用了reactor模式</p>
-<h3 id="那么什么是reactor模式？"><a href="#那么什么是reactor模式？" class="headerlink" title="那么什么是reactor模式？"></a>那么什么是reactor模式？</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-858fe9a54def75b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="Reactor三种模型"><a href="#Reactor三种模型" class="headerlink" title="Reactor三种模型"></a>Reactor三种模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-2406b26b0cca44ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="Netty线程模型"><a href="#Netty线程模型" class="headerlink" title="Netty线程模型"></a>Netty线程模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-7fac4e58c9c1fe4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="Netty结构"><a href="#Netty结构" class="headerlink" title="Netty结构"></a>Netty结构</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-44f3e9b29ec969cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="dubbo中使用的netty"><a href="#dubbo中使用的netty" class="headerlink" title="dubbo中使用的netty"></a>dubbo中使用的netty</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-6a1f8184f9fcfae3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h2 id="4、Reactor-原理介绍"><a href="#4、Reactor-原理介绍" class="headerlink" title="4、Reactor 原理介绍"></a>4、Reactor 原理介绍</h2><h3 id="4-1-Reactor模式结构"><a href="#4-1-Reactor模式结构" class="headerlink" title="4.1 Reactor模式结构"></a>4.1 Reactor模式结构</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-fc4c0369774e482d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-1c48977348cea778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="4-2Reactor模式模块之间的交互"><a href="#4-2Reactor模式模块之间的交互" class="headerlink" title="4.2Reactor模式模块之间的交互"></a>4.2Reactor模式模块之间的交互</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-420d7e53a12f5a5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-9b0b54d48117cc51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-76867da8faa4836f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-de7a2593190a5eb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h2 id="5、-Reactor优点"><a href="#5、-Reactor优点" class="headerlink" title="5、  Reactor优点"></a>5、  Reactor优点</h2><p><a href="http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf" target="_blank" rel="noopener">Reactor An Object Behavioral Pattern for Demultiplexing and Dispatching Handles for Synchronous Events</a><br>解耦、提升复用性、模块化、可移植性、事件驱动、细力度的并发控制等。<br>相比 传统的实现、即线程的切换、同步、数据的移动会引起性能问题。也就是说从性能的角度上，它最大的提升就是减少了性能的使用，即不需要每个Client对应一个线程</p>
-<p>关于 减少使用线程使用 对性能提升的影响 可看这篇论文</p>
-<p><a href="http://www.eecs.harvard.edu/~mdw/papers/seda-sosp01.pdf" target="_blank" rel="noopener">SEDA: Staged Event-Driven Architecture - An Architecture for Well-Conditioned, Scalable Internet Service</a></p>
-<p>对随着线程的增长带来性能降低做了一个统计：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-27a8db8c88ddbcc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>在这个统计中，每个线程从磁盘中读8KB数据，每个线程读同一个文件，因而数据本身是缓存在操作系统内部的，即减少IO的影响；所有线程是事先分配的，不会有线程启动的影响；所有任务在测试内部产生，因而不会有网络的影响。该统计数据运行环境：Linux 2.2.14，2GB内存，4-way 500MHz Pentium III。从图中可以看出，随着线程的增长，吞吐量在线程数为8个左右的时候开始线性下降，并且到64个以后而迅速下降，其相应事件也在线程达到256个后指数上升。即1+1&lt;2，因为线程切换、同步、数据移动会有性能损失，线程数增加到一定数量时，这种性能影响效果会更加明显。</p>
-<h2 id="6-Reactor模式的缺点"><a href="#6-Reactor模式的缺点" class="headerlink" title="6.Reactor模式的缺点"></a>6.Reactor模式的缺点</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-fc5e8ab386e2f710.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+            <p>1.slowhttptest<br>慢速dos攻击 原理 发送一个不完整的数据包.引起服务器保留链接资源.以达成耗费服务器资源目的</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">bt5 r3安装过程是这样的,你先移动到根目录 运行命令：</span><br><span class="line">wget http://slowhttptest.googlecode.com/files/slowhttptest-1.5.tar.gz 第一条：下载</span><br><span class="line">tar -vxf slowhttptest-1.5.tar.gz 解压</span><br><span class="line">cd slowhttptest-1.5/ 进入目录</span><br><span class="line">./configure 再往下你懂的</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line">测试白帽攻击是这样的：</span><br><span class="line">slowhttptest -c 1000 -X -g -o -slow_read_stats -r 200 -w 512 -y 1024 -n 5 -z 32 -k 3 -u http://www.loveuv.net -p 3</span><br><span class="line">参数：</span><br><span class="line">—a —开始开始值范围说明符用于范围头测试</span><br><span class="line">-b 将字节限制的范围说明符用于范围头测试</span><br><span class="line">- c 的连接数限制为65539</span><br><span class="line">- d proxy host:port 用于指导所有流量通过web代理</span><br><span class="line">- e proxy host:port 端口用于指导只有探针交通通过web代理</span><br><span class="line">- h,B,R或x 指定减缓在头部分或在消息体,- R 允许范围检验,使慢读测试- x</span><br><span class="line">- g 生成统计数据在CSV和HTML格式,模式是缓慢的xxx。csv / html,其中xxx是时间和日期</span><br><span class="line">- i seconds 秒间隔跟踪数据在几秒钟内,每个连接</span><br><span class="line">- k 管道因子次数重复请求在同一连接慢读测试如果服务器支持HTTP管道内衬。</span><br><span class="line">- l 在几秒钟内，秒测试时间</span><br><span class="line">- n 秒间隔从接收缓冲区读取操作</span><br><span class="line">- o 文件定义输出文件路径和/或名称,如果指定有效- g</span><br><span class="line">- p 秒超时等待HTTP响应在探头连接后,服务器被认为是不可访问的</span><br><span class="line">- r seconds 连接速度</span><br><span class="line">- s 字节值的内容长度标题详细说明,如果指定- b</span><br><span class="line">- t verb 自定义</span><br><span class="line">- u URL 目标URL,相同的格式键入浏览器,e。g https://host[:port]/</span><br><span class="line">- v level 冗长等级0 - 4的日志</span><br><span class="line">- w 字节范围广告的窗口大小会选择从</span><br><span class="line">- x 字节最大长度的跟踪数据结束</span><br><span class="line">- y 字节范围广告的窗口大小会选择从</span><br><span class="line">- z 字节从接收缓冲区读取字节与单一的read()操作</span><br></pre></td></tr></table></figure>
+<p>也可以查看 man slowhttptest</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-2154e6343cf62f9f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/q/50" alt="图片发自简书App"></p>
 
           
         
@@ -711,7 +786,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/ribbon/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/eureka-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -730,8 +805,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/ribbon/" itemprop="url">
-                  Ribbon
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/eureka-1/" itemprop="url">
+                  EUREKA服务治理
                 </a>
               
             
@@ -774,7 +849,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-14 00:47:08" itemprop="dateModified" datetime="2018-10-14T00:47:08+08:00">2018-10-14</time>
+                <time title="修改时间：2018-10-14 12:53:47" itemprop="dateModified" datetime="2018-10-14T12:53:47+08:00">2018-10-14</time>
               
             
           </span>
@@ -791,7 +866,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/blog/" itemprop="url" rel="index"><span itemprop="name">blog</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -804,6 +879,17 @@
           
 
           
+          
+             <span id="/2018/03/24/spring-cloud/eureka-1/" class="leancloud_visitors" data-flag-title="EUREKA服务治理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
@@ -827,23 +913,19 @@
       
         
           
-            <p>官方wiki地址：<a href="https://github.com/Netflix/ribbon/wiki" target="_blank" rel="noopener">https://github.com/Netflix/ribbon/wiki</a></p>
-<p>功能简介：</p>
-<ul>
-<li>1、多重和可插入的负载平衡</li>
-<li>2、与eureka服务整合</li>
-<li>3、内置故障发现能力</li>
-<li>4、云启用</li>
-<li>5、与负载均衡器集成客户端</li>
-<li>6、Archaius配置驱动客户端工厂</li>
-</ul>
-<p>三个子项目：</p>
-<ul>
-<li>ribbon-core：包括负载均衡器和客户端接口定义、通用负载均衡器实现、客户端与负载均衡器和客户端工厂集成</li>
-<li>ribbon-eureka：包含基于Eureka客户端的负载均衡器实现、这是用于服务注册和发现的liberary</li>
-<li>ribbon-httpclient：包含基于JSR-311的Rest客户端与服务均衡器集成的实现</li>
-</ul>
-<p>配置 sample-client.properties<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># Max number of retries on the same server (excluding the first try)</span><br><span class="line">sample-client.ribbon.MaxAutoRetries=1</span><br><span class="line"></span><br><span class="line"># Max number of next servers to retry (excluding the first server)</span><br><span class="line">sample-client.ribbon.MaxAutoRetriesNextServer=1</span><br><span class="line"></span><br><span class="line"># Whether all operations can be retried for this client</span><br><span class="line">sample-client.ribbon.OkToRetryOnAllOperations=true</span><br><span class="line"></span><br><span class="line"># Interval to refresh the server list from the source</span><br><span class="line">sample-client.ribbon.ServerListRefreshInterval=2000</span><br><span class="line"></span><br><span class="line"># Connect timeout used by Apache HttpClient</span><br><span class="line">sample-client.ribbon.ConnectTimeout=3000</span><br><span class="line"></span><br><span class="line"># Read timeout used by Apache HttpClient</span><br><span class="line">sample-client.ribbon.ReadTimeout=3000</span><br><span class="line"></span><br><span class="line"># Initial list of servers, can be changed via Archaius dynamic property at runtime</span><br><span class="line">sample-client.ribbon.listOfServers=www.microsoft.com:80,www.yahoo.com:80,www.google.com:80</span><br></pre></td></tr></table></figure></p>
+            <p><strong>1、服务治理三个核心点、服务提供者、服务消费者、服务注册中心</strong></p>
+<p>结合Ribbon 服务治理图<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e7b588c219c8e47b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>服务治理时序图</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cd6d188d9cddbfdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>服务提供者功能：</strong></p>
+<p>1、服务注册<br>2、服务同步<br>3、服务续约<br>4、..<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">服务注册：</span><br><span class="line">服务提供者在启动时候通过rest请求 、将自己注册到Eureka Server上、同时携带自身服务的一些元数据信息、</span><br><span class="line">Eureka Server接收到这个rest请求后 将这些元数据存储到一个双层结构Map中、其中第一层map 的key是服务名字、第二层key是具体服务实例名、</span><br><span class="line">相关配置：</span><br><span class="line">eureka.client.register-with-eureka=true 【默认 true】</span><br><span class="line"></span><br><span class="line">服务同步：</span><br><span class="line">情景：两个相同的服务提供者实例、注册到了不同的服务注册中心、那么由于两个服务注册中心互相注册、服务注册中心会将服务注册信息发送给Eureka-server的其他机器、【还有一种说法是eureka-server 有信息服务功能、server与server之间 有消息同步、不确定这两种说法那个是真是的底层机制、后者是官方的说法、前者是 翟永超书里的说法、也就是说服务同步是由Eureka-server来完成的】</span><br><span class="line"></span><br><span class="line">服务续约：</span><br><span class="line">服务注册后、会维持一个心跳来维持服务不被剔除</span><br><span class="line"></span><br><span class="line">相关配置：</span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    status-page-url-path: /info    //服务信息</span><br><span class="line">    health-check-url-path: /health    //服务健康状态</span><br><span class="line">    lease-expiration-duration-in-seconds: 90  //服务失效时间</span><br><span class="line">    lease-renewal-interval-in-seconds: 30  //服务续约持续调用时间</span><br></pre></td></tr></table></figure></p>
+<p><strong>服务消费者功能：</strong></p>
+<p>1、获取服务<br>2、服务调用<br>3、服务下线<br>4、..<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">获取服务：</span><br><span class="line">服务消费者会发送一个rest请求获取一个服务列表、Eureka-server会发给client一个只读的服务列表、且该列表会30s刷新一次</span><br><span class="line">相关配置：</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    fetch-registry: true //默认为true 设为false则无法获取服务</span><br><span class="line">    registry-fetch-interval-seconds: 30  //服务清单刷新时间</span><br><span class="line"></span><br><span class="line">服务调用：</span><br><span class="line">集成Ribbon后、默认会使用轮询机制来调取服务实例信息</span><br><span class="line">对于实例选择、在eureka中会有Region和Zone概念</span><br><span class="line">一个Region会有很多Zone、每个服务都需要被注册到一个Zone中、所以每个client对应一个Region和一个Zone、服务调用时候会优先访问Zone下列表、没有在访问同一个Region不同Zone下的服务、</span><br><span class="line">服务下线：</span><br><span class="line">当服务实例jinx你给正常的关闭时、client会给server发送一个server、告知 &quot;我要下线了&quot;</span><br></pre></td></tr></table></figure></p>
+<p><strong>服务注册中心功能：</strong></p>
+<p>1、失效剔除<br>2、自我保护<br>3、..<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">失效剔除：server会每隔一段时间【默认90s】剔除不正常实例【主要是没有续约的】</span><br><span class="line">自我保护：如果同一时间段内由于网络原因大量服务都没有续约、server会继续保持服务列表、而不丢弃这个服务清单列表、也就是触发自我保护机制</span><br><span class="line">其主要应对是网络忽然中断、大量服务都被剔除导致服务不可访问危险【牺牲了服务高可用性、zookeeper是全部剔除的 zk是服务强高可用性】</span><br><span class="line">相关配置：</span><br><span class="line">eureka.server.enable-self-preservation=false //可关闭自我保护机制</span><br></pre></td></tr></table></figure></p>
+<p>关于版本升级<br>1.0升级2.0  添加了获取感兴趣服务实例列表功能、毕竟在几千台服务注册中心上、有些服务实例也不是100%用到、节省了client服务实例清单的内存消耗、<br>还优化一些获取服务算法、<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0f906bd4e1344d7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>以下为官方地址：</p>
+<p><a href="https://github.com/Netflix/eureka/wiki" target="_blank" rel="noopener">https://github.com/Netflix/eureka/wiki</a></p>
 
           
         
@@ -962,7 +1044,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1281,17 +1365,6 @@
 
 
 
-<!-- LOCAL: You can save these files to your site and update links -->
-    
-        
-        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
-        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
-    
-<!-- END LOCAL -->
-
-    
-
-    
 
 
 
@@ -1300,11 +1373,400 @@
 
   
 
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
 
 
 
 
   
+
+  
+  <script>
+    
+    function showTime(Counter) {
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
+        .done(function ({ results }) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.url;
+            var time = item.time;
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz",
+                'X-LC-Key': "FEnn05JpriHHTH0sATkYl94T",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          if ($('.post-title-link').length >= 1) {
+            showTime(Counter);
+          }
+          
+        })
+    });
+  </script>
+
+
 
   
 

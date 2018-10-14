@@ -276,7 +276,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">5</span></a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">6</span></a>
   </li>
         
         
@@ -286,14 +286,53 @@
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">207</span></a>
   </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
 
       
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
       
     </ul>
   
 
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -335,7 +374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/20/big-data/spark/spark-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/20/big-data/hadoop/hadoop-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -354,8 +393,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/20/big-data/spark/spark-1/" itemprop="url">
-                  spark 简介
+                <a class="post-title-link" href="/2018/06/20/big-data/hadoop/hadoop-1/" itemprop="url">
+                  hadoop 简介
                 </a>
               
             
@@ -398,7 +437,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-08-16 15:49:45" itemprop="dateModified" datetime="2018-08-16T15:49:45+08:00">2018-08-16</time>
+                <time title="修改时间：2018-10-14 00:47:08" itemprop="dateModified" datetime="2018-10-14T00:47:08+08:00">2018-10-14</time>
               
             
           </span>
@@ -429,6 +468,17 @@
 
           
           
+             <span id="/2018/06/20/big-data/hadoop/hadoop-1/" class="leancloud_visitors" data-flag-title="hadoop 简介">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -452,45 +502,95 @@
         
           
             <ul>
-<li>spark发展史</li>
+<li>hadoop发展史</li>
 </ul>
-<pre><code>Apache Spark
-Spark Logo
-开发者    Apache软件基金会, 加州大学柏克莱分校AMPLab, Databricks
-稳定版本
-2.1.0 （2016年12月28日 ）
-开发状态    活跃
-编程语言    Scala, Java, Python
-操作系统    Linux, Mac OS, Microsoft Windows
-类型    数据分析, 机器学习算法
-许可协议    Apache许可协议 2.0
-网站    spark.apache.org
-源代码库    github.com/apache/spark
-Apache Spark是一个开源集群运算框架，最初是由加州大学柏克莱分校AMPLab所开发。
-相对于Hadoop的MapReduce会在运行完工作后将中介数据存放到磁盘中，Spark使用了存储器内运算技术，能在数据尚未写入硬盘时即在存储器内分析运算。
-Spark在存储器内运行程序的运算速度能做到比Hadoop MapReduce的运算速度快上100倍，即便是运行程序于硬盘时，Spark也能快上10倍速度。
-[1]Spark允许用户将数据加载至集群存储器，并多次对其进行查询，非常适合用于机器学习算法。
-</code></pre><ul>
-<li>spark简介</li>
-<li>spark应用场景</li>
-</ul>
-<pre><code>使用Spark需要搭配集群管理员和分布式存储系统。
-Spark支持独立模式（本地Spark集群）、Hadoop YARN或Apache Mesos的集群管理。
-[3] 在分布式存储方面，Spark可以和HDFS[4]、 Cassandra[5] 、OpenStack Swift和Amazon S3等接口搭载。
-Spark也支持伪分布式（pseudo-distributed）本地模式，不过通常只用于开发或测试时以本机文件系统取代分布式存储系统。
-在这样的情况下，Spark仅在一台机器上使用每个CPU核心运行程序。
-</code></pre><ul>
-<li>spark组件</li>
-</ul>
-<pre><code>Spark核心是整个项目的基础，提供了分布式任务调度，调度和基本的I／O功能。而其基础的程序抽象则称为弹性分布式数据集（RDDs），是一个可以并行操作、有容错机制的数据集合。
-RDDs可以通过引用外部存储系统的数据集创建（例如：共享文件系统、HDFS、HBase或其他 Hadoop 数据格式的数据源）。
-或者是通过在现有RDDs的转换而创建（比如：map、filter、reduce、join等等）。
+<pre><code>Hadoop Apache Lucene创始人Doug Cutting 创建
+基于 Nutch开发 本身也是lucence一部分
 
-RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，简化了编程复杂性，应用程序操纵RDDs的方法类似于操纵本地端的数据集合。
-</code></pre><ul>
-<li>spark集群</li>
-</ul>
+2004年 Doug Cutting 和Mike Cafarella 实现 HDFS和MapReduce初版
 
+2005年 Nutch移植到新框架 Hadoop再20个节点稳定运行
+
+2006年1月 Doug Cutting 加入雅虎
+2006年2月 Apache Hadoop项目正式启动、支持MapReduce和HDFS独立发展
+2006年4月 再188节点上（每节点10GB数据）运行排序测试集群需要47.9小时
+2006年5月 雅虎建立一个300个节点的Hadoop研究集群
+2006年5月 在500个节点运行排序测试集需要42个小时（硬件配置比四月份更优秀）
+2006年11月 研究集群增加到600个节点
+2006年12月 排序测试集在20个节点上运行1.8个小时、100个节点运行3.3个小时、500个节点运行5.2小时、900个节点需要7.8个小时。
+
+2007年1月 研究集群增加到900个节点
+2007年4月 研究集群增加到两个集群1000个节点
+
+2008年4月 在900个节点上运行1TB排序测试集仅需要209秒
+2008年10月 研究集群每天装载10TB数据
+
+2009年3月 17个集群共24000个节点
+2009年4月 在每分钟排序中胜出、59秒排序500GB（在1400个节点）、173分钟排序100TB数据（在3400节点）
+</code></pre><ul>
+<li>hadoop简介</li>
+</ul>
+<pre><code>大数据处理、应对数据处理出现的新的技术、
+底层也就是大名鼎鼎的HDFS文件系统 对数据并发处理有极强的性能
+</code></pre><p><strong><a href="https://en.wikipedia.org/wiki/Apache_Hadoop" target="_blank" rel="noopener">hadoop-wiki</a></strong></p>
+<ul>
+<li><p>hadoop应用场景</p>
+<p>随着数据量的增大、数据量已经到了PB级别、数据的存储也需要更加强大的技术来支持、</p>
+</li>
+</ul>
+<ul>
+<li>hadoop组件</li>
+</ul>
+<pre><code>namenode节点负责存储目录
+datanode节点负责存储数据
+
+
+Map函数
+接受一个键值对（key-value pair），产生一组中间键值对。
+MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。
+Reduce函数
+接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值（通常只有一个或零个值）。
+</code></pre><ul>
+<li>hadoop集群</li>
+</ul>
+<pre><code>namenode节点的可靠性
+datanode节点的可靠性
+
+让我想到了rocketmq 
+nameserver负责存储消息路由订阅消息id 相当于菜单、
+broker负责存储消息 相当于菜单下的数据
+
+
+然后namenode节点的数据统一性？ paxos算法？
+
+
+当然其中会有很多消息的同步刷新异步刷新、消息节点重建、
+怎么保证消息的完整性、怎么保证消息不丢失、怎么排序数据可执行性
+
+很多东西、都是一样的、实现方式都是一个东西、也就是实现的代码可能会不同而已
+</code></pre><ul>
+<li><p>hadoop 开发思想</p>
+<p>分而治之、大任务拆分小任务执行</p>
+<p>数据：分片存储、并发调度、结果综合查询</p>
+<p>Job&amp;task、Job&amp;Tracker、Task&amp;Tracker</p>
+</li>
+</ul>
+<pre><code>Job&amp;task
+   任务执行
+
+Job&amp;Tracker
+   作业调度
+   分配任务、监控任务执行调度
+   监控taskTracker状态
+
+Task&amp;Tracker
+   执行任务
+   汇报任务
+
+容错机制
+   重复执行
+   推测执行
+</code></pre>
           
         
       
@@ -547,7 +647,7 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/12/xmind/xmind-db/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/12/xmind/xmind-组件解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -566,8 +666,8 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/12/xmind/xmind-db/" itemprop="url">
-                  DB 图谱
+                <a class="post-title-link" href="/2018/06/12/xmind/xmind-组件解析/" itemprop="url">
+                  各大开源组件解析 图谱
                 </a>
               
             
@@ -610,7 +710,7 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-14 00:57:56" itemprop="dateModified" datetime="2018-10-14T00:57:56+08:00">2018-10-14</time>
+                <time title="修改时间：2018-10-14 00:57:55" itemprop="dateModified" datetime="2018-10-14T00:57:55+08:00">2018-10-14</time>
               
             
           </span>
@@ -641,6 +741,17 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
 
           
           
+             <span id="/2018/06/12/xmind/xmind-组件解析/" class="leancloud_visitors" data-flag-title="各大开源组件解析 图谱">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -662,10 +773,10 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
 
       
         
-          xmind DB图谱
+          xmind 各大开源组件解析 图谱
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/12/xmind/xmind-db/">
+            <a class="btn" href="/2018/06/12/xmind/xmind-组件解析/">
               阅读全文 &raquo;
             </a>
           </div>
@@ -725,7 +836,7 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/12/xmind/xmind-设计模式/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/12/xmind/xmind-消息中间件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -744,8 +855,8 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/12/xmind/xmind-设计模式/" itemprop="url">
-                  设计模式 图谱
+                <a class="post-title-link" href="/2018/06/12/xmind/xmind-消息中间件/" itemprop="url">
+                  消息中间件 图谱
                 </a>
               
             
@@ -819,6 +930,17 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
 
           
           
+             <span id="/2018/06/12/xmind/xmind-消息中间件/" class="leancloud_visitors" data-flag-title="消息中间件 图谱">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -840,10 +962,10 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
 
       
         
-          xmind 设计模式图谱
+          xmind 消息中间件图谱
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/12/xmind/xmind-设计模式/">
+            <a class="btn" href="/2018/06/12/xmind/xmind-消息中间件/">
               阅读全文 &raquo;
             </a>
           </div>
@@ -964,7 +1086,9 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1283,17 +1407,6 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
 
 
 
-<!-- LOCAL: You can save these files to your site and update links -->
-    
-        
-        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
-        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
-    
-<!-- END LOCAL -->
-
-    
-
-    
 
 
 
@@ -1302,11 +1415,400 @@ RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，�
 
   
 
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
 
 
 
 
   
+
+  
+  <script>
+    
+    function showTime(Counter) {
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
+        .done(function ({ results }) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.url;
+            var time = item.time;
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz",
+                'X-LC-Key': "FEnn05JpriHHTH0sATkYl94T",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          if ($('.post-title-link').length >= 1) {
+            showTime(Counter);
+          }
+          
+        })
+    });
+  </script>
+
+
 
   
 
