@@ -149,16 +149,16 @@
 
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="无心技术簿">
+<meta property="og:title" content="无心の技术簿">
 <meta property="og:url" content="http://www.wuxinvip.com/page/22/index.html">
-<meta property="og:site_name" content="无心技术簿">
+<meta property="og:site_name" content="无心の技术簿">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="无心技术簿">
+<meta name="twitter:title" content="无心の技术簿">
 
 
 
-  <link rel="alternate" href="/atom.xml" title="无心技术簿" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="无心の技术簿" type="application/atom+xml" />
 
 
 
@@ -173,7 +173,7 @@
   };
 </script>
 
-  <title>无心技术簿</title>
+  <title>无心の技术簿</title>
   
 
 
@@ -232,13 +232,13 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">无心技术簿</span>
+        <span class="site-title">无心の技术簿</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
     
       
-        <h1 class="site-subtitle" itemprop="description">花开，若相惜</h1>
+        <h1 class="site-subtitle" itemprop="description">时光荏苒、不浮青春.</h1>
       
     
   </div>
@@ -378,184 +378,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/service-design/design-4/" itemprop="url">
-                  用户池系统 构思
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/service-design/design-4/" class="leancloud_visitors" data-flag-title="用户池系统 构思">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
-<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
-<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
-<p>不同的key对应不同的分组数据</p>
-<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
-<p>获取不同排序 前端发送不同的key值即可</p>
-<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
-<p>问题:<br>1.用户抢单后要削减用户列表.元列表并发存在修改问题<br>解决:在最终抢单时候来后台查询已抢单列表就行.修不修改的有错误也没事.</p>
-<p>(使用mysql存储数据? 也不能解决这个问题 反而会触及mysql并发量问题)</p>
-<p>目前方案:mysql主从复制.从”从sql”查询数据</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-selector-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -565,7 +387,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
+      <meta itemprop="name" content="无心の技术簿">
     </span>
 
     
@@ -634,17 +456,6 @@
 
           
           
-             <span id="/2018/03/24/mysql/optimization-sql-selector-2/" class="leancloud_visitors" data-flag-title="SQL优化【查询器优化·二】">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -696,6 +507,46 @@
     
       
 
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="bookmark">SQL优化【MyISAM-表优化】</a></div>
+      
+    </li>
+  
+  </ul>
+
 
     
 
@@ -744,7 +595,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/kafka-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/log/elk-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -753,7 +604,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
+      <meta itemprop="name" content="无心の技术簿">
     </span>
 
     
@@ -763,8 +614,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/message-queue/kafka-1/" itemprop="url">
-                  Kafka-1.0.0版本
+                <a class="post-title-link" href="/2018/03/24/log/elk-1/" itemprop="url">
+                  ELK 搭建
                 </a>
               
             
@@ -822,16 +673,223 @@
 
           
           
-             <span id="/2018/03/24/message-queue/kafka-1/" class="leancloud_visitors" data-flag-title="Kafka-1.0.0版本">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>elasticsearch 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/downloads/elasticsearch</a><br>linux执行 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>下载解压 【建议使用zsh】</p>
+<p>修改配置文件<br>config/elasticsearch.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 集群的名字  </span><br><span class="line">cluster.name: cloud</span><br><span class="line"># 节点名字  </span><br><span class="line">node.name: node-1   </span><br><span class="line"># 数据存储目录（多个路径用逗号分隔）  </span><br><span class="line">path.data: /usr/local/logUtils/elasticsearch/es-data</span><br><span class="line"># 日志目录  </span><br><span class="line">path.logs: /usr/local/logUtils/elasticsearch/log</span><br><span class="line">#本机的ip地址</span><br><span class="line">network.host: 192.168.0.135  </span><br><span class="line">#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;192.168.161.128&quot;]</span><br><span class="line"># 设置节点间交互的tcp端口（集群）,(默认9300)  </span><br><span class="line">transport.tcp.port: 9300  </span><br><span class="line"># 监听端口（默认）  </span><br><span class="line">http.port: 9200  </span><br><span class="line"># 增加参数，使head插件可以访问es  </span><br><span class="line">http.cors.enabled: true  </span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+<p>运行 bin下的 elasticsearch 进行启动<br>后台启动 bin/elasticsearch  -d</p>
+<p>启动结果如下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-c3defbf97ceb3d06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>启动会遇到的问题<br>1、非root权限启动<br>新建用户  es<br>然后把 elasticsearch 文件夹权限归给 新用户es<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R  es:es  elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>2、 软硬进程限制</p>
+<p>max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]</p>
+<p>解决办法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf</span><br></pre></td></tr></table></figure></p>
+<p>文后添加<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2291db66448586cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>然后使用source 重新加载<br>并使用 ulimit -n 查看 是否为 65536 如果还是1024 那么重新连接linux 试下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-032a906cd27eeca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>3、<br>.max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</p>
+<p>解决办法 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">执行    ：sysctl -w vm.max_map_count=655360</span><br><span class="line">查看执行结果 ： sysctl -a | grep vm.max_map_count</span><br></pre></td></tr></table></figure></p>
+<p><strong>elasticsearch 插件 head 安装</strong></p>
+<p>下载head插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/mobz/elasticsearch-head/archive/master.zip</span><br><span class="line">安装node</span><br><span class="line">wget https://npm.taobao.org/mirrors/node/latest-v4.x/node-v4.4.7-linux-x64.tar.gz</span><br><span class="line">tar -zxvf node-v4.4.7-linux-x64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>配置环境变量<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b86cce5f1787b61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>安装 grunt<br>cd /opt/elasticsearch-head-master<br>npm install -g grunt-cli  //执行后会生成node_modules文件夹<br>grunt是基于Node.js的项目构建工具，可以进行打包压缩、测试、执行等等的工作，head插件就是通过grunt启动</p>
+<p>检查是否安装成功<br>grunt -version</p>
+<p>修改head 插件源码<br>vi  Gruntfile.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e777189ec26ea9b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>vi _site/app.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-99ec0f1955f299a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>文件较大 建议下载下来 使用文本编辑器查找<br>或者使用命令替换localhost 为 你的ip</p>
+<p>运行head<br>head根目录<br>运行 npm install<br>启动head grunt server<br>后台启动 nohup grunt server  &amp;<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e00e0f1850d2b2f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Logstash 安装</strong></p>
+<p>官方下载地址 ：<a href="https://www.elastic.co/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/downloads/logstash</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">linux安装：curl -L -O https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz</span><br><span class="line"></span><br><span class="line">config 添加 配置文件</span><br><span class="line"></span><br><span class="line">vi logstash.conf</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  # stdin &#123; &#125;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    # host:port就是上面appender中的 destination，</span><br><span class="line">    # 这里其实把logstash作为服务，开启9250端口接收logback发出的消息</span><br><span class="line">    host =&gt; &quot;192.168.0.135&quot;</span><br><span class="line">     port =&gt; 9250</span><br><span class="line">     mode =&gt; &quot;server&quot;</span><br><span class="line">    tags :&gt; [&quot;tags&quot;]</span><br><span class="line">    codec =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123; hosts =&gt; [&quot;localhost:9200&quot;] &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动logstash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./logstash -f ../config/logstash.conf  &amp;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Kibana 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/kibana" target="_blank" rel="noopener">https://www.elastic.co/downloads/kibana</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim config/kibana.yml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server.host:&quot;192.168.0.135&quot;</span><br><span class="line">elasticsearch.url:http://192.168.0.135:9200</span><br><span class="line"></span><br><span class="line">启动kibana</span><br><span class="line"></span><br><span class="line">bin/kibana</span><br></pre></td></tr></table></figure></p>
+<p>启动服务 <a href="http://192.168.0.135:5601" target="_blank" rel="noopener">http://192.168.0.135:5601</a></p>
+<p>至此 ELK服务单机版部署完成</p>
+<p>springcloud 集成logback</p>
+<p>引入pom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志发送logstash--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>logback-spring.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=&quot;LOGSTASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        destination 是 logstash 服务的 host:port，</span><br><span class="line">        相当于和 logstash 建立了管道，将日志数据定向传输到 logstash</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;destination&gt;192.168.0.135:9250&lt;/destination&gt;</span><br><span class="line">        &lt;encoder charset=&quot;UTF-8&quot; class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">  &lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">          &lt;appender-ref ref=&quot;LOGSTASH&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/about-agreement/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/agreement/about-agreement/" itemprop="url">
+                  关于协议
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
           
 
           
@@ -855,10 +913,10 @@
       
         
           
-            <p>Kafka 1.0.0发布的主要内容如下。</p>
-<p>0.10.0版本里开始引入的Streams API在1.0.0版本里继续演进，改进了builder API（KIP-120），<br>新增了用于查看运行时活跃任务的API（KIP-130）和用于聚合分区的cogroup<br>API（KIP-150）。增强的print()和writeAsText()方法让调试变得更容易（KIP-160）。<br>其他更多信息可以参考Streams文档。</p>
-<p>改进了Connect的度量指标（KIP-196），新增了大量用于健康监测的度量指标（KIP-188），<br>并提供了集群的GloabalTopicCount和GlobalPartitionCount度量指标（KIP-168）。<br>支持Java 9，实现更快的TLS和CRC32C，加快了加密速度，降低了计算开销。<br>调整了SASL认证模块的错误处理逻辑（KIP-152），原先的认证错误信息现在被清晰地记录到日志当中。<br>更好地支持磁盘容错（KIP-112），更优雅地处理磁盘错误，单个JBOD上的磁盘错误不会导致整个集群崩溃。<br>0.11.0版本中引入的幂等性生产者需要将max.in.flight.requests.per.connection参数设置为1，这对吞吐量造成了一定的限制。<br>而在1.0.0版本里，这个参数最大可以被设置为5（KAFKA-5949），极大提升了吞吐量范围。</p>
-<p>关于新版本更多的变化可以查看<a href="https://dist.apache.org/repos/dist/release/kafka/1.0.0/RELEASE_NOTES.html" target="_blank" rel="noopener">发布说明</a>，也可以下载<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka-1.0.0-src.tgz" target="_blank" rel="noopener">源代码</a>和二进制包（<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.11-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.11</a>、<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.12-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.12</a>）。</p>
+            <p>what 协议？<br>人民币算不算是一种协议？买家和卖家协议一张纸为 10元 、50元、100元</p>
+<p>so ： 协议在互联网届就是发送方和接收方商量好的一种消息模式，</p>
+<p>Http：规定两个ip、一个发送ip、一个接收ip、这两个ip进行数据交互时候、先握手、确定数据畅通、然后在进行数据通信、<br>握手协议：规定握手消息格式【一系列参数的排序】、<br>数据通信规定http发送消息体消息格式。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-477f618f1456f9ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 
           
         
@@ -867,6 +925,39 @@
 
     
       
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
+      
+    </li>
+  
+  </ul>
 
 
     
@@ -1201,6 +1292,24 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
 
 
 
@@ -1658,77 +1767,23 @@
   
 
   
-  <script>
-    
-    function showTime(Counter) {
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
 
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
-        .done(function ({ results }) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.url;
-            var time = item.time;
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function ({ responseJSON }) {
-          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
-        });
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
     }
-    
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
 
-    $(function() {
-      $.get('https://app-router.leancloud.cn/2/route?appId=' + "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz")
-        .done(function ({ api_server }) {
-          var Counter = function (method, url, data) {
-            return $.ajax({
-              method: method,
-              url: `https://${api_server}/1.1${url}`,
-              headers: {
-                'X-LC-Id': "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz",
-                'X-LC-Key': "FEnn05JpriHHTH0sATkYl94T",
-                'Content-Type': 'application/json',
-              },
-              data: data,
-            });
-          };
-          
-          if ($('.post-title-link').length >= 1) {
-            showTime(Counter);
-          }
-          
-        })
-    });
-  </script>
-
-
-
-  
-
-  
 
   
 

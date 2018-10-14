@@ -149,16 +149,16 @@
 
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="无心技术簿">
+<meta property="og:title" content="无心の技术簿">
 <meta property="og:url" content="http://www.wuxinvip.com/page/16/index.html">
-<meta property="og:site_name" content="无心技术簿">
+<meta property="og:site_name" content="无心の技术簿">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="无心技术簿">
+<meta name="twitter:title" content="无心の技术簿">
 
 
 
-  <link rel="alternate" href="/atom.xml" title="无心技术簿" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="无心の技术簿" type="application/atom+xml" />
 
 
 
@@ -173,7 +173,7 @@
   };
 </script>
 
-  <title>无心技术簿</title>
+  <title>无心の技术簿</title>
   
 
 
@@ -232,13 +232,13 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">无心技术簿</span>
+        <span class="site-title">无心の技术簿</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
     
       
-        <h1 class="site-subtitle" itemprop="description">花开，若相惜</h1>
+        <h1 class="site-subtitle" itemprop="description">时光荏苒、不浮青春.</h1>
       
     
   </div>
@@ -378,6 +378,424 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/04/log/log-total/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/log/log-total/" itemprop="url">
+                  日志发展史
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-04 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-04T08:00:00+08:00">2018-06-04</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/img/log/img/log-total.jpg" alt="图片">日志总图<br>接口定制组建使用interface标识<br><br>具体实现组建使用class标识</p>
+<p><strong>you must know</strong></p>
+<p>从log4j到log4j2.0 <br><br>logback是log4j升级版 是slf4j完美实现<br><br>sun出品的接口JUL、后来的commons-logging</p>
+<p>ceki写的slf4j、logback、log4j、log4j2.0</p>
+<p>这人简直神了 日志发展史上重要人物啊 写一个一个规则</p>
+<p>现在多数工厂都在用logback 不过想原文讲的log4j2.0 在针对新业务的特性上 有很大提升</p>
+<p><strong>log4j特性、也奠定了日志大致方向</strong></p>
+<pre><code>1、允许应用记录日志对象、开发不考虑日志输出位置、日志信息以object传递
+2、每个logger互相独立 以名字标识区分
+3、Appender属性  配置日志输出路径【文件、consoler、DB、MQ、etc】
+4、level 定制日志级别输出
+</code></pre><p><strong>logback特性</strong></p>
+<pre><code>xml配置方式和grovvy支持
+自动重载有变更配置文件
+自动压缩日志
+打印异常信息自动包含package名称以及版本号
+filters
+谨慎模式
+自动清除旧文档
+http访问功能
+丰富过滤模式
+</code></pre><p><img src="/img/log/img/log.png" alt="图片">日志组建发展时间图</p>
+<p><strong>slf4j简介</strong><br><img src="/img/log/img/slf4j.jpg" alt="图片">slf4j 结构图</p>
+<pre><code>使用“{}” 代替参数传输
+绑定方式：混合绑定、桥接绑定
+</code></pre><p><strong>混合绑定</strong></p>
+<pre><code>两种方式：使用适配器接向底层实现interface 、或者直接实现slf4j 接口
+适配器：slf4j+log4j[1.2.17]  slf4j+JDK14[1.7.21]
+接口实现：logback-classic[1.0.13]、slf4j-simple[1.7.21]
+</code></pre><p><img src="/img/log/img/band-1.png" alt="图片">slf4j 混合绑定</p>
+<p><strong>桥接绑定</strong></p>
+<pre><code>针对老项目日志迁移
+以slf4j 为接口中间层  将上层旧日志框架的消息转发到底层绑定的新日志框架上.
+</code></pre><p><img src="/img/log/img/band-2.png" alt="图片">基于j.u.l的facade使用<br><img src="/img/log/img/band-3.png" alt="图片">基于logback-classic的facade使用<br><img src="/img/log/img/band-4.png" alt="图片">基于log4j的facade使用</p>
+<p>代码就去原文找吧、这里只是技术方案</p>
+<p><a href="https://blog.csdn.net/xn_28/article/details/62350938" target="_blank" rel="noopener">原文链接</a></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/04/log/log-selected/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/log/log-selected/" itemprop="url">
+                  日志服务的选型
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-04 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-04T08:00:00+08:00">2018-06-04</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>众所周知.</strong></p>
+<p>日志系统分为：系统日志和业务日志<br>业务日志又可分为请求日志和操作日志</p>
+<p><strong>系统日志</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpu、内存、请求量、当前连接数、连接时间等等</span><br></pre></td></tr></table></figure></p>
+<p><strong>请求日志</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">谁、请求那个系统上的什么资源、</span><br><span class="line">源ip</span><br><span class="line">系统id</span><br><span class="line">目标ip</span><br><span class="line">目标url</span><br></pre></td></tr></table></figure></p>
+<p><strong>操作日志</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">需求：各个子系统统一业务日志收集、</span><br><span class="line">这些日志消息包括：</span><br><span class="line"></span><br><span class="line">    操作系统标识</span><br><span class="line"></span><br><span class="line">    操作者</span><br><span class="line">    操作模块</span><br><span class="line">    操作类型</span><br><span class="line">    操作时间</span><br><span class="line">    操作内容</span><br><span class="line">    操作结果</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    简而言之：什么人在什么时候修改了什么系统上的哪些模块的哪些内容</span><br><span class="line"></span><br><span class="line">    who 、when、where、what、how、【4w1h】 至于why 日志是检测不出来的。。。</span><br></pre></td></tr></table></figure></p>
+<p><strong>方案一：mysql+logback</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">优点：简单随库、成本低;持久化不丢失、支持读写分离、</span><br><span class="line">缺点：表设计不free、一旦设计好就不能随意添加字段</span><br><span class="line">      不支持定时清理日志、占用数据库链接、</span><br><span class="line">      如果建立大量检索索引、添加数据要慢、如果索引较少、检索数据有不会很准确、</span><br><span class="line">现阶段mysql5.5以后使用innodb引擎、而这种引擎最大的优点就是支持了事务、</span><br><span class="line">变相的也降低了他的读写性能、但是在需求上不需要事务的支持、</span><br></pre></td></tr></table></figure></p>
+<p><strong>方案二：mongdb+logback</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">优点：支持定时清理、支持数据字段任意扩充【文档型】、</span><br><span class="line">    支持读写分离、检索识别度高、支持索引结构比较广泛、支持多种形式查询</span><br><span class="line"></span><br><span class="line">缺点：成本稍微高 比mysql数据库要贵点、</span><br></pre></td></tr></table></figure></p>
+<p><strong>方案三：ELK</strong></p>
+<p><a href="https://www.wuxinvip.com/tags/日志收集/">【ELK】</a></p>
+<p><strong>方案四：Splunk</strong></p>
+<p><strong>方案五：Fluentd</strong></p>
+<p>一般用在 k8s 容器服务的日志收集<br><a href="https://blog.csdn.net/zx84289061/article/details/70767643" target="_blank" rel="noopener">CSDN</a></p>
+<p><a href="https://www.centos.bz/2017/06/collect-log-file-realtime-with-fluentd/" target="_blank" rel="noopener">linux 运维</a></p>
+<p><strong>方案六：Flume</strong></p>
+<p><a href="https://www.cnblogs.com/wangtao1993/p/6404232.html" target="_blank" rel="noopener">博客园</a></p>
+<p><strong>方案六：KafKa+logback</strong></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/04/service-mesh/service-mesh-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -387,7 +805,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
+      <meta itemprop="name" content="无心の技术簿">
     </span>
 
     
@@ -455,17 +873,6 @@
           
 
           
-          
-             <span id="/2018/06/04/service-mesh/service-mesh-1/" class="leancloud_visitors" data-flag-title="service-mesh简介">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
           
 
           
@@ -536,393 +943,17 @@ spring-cloud spring家族 面对现有组建众多复杂性、打造出一个clo
     
       
 
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
   
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/04/log/log-total/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/04/log/log-total/" itemprop="url">
-                  日志发展史
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-04 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-04T08:00:00+08:00">2018-06-04</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/06/04/log/log-total/" class="leancloud_visitors" data-flag-title="日志发展史">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
+    <li class="popular-posts-item">
       
       
-
+      <div class="popular-posts-title"><a href="/2018/06/04/service-mesh/service-mesh-2/" rel="bookmark">kuberments</a></div>
       
-        
-          
-            <p><img src="/img/log/img/log-total.jpg" alt="图片">日志总图<br>接口定制组建使用interface标识<br><br>具体实现组建使用class标识</p>
-<p><strong>you must know</strong></p>
-<p>从log4j到log4j2.0 <br><br>logback是log4j升级版 是slf4j完美实现<br><br>sun出品的接口JUL、后来的commons-logging</p>
-<p>ceki写的slf4j、logback、log4j、log4j2.0</p>
-<p>这人简直神了 日志发展史上重要人物啊 写一个一个规则</p>
-<p>现在多数工厂都在用logback 不过想原文讲的log4j2.0 在针对新业务的特性上 有很大提升</p>
-<p><strong>log4j特性、也奠定了日志大致方向</strong></p>
-<pre><code>1、允许应用记录日志对象、开发不考虑日志输出位置、日志信息以object传递
-2、每个logger互相独立 以名字标识区分
-3、Appender属性  配置日志输出路径【文件、consoler、DB、MQ、etc】
-4、level 定制日志级别输出
-</code></pre><p><strong>logback特性</strong></p>
-<pre><code>xml配置方式和grovvy支持
-自动重载有变更配置文件
-自动压缩日志
-打印异常信息自动包含package名称以及版本号
-filters
-谨慎模式
-自动清除旧文档
-http访问功能
-丰富过滤模式
-</code></pre><p><img src="/img/log/img/log.png" alt="图片">日志组建发展时间图</p>
-<p><strong>slf4j简介</strong><br><img src="/img/log/img/slf4j.jpg" alt="图片">slf4j 结构图</p>
-<pre><code>使用“{}” 代替参数传输
-绑定方式：混合绑定、桥接绑定
-</code></pre><p><strong>混合绑定</strong></p>
-<pre><code>两种方式：使用适配器接向底层实现interface 、或者直接实现slf4j 接口
-适配器：slf4j+log4j[1.2.17]  slf4j+JDK14[1.7.21]
-接口实现：logback-classic[1.0.13]、slf4j-simple[1.7.21]
-</code></pre><p><img src="/img/log/img/band-1.png" alt="图片">slf4j 混合绑定</p>
-<p><strong>桥接绑定</strong></p>
-<pre><code>针对老项目日志迁移
-以slf4j 为接口中间层  将上层旧日志框架的消息转发到底层绑定的新日志框架上.
-</code></pre><p><img src="/img/log/img/band-2.png" alt="图片">基于j.u.l的facade使用<br><img src="/img/log/img/band-3.png" alt="图片">基于logback-classic的facade使用<br><img src="/img/log/img/band-4.png" alt="图片">基于log4j的facade使用</p>
-<p>代码就去原文找吧、这里只是技术方案</p>
-<p><a href="https://blog.csdn.net/xn_28/article/details/62350938" target="_blank" rel="noopener">原文链接</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
+    </li>
   
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/04/log/log-selected/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/04/log/log-selected/" itemprop="url">
-                  日志服务的选型
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-04 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-04T08:00:00+08:00">2018-06-04</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/06/04/log/log-selected/" class="leancloud_visitors" data-flag-title="日志服务的选型">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>众所周知.</strong></p>
-<p>日志系统分为：系统日志和业务日志<br>业务日志又可分为请求日志和操作日志</p>
-<p><strong>系统日志</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpu、内存、请求量、当前连接数、连接时间等等</span><br></pre></td></tr></table></figure></p>
-<p><strong>请求日志</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">谁、请求那个系统上的什么资源、</span><br><span class="line">源ip</span><br><span class="line">系统id</span><br><span class="line">目标ip</span><br><span class="line">目标url</span><br></pre></td></tr></table></figure></p>
-<p><strong>操作日志</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">需求：各个子系统统一业务日志收集、</span><br><span class="line">这些日志消息包括：</span><br><span class="line"></span><br><span class="line">    操作系统标识</span><br><span class="line"></span><br><span class="line">    操作者</span><br><span class="line">    操作模块</span><br><span class="line">    操作类型</span><br><span class="line">    操作时间</span><br><span class="line">    操作内容</span><br><span class="line">    操作结果</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    简而言之：什么人在什么时候修改了什么系统上的哪些模块的哪些内容</span><br><span class="line"></span><br><span class="line">    who 、when、where、what、how、【4w1h】 至于why 日志是检测不出来的。。。</span><br></pre></td></tr></table></figure></p>
-<p><strong>方案一：mysql+logback</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">优点：简单随库、成本低;持久化不丢失、支持读写分离、</span><br><span class="line">缺点：表设计不free、一旦设计好就不能随意添加字段</span><br><span class="line">      不支持定时清理日志、占用数据库链接、</span><br><span class="line">      如果建立大量检索索引、添加数据要慢、如果索引较少、检索数据有不会很准确、</span><br><span class="line">现阶段mysql5.5以后使用innodb引擎、而这种引擎最大的优点就是支持了事务、</span><br><span class="line">变相的也降低了他的读写性能、但是在需求上不需要事务的支持、</span><br></pre></td></tr></table></figure></p>
-<p><strong>方案二：mongdb+logback</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">优点：支持定时清理、支持数据字段任意扩充【文档型】、</span><br><span class="line">    支持读写分离、检索识别度高、支持索引结构比较广泛、支持多种形式查询</span><br><span class="line"></span><br><span class="line">缺点：成本稍微高 比mysql数据库要贵点、</span><br></pre></td></tr></table></figure></p>
-<p><strong>方案三：ELK</strong></p>
-<p><a href="https://www.wuxinvip.com/tags/日志收集/">【ELK】</a></p>
-<p><strong>方案四：Splunk</strong></p>
-<p><strong>方案五：Fluentd</strong></p>
-<p>一般用在 k8s 容器服务的日志收集<br><a href="https://blog.csdn.net/zx84289061/article/details/70767643" target="_blank" rel="noopener">CSDN</a></p>
-<p><a href="https://www.centos.bz/2017/06/collect-log-file-realtime-with-fluentd/" target="_blank" rel="noopener">linux 运维</a></p>
-<p><strong>方案六：Flume</strong></p>
-<p><a href="https://www.cnblogs.com/wangtao1993/p/6404232.html" target="_blank" rel="noopener">博客园</a></p>
-<p><strong>方案六：KafKa+logback</strong></p>
-
-          
-        
-      
-    </div>
-
-    
-      
+  </ul>
 
 
     
@@ -1257,6 +1288,24 @@ http访问功能
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
 
 
 
@@ -1714,77 +1763,23 @@ http访问功能
   
 
   
-  <script>
-    
-    function showTime(Counter) {
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
 
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
-        .done(function ({ results }) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.url;
-            var time = item.time;
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function ({ responseJSON }) {
-          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
-        });
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
     }
-    
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
 
-    $(function() {
-      $.get('https://app-router.leancloud.cn/2/route?appId=' + "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz")
-        .done(function ({ api_server }) {
-          var Counter = function (method, url, data) {
-            return $.ajax({
-              method: method,
-              url: `https://${api_server}/1.1${url}`,
-              headers: {
-                'X-LC-Id': "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz",
-                'X-LC-Key': "FEnn05JpriHHTH0sATkYl94T",
-                'Content-Type': 'application/json',
-              },
-              data: data,
-            });
-          };
-          
-          if ($('.post-title-link').length >= 1) {
-            showTime(Counter);
-          }
-          
-        })
-    });
-  </script>
-
-
-
-  
-
-  
 
   
 

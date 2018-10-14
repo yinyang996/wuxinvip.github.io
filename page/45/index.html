@@ -149,16 +149,16 @@
 
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="无心技术簿">
+<meta property="og:title" content="无心の技术簿">
 <meta property="og:url" content="http://www.wuxinvip.com/page/45/index.html">
-<meta property="og:site_name" content="无心技术簿">
+<meta property="og:site_name" content="无心の技术簿">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="无心技术簿">
+<meta name="twitter:title" content="无心の技术簿">
 
 
 
-  <link rel="alternate" href="/atom.xml" title="无心技术簿" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="无心の技术簿" type="application/atom+xml" />
 
 
 
@@ -173,7 +173,7 @@
   };
 </script>
 
-  <title>无心技术簿</title>
+  <title>无心の技术簿</title>
   
 
 
@@ -232,13 +232,13 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">无心技术簿</span>
+        <span class="site-title">无心の技术簿</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
     
       
-        <h1 class="site-subtitle" itemprop="description">花开，若相惜</h1>
+        <h1 class="site-subtitle" itemprop="description">时光荏苒、不浮青春.</h1>
       
     
   </div>
@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/shell-2/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/filter-xss/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -387,7 +387,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
+      <meta itemprop="name" content="无心の技术簿">
     </span>
 
     
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/shell/shell-2/" itemprop="url">
-                  java后台升级命令
+                <a class="post-title-link" href="/2018/03/24/hack/filter-xss/" itemprop="url">
+                  Filter安全过滤高级最终行（XSS攻击）
                 </a>
               
             
@@ -456,16 +456,310 @@
 
           
           
-             <span id="/2018/03/24/shell/shell-2/" class="leancloud_visitors" data-flag-title="java后台升级命令">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>package com.what21.filter.xss;</p>
+<p>import java.io.IOException;<br>import java.util.LinkedHashMap;<br>import java.util.Map;</p>
+<p>import javax.servlet.Filter;<br>import javax.servlet.FilterChain;<br>import javax.servlet.FilterConfig;<br>import javax.servlet.ServletException;<br>import javax.servlet.ServletRequest;<br>import javax.servlet.ServletResponse;<br>import javax.servlet.http.HttpServletRequest;</p>
+<p>public class XSSFilter implements Filter {</p>
+<pre><code>// XSS处理Map
+private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();
+
+public void init(FilterConfig filterConfig) throws ServletException {
+    // 含有脚本： script
+    xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);
+    // 含有脚本 javascript
+    xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);
+    // 含有函数： eval
+    xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);
+    // 含有符号 &lt;
+    xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);
+    // 含有符号 &gt;
+    xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);
+    // 含有符号 (
+    xssMap.put(&quot;\\(&quot;, &quot;(&quot;);
+    // 含有符号 )
+    xssMap.put(&quot;\\)&quot;, &quot;)&quot;);
+    // 含有符号 &apos;
+    xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);
+    // 含有符号 &quot;
+    xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);
+}
+
+public void doFilter(ServletRequest request, ServletResponse response,
+        FilterChain chain) throws IOException, ServletException {
+    // 强制类型转换 HttpServletRequest
+    HttpServletRequest httpReq = (HttpServletRequest)request;
+    // 构造HttpRequestWrapper对象处理XSS
+    HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
+    //
+    chain.doFilter(httpReqWarp, response);
+
+}
+
+public void destroy() {
+
+}
+</code></pre><p>}</p>
+<p>=============================<br>package com.what21.filter.xss;</p>
+<p>import java.util.Map;<br>import java.util.Set;</p>
+<p>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletRequestWrapper;</p>
+<p>public final class HttpRequestWrapper extends HttpServletRequestWrapper {</p>
+<pre><code>private Map&lt;String, String&gt; xssMap;
+
+public HttpRequestWrapper(HttpServletRequest request) {
+    super(request);
+}
+
+public HttpRequestWrapper(HttpServletRequest request,
+        Map&lt;String, String&gt; xssMap) {
+    super(request);
+    this.xssMap = xssMap;
+}
+
+@Override
+public String[] getParameterValues(String parameter) {
+    String[] values = super.getParameterValues(parameter);
+    if (values == null) {
+        return null;
+    }
+    int count = values.length;
+    // 遍历每一个参数，检查是否含有
+    String[] encodedValues = new String[count];
+    for (int i = 0; i &lt; count; i++) {
+        encodedValues[i] = cleanXSS(values[i]);
+    }
+    return encodedValues;
+}
+
+@Override
+public String getParameter(String parameter) {
+    String value = super.getParameter(parameter);
+    if (value == null) {
+        return null;
+    }
+    return cleanXSS(value);
+}
+
+public String getHeader(String name) {
+    String value = super.getHeader(name);
+    if (value == null)
+        return null;
+    return cleanXSS(value);
+
+}
+</code></pre><p>/**</p>
+<pre><code> * 清除恶意的XSS脚本
+ *
+ * @param value
+ * @return
+ */
+private String cleanXSS(String value) {
+    Set&lt;String&gt; keySet = xssMap.keySet();
+    for(String key : keySet){
+        String v = xssMap.get(key);
+        value = value.replaceAll(key,v);
+    }
+    return value;
+}
+</code></pre><p>}</p>
+<p>=============================================================================</p>
+<p><filter><br>    <filter-name>XSSFilter</filter-name><br>    <filter-class>com.what21.filter.xss.XSSFilter</filter-class><br></filter></p>
+<p><filter-mapping><br>    <filter-name>XSSFilter</filter-name><br>    <url-pattern>/*</url-pattern><br></filter-mapping></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/zuul/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/zuul/" itemprop="url">
+                  zuul
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
           
 
           
@@ -489,8 +783,20 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">top</span><br><span class="line"></span><br><span class="line">netstat</span><br><span class="line">netstat -ano | grep 8080</span><br><span class="line"></span><br><span class="line">kill</span><br><span class="line">kill -9</span><br><span class="line"></span><br><span class="line">#读写执行 all user</span><br><span class="line">chmod 777 123.txt</span><br><span class="line">#当前用户执行权限</span><br><span class="line">chmod +x  git_pull.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">chown root:root 123.txt</span><br><span class="line"></span><br><span class="line">sudo apt-get install</span><br><span class="line">sudo apt-get remove</span><br><span class="line"></span><br><span class="line">sudo yum install</span><br><span class="line">sudo yum remove</span><br><span class="line"></span><br><span class="line">sudo yum -y install</span><br><span class="line"></span><br><span class="line">sudo -s -H</span><br><span class="line">su root</span><br><span class="line"></span><br><span class="line">unzip -d 123.zip</span><br><span class="line"></span><br><span class="line">touch readme.txt</span><br><span class="line">cat readme.txt</span><br><span class="line">more readme.txt</span><br><span class="line">less readme.txt</span><br><span class="line"></span><br><span class="line">sort readme.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">du -h</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/version</span><br><span class="line"></span><br><span class="line">awk</span><br><span class="line"></span><br><span class="line">if..else</span><br><span class="line"></span><br><span class="line">sleep</span><br><span class="line"></span><br><span class="line">man</span><br><span class="line"></span><br><span class="line">lsof -i:8080</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">useradd -r nexus</span><br><span class="line"># 打印关键字行</span><br><span class="line">grep -n &quot;业务有关的关键字&quot;  2018-06-26.log</span><br><span class="line"> </span><br><span class="line">#文件切割 开始2行、结束6行</span><br><span class="line">sed -n &apos;2,6p&apos; access.log &gt; new-access.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#统计文件内容出现次数</span><br><span class="line">grep -o &quot;message&quot; nohup.out | wc -l</span><br><span class="line"></span><br><span class="line">#scp远程拷贝</span><br><span class="line">scp -r /usr/local/mongodb-3.6.5/ root@10.44.33.22:/opt/software/</span><br></pre></td></tr></table></figure>
+            <p>zuul</p>
+<p>是架设在整个springcloud微服务服务网中的门户模块<br>所有的外界访问请求 都要经过 这个模块<br>zuul结合eureka 可以做到动态服务代理</p>
+<p>实现功能：</p>
+<ul>
+<li>1、身份验证和安全性-识别每个资源的身份验证要求并拒绝不满足的要求</li>
+<li>2、洞察和检测-在边缘跟踪有意义的数据和统计数据、以便为我们提供准确的生产视图</li>
+<li>3、动态路由-根据需要将请求动态路由到不同的后端集群</li>
+<li>4、压力测试-逐渐增加到群集的流量，以衡量表现</li>
+<li>5、加载Shedding-为每种类型的请求分配容量，并删除超出限制的请求</li>
+<li>6、静态响应处理-直接边缘建立响应、而不是将他们转发到内部群集</li>
+<li>7、多区域弹性-跨AWS区域的路由请求、以使我们的ELB使用多样化、并使我们的边缘更接近我们的成员</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">组件包含：</span><br><span class="line">zuul-core ：包含编译和执行过滤器的核心功能的库</span><br><span class="line">zuul-simple-webapp ：它显示了如何用zuul-core 构建一个应用程序的简单例子</span><br><span class="line">zuul-netflix ： 将其他NetflixOSS组件添加到Zuul的库 使用功能区来执行路由请求</span><br><span class="line">zuul-netflix-webapp ：webapp 把zuul-core 和 zuul-netflix 组合成一个 易于使用的软件包</span><br></pre></td></tr></table></figure>
+<p>官方架构<br><img src="http://upload-images.jianshu.io/upload_images/6434888-5569728ff93abbdf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 
           
         
@@ -499,6 +805,46 @@
 
     
       
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      
+    </li>
+  
+  </ul>
 
 
     
@@ -557,7 +903,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
+      <meta itemprop="name" content="无心の技术簿">
     </span>
 
     
@@ -626,17 +972,6 @@
 
           
           
-             <span id="/2018/03/24/spring-cloud-exception/feign-exception-1/" class="leancloud_visitors" data-flag-title="cloud feign灵异事件">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
           
 
@@ -674,184 +1009,45 @@
     
       
 
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
   
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud-exception/exception-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/spring-cloud-exception/exception-1/" itemprop="url">
-                  容器已经关闭
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/03/24/spring-cloud-exception/exception-1/" class="leancloud_visitors" data-flag-title="容器已经关闭">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
+    <li class="popular-posts-item">
       
       
-
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
       
-        
-          
-            <p>spring cloud task 启动报错 context  has been closed already</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3cd5e3be89b57280.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法<br><img src="http://upload-images.jianshu.io/upload_images/6434888-6b79c65a09e5f95f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.5.2 版本ok</span><br><span class="line">2.0.0 报错容器已关闭</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">解决办法</span><br><span class="line"></span><br><span class="line">#spring.cloud.task.closecontext_enabled=false</span><br></pre></td></tr></table></figure>
-<p>spring cloud Ribbon</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-5ecbb7d4b4281217.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-4359cf1b075c1e4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>写到启动类就行</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-6d1ec769099be987.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">spring boot &lt;= 1.3</span><br><span class="line">无需定义</span><br><span class="line"></span><br><span class="line">spring boot &gt;= 1.4</span><br><span class="line"></span><br><span class="line">springboot不在维护 需要自己定义RestTempalte</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Bean</span><br><span class="line">public RestTemplate restTemplate (RestTemplateBuilder builder)&#123;</span><br><span class="line">  //Do any additional configuration here</span><br><span class="line">  return builder.build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
+    </li>
+  
+    <li class="popular-posts-item">
       
-    </div>
-
-    
       
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      
+    </li>
+  
+  </ul>
 
 
     
@@ -1186,6 +1382,24 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
 
 
 
@@ -1643,77 +1857,23 @@
   
 
   
-  <script>
-    
-    function showTime(Counter) {
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
 
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
-        .done(function ({ results }) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.url;
-            var time = item.time;
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function ({ responseJSON }) {
-          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
-        });
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
     }
-    
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
 
-    $(function() {
-      $.get('https://app-router.leancloud.cn/2/route?appId=' + "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz")
-        .done(function ({ api_server }) {
-          var Counter = function (method, url, data) {
-            return $.ajax({
-              method: method,
-              url: `https://${api_server}/1.1${url}`,
-              headers: {
-                'X-LC-Id': "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz",
-                'X-LC-Key': "FEnn05JpriHHTH0sATkYl94T",
-                'Content-Type': 'application/json',
-              },
-              data: data,
-            });
-          };
-          
-          if ($('.post-title-link').length >= 1) {
-            showTime(Counter);
-          }
-          
-        })
-    });
-  </script>
-
-
-
-  
-
-  
 
   
 

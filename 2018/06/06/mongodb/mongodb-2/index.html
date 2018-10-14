@@ -153,7 +153,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="mongodb 集群">
 <meta property="og:url" content="http://www.wuxinvip.com/2018/06/06/mongodb/mongodb-2/index.html">
-<meta property="og:site_name" content="无心技术簿">
+<meta property="og:site_name" content="无心の技术簿">
 <meta property="og:description" content="mongodb 配置12345678910111213141516171819202122232425262728293031323334353637383940414243444546# mongod.conf# for documentation of all options, see:#   http://docs.mongodb.org/manual/reference/configura">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2018-10-14T04:53:47.294Z">
@@ -163,7 +163,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="无心技术簿" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="无心の技术簿" type="application/atom+xml" />
 
 
 
@@ -178,7 +178,7 @@
   };
 </script>
 
-  <title>mongodb 集群 | 无心技术簿</title>
+  <title>mongodb 集群 | 无心の技术簿</title>
   
 
 
@@ -236,13 +236,13 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">无心技术簿</span>
+        <span class="site-title">无心の技术簿</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
     
       
-        <h1 class="site-subtitle" itemprop="description">花开，若相惜</h1>
+        <h1 class="site-subtitle" itemprop="description">时光荏苒、不浮青春.</h1>
       
     
   </div>
@@ -393,7 +393,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心技术簿">
+      <meta itemprop="name" content="无心の技术簿">
     </span>
 
     
@@ -458,18 +458,15 @@
 
           
           
-             <span id="/2018/06/06/mongodb/mongodb-2/" class="leancloud_visitors" data-flag-title="mongodb 集群">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数：</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
           
 
           
@@ -497,6 +494,32 @@
 
     
       
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-1/" rel="bookmark">mongodb 简介</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-3/" rel="bookmark">mongodb 命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-4/" rel="bookmark">mongodb 使用</a></div>
+      
+    </li>
+  
+  </ul>
 
 
     
@@ -542,8 +565,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/06/mongodb/mongodb-4/" rel="next" title="mongodb 使用">
-                <i class="fa fa-chevron-left"></i> mongodb 使用
+              <a href="/2018/06/06/mongodb/mongodb-1/" rel="next" title="mongodb 简介">
+                <i class="fa fa-chevron-left"></i> mongodb 简介
               </a>
             
           </div>
@@ -552,8 +575,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/09/spring-cloud/easy-cloud/" rel="prev" title="easy-cloud">
-                easy-cloud <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/06/mongodb/mongodb-3/" rel="prev" title="mongodb 命令">
+                mongodb 命令 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -853,6 +876,24 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
 
 
 
@@ -1329,74 +1370,23 @@
   
 
   
-  <script>
-    
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
 
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
-        .done(function ({ results }) {
-          if (results.length > 0) {
-            var counter = results[0];
-            
-            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
-            
-            .done(function () {
-                  var $element = $(document.getElementById(url));
-                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
-            })
-            
-            .fail(function ({ responseJSON }) {
-                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
-            })
-          } else {
-            
-              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
-                .done(function () {
-                  var $element = $(document.getElementById(url));
-                  $element.find('.leancloud-visitors-count').text(1);
-                })
-                .fail(function () {
-                  console.log('Failed to create');
-                });
-            
-          }
-        })
-      .fail(function ({ responseJSON }) {
-        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
-      });
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
     }
-    
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
 
-    $(function() {
-      $.get('https://app-router.leancloud.cn/2/route?appId=' + "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz")
-        .done(function ({ api_server }) {
-          var Counter = function (method, url, data) {
-            return $.ajax({
-              method: method,
-              url: `https://${api_server}/1.1${url}`,
-              headers: {
-                'X-LC-Id': "F9nWag5At2gMi6tG25SGYwPB-gzGzoHsz",
-                'X-LC-Key': "FEnn05JpriHHTH0sATkYl94T",
-                'Content-Type': 'application/json',
-              },
-              data: data,
-            });
-          };
-          
-          addCount(Counter);
-          
-        })
-    });
-  </script>
-
-
-
-  
-
-  
 
   
 
