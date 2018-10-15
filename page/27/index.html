@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">208</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">207</span></a>
   </li>
         
         
@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-care-point/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-innodb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/mysql-care-point/" itemprop="url">
-                  mysql-care点
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-innodb/" itemprop="url">
+                  SQL优化【InnoDB-表优化】
                 </a>
               
             
@@ -484,10 +484,16 @@
 
       
         
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">查询缓存从 Mysql5.7.20开始已经弃用、并在MySQL8.0中删除</span><br></pre></td></tr></table></figure>
-
-          
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-9ddb3d7a935ae42f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>innodb表优化</p>
+<p>8.5.1优化InnoDB表的存储布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">一旦数据达到稳定的大小，或者增长表增加了几十或几百兆字节，请考虑使用该OPTIMIZE TABLE语句来重新组织表并压缩任何浪费的空间。</span><br><span class="line"></span><br><span class="line">重新组织的表需要更少的磁盘I / O来执行全表扫描。</span><br><span class="line">当其他技术（如改进索引使用或调整应用程序代码）不切实际时，这是一种直接技术，可以提高性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OPTIMIZE TABLE复制表格的数据部分并重建索引。</span><br><span class="line">好处来自改进索引内数据的打包，并减少表空间和磁盘内的碎片。</span><br><span class="line">好处取决于每个表中的数据。</span><br><span class="line">您可能会发现某些人有显着的收益，而不是其他人，或者收益会随着时间的推移而下降，直到您再次优化表。</span><br><span class="line">如果表很大或者重建的索引不适合缓冲池，则此操作可能会很慢。</span><br><span class="line">向表中添加大量数据后的第一次运行通常比后期运行慢得多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在中InnoDB，有一个很长的PRIMARY KEY（无论是一个长的值的单个列，还是多个形成一个长复合值的列）浪费了大量的磁盘空间。</span><br><span class="line">一行中的主键值在所有指向同一行的二级索引记录中都是重复的。</span><br><span class="line">（请参见第14.8.2.1节“集群索引和二级索引”。</span><br><span class="line">）AUTO_INCREMENT如果主键很长，或者索引长VARCHAR列的前缀而不是整列，则创建一个列作为主键。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用VARCHAR数据类型而不是CHAR存储可变长度的字符串或具有多个NULL值的列 。</span><br><span class="line">甲 列总是占据字符来存储数据，即使该字符串是较短，或者其值 。</span><br><span class="line">较小的表适合缓冲池，并减少磁盘I / O。</span><br><span class="line"> CHAR(N)NNULL</span><br><span class="line"></span><br><span class="line">使用COMPACT行格式（默认InnoDB格式）和可变长度字符集（如 utf8或）时sjis， 列占用可变数量的空间，但仍至少为字节。</span><br><span class="line"> CHAR(N)N</span><br><span class="line"></span><br><span class="line">对于大的表或者包含大量重复的文本或数字数据的表，请考虑使用 COMPRESSED行格式。</span><br><span class="line">将数据带入缓冲池或执行全表扫描需要较少的磁盘I / O。</span><br><span class="line">在做出永久性决定之前，请测量使用行格式COMPRESSED与 您可以实现的压缩量 COMPACT。</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/mysql/optimization-sql-innodb/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -501,35 +507,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="bookmark">SQL优化【MyISAM-表优化】</a></div>
       
     </li>
   
@@ -708,13 +714,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
@@ -729,6 +728,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
       
     </li>
@@ -736,7 +742,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
       
     </li>
   
@@ -790,7 +796,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-shell/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-stored-procedure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -809,8 +815,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/mysql-shell/" itemprop="url">
-                  MySQL常用命令
+                <a class="post-title-link" href="/2018/03/24/mysql/mysql-stored-procedure/" itemprop="url">
+                  mysql存储过程
                 </a>
               
             
@@ -896,14 +902,12 @@
 
       
         
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">use user;</span><br><span class="line"></span><br><span class="line">drop database user;</span><br><span class="line"></span><br><span class="line">use mysql</span><br><span class="line"></span><br><span class="line">select Host,User,authentication_string from mysql.user;</span><br><span class="line"></span><br><span class="line">grant all privileges on *.* to &apos;root&apos;@&apos;115.171.60.75&apos;identified by &apos;root&apos; with grant option;</span><br><span class="line"></span><br><span class="line">all insert update ...</span><br><span class="line">*.*    :    数据库.表名</span><br><span class="line">root    :   用户名</span><br><span class="line">115.170.*.*     :   远程访问ip地址</span><br><span class="line"></span><br><span class="line">刷新配置</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line">delete from mysql.user where user=root and host = 115.171.60.75;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/mysql-shell/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DELIMIT ;</span><br><span class="line">  CREATE DROP ();</span><br><span class="line"></span><br><span class="line">DELIMIT //</span><br></pre></td></tr></table></figure>
+<p>为什么使用存储过程<br>有过统计:一个事务提交放到service层 大概一秒能处理500个(好像是2ms一个.算上网络延迟)<br>而使用mysql存储过程 一秒钟大概能处理2000个事物</p>
+<p>阿里编码规范有讲不适用存储过程.维护起来很困难.但是该用还得用.像秒杀.</p>
+
+          
         
       
     </div>
@@ -917,14 +921,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
       
     </li>
   
@@ -945,7 +949,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
       
     </li>
   
@@ -1006,7 +1010,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/26/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/70/">70</a><a class="extend next" rel="next" href="/page/28/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/26/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="extend next" rel="next" href="/page/28/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1055,7 +1059,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">208</span>
+                    <span class="site-state-item-count">207</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
