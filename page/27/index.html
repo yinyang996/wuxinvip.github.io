@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-stored-procedure/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-design-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/mysql-stored-procedure/" itemprop="url">
-                  mysql存储过程
+                <a class="post-title-link" href="/2018/03/24/mysql/mysql-design-1/" itemprop="url">
+                  数据库设计三大范式
                 </a>
               
             
@@ -484,12 +484,20 @@
 
       
         
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DELIMIT ;</span><br><span class="line">  CREATE DROP ();</span><br><span class="line"></span><br><span class="line">DELIMIT //</span><br></pre></td></tr></table></figure>
-<p>为什么使用存储过程<br>有过统计:一个事务提交放到service层 大概一秒能处理500个(好像是2ms一个.算上网络延迟)<br>而使用mysql存储过程 一秒钟大概能处理2000个事物</p>
-<p>阿里编码规范有讲不适用存储过程.维护起来很困难.但是该用还得用.像秒杀.</p>
-
-          
+          <p>1．第一范式(确保每列保持原子性)</p>
+<p>2．第二范式(确保表中的每列都和主键相关)</p>
+<p>3．第三范式(确保每列都和主键列直接相关,而不是间接相关)</p>
+<p>一、第一范式是最基本的范式。如果数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。</p>
+<p>第一范式的合理遵循需要根据系统的实际需求来定。比如某些数据库系统中需要用到“地址”这个属性，本来直接将“地址”属性设计成一个数据库表的字段就行。但是如果系统经常会访问“地址”属性中的“城市”部分，那么就非要将“地址”这个属性重新拆分为省份、城市、详细地址等多个部分进行存储，这样在对地址中某一部分操作的时候将非常方便。这样设计才算满足了数据库的第一范式，如下表所示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-35bd6c5b8893c700.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>上表所示的用户信息遵循了第一范式的要求，这样在对用户使用城市进行分类的时候就非常方便，也提高了数据库的性能。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/mysql/mysql-design-1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -510,20 +518,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
       
     </li>
@@ -531,7 +525,21 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-version-selected/" rel="bookmark">MYSQL版本选择</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
       
     </li>
   
@@ -585,7 +593,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-version-selected/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-shell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -604,8 +612,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/mysql-version-selected/" itemprop="url">
-                  MYSQL版本选择
+                <a class="post-title-link" href="/2018/03/24/mysql/mysql-shell/" itemprop="url">
+                  MySQL常用命令
                 </a>
               
             
@@ -691,15 +699,10 @@
 
       
         
-          <p><strong>学习阿里mysql笔记</strong></p>
-<p>mysql 历史过程中产生了三个版本</p>
-<p>Percona Server : 有领先的MYSQL咨询公司 Percona公司发布</p>
-<p>Maria DB : MYSQL最早创始人 重新做的一个版本</p>
-<p>MYSQL : Oracle公司收购的版本</p>
-<p>关于mysql存储引擎：MyISAM、InnoDB、XtraDB<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">最早、最原始的存储引擎MyISAM、缺点不支持事务、优点 读写性能要好</span><br><span class="line"></span><br><span class="line">InnoDB 支持了事务、并把数据操作记录到日志、安全性较好、读写性能也有很大提高、稍低MyISAM(mysql 5.5之后默认存储引擎选取了InnoDB)</span><br><span class="line"></span><br><span class="line">XtraDB 是InnoDB增强版本、被设计用来更新计算机硬件系统性能、同时还包含了一些高性能环境下新特性。</span><br></pre></td></tr></table></figure></p>
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">use user;</span><br><span class="line"></span><br><span class="line">drop database user;</span><br><span class="line"></span><br><span class="line">use mysql</span><br><span class="line"></span><br><span class="line">select Host,User,authentication_string from mysql.user;</span><br><span class="line"></span><br><span class="line">grant all privileges on *.* to &apos;root&apos;@&apos;115.171.60.75&apos;identified by &apos;root&apos; with grant option;</span><br><span class="line"></span><br><span class="line">all insert update ...</span><br><span class="line">*.*    :    数据库.表名</span><br><span class="line">root    :   用户名</span><br><span class="line">115.170.*.*     :   远程访问ip地址</span><br><span class="line"></span><br><span class="line">刷新配置</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line">delete from mysql.user where user=root and host = 115.171.60.75;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/mysql-version-selected/#more" rel="contents">
+            <a class="btn" href="/2018/03/24/mysql/mysql-shell/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -731,14 +734,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-version-selected/" rel="bookmark">MYSQL版本选择</a></div>
       
     </li>
   
@@ -926,14 +929,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/08/20/essay/essay-6/" rel="bookmark">面试时候看一下 系列</a></div>
+      <div class="popular-posts-title"><a href="/2017/08/20/essay/essay-5/" rel="bookmark">转知乎关于工作</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
+      <div class="popular-posts-title"><a href="/2017/07/06/essay/essay-1/" rel="bookmark">随便写点</a></div>
       
     </li>
   
