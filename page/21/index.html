@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/24/search-engine/nutch-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/05/24/load-balance/total/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/24/search-engine/nutch-1/" itemprop="url">
-                  nutch简介
+                <a class="post-title-link" href="/2018/05/24/load-balance/total/" itemprop="url">
+                  负载均衡
                 </a>
               
             
@@ -478,7 +478,20 @@
       
         
           
-            <p><strong>简介</strong><br><strong>发展</strong></p>
+            <p><strong>负载均衡起源</strong></p>
+<pre><code>将用户请求通过各种算法、均匀的分配到各个服务器上、以保证最大用户量的支撑、
+同时服务实例又不会因为请求过载而gg
+</code></pre><p><strong>负载均衡工作模式</strong></p>
+<pre><code>说起负载均衡工作模式就得从网络请求说起、因为他工作于用户到服务器的请求路径上
+
+目前基本网络协议 http、【七层】 物理、数据链路、网络、应用层、等等、、、、
+
+基于物理层的 就算是硬件负载均衡设备、在网卡端口上设置算法、均衡服务实例请求量
+
+基于网络层的 一般较软件负载均衡设备
+
+常用的 ：nginx 工作在 4和7层 既有网络层【端口监听】、也有应用层【端口转发】
+</code></pre><p><img src="/img/load-balance/img/load-balance.png" alt="图片">负载均衡</p>
 
           
         
@@ -494,35 +507,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-1/" rel="bookmark">elasticsearch内部存储执行机制</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/dns/" rel="bookmark">DNS负载均衡</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/maglev/" rel="bookmark">maglev</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-config/" rel="bookmark">elasticsearch-config</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
       
     </li>
   
@@ -675,23 +688,17 @@
 
       
         
-          
-            <h3 id="LVS十种算法"><a href="#LVS十种算法" class="headerlink" title="LVS十种算法"></a>LVS十种算法</h3><h4 id="4种静态算法"><a href="#4种静态算法" class="headerlink" title="4种静态算法"></a>4种静态算法</h4><p>1、RR 依次轮调</p>
+          <h3 id="LVS十种算法"><a href="#LVS十种算法" class="headerlink" title="LVS十种算法"></a>LVS十种算法</h3><h4 id="4种静态算法"><a href="#4种静态算法" class="headerlink" title="4种静态算法"></a>4种静态算法</h4><p>1、RR 依次轮调</p>
 <p>2、WRR 加权轮调</p>
 <p>3、DH 目标地址hash</p>
 <p>4、SH 源地址hash</p>
-<h4 id="6种动态算法"><a href="#6种动态算法" class="headerlink" title="6种动态算法"></a>6种动态算法</h4><p>1、 LC least connection 最小调用</p>
-<p>2、 WLC 加权重LC</p>
-<p>3、 SED 对WLC补充、加一、让其能够比较大小</p>
-<p>4、 NQ never queue</p>
-<p>5、LBLC DH+LC 使用于cache群</p>
-<p>6、LBLCR 带有复制功能的LBLC</p>
-<p>常见负载均衡算法<br>随机<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public static String random()</span><br><span class="line">   &#123;</span><br><span class="line">       //重新建立一个map,避免出现由于服务器上线和下线导致的并发问题</span><br><span class="line">       Map&lt;String,Integer&gt; serverMap  = new HashMap&lt;String,Integer&gt;();</span><br><span class="line">       serverMap.putAll(serverWeigthMap);</span><br><span class="line">       //获取ip列表list</span><br><span class="line">       Set&lt;String&gt; keySet = serverMap.keySet();</span><br><span class="line">       ArrayList&lt;String&gt; keyList = new ArrayList&lt;String&gt;();</span><br><span class="line">       keyList.addAll(keySet);</span><br><span class="line"></span><br><span class="line">       java.util.Random random = new java.util.Random();</span><br><span class="line">       int randomPos = random.nextInt(keyList.size());</span><br><span class="line"></span><br><span class="line">       String server = keyList.get(randomPos);</span><br><span class="line">       return server;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>加权随机<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public static String weightRandom()</span><br><span class="line">   &#123;</span><br><span class="line">       //重新建立一个map,避免出现由于服务器上线和下线导致的并发问题</span><br><span class="line">       Map&lt;String,Integer&gt; serverMap  = new HashMap&lt;String,Integer&gt;();</span><br><span class="line">       serverMap.putAll(serverWeigthMap);</span><br><span class="line">       //获取ip列表list</span><br><span class="line">       Set&lt;String&gt; keySet = serverMap.keySet();</span><br><span class="line">       Iterator&lt;String&gt; it = keySet.iterator();</span><br><span class="line"></span><br><span class="line">       List&lt;String&gt; serverList = new ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">       while (it.hasNext()) &#123;</span><br><span class="line">           String server = it.next();</span><br><span class="line">           Integer weight = serverMap.get(server);</span><br><span class="line">           for (int i = 0; i &lt; weight; i++) &#123;</span><br><span class="line">               serverList.add(server);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       Random random = new Random();</span><br><span class="line">       int randomPos = random.nextInt(serverList.size());</span><br><span class="line"></span><br><span class="line">       String server = serverList.get(randomPos);</span><br><span class="line">       return server;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>ipHash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public static String ipHash(String remoteIp)</span><br><span class="line">  &#123;</span><br><span class="line">      //重新建立一个map 比买你出现由于服务器上线和下线导致的并发问题</span><br><span class="line">      Map&lt;String,Integer&gt; serverMap  = new HashMap&lt;String,Integer&gt;();</span><br><span class="line">      serverMap.putAll(serverWeigthMap);</span><br><span class="line">      //获取ip列表list</span><br><span class="line">      Set&lt;String&gt; keySet = serverMap.keySet();</span><br><span class="line">      ArrayList&lt;String&gt; keyList = new ArrayList&lt;String&gt;();</span><br><span class="line">      keyList.addAll(keySet);</span><br><span class="line"></span><br><span class="line">      int hashCode =remoteIp.hashCode();</span><br><span class="line">      int serverListSize = keyList.size();</span><br><span class="line">      int serverPos = hashCode % serverListSize;</span><br><span class="line"></span><br><span class="line">      return keyList.get(serverPos);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>最小调用<br>…</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/23/load-balance/algorithm/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -719,6 +726,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
       
     </li>
@@ -727,13 +741,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
       
     </li>
   
@@ -886,8 +893,7 @@
 
       
         
-          
-            <ul>
+          <ul>
 <li>原理</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">一个主线程负责请求分发</span><br><span class="line"></span><br><span class="line">四个或者两个【可配置】子线程进行请求转发到端口</span><br></pre></td></tr></table></figure>
@@ -897,20 +903,13 @@
 <li><p>支持并发量</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">好像是大约支持50000 Pv/s</span><br></pre></td></tr></table></figure>
-<ul>
-<li>常用命令</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">service nginx start</span><br><span class="line">service nginx stop</span><br><span class="line">service nginx restart</span><br><span class="line"></span><br><span class="line">nginx -t /etc/nginx/conf.d/www.conf</span><br><span class="line"></span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line">net start nginx </span><br><span class="line">net stop nginx</span><br></pre></td></tr></table></figure>
-<ul>
-<li>docker中使用</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">docker pull nginx</span><br><span class="line"></span><br><span class="line">docker nginx -t </span><br><span class="line"></span><br><span class="line">docker nginx -s reload</span><br><span class="line"></span><br><span class="line">docker service nginx start</span><br></pre></td></tr></table></figure>
-<p>转发配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">conf.d/upstream.conf</span><br><span class="line"></span><br><span class="line">upstream demo&#123;</span><br><span class="line">      server 127.0.0.1:8080  weight=1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">default.d/location.conf</span><br><span class="line"></span><br><span class="line">location /demo/&#123;</span><br><span class="line">  http_proxy:http://demo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>多域名配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">test.conf</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name test.baidu.com;</span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_set_header   Host      $http_host;</span><br><span class="line">            proxy_pass         http://127.0.0.1:8082/uc/;</span><br><span class="line">            proxy_redirect      off;</span><br><span class="line">            proxy_set_header    X-Real-IP       $remote_addr;</span><br><span class="line">            proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">配置好了看看服务器443端口有没有配置安全组 【mmp 吃了小亏】</span><br><span class="line"></span><br><span class="line"> server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 39.107.82.228;#防攻击</span><br><span class="line">        return 502;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name www.example.com;</span><br><span class="line">	return 301 https://www.example.com$request_uri;</span><br><span class="line">        location / &#123;</span><br><span class="line">#            proxy_set_header   Host      $http_host;</span><br><span class="line">#            proxy_pass         http://ip:port;# or http://example 使用upstream 转发</span><br><span class="line">#            proxy_redirect      off;</span><br><span class="line">#            proxy_set_header    X-Real-IP       $remote_addr;</span><br><span class="line">#            proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> server &#123;</span><br><span class="line">        listen 443;</span><br><span class="line">        server_name www.example.com;</span><br><span class="line">        ssl on;</span><br><span class="line">        ssl_certificate   &quot;/etc/nginx/cert/1526742087444.pem&quot;;</span><br><span class="line">        ssl_certificate_key  &quot;/etc/nginx/cert/1526742087444.key&quot;;</span><br><span class="line">        ssl_session_timeout 5m;</span><br><span class="line">        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_set_header   Host      $http_host;</span><br><span class="line">            proxy_pass         http://ip:port/;</span><br><span class="line">            proxy_redirect      off;</span><br><span class="line">            proxy_set_header    X-Real-IP       $remote_addr;</span><br><span class="line">            proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;   </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/25/load-balance/nginx/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -945,14 +944,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
       
     </li>
   

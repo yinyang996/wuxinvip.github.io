@@ -161,7 +161,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-8c3818c4dbff38fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-9820225eacc468b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-10-14T04:53:47.094Z">
+<meta property="og:updated_time" content="2018-10-15T06:05:03.611Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL优化【SQL语句】">
 <meta name="twitter:description" content="1、select语句   1234567891011121、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】2、持续折叠3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】4、及时检测无效常量表达式5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用6、where 表达式尽量简单、便于快速建立where评估表">
@@ -497,6 +497,7 @@
 <p><img src="https://upload-images.jianshu.io/upload_images/6434888-188c121b283eff2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语句优化"></p>
 <p><img src="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优化考虑点"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】</span><br><span class="line">2、持续折叠</span><br><span class="line">3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】</span><br><span class="line">4、及时检测无效常量表达式</span><br><span class="line">5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用</span><br><span class="line">6、where 表达式尽量简单、便于快速建立where评估表</span><br><span class="line">7、查询其他表之前首先查询所有常量表</span><br><span class="line">【</span><br><span class="line">        SELECT * FROM t WHERE primary_key=1;</span><br><span class="line">        SELECT * FROM t1,t2</span><br><span class="line">            WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</span><br><span class="line">】</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>2、范围优化<br><img src="https://upload-images.jianshu.io/upload_images/6434888-8c3818c4dbff38fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>对于两种索引结构使用不同的范围条件【hash索引、B树索引】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-9820225eacc468b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p>==========mmp 太难了 没办法写下去 只能贴图了 以后慢慢品鉴</p>
 
@@ -512,7 +513,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
@@ -540,7 +541,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
       
     </li>
   
@@ -600,8 +601,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/essay/essay-12/" rel="prev" title="阿里电面总结">
-                阿里电面总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="prev" title="SQL优化【绩效衡量】">
+                SQL优化【绩效衡量】 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

@@ -156,7 +156,7 @@
 <meta property="og:site_name" content="无心の技术簿">
 <meta property="og:description" content="1、使用 query filter  先举例说明一下数据权限，假设一个工作任务应用有以下的需求： 普通员工可以查看自己的工作项部门经理可以查看自己管理部门的所有工作项对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。 数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-14T04:53:47.194Z">
+<meta property="og:updated_time" content="2018-10-15T06:06:15.461Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="权限系统_数据权限控制">
 <meta name="twitter:description" content="1、使用 query filter  先举例说明一下数据权限，假设一个工作任务应用有以下的需求： 普通员工可以查看自己的工作项部门经理可以查看自己管理部门的所有工作项对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。 数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数">
@@ -497,6 +497,7 @@
 </ul>
 <p>查询过滤器是 ORM 模块中的功能，默认是关闭的，开启后所有的查询语句都会在 where 语句的最后自动加上类似 @filter(User) 的表达式。</p>
 <p>假设执行查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user u where u.name = :name</span><br><span class="line">那么开启 Query Filter 后将会自动变为：</span><br><span class="line"></span><br><span class="line">select * from user u where ( u.name = :name )&#123;? and ( @filter(User) )&#125;</span><br><span class="line">关于查询过滤器的细节在这里不展开细说，下面具体说明如何使用查询过滤器实现数据权限。</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <ul>
 <li><p>1.2 基于 Query Filter 实现数据权限</p>
 </li>
@@ -590,8 +591,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/service-permission/oauth-oauth2/" rel="next" title="OAuth OAuth2">
-                <i class="fa fa-chevron-left"></i> OAuth OAuth2
+              <a href="/2018/03/24/service-permission/shiro-1/" rel="next" title="权限系统_shiro_授权流程">
+                <i class="fa fa-chevron-left"></i> 权限系统_shiro_授权流程
               </a>
             
           </div>
@@ -600,8 +601,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/agreement/https/" rel="prev" title="Https协议">
-                Https协议 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/cache/redis/" rel="prev" title="redis">
+                redis <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

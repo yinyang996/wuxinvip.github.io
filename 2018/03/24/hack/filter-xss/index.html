@@ -148,18 +148,18 @@
 
 
 
-  <meta name="description" content="package com.what21.filter.xss; import java.io.IOException;import java.util.LinkedHashMap;import java.util.Map; import javax.servlet.Filter;import javax.servlet.FilterChain;import javax.servlet.FilterC">
+  <meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455package com.what21.filter.xss;import java.io.IOException;import java.util.LinkedHashMap;import java">
 <meta name="keywords" content="安全客">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Filter安全过滤高级最终行（XSS攻击）">
 <meta property="og:url" content="http://www.wuxinvip.com/2018/03/24/hack/filter-xss/index.html">
 <meta property="og:site_name" content="无心の技术簿">
-<meta property="og:description" content="package com.what21.filter.xss; import java.io.IOException;import java.util.LinkedHashMap;import java.util.Map; import javax.servlet.Filter;import javax.servlet.FilterChain;import javax.servlet.FilterC">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455package com.what21.filter.xss;import java.io.IOException;import java.util.LinkedHashMap;import java">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-14T04:53:47.174Z">
+<meta property="og:updated_time" content="2018-10-15T05:58:25.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Filter安全过滤高级最终行（XSS攻击）">
-<meta name="twitter:description" content="package com.what21.filter.xss; import java.io.IOException;import java.util.LinkedHashMap;import java.util.Map; import javax.servlet.Filter;import javax.servlet.FilterChain;import javax.servlet.FilterC">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455package com.what21.filter.xss;import java.io.IOException;import java.util.LinkedHashMap;import java">
 
 
 
@@ -486,115 +486,10 @@
       
 
       
-        <p>package com.what21.filter.xss;</p>
-<p>import java.io.IOException;<br>import java.util.LinkedHashMap;<br>import java.util.Map;</p>
-<p>import javax.servlet.Filter;<br>import javax.servlet.FilterChain;<br>import javax.servlet.FilterConfig;<br>import javax.servlet.ServletException;<br>import javax.servlet.ServletRequest;<br>import javax.servlet.ServletResponse;<br>import javax.servlet.http.HttpServletRequest;</p>
-<p>public class XSSFilter implements Filter {</p>
-<pre><code>// XSS处理Map
-private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();
-
-public void init(FilterConfig filterConfig) throws ServletException {
-    // 含有脚本： script
-    xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);
-    // 含有脚本 javascript
-    xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);
-    // 含有函数： eval
-    xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);
-    // 含有符号 &lt;
-    xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);
-    // 含有符号 &gt;
-    xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);
-    // 含有符号 (
-    xssMap.put(&quot;\\(&quot;, &quot;(&quot;);
-    // 含有符号 )
-    xssMap.put(&quot;\\)&quot;, &quot;)&quot;);
-    // 含有符号 &apos;
-    xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);
-    // 含有符号 &quot;
-    xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);
-}
-
-public void doFilter(ServletRequest request, ServletResponse response,
-        FilterChain chain) throws IOException, ServletException {
-    // 强制类型转换 HttpServletRequest
-    HttpServletRequest httpReq = (HttpServletRequest)request;
-    // 构造HttpRequestWrapper对象处理XSS
-    HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);
-    //
-    chain.doFilter(httpReqWarp, response);
-
-}
-
-public void destroy() {
-
-}
-</code></pre><p>}</p>
-<p>=============================<br>package com.what21.filter.xss;</p>
-<p>import java.util.Map;<br>import java.util.Set;</p>
-<p>import javax.servlet.http.HttpServletRequest;<br>import javax.servlet.http.HttpServletRequestWrapper;</p>
-<p>public final class HttpRequestWrapper extends HttpServletRequestWrapper {</p>
-<pre><code>private Map&lt;String, String&gt; xssMap;
-
-public HttpRequestWrapper(HttpServletRequest request) {
-    super(request);
-}
-
-public HttpRequestWrapper(HttpServletRequest request,
-        Map&lt;String, String&gt; xssMap) {
-    super(request);
-    this.xssMap = xssMap;
-}
-
-@Override
-public String[] getParameterValues(String parameter) {
-    String[] values = super.getParameterValues(parameter);
-    if (values == null) {
-        return null;
-    }
-    int count = values.length;
-    // 遍历每一个参数，检查是否含有
-    String[] encodedValues = new String[count];
-    for (int i = 0; i &lt; count; i++) {
-        encodedValues[i] = cleanXSS(values[i]);
-    }
-    return encodedValues;
-}
-
-@Override
-public String getParameter(String parameter) {
-    String value = super.getParameter(parameter);
-    if (value == null) {
-        return null;
-    }
-    return cleanXSS(value);
-}
-
-public String getHeader(String name) {
-    String value = super.getHeader(name);
-    if (value == null)
-        return null;
-    return cleanXSS(value);
-
-}
-</code></pre><p>/**</p>
-<pre><code> * 清除恶意的XSS脚本
- *
- * @param value
- * @return
- */
-private String cleanXSS(String value) {
-    Set&lt;String&gt; keySet = xssMap.keySet();
-    for(String key : keySet){
-        String v = xssMap.get(key);
-        value = value.replaceAll(key,v);
-    }
-    return value;
-}
-</code></pre><p>}</p>
-<p>=============================================================================</p>
-<p><filter><br>    <filter-name>XSSFilter</filter-name><br>    <filter-class>com.what21.filter.xss.XSSFilter</filter-class><br></filter></p>
-<p><filter-mapping><br>    <filter-name>XSSFilter</filter-name><br>    <url-pattern>/*</url-pattern><br></filter-mapping></p>
-
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">package com.what21.filter.xss;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.LinkedHashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">import javax.servlet.Filter;</span><br><span class="line">import javax.servlet.FilterChain;</span><br><span class="line">import javax.servlet.FilterConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line"></span><br><span class="line">public class XSSFilter implements Filter &#123;</span><br><span class="line"></span><br><span class="line">    // XSS处理Map</span><br><span class="line">    private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();</span><br><span class="line"></span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">        // 含有脚本： script</span><br><span class="line">        xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);</span><br><span class="line">        // 含有脚本 javascript</span><br><span class="line">        xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);</span><br><span class="line">        // 含有函数： eval</span><br><span class="line">        xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);</span><br><span class="line">        // 含有符号 &lt;</span><br><span class="line">        xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);</span><br><span class="line">        // 含有符号 &gt;</span><br><span class="line">        xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);</span><br><span class="line">        // 含有符号 (</span><br><span class="line">        xssMap.put(&quot;\\(&quot;, &quot;(&quot;);</span><br><span class="line">        // 含有符号 )</span><br><span class="line">        xssMap.put(&quot;\\)&quot;, &quot;)&quot;);</span><br><span class="line">        // 含有符号 &apos;</span><br><span class="line">        xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);</span><br><span class="line">        // 含有符号 &quot;</span><br><span class="line">        xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void doFilter(ServletRequest request, ServletResponse response,</span><br><span class="line">            FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">        // 强制类型转换 HttpServletRequest</span><br><span class="line">        HttpServletRequest httpReq = (HttpServletRequest)request;</span><br><span class="line">        // 构造HttpRequestWrapper对象处理XSS</span><br><span class="line">        HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);</span><br><span class="line">        //</span><br><span class="line">        chain.doFilter(httpReqWarp, response);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void destroy() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">=============================</span><br><span class="line">package com.what21.filter.xss;</span><br><span class="line"></span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Set;</span><br><span class="line"></span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletRequestWrapper;</span><br><span class="line"></span><br><span class="line">public final class HttpRequestWrapper extends HttpServletRequestWrapper &#123;</span><br><span class="line"></span><br><span class="line">    private Map&lt;String, String&gt; xssMap;</span><br><span class="line"></span><br><span class="line">    public HttpRequestWrapper(HttpServletRequest request) &#123;</span><br><span class="line">        super(request);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public HttpRequestWrapper(HttpServletRequest request,</span><br><span class="line">            Map&lt;String, String&gt; xssMap) &#123;</span><br><span class="line">        super(request);</span><br><span class="line">        this.xssMap = xssMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String[] getParameterValues(String parameter) &#123;</span><br><span class="line">        String[] values = super.getParameterValues(parameter);</span><br><span class="line">        if (values == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        int count = values.length;</span><br><span class="line">        // 遍历每一个参数，检查是否含有</span><br><span class="line">        String[] encodedValues = new String[count];</span><br><span class="line">        for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">            encodedValues[i] = cleanXSS(values[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        return encodedValues;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getParameter(String parameter) &#123;</span><br><span class="line">        String value = super.getParameter(parameter);</span><br><span class="line">        if (value == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        return cleanXSS(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getHeader(String name) &#123;</span><br><span class="line">        String value = super.getHeader(name);</span><br><span class="line">        if (value == null)</span><br><span class="line">            return null;</span><br><span class="line">        return cleanXSS(value);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">     * 清除恶意的XSS脚本</span><br><span class="line">     *</span><br><span class="line">     * @param value</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private String cleanXSS(String value) &#123;</span><br><span class="line">        Set&lt;String&gt; keySet = xssMap.keySet();</span><br><span class="line">        for(String key : keySet)&#123;</span><br><span class="line">            String v = xssMap.get(key);</span><br><span class="line">            value = value.replaceAll(key,v);</span><br><span class="line">        &#125;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">=============================================================================</span><br><span class="line">&lt;filter&gt;</span><br><span class="line">    &lt;filter-name&gt;XSSFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;filter-class&gt;com.what21.filter.xss.XSSFilter&lt;/filter-class&gt;</span><br><span class="line">&lt;/filter&gt;</span><br><span class="line">&lt;filter-mapping&gt;</span><br><span class="line">    &lt;filter-name&gt;XSSFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -685,8 +580,8 @@ private String cleanXSS(String value) {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="next" title="sleuth灵异事件">
-                <i class="fa fa-chevron-left"></i> sleuth灵异事件
+              <a href="/2018/03/24/spring-cloud/spring-roo/" rel="next" title="spring Roo">
+                <i class="fa fa-chevron-left"></i> spring Roo
               </a>
             
           </div>
@@ -695,8 +590,8 @@ private String cleanXSS(String value) {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/spring-cloud-exception/feign-exception-1/" rel="prev" title="cloud feign灵异事件">
-                cloud feign灵异事件 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/spring-cloud/spring-cloud-2/" rel="prev" title="spring cloud 族谱">
+                spring cloud 族谱 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

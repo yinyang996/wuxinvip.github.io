@@ -148,13 +148,13 @@
 
 
 
-  <meta name="description" content="本文从以下介绍下 Reactor （反应堆）12345首先简单介绍Reactor 是什么东西、其次解决什么问题、领域应用、原理、优点和缺点、 1、简介 2、解决问题 3、领域应用举个比较熟悉的例子 dubbodubbo底层使用了netty线程模型  netty 中使用了reactor模式 那么什么是reactor模式？ Reactor三种模型 Netty线程模型 Netty结构 dubbo中使用的">
+  <meta name="description" content="本文从以下介绍下 Reactor （反应堆）12345首先简单介绍Reactor 是什么东西、其次解决什么问题、领域应用、原理、优点和缺点、 1、简介 2、解决问题 3、领域应用举个比较熟悉的例子 dubbodubbo底层使用了netty线程模型  netty 中使用了reactor模式">
 <meta name="keywords" content="spring-cloud">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Reactor Core">
 <meta property="og:url" content="http://www.wuxinvip.com/2018/03/24/spring-cloud/reactor-core/index.html">
 <meta property="og:site_name" content="无心の技术簿">
-<meta property="og:description" content="本文从以下介绍下 Reactor （反应堆）12345首先简单介绍Reactor 是什么东西、其次解决什么问题、领域应用、原理、优点和缺点、 1、简介 2、解决问题 3、领域应用举个比较熟悉的例子 dubbodubbo底层使用了netty线程模型  netty 中使用了reactor模式 那么什么是reactor模式？ Reactor三种模型 Netty线程模型 Netty结构 dubbo中使用的">
+<meta property="og:description" content="本文从以下介绍下 Reactor （反应堆）12345首先简单介绍Reactor 是什么东西、其次解决什么问题、领域应用、原理、优点和缺点、 1、简介 2、解决问题 3、领域应用举个比较熟悉的例子 dubbodubbo底层使用了netty线程模型  netty 中使用了reactor模式">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-8bbb8b631b3797b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-57e816852fa46e19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -171,10 +171,10 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-de7a2593190a5eb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-27a8db8c88ddbcc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-fc5e8ab386e2f710.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-10-14T04:53:47.164Z">
+<meta property="og:updated_time" content="2018-10-15T06:07:47.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Reactor Core">
-<meta name="twitter:description" content="本文从以下介绍下 Reactor （反应堆）12345首先简单介绍Reactor 是什么东西、其次解决什么问题、领域应用、原理、优点和缺点、 1、简介 2、解决问题 3、领域应用举个比较熟悉的例子 dubbodubbo底层使用了netty线程模型  netty 中使用了reactor模式 那么什么是reactor模式？ Reactor三种模型 Netty线程模型 Netty结构 dubbo中使用的">
+<meta name="twitter:description" content="本文从以下介绍下 Reactor （反应堆）12345首先简单介绍Reactor 是什么东西、其次解决什么问题、领域应用、原理、优点和缺点、 1、简介 2、解决问题 3、领域应用举个比较熟悉的例子 dubbodubbo底层使用了netty线程模型  netty 中使用了reactor模式">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/6434888-8bbb8b631b3797b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -506,6 +506,7 @@
 <h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-8bbb8b631b3797b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <h2 id="2、解决问题"><a href="#2、解决问题" class="headerlink" title="2、解决问题"></a>2、解决问题</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-57e816852fa46e19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <h2 id="3、领域应用"><a href="#3、领域应用" class="headerlink" title="3、领域应用"></a>3、领域应用</h2><p>举个比较熟悉的例子 dubbo<br>dubbo底层使用了netty线程模型  netty 中使用了reactor模式</p>
+<a id="more"></a>
 <h3 id="那么什么是reactor模式？"><a href="#那么什么是reactor模式？" class="headerlink" title="那么什么是reactor模式？"></a>那么什么是reactor模式？</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-858fe9a54def75b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <h3 id="Reactor三种模型"><a href="#Reactor三种模型" class="headerlink" title="Reactor三种模型"></a>Reactor三种模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-2406b26b0cca44ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <h3 id="Netty线程模型"><a href="#Netty线程模型" class="headerlink" title="Netty线程模型"></a>Netty线程模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-7fac4e58c9c1fe4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
@@ -615,8 +616,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/spring-cloud/ribbon/" rel="next" title="Ribbon">
-                <i class="fa fa-chevron-left"></i> Ribbon
+              <a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="next" title="spring cloud 总 架构图">
+                <i class="fa fa-chevron-left"></i> spring cloud 总 架构图
               </a>
             
           </div>
@@ -625,8 +626,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/spring-cloud/eureka-1/" rel="prev" title="EUREKA服务治理">
-                EUREKA服务治理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/spring-cloud/feign-1/" rel="prev" title="Feign服务调用">
+                Feign服务调用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

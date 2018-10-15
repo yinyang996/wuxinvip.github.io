@@ -148,22 +148,22 @@
 
 
 
-  <meta name="description" content="设计模式创建型–5种 单例—-创建线程安全类 工厂—-创建bean工厂 抽象工厂—-创建bean工厂的工厂 原型—-clone模式 —用于数据流转中对象快速复制 建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean 单例 1234567891011121314151617181920212223242526272829303132/** * Created by huo">
+  <meta name="description" content="设计模式创建型–5种 单例—-创建线程安全类 工厂—-创建bean工厂 抽象工厂—-创建bean工厂的工厂 原型—-clone模式 —用于数据流转中对象快速复制 建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean 单例">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式-创建型">
 <meta property="og:url" content="http://www.wuxinvip.com/2018/03/24/design-pattern/establish/index.html">
 <meta property="og:site_name" content="无心の技术簿">
-<meta property="og:description" content="设计模式创建型–5种 单例—-创建线程安全类 工厂—-创建bean工厂 抽象工厂—-创建bean工厂的工厂 原型—-clone模式 —用于数据流转中对象快速复制 建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean 单例 1234567891011121314151617181920212223242526272829303132/** * Created by huo">
+<meta property="og:description" content="设计模式创建型–5种 单例—-创建线程安全类 工厂—-创建bean工厂 抽象工厂—-创建bean工厂的工厂 原型—-clone模式 —用于数据流转中对象快速复制 建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean 单例">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-f8c880dfe1e8dad0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-74e3ecaccbeb4027.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-cf7bf5dbf48f4286.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-0684b09801236edd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-10-14T04:53:47.403Z">
+<meta property="og:updated_time" content="2018-10-15T05:55:39.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式-创建型">
-<meta name="twitter:description" content="设计模式创建型–5种 单例—-创建线程安全类 工厂—-创建bean工厂 抽象工厂—-创建bean工厂的工厂 原型—-clone模式 —用于数据流转中对象快速复制 建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean 单例 1234567891011121314151617181920212223242526272829303132/** * Created by huo">
+<meta name="twitter:description" content="设计模式创建型–5种 单例—-创建线程安全类 工厂—-创建bean工厂 抽象工厂—-创建bean工厂的工厂 原型—-clone模式 —用于数据流转中对象快速复制 建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean 单例">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/6434888-f8c880dfe1e8dad0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -498,6 +498,7 @@
 <p>原型—-clone模式 —用于数据流转中对象快速复制</p>
 <p>建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean</p>
 <p><strong>单例</strong></p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Created by huoyan403 on 2017/8/14.</span><br><span class="line"> */</span><br><span class="line">public class Singleton &#123;</span><br><span class="line"></span><br><span class="line">    //防止被引用 赋值为null  目的实现延迟加载</span><br><span class="line">    private static Singleton singleton = null;</span><br><span class="line"></span><br><span class="line">    //私有化构造方法</span><br><span class="line">    private Singleton() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //静态工程方法 创建实例</span><br><span class="line">    public static Singleton getSingleton()&#123;</span><br><span class="line">        if(singleton == null)&#123;</span><br><span class="line">                    //synchronized关键字锁住的是这个对象，这样的用法，在性能上会有所下降，因为每次调用getInstance()，</span><br><span class="line">                    // 都要对对象上锁，事实上，只有在第一次创建对象的时候需要加锁，之后就不需要了</span><br><span class="line">            synchronized (singleton)&#123;</span><br><span class="line">                if(singleton == null) &#123;</span><br><span class="line">                    singleton = new Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return  singleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //如果该对象被用于序列化 可以保证在序列化前后保持一致</span><br><span class="line">    public Object readResolve()&#123;</span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>工厂</strong></p>
 <p><img src="https://upload-images.jianshu.io/upload_images/6434888-f8c880dfe1e8dad0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="工厂模式_1.jpg"></p>
@@ -577,8 +578,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/log/elk-2/" rel="next" title="ELK 简介">
-                <i class="fa fa-chevron-left"></i> ELK 简介
+              <a href="/2018/03/24/mysql/optimization-sql-cached/" rel="next" title="SQL优化【缓存优化】">
+                <i class="fa fa-chevron-left"></i> SQL优化【缓存优化】
               </a>
             
           </div>
@@ -587,8 +588,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/25/load-balance/nginx/" rel="prev" title="nginx">
-                nginx <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/design-pattern/structure/" rel="prev" title="设计模式-结构型">
+                设计模式-结构型 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

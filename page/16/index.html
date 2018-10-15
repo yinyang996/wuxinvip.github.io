@@ -477,45 +477,18 @@
 
       
         
-          
-            <p><img src="/img/log/img/log-total.jpg" alt="图片">日志总图<br>接口定制组建使用interface标识<br><br>具体实现组建使用class标识</p>
+          <p><img src="/img/log/img/log-total.jpg" alt="图片">日志总图<br>接口定制组建使用interface标识<br><br>具体实现组建使用class标识</p>
 <p><strong>you must know</strong></p>
 <p>从log4j到log4j2.0 <br><br>logback是log4j升级版 是slf4j完美实现<br><br>sun出品的接口JUL、后来的commons-logging</p>
 <p>ceki写的slf4j、logback、log4j、log4j2.0</p>
 <p>这人简直神了 日志发展史上重要人物啊 写一个一个规则</p>
-<p>现在多数工厂都在用logback 不过想原文讲的log4j2.0 在针对新业务的特性上 有很大提升</p>
-<p><strong>log4j特性、也奠定了日志大致方向</strong></p>
-<pre><code>1、允许应用记录日志对象、开发不考虑日志输出位置、日志信息以object传递
-2、每个logger互相独立 以名字标识区分
-3、Appender属性  配置日志输出路径【文件、consoler、DB、MQ、etc】
-4、level 定制日志级别输出
-</code></pre><p><strong>logback特性</strong></p>
-<pre><code>xml配置方式和grovvy支持
-自动重载有变更配置文件
-自动压缩日志
-打印异常信息自动包含package名称以及版本号
-filters
-谨慎模式
-自动清除旧文档
-http访问功能
-丰富过滤模式
-</code></pre><p><img src="/img/log/img/log.png" alt="图片">日志组建发展时间图</p>
-<p><strong>slf4j简介</strong><br><img src="/img/log/img/slf4j.jpg" alt="图片">slf4j 结构图</p>
-<pre><code>使用“{}” 代替参数传输
-绑定方式：混合绑定、桥接绑定
-</code></pre><p><strong>混合绑定</strong></p>
-<pre><code>两种方式：使用适配器接向底层实现interface 、或者直接实现slf4j 接口
-适配器：slf4j+log4j[1.2.17]  slf4j+JDK14[1.7.21]
-接口实现：logback-classic[1.0.13]、slf4j-simple[1.7.21]
-</code></pre><p><img src="/img/log/img/band-1.png" alt="图片">slf4j 混合绑定</p>
-<p><strong>桥接绑定</strong></p>
-<pre><code>针对老项目日志迁移
-以slf4j 为接口中间层  将上层旧日志框架的消息转发到底层绑定的新日志框架上.
-</code></pre><p><img src="/img/log/img/band-2.png" alt="图片">基于j.u.l的facade使用<br><img src="/img/log/img/band-3.png" alt="图片">基于logback-classic的facade使用<br><img src="/img/log/img/band-4.png" alt="图片">基于log4j的facade使用</p>
-<p>代码就去原文找吧、这里只是技术方案</p>
-<p><a href="https://blog.csdn.net/xn_28/article/details/62350938" target="_blank" rel="noopener">原文链接</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/04/log/log-total/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -536,14 +509,14 @@ http访问功能
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
       
     </li>
   
@@ -597,7 +570,7 @@ http访问功能
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/04/service-mesh/service-mesh-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/06/04/log/log-selected/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -616,8 +589,8 @@ http访问功能
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/04/service-mesh/service-mesh-1/" itemprop="url">
-                  service-mesh简介
+                <a class="post-title-link" href="/2018/06/04/log/log-selected/" itemprop="url">
+                  日志服务的选型
                 </a>
               
             
@@ -696,47 +669,16 @@ http访问功能
 
       
         
-          
-            <p>什么是service-mesh？<br>    字面理解服务网格</p>
-<p>功能：代理服务实现微服务功能、</p>
-<pre><code>服务发现
-负载均衡
-路由
-流量控制
-通信可靠性
-弹性可伸缩
-安全
-监控以及日志
-</code></pre><p>有人会说 这个为服务网关 不是早就实现了吗？</p>
-<pre><code>答：是，是实现了、但是所有的技术都有取舍、缺陷、
-为服务上的网管对服务的侵入太多、太多的网管代理还会使服务变得很臃肿、
-作为对外的唯一暴露服务、他的弹性伸缩做的还比较差、需要重启服务网关重新加载服务代理
-</code></pre><p>service-mesh 服务治理做了什么？</p>
-<pre><code>答：服务网格基于docker、kuberments
-Service Mesh由data plane构成，其中所有服务通过sidecar代理进行服务通信。
-（所有代理相互连接形成一个Mesh，Service Mesh由此得名）
-网格同时包含一个control plane——可以将所有独立的sidecar代理连接到一个分布式网络中，
-并设置网格还包括一个控制平面——它将所有独立的sidecar代理连接到一个分布式网络中，
-并设置由data plane指定的策略。
-
-Control plane定义服务发现、路由、流量控制等策略。
-这些策略可以是全局的，也可以是限定的。Data plane负责在通信时应用和执行这些策略。
-</code></pre><p>service-mesh 与 spring-cloud</p>
-<pre><code>service-mesh 是一套全新的服务网格系统、不渗入原有代码 使用代理slipder完成服务代理 请求
-
-spring-cloud spring家族 面对现有组建众多复杂性、打造出一个cloud专版、
-理论点：连接一切、集成市场主流应用
-
-两者都是在为微服务做着自己的方向、互不侵犯、互不融合、各有各的目标和愿景
-现有体系下 都在上云、很多确实都是在 先上springcloud 再上service-mesh 
-最起码等待实际生产环境的验证
-</code></pre><p>一种明悟、应用组件这种发展越来越嵌入基础层、所有共性的服务渐渐的由应用层组件转向了计算机网络通信组件、就像tcp、</p>
-<p>如果说spring cloud是应用级别的分布式服务控制、那么service mesh是建立在计算机基础服务上的分布式服务控制、</p>
-<p>提取了共性的服务注册、服务代理 做出了一套基础计算机服务、专门面向分布式系统的一种基础服务、未来会不会像mysql一样流行、</p>
-<p><a href="http://www.servicemesh.cn/?/article/71" target="_blank" rel="noopener">原文地址</a></p>
-<p><a href="https://github.com/wuxinvip/service-mesh.git" target="_blank" rel="noopener">资料地址</a></p>
-
-          
+          <p><strong>众所周知.</strong></p>
+<p>日志系统分为：系统日志和业务日志<br>业务日志又可分为请求日志和操作日志</p>
+<p><strong>系统日志</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpu、内存、请求量、当前连接数、连接时间等等</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/04/log/log-selected/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -750,7 +692,21 @@ spring-cloud spring家族 面对现有组建众多复杂性、打造出一个clo
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/04/service-mesh/service-mesh-2/" rel="bookmark">kuberments</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
       
     </li>
   

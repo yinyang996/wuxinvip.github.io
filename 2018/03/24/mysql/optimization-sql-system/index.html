@@ -157,7 +157,7 @@
 <meta property="og:description" content="本节讨论数据库服务器的优化技术，主要处理系统配置而不是调整SQL语句。本节中的信息适用于想要确保他们管理的服务器的性能和可扩展性的DBA; 对于构建包括设置数据库的安装脚本的开发人员; 以及那些希望最大限度提高自身生产力的开发，测试等人员自己运行MySQL。  8.12.1系统因素  123456789101112131415161718192021一些系统级因素可能会以主要方式影响性能：如果有">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-6042e18b04a9453d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-10-14T04:53:47.473Z">
+<meta property="og:updated_time" content="2018-10-15T06:05:03.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL优化【服务器优化】">
 <meta name="twitter:description" content="本节讨论数据库服务器的优化技术，主要处理系统配置而不是调整SQL语句。本节中的信息适用于想要确保他们管理的服务器的性能和可扩展性的DBA; 对于构建包括设置数据库的安装脚本的开发人员; 以及那些希望最大限度提高自身生产力的开发，测试等人员自己运行MySQL。  8.12.1系统因素  123456789101112131415161718192021一些系统级因素可能会以主要方式影响性能：如果有">
@@ -494,6 +494,7 @@
 <li>8.12.1系统因素</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">一些系统级因素可能会以主要方式影响性能：</span><br><span class="line"></span><br><span class="line">如果有足够的RAM，则可以删除所有交换设备。</span><br><span class="line">某些操作系统在某些情况下使用交换设备，即使您拥有可用内存。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">避免对MyISAM表格进行外部锁定 。</span><br><span class="line">默认值是禁用外部锁定。</span><br><span class="line">在 --external-locking和 --skip-external-locking 选项明确地启用和禁用外部锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">只要您只运行一台服务器，禁用外部锁定不会影响MySQL的功能。</span><br><span class="line">请记住在运行myisamchk之前取下服务器（或者锁定并冲洗相关的表格） 。</span><br><span class="line">在某些系统中，强制禁用外部锁定是因为它无法工作。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">唯一不能禁用外部锁定的情况是在 同一数据上运行多个MySQL 服务器（而不是客户端），或者如果您运行 myisamchk检查（而不是修复）表而不告知服务器先刷新和锁定表。</span><br><span class="line">请注意 ，除了使用NDB群集时，通常不建议使用多个MySQL服务器同时访问相同的数据。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该LOCK TABLES和 UNLOCK TABLES语句使用内部锁定，所以你可以使用他们，即使外部锁定被禁用。</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <ul>
 <li>8.12.2优化磁盘I / O</li>
 </ul>
@@ -551,7 +552,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
       
     </li>
   
@@ -629,8 +630,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="next" title="SQL优化【查询器优化·二】">
-                <i class="fa fa-chevron-left"></i> SQL优化【查询器优化·二】
+              <a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="next" title="SQL优化【绩效衡量】">
+                <i class="fa fa-chevron-left"></i> SQL优化【绩效衡量】
               </a>
             
           </div>
@@ -639,8 +640,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/message-queue/rabbitmq-install/" rel="prev" title="Rabbitmq 安装">
-                Rabbitmq 安装 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/mysql/mysql-version-selected/" rel="prev" title="MYSQL版本选择">
+                MYSQL版本选择 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
