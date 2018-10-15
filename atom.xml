@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.wuxinvip.com/"/>
-  <updated>2018-10-15T05:56:42.296Z</updated>
+  <updated>2018-10-15T08:11:35.546Z</updated>
   <id>http://www.wuxinvip.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>timestamp 转 date 少一天</title>
+    <link href="http://www.wuxinvip.com/2018/08/24/essay/essay-14/"/>
+    <id>http://www.wuxinvip.com/2018/08/24/essay/essay-14/</id>
+    <published>2018-08-24T00:00:00.000Z</published>
+    <updated>2018-10-15T08:11:35.546Z</updated>
+    
+    <content type="html"><![CDATA[<p>timestamp 时间为 GMT</p><p>而我们数据库大都设置时区GMT+8</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 根据long类型时间戳 获取当前date  添加时区判断</span><br><span class="line"> * @param timestamp</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static Date getDateByLongTime(Long timestamp)&#123;</span><br><span class="line"></span><br><span class="line">    TimeZone.setDefault(TimeZone.getTimeZone(&quot;GMT+8&quot;));</span><br><span class="line">    Calendar c = Calendar.getInstance(TimeZone.getTimeZone(&quot;GMT+8&quot;));</span><br><span class="line">    c.setTime(new Date(timestamp));</span><br><span class="line">    return c.getTime();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;timestamp 时间为 GMT&lt;/p&gt;
+&lt;p&gt;而我们数据库大都设置时区GMT+8&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/s
+      
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="exception" scheme="http://www.wuxinvip.com/categories/java/exception/"/>
+    
+    
+      <category term="随笔" scheme="http://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
   <entry>
     <title>关于学习方法的一些思考</title>
@@ -192,37 +221,6 @@
   </entry>
   
   <entry>
-    <title>关于编码方式</title>
-    <link href="http://www.wuxinvip.com/2018/07/03/essay/essay-11/"/>
-    <id>http://www.wuxinvip.com/2018/07/03/essay/essay-11/</id>
-    <published>2018-07-03T00:00:00.000Z</published>
-    <updated>2018-10-15T05:57:00.400Z</updated>
-    
-    <content type="html"><![CDATA[<p>编码</p><pre><code>将人类语言解释为机器语言的一种关系映射</code></pre><p>常见编码方式</p><p>ASCII</p><pre><code>128个0-31控制字符、换行、删除、回车32-126打印字符</code></pre><p>ISO8859-1</p><pre><code>在ASCII上 加上了大多数修语言字符、256个字符 </code></pre><a id="more"></a><p>GB2312</p><pre><code>信息交换用汉字编码字符集基本集、双字节编码、A1-A9 符号区B0-F7 汉字区</code></pre><p>GBK</p><pre><code>汉字内码扩展规范对GB2312扩展编码范围 8140-FEFE 与GB2312兼容</code></pre><p>GB18030</p><pre><code>数字交换用汉字编码字符集单字节、双字节、四字节、与GB2312兼容</code></pre><p>UTF-16</p><pre><code>Unicode字符集的存取方法使用2字节标识Unicode转化格式、定长表示</code></pre><p>UTF-8<br>    边长字符集、1-6个字节<br>    涵盖了所有各国字符编码</p><p>UTF-8mb4</p><pre><code>在UTF8基础上 增加了表情字符</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;编码&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;将人类语言解释为机器语言的一种关系映射
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;常见编码方式&lt;/p&gt;
-&lt;p&gt;ASCII&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;128个
-0-31控制字符、换行、删除、回车
-32-126打印字符
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;ISO8859-1&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;在ASCII上 加上了大多数修语言字符、256个字符 
-&lt;/code&gt;&lt;/pre&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://www.wuxinvip.com/categories/java/"/>
-    
-    
-      <category term="随笔" scheme="http://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
     <title>nginx-plus</title>
     <link href="http://www.wuxinvip.com/2018/07/03/load-balance/nginx-plus/"/>
     <id>http://www.wuxinvip.com/2018/07/03/load-balance/nginx-plus/</id>
@@ -284,6 +282,37 @@
     
     
       <category term="区块链" scheme="http://www.wuxinvip.com/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于编码方式</title>
+    <link href="http://www.wuxinvip.com/2018/07/03/essay/essay-11/"/>
+    <id>http://www.wuxinvip.com/2018/07/03/essay/essay-11/</id>
+    <published>2018-07-03T00:00:00.000Z</published>
+    <updated>2018-10-15T05:57:00.400Z</updated>
+    
+    <content type="html"><![CDATA[<p>编码</p><pre><code>将人类语言解释为机器语言的一种关系映射</code></pre><p>常见编码方式</p><p>ASCII</p><pre><code>128个0-31控制字符、换行、删除、回车32-126打印字符</code></pre><p>ISO8859-1</p><pre><code>在ASCII上 加上了大多数修语言字符、256个字符 </code></pre><a id="more"></a><p>GB2312</p><pre><code>信息交换用汉字编码字符集基本集、双字节编码、A1-A9 符号区B0-F7 汉字区</code></pre><p>GBK</p><pre><code>汉字内码扩展规范对GB2312扩展编码范围 8140-FEFE 与GB2312兼容</code></pre><p>GB18030</p><pre><code>数字交换用汉字编码字符集单字节、双字节、四字节、与GB2312兼容</code></pre><p>UTF-16</p><pre><code>Unicode字符集的存取方法使用2字节标识Unicode转化格式、定长表示</code></pre><p>UTF-8<br>    边长字符集、1-6个字节<br>    涵盖了所有各国字符编码</p><p>UTF-8mb4</p><pre><code>在UTF8基础上 增加了表情字符</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;编码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;将人类语言解释为机器语言的一种关系映射
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;常见编码方式&lt;/p&gt;
+&lt;p&gt;ASCII&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;128个
+0-31控制字符、换行、删除、回车
+32-126打印字符
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;ISO8859-1&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;在ASCII上 加上了大多数修语言字符、256个字符 
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.wuxinvip.com/categories/java/"/>
+    
+    
+      <category term="随笔" scheme="http://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
@@ -644,41 +673,6 @@
     
     
       <category term="我的图谱" scheme="http://www.wuxinvip.com/tags/%E6%88%91%E7%9A%84%E5%9B%BE%E8%B0%B1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>智能合约 简介</title>
-    <link href="http://www.wuxinvip.com/2018/06/23/block-chain/block-chain-1/"/>
-    <id>http://www.wuxinvip.com/2018/06/23/block-chain/block-chain-1/</id>
-    <published>2018-06-23T00:00:00.000Z</published>
-    <updated>2018-10-15T05:54:53.974Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><p>智能合约发展史</p><pre><code>区块链发展</code></pre></li></ul><ul><li><p>智能合约简介</p><pre><code>智能合约是“执行合约条款的计算机交易协议”。[3] 区块链上的所有用户都可以看到基于区块链的智能合约。但是，这会导致包括安全漏洞在内的所有漏洞都可见，并且可能无法迅速修复。[4]这样的攻击难以迅速解决，例如，2016年6月The DAOEther的漏洞造成损失5000万美元，而开发者试图达成共识的解决方案。[5] DAO的程序在黑客删除资金之前有一段时间的延迟。以太坊软件的一个硬分叉在时限到期之前完成了攻击者的资金回收工作。[6]以太坊智能合约中的问题包括合约编程Solidity、编译器错误、以太坊虚拟机错误、对区块链网络的攻击、程序错误的不变性以及其他尚无文档记录的攻击。[7]</code></pre></li></ul><a id="more"></a><ul><li><p>智能合约应用场景</p><pre><code>智慧链：通证token经济设计、以太坊智能合约区块链技术智能合约审计</code></pre></li><li><p>智能合约组件</p><pre><code>连接物联网必要组成部分</code></pre></li><li><p>智能合约集群</p><pre><code>区块链技术</code></pre></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;智能合约发展史&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;区块链发展
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;智能合约简介&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;智能合约是“执行合约条款的计算机交易协议”。
-[3] 区块链上的所有用户都可以看到基于区块链的智能合约。但是，这会导致包括安全漏洞在内的所有漏洞都可见，并且可能无法迅速修复。
-[4]这样的攻击难以迅速解决，例如，2016年6月The DAOEther的漏洞造成损失5000万美元，而开发者试图达成共识的解决方案。
-[5] DAO的程序在黑客删除资金之前有一段时间的延迟。以太坊软件的一个硬分叉在时限到期之前完成了攻击者的资金回收工作。
-[6]以太坊智能合约中的问题包括合约编程Solidity、编译器错误、以太坊虚拟机错误、对区块链网络的攻击、程序错误的不变性以及其他尚无文档记录的攻击。[7]
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="block-chain" scheme="http://www.wuxinvip.com/categories/block-chain/"/>
-    
-    
-      <category term="智能合约" scheme="http://www.wuxinvip.com/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/"/>
     
   </entry>
   
