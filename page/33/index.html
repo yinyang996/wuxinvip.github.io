@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-innodb/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-deploy/bandwidth/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-innodb/" itemprop="url">
-                  SQL优化【InnoDB-表优化】
+                <a class="post-title-link" href="/2018/03/24/service-deploy/bandwidth/" itemprop="url">
+                  服务器带宽
                 </a>
               
             
@@ -449,7 +449,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-deploy/" itemprop="url" rel="index"><span itemprop="name">service-deploy</span></a></span>
 
                 
                 
@@ -484,12 +484,18 @@
 
       
         
-          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-9ddb3d7a935ae42f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>innodb表优化</p>
-<p>8.5.1优化InnoDB表的存储布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">一旦数据达到稳定的大小，或者增长表增加了几十或几百兆字节，请考虑使用该OPTIMIZE TABLE语句来重新组织表并压缩任何浪费的空间。</span><br><span class="line"></span><br><span class="line">重新组织的表需要更少的磁盘I / O来执行全表扫描。</span><br><span class="line">当其他技术（如改进索引使用或调整应用程序代码）不切实际时，这是一种直接技术，可以提高性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OPTIMIZE TABLE复制表格的数据部分并重建索引。</span><br><span class="line">好处来自改进索引内数据的打包，并减少表空间和磁盘内的碎片。</span><br><span class="line">好处取决于每个表中的数据。</span><br><span class="line">您可能会发现某些人有显着的收益，而不是其他人，或者收益会随着时间的推移而下降，直到您再次优化表。</span><br><span class="line">如果表很大或者重建的索引不适合缓冲池，则此操作可能会很慢。</span><br><span class="line">向表中添加大量数据后的第一次运行通常比后期运行慢得多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在中InnoDB，有一个很长的PRIMARY KEY（无论是一个长的值的单个列，还是多个形成一个长复合值的列）浪费了大量的磁盘空间。</span><br><span class="line">一行中的主键值在所有指向同一行的二级索引记录中都是重复的。</span><br><span class="line">（请参见第14.8.2.1节“集群索引和二级索引”。</span><br><span class="line">）AUTO_INCREMENT如果主键很长，或者索引长VARCHAR列的前缀而不是整列，则创建一个列作为主键。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用VARCHAR数据类型而不是CHAR存储可变长度的字符串或具有多个NULL值的列 。</span><br><span class="line">甲 列总是占据字符来存储数据，即使该字符串是较短，或者其值 。</span><br><span class="line">较小的表适合缓冲池，并减少磁盘I / O。</span><br><span class="line"> CHAR(N)NNULL</span><br><span class="line"></span><br><span class="line">使用COMPACT行格式（默认InnoDB格式）和可变长度字符集（如 utf8或）时sjis， 列占用可变数量的空间，但仍至少为字节。</span><br><span class="line"> CHAR(N)N</span><br><span class="line"></span><br><span class="line">对于大的表或者包含大量重复的文本或数字数据的表，请考虑使用 COMPRESSED行格式。</span><br><span class="line">将数据带入缓冲池或执行全表扫描需要较少的磁盘I / O。</span><br><span class="line">在做出永久性决定之前，请测量使用行格式COMPRESSED与 您可以实现的压缩量 COMPACT。</span><br></pre></td></tr></table></figure></p>
+          <p><strong>首先要知道影响在线人数的因素</strong></p>
+<p>1，访问量</p>
+<p>2，网站类型：如果是出文字的网站(如小说站)，1M带宽带动日均5000IP，还勉强。如果是普通网站有图片，有文字、论坛、新闻资讯类型网站 大概1M能带一千IP。考虑到高峰期并发，1M高峰期还会卡。【最低配 单核CPU+512内存。1千IP CPU占用10%左右，内存200到300之间】。</p>
+<p><strong>下面根据影响因素计算下1M带宽能同时承受多少人在线(以网络状况良好为前提)</strong></p>
+<p>1、</p>
+<p><a href="http://www.wusiwei.com/post-904.html" target="_blank" rel="noopener">打开网站8秒原则</a>;</p>
+<p>2、 评判的只是：用户从云服务器下载文件的速度;</p>
+<p>3、 页面的标准尺寸大小为：60KB;</p>
+<p>参考公式：<strong>支持连接个人 = 服务器带宽/页面尺寸大小</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/optimization-sql-innodb/#more" rel="contents">
+            <a class="btn" href="/2018/03/24/service-deploy/bandwidth/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -507,35 +513,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/04/service-deploy/ftp/" rel="bookmark">ftp部署</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="bookmark">SQL优化【MyISAM-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/jenkins/" rel="bookmark">jenkins部署</a></div>
       
     </li>
   
@@ -589,7 +581,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/ehcache/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/cache-elimination-algorithm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -608,8 +600,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
-                  ehcache
+                <a class="post-title-link" href="/2018/03/24/cache/cache-elimination-algorithm/" itemprop="url">
+                  缓存淘汰算法
                 </a>
               
             
@@ -695,28 +687,15 @@
 
       
         
-          
-            <p>ehcache service层缓存系统</p>
-<p><strong>发展史</strong></p>
-<pre><code>Ehcache
-开发者（S）    Terracotta，Inc。[1]
-稳定版本
-3.3.0 / 2017年2月1日; 16个月前
-写入    Java的
-操作系统    跨平台
-类型    高速缓存
-执照    Apache许可证 2.0
-网站    www.ehcache.org
-
-Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
-
-Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
-
-该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
-
-2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
-</code></pre>
-          
+          <p>常见算法:<br>LRU<br>LRU-K<br>2Q<br>MQ</p>
+<p>缓存淘汰算法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">缓存分析三大要点：</span><br><span class="line">    命中率、复杂度、代价</span><br><span class="line"></span><br><span class="line">LRU     最近最少使用算法</span><br><span class="line">FIFO    先入先出算法</span><br><span class="line">MRU     最近最常使用算法</span><br><span class="line"></span><br><span class="line">FIFO 先进先出 LFU 最少使用算法 LFU（Least Frequently Used）最近最少使用算法。</span><br><span class="line">它是基于“如果一个数据在最近一段时间内使用次数很少，那么在将来一段时间内被使用的可能性也很小”的思路。</span><br><span class="line"></span><br><span class="line">LRU LRU全称是Least Recently Used，即最近最久未使用的意思</span><br><span class="line"></span><br><span class="line">注意LFU和LRU算法的不同之处，LRU的淘汰规则是基于访问时间，而LFU是基于访问次数的。</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/cache/cache-elimination-algorithm/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -730,14 +709,14 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
       
     </li>
   
@@ -798,7 +777,7 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-0/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/encryption/password-develop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -817,8 +796,8 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-0/" itemprop="url">
-                  系统设计一些基本原则
+                <a class="post-title-link" href="/2018/03/24/encryption/password-develop/" itemprop="url">
+                  密码加密方式
                 </a>
               
             
@@ -869,7 +848,7 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-design/" itemprop="url" rel="index"><span itemprop="name">service-design</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/password/" itemprop="url" rel="index"><span itemprop="name">password</span></a></span>
 
                 
                 
@@ -904,13 +883,27 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
 
       
         
-          
-            <p>参照梁飞–dubbo创始人—<a href="http://dubbo.io/books/dubbo-dev-book/principals/general-knowledge.html" target="_blank" rel="noopener">一些设计上的基本常识</a></p>
-<p>不看不知道 一看吓一跳<br>原来一个复杂的服务系统这么多门道</p>
-<p>以前只晓得 API SPI分离。。。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">API 与 SPI 分离</span><br><span class="line"></span><br><span class="line">服务域/实体域/会话域分离</span><br><span class="line"></span><br><span class="line">在重要的过程上设置拦截接口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重要的状态的变更发送事件并留出监听接口</span><br><span class="line"></span><br><span class="line">扩展接口职责尽可能单一，具有可组合性</span><br><span class="line"></span><br><span class="line">微核插件式，平等对待第三方</span><br><span class="line"></span><br><span class="line">不要控制外部对象的生命周期</span><br><span class="line"></span><br><span class="line">可配置一定可编程，并保持友好的 CoC 约定</span><br><span class="line"></span><br><span class="line">区分命令与查询，明确前置条件与后置条件</span><br><span class="line"></span><br><span class="line">增量式扩展，而不要扩充原始核心概念</span><br></pre></td></tr></table></figure>
+          <p>常见攻击方式：<br>字典攻击：早期base64+md5</p>
+<p>破解方式–把常见密码进行base63+md5加密 通过重复登陆服务器 或者拖库进行匹配破解【破解方式属于开放状态】</p>
+<p><strong>对称加密</strong></p>
+<pre><code>加密解密效率高、速度快、空间占用小、加密强度高
+缺点是 参与多方都需要持有密钥、一旦有一个人泄露则安全性遭到破坏、另外再不容安全通道下分发密钥也是个问题
 
-          
+    代表算法：DES、3DES、AES、IDEA等等
+    DES：其密钥长度为56位+8位校验  破解方式：暴力破解
+    3DES：3重DES操作 算法不能靠累积增加防御力
+    AES：分组算法、分组长度为128、192、256位三种、其优势在于 速度快 整个过程可以数学化描述、目前尚未有效破解手段
+
+
+    适用于大量数据加解密、不能用于签名场景 需要提前分法密钥
+</code></pre>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/encryption/password-develop/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -924,35 +917,14 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/13/encryption/password-cracked/" rel="bookmark">破解密码常见的几种方式</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-5/" rel="bookmark">风控系统</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">千万级别系统搭建</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/02/encryption/password-java-pbkdf2/" rel="bookmark">慢哈希加密</a></div>
       
     </li>
   
@@ -1310,7 +1282,7 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
 
         </div>
 
-        
+      
        
           <div class="links-of-blogroll motion-element links-of-blogroll-block">
             <div class="links-of-blogroll-title">

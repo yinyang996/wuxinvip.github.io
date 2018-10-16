@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/permission-data/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/ehcache/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-permission/permission-data/" itemprop="url">
-                  权限系统_数据权限控制
+                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
+                  ehcache
                 </a>
               
             
@@ -449,7 +449,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
 
                 
                 
@@ -484,24 +484,28 @@
 
       
         
-          <ul>
-<li>1、使用 query filter</li>
-</ul>
-<p>先举例说明一下数据权限，假设一个工作任务应用有以下的需求：</p>
-<p>普通员工可以查看自己的工作项<br>部门经理可以查看自己管理部门的所有工作项<br>对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。</p>
-<p>数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数据权限。</p>
-<ul>
-<li>1.1 查询过滤器（Query Filter）</li>
-</ul>
-<p>查询过滤器是 ORM 模块中的功能，默认是关闭的，开启后所有的查询语句都会在 where 语句的最后自动加上类似 @filter(User) 的表达式。</p>
-<p>假设执行查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user u where u.name = :name</span><br><span class="line">那么开启 Query Filter 后将会自动变为：</span><br><span class="line"></span><br><span class="line">select * from user u where ( u.name = :name )&#123;? and ( @filter(User) )&#125;</span><br><span class="line">关于查询过滤器的细节在这里不展开细说，下面具体说明如何使用查询过滤器实现数据权限。</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/service-permission/permission-data/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>ehcache service层缓存系统</p>
+<p><strong>发展史</strong></p>
+<pre><code>Ehcache
+开发者（S）    Terracotta，Inc。[1]
+稳定版本
+3.3.0 / 2017年2月1日; 16个月前
+写入    Java的
+操作系统    跨平台
+类型    高速缓存
+执照    Apache许可证 2.0
+网站    www.ehcache.org
+
+Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
+
+Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
+
+该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
+
+2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
+</code></pre>
+          
         
       
     </div>
@@ -515,21 +519,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
       
     </li>
   
@@ -583,7 +587,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-permission/shiro-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/shell-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -602,8 +606,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-permission/shiro-1/" itemprop="url">
-                  权限系统_shiro_授权流程
+                <a class="post-title-link" href="/2018/03/24/shell/shell-2/" itemprop="url">
+                  java后台升级命令
                 </a>
               
             
@@ -647,14 +651,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a></span>
 
                 
                 
@@ -689,23 +686,11 @@
 
       
         
-          <p>Shiro Authorization （ 授权）</p>
-<p>官方授权图片</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-336b0632fee6bb6a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>步骤：<br><img src="http://upload-images.jianshu.io/upload_images/6434888-d44d3592576f6485?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>授权成功后</p>
-<p>关于权限使用有三种方式</p>
-<p>1、编写代码</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-05cdfe309a99ea49?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>2、JDK标签</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-09b04e1663976962?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/service-permission/shiro-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">top</span><br><span class="line"></span><br><span class="line">netstat</span><br><span class="line">netstat -ano | grep 8080</span><br><span class="line"></span><br><span class="line">kill</span><br><span class="line">kill -9</span><br><span class="line"></span><br><span class="line">#读写执行 all user</span><br><span class="line">chmod 777 123.txt</span><br><span class="line">#当前用户执行权限</span><br><span class="line">chmod +x  git_pull.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">chown root:root 123.txt</span><br><span class="line"></span><br><span class="line">sudo apt-get install</span><br><span class="line">sudo apt-get remove</span><br><span class="line"></span><br><span class="line">sudo yum install</span><br><span class="line">sudo yum remove</span><br><span class="line"></span><br><span class="line">sudo yum -y install</span><br><span class="line"></span><br><span class="line">sudo -s -H</span><br><span class="line">su root</span><br><span class="line"></span><br><span class="line">unzip -d 123.zip</span><br><span class="line"></span><br><span class="line">touch readme.txt</span><br><span class="line">cat readme.txt</span><br><span class="line">more readme.txt</span><br><span class="line">less readme.txt</span><br><span class="line"></span><br><span class="line">sort readme.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">du -h</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/version</span><br><span class="line"></span><br><span class="line">awk</span><br><span class="line"></span><br><span class="line">if..else</span><br><span class="line"></span><br><span class="line">sleep</span><br><span class="line"></span><br><span class="line">man</span><br><span class="line"></span><br><span class="line">lsof -i:8080</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">useradd -r nexus</span><br><span class="line"># 打印关键字行</span><br><span class="line">grep -n &quot;业务有关的关键字&quot;  2018-06-26.log</span><br><span class="line"> </span><br><span class="line">#文件切割 开始2行、结束6行</span><br><span class="line">sed -n &apos;2,6p&apos; access.log &gt; new-access.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#统计文件内容出现次数</span><br><span class="line">grep -o &quot;message&quot; nohup.out | wc -l</span><br><span class="line"></span><br><span class="line">#scp远程拷贝</span><br><span class="line">scp -r /usr/local/mongodb-3.6.5/ root@10.44.33.22:/opt/software/</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
@@ -719,21 +704,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-1/" rel="bookmark">java后台常用命令</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/zsh/" rel="bookmark">zsh</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
       
     </li>
   
@@ -787,7 +786,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/spring/spring-crontab/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/shell/shell-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -806,8 +805,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/spring/spring-crontab/" itemprop="url">
-                  spring-定时任务
+                <a class="post-title-link" href="/2018/03/24/shell/shell-1/" itemprop="url">
+                  java后台常用命令
                 </a>
               
             
@@ -851,14 +850,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a></span>
 
                 
                 
@@ -894,7 +886,7 @@
       
         
           
-            <p>@scheduled注解执行表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">0 0 10,14,16 * * ? 每天上午10点，下午2点，4点</span><br><span class="line">0 0/30 9-17 * * ?   朝九晚五工作时间内每半小时</span><br><span class="line">0 0 12 ? * WED 表示每个星期三中午12点</span><br><span class="line">&quot;0 0 12 * * ?&quot; 每天中午12点触发</span><br><span class="line">&quot;0 15 10 ? * *&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ?&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ? *&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ? 2005&quot; 2005年的每天上午10:15触发</span><br><span class="line">&quot;0 * 14 * * ?&quot; 在每天下午2点到下午2:59期间的每1分钟触发</span><br><span class="line">&quot;0 0/5 14 * * ?&quot; 在每天下午2点到下午2:55期间的每5分钟触发</span><br><span class="line">&quot;0 0/5 14,18 * * ?&quot; 在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发</span><br><span class="line">&quot;0 0-5 14 * * ?&quot; 在每天下午2点到下午2:05期间的每1分钟触发</span><br><span class="line">&quot;0 10,44 14 ? 3 WED&quot; 每年三月的星期三的下午2:10和2:44触发</span><br><span class="line">&quot;0 15 10 ? * MON-FRI&quot; 周一至周五的上午10:15触发</span><br><span class="line">&quot;0 15 10 15 * ?&quot; 每月15日上午10:15触发</span><br><span class="line">&quot;0 15 10 L * ?&quot; 每月最后一日的上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6L&quot; 每月的最后一个星期五上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6L 2002-2005&quot; 2002年至2005年的每月的最后一个星期五上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6#3&quot; 每月的第三个星期五上午10:15触发</span><br></pre></td></tr></table></figure></p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br><span class="line"></span><br><span class="line">ps</span><br><span class="line"></span><br><span class="line">ps -ef</span><br><span class="line"></span><br><span class="line">ps -ef | grep &quot;&quot;</span><br><span class="line"></span><br><span class="line">| 管道符</span><br><span class="line">#移动文件</span><br><span class="line">mv  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db</span><br><span class="line"></span><br><span class="line">#复制文件</span><br><span class="line">cp  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db.backup</span><br><span class="line">#复制文件夹</span><br><span class="line">cp -a /usr/bin/  /var/data/mysql/</span><br><span class="line"></span><br><span class="line"> mkdir New_Dir</span><br><span class="line"> mkdir -p New_Dir/Sub_Dir/Under_Dir </span><br><span class="line"></span><br><span class="line">sh .../*.sh</span><br><span class="line"></span><br><span class="line">vim 123.txt</span><br><span class="line"></span><br><span class="line">tail -f ../*.log </span><br><span class="line">tail -f -n1000 ../*.log</span><br></pre></td></tr></table></figure>
 
           
         
@@ -910,14 +902,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring/" rel="bookmark">spring</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring/springmvc/" rel="bookmark">sringmvc</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-2/" rel="bookmark">java后台升级命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/zsh/" rel="bookmark">zsh</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
       
     </li>
   
@@ -1275,7 +1288,7 @@
 
         </div>
 
-        
+      
        
           <div class="links-of-blogroll motion-element links-of-blogroll-block">
             <div class="links-of-blogroll-title">
