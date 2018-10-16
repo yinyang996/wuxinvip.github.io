@@ -596,7 +596,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-1/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -615,8 +615,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-1/" itemprop="url">
-                  分布式架构
+                <a class="post-title-link" href="/2018/03/24/service-design/design-4/" itemprop="url">
+                  用户池系统 构思
                 </a>
               
             
@@ -702,13 +702,16 @@
 
       
         
-          <p>最近几年关于架构的信息<br>高并发架构、<br>异地多活架构【出自淘宝】<br>容器化【知名docker、阿里Pouch】<br>微服务架构【spring cloud】<br>高可用架构<br>弹性架构【DB中间件 需要极致的弹性】</p>
-<p>相关的技术<br>DevOps、应用监控、自动化运维、SOA服务治理、去IOE等等</p>
-<p>分布式能解决的两大问题：<br>1、系统容量更大<br>  面对的业务量与日俱增、垂直水平拆分系统业务<br>2、系统可用性更强<br>  整个系统不会因为一个单点故障而导致整个系统不可用<br>  分布式冗余节点、以消除单点故障</p>
-<p>分布式优势：<br>1、模块化、系统模块重用度更高<br>2、模块化、服务开发、发布更快<br>3、系统扩展性更高<br>4、团队协作更有效率</p>
+          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
+<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
+<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
+<p>不同的key对应不同的分组数据</p>
+<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
+<p>获取不同排序 前端发送不同的key值即可</p>
+<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/service-design/design-1/#more" rel="contents">
+            <a class="btn" href="/2018/03/24/service-design/design-4/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -726,7 +729,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
       
     </li>
   
@@ -740,7 +743,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
       
     </li>
   
@@ -808,7 +811,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-test/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/essay/essay-10/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -827,8 +830,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/message-queue/rabbitmq-test/" itemprop="url">
-                  RabbitMQ test
+                <a class="post-title-link" href="/2018/03/24/essay/essay-10/" itemprop="url">
+                  架构师之路
                 </a>
               
             
@@ -879,7 +882,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
 
                 
                 
@@ -914,17 +917,18 @@
 
       
         
-          
-            <p>累积 36万条消息堆积</p>
-<p>启动消费端【单机】</p>
-<p>开始消费time 00:52:28  结束时间00:54:40</p>
-<p>测试环境 三台rabbit集群  两台持久化【n/2+1】 一台非持久化</p>
-<p>queue两个 消费由业务房监听spring streamListener完成</p>
-<p>总计366178消息 总计消费时间132s<br>平均每秒2774条</p>
-<p>单机实例消费水平收到限制</p>
-<p>如果启动多实例消费 那么距离理论4000+4000+12000 = 20000条 有待考证 不过压力不大</p>
-
-          
+          <p>本着对技术的兴趣 进入了软件开发行业</p>
+<p>可以说是如鱼得水的发展 凭借着年轻 挑灯夜战 掌握了许多技术应用、但仍脱不开技术应用者的领域</p>
+<p>如今职业发展遇到瓶颈-该思考何去何从</p>
+<p>想来想去只有选择架构师为发展方向</p>
+<p><strong>怎样成为一个架构师？</strong><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/essay/essay-10/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -938,28 +942,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
+      <div class="popular-posts-title"><a href="/2018/08/21/essay/essay-7/" rel="bookmark">关于学习方法的一些思考</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/essay/essay-12/" rel="bookmark">阿里电面总结</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/essay/essay-13/" rel="bookmark">阿里面霸总结的面试题</a></div>
       
     </li>
   
