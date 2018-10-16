@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/07/01/github/tengine/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/07/01/github/cc-iptable/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/01/github/tengine/" itemprop="url">
-                  Tengine
+                <a class="post-title-link" href="/2018/07/01/github/cc-iptable/" itemprop="url">
+                  基于Strom的日志实时流量分析主动防御(CCFirewall)系统
                 </a>
               
             
@@ -477,11 +477,18 @@
 
       
         
-          <h3 id="基于nginx更强大的web服务器负载均衡器"><a href="#基于nginx更强大的web服务器负载均衡器" class="headerlink" title="基于nginx更强大的web服务器负载均衡器"></a>基于nginx更强大的web服务器负载均衡器</h3><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Tengine是由淘宝网发起的Web服务器项目。它在Nginx的基础上，针对大访问量网站的需求，添加了很多高级功能和特性。<br>Tengine的性能和稳定性已经在大型的网站如淘宝网，天猫商城等得到了很好的检验。<br>它的最终目标是打造一个高效、稳定、安全、易用的Web平台。</p>
-<p>从2011年12月开始，Tengine成为一个开源项目，Tengine团队在积极地开发和维护着它。<br>Tengine团队的核心成员来自于淘宝、搜狗等互联网企业。<br>Tengine是社区合作的成果，我们欢迎大家参与其中，贡献自己的力量。</p>
+          <h2 id="CC防火墙-github-地址"><a href="#CC防火墙-github-地址" class="headerlink" title="CC防火墙 github 地址"></a><a href="https://github.com/gy-games/shield" target="_blank" rel="noopener">CC防火墙 github 地址</a></h2><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>CC防火墙的架构采用Flume+Kafka+Strom+Zookeeper+Mysql实现,实现异常IP的及时封停功能</p>
+<p><img src="/blog/github/img/cc/Struct.jpg" alt=""></p>
+<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><ul>
+<li><strong>Flume</strong>      :部署在所有的Nginx服务器上，将Nginx日志推送至Kafka中，</li>
+<li><strong>Kafka</strong>      : 临时存储Nginx的log数据</li>
+<li><strong>Strom</strong>     ：从Kafka取数据并进行数据分析</li>
+<li><strong>Zookeeper</strong> ：存储CC防火墙的配置文件，并且所有部署在Squid上的客户端也注册在这个Zookeeper上。</li>
+<li><strong>Agent</strong>     ：部署在每台Squid上，并且信息注册到Zookeeper的临时节点上，接收到封停指令后通过iptables封锁IP。</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/01/github/tengine/#more" rel="contents">
+            <a class="btn" href="/2018/07/01/github/cc-iptable/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -499,14 +506,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/01/github/cc-iptable/" rel="bookmark">基于Strom的日志实时流量分析主动防御(CCFirewall)系统</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/01/github/tengine/" rel="bookmark">Tengine</a></div>
       
     </li>
   
@@ -514,6 +514,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
       
     </li>
   
@@ -704,7 +711,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/essay/essay-13/" rel="bookmark">阿里面霸总结的面试题</a></div>
+      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-15/" rel="bookmark">网站制作app、并发布github、生成二维码推广下载</a></div>
       
     </li>
   
@@ -718,14 +725,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/essay/essay-10/" rel="bookmark">架构师之路</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/essay/essay-10/" rel="bookmark">架构师之路</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
       
     </li>
   
@@ -1261,19 +1268,21 @@
           
 
         </div>
+
+        
+       
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-link"></i>
+               app download
+            </div>
+           <img src="/images/download/android-download.png" />
+          </div>
+       
+
       </section>
 
 
-      
-     
-        <div class="links-of-blogroll motion-element links-of-blogroll-block">
-          <div class="links-of-blogroll-title">
-            <i class="fa  fa-fw fa-link"></i>
-             app download
-          </div>
-         <img src="/images/download/android-download.png" />
-        </div>
-     
 
 
       
