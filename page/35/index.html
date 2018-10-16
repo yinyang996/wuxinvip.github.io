@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-3/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-3/" itemprop="url">
-                  千万级别系统搭建
+                <a class="post-title-link" href="/2018/03/24/service-design/design-0/" itemprop="url">
+                  系统设计一些基本原则
                 </a>
               
             
@@ -484,14 +484,13 @@
 
       
         
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/service-design/design-3/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>参照梁飞–dubbo创始人—<a href="http://dubbo.io/books/dubbo-dev-book/principals/general-knowledge.html" target="_blank" rel="noopener">一些设计上的基本常识</a></p>
+<p>不看不知道 一看吓一跳<br>原来一个复杂的服务系统这么多门道</p>
+<p>以前只晓得 API SPI分离。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">API 与 SPI 分离</span><br><span class="line"></span><br><span class="line">服务域/实体域/会话域分离</span><br><span class="line"></span><br><span class="line">在重要的过程上设置拦截接口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重要的状态的变更发送事件并留出监听接口</span><br><span class="line"></span><br><span class="line">扩展接口职责尽可能单一，具有可组合性</span><br><span class="line"></span><br><span class="line">微核插件式，平等对待第三方</span><br><span class="line"></span><br><span class="line">不要控制外部对象的生命周期</span><br><span class="line"></span><br><span class="line">可配置一定可编程，并保持友好的 CoC 约定</span><br><span class="line"></span><br><span class="line">区分命令与查询，明确前置条件与后置条件</span><br><span class="line"></span><br><span class="line">增量式扩展，而不要扩充原始核心概念</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
@@ -505,7 +504,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
       
     </li>
   
@@ -519,14 +518,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">千万级别系统搭建</a></div>
       
     </li>
   
@@ -587,7 +586,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/https/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/cache/redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -606,8 +605,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/agreement/https/" itemprop="url">
-                  Https协议
+                <a class="post-title-link" href="/2018/03/24/cache/redis/" itemprop="url">
+                  redis
                 </a>
               
             
@@ -658,7 +657,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
 
                 
                 
@@ -693,20 +692,18 @@
 
       
         
-          
-            <p><strong>http+ssl</strong></p>
-<pre><code>使用http进行通信 ssl作为数据通信加密方式
-使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
-</code></pre><p>混合加密方式</p>
-<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
-<ul>
-<li>1、客户端 发送公钥、支持加密方式、版本号</li>
-<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
-<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
-<li>4、使用协商后的加密方式加密http请求</li>
-</ul>
-
-          
+          <p>1、使用ANSIC编写 （基于BSD协议）<br>2、开源、内存中数据结构存储<br>3、可以用作数据库、缓存、消息中间件</p>
+<p>支持多种数据结构<br>String、hash、list、set、sorted sets、bitmaps、geospatial<br>字符串、散列、列表、集合、有序集合、bitmaps、地理空间</p>
+<p>redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations) 和不同级别的硬盘持久化<br>并通过redis哨兵(sentinel)和自动分区(cluster)提高可用性</p>
+<p>Redis支持每隔一段时间将数据导出磁盘、支持主从复制、且第一次是快速非阻塞形式</p>
+<p>由于组合式压缩、内存使用率要高于memcached</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/cache/redis/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -720,28 +717,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
       
     </li>
   
@@ -795,7 +785,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/design-pattern/establish/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/service-design/design-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -814,8 +804,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/design-pattern/establish/" itemprop="url">
-                  设计模式-创建型
+                <a class="post-title-link" href="/2018/03/24/service-design/design-4/" itemprop="url">
+                  用户池系统 构思
                 </a>
               
             
@@ -866,7 +856,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/design-pattern/" itemprop="url" rel="index"><span itemprop="name">design-pattern</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-design/" itemprop="url" rel="index"><span itemprop="name">service-design</span></a></span>
 
                 
                 
@@ -901,16 +891,16 @@
 
       
         
-          <p>设计模式创建型–5种</p>
-<p>单例—-创建线程安全类</p>
-<p>工厂—-创建bean工厂</p>
-<p>抽象工厂—-创建bean工厂的工厂</p>
-<p>原型—-clone模式 —用于数据流转中对象快速复制</p>
-<p>建造者—创建bean类型多样组合-创建方式不变-依靠算法实现不同组合创建bean</p>
-<p><strong>单例</strong></p>
+          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
+<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
+<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
+<p>不同的key对应不同的分组数据</p>
+<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
+<p>获取不同排序 前端发送不同的key值即可</p>
+<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/design-pattern/establish/#more" rel="contents">
+            <a class="btn" href="/2018/03/24/service-design/design-4/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -928,14 +918,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/design-pattern/behavior/" rel="bookmark">设计模式-行为型</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/design-pattern/structure/" rel="bookmark">设计模式-结构型</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">千万级别系统搭建</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-5/" rel="bookmark">风控系统</a></div>
       
     </li>
   
