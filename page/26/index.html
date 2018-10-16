@@ -280,7 +280,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">33</span></a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">34</span></a>
   </li>
         
         
@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">207</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">208</span></a>
   </li>
         
         
@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-selector-2/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/agreement/https/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-selector-2/" itemprop="url">
-                  SQL优化【查询器优化·二】
+                <a class="post-title-link" href="/2018/03/24/agreement/https/" itemprop="url">
+                  Https协议
                 </a>
               
             
@@ -449,7 +449,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
 
                 
                 
@@ -484,18 +484,20 @@
 
       
         
-          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-6fd8630f76bf000c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+          
+            <p><strong>http+ssl</strong></p>
+<pre><code>使用http进行通信 ssl作为数据通信加密方式
+使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
+</code></pre><p>混合加密方式</p>
+<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
 <ul>
-<li>8.9.1控制查询计划评估</li>
+<li>1、客户端 发送公钥、支持加密方式、版本号</li>
+<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
+<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
+<li>4、使用协商后的加密方式加密http请求</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">查询优化器的任务是查找执行SQL查询的最佳计划。</span><br><span class="line">由于“ 好 ”和“ 坏 ”之间的表现差异计划可以是数量级（即秒数与数小时甚至数天），</span><br><span class="line">    大多数查询优化器（包括MySQL的查询优化器）在所有可能的查询评估计划中执行或多或少的穷举搜索优化计划。</span><br><span class="line">    对于连接查询，由MySQL优化器调查的可能计划的数量随着查询中引用的表的数量呈指数增长。</span><br><span class="line">    对于少量表格（通常小于7到10），这不是问题。</span><br><span class="line">    但是，当提交更大的查询时，查询优化花费的时间可能很容易成为服务器性能的主要瓶颈。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">用于查询优化的更灵活的方法使用户能够控制优化器在搜索最优查询评估计划时的详尽程度。</span><br><span class="line">总体思路是，优化程序调查的计划越少，编译查询花费的时间就越少。</span><br><span class="line">另一方面，因为优化器跳过了一些计划，所以可能会错过找到最佳计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化程序相对于其计算的计划数量的行为可以使用两个系统变量进行控制：</span><br><span class="line"></span><br><span class="line">该optimizer_prune_level 变量告诉优化器根据每个表访问的行数的估计值跳过某些计划。</span><br><span class="line">我们的经验表明，这种“ 受过教育的猜测 ”很少会错过最佳计划，并且可能大大减少查询编译时间。</span><br><span class="line">这就是为什么这个选项optimizer_prune_level=1默认是on（）。</span><br><span class="line">但是，如果您认为优化器错过了更好的查询计划，则可以关闭此选项（optimizer_prune_level=0）与查询编译可能花费更长时间的风险有关。</span><br><span class="line">请注意，即使使用这种启发式，优化器仍然会探索大致指数级的计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这个optimizer_search_depth 变量告诉优化器应该看看每个不完整计划的“ 未来 ”有多远，以评估它是否应该进一步扩展。</span><br><span class="line">较小的值 optimizer_search_depth可能会导致查询编译时间缩短几个数量级。</span><br><span class="line">例如，如果optimizer_search_depth接近查询中的表的数量，具有12,13或更多表的查询可能很容易需要数小时甚至数天来编译 。</span><br><span class="line">同时，如果编译一下 optimizer_search_depth 等于3或4，优化器可以在不到一分钟的时间内编译相同的查询。</span><br><span class="line">如果您不确定合理的值是什么 optimizer_search_depth，则可以将此变量设置为0，以通知优化器自动确定该值。</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/optimization-sql-selector-2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+
+          
         
       
     </div>
@@ -509,35 +511,28 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="bookmark">SQL优化【MyISAM-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
       
     </li>
   
@@ -591,7 +586,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-indexes/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/mysql-care-point/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -610,8 +605,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-indexes/" itemprop="url">
-                  SQL优化【SQL索引】
+                <a class="post-title-link" href="/2018/03/24/mysql/mysql-care-point/" itemprop="url">
+                  mysql-care点
                 </a>
               
             
@@ -697,16 +692,10 @@
 
       
         
-          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-3abe1a92a6358cf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>提高操作性能的最佳方法 SELECT是在查询中测试的一列或多列上创建索引。<br>索引条目就像指向表行的指针，允许查询快速确定哪些行与WHERE子句中的条件匹配，并检索这些行的其他列值。<br>所有的MySQL数据类型都可以被索引。</p>
-<p>尽管为查询中使用的每个可能的列创建索引是很诱人的，但不必要的索引会浪费空间并浪费时间让MySQL确定要使用的索引。<br>索引还会增加插入，更新和删除的成本，因为每个索引都必须更新。<br>您必须找到适当的平衡，才能使用最佳索引集实现快速查询。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/optimization-sql-indexes/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">查询缓存从 Mysql5.7.20开始已经弃用、并在MySQL8.0中删除</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
@@ -720,35 +709,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="bookmark">SQL优化【MyISAM-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
       
     </li>
   
@@ -942,13 +931,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
       
     </li>
@@ -956,7 +938,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
       
     </li>
   
@@ -964,6 +946,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
       
     </li>
   
@@ -1024,7 +1013,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/25/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><a class="extend next" rel="next" href="/page/27/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/25/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/page/70/">70</a><a class="extend next" rel="next" href="/page/27/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1073,7 +1062,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">207</span>
+                    <span class="site-state-item-count">208</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1152,7 +1141,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">33</span>
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
