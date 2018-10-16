@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total-2/">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/essay/essay-13/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-total-2/" itemprop="url">
-                  常见MYSQL调优策略
+                <a class="post-title-link" href="/2018/03/24/essay/essay-13/" itemprop="url">
+                  阿里面霸总结的面试题
                 </a>
               
             
@@ -449,7 +449,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
 
                 
                 
@@ -484,19 +484,10 @@
 
       
         
-          <p>调优层次：硬件层、磁盘IO、文件系统层、</p>
-<p><strong>硬件层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">修改服务器BIOS设置</span><br><span class="line">1.选择Performance Per Watt Optimized(DAPC)模式 、发挥cpu最大性能</span><br><span class="line">2.Memory Frequency(内存频率)选择 Maximum Performance (最佳性能)</span><br><span class="line">3.内存设置菜单中，启用Node Interleaving 避免NUMA问题</span><br></pre></td></tr></table></figure></p>
-<p><strong>磁盘IO</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用SSD磁盘(瞬时写入非常高、还可以避免很多技术问题)</span><br><span class="line">2.如果是磁盘阵列存储，建议阵列卡同时配备CACHE及BBU模块，可以明显提升IOPS。</span><br><span class="line">3.raid级别尽量选择raid10.而不是raid5(双io方式、也能提高安全性等等)</span><br></pre></td></tr></table></figure></p>
-<p><strong>文件系统层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用deadline/noop这两种I/O调度器。千万别用cfq</span><br><span class="line">2.使用xfs文件系统、千万别用ext3、ext4勉强可用、但是事务量很大一定要用xfs</span><br><span class="line">3.文件系统mount参数中增加：noatime，nodiratime，nobarrier几个选项(nobarrier是xfs文件系统特有的)</span><br></pre></td></tr></table></figure></p>
-<p><strong>内核参数优化</strong></p>
-<pre><code>1.修改vm.swappiness参数，降低swap使用率，RHEL7/centos7以上则慎重设置为0，可能引发OOM(物理内存使用到了90%之后才去修改、设为5-10就可以)
-2.调整vm.dirty_background_ratio(脏数据量占内存量百分比、超过后将脏数据刷到磁盘、最大值（阻塞写）10%)、vm.dirty ratio(标准值（非阻塞写）5%) 内核参数、以确保能持续将脏数据刷新到磁盘，避免瞬I/O写，产生等待。
-3.调整net.ipv4.tcp_tw_recycle、net.ipv4.tcp_tw_reuse都设置为1、减少Time_wait,提高TCP效率
-
-</code></pre>
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">（1）自我介绍，做过什么项目。</span><br><span class="line">（2）java虚拟机的区域如何划分，每一个区的动能，这一块自由发挥。</span><br><span class="line">（3）双亲委派模型中，从顶层到底层，都是哪些类加载器，分别加载哪些类？</span><br><span class="line">（4）有没有可能父类加载器和子类加载器，加载同一个类？如果加载同一个类，该使用哪一个类？</span><br><span class="line">（5）HashMap的结构，get()，put()是如何实现的？HashMap有哪些问题？</span><br><span class="line">（6）ConcurrentHashMap的get()，put()，又是如何实现的？ConcurrentHashMap有哪些问题？ ConcurrentHashMap的锁是读锁还是写锁？</span><br><span class="line">（7） HashMap与HashTable的区别</span><br><span class="line">（8）sleep()和wait()分别是哪个类的方法，有什么区别？synchronized底层如何实现的？用在代码块和方法上有什么区别？</span><br><span class="line">（9）什么是线程池？如果让你设计一个动态大小的线程池，如何设计，应该有哪些方法？</span><br><span class="line">（10）什么是死锁？JVM线程死锁，你该如何判断是因为什么？如果用VisualVM，dump线程信息出来，会有哪些信息？这一块问的很多....问的我懵了. 因为并没有实际操作过 = =</span><br><span class="line">（11）查看jvm虚拟机里面堆、线程的信息，你用过什么命令？我只用过图形界面VisualVM。。。</span><br><span class="line">（12）垃圾回收算法有哪些？CMS知道吗？如何工作的？</span><br><span class="line">（13）数据库中什么是事务？事务的隔离级别？事务的四个特性？什么是脏读，幻读，不可重复读？</span><br><span class="line">（14）数据库索引的结构有哪些？我说B树和B+树，他说只有这两个吗。我又说全文倒排索引。然后介绍B+树的结构。</span><br><span class="line">（15）数据库中的分页查询语句怎么写？</span><br><span class="line">（16）什么是一致性哈希？用来解决什么问题？</span><br><span class="line">（17）Redis的存储结构，或者说如何工作的，与mysql的区别？有哪些数据类型？</span><br><span class="line">（18）项目中用到redis，为什么选用redis，了解其他NoSQL数据库吗？在你的项目中是如何运用redis的？key是什么，value是什么？</span><br><span class="line">（19）归并排序的过程？时间复杂度？空间复杂度？</span><br><span class="line">（20）你平常用什么排序？快速排序。说说在那些场景下适用，哪些场景下不适用。</span><br><span class="line">（21）你在项目中做什么？因为我用到Solr，他就问我Solr是如何工作的？</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/optimization-sql-total-2/#more" rel="contents">
+            <a class="btn" href="/2018/03/24/essay/essay-13/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -514,35 +505,217 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2017/08/20/essay/essay-6/" rel="bookmark">面试时候看一下 系列</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/essay/essay-10/" rel="bookmark">架构师之路</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      <div class="popular-posts-title"><a href="/2017/07/06/essay/essay-1/" rel="bookmark">随便写点</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="bookmark">SQL优化【MyISAM-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/essay/essay-12/" rel="bookmark">阿里电面总结</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/container/install-docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/container/install-docker/" itemprop="url">
+                  install docker
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/container/" itemprop="url" rel="index"><span itemprop="name">container</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>国内大佬专玩docker地址<br>中文翻译<br><a href="http://www.widuu.com/docker/" target="_blank" rel="noopener">http://www.widuu.com/docker/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">从官方下载</span><br><span class="line">curl https://get.docker.com &gt; /tmp/install.sh</span><br><span class="line">sh install.sh</span><br><span class="line"></span><br><span class="line">从系统镜像元下载</span><br><span class="line">centos：yum install docker</span><br><span class="line">debian: apt-get install docker</span><br><span class="line"></span><br><span class="line">在centos-6 中 docker 与系统自带可执行程序冲突。</span><br><span class="line">执行：</span><br><span class="line">yum -y remove docker</span><br><span class="line">yum install docker-io</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/container/install-docker/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/container/pouch/" rel="bookmark">pouch</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/container/what-docker/" rel="bookmark">what is the docker</a></div>
       
     </li>
   
@@ -741,191 +914,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-1/" rel="bookmark">dubbo分析</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2018/03/24/rpc/dubbo-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/rpc/dubbo-1/" itemprop="url">
-                  dubbo分析
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/rpc/" itemprop="url" rel="index"><span itemprop="name">rpc</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">手册地址:https://gitee.com/none_heart/RPC/raw/master/dubbo/doc/dubbo-用户指南-带标签.pdf</span><br></pre></td></tr></table></figure>
-<p>RPC Remote Procedure call 远程过程调用</p>
-<p>一个RPC框架有几个特点:<br>远程调用.协议.暴露端口方式<br>稳定性.一致性.容错性<br>并发性.<br>简单插入性.高度解耦</p>
-<p>那么从这几个方面来思考dubbo</p>
-<p><strong>协议:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dubbo缺省协议采用单一长连接和NIO异步通讯，适合于小数据量大并发的服务调用，以及服务消费者机器数远大于服务提供者机器数的情况。</span><br><span class="line"></span><br><span class="line">缺省协议，使用基于mina1.1.7+hessian3.2.1的tbremoting交互。</span><br><span class="line"></span><br><span class="line">连接个数：单连接</span><br><span class="line">连接方式：长连接</span><br><span class="line">传输协议：TCP</span><br><span class="line">传输方式：NIO异步传输</span><br><span class="line">序列化：Hessian二进制序列化</span><br><span class="line">适用范围：传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</span><br><span class="line">适用场景：常规远程服务方法调用</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/rpc/dubbo-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-0/" rel="bookmark">假如让你设计一个dubbo【一】</a></div>
       
     </li>
   
