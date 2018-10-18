@@ -150,7 +150,7 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="无心の技术簿">
-<meta property="og:url" content="http://www.wuxinvip.com/page/70/index.html">
+<meta property="og:url" content="https://www.wuxinvip.com/page/70/index.html">
 <meta property="og:site_name" content="无心の技术簿">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
@@ -163,7 +163,7 @@
 
 
 
-  <link rel="canonical" href="http://www.wuxinvip.com/page/70/"/>
+  <link rel="canonical" href="https://www.wuxinvip.com/page/70/"/>
 
 
 
@@ -272,7 +272,7 @@
           
           <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">42</span></a>
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">43</span></a>
   </li>
         
         
@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">208</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">209</span></a>
   </li>
         
         
@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wuxinvip.com/2017/03/24/mysql/mybatis-example/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/03/24/mysql/mybatis-example/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -550,6 +550,172 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/03/06/exception/exception-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/06/exception/exception-1/" itemprop="url">
+                  spring filter 注入service
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-06 08:00:00" itemprop="dateCreated datePublished" datetime="2017-03-06T08:00:00+08:00">2017-03-06</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/exception/" itemprop="url" rel="index"><span itemprop="name">exception</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="需求背景："><a href="#需求背景：" class="headerlink" title="需求背景："></a>需求背景：</h2><p>spring filter 注入service 查询数据库</p>
+<p>通过直接注入方式 service 一直是 null</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class AppFilter implements Filter &#123;</span><br><span class="line">    private AkskService akskService;//这个就是需要注入的service</span><br><span class="line"> </span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public void doFilter(ServletRequest servletReq, ServletResponse servletRes, FilterChain chain)</span><br><span class="line">            throws IOException, ServletException &#123;</span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) servletReq;</span><br><span class="line">        HttpServletResponse response = (HttpServletResponse) servletRes;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void init(FilterConfig config) throws ServletException &#123;</span><br><span class="line">        ServletContext context = config.getServletContext();//这里获取applicationContext</span><br><span class="line">        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);</span><br><span class="line">        akskService = (AkskService) ctx.getBean(AkskService.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -621,7 +787,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">208</span>
+                    <span class="site-state-item-count">209</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -799,7 +965,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -846,6 +1014,17 @@
           
 
           
+           
+              <div class="links-of-blogroll motion-element links-of-blogroll-block">
+                <div class="links-of-blogroll-title">
+                  <i class="fa  fa-fw fa-link"></i>
+                   app download
+                </div>
+               <img src="/images/download/android-download.png" />
+              </div>
+           
+
+          
           
             <div class="links-of-blogroll motion-element links-of-blogroll-block">
               <div class="links-of-blogroll-title">
@@ -868,17 +1047,6 @@
           
 
         </div>
-
-      
-       
-          <div class="links-of-blogroll motion-element links-of-blogroll-block">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-link"></i>
-               app download
-            </div>
-           <img src="/images/download/android-download.png" />
-          </div>
-       
 
       </section>
 
