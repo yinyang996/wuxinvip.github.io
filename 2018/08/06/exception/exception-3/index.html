@@ -148,13 +148,18 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="无心の技术簿">
-<meta property="og:url" content="https://www.wuxinvip.com/page/70/index.html">
+  <meta name="description" content="问题背景：容器启动执行后立刻执行改代码 、常用来初始化redis数据、等等 方法一 spring扫描执行PostConstruct注解方法 spring.xml 12&amp;lt;context:component-scan base-package=&quot;com.csdn.uc.init&quot;/&amp;gt; 123456789101112131415161718192021222324252627/** * 容器">
+<meta name="keywords" content="exception">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring 容器启动执行">
+<meta property="og:url" content="https://www.wuxinvip.com/2018/08/06/exception/exception-3/index.html">
 <meta property="og:site_name" content="无心の技术簿">
+<meta property="og:description" content="问题背景：容器启动执行后立刻执行改代码 、常用来初始化redis数据、等等 方法一 spring扫描执行PostConstruct注解方法 spring.xml 12&amp;lt;context:component-scan base-package=&quot;com.csdn.uc.init&quot;/&amp;gt; 123456789101112131415161718192021222324252627/** * 容器">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-19T03:22:38.837Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="无心の技术簿">
+<meta name="twitter:title" content="spring 容器启动执行">
+<meta name="twitter:description" content="问题背景：容器启动执行后立刻执行改代码 、常用来初始化redis数据、等等 方法一 spring扫描执行PostConstruct注解方法 spring.xml 12&amp;lt;context:component-scan base-package=&quot;com.csdn.uc.init&quot;/&amp;gt; 123456789101112131415161718192021222324252627/** * 容器">
 
 
 
@@ -163,7 +168,7 @@
 
 
 
-  <link rel="canonical" href="https://www.wuxinvip.com/page/70/"/>
+  <link rel="canonical" href="https://www.wuxinvip.com/2018/08/06/exception/exception-3/"/>
 
 
 
@@ -173,7 +178,7 @@
   };
 </script>
 
-  <title>无心の技术簿</title>
+  <title>spring 容器启动执行 | 无心の技术簿</title>
   
 
 
@@ -220,8 +225,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -288,7 +292,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">209</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">211</span></a>
   </li>
         
         
@@ -361,9 +365,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -371,6 +375,8 @@
   
   
 
+  
+    <div class="reading-progress-bar"></div>
   
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
@@ -378,7 +384,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/03/24/mysql/mybatis-example/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/08/06/exception/exception-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -395,11 +401,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/24/mysql/mybatis-example/" itemprop="url">
-                  mybatis实例
-                </a>
+          <h2 class="post-title" itemprop="name headline">spring 容器启动执行
               
             
           </h2>
@@ -424,194 +426,7 @@
                 
               
 
-              <time title="创建时间：2017-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2017-03-24T08:00:00+08:00">2017-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 批量插入 遇到重复key 改为更新 需求设定--&gt;</span><br><span class="line">	&lt;insert id=&quot;addBatchDepartment&quot; parameterType=&quot;java.util.List&quot; &gt;</span><br><span class="line">		INSERT INTO department (</span><br><span class="line">		branchId,</span><br><span class="line">		branchName,</span><br><span class="line">		common,</span><br><span class="line">		spellId)</span><br><span class="line">		VALUES</span><br><span class="line">		&lt;foreach collection=&quot;list&quot; item=&quot;item&quot; index=&quot;index&quot; separator=&quot;,&quot; &gt;</span><br><span class="line">			(</span><br><span class="line">			#&#123;item.branchId&#125;,</span><br><span class="line">			#&#123;item.branchName&#125;,</span><br><span class="line">			#&#123;item.common&#125;,</span><br><span class="line">			#&#123;item.spellId&#125;</span><br><span class="line">			)</span><br><span class="line">		&lt;/foreach&gt;</span><br><span class="line">		ON DUPLICATE KEY UPDATE</span><br><span class="line">		branchId = values(branchId)</span><br><span class="line">	&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
-<p>增</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert id=&quot;addStudent&quot; parameterType=&quot;java.util.Map&quot;&gt;</span><br><span class="line">insert into student</span><br><span class="line">(id,name,age)</span><br><span class="line">values</span><br><span class="line">(</span><br><span class="line">  #&#123;item.id&#125;,</span><br><span class="line">  #&#123;item.name&#125;,</span><br><span class="line">  #&#123;item.age&#125;</span><br><span class="line">)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
-<p>批量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert id=&quot;addStudent&quot; parameterType=&quot;java.util.Map&quot;&gt;</span><br><span class="line">insert into student</span><br><span class="line">(id,name,age,start_time)</span><br><span class="line">values</span><br><span class="line"> &lt;foreach collection=&quot;list&quot; item=&quot;item&quot; index=&quot;index&quot; separator=&quot;,&quot;&gt;</span><br><span class="line">(</span><br><span class="line">  #&#123;item.id&#125;,</span><br><span class="line">  #&#123;item.name&#125;,</span><br><span class="line">  #&#123;item.age&#125;,</span><br><span class="line">  now()</span><br><span class="line">)</span><br><span class="line">&lt;/foreach&gt;</span><br><span class="line"> &lt;/insert&gt;</span><br></pre></td></tr></table></figure>
-<hr>
-<p>删</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这里写代码片</span><br></pre></td></tr></table></figure>
-<p>批量</p>
-<hr>
-<p>改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id=&quot;updateStudent&quot; parameterType=&quot;java.util.Map&quot;&gt;</span><br><span class="line">  update student</span><br><span class="line"> &lt;set&gt;</span><br><span class="line">  &lt;if test=&quot;userid != null and userid != &apos;&apos; &quot;&gt;</span><br><span class="line">	userid=#&#123;userid&#125;,</span><br><span class="line">  &lt;/if&gt;</span><br><span class="line"> &lt;/set&gt;</span><br><span class="line"> where 1=1</span><br><span class="line">&lt;if test=&quot;id!= null and id!= &apos;&apos; &quot;&gt;</span><br><span class="line">	and id=#&#123;id&#125;</span><br><span class="line">&lt;/if&gt;</span><br><span class="line"> &lt;/update&gt;</span><br></pre></td></tr></table></figure>
-<p>批量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id=&quot;updateStudent&quot; parameterType=&quot;java.util.Map&quot;&gt;</span><br><span class="line">      update student set state=2  where 1=1</span><br><span class="line">	   and id in</span><br><span class="line">       &lt;foreach item=&quot;item&quot; index=&quot;index&quot; collection=&quot;list&quot; open=&quot;(&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;</span><br><span class="line">              #&#123;item&#125;</span><br><span class="line">       &lt;/foreach&gt;</span><br><span class="line"></span><br><span class="line">   &lt;/update&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id=&quot;editStudent&quot;  parameterType=&quot;java.util.List&quot;&gt;  </span><br><span class="line">    &lt;foreach collection=&quot;list&quot; item=&quot;item&quot; index=&quot;index&quot; separator=&quot;;&quot;&gt;</span><br><span class="line">     update ware_service</span><br><span class="line">	&lt;set&gt;</span><br><span class="line">		&lt;if test=&quot;item.endTime!=null and item.endTime!=&apos;&apos;&quot;&gt;</span><br><span class="line">		   end_time=#&#123;item.endTime&#125;,</span><br><span class="line">		&lt;/if&gt;</span><br><span class="line">		&lt;if test=&quot;item.redeemcode!=null and item.redeemcode!=&apos;&apos;&quot;&gt;</span><br><span class="line">		   redeemcode=#&#123;item.redeemcode&#125;</span><br><span class="line">		&lt;/if&gt;         </span><br><span class="line">	&lt;/set&gt;</span><br><span class="line">	where id=#&#123;item.id&#125;</span><br><span class="line">      &lt;/foreach&gt;  </span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
-<p>批量修改需设置db.properties<br>新增 &amp;allowMultiQueries=true</p>
-<hr>
-<p>查</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> &lt;select id=&quot;getAllStudent&quot; resultType=com.mofangge.entity.student&quot; parameterType=&quot;java.util.Map&quot;&gt;</span><br><span class="line"> 	select</span><br><span class="line">id,</span><br><span class="line">name,</span><br><span class="line">age,</span><br><span class="line">start_time as startTime</span><br><span class="line">from student where 1=1</span><br><span class="line"> 	  &lt;if test=&quot;userid != null and userid != &apos;&apos; &quot;&gt;</span><br><span class="line">	and userid=#&#123;userid&#125;</span><br><span class="line">  &lt;/if&gt;</span><br><span class="line">and end_time &gt; now()</span><br><span class="line"> &lt;/select&gt;</span><br></pre></td></tr></table></figure>
-<p>批量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;getAllStudents&quot; resultType=&quot;com.mofangge.entity.student&quot; parameterType=&quot;java.util.Map&quot;&gt;</span><br><span class="line">  	select</span><br><span class="line">	id,</span><br><span class="line">	name,</span><br><span class="line">	age,</span><br><span class="line">	start_time as startTime</span><br><span class="line">	from student where 1=1 and age in</span><br><span class="line">  	  &lt;foreach collection=&quot;list&quot; index=&quot;index&quot; item=&quot;item&quot; open=&quot;(&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;</span><br><span class="line">	   	#&#123;item&#125;</span><br><span class="line">	  &lt;/foreach&gt;</span><br><span class="line">	     and end_time &gt; now()</span><br><span class="line">	&lt;if test=&quot;userid!=null and userid!=&apos;&apos;&quot;&gt;</span><br><span class="line">		and userid=#&#123;userid&#125;</span><br><span class="line">	&lt;/if&gt;	   </span><br><span class="line">  &lt;/select&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;getAllStudent&quot; resultType=&quot;com.mofangge.entity.Student&quot; parameterType=&quot;java.util.Map&quot;&gt;</span><br><span class="line">  	select</span><br><span class="line">	id,</span><br><span class="line">	name,</span><br><span class="line">	age,</span><br><span class="line">	from student where 1=1 and code in</span><br><span class="line">  	  &lt;foreach collection=&quot;list&quot; index=&quot;index&quot; item=&quot;item&quot; open=&quot;(&quot; separator=&quot;,&quot; close=&quot;)&quot;&gt;</span><br><span class="line">	   		#&#123;item&#125;</span><br><span class="line">	  &lt;/foreach&gt;</span><br><span class="line">		 and end_time &gt; now()</span><br><span class="line">	&lt;if test=&quot;id!=null and id!=&apos;&apos;&quot;&gt;</span><br><span class="line">		and id=#&#123;id&#125;</span><br><span class="line">	&lt;/if&gt;	   </span><br><span class="line">  &lt;/select&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>mybatis大于小于写法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">原符号       &lt;        &lt;=      &gt;       &gt;=       &amp;        &apos;        &quot;</span><br><span class="line">替换符号    &amp;lt;    &amp;lt;=   &amp;gt;    &amp;gt;=   &amp;amp;   &amp;apos;  &amp;quot;</span><br><span class="line">例如：sql如下：</span><br><span class="line">create_date_time &amp;gt;= #&#123;startTime&#125; and  create_date_time &amp;lt;= #&#123;endTime&#125;</span><br><span class="line"></span><br><span class="line">第二种写法（2）：</span><br><span class="line">大于等于</span><br><span class="line">&lt;![CDATA[ &gt;= ]]&gt;</span><br><span class="line">小于等于</span><br><span class="line">&lt;![CDATA[ &lt;= ]]&gt;</span><br><span class="line">例如：sql如下：</span><br><span class="line">create_date_time &lt;![CDATA[ &gt;= ]]&gt; #&#123;startTime&#125; and  create_date_time &lt;![CDATA[ &lt;= ]]&gt; #&#123;endTime&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/03/06/exception/exception-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/06/exception/exception-1/" itemprop="url">
-                  spring filter 注入service
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-06 08:00:00" itemprop="dateCreated datePublished" datetime="2017-03-06T08:00:00+08:00">2017-03-06</time>
+              <time title="创建时间：2018-08-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-08-06T08:00:00+08:00">2018-08-06</time>
             
 
             
@@ -652,6 +467,14 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
           
 
@@ -670,19 +493,38 @@
       
 
       
-        
-          
-            <h2 id="需求背景："><a href="#需求背景：" class="headerlink" title="需求背景："></a>需求背景：</h2><p>spring filter 注入service 查询数据库</p>
-<p>通过直接注入方式 service 一直是 null</p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class AppFilter implements Filter &#123;</span><br><span class="line">    private AkskService akskService;//这个就是需要注入的service</span><br><span class="line"> </span><br><span class="line">    public void destroy() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public void doFilter(ServletRequest servletReq, ServletResponse servletRes, FilterChain chain)</span><br><span class="line">            throws IOException, ServletException &#123;</span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) servletReq;</span><br><span class="line">        HttpServletResponse response = (HttpServletResponse) servletRes;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void init(FilterConfig config) throws ServletException &#123;</span><br><span class="line">        ServletContext context = config.getServletContext();//这里获取applicationContext</span><br><span class="line">        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);</span><br><span class="line">        akskService = (AkskService) ctx.getBean(AkskService.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
+        <h2 id="问题背景："><a href="#问题背景：" class="headerlink" title="问题背景："></a>问题背景：</h2><p>容器启动执行后立刻执行改代码 、常用来初始化redis数据、等等</p>
+<h2 id="方法一-spring"><a href="#方法一-spring" class="headerlink" title="方法一 spring"></a>方法一 spring</h2><p>扫描执行PostConstruct注解方法</p>
+<p>spring.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.csdn.uc.init"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 容器启动后加载redis</span></span><br><span class="line"><span class="comment"> * Created by huoyan403 on 3/22/2017.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddressToRedisInit</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(AddressToRedisInit.class);</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AreasDao areasDao;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisClient redisClient;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    启动开关</span></span><br><span class="line"><span class="comment">//    @PostConstruct</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddressToRedisInit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//子线程执行初始化</span></span><br><span class="line">        AddressToRedisThread addressToRedisThread = <span class="keyword">new</span> AddressToRedisThread();</span><br><span class="line">        addressToRedisThread.setRedisClient(redisClient);</span><br><span class="line">        addressToRedisThread.setAreasDao(areasDao);</span><br><span class="line">        addressToRedisThread.run();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="方法二-springboot"><a href="#方法二-springboot" class="headerlink" title="方法二 springboot"></a>方法二 springboot</h2><p>实现 CommandLineRunner 接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * description</span></span><br><span class="line"><span class="comment"> * 启动后执行 规划每个doc文档存储设置</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lishengkai</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2018-03-28 16:47</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InitDocIndexSetting</span> <span class="keyword">implements</span> <span class="title">CommandLineRunner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    ElasticsearchTemplate elasticsearchOperations;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    BeanPostProcessor beanPostProcessor;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(String... args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        Map&lt;String, Object&gt; map = beanPostProcessor.map;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Object o : map.values()) &#123;</span><br><span class="line">            elasticsearchOperations.createIndexWithSettings(o.getClass());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
     
       
 
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2017/03/06/exception/exception-1/" rel="bookmark">spring filter 注入service</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2017/08/06/exception/exception-2/" rel="bookmark">spring springmvc 父子容器关系</a></div>
+      
+    </li>
+  
+  </ul>
+
 
     
 
@@ -694,18 +536,58 @@
 
     
 
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>无心</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.wuxinvip.com/2018/08/06/exception/exception-3/" title="spring 容器启动执行">https://www.wuxinvip.com/2018/08/06/exception/exception-3/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/exception/" rel="tag"># exception</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/13/encryption/password-cracked/" rel="next" title="破解密码常见的几种方式">
+                <i class="fa fa-chevron-left"></i> 破解密码常见的几种方式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/20/essay/essay-4/" rel="prev" title="腾讯COS 阿里OSS 七牛 备份脚本">
+                腾讯COS 阿里OSS 七牛 备份脚本 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -715,36 +597,18 @@
   </article>
 
 
-    
-  </section>
-
-  
-
-   <div class="pagination">
-      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-   </div>
-
-
-
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/69/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/69/">69</a><span class="page-number current">70</span>
-  </nav>
-
+  </div>
 
 
           </div>
           
+
+  
+     <div id="gitalk-container"></div>
+
+  
+
+
 
         </div>
         
@@ -767,8 +631,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -787,7 +660,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">209</span>
+                    <span class="site-state-item-count">211</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1058,6 +931,22 @@
 
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题背景："><span class="nav-number">1.</span> <span class="nav-text">问题背景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法一-spring"><span class="nav-number">2.</span> <span class="nav-text">方法一 spring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法二-springboot"><span class="nav-number">3.</span> <span class="nav-text">方法二 springboot</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
         <div class="back-to-top">
@@ -1222,6 +1111,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
 
   
 
@@ -1244,6 +1137,21 @@
 
 
 
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'c44af7c5b377f551c3bd',
+          clientSecret: 'eeb965cbf5d59e1ca5e51c0112b8c87bc15eed43',
+          repo: 'wuxinvip.github.io',
+          owner: 'wuxinvip',
+          admin: ['wuxinvip'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
 
 
 
