@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">212</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">213</span></a>
   </li>
         
         
@@ -362,6 +362,211 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/05/24/search-engine/elasticsearch-bean-setting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/24/search-engine/elasticsearch-bean-setting/" itemprop="url">
+                  elasticsearch-bean-setting
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-05-24T08:00:00+08:00">2018-05-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/search-engine/" itemprop="url" rel="index"><span itemprop="name">search-engine</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">#分片数</span><br><span class="line">index.number_of_shards</span><br><span class="line"></span><br><span class="line">#副本数</span><br><span class="line">index.number_of_replicas</span><br><span class="line"></span><br><span class="line">#是否设为影子副本（暂未研究）</span><br><span class="line">index.shadow_replicas</span><br><span class="line"></span><br><span class="line">#是否设为可分享文件系统（暂未研究）</span><br><span class="line">index.shard_filesystem</span><br><span class="line"></span><br><span class="line">#是否自动扩展副本（暂未研究）</span><br><span class="line">index.auto_expand_replicas</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.read_only</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.read</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.write</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.metadata</span><br><span class="line"></span><br><span class="line">#创建该index用到的Elasticsearch版本</span><br><span class="line">index.version.created</span><br><span class="line"></span><br><span class="line">index.version.created_string</span><br><span class="line"></span><br><span class="line">#更新该index用到的Elasticsearch版本</span><br><span class="line">index.verison.upgraded</span><br><span class="line"></span><br><span class="line">index.version.upgraded_string</span><br><span class="line"></span><br><span class="line">#该index支持的最小lucene版本</span><br><span class="line">index.version.minimum_compatible</span><br><span class="line"></span><br><span class="line">#该index建立日期</span><br><span class="line">index.creating_data</span><br><span class="line"></span><br><span class="line">index.creating_data_string</span><br><span class="line"></span><br><span class="line">#该index的优先级</span><br><span class="line">index.priority</span><br><span class="line"></span><br><span class="line">#该index的uuid，唯一标识</span><br><span class="line">index.uuid</span><br><span class="line"></span><br><span class="line">#该index各索引的routing规则，采用何种Hash方式，默认使用Murmur3，还有一种普通的Hash算法</span><br><span class="line">index.legacy.routing.hash.type</span><br><span class="line"></span><br><span class="line">#routing计算是否使用type，内部计算shard id的方法已经废弃，建议不使用，不设置，默认false即可</span><br><span class="line">index.legacy.routing.use_type</span><br><span class="line"></span><br><span class="line">#该index的数据存储路径</span><br><span class="line">index.data_path</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">#index.shared_filesystem.recover_on_any_node</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-1/" rel="bookmark">elasticsearch内部存储执行机制</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-config/" rel="bookmark">elasticsearch-config</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -536,7 +741,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/dns/" rel="bookmark">DNS负载均衡</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/maglev/" rel="bookmark">maglev</a></div>
       
     </li>
   
@@ -754,7 +959,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/dns/" rel="bookmark">DNS负载均衡</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/maglev/" rel="bookmark">maglev</a></div>
       
     </li>
   
@@ -808,7 +1013,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-5/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -827,8 +1032,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-5/" itemprop="url">
-                  风控系统
+                <a class="post-title-link" href="/2018/03/24/service-design/design-3/" itemprop="url">
+                  高可用架构设计考虑
                 </a>
               
             
@@ -879,7 +1084,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/风控系统/" itemprop="url" rel="index"><span itemprop="name">风控系统</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
 
                 
                 
@@ -914,24 +1119,10 @@
 
       
         
-          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
-</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
-    针对各类支付业务交易风险事件进行监测与控制
-
-同步反馈、
-    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
-
-联动控制、
-    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
-
-持续迭代、
-    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
-    或者与外部资源共享等进行持续动态更新
-</code></pre>
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/service-design/design-5/" rel="contents">
+            <a class="btn" href="/2018/03/24/service-design/design-3/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -970,7 +1161,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
       
     </li>
   
@@ -978,215 +1169,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/essay/essay-13/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/essay/essay-13/" itemprop="url">
-                  阿里面霸总结的面试题
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">（1）自我介绍，做过什么项目。</span><br><span class="line">（2）java虚拟机的区域如何划分，每一个区的动能，这一块自由发挥。</span><br><span class="line">（3）双亲委派模型中，从顶层到底层，都是哪些类加载器，分别加载哪些类？</span><br><span class="line">（4）有没有可能父类加载器和子类加载器，加载同一个类？如果加载同一个类，该使用哪一个类？</span><br><span class="line">（5）HashMap的结构，get()，put()是如何实现的？HashMap有哪些问题？</span><br><span class="line">（6）ConcurrentHashMap的get()，put()，又是如何实现的？ConcurrentHashMap有哪些问题？ ConcurrentHashMap的锁是读锁还是写锁？</span><br><span class="line">（7） HashMap与HashTable的区别</span><br><span class="line">（8）sleep()和wait()分别是哪个类的方法，有什么区别？synchronized底层如何实现的？用在代码块和方法上有什么区别？</span><br><span class="line">（9）什么是线程池？如果让你设计一个动态大小的线程池，如何设计，应该有哪些方法？</span><br><span class="line">（10）什么是死锁？JVM线程死锁，你该如何判断是因为什么？如果用VisualVM，dump线程信息出来，会有哪些信息？这一块问的很多....问的我懵了. 因为并没有实际操作过 = =</span><br><span class="line">（11）查看jvm虚拟机里面堆、线程的信息，你用过什么命令？我只用过图形界面VisualVM。。。</span><br><span class="line">（12）垃圾回收算法有哪些？CMS知道吗？如何工作的？</span><br><span class="line">（13）数据库中什么是事务？事务的隔离级别？事务的四个特性？什么是脏读，幻读，不可重复读？</span><br><span class="line">（14）数据库索引的结构有哪些？我说B树和B+树，他说只有这两个吗。我又说全文倒排索引。然后介绍B+树的结构。</span><br><span class="line">（15）数据库中的分页查询语句怎么写？</span><br><span class="line">（16）什么是一致性哈希？用来解决什么问题？</span><br><span class="line">（17）Redis的存储结构，或者说如何工作的，与mysql的区别？有哪些数据类型？</span><br><span class="line">（18）项目中用到redis，为什么选用redis，了解其他NoSQL数据库吗？在你的项目中是如何运用redis的？key是什么，value是什么？</span><br><span class="line">（19）归并排序的过程？时间复杂度？空间复杂度？</span><br><span class="line">（20）你平常用什么排序？快速排序。说说在那些场景下适用，哪些场景下不适用。</span><br><span class="line">（21）你在项目中做什么？因为我用到Solr，他就问我Solr是如何工作的？</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/essay/essay-13/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/30/essay/essay-8/" rel="bookmark">为什么你成不了架构师</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-15/" rel="bookmark">网站制作app、并发布github、生成二维码推广下载</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/08/20/essay/essay-4/" rel="bookmark">腾讯COS 阿里OSS 七牛 备份脚本</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/10/essay/hash/" rel="bookmark">Hash环、一致性hash</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/06/essay/essay-2/" rel="bookmark">随便写点</a></div>
       
     </li>
   
@@ -1368,6 +1350,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
       
     </li>
@@ -1376,13 +1365,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
       
     </li>
   
@@ -1499,7 +1481,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-count">213</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
