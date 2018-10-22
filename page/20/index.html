@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-selector-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,221 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/rpc/dubbo-1/" itemprop="url">
-                  dubbo分析
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-selector-2/" itemprop="url">
+                  SQL优化【查询器优化·二】
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-6fd8630f76bf000c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>8.9.1控制查询计划评估</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">查询优化器的任务是查找执行SQL查询的最佳计划。</span><br><span class="line">由于“ 好 ”和“ 坏 ”之间的表现差异计划可以是数量级（即秒数与数小时甚至数天），</span><br><span class="line">    大多数查询优化器（包括MySQL的查询优化器）在所有可能的查询评估计划中执行或多或少的穷举搜索优化计划。</span><br><span class="line">    对于连接查询，由MySQL优化器调查的可能计划的数量随着查询中引用的表的数量呈指数增长。</span><br><span class="line">    对于少量表格（通常小于7到10），这不是问题。</span><br><span class="line">    但是，当提交更大的查询时，查询优化花费的时间可能很容易成为服务器性能的主要瓶颈。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">用于查询优化的更灵活的方法使用户能够控制优化器在搜索最优查询评估计划时的详尽程度。</span><br><span class="line">总体思路是，优化程序调查的计划越少，编译查询花费的时间就越少。</span><br><span class="line">另一方面，因为优化器跳过了一些计划，所以可能会错过找到最佳计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化程序相对于其计算的计划数量的行为可以使用两个系统变量进行控制：</span><br><span class="line"></span><br><span class="line">该optimizer_prune_level 变量告诉优化器根据每个表访问的行数的估计值跳过某些计划。</span><br><span class="line">我们的经验表明，这种“ 受过教育的猜测 ”很少会错过最佳计划，并且可能大大减少查询编译时间。</span><br><span class="line">这就是为什么这个选项optimizer_prune_level=1默认是on（）。</span><br><span class="line">但是，如果您认为优化器错过了更好的查询计划，则可以关闭此选项（optimizer_prune_level=0）与查询编译可能花费更长时间的风险有关。</span><br><span class="line">请注意，即使使用这种启发式，优化器仍然会探索大致指数级的计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这个optimizer_search_depth 变量告诉优化器应该看看每个不完整计划的“ 未来 ”有多远，以评估它是否应该进一步扩展。</span><br><span class="line">较小的值 optimizer_search_depth可能会导致查询编译时间缩短几个数量级。</span><br><span class="line">例如，如果optimizer_search_depth接近查询中的表的数量，具有12,13或更多表的查询可能很容易需要数小时甚至数天来编译 。</span><br><span class="line">同时，如果编译一下 optimizer_search_depth 等于3或4，优化器可以在不到一分钟的时间内编译相同的查询。</span><br><span class="line">如果您不确定合理的值是什么 optimizer_search_depth，则可以将此变量设置为0，以通知优化器自动确定该值。</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/rpc/dubbo-0/" itemprop="url">
+                  假如让你设计一个dubbo【一】
                 </a>
               
             
@@ -484,14 +697,27 @@
 
       
         
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">手册地址:https://gitee.com/none_heart/RPC/raw/master/dubbo/doc/dubbo-用户指南-带标签.pdf</span><br></pre></td></tr></table></figure>
-<p>RPC Remote Procedure call 远程过程调用</p>
-<p>一个RPC框架有几个特点:<br>远程调用.协议.暴露端口方式<br>稳定性.一致性.容错性<br>并发性.<br>简单插入性.高度解耦</p>
-<p>那么从这几个方面来思考dubbo</p>
-<p><strong>协议:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dubbo缺省协议采用单一长连接和NIO异步通讯，适合于小数据量大并发的服务调用，以及服务消费者机器数远大于服务提供者机器数的情况。</span><br><span class="line"></span><br><span class="line">缺省协议，使用基于mina1.1.7+hessian3.2.1的tbremoting交互。</span><br><span class="line"></span><br><span class="line">连接个数：单连接</span><br><span class="line">连接方式：长连接</span><br><span class="line">传输协议：TCP</span><br><span class="line">传输方式：NIO异步传输</span><br><span class="line">序列化：Hessian二进制序列化</span><br><span class="line">适用范围：传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</span><br><span class="line">适用场景：常规远程服务方法调用</span><br></pre></td></tr></table></figure></p>
+          <p>假设我们开发一个rpc远程调用框架</p>
+<p>那么这个框架需要怎么去写</p>
+<ul>
+<li>1、首先有远程配置中心config</li>
+<li>2、有服务代理层【包装业务上的服务做一个代理】</li>
+<li>3、有服务注册中心【代理了服务之后 向该注册中心注册服务代理】</li>
+<li>4、有路由【远程调用先走路由获取服务代理实例、集群必备的东西】</li>
+<li>5、有远程调用层【发起服务调用】</li>
+<li>6、有网络传输层、有信息交换层【这个是一个传输协议的实现层】</li>
+<li>7、有序列化层【针对网络IO信息编码方式的统一、传输协议最基本的东西】</li>
+<li>8、服务监控【不属于RPC、但是服务监控必不可少】</li>
+</ul>
+<p>总结：</p>
+<ul>
+<li>核心配置：服务注册中心、服务代理和服务调用</li>
+<li>优化配置：配置中心、服务监控、</li>
+<li>基石配置：网络传输以及协议、序列化方式的定制</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/rpc/dubbo-1/" rel="contents">
+            <a class="btn" href="/2018/03/24/rpc/dubbo-0/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -509,7 +735,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-0/" rel="bookmark">假如让你设计一个dubbo【一】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-1/" rel="bookmark">dubbo分析</a></div>
       
     </li>
   
@@ -563,7 +789,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/container/pouch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -582,8 +808,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/search-engine/elasticsearch-1/" itemprop="url">
-                  elasticsearch内部存储执行机制
+                <a class="post-title-link" href="/2018/03/24/container/pouch/" itemprop="url">
+                  pouch
                 </a>
               
             
@@ -627,14 +853,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/search-engine/" itemprop="url" rel="index"><span itemprop="name">search-engine</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/container/" itemprop="url" rel="index"><span itemprop="name">container</span></a></span>
 
                 
                 
@@ -669,18 +888,15 @@
 
       
         
-          <p><strong>新建、索引和删除单个文档</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-2206994bb24e32f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="elas_0402.png"></p>
-<p>以下是在主副分片和任何副本分片上面成功新建，索引和删除文档所需要的步骤顺序：</p>
-<ol>
-<li>客户端向 <code>Node 1</code> 发送新建、索引或者删除请求。</li>
-<li>节点使用文档的 <code>_id</code> 确定文档属于分片 0 。请求会被转发到 <code>Node 3</code>，因为分片 0 的主分片目前被分配在 <code>Node 3</code> 上。</li>
-<li><code>Node 3</code> 在主分片上面执行请求。如果成功了，它将请求并行转发到 <code>Node 1</code> 和 <code>Node 2</code> 的副本分片上。一旦所有的副本分片都报告成功, <code>Node 3</code> 将向协调节点报告成功，协调节点向客户端报告成功。</li>
-</ol>
-<p>在客户端收到成功响应时，文档变更已经在主分片和所有副本分片执行完成，变更是安全的。</p>
+          <p>2017.11.19正式开源pouch</p>
+<p>pouch 基于Apache2.0协议的容器技术</p>
+<p>介绍：<br>Pouch 是一个轻量级容器技术<br>特点：快速高效、可移植性高、资源占用少</p>
+<p>github：<a href="https://github.com/alibaba/pouch" target="_blank" rel="noopener">pouch</a></p>
+<p>11年基于Linux内核上的namespace、cgroup等技术开始成熟、阿里Pouch基于LXC研发的第一代容器t4<br>13年Docker横空出世、解决了行业多年的”软件封装”问题、阿里吸收其经验、打磨Pouch</p>
+<p>Pouch规模<br>2017 年双 11，巨额交易 1682 亿背后，Pouch 在”超级工程”中做到了：<br> 1、100% 的在线业务 Pouch 化<br>2、容器规模达到百万级</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/search-engine/elasticsearch-1/" rel="contents">
+            <a class="btn" href="/2018/03/24/container/pouch/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -698,251 +914,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/container/install-docker/" rel="bookmark">install docker</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-config/" rel="bookmark">elasticsearch-config</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/memcached/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/cache/memcached/" itemprop="url">
-                  memcached
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>memcached</p>
-<p><strong>简介</strong></p>
-<pre><code>Memcached的
-Memcached.svg
-开发者（S）    Danga Interactive
-初始发行    2003年5月22日
-稳定版本
-1.5.8 / 2018年5月25日; 39天前[1]
-知识库
-https://github.com/memcached/memcached
-在维基数据上编辑此内容
-写入    C
-操作系统    跨平台
-类型    分布式内存缓存系统
-执照    修订BSD许可证[2]
-网站    memcached .org
-Memcached（发音：mem-cash-dee，mem-cashed）是一种通用的分布式内存缓存系统。它通常用于通过在RAM中缓存数据和对象来加速动态数据库驱动的网站，以减少必须读取外部数据源（如数据库或API）的次数。Memcached是免费的开源软件，根据修订的BSD许可证授权。[2] Memcached在类Unix操作系统（至少是Linux和OS X）和Microsoft Windows上运行。这取决于libevent库。
-
-Memcached的API提供了一个分布在多台机器上的非常大的哈希表。当表已满时，后续插入会导致较旧的数据以最近最少使用（LRU）顺序被清除。[3] [4]使用Memcached的应用程序通常将请求和添加分层到RAM中，然后再回到较慢的后备存储（例如数据库）上。
-
-Memcached没有内部机制来跟踪可能发生的未命中，但是，某些第三方实用程序提供此功能。
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/cache/memcached/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/container/what-docker/" rel="bookmark">what is the docker</a></div>
       
     </li>
   
@@ -1119,6 +1098,13 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
       
     </li>
@@ -1134,13 +1120,6 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
       
       
       <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
       
     </li>
   
@@ -1201,7 +1180,7 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/cache-elimination-algorithm/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/https/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -1220,8 +1199,8 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/cache-elimination-algorithm/" itemprop="url">
-                  缓存淘汰算法
+                <a class="post-title-link" href="/2018/03/24/agreement/https/" itemprop="url">
+                  Https协议
                 </a>
               
             
@@ -1272,7 +1251,7 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
 
                 
                 
@@ -1307,15 +1286,20 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
 
       
         
-          <p>常见算法:<br>LRU<br>LRU-K<br>2Q<br>MQ</p>
-<p>缓存淘汰算法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">缓存分析三大要点：</span><br><span class="line">    命中率、复杂度、代价</span><br><span class="line"></span><br><span class="line">LRU     最近最少使用算法</span><br><span class="line">FIFO    先入先出算法</span><br><span class="line">MRU     最近最常使用算法</span><br><span class="line"></span><br><span class="line">FIFO 先进先出 LFU 最少使用算法 LFU（Least Frequently Used）最近最少使用算法。</span><br><span class="line">它是基于“如果一个数据在最近一段时间内使用次数很少，那么在将来一段时间内被使用的可能性也很小”的思路。</span><br><span class="line"></span><br><span class="line">LRU LRU全称是Least Recently Used，即最近最久未使用的意思</span><br><span class="line"></span><br><span class="line">注意LFU和LRU算法的不同之处，LRU的淘汰规则是基于访问时间，而LFU是基于访问次数的。</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/cache/cache-elimination-algorithm/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p><strong>http+ssl</strong></p>
+<pre><code>使用http进行通信 ssl作为数据通信加密方式
+使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
+</code></pre><p>混合加密方式</p>
+<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
+<ul>
+<li>1、客户端 发送公钥、支持加密方式、版本号</li>
+<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
+<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
+<li>4、使用协商后的加密方式加密http请求</li>
+</ul>
+
+          
         
       
     </div>
@@ -1329,21 +1313,28 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
       
     </li>
   

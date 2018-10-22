@@ -378,7 +378,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-lock/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-selector-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -397,8 +397,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-lock/" itemprop="url">
-                  SQL优化【锁优化】
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-selector-1/" itemprop="url">
+                  SQL优化【查询器优化·一】
                 </a>
               
             
@@ -484,14 +484,14 @@
 
       
         
-          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-b679147e38a9e162.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>MySQL使用锁管理对表内容的争用 ：</p>
-<p>内部锁定在MySQL服务器内部执行，以管理多个线程对表内容的争用。<br>这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。<br>参见 第8.11.1节“内部锁定方法”。</p>
-<p>当服务器和其他程序锁定MyISAM表文件以相互协调哪个程序可以访问表时，发生外部锁定。<br>参见第8.11.5节“外部锁定”。</p>
-<p>8.11.1内部锁定方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">本节讨论内部锁定; 即在MySQL服务器本身内执行锁定以管理多个会话对表内容的争用。</span><br><span class="line">这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。</span><br><span class="line">对于其他程序在MySQL文件上执行的锁定，请参见第8.11.5节“外部锁定”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line"></span><br><span class="line">选择锁定类型</span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line">MySQL使用行级锁定为InnoDB表，以支持由多个会话并发写入权限，使其适用于多用户，高并发，和OLTP应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了避免在单个表上执行多个并发写入操作时发生死锁， InnoDB通过SELECT ... FOR UPDATE为每组预计要修改的行发布语句，即使数据更改语句稍后在事务中发生，也可以在事务启动时获取必要的锁。</span><br><span class="line">如果交易修改或锁定多个表，请在每个交易中以相同的顺序发布适用的报表。</span><br><span class="line">死锁会影响性能而不是表示严重的错误，因为它会 InnoDB自动 检测 死锁条件并回滚其中一个受影响的事务。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在高并发系统上，当大量线程等待相同的锁时，死锁检测会导致速度下降。</span><br><span class="line">有时候，innodb_lock_wait_timeout 当死锁发生时，禁用死锁检测并依赖事务回滚的设置可能更有效 。</span><br><span class="line">使用innodb_deadlock_detect 配置选项可以禁用死锁检测 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定的优点：</span><br><span class="line"></span><br><span class="line">当不同的会话访问不同的行时，更少的锁冲突。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">回滚更少。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">可能长时间锁定一行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line">MySQL使用表级锁的MyISAM， MEMORY和MERGE 表，只允许一个会话更新一次这些表。</span><br><span class="line">这种锁定级别使得这些存储引擎更适合于只读，主要读取或单用户应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些存储引擎通过始终在查询开始时一次请求所有需要的锁，并始终以相同的顺序锁定表来避免 死锁。</span><br><span class="line">权衡是这种策略降低了并发性; 其他要修改表的会话必须等到当前数据更改语句结束。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定的优点：</span><br><span class="line"></span><br><span class="line">所需的内存相对较少（行锁定需要锁定每行或一组行的内存）</span><br><span class="line"></span><br><span class="line">在大部分表格上使用时都很快，因为只涉及一个锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您经常GROUP BY 对大部分数据执行操作，或者必须频繁扫描整个表，则速度很快。</span><br></pre></td></tr></table></figure></p>
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-6fd8630f76bf000c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>8.8.1使用EXPLAIN优化查询</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">该EXPLAIN语句提供有关MySQL如何执行语句的信息：</span><br><span class="line"></span><br><span class="line">EXPLAIN作品有 SELECT， DELETE， INSERT， REPLACE，和 UPDATE语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当EXPLAIN与可解释的语句一起使用时，MySQL会显示来自优化器的关于语句执行计划的信息。</span><br><span class="line">也就是说，MySQL解释了它将如何处理该语句，包括有关表如何连接以及按何种顺序的信息。</span><br><span class="line">有关使用 EXPLAIN获取执行计划信息的信息，请参见第8.8.2节“EXPLAIN输出格式”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当EXPLAIN与 可解释的语句一起使用时，它显示在命名连接中执行的语句的执行计划。</span><br><span class="line">请参见第8.8.4节“获取命名连接的执行计划信息”。</span><br><span class="line"> FOR CONNECTION connection_id</span><br><span class="line"></span><br><span class="line">对于SELECT语句， EXPLAIN产生可以使用显示的附加执行计划信息 SHOW WARNINGS。</span><br><span class="line">请参见 第8.8.3节“扩展EXPLAIN输出格式”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">EXPLAIN对于检查涉及分区表的查询很有用。</span><br><span class="line">请参见 第22.3.5节“获取有关分区的信息”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该FORMAT选项可用于选择输出格式。</span><br><span class="line">TRADITIONAL以表格格式显示输出。</span><br><span class="line">如果没有FORMAT选项，这是默认值 。</span><br><span class="line"> JSON格式以JSON格式显示信息。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在帮助下EXPLAIN，您可以看到应该在哪里添加索引，以便通过使用索引查找行来更快地执行语句。</span><br><span class="line">您还可以 EXPLAIN用来检查优化程序是否以最佳顺序加入表。</span><br><span class="line">为了给优化器提示使用与SELECT语句中命名表的顺序相对应的连接顺序 ，请使用SELECT STRAIGHT_JOIN而不是仅仅开始语句SELECT。</span><br><span class="line">（请参见 第13.2.9节“SELECT语法”。）但是， STRAIGHT_JOIN可能会阻止使用索引，因为它会禁用半连接转换。</span><br><span class="line">看到 第8.2.2.1节“使用半连接转换优化子查询，派生表和视图引用”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化器跟踪有时可以提供与之相辅相成的信息EXPLAIN。</span><br><span class="line">但是，优化器跟踪格式和内容在版本之间可能会发生变化。</span><br><span class="line">有关详细信息，请参阅 MySQL内部：跟踪优化器。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您在确定索引时没有使用索引时遇到问题，请运行ANALYZE TABLE以更新表格统计信息（如键的基数），这些索引可能会影响优化程序的选择。</span><br><span class="line">请参见 第13.7.2.1节“ANALYZE TABLE语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">EXPLAIN也可以用于获取有关表中列的信息。</span><br><span class="line"> 是和的 同义词。</span><br><span class="line">有关更多信息，请参见第13.8.1节“DESCRIBE语法”和 第13.7.5.5节“SHOW COLUMNS语法”。</span><br><span class="line"> EXPLAIN tbl_nameDESCRIBE tbl_nameSHOW COLUMNS FROM tbl_name</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/optimization-sql-lock/" rel="contents">
+            <a class="btn" href="/2018/03/24/mysql/optimization-sql-selector-1/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -509,7 +509,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
       
     </li>
   
@@ -523,7 +523,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
@@ -786,222 +786,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/20/essay/essay-3/" itemprop="url">
-                  干了这一波毒鸡汤
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-08-20 08:00:00" itemprop="dateCreated datePublished" datetime="2017-08-20T08:00:00+08:00">2017-08-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>1、怎么定义「想清楚了」？</strong></p>
-<pre><code>“想清楚了”就是以后出了什么问题你只能找个没人的地方抽自己，再也不能抱怨别人了。
-</code></pre><p><strong>2、你交朋友的标准是什么？</strong></p>
-<pre><code>出世的智者，入世的强者，或者正常而阳光的普通人。
-</code></pre><p><strong>3、男性更看重女性的身材、脸蛋，还是思想？</strong></p>
-<pre><code>脸蛋和身材决定了我是否想去了解她的思想。
-思想决定了我是否会一票否决掉她的脸蛋和身材。
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/20/essay/essay-3/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-15/" rel="bookmark">网站制作app、并发布github、生成二维码推广下载</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/08/21/essay/essay-7/" rel="bookmark">关于学习方法的一些思考</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/08/20/essay/essay-4/" rel="bookmark">腾讯COS 阿里OSS 七牛 备份脚本</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1157,7 +941,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-15/" rel="bookmark">网站制作app、并发布github、生成二维码推广下载</a></div>
+      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-14/" rel="bookmark">每天一点人生感悟的句子</a></div>
       
     </li>
   
@@ -1362,7 +1146,223 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-15/" rel="bookmark">网站制作app、并发布github、生成二维码推广下载</a></div>
+      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-14/" rel="bookmark">每天一点人生感悟的句子</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/08/21/essay/essay-7/" rel="bookmark">关于学习方法的一些思考</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/08/20/essay/essay-4/" rel="bookmark">腾讯COS 阿里OSS 七牛 备份脚本</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/20/essay/essay-3/" itemprop="url">
+                  干了这一波毒鸡汤
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-20 08:00:00" itemprop="dateCreated datePublished" datetime="2017-08-20T08:00:00+08:00">2017-08-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>1、怎么定义「想清楚了」？</strong></p>
+<pre><code>“想清楚了”就是以后出了什么问题你只能找个没人的地方抽自己，再也不能抱怨别人了。
+</code></pre><p><strong>2、你交朋友的标准是什么？</strong></p>
+<pre><code>出世的智者，入世的强者，或者正常而阳光的普通人。
+</code></pre><p><strong>3、男性更看重女性的身材、脸蛋，还是思想？</strong></p>
+<pre><code>脸蛋和身材决定了我是否想去了解她的思想。
+思想决定了我是否会一票否决掉她的脸蛋和身材。
+</code></pre>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/20/essay/essay-3/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-14/" rel="bookmark">每天一点人生感悟的句子</a></div>
       
     </li>
   
