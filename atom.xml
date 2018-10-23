@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2018-10-22T16:43:50.266Z</updated>
+  <updated>2018-10-23T15:00:39.675Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -17,11 +17,46 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>java7 异常分类总结</title>
+    <link href="https://www.wuxinvip.com/2018/10/26/exception/exception-0/"/>
+    <id>https://www.wuxinvip.com/2018/10/26/exception/exception-0/</id>
+    <published>2018-10-26T00:00:00.000Z</published>
+    <updated>2018-10-23T15:00:39.675Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="为什么要学-异常"><a href="#为什么要学-异常" class="headerlink" title="为什么要学 异常"></a>为什么要学 异常</h2><ul><li><p>java异常是 对java语言错误的一种错误类型整合、无论是编译、运行、都有相应的异常来标记</p></li><li><p>在一个大型项目中、要找到错误是非常困难的、这时候就需要自定义异常抛出、以便于更迅速地定位代码问题</p></li><li><p>但有一个问题、永远不可能定义出所有的异常、因为有的异常是于业务息息相关的<br>对此、java创始人、定义了异常的分类、以及常见的异常信息</p></li><li><p>在我们编写代码的过程中、有现成的异常就可以直接抛出异常信息、没有的就需要自定义</p></li><li><p>自定义异常、根据不同类别、分别继承不同的异常类、对于团队其他成员、也是一种便捷、<br>大家学的都一样、然后规定都这么写、自然懂得每个异常的意思、也就更方便维护代码</p></li></ul><a id="more"></a><h2 id="java-api"><a href="#java-api" class="headerlink" title="java api"></a>java api</h2><ul><li>java 7<br><img src="/img/exception/exception-0.png" alt="如图"></li></ul><h3 id="Exceptions"><a href="#Exceptions" class="headerlink" title="Exceptions"></a>Exceptions</h3><ul><li>ArithmeticException<ul><li>算术类异常</li></ul></li><li>ArrayIndexOutOfBoundsException<ul><li>数组下标越界异常</li></ul></li><li>ArrayStoreException<ul><li>数组存储异常。当向数组中存放非数组声明类型对象时抛出。</li></ul></li><li>ClassCastException<ul><li>类转换异常</li></ul></li><li>ClassNotFoundException<ul><li>类未找到异常</li></ul></li><li>CloneNotSupportedException<ul><li>不支持克隆异常。</li><li>当没有实现Cloneable接口或者不支持克隆方法时,调用其clone()方法则抛出该异常。</li></ul></li><li>EnumConstantNotPresentException<ul><li>枚举常量不存在异常。</li><li>当应用试图通过名称和枚举类型访问一个枚举对象，但该枚举对象并不包含常量时，抛出该异常。</li></ul></li><li>Exception<ul><li>根异常。</li><li>用以描述应用程序希望捕获的情况。</li></ul></li><li>IllegalAccessException<ul><li>违法的访问异常。</li><li>当应用试图通过反射方式创建某个类的实例、访问该类属性、调用该类方法，而当时又无法访问类的、属性的、方法的或构造方法的定义时抛出该异常。</li></ul></li><li>IllegalArgumentException<ul><li>这个异常的解释是”方法的参数错误”，很多j2me的类库中的方法在一些情况下都会引发这样的错误，</li><li>比如音量调节方法中的音量参数如果写成负数就会出现这个异常，</li><li>再比如g.setcolor(int red,int green,int blue)这个方法中的三个值，如果有超过２５５的也会出现这个异常，<br>因此一旦发现这个异常，我们要做的，就是赶紧去检查一下方法调用中的参数传递是不是出现了错误。</li></ul></li><li>IllegalMonitorStateException<ul><li>违法的监控状态异常。</li><li>当某个线程试图等待一个自己并不拥有的对象（O）的监控器或者通知其他线程等待该对象（O）的监控器时，抛出该异常。</li></ul></li><li>IllegalStateException<ul><li>违法的状态异常。</li><li>当在Java环境和应用尚未处于某个方法的合法调用状态，而调用了该方法时，抛出该异常</li></ul></li><li>IllegalThreadStateException<ul><li>违法的线程状态异常。</li><li>当县城尚未处于某个方法的合法调用状态，而调用了该方法时，抛出异常</li></ul></li><li>IndexOutOfBoundsException<ul><li>索引越界异常。</li><li>当访问某个序列的索引值小于0或大于等于序列大小时，抛出该异常。</li></ul></li><li>InstantiationException<ul><li>实例化异常。</li><li>当试图通过newInstance()方法创建某个类的实例，而该类是一个抽象类或接口时，抛出该异常。</li></ul></li><li>InterruptedException<ul><li>被中止异常。</li><li>当某个线程处于长时间的等待、休眠或其他暂停状态，而此时其他的线程通过Thread的interrupt方法终止该线程时抛出该异常。</li></ul></li><li>NegativeArraySizeException<ul><li>NoSuchFieldException数组大小为负值异常。</li><li>当使用负数大小值创建数组时抛出该异常。</li></ul></li><li>NoSuchFieldException<ul><li>属性不存在异常。</li><li>当访问某个类的不存在的属性时抛出该异常。</li></ul></li><li>NoSuchMethodException<ul><li>方法未找到异常</li></ul></li><li>NullPointerException<ul><li>NPE 空指针异常</li></ul></li><li>NumberFormatException<ul><li>数字转换异常</li></ul></li><li>ReflectiveOperationException<ul><li>反射异常</li></ul></li><li>RuntimeException<ul><li>运行时异常</li></ul></li><li>SecurityException<ul><li>安全异常、由安全管理器抛出，用于指示违反安全情况的异常。</li></ul></li><li>StringIndexOutOfBoundsException<ul><li>字符串索引越界异常。</li><li>当使用索引值访问某个字符串中的字符，而该索引值小于0或大于等于序列大小时，抛出该异常。</li></ul></li><li>TypeNotPresentException<ul><li>类型不存在异常。</li><li>当应用试图以某个类型名称的字符串表达方式访问该类型，但是根据给定的名称又找不到该类型是抛出该异常。</li><li>该异常与ClassNotFoundException的区别在于该异常是unchecked（不被检查）异常，而ClassNotFoundException是checked（被检查）异常。</li></ul></li><li>UnsupportedOperationException<ul><li>不支持的方法异常。指明请求的方法不被支持情况的异常。</li></ul></li></ul><h3 id="Errors"><a href="#Errors" class="headerlink" title="Errors"></a>Errors</h3><ul><li>AbstractMethodError<ul><li>抽象方法错误。当应用试图调用抽象方法时抛出。</li></ul></li><li>AssertionError<ul><li>断言错。用来指示一个断言失败的情况。</li></ul></li><li>BootstrapMethodError<ul><li>引导方法异常</li></ul></li><li>ClassCircularityError<ul><li>类循环依赖错误。</li><li>在初始化一个类时，若检测到类之间循环依赖则抛出该异常。</li></ul></li><li>ClassFormatError<ul><li>Error类格式错误。</li><li>当Java虚拟机试图从一个文件中读取Java类，而检测到该文件的内容不符合类的有效格式时抛出。</li></ul></li><li>Error<ul><li>错误。</li><li>是所有错误的基类，用于标识严重的程序运行问题。这些问题通常描述一些不应被应用程序捕获的反常情况。</li></ul></li><li>ExceptionInInitializerError<ul><li>初始化程序错误。</li><li>当执行一个类的静态初始化程序的过程中，发生了异常时抛出。静态初始化程序是指直接包含于类中的static语句段。</li></ul></li><li>IllegalAccessError<ul><li>违法访问错误。</li><li>当一个应用试图访问、修改某个类的域（Field）或者调用其方法，但是又违反域或方法的可见性声明，则抛出该异常。</li></ul></li><li>IncompatibleClassChangeError<ul><li>不兼容的类变化错误。</li><li>当正在执行的方法所依赖的类定义发生了不兼容的改变时，抛出该异常。</li><li>一般在修改了应用中的某些类的声明定义而没有对整个应用重新编译而直接运行的情况下，容易引发该错误。</li></ul></li><li>InstantiationError<ul><li>实例化错误。</li><li>当一个应用试图通过Java的new操作符构造一个抽象类或者接口时抛出该异常.</li></ul></li><li>InternalError<ul><li>内部错误。</li><li>用于指示Java虚拟机发生了内部错误。</li></ul></li><li>LinkageError<ul><li>链接错误。</li><li>该错误及其所有子类指示某个类依赖于另外一些类，在该类编译之后，被依赖的类改变了其类定义而没有重新编译所有的类，进而引发错误的情况。</li></ul></li><li>NoClassDefFoundError<ul><li>未找到类定义错误。</li><li>当Java虚拟机或者类装载器试图实例化某个类，而找不到该类的定义时抛出该错误。</li></ul></li><li>NoSuchFieldError<ul><li>域不存在错误。</li><li>当应用试图访问或者修改某类的某个域，而该类的定义中没有该域的定义时抛出该错误。</li></ul></li><li>NoSuchMethodError<ul><li>方法不存在错误。</li><li>当应用试图调用某类的某个方法，而该类的定义中没有该方法的定义时抛出该错误。</li></ul></li><li>OutOfMemoryError<ul><li>内存不足错误。</li><li>当可用内存不足以让Java虚拟机分配给一个对象时抛出该错误。</li></ul></li><li>StackOverflowError<ul><li>堆栈溢出错误。</li><li>当一个应用递归调用的层次太深而导致堆栈溢出时抛出该错误。</li></ul></li><li>ThreadDeath<ul><li>线程结束。</li><li>当调用Thread类的stop方法时抛出该错误，用于指示线程结束。</li></ul></li><li>UnknownError<ul><li>未知错误。</li><li>用于指示Java虚拟机发生了未知严重错误的情况。</li></ul></li><li>UnsatisfiedLinkError<ul><li>未满足的链接错误。</li><li>当Java虚拟机未找到某个类的声明为native方法的本机语言定义时抛出。</li></ul></li><li>UnsupportedClassVersionError<ul><li>不支持的类版本错误。</li><li>当Java虚拟机试图从读取某个类文件，但是发现该文件的主、次版本号不被当前Java虚拟机支持的时候，抛出该错误。</li></ul></li><li>VerifyError<ul><li>验证错误。当验证器检测到某个类文件中存在内部不兼容或者安全问题时抛出该错误。</li></ul></li><li>VirtualMachineError<ul><li>虚拟机错误。用于指示虚拟机被破坏或者继续执行操作所需的资源不足的情况。</li></ul></li></ul><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul><li><p>java.lang.Exception</p><ul><li>RuntimeException<ul><li>AclNotFoundException</li><li>ActivationException</li><li>AlreadyBoundException</li><li>ApplicationException</li><li>AWTException</li><li>BackingStoreException,</li><li>BadAttributeValueExpException</li><li>BadBinaryOpValueExpException</li><li>BadLocationException</li><li>BadStringOperationException</li><li>BrokenBarrierException</li><li>CertificateException</li><li>DataFormatException</li><li>DatatypeConfigurationException</li><li>DestroyFailedException</li><li>ExecutionException</li><li>ExpandVetoException</li><li>FontFormatException</li><li>GeneralSecurityException</li><li>GSSException</li><li>IllegalClassFormatException</li><li>IntrospectionException</li><li>InvalidApplicationException</li><li>InvalidMidiDataException</li><li>InvalidPreferencesFormatException</li><li>InvalidTargetObjectTypeException</li><li>IOException</li><li>JAXBException</li><li>JMException</li><li>KeySelectorException</li><li>LastOwnerException</li><li>LineUnavailableException</li><li>MarshalException</li><li>MidiUnavailableException</li><li>MimeTypeParseException</li><li>MimeTypeParseException</li><li>NamingException</li><li>NoninvertibleTransformException</li><li>NotBoundException</li><li>NotOwnerException</li><li>ParseException</li><li>ParserConfigurationException</li><li>PrinterException</li><li>PrintException</li><li>PrivilegedActionException</li><li>PropertyVetoException</li><li>ReflectiveOperationException</li><li>RefreshFailedException</li><li>RemarshalException</li><li>SAXException</li><li>ScriptException</li><li>ServerNotActiveException</li><li>SOAPException</li><li>SQLException</li><li>TimeoutException</li><li>TooManyListenersException</li><li>TransformerException</li><li>TransformException</li><li>UnmodifiableClassException</li><li>UnsupportedAudioFileException</li><li>UnsupportedCallbackException</li><li>UnsupportedFlavorException</li><li>UnsupportedLookAndFeelException</li><li>URIReferenceException</li><li>URISyntaxException</li><li>UserException</li><li>XAException</li><li>XMLParseException</li><li>XMLSignatureException</li><li>XMLStreamException</li><li>XPathException</li></ul></li><li>ReflectiveOperationException<ul><li>ClassNotFoundException, </li><li>IllegalAccessException, </li><li>InstantiationException, </li><li>InvocationTargetException, </li><li>NoSuchFieldException, </li><li>NoSuchMethodException</li></ul></li><li>CloneNotSupportedException</li><li>InterruptedException<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分割线</span><br></pre></td></tr></table></figure></li></ul></li><li><p>java.lang.Error</p><ul><li>AnnotationFormatError</li><li>AssertionError</li><li>AWTError</li><li>CoderMalfunctionError</li><li>FactoryConfigurationError</li><li>FactoryConfigurationError</li><li>IOError</li><li>LinkageError<ul><li>BootstrapMethodError</li><li>ClassCircularityError</li><li>ClassFormatError<ul><li>UnsupportedClassVersionError</li></ul></li><li>ExceptionInInitializerError</li><li>NoClassDefFoundError</li><li>UnsatisfiedLinkError</li><li>VerifyError</li><li>IncompatibleClassChangeError<ul><li>AbstractMethodError</li><li>IllegalAccessError</li><li>InstantiationError</li><li>NoSuchFieldError</li><li>NoSuchMethodError</li></ul></li></ul></li><li>ServiceConfigurationError</li><li>ThreadDeath</li><li>TransformerFactoryConfigurationError</li><li>VirtualMachineError<ul><li>InternalError</li><li>OutOfMemoryError</li><li>StackOverflowError</li><li>UnknownError</li></ul></li></ul></li></ul><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>异常分类：运行时异常、中断异常、反射异常、无法克隆异常</p><p>错误分类：io、线程终止、堆栈溢出、文件或者方法未找到、类格式错误、</p><h4 id="熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、"><a href="#熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、" class="headerlink" title="熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、"></a>熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、</h4>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;为什么要学-异常&quot;&gt;&lt;a href=&quot;#为什么要学-异常&quot; class=&quot;headerlink&quot; title=&quot;为什么要学 异常&quot;&gt;&lt;/a&gt;为什么要学 异常&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;java异常是 对java语言错误的一种错误类型整合、无论是编译、运行、都有相应的异常来标记&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在一个大型项目中、要找到错误是非常困难的、这时候就需要自定义异常抛出、以便于更迅速地定位代码问题&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;但有一个问题、永远不可能定义出所有的异常、因为有的异常是于业务息息相关的&lt;br&gt;对此、java创始人、定义了异常的分类、以及常见的异常信息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在我们编写代码的过程中、有现成的异常就可以直接抛出异常信息、没有的就需要自定义&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;自定义异常、根据不同类别、分别继承不同的异常类、对于团队其他成员、也是一种便捷、&lt;br&gt;大家学的都一样、然后规定都这么写、自然懂得每个异常的意思、也就更方便维护代码&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="exception" scheme="https://www.wuxinvip.com/categories/java/exception/"/>
+    
+    
+      <category term="exception" scheme="https://www.wuxinvip.com/tags/exception/"/>
+    
+  </entry>
+  
+  <entry>
     <title>本博客成长笔记</title>
     <link href="https://www.wuxinvip.com/2018/10/24/essay/essay-16/"/>
     <id>https://www.wuxinvip.com/2018/10/24/essay/essay-16/</id>
     <published>2018-10-24T00:00:00.000Z</published>
-    <updated>2018-10-22T16:43:50.266Z</updated>
+    <updated>2018-10-23T02:02:20.791Z</updated>
     
     <content type="html"><![CDATA[<h2 id="回忆、"><a href="#回忆、" class="headerlink" title="回忆、"></a>回忆、</h2><p>本博客起初只是一份html笔记、慢慢的竟然成了一个网站、也是各种原有促使了这一切的发生、获取就是冥冥中自有天注定吧</p><p>一开始作为html笔记只在学习的时候作为笔录使用、后来工作忙了起来也就不在维护、麻烦、还没有随时可复习的特性、</p><p>后来、机缘巧合、在阿里买了台ECS、又机缘巧合买了个域名、然后….</p><p>一时兴起便把笔录做成了网站、选择了hugo作为编辑器</p><p>再后来hugo没有比较好的插件支持、于是换了hexo、彷佛鸟枪换大炮的感觉~~</p><h2 id="得到了啥"><a href="#得到了啥" class="headerlink" title="得到了啥"></a>得到了啥</h2><ul><li><p>在期初作为笔录的时候让我骄傲了许多、恬不知耻的见人就送、哈哈、带给了我些许乐趣</p></li><li><p>后来机缘巧合有了ecs和域名、才有了做一个网站的念头、也是源于leader对于知识体系的一个模糊认识、<br>借助该网站编辑的过程中、分类、画出自己的知识图谱</p></li><li><p>建好了自己的知识体系、就更明白自己向往技术的哪个方向发展了、而不是拘泥于、今天java、后天nginx、大后天es、大大后天又java<br>陷入知识死循环、反而得不到更为迅速的成长、<br>避免了陷入知识世界、这山望着那山高、看着这一块、又想那一块、造成的只是混乱</p></li><li><p>再后来随着分类的细节化、就想在知识分类做更为详细的学习、就想到做知识专题<br>知识的积累、日积跬步、水滴石穿</p></li></ul><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然一个网站并不是必须的、但是我还是建议【有缘到此的朋友】有时间做一个、<br>一方面构建自己的知识体系、一方面分享的乐趣会是学习的一大助力</p><p>  分享过程中、你才会学得更多、知识体系的梳理、才会让你大脑里的知识不乱糟糟的像一团乱麻</p><a id="more"></a><ul><li>v1.0        </li></ul><p><img src="/img/adsense/v1.0.png" alt="如图"></p><ul><li>v2.0</li></ul><p><img src="/img/adsense/v2.0-1.png" alt="如图"><br><img src="/img/adsense/v2.0-2.png" alt="如图"><br><img src="/img/adsense/v2.0-3.png" alt="如图"></p><ul><li>v3.0</li></ul><p><img src="/img/adsense/v3.0.png" alt="如图"></p>]]></content>
     
@@ -95,6 +130,31 @@
   </entry>
   
   <entry>
+    <title>网站制作app、并发布github、生成二维码推广下载</title>
+    <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-15/"/>
+    <id>https://www.wuxinvip.com/2018/09/24/essay/essay-15/</id>
+    <published>2018-09-24T00:00:00.000Z</published>
+    <updated>2018-10-16T09:24:37.607Z</updated>
+    
+    <content type="html"><![CDATA[<p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p><h1 id="网站制作app"><a href="#网站制作app" class="headerlink" title="网站制作app"></a>网站制作app</h1><p>工具 Hbuilder</p><p>下载地址：<a href="http://dcloud.io/" target="_blank" rel="noopener">http://dcloud.io/</a></p><p>步骤 ：</p><a id="more"></a><h3 id="新建工程-添加app信息"><a href="#新建工程-添加app信息" class="headerlink" title="新建工程 添加app信息"></a>新建工程 添加app信息</h3><p><img src="/img/essay/essay-15/new-project.png" alt="如图"></p><h3 id="选择wap转app"><a href="#选择wap转app" class="headerlink" title="选择wap转app"></a>选择wap转app</h3><p><img src="/img/essay/essay-15/project-config.png" alt="如图"></p><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><ul><li>选择发行-》》app在云端打包<br><img src="/img/essay/essay-15/faxing.png" alt="如图"></li></ul><p>然后等待 后台打包<br>控制台会实时输出打包信息</p><h1 id="github发布二进制可下载文件"><a href="#github发布二进制可下载文件" class="headerlink" title="github发布二进制可下载文件"></a>github发布二进制可下载文件</h1><h3 id="仓库release分支建立一个新的release-tag"><a href="#仓库release分支建立一个新的release-tag" class="headerlink" title="仓库release分支建立一个新的release tag"></a>仓库release分支建立一个新的release tag</h3><p><img src="/img/essay/essay-15/release.png" alt="如图"></p><h3 id="把生成的文件上传上去"><a href="#把生成的文件上传上去" class="headerlink" title="把生成的文件上传上去"></a>把生成的文件上传上去</h3><p><img src="/img/essay/essay-15/publish-github.png" alt="如图"></p><h3 id="选中文件右键复制下载地址"><a href="#选中文件右键复制下载地址" class="headerlink" title="选中文件右键复制下载地址"></a>选中文件右键复制下载地址</h3><h1 id="草料二维码生成下载图片"><a href="#草料二维码生成下载图片" class="headerlink" title="草料二维码生成下载图片"></a>草料二维码生成下载图片</h1><ul><li>地址：<a href="https://cli.im/" target="_blank" rel="noopener">https://cli.im/</a></li></ul><p><img src="/img/essay/essay-15/download-photo.png" alt="如图"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;应用全部工具 ：Hbuilder、 github账户、草料二维码生成器&lt;/p&gt;
+&lt;h1 id=&quot;网站制作app&quot;&gt;&lt;a href=&quot;#网站制作app&quot; class=&quot;headerlink&quot; title=&quot;网站制作app&quot;&gt;&lt;/a&gt;网站制作app&lt;/h1&gt;&lt;p&gt;工具 Hbuilder&lt;/p&gt;
+&lt;p&gt;下载地址：&lt;a href=&quot;http://dcloud.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://dcloud.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;步骤 ：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="essay" scheme="https://www.wuxinvip.com/categories/essay/"/>
+    
+    
+      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
     <title>每天一点人生感悟的句子</title>
     <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-14/"/>
     <id>https://www.wuxinvip.com/2018/09/24/essay/essay-14/</id>
@@ -115,31 +175,6 @@
 &lt;p&gt;　　8、人生难免要受些委屈和伤害，与其耿耿于怀郁郁寡欢，倒不如坦坦荡荡泰然处之。只有经受住狂风暴雨的洗礼，才能练就波澜不惊的淡定。&lt;/p&gt;
 &lt;p&gt;　　9、人生的每个抉择都像是一个赌局，输赢都是自己的。不同的是赌注的大小，选择了就没有反悔的机会。&lt;/p&gt;
 &lt;p&gt;　　10、人生在世最大的勇气不是不怕死亡，而是坚强的活着，勇敢的面对生活带给的压力和考验！&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="essay" scheme="https://www.wuxinvip.com/categories/essay/"/>
-    
-    
-      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网站制作app、并发布github、生成二维码推广下载</title>
-    <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-15/"/>
-    <id>https://www.wuxinvip.com/2018/09/24/essay/essay-15/</id>
-    <published>2018-09-24T00:00:00.000Z</published>
-    <updated>2018-10-16T09:24:37.607Z</updated>
-    
-    <content type="html"><![CDATA[<p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p><h1 id="网站制作app"><a href="#网站制作app" class="headerlink" title="网站制作app"></a>网站制作app</h1><p>工具 Hbuilder</p><p>下载地址：<a href="http://dcloud.io/" target="_blank" rel="noopener">http://dcloud.io/</a></p><p>步骤 ：</p><a id="more"></a><h3 id="新建工程-添加app信息"><a href="#新建工程-添加app信息" class="headerlink" title="新建工程 添加app信息"></a>新建工程 添加app信息</h3><p><img src="/img/essay/essay-15/new-project.png" alt="如图"></p><h3 id="选择wap转app"><a href="#选择wap转app" class="headerlink" title="选择wap转app"></a>选择wap转app</h3><p><img src="/img/essay/essay-15/project-config.png" alt="如图"></p><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><ul><li>选择发行-》》app在云端打包<br><img src="/img/essay/essay-15/faxing.png" alt="如图"></li></ul><p>然后等待 后台打包<br>控制台会实时输出打包信息</p><h1 id="github发布二进制可下载文件"><a href="#github发布二进制可下载文件" class="headerlink" title="github发布二进制可下载文件"></a>github发布二进制可下载文件</h1><h3 id="仓库release分支建立一个新的release-tag"><a href="#仓库release分支建立一个新的release-tag" class="headerlink" title="仓库release分支建立一个新的release tag"></a>仓库release分支建立一个新的release tag</h3><p><img src="/img/essay/essay-15/release.png" alt="如图"></p><h3 id="把生成的文件上传上去"><a href="#把生成的文件上传上去" class="headerlink" title="把生成的文件上传上去"></a>把生成的文件上传上去</h3><p><img src="/img/essay/essay-15/publish-github.png" alt="如图"></p><h3 id="选中文件右键复制下载地址"><a href="#选中文件右键复制下载地址" class="headerlink" title="选中文件右键复制下载地址"></a>选中文件右键复制下载地址</h3><h1 id="草料二维码生成下载图片"><a href="#草料二维码生成下载图片" class="headerlink" title="草料二维码生成下载图片"></a>草料二维码生成下载图片</h1><ul><li>地址：<a href="https://cli.im/" target="_blank" rel="noopener">https://cli.im/</a></li></ul><p><img src="/img/essay/essay-15/download-photo.png" alt="如图"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;应用全部工具 ：Hbuilder、 github账户、草料二维码生成器&lt;/p&gt;
-&lt;h1 id=&quot;网站制作app&quot;&gt;&lt;a href=&quot;#网站制作app&quot; class=&quot;headerlink&quot; title=&quot;网站制作app&quot;&gt;&lt;/a&gt;网站制作app&lt;/h1&gt;&lt;p&gt;工具 Hbuilder&lt;/p&gt;
-&lt;p&gt;下载地址：&lt;a href=&quot;http://dcloud.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://dcloud.io/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;步骤 ：&lt;/p&gt;
     
     </summary>
     
@@ -395,39 +430,6 @@
   </entry>
   
   <entry>
-    <title>关于编码方式</title>
-    <link href="https://www.wuxinvip.com/2018/07/03/essay/essay-11/"/>
-    <id>https://www.wuxinvip.com/2018/07/03/essay/essay-11/</id>
-    <published>2018-07-03T00:00:00.000Z</published>
-    <updated>2018-10-15T08:31:42.743Z</updated>
-    
-    <content type="html"><![CDATA[<p>编码</p><pre><code>将人类语言解释为机器语言的一种关系映射</code></pre><p>常见编码方式</p><p>ASCII</p><pre><code>128个0-31控制字符、换行、删除、回车32-126打印字符</code></pre><p>ISO8859-1</p><pre><code>在ASCII上 加上了大多数修语言字符、256个字符 </code></pre><a id="more"></a><p>GB2312</p><pre><code>信息交换用汉字编码字符集基本集、双字节编码、A1-A9 符号区B0-F7 汉字区</code></pre><p>GBK</p><pre><code>汉字内码扩展规范对GB2312扩展编码范围 8140-FEFE 与GB2312兼容</code></pre><p>GB18030</p><pre><code>数字交换用汉字编码字符集单字节、双字节、四字节、与GB2312兼容</code></pre><p>UTF-16</p><pre><code>Unicode字符集的存取方法使用2字节标识Unicode转化格式、定长表示</code></pre><p>UTF-8<br>    边长字符集、1-6个字节<br>    涵盖了所有各国字符编码</p><p>UTF-8mb4</p><pre><code>在UTF8基础上 增加了表情字符</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;编码&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;将人类语言解释为机器语言的一种关系映射
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;常见编码方式&lt;/p&gt;
-&lt;p&gt;ASCII&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;128个
-0-31控制字符、换行、删除、回车
-32-126打印字符
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;ISO8859-1&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;在ASCII上 加上了大多数修语言字符、256个字符 
-&lt;/code&gt;&lt;/pre&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="essay" scheme="https://www.wuxinvip.com/categories/java/essay/"/>
-    
-    
-      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
     <title>nginx-plus</title>
     <link href="https://www.wuxinvip.com/2018/07/03/load-balance/nginx-plus/"/>
     <id>https://www.wuxinvip.com/2018/07/03/load-balance/nginx-plus/</id>
@@ -529,6 +531,39 @@
   </entry>
   
   <entry>
+    <title>关于编码方式</title>
+    <link href="https://www.wuxinvip.com/2018/07/03/essay/essay-11/"/>
+    <id>https://www.wuxinvip.com/2018/07/03/essay/essay-11/</id>
+    <published>2018-07-03T00:00:00.000Z</published>
+    <updated>2018-10-15T08:31:42.743Z</updated>
+    
+    <content type="html"><![CDATA[<p>编码</p><pre><code>将人类语言解释为机器语言的一种关系映射</code></pre><p>常见编码方式</p><p>ASCII</p><pre><code>128个0-31控制字符、换行、删除、回车32-126打印字符</code></pre><p>ISO8859-1</p><pre><code>在ASCII上 加上了大多数修语言字符、256个字符 </code></pre><a id="more"></a><p>GB2312</p><pre><code>信息交换用汉字编码字符集基本集、双字节编码、A1-A9 符号区B0-F7 汉字区</code></pre><p>GBK</p><pre><code>汉字内码扩展规范对GB2312扩展编码范围 8140-FEFE 与GB2312兼容</code></pre><p>GB18030</p><pre><code>数字交换用汉字编码字符集单字节、双字节、四字节、与GB2312兼容</code></pre><p>UTF-16</p><pre><code>Unicode字符集的存取方法使用2字节标识Unicode转化格式、定长表示</code></pre><p>UTF-8<br>    边长字符集、1-6个字节<br>    涵盖了所有各国字符编码</p><p>UTF-8mb4</p><pre><code>在UTF8基础上 增加了表情字符</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;编码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;将人类语言解释为机器语言的一种关系映射
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;常见编码方式&lt;/p&gt;
+&lt;p&gt;ASCII&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;128个
+0-31控制字符、换行、删除、回车
+32-126打印字符
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;ISO8859-1&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;在ASCII上 加上了大多数修语言字符、256个字符 
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="essay" scheme="https://www.wuxinvip.com/categories/java/essay/"/>
+    
+    
+      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
     <title>谈谈区块链对互联网的冲击</title>
     <link href="https://www.wuxinvip.com/2018/07/02/block-chain/block-chain-0/"/>
     <id>https://www.wuxinvip.com/2018/07/02/block-chain/block-chain-0/</id>
@@ -580,38 +615,6 @@
     
     
       <category term="密码加密" scheme="https://www.wuxinvip.com/tags/%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>基于Strom的日志实时流量分析主动防御(CCFirewall)系统</title>
-    <link href="https://www.wuxinvip.com/2018/07/01/github/cc-iptable/"/>
-    <id>https://www.wuxinvip.com/2018/07/01/github/cc-iptable/</id>
-    <published>2018-07-01T00:00:00.000Z</published>
-    <updated>2018-10-15T05:57:31.409Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="CC防火墙-github-地址"><a href="#CC防火墙-github-地址" class="headerlink" title="CC防火墙 github 地址"></a><a href="https://github.com/gy-games/shield" target="_blank" rel="noopener">CC防火墙 github 地址</a></h2><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>CC防火墙的架构采用Flume+Kafka+Strom+Zookeeper+Mysql实现,实现异常IP的及时封停功能</p><p><img src="/blog/github/img/cc/Struct.jpg" alt=""></p><h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><ul><li><strong>Flume</strong>      :部署在所有的Nginx服务器上，将Nginx日志推送至Kafka中，</li><li><strong>Kafka</strong>      : 临时存储Nginx的log数据</li><li><strong>Strom</strong>     ：从Kafka取数据并进行数据分析</li><li><strong>Zookeeper</strong> ：存储CC防火墙的配置文件，并且所有部署在Squid上的客户端也注册在这个Zookeeper上。</li><li><strong>Agent</strong>     ：部署在每台Squid上，并且信息注册到Zookeeper的临时节点上，接收到封停指令后通过iptables封锁IP。</li></ul><a id="more"></a><h2 id="Strom拓扑"><a href="#Strom拓扑" class="headerlink" title="Strom拓扑"></a>Strom拓扑</h2><p><img src="/blog/github/img/cc/Strom.jpg" alt=""></p><ul><li><strong>KafkaSpOut</strong>：进行Kafka数据的读取，这里为了方便与简单，并且保证顺序性Kafka内只是用一个Partion。</li><li><strong>LogFormatBolt</strong> : 收到KafkaSpout读取出的Nginx日志后进行格式化处理，并在此使用纯真库进行IP GEO匹配</li><li><strong>IpAnalysis</strong> ： 几乎所有的逻辑都在这里实现，如IP的计数器，报警的匹配等等，为了可以动态调整防火墙的配置，配置文件保存在Zookeeper中，也是在这里Watch Zookeeper的节点，达到动态改变配置的。</li><li><strong>BlockBolt</strong> ： 接收到IpAnalysis 发送的信息后，将异常的信息通过Thrift发送给各个Squid机器。</li><li><strong>UnBlockBolt</strong> ： 接收到BlockBolt成功封锁后的IP后经过一段时间进行解封。</li><li><strong>BlockReportBlot</strong> ： 做数据统计用的，对整体的作用不大</li><li><strong>xStoreBolt</strong> ： 数据库存储Bolt，拓扑上的IPStoreBolt，BlockStoreBolt，BlockReportStoreBolt 都是使用的这一个Bolt。</li></ul><h2 id="Thrit封存解封接口"><a href="#Thrit封存解封接口" class="headerlink" title="Thrit封存解封接口"></a>Thrit封存解封接口</h2><pre><code>service CCfirewall{    string  blockipbyiptables(1:string mkey,2: string ip)    string  unblockipbyiptables(1:string mkey,2: string ip)}</code></pre><h2 id="Zookeeper目录"><a href="#Zookeeper目录" class="headerlink" title="Zookeeper目录"></a>Zookeeper目录</h2><p><strong>目录树</strong></p><pre><code>.└─ccfirewall   ├─config                           //存储防火墙配置信息   └─agent_list                       //存储Agent列表           └─iptables                               //使用iptables封锁的站点            ├─10.0.0.1            ├─10.0.0.1            ├─...</code></pre><p><strong>config配置</strong></p><pre><code>{    &quot;count&quot;: &quot;50&quot;,                            //IP计数个数    &quot;if_block&quot;: &quot;true&quot;,                        //是否开启封停    &quot;if_warning&quot;: &quot;false&quot;,                    //是否开启警告    &quot;threshold_w_secound&quot;: &quot;10&quot;,            //警告阈值秒数    &quot;threshold_secound&quot;: &quot;20&quot;,                //封停阈值秒数    &quot;block_second&quot;: &quot;864000&quot;,                //封停秒数    &quot;ip_white_list&quot;: [                        //IP白名单        &quot;127.0.0.1&quot;,        &quot;211.103.231.10&quot;    ],    &quot;url_list&quot;: [{                            //URL黑名单        &quot;url&quot;: &quot;all&quot;,                        //全部        &quot;type&quot;: &quot;normal&quot;                    //normal (精确) 或 after (向后模糊)    }],    &quot;special_rule&quot;: {                        //特殊规则        &quot;reg.gyyx.cn/Login/Async&quot;: {        //URL            &quot;threshold_w_secound&quot;: &quot;100&quot;,    //警告阈值秒数            &quot;threshold_secound&quot;: &quot;300&quot;,        //封停阈值秒数            &quot;block_second&quot;: &quot;86400&quot;            //封停秒数        }    }}</code></pre><h2 id="数据库模型"><a href="#数据库模型" class="headerlink" title="数据库模型"></a>数据库模型</h2><p><img src="/blog/github/img/cc/pdm.jpg" alt=""></p><h2 id="Agent"><a href="#Agent" class="headerlink" title="Agent"></a>Agent</h2><p><strong>启动Agent</strong> </p><pre><code>python CCFirewall.py 本机IP</code></pre><h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><p>左上方可以设置防火前的配置，保存后实时生效，中上方可以查看当前已经上线的客户端，点击详情可以看到此客户端已经封停的IP格式，右上方可以看到曲线，地图，已经两个计数器信息</p><p>左下方显示最新的达到计数器的条目，右下方可以看到异常IP在客户端的封锁状况。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;CC防火墙-github-地址&quot;&gt;&lt;a href=&quot;#CC防火墙-github-地址&quot; class=&quot;headerlink&quot; title=&quot;CC防火墙 github 地址&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://github.com/gy-games/shield&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;CC防火墙 github 地址&lt;/a&gt;&lt;/h2&gt;&lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;CC防火墙的架构采用Flume+Kafka+Strom+Zookeeper+Mysql实现,实现异常IP的及时封停功能&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/blog/github/img/cc/Struct.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;组件&quot;&gt;&lt;a href=&quot;#组件&quot; class=&quot;headerlink&quot; title=&quot;组件&quot;&gt;&lt;/a&gt;组件&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Flume&lt;/strong&gt;      :部署在所有的Nginx服务器上，将Nginx日志推送至Kafka中，&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Kafka&lt;/strong&gt;      : 临时存储Nginx的log数据&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Strom&lt;/strong&gt;     ：从Kafka取数据并进行数据分析&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Zookeeper&lt;/strong&gt; ：存储CC防火墙的配置文件，并且所有部署在Squid上的客户端也注册在这个Zookeeper上。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Agent&lt;/strong&gt;     ：部署在每台Squid上，并且信息注册到Zookeeper的临时节点上，接收到封停指令后通过iptables封锁IP。&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="github" scheme="https://www.wuxinvip.com/categories/github/"/>
-    
-    
-      <category term="项目推荐" scheme="https://www.wuxinvip.com/tags/%E9%A1%B9%E7%9B%AE%E6%8E%A8%E8%8D%90/"/>
-    
-      <category term="防火墙" scheme="https://www.wuxinvip.com/tags/%E9%98%B2%E7%81%AB%E5%A2%99/"/>
     
   </entry>
   
