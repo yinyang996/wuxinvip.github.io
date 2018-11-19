@@ -148,18 +148,18 @@
 
 
 
-  <meta name="description" content="spring cloud task【springcloud服务继承】 spring quarts【现有常用】 TBSchedule【淘宝分布式调度】  Firmament - 大规模集群任务调度  集群调度器体系结构的演变。">
+  <meta name="description" content="spring cloud task【springcloud服务集成各种调度框架封装包】  spring quarts【现有常用调度框架】  TBSchedule【淘宝分布式调度】  Firmament - 大规模集群任务调度  集群调度器体系结构的演变。   java调度推荐两款比较不错的调度框架">
 <meta name="keywords" content="服务架构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="集群调度框架总结">
 <meta property="og:url" content="https://www.wuxinvip.com/2018/10/31/service-design/design-7/index.html">
 <meta property="og:site_name" content="无心の技术簿">
-<meta property="og:description" content="spring cloud task【springcloud服务继承】 spring quarts【现有常用】 TBSchedule【淘宝分布式调度】  Firmament - 大规模集群任务调度  集群调度器体系结构的演变。">
+<meta property="og:description" content="spring cloud task【springcloud服务集成各种调度框架封装包】  spring quarts【现有常用调度框架】  TBSchedule【淘宝分布式调度】  Firmament - 大规模集群任务调度  集群调度器体系结构的演变。   java调度推荐两款比较不错的调度框架">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-28T13:40:59.596Z">
+<meta property="og:updated_time" content="2018-11-19T08:09:19.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集群调度框架总结">
-<meta name="twitter:description" content="spring cloud task【springcloud服务继承】 spring quarts【现有常用】 TBSchedule【淘宝分布式调度】  Firmament - 大规模集群任务调度  集群调度器体系结构的演变。">
+<meta name="twitter:description" content="spring cloud task【springcloud服务集成各种调度框架封装包】  spring quarts【现有常用调度框架】  TBSchedule【淘宝分布式调度】  Firmament - 大规模集群任务调度  集群调度器体系结构的演变。   java调度推荐两款比较不错的调度框架">
 
 
 
@@ -494,15 +494,31 @@
 
       
         <ul>
-<li>spring cloud task【springcloud服务继承】</li>
-<li>spring quarts【现有常用】</li>
+<li><p>spring cloud task【springcloud服务集成各种调度框架封装包】</p>
+</li>
+<li><p>spring quarts【现有常用调度框架】</p>
+</li>
 <li><p>TBSchedule【淘宝分布式调度】</p>
 </li>
 <li><p><a href="http://www.infoq.com/cn/articles/firmament-a-cluster-job-scheduler" target="_blank" rel="noopener">Firmament - 大规模集群任务调度</a></p>
 </li>
-<li><a href="http://www.firmament.io/blog/scheduler-architectures.html" target="_blank" rel="noopener">集群调度器体系结构的演变。</a></li>
+<li><p><a href="http://www.firmament.io/blog/scheduler-architectures.html" target="_blank" rel="noopener">集群调度器体系结构的演变。</a></p>
+</li>
 </ul>
-<a id="more"></a>
+<h3 id="java调度"><a href="#java调度" class="headerlink" title="java调度"></a>java调度</h3><h4 id="推荐两款比较不错的调度框架"><a href="#推荐两款比较不错的调度框架" class="headerlink" title="推荐两款比较不错的调度框架"></a>推荐两款比较不错的调度框架</h4><a id="more"></a>
+<p><a href="https://github.com/xuxueli/xxl-job.git" target="_blank" rel="noopener">xxl-job</a> </p>
+<ul>
+<li>开源较早 拥有自带的rpc机制、功能比较健全、http远程调度支持的还不是很好 不过可以使用java脚本形式进行调度封装</li>
+<li>数据库使用mysql和oracle</li>
+</ul>
+<p><a href="https://github.com/ihaolin/antares.git" target="_blank" rel="noopener">分布式任务调度平台(Distributed Job Schedule Platform)</a></p>
+<ul>
+<li>使用zk作为注册中心、redis作为存储位置、较为重量级</li>
+</ul>
+<p>依据项目中的注册中心选择不同的任务调度吧</p>
+<p>xxl-job下阶段结合eureka注册中心就比较不错了、目前spring cloud比较火、如果不能积极嵌入到新的微服务中、用的也就越来越少<br>不过稍微改动下注册机制、也不是很困难的是、一个定时线程不断地获取注册中心的服务列表、然后保存到本地作为服务app、便于集群管理</p>
+<p>最后、对于所有开源的产品、尽量测试好了在上生产环境、否则因为生产较为复杂的环境gg掉就悲催了、<br>有些开源产品一遇到高并发就gg、以前碰到过一例</p>
+
       
     </div>
 
@@ -529,13 +545,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
       
     </li>
@@ -544,6 +553,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
       
     </li>
   
@@ -684,8 +700,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -989,6 +1014,22 @@
       </section>
 
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#java调度"><span class="nav-number">1.</span> <span class="nav-text">java调度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#推荐两款比较不错的调度框架"><span class="nav-number">1.1.</span> <span class="nav-text">推荐两款比较不错的调度框架</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
