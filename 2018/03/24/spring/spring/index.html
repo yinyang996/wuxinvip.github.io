@@ -156,13 +156,13 @@
 <meta property="og:site_name" content="无心の技术簿">
 <meta property="og:description" content="特性:IOC　AOP 控制反转．面向切面编程 由spring创建obj. 独特的obj注入方式 执行过程切面管理">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://www.wuxinvip.com/2018/03/24/spring/img/spring-aop-1.jpg">
-<meta property="og:image" content="https://www.wuxinvip.com/2018/03/24/spring/img/spring-ioc-1.jpg">
-<meta property="og:updated_time" content="2018-10-15T08:38:38.822Z">
+<meta property="og:image" content="https://www.wuxinvip.com/img/spring/img/spring-aop-1.jpg">
+<meta property="og:image" content="https://www.wuxinvip.com/img/spring/img/spring-ioc-1.jpg">
+<meta property="og:updated_time" content="2018-11-21T06:00:42.969Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring">
 <meta name="twitter:description" content="特性:IOC　AOP 控制反转．面向切面编程 由spring创建obj. 独特的obj注入方式 执行过程切面管理">
-<meta name="twitter:image" content="https://www.wuxinvip.com/2018/03/24/spring/img/spring-aop-1.jpg">
+<meta name="twitter:image" content="https://www.wuxinvip.com/img/spring/img/spring-aop-1.jpg">
 
 
 
@@ -502,8 +502,55 @@
 <p>独特的obj注入方式</p>
 <p>执行过程切面管理</p>
 <a id="more"></a>
-<p>bean加载方式<br><img src="../img/spring-aop-1.jpg" alt="AOP"></p>
-<p>spring cglib代理织入切面方法执行<br><img src="../img/spring-ioc-1.jpg" alt="spring cglib代理织入切面方法执行"></p>
+<p>bean加载方式<br><img src="/img/spring/img/spring-aop-1.jpg" alt="AOP"></p>
+<p>spring cglib代理织入切面方法执行<br><img src="/img/spring/img/spring-ioc-1.jpg" alt="spring cglib代理织入切面方法执行"></p>
+<h3 id="spring-容器初始化过程"><a href="#spring-容器初始化过程" class="headerlink" title="spring 容器初始化过程"></a>spring 容器初始化过程</h3><ul>
+<li><p>创建beanFactory 来装配BeanDefinition</p>
+<ul>
+<li>spring将配置文件解析为BeanDefinition对象、并导入容器bean的定义注册表中（BeanDefinitionRegistry）<br>但此时Bean还未初始化、ObtainFreashBeanFactory调用自身的refreshBeanFactory、refreshBeanFactory方法由子类<br>AbstractRefreshableApplicationContext实现、该方法返回创建的DefaultListableFactory对象、这个对象就是由ApplicationContext管理的BeanFactory容器对象</li>
+</ul>
+</li>
+<li><p>加工处理BeanDefinition</p>
+<ul>
+<li>调用工厂处理器、根据反射机制从BeanDefinitionRegistry中找出所有BeanFactoryPostPrecessor类型Bean、并调用其PostProcessBeanFactory接口方法、<br>经过第一步的DefaultListableFactory反射以实现（BeanFactoryPostProcessor 接口）bean、然后调用这些bean工厂后处理器、对注册表中的BeanDefinition对象进行加工处理、</li>
+<li>主要完成工作：bean配置—》beanDefinitionRegistry—》beanDefinition—》property–》注册到spring容器属性编辑器注册表中（propertyEditorRegistry）、</li>
+</ul>
+</li>
+<li><p>注册Bean后处理器</p>
+<ul>
+<li>根据反射机制从BeanDefinitionRegistry中找出所有的BeanPostProcessor类型的Bean并将他们注册到容器Bean后处理器的注册表中</li>
+</ul>
+</li>
+<li><p>初始化消息资源</p>
+<ul>
+<li>初始化容器国际化信息资源</li>
+</ul>
+</li>
+<li><p>初始化应用上下文事件广播器【观察者模式】</p>
+<ul>
+<li>AbstractApplicationContext拥有一个applicationEventMnlticastor成员变量、applicationEventMuticastor提供了容器监听的注册表、成为其广播器<br>以便将事件监听装入其中</li>
+</ul>
+</li>
+<li><p>初始化其他特殊bean</p>
+</li>
+<li><p>注册事件监听器</p>
+<ul>
+<li>观察者模式中观察者角色</li>
+<li>spring根据上下文持有的beanFactory对象找出所有实现ApplicationListener的bean、将BeanDefinition对象生成Bean注册为容器事件监听器</li>
+<li>实际操作就是将其添加到事件广播器所提供的监听器事件中</li>
+</ul>
+</li>
+<li><p>初始化所有sington的bean</p>
+<ul>
+<li>创建一个beanFactory实例化所有单实例bean</li>
+</ul>
+</li>
+<li><p>最后发布上下文刷新事件</p>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -517,14 +564,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring-crontab/" rel="bookmark">spring-定时任务</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring/springmvc/" rel="bookmark">sringmvc</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring/springmvc/" rel="bookmark">sringmvc</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring-crontab/" rel="bookmark">spring-定时任务</a></div>
       
     </li>
   
@@ -603,8 +650,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/service-permission/permission-data/" rel="next" title="权限系统_数据权限控制">
-                <i class="fa fa-chevron-left"></i> 权限系统_数据权限控制
+              <a href="/2018/03/24/service-permission/oauth-oauth2/" rel="next" title="OAuth OAuth2">
+                <i class="fa fa-chevron-left"></i> OAuth OAuth2
               </a>
             
           </div>
@@ -613,8 +660,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/hack/art-infiltration/" rel="prev" title="渗透的艺术">
-                渗透的艺术 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/spring/spring-crontab/" rel="prev" title="spring-定时任务">
+                spring-定时任务 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -665,8 +712,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -972,6 +1028,22 @@
       </section>
 
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-容器初始化过程"><span class="nav-number">1.</span> <span class="nav-text">spring 容器初始化过程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
