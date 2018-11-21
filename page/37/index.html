@@ -280,7 +280,7 @@
           
           <li class="menu-item menu-item-categories">
     <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">41</span></a>
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">42</span></a>
   </li>
         
         
@@ -288,7 +288,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">220</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">221</span></a>
   </li>
         
         
@@ -362,6 +362,219 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-lock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="无心">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无心の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-lock/" itemprop="url">
+                  SQL优化【锁优化】
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-b679147e38a9e162.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>MySQL使用锁管理对表内容的争用 ：</p>
+<p>内部锁定在MySQL服务器内部执行，以管理多个线程对表内容的争用。<br>这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。<br>参见 第8.11.1节“内部锁定方法”。</p>
+<p>当服务器和其他程序锁定MyISAM表文件以相互协调哪个程序可以访问表时，发生外部锁定。<br>参见第8.11.5节“外部锁定”。</p>
+<p>8.11.1内部锁定方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">本节讨论内部锁定; 即在MySQL服务器本身内执行锁定以管理多个会话对表内容的争用。</span><br><span class="line">这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。</span><br><span class="line">对于其他程序在MySQL文件上执行的锁定，请参见第8.11.5节“外部锁定”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line"></span><br><span class="line">选择锁定类型</span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line">MySQL使用行级锁定为InnoDB表，以支持由多个会话并发写入权限，使其适用于多用户，高并发，和OLTP应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了避免在单个表上执行多个并发写入操作时发生死锁， InnoDB通过SELECT ... FOR UPDATE为每组预计要修改的行发布语句，即使数据更改语句稍后在事务中发生，也可以在事务启动时获取必要的锁。</span><br><span class="line">如果交易修改或锁定多个表，请在每个交易中以相同的顺序发布适用的报表。</span><br><span class="line">死锁会影响性能而不是表示严重的错误，因为它会 InnoDB自动 检测 死锁条件并回滚其中一个受影响的事务。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在高并发系统上，当大量线程等待相同的锁时，死锁检测会导致速度下降。</span><br><span class="line">有时候，innodb_lock_wait_timeout 当死锁发生时，禁用死锁检测并依赖事务回滚的设置可能更有效 。</span><br><span class="line">使用innodb_deadlock_detect 配置选项可以禁用死锁检测 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定的优点：</span><br><span class="line"></span><br><span class="line">当不同的会话访问不同的行时，更少的锁冲突。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">回滚更少。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">可能长时间锁定一行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line">MySQL使用表级锁的MyISAM， MEMORY和MERGE 表，只允许一个会话更新一次这些表。</span><br><span class="line">这种锁定级别使得这些存储引擎更适合于只读，主要读取或单用户应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些存储引擎通过始终在查询开始时一次请求所有需要的锁，并始终以相同的顺序锁定表来避免 死锁。</span><br><span class="line">权衡是这种策略降低了并发性; 其他要修改表的会话必须等到当前数据更改语句结束。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定的优点：</span><br><span class="line"></span><br><span class="line">所需的内存相对较少（行锁定需要锁定每行或一组行的内存）</span><br><span class="line"></span><br><span class="line">在大部分表格上使用时都很快，因为只涉及一个锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您经常GROUP BY 对大部分数据执行操作，或者必须频繁扫描整个表，则速度很快。</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/mysql/optimization-sql-lock/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -509,13 +722,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
@@ -523,14 +729,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
       
     </li>
   
@@ -957,7 +1170,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-6/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="无心">
@@ -976,8 +1189,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/20/essay/essay-6/" itemprop="url">
-                  面试时候看一下 系列
+                <a class="post-title-link" href="/2017/08/20/essay/essay-5/" itemprop="url">
+                  转知乎关于工作
                 </a>
               
             
@@ -1063,222 +1276,24 @@
 
       
         
-          
-            <p><a href="https://36kr.com/video/3925" target="_blank" rel="noopener">职场宫心计之面试遇到“你有什么要问我的吗”，该如何回答？</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-15/" rel="bookmark">网站制作app、并发布github、生成二维码推广下载</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/08/21/essay/essay-7/" rel="bookmark">关于学习方法的一些思考</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/08/20/essay/essay-4/" rel="bookmark">腾讯COS 阿里OSS 七牛 备份脚本</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/20/essay/essay-3/" itemprop="url">
-                  干了这一波毒鸡汤
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-08-20 08:00:00" itemprop="dateCreated datePublished" datetime="2017-08-20T08:00:00+08:00">2017-08-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>1、怎么定义「想清楚了」？</strong></p>
-<pre><code>“想清楚了”就是以后出了什么问题你只能找个没人的地方抽自己，再也不能抱怨别人了。
-</code></pre><p><strong>2、你交朋友的标准是什么？</strong></p>
-<pre><code>出世的智者，入世的强者，或者正常而阳光的普通人。
-</code></pre><p><strong>3、男性更看重女性的身材、脸蛋，还是思想？</strong></p>
-<pre><code>脸蛋和身材决定了我是否想去了解她的思想。
-思想决定了我是否会一票否决掉她的脸蛋和身材。
-</code></pre>
+          <ul>
+<li>1、领导就是领导，无论你们年纪多么相近，无论你们之前多么相熟，在他是你的领导的时候，请你保持对领导的尊重，这也包括，你并不能把所有的想法都告诉他。</li>
+</ul>
+<ul>
+<li>2、积极主动、落落大方。只要是同事，不论是什么部门的，你们能遇见，有说话的机会 ，比如一起在食堂吃饭、在会上遇见，请你积极主动和别人打招呼，并且保留联系方式。</li>
+</ul>
+<ul>
+<li><p>3、对于你认可而你领导不认可的意见，请你保留，直到你当上领导的那一天。</p>
+</li>
+<li><p>4、全面了解公司架构，并寻找自己的扩展机会。这不是让你换岗位，而是对外讲得清自己公司的架构，对内如果有主动或者被动的调整机会，你知道自己想去哪儿。</p>
+</li>
+</ul>
+<ul>
+<li>5、积累、寻找上升机会。尤其是你怀才不遇的时候，如果你真的有“才”，只有你有话语权的时候，你才有更大的发展可能。</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/08/20/essay/essay-3/" rel="contents">
+            <a class="btn" href="/2017/08/20/essay/essay-5/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1296,14 +1311,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/30/essay/weichat-h5-pay/" rel="bookmark">微信H5支付</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
+      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-14/" rel="bookmark">每天一点人生感悟的句子</a></div>
       
     </li>
   
@@ -1318,13 +1340,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/08/21/essay/essay-7/" rel="bookmark">关于学习方法的一些思考</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/08/20/essay/essay-4/" rel="bookmark">腾讯COS 阿里OSS 七牛 备份脚本</a></div>
       
     </li>
   
@@ -1385,7 +1400,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1434,7 +1449,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">220</span>
+                    <span class="site-state-item-count">221</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1529,7 +1544,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">41</span>
+                      
+                    
+                    <span class="site-state-item-count">42</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
