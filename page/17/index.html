@@ -149,16 +149,16 @@
 
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="无心の技术簿">
+<meta property="og:title" content="上善若水の技术簿">
 <meta property="og:url" content="https://www.wuxinvip.com/page/17/index.html">
-<meta property="og:site_name" content="无心の技术簿">
+<meta property="og:site_name" content="上善若水の技术簿">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="无心の技术簿">
+<meta name="twitter:title" content="上善若水の技术簿">
 
 
 
-  <link rel="alternate" href="/atom.xml" title="无心の技术簿" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="上善若水の技术簿" type="application/atom+xml" />
 
 
 
@@ -173,7 +173,7 @@
   };
 </script>
 
-  <title>无心の技术簿</title>
+  <title>上善若水の技术簿</title>
   
 
 
@@ -232,7 +232,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">无心の技术簿</span>
+        <span class="site-title">上善若水の技术簿</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -378,16 +378,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/cache-elimination-algorithm/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-selector-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
+      <meta itemprop="name" content="上善若水">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
+      <meta itemprop="name" content="上善若水の技术簿">
     </span>
 
     
@@ -397,8 +397,438 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/cache/cache-elimination-algorithm/" itemprop="url">
-                  缓存淘汰算法
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-selector-2/" itemprop="url">
+                  SQL优化【查询器优化·二】
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-6fd8630f76bf000c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>8.9.1控制查询计划评估</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">查询优化器的任务是查找执行SQL查询的最佳计划。</span><br><span class="line">由于“ 好 ”和“ 坏 ”之间的表现差异计划可以是数量级（即秒数与数小时甚至数天），</span><br><span class="line">    大多数查询优化器（包括MySQL的查询优化器）在所有可能的查询评估计划中执行或多或少的穷举搜索优化计划。</span><br><span class="line">    对于连接查询，由MySQL优化器调查的可能计划的数量随着查询中引用的表的数量呈指数增长。</span><br><span class="line">    对于少量表格（通常小于7到10），这不是问题。</span><br><span class="line">    但是，当提交更大的查询时，查询优化花费的时间可能很容易成为服务器性能的主要瓶颈。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">用于查询优化的更灵活的方法使用户能够控制优化器在搜索最优查询评估计划时的详尽程度。</span><br><span class="line">总体思路是，优化程序调查的计划越少，编译查询花费的时间就越少。</span><br><span class="line">另一方面，因为优化器跳过了一些计划，所以可能会错过找到最佳计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化程序相对于其计算的计划数量的行为可以使用两个系统变量进行控制：</span><br><span class="line"></span><br><span class="line">该optimizer_prune_level 变量告诉优化器根据每个表访问的行数的估计值跳过某些计划。</span><br><span class="line">我们的经验表明，这种“ 受过教育的猜测 ”很少会错过最佳计划，并且可能大大减少查询编译时间。</span><br><span class="line">这就是为什么这个选项optimizer_prune_level=1默认是on（）。</span><br><span class="line">但是，如果您认为优化器错过了更好的查询计划，则可以关闭此选项（optimizer_prune_level=0）与查询编译可能花费更长时间的风险有关。</span><br><span class="line">请注意，即使使用这种启发式，优化器仍然会探索大致指数级的计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这个optimizer_search_depth 变量告诉优化器应该看看每个不完整计划的“ 未来 ”有多远，以评估它是否应该进一步扩展。</span><br><span class="line">较小的值 optimizer_search_depth可能会导致查询编译时间缩短几个数量级。</span><br><span class="line">例如，如果optimizer_search_depth接近查询中的表的数量，具有12,13或更多表的查询可能很容易需要数小时甚至数天来编译 。</span><br><span class="line">同时，如果编译一下 optimizer_search_depth 等于3或4，优化器可以在不到一分钟的时间内编译相同的查询。</span><br><span class="line">如果您不确定合理的值是什么 optimizer_search_depth，则可以将此变量设置为0，以通知优化器自动确定该值。</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/rpc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/agreement/rpc/" itemprop="url">
+                  RPC
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>RPC（Remote Procedure Call）—远程过程调用</p>
+<p><strong>工作原理</strong></p>
+<ul>
+<li>1.调用客户端句柄；执行传送参数</li>
+<li>2.调用本地系统内核发送网络消息</li>
+<li>3.消息传送到远程主机</li>
+<li>4.服务器句柄得到消息并取得参数</li>
+<li><p>5.执行远程过程</p>
+</li>
+<li><p>6.执行的过程将结果返回服务器句柄</p>
+</li>
+<li>7.服务器句柄返回结果，调用远程系统内核</li>
+<li>8.消息传回本地主机</li>
+<li>9.客户句柄由内核接收消息</li>
+<li>10.客户接收句柄返回的数据</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/agreement/rpc/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/memcached/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/cache/memcached/" itemprop="url">
+                  memcached
                 </a>
               
             
@@ -484,11 +914,31 @@
 
       
         
-          <p>常见算法:<br>LRU<br>LRU-K<br>2Q<br>MQ</p>
-<p>缓存淘汰算法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">缓存分析三大要点：</span><br><span class="line">    命中率、复杂度、代价</span><br><span class="line"></span><br><span class="line">LRU     最近最少使用算法</span><br><span class="line">FIFO    先入先出算法</span><br><span class="line">MRU     最近最常使用算法</span><br><span class="line"></span><br><span class="line">FIFO 先进先出 LFU 最少使用算法 LFU（Least Frequently Used）最近最少使用算法。</span><br><span class="line">它是基于“如果一个数据在最近一段时间内使用次数很少，那么在将来一段时间内被使用的可能性也很小”的思路。</span><br><span class="line"></span><br><span class="line">LRU LRU全称是Least Recently Used，即最近最久未使用的意思</span><br><span class="line"></span><br><span class="line">注意LFU和LRU算法的不同之处，LRU的淘汰规则是基于访问时间，而LFU是基于访问次数的。</span><br></pre></td></tr></table></figure></p>
+          <p>memcached</p>
+<p><strong>简介</strong></p>
+<pre><code>Memcached的
+Memcached.svg
+开发者（S）    Danga Interactive
+初始发行    2003年5月22日
+稳定版本
+1.5.8 / 2018年5月25日; 39天前[1]
+知识库
+https://github.com/memcached/memcached
+在维基数据上编辑此内容
+写入    C
+操作系统    跨平台
+类型    分布式内存缓存系统
+执照    修订BSD许可证[2]
+网站    memcached .org
+Memcached（发音：mem-cash-dee，mem-cashed）是一种通用的分布式内存缓存系统。它通常用于通过在RAM中缓存数据和对象来加速动态数据库驱动的网站，以减少必须读取外部数据源（如数据库或API）的次数。Memcached是免费的开源软件，根据修订的BSD许可证授权。[2] Memcached在类Unix操作系统（至少是Linux和OS X）和Microsoft Windows上运行。这取决于libevent库。
+
+Memcached的API提供了一个分布在多台机器上的非常大的哈希表。当表已满时，后续插入会导致较旧的数据以最近最少使用（LRU）顺序被清除。[3] [4]使用Memcached的应用程序通常将请求和添加分层到RAM中，然后再回到较慢的后备存储（例如数据库）上。
+
+Memcached没有内部机制来跟踪可能发生的未命中，但是，某些第三方实用程序提供此功能。
+</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/cache/cache-elimination-algorithm/" rel="contents">
+            <a class="btn" href="/2018/03/24/cache/memcached/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -502,6 +952,13 @@
 
   <div class="popular-posts-header">相关文章</div>
   <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
+      
+    </li>
   
     <li class="popular-posts-item">
       
@@ -513,654 +970,227 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-thread/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-thread/" itemprop="url">
-                  SQL优化【线程信息检查】
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-71c274c3c88b4bda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<ul>
-<li>8.14.1线程命令值</li>
-<li>8.14.2一般线程状态</li>
-<li>8.14.3查询缓存线程状态</li>
-<li>8.14.4复制主线程状态</li>
-<li>8.14.5复制从站I / O线程状态</li>
-<li>8.14.6复制从属SQL线程状态</li>
-<li>8.14.7复制从站连接线程状态</li>
-<li>8.14.8 NDB集群线程状态</li>
-<li>8.14.9事件调度程序线程状态</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/optimization-sql-thread/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-indexes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-indexes/" itemprop="url">
-                  SQL优化【SQL索引】
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-3abe1a92a6358cf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>提高操作性能的最佳方法 SELECT是在查询中测试的一列或多列上创建索引。<br>索引条目就像指向表行的指针，允许查询快速确定哪些行与WHERE子句中的条件匹配，并检索这些行的其他列值。<br>所有的MySQL数据类型都可以被索引。</p>
-<p>尽管为查询中使用的每个可能的列创建索引是很诱人的，但不必要的索引会浪费空间并浪费时间让MySQL确定要使用的索引。<br>索引还会增加插入，更新和删除的成本，因为每个索引都必须更新。<br>您必须找到适当的平衡，才能使用最佳索引集实现快速查询。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/optimization-sql-indexes/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/ehcache/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/cache/ehcache/" itemprop="url">
-                  ehcache
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ehcache service层缓存系统</p>
-<p><strong>发展史</strong></p>
-<pre><code>Ehcache
-开发者（S）    Terracotta，Inc。[1]
-稳定版本
-3.3.0 / 2017年2月1日; 16个月前
-写入    Java的
-操作系统    跨平台
-类型    高速缓存
-执照    Apache许可证 2.0
-网站    www.ehcache.org
-
-Ehcache是一个开源的Java 分布式缓存，用于通用缓存，Java EE和轻量级容器[ 澄清 ]。[2] Ehcache在Apache开源许可下可用。[1]
-
-Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，后者提供付费支持。
-
-该软件仍然是开源软件，但一些新的主要功能（Fast Restartability Consistency）仅适用于Enterprise Ehcache和BigMemory等非开源的商业产品。
-
-2011年3月，维基媒体基金会宣布将使用Ehcache来改善其维基项目的性能。[3]然而，在测试显示该方法的问题后，这很快就被放弃了。
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
       
     </li>
   
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-cached/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-cached/" itemprop="url">
+                  SQL优化【缓存优化】
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-d3a8321d9c17a82b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>8.10.1 InnoDB缓冲池优化<br>8.10.2 MyISAM密钥缓存<br>8.10.3 MySQL查询缓存<br>8.10.4准备好的语句和存储程序的缓存<br>MySQL使用几种策略来缓存内存缓冲区中的信息以提高性能。</p>
+<p>8.10.1 InnoDB缓冲池优化<br>InnoDB维护一个称为缓冲池的存储区域， 用于缓存内存中的数据和索引。知道InnoDB缓冲池如何 工作，并利用它来将频繁访问的数据保存在内存中，是MySQL调优的一个重要方面。</p>
+<p>有关InnoDB缓冲池内部工作原理的说明， LRU替换算法的概述以及常规配置信息，请参见第14.6.3.1节“InnoDB缓冲池”。</p>
+<p>有关其他InnoDB缓冲池配置和调整信息，请参阅以下部分：</p>
+<p>第14.6.3.5节“配置InnoDB缓冲池预取（预读）”</p>
+<p>第14.6.3.6节“配置InnoDB缓冲池刷新”</p>
+<p>第14.6.3.4节“使缓冲池扫描抗性”</p>
+<p>第14.6.3.3节“配置多个缓冲池实例”</p>
+<p>第14.6.3.8节“保存和恢复缓冲池状态”</p>
+<p>第14.6.3.7节“微调InnoDB缓冲池刷新”</p>
+<p>第14.6.3.2节“配置InnoDB缓冲池大小”</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/mysql/optimization-sql-cached/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
   
@@ -1217,13 +1247,13 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-care-point/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="无心">
+      <meta itemprop="name" content="上善若水">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无心の技术簿">
+      <meta itemprop="name" content="上善若水の技术簿">
     </span>
 
     
@@ -1462,9 +1492,9 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
             
               <img class="site-author-image" itemprop="image"
                 src="/images/avatar.jpg"
-                alt="无心" />
+                alt="上善若水" />
             
-              <p class="site-author-name" itemprop="name">无心</p>
+              <p class="site-author-name" itemprop="name">上善若水</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -1776,7 +1806,7 @@ Ehcache由Greg Luck于2003年开发。2009年，该项目由Terracotta购买，�
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">无心</span>
+  <span class="author" itemprop="copyrightHolder">上善若水</span>
 
   
 
