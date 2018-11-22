@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2018-11-21T06:23:20.444Z</updated>
+  <updated>2018-11-22T03:14:15.079Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>linux 删除命令 rm 改为 mv</title>
+    <link href="https://www.wuxinvip.com/2018/11/15/shell/shell-5/"/>
+    <id>https://www.wuxinvip.com/2018/11/15/shell/shell-5/</id>
+    <published>2018-11-15T00:00:00.000Z</published>
+    <updated>2018-11-22T03:14:15.079Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p>非常实用</p></li><li><p>rm </p></li><li><p>Linux下修改rm命令为mv，使rm命令原有功能失效</p></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.trash   #在家目录下创建一个.trash文件夹</span><br><span class="line">alias rm=del        #使用别名del代替rm   </span><br><span class="line">del()               #函数del，作用：将rm命令修改为mv命令</span><br><span class="line">&#123;  </span><br><span class="line">  mv $@ ~/.trash/  </span><br><span class="line">&#125;  </span><br><span class="line">cleardel()          #函数cleardel，作用：清空回收站.trash文件夹，y或Y表示确认，n表示取消</span><br><span class="line">&#123;  </span><br><span class="line">    read -p &quot;clear sure?[Input &apos;y&apos; or &apos;Y&apos; to confirm. &amp;&amp; Input &apos;n&apos; to cancel.]&quot; confirm   </span><br><span class="line">    [ $confirm == &apos;y&apos; ] || [ $confirm == &apos;Y&apos; ]  &amp;&amp; /bin/rm -rf ~/.trash/*   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><a id="more"></a><p>然后 加载配置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure><ul><li>清空回收站<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cleardel</span><br></pre></td></tr></table></figure></li></ul><p>注：rm命令已经删除，所以要彻底删除文件的话，可以先del删除文件到垃圾箱，然后进入~/.trash文件夹使用cleardel命令来彻底清除垃圾箱里的所有文件。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;非常实用&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;rm &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Linux下修改rm命令为mv，使rm命令原有功能失效&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;vim ~/.bashrc&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mkdir -p ~/.trash   #在家目录下创建一个.trash文件夹&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alias rm=del        #使用别名del代替rm   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;del()               #函数del，作用：将rm命令修改为mv命令&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  mv $@ ~/.trash/  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cleardel()          #函数cleardel，作用：清空回收站.trash文件夹，y或Y表示确认，n表示取消&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    read -p &amp;quot;clear sure?[Input &amp;apos;y&amp;apos; or &amp;apos;Y&amp;apos; to confirm. &amp;amp;&amp;amp; Input &amp;apos;n&amp;apos; to cancel.]&amp;quot; confirm   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [ $confirm == &amp;apos;y&amp;apos; ] || [ $confirm == &amp;apos;Y&amp;apos; ]  &amp;amp;&amp;amp; /bin/rm -rf ~/.trash/*   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="shell" scheme="https://www.wuxinvip.com/categories/shell/"/>
+    
+    
+      <category term="shell" scheme="https://www.wuxinvip.com/tags/shell/"/>
+    
+  </entry>
   
   <entry>
     <title>apache avro 序列化</title>
@@ -573,40 +604,6 @@
     
     
       <category term="服务搭建" scheme="https://www.wuxinvip.com/tags/%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>nginx-controller</title>
-    <link href="https://www.wuxinvip.com/2018/07/03/load-balance/nginx-controller/"/>
-    <id>https://www.wuxinvip.com/2018/07/03/load-balance/nginx-controller/</id>
-    <published>2018-07-03T00:00:00.000Z</published>
-    <updated>2018-10-15T08:31:42.707Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="好用软件推荐"><a href="#好用软件推荐" class="headerlink" title="好用软件推荐"></a>好用软件推荐</h2><h2 id="nginx-plus监控"><a href="#nginx-plus监控" class="headerlink" title="nginx-plus监控"></a>nginx-plus监控</h2><p><a href="https://www.nginx.com/products/nginx-controller/" target="_blank" rel="noopener">官方网站-nginx-controller</a></p><p><img src="/img/load-balance/img/nginx-controller-1.png" alt="图片">密码加密 图谱</p><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul><li>NGINX Controller是所有NGINX Plus实例的集中管理平台。</li><li>使用Controller，您可以在多云环境中轻松管理多个NGINX Plus服务器。</li><li>使用直观的向导样式界面，您可以创建NGINX Plus的新实例，并集中配置负载平衡，URL路由和SSL终止等功能。</li><li>Controller具有丰富的监控和警报功能，有助于确保应用程序的可用性，性能和可靠性。</li><li>Controller基于最佳实践提供对200个关键指标和抢先推荐的深入可见性，<br>使ITOps和DevOps团队能够首先避免性能问题，并解决可能出现的任何问题。</li></ul><a id="more"></a><h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p><strong>实时监控和警报</strong></p><p>获得关于应用程序性能的重要见解：</p><ul><li>关键指标的图表，例如每秒请求数，活动连接数，带宽使用情况</li><li>根据预定义的阈值提醒100多个指标，如CPU使用率，400/500错误和运行状况检查失败</li><li>使用REST API轻松集成您选择的任何监控工具</li></ul><p><strong>仪表板</strong></p><p>使用以下命令快速监控NGINX plus实例并对其进行故障排除：</p><ul><li>概述仪表板，用于汇总负载均衡器中的指标</li><li>应用程序健康评分，用于衡量成功请求和及时响应</li><li>可自定义的仪表板，用于监控特定于您的环境的指标</li></ul><p><strong>先发制人的建议</strong></p><p>使用内置配置分析器获取：</p><ul><li>基于成千上万客户的学习，增强了性能和安全性</li><li>通过遵循内置的最佳实践来获得更好的SLA。</li></ul><p>抢先和可行的建议：</p><ul><li>组态</li><li>安全</li><li>SSL状态</li></ul><p><strong>简化的配置管理</strong></p><p>导航一个简单直观的向导式用户界面，用于：</p><ul><li>NGINX Plus配置的指导工作流程</li><li>负载平衡器的按钮部署</li><li>流量路由到上游服务器</li><li>SSL密钥和证书管理</li></ul><p><strong>政策驱动的管理</strong></p><p>通过开发多个特定于环境的策略来加速应用程序部署。创建配置环境：</p><ul><li>分期</li><li>生产</li><li>具体业务范围</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;好用软件推荐&quot;&gt;&lt;a href=&quot;#好用软件推荐&quot; class=&quot;headerlink&quot; title=&quot;好用软件推荐&quot;&gt;&lt;/a&gt;好用软件推荐&lt;/h2&gt;&lt;h2 id=&quot;nginx-plus监控&quot;&gt;&lt;a href=&quot;#nginx-plus监控&quot; class=&quot;headerlink&quot; title=&quot;nginx-plus监控&quot;&gt;&lt;/a&gt;nginx-plus监控&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.nginx.com/products/nginx-controller/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方网站-nginx-controller&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/img/load-balance/img/nginx-controller-1.png&quot; alt=&quot;图片&quot;&gt;密码加密 图谱&lt;/p&gt;
-&lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;NGINX Controller是所有NGINX Plus实例的集中管理平台。&lt;/li&gt;
-&lt;li&gt;使用Controller，您可以在多云环境中轻松管理多个NGINX Plus服务器。&lt;/li&gt;
-&lt;li&gt;使用直观的向导样式界面，您可以创建NGINX Plus的新实例，并集中配置负载平衡，URL路由和SSL终止等功能。&lt;/li&gt;
-&lt;li&gt;Controller具有丰富的监控和警报功能，有助于确保应用程序的可用性，性能和可靠性。&lt;/li&gt;
-&lt;li&gt;Controller基于最佳实践提供对200个关键指标和抢先推荐的深入可见性，&lt;br&gt;使ITOps和DevOps团队能够首先避免性能问题，并解决可能出现的任何问题。&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="load-balance" scheme="https://www.wuxinvip.com/categories/java/load-balance/"/>
-    
-    
-      <category term="项目推荐" scheme="https://www.wuxinvip.com/tags/%E9%A1%B9%E7%9B%AE%E6%8E%A8%E8%8D%90/"/>
-    
-      <category term="负载均衡" scheme="https://www.wuxinvip.com/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     
   </entry>
   
