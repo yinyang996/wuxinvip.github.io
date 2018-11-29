@@ -542,7 +542,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/maglev/" rel="bookmark">maglev</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/dns/" rel="bookmark">DNS负载均衡</a></div>
       
     </li>
   
@@ -596,7 +596,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-5/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -615,8 +615,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/service-design/design-5/" itemprop="url">
-                  风控系统
+                <a class="post-title-link" href="/2018/03/24/service-design/design-3/" itemprop="url">
+                  高可用架构设计考虑
                 </a>
               
             
@@ -667,7 +667,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/风控系统/" itemprop="url" rel="index"><span itemprop="name">风控系统</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
 
                 
                 
@@ -702,24 +702,10 @@
 
       
         
-          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
-</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
-    针对各类支付业务交易风险事件进行监测与控制
-
-同步反馈、
-    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
-
-联动控制、
-    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
-
-持续迭代、
-    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
-    或者与外部资源共享等进行持续动态更新
-</code></pre>
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/service-design/design-5/" rel="contents">
+            <a class="btn" href="/2018/03/24/service-design/design-3/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -819,7 +805,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/container/install-docker/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rocketmq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -838,8 +824,8 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/container/install-docker/" itemprop="url">
-                  install docker
+                <a class="post-title-link" href="/2018/03/24/message-queue/rocketmq/" itemprop="url">
+                  RocketMQ
                 </a>
               
             
@@ -883,7 +869,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/container/" itemprop="url" rel="index"><span itemprop="name">container</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
 
                 
                 
@@ -918,11 +911,18 @@
 
       
         
-          <p>国内大佬专玩docker地址<br>中文翻译<br><a href="http://www.widuu.com/docker/" target="_blank" rel="noopener">http://www.widuu.com/docker/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">从官方下载</span><br><span class="line">curl https://get.docker.com &gt; /tmp/install.sh</span><br><span class="line">sh install.sh</span><br><span class="line"></span><br><span class="line">从系统镜像元下载</span><br><span class="line">centos：yum install docker</span><br><span class="line">debian: apt-get install docker</span><br><span class="line"></span><br><span class="line">在centos-6 中 docker 与系统自带可执行程序冲突。</span><br><span class="line">执行：</span><br><span class="line">yum -y remove docker</span><br><span class="line">yum install docker-io</span><br></pre></td></tr></table></figure>
+          <p>解决问题</p>
+<pre><code>分布式各系统之间的消息通讯【一般用来解决事务性提交】
+</code></pre><p>应用场景</p>
+<pre><code>各模块之间 消息调用、
+高并发的数据落地
+事务解决方案
+</code></pre><p>使用方式</p>
+<p><a href="https://gitee.com/none_heart/base-cloud/tree/develop/" target="_blank" rel="noopener">我的开源服务中集成代码</a></p>
+<p><strong>message-queue 模块</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/container/install-docker/" rel="contents">
+            <a class="btn" href="/2018/03/24/message-queue/rocketmq/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -940,14 +940,28 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/container/what-docker/" rel="bookmark">what is the docker</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/container/pouch/" rel="bookmark">pouch</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
       
     </li>
   
@@ -1001,7 +1015,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-design-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1020,8 +1034,210 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/24/mysql/mysql-design-1/" itemprop="url">
-                  数据库设计三大范式
+                <a class="post-title-link" href="/2018/03/24/message-queue/rabbitmq-install/" itemprop="url">
+                  Rabbitmq 安装
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">eralng官方地址 : https://github.com/rabbitmq/erlang-rpm/releases</span><br><span class="line"></span><br><span class="line">socat官方地址 : https://centos.pkgs.org/7/lux/socat-1.7.3.2-5.el7.lux.x86_64.rpm.html</span><br><span class="line"></span><br><span class="line">rabbitmq 官方地址: http://www.rabbitmq.com/install-rpm.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下载命令</span><br><span class="line"></span><br><span class="line">erlang : curl -L -O https://github.com/rabbitmq/erlang-rpm/releases/download/v20.1.7/erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/24/message-queue/rabbitmq-install/" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-indexes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/24/mysql/optimization-sql-indexes/" itemprop="url">
+                  SQL优化【SQL索引】
                 </a>
               
             
@@ -1107,16 +1323,12 @@
 
       
         
-          <p>1．第一范式(确保每列保持原子性)</p>
-<p>2．第二范式(确保表中的每列都和主键相关)</p>
-<p>3．第三范式(确保每列都和主键列直接相关,而不是间接相关)</p>
-<p>一、第一范式是最基本的范式。如果数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。</p>
-<p>第一范式的合理遵循需要根据系统的实际需求来定。比如某些数据库系统中需要用到“地址”这个属性，本来直接将“地址”属性设计成一个数据库表的字段就行。但是如果系统经常会访问“地址”属性中的“城市”部分，那么就非要将“地址”这个属性重新拆分为省份、城市、详细地址等多个部分进行存储，这样在对地址中某一部分操作的时候将非常方便。这样设计才算满足了数据库的第一范式，如下表所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-35bd6c5b8893c700.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>上表所示的用户信息遵循了第一范式的要求，这样在对用户使用城市进行分类的时候就非常方便，也提高了数据库的性能。</p>
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-3abe1a92a6358cf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>提高操作性能的最佳方法 SELECT是在查询中测试的一列或多列上创建索引。<br>索引条目就像指向表行的指针，允许查询快速确定哪些行与WHERE子句中的条件匹配，并检索这些行的其他列值。<br>所有的MySQL数据类型都可以被索引。</p>
+<p>尽管为查询中使用的每个可能的列创建索引是很诱人的，但不必要的索引会浪费空间并浪费时间让MySQL确定要使用的索引。<br>索引还会增加插入，更新和删除的成本，因为每个索引都必须更新。<br>您必须找到适当的平衡，才能使用最佳索引集实现快速查询。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/mysql-design-1/" rel="contents">
+            <a class="btn" href="/2018/03/24/mysql/optimization-sql-indexes/" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1134,244 +1346,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-version-selected/" rel="bookmark">MYSQL版本选择</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-shell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/24/mysql/mysql-shell/" itemprop="url">
-                  MySQL常用命令
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="mysql常用sql命令"><a href="#mysql常用sql命令" class="headerlink" title="mysql常用sql命令"></a>mysql常用sql命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">use user;</span><br><span class="line"></span><br><span class="line">drop database user;</span><br><span class="line"></span><br><span class="line">use mysql</span><br><span class="line"></span><br><span class="line">select Host,User,authentication_string from mysql.user;</span><br><span class="line"></span><br><span class="line">grant all privileges on *.* to &apos;root&apos;@&apos;115.171.60.75&apos;identified by &apos;root&apos; with grant option;</span><br><span class="line"></span><br><span class="line">all insert update ...</span><br><span class="line">*.*    :    数据库.表名</span><br><span class="line">root    :   用户名</span><br><span class="line">115.170.*.*     :   远程访问ip地址</span><br><span class="line"></span><br><span class="line">刷新配置</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line">delete from mysql.user where user=root and host = 115.171.60.75;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/24/mysql/mysql-shell/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-version-selected/" rel="bookmark">MYSQL版本选择</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
