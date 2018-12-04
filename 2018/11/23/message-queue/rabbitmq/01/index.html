@@ -152,13 +152,18 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="上善若水の技术簿">
-<meta property="og:url" content="https://www.wuxinvip.com/archives/2018/01/index.html">
+  <meta name="description" content="技术选型 rocketmq、rabbitmq、kafka  没有谁好谁坏 kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、 rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、 rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。   个人见解  吞吐量优先、消息丢失小事、选择kafka、kaf">
+<meta name="keywords" content="RabbitMQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rabbitmq简介">
+<meta property="og:url" content="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/index.html">
 <meta property="og:site_name" content="上善若水の技术簿">
+<meta property="og:description" content="技术选型 rocketmq、rabbitmq、kafka  没有谁好谁坏 kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、 rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、 rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。   个人见解  吞吐量优先、消息丢失小事、选择kafka、kaf">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-04T13:09:59.252Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="上善若水の技术簿">
+<meta name="twitter:title" content="rabbitmq简介">
+<meta name="twitter:description" content="技术选型 rocketmq、rabbitmq、kafka  没有谁好谁坏 kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、 rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、 rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。   个人见解  吞吐量优先、消息丢失小事、选择kafka、kaf">
 
 
 
@@ -167,7 +172,7 @@
 
 
 
-  <link rel="canonical" href="https://www.wuxinvip.com/archives/2018/01/"/>
+  <link rel="canonical" href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
 
 
 
@@ -177,7 +182,7 @@
   };
 </script>
 
-  <title>归档 | 上善若水の技术簿</title>
+  <title>rabbitmq简介 | 上善若水の技术簿</title>
   
 
 
@@ -226,7 +231,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -298,7 +303,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">47</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">49</span></a>
 
   </li>
         
@@ -317,14 +322,14 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">45</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">47</span></a>
 
   </li>
         
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
 
     
     
@@ -336,7 +341,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">224</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">226</span></a>
 
   </li>
         
@@ -418,123 +423,244 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
-      <span class="archive-page-counter">
-        
-        
-         
-          
-        太棒了! 目前共计 224 篇日志。 继续努力。
-      </span>
-      
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h2 class="archive-year" id="archive-year-2018">2018</h2>
-          </div>
-        
-        
-
-        
+  
+    <div class="reading-progress-bar"></div>
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/">
 
-      <h3 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/01/23/kafka/kafka-01/" itemprop="url">
-              
-                <span itemprop="name">kafka简介</span>
-              
-            </a>
         
-      </h3>
+          <h2 class="post-title" itemprop="name headline">rabbitmq简介
+              
+            
+          </h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-01-23T00:00:00+08:00"
-              content="2018-01-23" >
-          01-23
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
 
+              
+                
+              
 
+              <time title="创建时间：2018-11-23 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-23T08:00:00+08:00">2018-11-23</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/rabbitmq/" itemprop="url" rel="index"><span itemprop="name">rabbitmq</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
 
       
+      
 
+      
+        <h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
+<li><p>rocketmq、rabbitmq、kafka</p>
+<ul>
+<li>没有谁好谁坏</li>
+<li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li>
+<li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li>
+<li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li>
+</ul>
+</li>
+<li><p>个人见解</p>
+<ul>
+<li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li>
+<li>稳定不丢消息：rocketmq、tabbitmq、</li>
+<li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li>
+<li>rocketmq底层netty、异步机制优秀</li>
+<li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li>
+<li>非实时性要求高、同时又要求高吞吐量 rocketmq</li>
+</ul>
+</li>
+</ul>
+
+      
     </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RabbitMQ/" rel="tag"># RabbitMQ</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/23/message-queue/rocketmq/01/" rel="next" title="rocketmq简介">
+                <i class="fa fa-chevron-left"></i> rocketmq简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/23/message-queue/kafka/01/" rel="prev" title="kafka简介">
+                kafka简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-
-   <div class="pagination">
-      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 首页间隔 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8547276212175642"
-     data-ad-slot="9207557139"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-   </div>
+  </article>
 
 
-
-
+  </div>
 
 
           </div>
           
+
+  
+     <div id="gitalk-container"></div>
+
+  
+
+
 
         </div>
         
@@ -557,8 +683,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -577,7 +712,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">224</span>
+                    <span class="site-state-item-count">226</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -680,7 +815,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">45</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -787,7 +926,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">47</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -877,6 +1020,22 @@
       </section>
 
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#技术选型"><span class="nav-number">1.</span> <span class="nav-text">技术选型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1044,6 +1203,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
 
   
 
@@ -1066,6 +1229,21 @@
 
 
 
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'c44af7c5b377f551c3bd',
+          clientSecret: 'eeb965cbf5d59e1ca5e51c0112b8c87bc15eed43',
+          repo: 'wuxinvip.github.io',
+          owner: 'wuxinvip',
+          admin: ['wuxinvip'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
 
 
 
