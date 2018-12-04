@@ -439,7 +439,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-config/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/cache-elimination-algorithm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -459,7 +459,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/search-engine/elasticsearch-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">elasticsearch-config</a>
+                <a href="/2018/03/24/cache/cache-elimination-algorithm/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">缓存淘汰算法</a>
               
             
           </h2>
@@ -509,7 +509,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/search-engine/" itemprop="url" rel="index"><span itemprop="name">search-engine</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
 
                 
                 
@@ -544,10 +544,17 @@
 
       
         
+          <p>常见算法:<br>LRU<br>LRU-K<br>2Q<br>MQ</p>
+<p>缓存淘汰算法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">缓存分析三大要点：</span><br><span class="line">    命中率、复杂度、代价</span><br><span class="line"></span><br><span class="line">LRU     最近最少使用算法</span><br><span class="line">FIFO    先入先出算法</span><br><span class="line">MRU     最近最常使用算法</span><br><span class="line"></span><br><span class="line">FIFO 先进先出 LFU 最少使用算法 LFU（Least Frequently Used）最近最少使用算法。</span><br><span class="line">它是基于“如果一个数据在最近一段时间内使用次数很少，那么在将来一段时间内被使用的可能性也很小”的思路。</span><br><span class="line"></span><br><span class="line">LRU LRU全称是Least Recently Used，即最近最久未使用的意思</span><br><span class="line"></span><br><span class="line">注意LFU和LRU算法的不同之处，LRU的淘汰规则是基于访问时间，而LFU是基于访问次数的。</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># ---------------------------------- Cluster -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 为群集使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#cluster.name: my-application</span><br><span class="line">#</span><br><span class="line"># ------------------------------------ Node ------------------------------------</span><br><span class="line">#</span><br><span class="line">#为节点使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#node.name: node-1</span><br><span class="line">#</span><br><span class="line">#  向节点添加自定义属性:</span><br><span class="line">#</span><br><span class="line">#node.attr.rack: r1</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Paths ------------------------------------</span><br><span class="line">#</span><br><span class="line"># 路径到目录存储数据的位置 (用逗号分隔多个位置):</span><br><span class="line">#</span><br><span class="line">#path.data: /path/to/data</span><br><span class="line">#</span><br><span class="line"># 日志文件的路径:</span><br><span class="line">#</span><br><span class="line">#path.logs: /path/to/logs</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Memory -----------------------------------</span><br><span class="line">#</span><br><span class="line">#  启动时锁定内存:</span><br><span class="line">#</span><br><span class="line">#bootstrap.memory_lock: true</span><br><span class="line">#</span><br><span class="line">#确保堆大小设置为大约一半的可用内存在系统上, 并且允许进程的所有者使用此限制。</span><br><span class="line">#</span><br><span class="line"># 当系统交换内存时, Elasticsearch 执行得很差。</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Network -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 将绑定地址设置为特定 IP (IPv4 或 IPv6):</span><br><span class="line">#</span><br><span class="line">#network.host: 192.168.0.1</span><br><span class="line">#</span><br><span class="line"># 为 HTTP 设置自定义端口:</span><br><span class="line">#</span><br><span class="line">#http.port: 9200</span><br><span class="line">#</span><br><span class="line"># 有关详细信息, 请参阅网络模块文档。</span><br><span class="line">#</span><br><span class="line"># --------------------------------- Discovery ----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在启动新节点时传递初始主机列表以执行发现:</span><br><span class="line"># 主机的默认列表为 [ &quot;127.0.0.1 &quot;, [:: 1] &quot;]</span><br><span class="line">#</span><br><span class="line">#discovery. zen.ping.unicast.hosts: [ &quot;host1 &quot;, &quot;host2 &quot;]</span><br><span class="line">#</span><br><span class="line"># 通过配置大多数节点 (主合格节点总数/2 + 1) 来防止 &quot;分裂大脑 &quot;:</span><br><span class="line">#</span><br><span class="line">#discovery.zen.minimum_master_nodes:</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Gateway -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在完全群集重新启动后阻止初始恢复, 直到开始 N 个节点:</span><br><span class="line">#</span><br><span class="line">#gateway.recover_after_nodes: 3</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Various -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 删除索引时需要显式名称:</span><br><span class="line">#</span><br><span class="line">#action.destructive_requires_name: true</span><br></pre></td></tr></table></figure>
-
-          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/cache/cache-elimination-algorithm/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
         
       
     </div>
@@ -561,35 +568,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-1/" rel="bookmark">elasticsearch内部存储执行机制</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
       
     </li>
   
@@ -646,7 +639,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-thread/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -666,7 +659,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/search-engine/elasticsearch-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">elasticsearch内部存储执行机制</a>
+                <a href="/2018/03/24/jdk/jdk-thread/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">线程</a>
               
             
           </h2>
@@ -716,7 +709,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/search-engine/" itemprop="url" rel="index"><span itemprop="name">search-engine</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
 
                 
                 
@@ -751,19 +744,18 @@
 
       
         
-          <p><strong>新建、索引和删除单个文档</strong></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-2206994bb24e32f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="elas_0402.png"></p>
-<p>以下是在主副分片和任何副本分片上面成功新建，索引和删除文档所需要的步骤顺序：</p>
-<ol>
-<li>客户端向 <code>Node 1</code> 发送新建、索引或者删除请求。</li>
-<li>节点使用文档的 <code>_id</code> 确定文档属于分片 0 。请求会被转发到 <code>Node 3</code>，因为分片 0 的主分片目前被分配在 <code>Node 3</code> 上。</li>
-<li><code>Node 3</code> 在主分片上面执行请求。如果成功了，它将请求并行转发到 <code>Node 1</code> 和 <code>Node 2</code> 的副本分片上。一旦所有的副本分片都报告成功, <code>Node 3</code> 将向协调节点报告成功，协调节点向客户端报告成功。</li>
-</ol>
-<p>在客户端收到成功响应时，文档变更已经在主分片和所有副本分片执行完成，变更是安全的。</p>
+          <p>线程四种<br>单线程 固定数目线程 缓存线程 定时线程</p>
+<p>关于线程:</p>
+<ul>
+<li>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了</li>
+<li>2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能</li>
+<li>3.线程池数量 差不多是 CPU核数 * 2</li>
+<li>4.阿里编码规范已不推荐使用ExcutorService方法使用线程</li>
+</ul>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/search-engine/elasticsearch-1/" rel="contents">
+              <a class="btn" href="/2018/03/24/jdk/jdk-thread/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -782,35 +774,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
+      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-translation/" rel="bookmark">事务</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-config/" rel="bookmark">elasticsearch-config</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-set/" rel="bookmark">集合Set</a></div>
       
     </li>
   
@@ -867,7 +859,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/encryption/password-develop/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-map/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -887,7 +879,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/encryption/password-develop/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">密码加密方式</a>
+                <a href="/2018/03/24/jdk/jdk-map/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">集合Map</a>
               
             
           </h2>
@@ -937,7 +929,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/password/" itemprop="url" rel="index"><span itemprop="name">password</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
 
                 
                 
@@ -972,24 +964,14 @@
 
       
         
-          <p>常见攻击方式：<br>字典攻击：早期base64+md5</p>
-<p>破解方式–把常见密码进行base63+md5加密 通过重复登陆服务器 或者拖库进行匹配破解【破解方式属于开放状态】</p>
-<p><strong>对称加密</strong></p>
-<pre><code>加密解密效率高、速度快、空间占用小、加密强度高
-缺点是 参与多方都需要持有密钥、一旦有一个人泄露则安全性遭到破坏、另外再不容安全通道下分发密钥也是个问题
-
-    代表算法：DES、3DES、AES、IDEA等等
-    DES：其密钥长度为56位+8位校验  破解方式：暴力破解
-    3DES：3重DES操作 算法不能靠累积增加防御力
-    AES：分组算法、分组长度为128、192、256位三种、其优势在于 速度快 整个过程可以数学化描述、目前尚未有效破解手段
-
-
-    适用于大量数据加解密、不能用于签名场景 需要提前分法密钥
-</code></pre>
+          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-b1fe33e331ca2ef2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Map内部关系"></p>
+<p><a href="http://blog.csdn.net/casularm/article/details/164877" target="_blank" rel="noopener">Java Map 集合类简介</a></p>
+<p>【关键点】map的hash冲突</p>
+<p> Map 处理这些冲突的方法是在索引位置处插入一个链接列表，并简单地将元素添加到此链接列表</p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/encryption/password-develop/" rel="contents">
+              <a class="btn" href="/2018/03/24/jdk/jdk-map/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1008,14 +990,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/13/encryption/password-cracked/" rel="bookmark">破解密码常见的几种方式</a></div>
+      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/02/encryption/password-java-pbkdf2/" rel="bookmark">慢哈希加密</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-thread/" rel="bookmark">线程</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-translation/" rel="bookmark">事务</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-set/" rel="bookmark">集合Set</a></div>
       
     </li>
   
@@ -1072,7 +1075,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/about-agreement/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring/springmvc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1092,7 +1095,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/agreement/about-agreement/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">关于协议</a>
+                <a href="/2018/03/24/spring/springmvc/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">sringmvc</a>
               
             
           </h2>
@@ -1142,7 +1145,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
 
                 
                 
@@ -1177,13 +1180,13 @@
 
       
         
-          <p>what 协议？<br>人民币算不算是一种协议？买家和卖家协议一张纸为 10元 、50元、100元</p>
-<p>so ： 协议在互联网届就是发送方和接收方商量好的一种消息模式，</p>
-<p>Http：规定两个ip、一个发送ip、一个接收ip、这两个ip进行数据交互时候、先握手、确定数据畅通、然后在进行数据通信、<br>握手协议：规定握手消息格式【一系列参数的排序】、<br>数据通信规定http发送消息体消息格式。</p>
+          <p>启动加载顺序</p>
+<p><strong>spring加载流程</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.监听器加载spring</span><br><span class="line">2.加载配置文件</span><br><span class="line">3.工厂生产实例化对象</span><br><span class="line">4.放入ServletContext</span><br></pre></td></tr></table></figure></p>
+<p><strong>springmvc加载流程</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.Servlet加载（监听器之后即执行）Servlet的init()</span><br><span class="line">2.加载配置文件</span><br><span class="line">3.从ServletContext拿到spring初始化springmvc相关对象</span><br><span class="line">4.放入ServletContext</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/agreement/about-agreement/" rel="contents">
+              <a class="btn" href="/2018/03/24/spring/springmvc/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1202,28 +1205,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring-crontab/" rel="bookmark">spring-定时任务</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring/" rel="bookmark">spring</a></div>
       
     </li>
   
@@ -1280,7 +1269,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/oauth-oauth2/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring/spring-crontab/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1300,7 +1289,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/service-permission/oauth-oauth2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">OAuth OAuth2</a>
+                <a href="/2018/03/24/spring/spring-crontab/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">spring-定时任务</a>
               
             
           </h2>
@@ -1350,7 +1339,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
 
                 
                 
@@ -1385,20 +1374,10 @@
 
       
         
-          <p>翻了几篇子 认证 csdn  一个模样 连错误都一样</p>
-<p>《用访问令牌到授权服务器换取访问令牌(accesstoken&amp;secret)》<br>这叫人怎么理解 ？？</p>
-<p>果断找官网<br><a href="https://oauth.net/core/1.0a/" target="_blank" rel="noopener">https://oauth.net/core/1.0a/</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-11e716dc12557360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><a href="https://oauth.net/2/" target="_blank" rel="noopener">https://oauth.net/2/</a></p>
-          <!--noindex-->
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-permission/oauth-oauth2/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
+            <p>@scheduled注解执行表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">0 0 10,14,16 * * ? 每天上午10点，下午2点，4点</span><br><span class="line">0 0/30 9-17 * * ?   朝九晚五工作时间内每半小时</span><br><span class="line">0 0 12 ? * WED 表示每个星期三中午12点</span><br><span class="line">&quot;0 0 12 * * ?&quot; 每天中午12点触发</span><br><span class="line">&quot;0 15 10 ? * *&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ?&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ? *&quot; 每天上午10:15触发</span><br><span class="line">&quot;0 15 10 * * ? 2005&quot; 2005年的每天上午10:15触发</span><br><span class="line">&quot;0 * 14 * * ?&quot; 在每天下午2点到下午2:59期间的每1分钟触发</span><br><span class="line">&quot;0 0/5 14 * * ?&quot; 在每天下午2点到下午2:55期间的每5分钟触发</span><br><span class="line">&quot;0 0/5 14,18 * * ?&quot; 在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发</span><br><span class="line">&quot;0 0-5 14 * * ?&quot; 在每天下午2点到下午2:05期间的每1分钟触发</span><br><span class="line">&quot;0 10,44 14 ? 3 WED&quot; 每年三月的星期三的下午2:10和2:44触发</span><br><span class="line">&quot;0 15 10 ? * MON-FRI&quot; 周一至周五的上午10:15触发</span><br><span class="line">&quot;0 15 10 15 * ?&quot; 每月15日上午10:15触发</span><br><span class="line">&quot;0 15 10 L * ?&quot; 每月最后一日的上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6L&quot; 每月的最后一个星期五上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6L 2002-2005&quot; 2002年至2005年的每月的最后一个星期五上午10:15触发</span><br><span class="line">&quot;0 15 10 ? * 6#3&quot; 每月的第三个星期五上午10:15触发</span><br></pre></td></tr></table></figure></p>
+
+          
         
       
     </div>
@@ -1412,21 +1391,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring/springmvc/" rel="bookmark">sringmvc</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring/" rel="bookmark">spring</a></div>
       
     </li>
   

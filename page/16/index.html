@@ -576,14 +576,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
       
     </li>
   
@@ -661,7 +661,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/load-balance/dns/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -681,7 +681,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/load-balance/dns/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/16/index.html">DNS负载均衡</a>
+                <a href="/2018/03/24/service-design/design-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/16/index.html">高可用架构设计考虑</a>
               
             
           </h2>
@@ -724,14 +724,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/load-balance/" itemprop="url" rel="index"><span itemprop="name">load-balance</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
 
                 
                 
@@ -766,14 +766,11 @@
 
       
         
-          <h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>dns重定向<br>存储:本地.阿里云.万网dns服务器</p>
-<p>dns 在网络上其实就是域名解析到ip的一个过程叫dns解析</p>
-<p>本站域名 <a href="http://www.wuxinvip.com">www.wuxinvip.com</a> </p>
-<p>解析ip 为 39.107.82.228 </p>
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/load-balance/dns/" rel="contents">
+              <a class="btn" href="/2018/03/24/service-design/design-3/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -792,35 +789,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
       
     </li>
   
@@ -877,7 +874,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/load-balance/maglev/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rocketmq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -897,7 +894,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/load-balance/maglev/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/16/index.html">maglev</a>
+                <a href="/2018/03/24/message-queue/rocketmq/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/16/index.html">RocketMQ</a>
               
             
           </h2>
@@ -947,7 +944,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/load-balance/" itemprop="url" rel="index"><span itemprop="name">load-balance</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
 
                 
                 
@@ -982,14 +979,19 @@
 
       
         
-          <p><strong>简介</strong><br>Google Maglev 是一个牛逼的负载均衡器，之所以牛逼，是因为它不用部署专门的物理设备，不像 LVS 一样工作在内核，它是运行在通用 Linux 服务器上的大型分布式软件系统。</p>
-<p><img src="/img/load-balance/img/maglev.png" alt="图片">Google Maglev 工作流程</p>
-<p>每个 Google 服务都有一个或者多个 VIP，一个 VIP 和物理 IP 的区别在于 VIP 没有绑给某个特定的网卡。</p>
-<p><strong>VIP 注解</strong><br>Maglev 关联每个 VIP 到具体的 Endpoint，然后通过 BGP 将 VIP 宣告给上游路由器，然后路由器再把 VIP 宣告给 Google 的骨干网，这样使得 VIP 能被访问到。</p>
+          <p>解决问题</p>
+<pre><code>分布式各系统之间的消息通讯【一般用来解决事务性提交】
+</code></pre><p>应用场景</p>
+<pre><code>各模块之间 消息调用、
+高并发的数据落地
+事务解决方案
+</code></pre><p>使用方式</p>
+<p><a href="https://gitee.com/none_heart/base-cloud/tree/develop/" target="_blank" rel="noopener">我的开源服务中集成代码</a></p>
+<p><strong>message-queue 模块</strong></p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/load-balance/maglev/" rel="contents">
+              <a class="btn" href="/2018/03/24/message-queue/rocketmq/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1008,35 +1010,28 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
       
     </li>
   
@@ -1093,7 +1088,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/essay/essay-10/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-thread/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1113,7 +1108,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/essay/essay-10/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/16/index.html">架构师之路</a>
+                <a href="/2018/03/24/mysql/optimization-sql-thread/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/16/index.html">SQL优化【线程信息检查】</a>
               
             
           </h2>
@@ -1163,7 +1158,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -1198,15 +1193,22 @@
 
       
         
-          <p>本着对技术的兴趣 进入了软件开发行业</p>
-<p>可以说是如鱼得水的发展 凭借着年轻 挑灯夜战 掌握了许多技术应用、但仍脱不开技术应用者的领域</p>
-<p>如今职业发展遇到瓶颈-该思考何去何从</p>
-<p>想来想去只有选择架构师为发展方向</p>
-<p><strong>怎样成为一个架构师？</strong><br>
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-71c274c3c88b4bda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>8.14.1线程命令值</li>
+<li>8.14.2一般线程状态</li>
+<li>8.14.3查询缓存线程状态</li>
+<li>8.14.4复制主线程状态</li>
+<li>8.14.5复制从站I / O线程状态</li>
+<li>8.14.6复制从属SQL线程状态</li>
+<li>8.14.7复制从站连接线程状态</li>
+<li>8.14.8 NDB集群线程状态</li>
+<li>8.14.9事件调度程序线程状态</li>
+</ul>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/essay/essay-10/" rel="contents">
+              <a class="btn" href="/2018/03/24/mysql/optimization-sql-thread/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1225,35 +1227,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-14/" rel="bookmark">每天一点人生感悟的句子</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/09/24/essay/essay-15/" rel="bookmark">网站制作app、并发布github、生成二维码推广下载</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/08/21/essay/essay-7/" rel="bookmark">关于学习方法的一些思考</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
       
     </li>
   
@@ -1310,7 +1312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/amqp/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1330,7 +1332,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/agreement/amqp/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/16/index.html">AMQP</a>
+                <a href="/2018/03/24/message-queue/rabbitmq-install/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/16/index.html">Rabbitmq 安装</a>
               
             
           </h2>
@@ -1380,7 +1382,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
 
                 
                 
@@ -1415,14 +1417,11 @@
 
       
         
-          <p>AMQP，即Advanced Message Queuing Protocol、高级队列消息协议</p>
-<p>一个提供统一消息服务的应用层标准高级消息队列协议,是应用层协议的一个开放标准,为面向消息的中间件设计。<br>基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。<br>Erlang中的实现有 RabbitMQ等。</p>
-<p><strong>协议特性</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、消息方向</span><br><span class="line">2、消息队列</span><br><span class="line">3、消息路由</span><br><span class="line">4、消息可靠性</span><br><span class="line">5、消息安全性</span><br></pre></td></tr></table></figure>
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">eralng官方地址 : https://github.com/rabbitmq/erlang-rpm/releases</span><br><span class="line"></span><br><span class="line">socat官方地址 : https://centos.pkgs.org/7/lux/socat-1.7.3.2-5.el7.lux.x86_64.rpm.html</span><br><span class="line"></span><br><span class="line">rabbitmq 官方地址: http://www.rabbitmq.com/install-rpm.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下载命令</span><br><span class="line"></span><br><span class="line">erlang : curl -L -O https://github.com/rabbitmq/erlang-rpm/releases/download/v20.1.7/erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/agreement/amqp/" rel="contents">
+              <a class="btn" href="/2018/03/24/message-queue/rabbitmq-install/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1441,28 +1440,28 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
       
     </li>
   
