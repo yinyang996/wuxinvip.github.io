@@ -78,26 +78,24 @@
   </entry>
   
   <entry>
-    <title>kafka简介</title>
-    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/"/>
-    <id>https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/</id>
+    <title>rabbitmq简介</title>
+    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
+    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
     <published>2018-11-23T00:00:00.000Z</published>
-    <updated>2018-12-05T09:17:58.522Z</updated>
+    <updated>2018-12-05T01:55:13.806Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>kafka最初为limkedIn的一个内部基础服务</li><li>最早的设计观念是、把数据看作流、消费者、订阅和发布各种各样的消息、这在大数据上应用非常广泛</li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>一个部件broker、每一个broker就是一个单独的服务器</li><li>每一个集群有一个broker作为集群控制器角色【分区选举】、与rocketmq区别是、rocketmq使用了nameserver作为注册中心</li><li>多级群中、kafka提供了一个mirrorMaker工具实现集群间消息复制</li><li>mirroMaker核心部分是一个生产者一个消费者、中间是一个队列、也是kafka的最基本原理、实际上在复杂的集群环境中、对于数据的可靠性更复杂些</li></ul><a id="more"></a><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>kafka的愿景做一个数据生态系统、提供消息发布和消息订阅、</li></ul><h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul><li>活动跟踪、点击量</li><li>传递消息</li><li>度量指标和日志记录</li><li>提交日志</li><li>流处理<ul><li>结合hadoop做数据流的队列</li></ul></li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
+    <content type="html"><![CDATA[<a id="more"></a><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;kafka最初为limkedIn的一个内部基础服务&lt;/li&gt;
-&lt;li&gt;最早的设计观念是、把数据看作流、消费者、订阅和发布各种各样的消息、这在大数据上应用非常广泛&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;组成部件&quot;&gt;&lt;a href=&quot;#组成部件&quot; class=&quot;headerlink&quot; title=&quot;组成部件&quot;&gt;&lt;/a&gt;组成部件&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;一个部件broker、每一个broker就是一个单独的服务器&lt;/li&gt;
-&lt;li&gt;每一个集群有一个broker作为集群控制器角色【分区选举】、与rocketmq区别是、rocketmq使用了nameserver作为注册中心&lt;/li&gt;
-&lt;li&gt;多级群中、kafka提供了一个mirrorMaker工具实现集群间消息复制&lt;/li&gt;
-&lt;li&gt;mirroMaker核心部分是一个生产者一个消费者、中间是一个队列、也是kafka的最基本原理、实际上在复杂的集群环境中、对于数据的可靠性更复杂些&lt;/li&gt;
-&lt;/ul&gt;
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;rocketmq、rabbitmq、kafka&lt;/p&gt;
+&lt;ul&gt;
+&lt;l
+      
     
     </summary>
     
@@ -105,10 +103,10 @@
     
       <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
     
-      <category term="kafka" scheme="https://www.wuxinvip.com/categories/java/message-queue/kafka/"/>
+      <category term="rabbitmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rabbitmq/"/>
     
     
-      <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
+      <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
     
   </entry>
   
@@ -141,24 +139,26 @@
   </entry>
   
   <entry>
-    <title>rabbitmq简介</title>
-    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
-    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
+    <title>kafka简介</title>
+    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/"/>
+    <id>https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/</id>
     <published>2018-11-23T00:00:00.000Z</published>
-    <updated>2018-12-05T01:55:13.806Z</updated>
+    <updated>2018-12-05T09:17:58.522Z</updated>
     
-    <content type="html"><![CDATA[<a id="more"></a><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>kafka最初为limkedIn的一个内部基础服务</li><li>最早的设计观念是、把数据看作流、消费者、订阅和发布各种各样的消息、这在大数据上应用非常广泛</li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>一个部件broker、每一个broker就是一个单独的服务器</li><li>每一个集群有一个broker作为集群控制器角色【分区选举】、与rocketmq区别是、rocketmq使用了nameserver作为注册中心</li><li>多级群中、kafka提供了一个mirrorMaker工具实现集群间消息复制</li><li>mirroMaker核心部分是一个生产者一个消费者、中间是一个队列、也是kafka的最基本原理、实际上在复杂的集群环境中、对于数据的可靠性更复杂些</li></ul><a id="more"></a><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>kafka的愿景做一个数据生态系统、提供消息发布和消息订阅、</li></ul><h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul><li>活动跟踪、点击量</li><li>传递消息</li><li>度量指标和日志记录</li><li>提交日志</li><li>流处理<ul><li>结合hadoop做数据流的队列</li></ul></li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;rocketmq、rabbitmq、kafka&lt;/p&gt;
-&lt;ul&gt;
-&lt;l
-      
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;kafka最初为limkedIn的一个内部基础服务&lt;/li&gt;
+&lt;li&gt;最早的设计观念是、把数据看作流、消费者、订阅和发布各种各样的消息、这在大数据上应用非常广泛&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;组成部件&quot;&gt;&lt;a href=&quot;#组成部件&quot; class=&quot;headerlink&quot; title=&quot;组成部件&quot;&gt;&lt;/a&gt;组成部件&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;一个部件broker、每一个broker就是一个单独的服务器&lt;/li&gt;
+&lt;li&gt;每一个集群有一个broker作为集群控制器角色【分区选举】、与rocketmq区别是、rocketmq使用了nameserver作为注册中心&lt;/li&gt;
+&lt;li&gt;多级群中、kafka提供了一个mirrorMaker工具实现集群间消息复制&lt;/li&gt;
+&lt;li&gt;mirroMaker核心部分是一个生产者一个消费者、中间是一个队列、也是kafka的最基本原理、实际上在复杂的集群环境中、对于数据的可靠性更复杂些&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -166,10 +166,10 @@
     
       <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
     
-      <category term="rabbitmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rabbitmq/"/>
+      <category term="kafka" scheme="https://www.wuxinvip.com/categories/java/message-queue/kafka/"/>
     
     
-      <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
+      <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
     
   </entry>
   
@@ -465,6 +465,33 @@
   </entry>
   
   <entry>
+    <title>网站制作app、并发布github、生成二维码推广下载</title>
+    <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-15/"/>
+    <id>https://www.wuxinvip.com/2018/09/24/essay/essay-15/</id>
+    <published>2018-09-24T00:00:00.000Z</published>
+    <updated>2018-12-04T09:17:23.173Z</updated>
+    
+    <content type="html"><![CDATA[<p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p><h1 id="网站制作app"><a href="#网站制作app" class="headerlink" title="网站制作app"></a>网站制作app</h1><p>工具 Hbuilder</p><p>下载地址：<a href="http://dcloud.io/" target="_blank" rel="noopener">http://dcloud.io/</a></p><p>步骤 ：</p><a id="more"></a><h3 id="新建工程-添加app信息"><a href="#新建工程-添加app信息" class="headerlink" title="新建工程 添加app信息"></a>新建工程 添加app信息</h3><p><img src="/img/essay/essay-15/new-project.png" alt="如图"></p><h3 id="选择wap转app"><a href="#选择wap转app" class="headerlink" title="选择wap转app"></a>选择wap转app</h3><p><img src="/img/essay/essay-15/project-config.png" alt="如图"></p><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><ul><li>选择发行-》》app在云端打包<br><img src="/img/essay/essay-15/faxing.png" alt="如图"></li></ul><p>然后等待 后台打包<br>控制台会实时输出打包信息</p><h1 id="github发布二进制可下载文件"><a href="#github发布二进制可下载文件" class="headerlink" title="github发布二进制可下载文件"></a>github发布二进制可下载文件</h1><h3 id="仓库release分支建立一个新的release-tag"><a href="#仓库release分支建立一个新的release-tag" class="headerlink" title="仓库release分支建立一个新的release tag"></a>仓库release分支建立一个新的release tag</h3><p><img src="/img/essay/essay-15/release.png" alt="如图"></p><h3 id="把生成的文件上传上去"><a href="#把生成的文件上传上去" class="headerlink" title="把生成的文件上传上去"></a>把生成的文件上传上去</h3><p><img src="/img/essay/essay-15/publish-github.png" alt="如图"></p><h3 id="选中文件右键复制下载地址"><a href="#选中文件右键复制下载地址" class="headerlink" title="选中文件右键复制下载地址"></a>选中文件右键复制下载地址</h3><h1 id="草料二维码生成下载图片"><a href="#草料二维码生成下载图片" class="headerlink" title="草料二维码生成下载图片"></a>草料二维码生成下载图片</h1><ul><li>地址：<a href="https://cli.im/" target="_blank" rel="noopener">https://cli.im/</a></li></ul><p><img src="/img/essay/essay-15/download-photo.png" alt="如图"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;应用全部工具 ：Hbuilder、 github账户、草料二维码生成器&lt;/p&gt;
+&lt;h1 id=&quot;网站制作app&quot;&gt;&lt;a href=&quot;#网站制作app&quot; class=&quot;headerlink&quot; title=&quot;网站制作app&quot;&gt;&lt;/a&gt;网站制作app&lt;/h1&gt;&lt;p&gt;工具 Hbuilder&lt;/p&gt;
+&lt;p&gt;下载地址：&lt;a href=&quot;http://dcloud.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://dcloud.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;步骤 ：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="app" scheme="https://www.wuxinvip.com/categories/app/"/>
+    
+      <category term="android" scheme="https://www.wuxinvip.com/categories/app/android/"/>
+    
+    
+      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
     <title>每天一点人生感悟的句子</title>
     <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-14/"/>
     <id>https://www.wuxinvip.com/2018/09/24/essay/essay-14/</id>
@@ -489,33 +516,6 @@
     </summary>
     
       <category term="essay" scheme="https://www.wuxinvip.com/categories/essay/"/>
-    
-    
-      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网站制作app、并发布github、生成二维码推广下载</title>
-    <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-15/"/>
-    <id>https://www.wuxinvip.com/2018/09/24/essay/essay-15/</id>
-    <published>2018-09-24T00:00:00.000Z</published>
-    <updated>2018-12-04T09:17:23.173Z</updated>
-    
-    <content type="html"><![CDATA[<p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p><h1 id="网站制作app"><a href="#网站制作app" class="headerlink" title="网站制作app"></a>网站制作app</h1><p>工具 Hbuilder</p><p>下载地址：<a href="http://dcloud.io/" target="_blank" rel="noopener">http://dcloud.io/</a></p><p>步骤 ：</p><a id="more"></a><h3 id="新建工程-添加app信息"><a href="#新建工程-添加app信息" class="headerlink" title="新建工程 添加app信息"></a>新建工程 添加app信息</h3><p><img src="/img/essay/essay-15/new-project.png" alt="如图"></p><h3 id="选择wap转app"><a href="#选择wap转app" class="headerlink" title="选择wap转app"></a>选择wap转app</h3><p><img src="/img/essay/essay-15/project-config.png" alt="如图"></p><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><ul><li>选择发行-》》app在云端打包<br><img src="/img/essay/essay-15/faxing.png" alt="如图"></li></ul><p>然后等待 后台打包<br>控制台会实时输出打包信息</p><h1 id="github发布二进制可下载文件"><a href="#github发布二进制可下载文件" class="headerlink" title="github发布二进制可下载文件"></a>github发布二进制可下载文件</h1><h3 id="仓库release分支建立一个新的release-tag"><a href="#仓库release分支建立一个新的release-tag" class="headerlink" title="仓库release分支建立一个新的release tag"></a>仓库release分支建立一个新的release tag</h3><p><img src="/img/essay/essay-15/release.png" alt="如图"></p><h3 id="把生成的文件上传上去"><a href="#把生成的文件上传上去" class="headerlink" title="把生成的文件上传上去"></a>把生成的文件上传上去</h3><p><img src="/img/essay/essay-15/publish-github.png" alt="如图"></p><h3 id="选中文件右键复制下载地址"><a href="#选中文件右键复制下载地址" class="headerlink" title="选中文件右键复制下载地址"></a>选中文件右键复制下载地址</h3><h1 id="草料二维码生成下载图片"><a href="#草料二维码生成下载图片" class="headerlink" title="草料二维码生成下载图片"></a>草料二维码生成下载图片</h1><ul><li>地址：<a href="https://cli.im/" target="_blank" rel="noopener">https://cli.im/</a></li></ul><p><img src="/img/essay/essay-15/download-photo.png" alt="如图"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;应用全部工具 ：Hbuilder、 github账户、草料二维码生成器&lt;/p&gt;
-&lt;h1 id=&quot;网站制作app&quot;&gt;&lt;a href=&quot;#网站制作app&quot; class=&quot;headerlink&quot; title=&quot;网站制作app&quot;&gt;&lt;/a&gt;网站制作app&lt;/h1&gt;&lt;p&gt;工具 Hbuilder&lt;/p&gt;
-&lt;p&gt;下载地址：&lt;a href=&quot;http://dcloud.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://dcloud.io/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;步骤 ：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="app" scheme="https://www.wuxinvip.com/categories/app/"/>
-    
-      <category term="android" scheme="https://www.wuxinvip.com/categories/app/android/"/>
     
     
       <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
