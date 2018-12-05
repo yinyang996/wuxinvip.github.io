@@ -55,17 +55,14 @@
     <link href="https://www.wuxinvip.com/2018/11/24/message-queue/kafka/02/"/>
     <id>https://www.wuxinvip.com/2018/11/24/message-queue/kafka/02/</id>
     <published>2018-11-24T00:00:00.000Z</published>
-    <updated>2018-12-05T09:56:06.826Z</updated>
+    <updated>2018-12-05T09:58:10.323Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="https://kafka.apache.org/" target="_blank" rel="noopener">官网</a></p><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">##前置</span><br><span class="line">java、zookeeper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">wget http://mirror.bit.edu.cn/apache/kafka/2.1.0/kafka_2.12-2.1.0.tgz</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">curl -L -O http://mirror.bit.edu.cn/apache/kafka/2.1.0/kafka_2.12-2.1.0.tgz</span><br><span class="line"></span><br><span class="line">tar -zxvf kafka_2.12-2.1.0.tgz</span><br><span class="line"></span><br><span class="line">cd kafka_2.12-2.1.0/bin</span><br></pre></td></tr></table></figure><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">./kafka-server-start.sh -daemon</span><br><span class="line"></span><br><span class="line">./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#test 主题上发布消息</span><br><span class="line">./kafka-console-producer.sh --broker-list localhost:9092 --topic test</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#test 主题上接收消息</span><br><span class="line">./kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning</span><br></pre></td></tr></table></figure><h2 id="broker配置"><a href="#broker配置" class="headerlink" title="broker配置"></a>broker配置</h2><p>1、broker.id</p><ul><li>集群唯一 整数</li></ul><p>2、port</p><ul><li>端口</li></ul><p>3、zookeeper.connect</p><ul><li>zk连接地址</li></ul><p>4、log.dirs</p><ul><li>log地址</li></ul><p>5、num.recovery.threads.pre.data.dir</p><ul><li>配置线程处理日志片段<ul><li>服务器正常启动、用于打开每个分区的日志片段</li><li>服务器崩溃后重启、用于检查和截短每个分区的日志片段</li><li>服务器正常关闭、用于关闭日志片段</li></ul></li></ul><p>默认每个日志目录只用一个线程、如果配置了num.recovery.threads.pre.data.dir=8<br>那么如果有3个log.dir 那么就需要24个线程</p><p>6、auto.create.topics.enable</p><ul><li>默认情况下、kafka会在以下三种情况下自动创建主题<ul><li>当一个生产者开始往主题写入消息时</li><li>当一个消费者开始从主题读取消息时</li><li>当任意一个客户端向主题发送元数据请求时</li></ul></li></ul><p>如果已经显示的创建主题、那么这里可以配置为auto.create.topics.enable=false</p><h2 id="topic默认配置"><a href="#topic默认配置" class="headerlink" title="topic默认配置"></a>topic默认配置</h2><p>1、num.partitions</p><ul><li>选定分区数量</li></ul><p>2、log.retention.ms</p><ul><li>根据时间保留数据和最后修改时间</li></ul><p>3、log.retention.bytes</p><ul><li>根据字节大小和时间保留数据</li></ul><p>4、log.segment.bytes</p><ul><li>使用时间戳获取偏移量</li></ul><p>5、log.segment.ms</p><ul><li>基于时间的日志片段和磁盘性能的影响</li></ul><p>6、message.max.bytes</p><ul><li>在服务端和客户端之间协调消息大小的配置</li></ul>]]></content>
+    <content type="html"><![CDATA[<p><a href="https://kafka.apache.org/" target="_blank" rel="noopener">官网</a></p><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">##前置</span><br><span class="line">java、zookeeper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">wget http://mirror.bit.edu.cn/apache/kafka/2.1.0/kafka_2.12-2.1.0.tgz</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">curl -L -O http://mirror.bit.edu.cn/apache/kafka/2.1.0/kafka_2.12-2.1.0.tgz</span><br><span class="line"></span><br><span class="line">tar -zxvf kafka_2.12-2.1.0.tgz</span><br><span class="line"></span><br><span class="line">cd kafka_2.12-2.1.0/bin</span><br></pre></td></tr></table></figure><a id="more"></a><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">./kafka-server-start.sh -daemon</span><br><span class="line"></span><br><span class="line">./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#test 主题上发布消息</span><br><span class="line">./kafka-console-producer.sh --broker-list localhost:9092 --topic test</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#test 主题上接收消息</span><br><span class="line">./kafka-console-consumer.sh --zookeeper localhost:2181 --topic test --from-beginning</span><br></pre></td></tr></table></figure><h2 id="broker配置"><a href="#broker配置" class="headerlink" title="broker配置"></a>broker配置</h2><p>1、broker.id</p><ul><li>集群唯一 整数</li></ul><p>2、port</p><ul><li>端口</li></ul><p>3、zookeeper.connect</p><ul><li>zk连接地址</li></ul><p>4、log.dirs</p><ul><li>log地址</li></ul><p>5、num.recovery.threads.pre.data.dir</p><ul><li>配置线程处理日志片段<ul><li>服务器正常启动、用于打开每个分区的日志片段</li><li>服务器崩溃后重启、用于检查和截短每个分区的日志片段</li><li>服务器正常关闭、用于关闭日志片段</li></ul></li></ul><p>默认每个日志目录只用一个线程、如果配置了num.recovery.threads.pre.data.dir=8<br>那么如果有3个log.dir 那么就需要24个线程</p><p>6、auto.create.topics.enable</p><ul><li>默认情况下、kafka会在以下三种情况下自动创建主题<ul><li>当一个生产者开始往主题写入消息时</li><li>当一个消费者开始从主题读取消息时</li><li>当任意一个客户端向主题发送元数据请求时</li></ul></li></ul><p>如果已经显示的创建主题、那么这里可以配置为auto.create.topics.enable=false</p><h2 id="topic默认配置"><a href="#topic默认配置" class="headerlink" title="topic默认配置"></a>topic默认配置</h2><p>1、num.partitions</p><ul><li>选定分区数量</li></ul><p>2、log.retention.ms</p><ul><li>根据时间保留数据和最后修改时间</li></ul><p>3、log.retention.bytes</p><ul><li>根据字节大小和时间保留数据</li></ul><p>4、log.segment.bytes</p><ul><li>使用时间戳获取偏移量</li></ul><p>5、log.segment.ms</p><ul><li>基于时间的日志片段和磁盘性能的影响</li></ul><p>6、message.max.bytes</p><ul><li>在服务端和客户端之间协调消息大小的配置</li></ul>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;a href=&quot;https://kafka.apache.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官网&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;下载&quot;&gt;&lt;a href=&quot;#下载&quot; class=&quot;headerlink&quot; title=&quot;下载&quot;&gt;&lt;/a
-      
+      &lt;p&gt;&lt;a href=&quot;https://kafka.apache.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官网&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;下载&quot;&gt;&lt;a href=&quot;#下载&quot; class=&quot;headerlink&quot; title=&quot;下载&quot;&gt;&lt;/a&gt;下载&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;##前置&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;java、zookeeper&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;wget http://mirror.bit.edu.cn/apache/kafka/2.1.0/kafka_2.12-2.1.0.tgz&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;or&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;curl -L -O http://mirror.bit.edu.cn/apache/kafka/2.1.0/kafka_2.12-2.1.0.tgz&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tar -zxvf kafka_2.12-2.1.0.tgz&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cd kafka_2.12-2.1.0/bin&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -468,33 +465,6 @@
   </entry>
   
   <entry>
-    <title>网站制作app、并发布github、生成二维码推广下载</title>
-    <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-15/"/>
-    <id>https://www.wuxinvip.com/2018/09/24/essay/essay-15/</id>
-    <published>2018-09-24T00:00:00.000Z</published>
-    <updated>2018-12-04T09:17:23.173Z</updated>
-    
-    <content type="html"><![CDATA[<p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p><h1 id="网站制作app"><a href="#网站制作app" class="headerlink" title="网站制作app"></a>网站制作app</h1><p>工具 Hbuilder</p><p>下载地址：<a href="http://dcloud.io/" target="_blank" rel="noopener">http://dcloud.io/</a></p><p>步骤 ：</p><a id="more"></a><h3 id="新建工程-添加app信息"><a href="#新建工程-添加app信息" class="headerlink" title="新建工程 添加app信息"></a>新建工程 添加app信息</h3><p><img src="/img/essay/essay-15/new-project.png" alt="如图"></p><h3 id="选择wap转app"><a href="#选择wap转app" class="headerlink" title="选择wap转app"></a>选择wap转app</h3><p><img src="/img/essay/essay-15/project-config.png" alt="如图"></p><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><ul><li>选择发行-》》app在云端打包<br><img src="/img/essay/essay-15/faxing.png" alt="如图"></li></ul><p>然后等待 后台打包<br>控制台会实时输出打包信息</p><h1 id="github发布二进制可下载文件"><a href="#github发布二进制可下载文件" class="headerlink" title="github发布二进制可下载文件"></a>github发布二进制可下载文件</h1><h3 id="仓库release分支建立一个新的release-tag"><a href="#仓库release分支建立一个新的release-tag" class="headerlink" title="仓库release分支建立一个新的release tag"></a>仓库release分支建立一个新的release tag</h3><p><img src="/img/essay/essay-15/release.png" alt="如图"></p><h3 id="把生成的文件上传上去"><a href="#把生成的文件上传上去" class="headerlink" title="把生成的文件上传上去"></a>把生成的文件上传上去</h3><p><img src="/img/essay/essay-15/publish-github.png" alt="如图"></p><h3 id="选中文件右键复制下载地址"><a href="#选中文件右键复制下载地址" class="headerlink" title="选中文件右键复制下载地址"></a>选中文件右键复制下载地址</h3><h1 id="草料二维码生成下载图片"><a href="#草料二维码生成下载图片" class="headerlink" title="草料二维码生成下载图片"></a>草料二维码生成下载图片</h1><ul><li>地址：<a href="https://cli.im/" target="_blank" rel="noopener">https://cli.im/</a></li></ul><p><img src="/img/essay/essay-15/download-photo.png" alt="如图"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;应用全部工具 ：Hbuilder、 github账户、草料二维码生成器&lt;/p&gt;
-&lt;h1 id=&quot;网站制作app&quot;&gt;&lt;a href=&quot;#网站制作app&quot; class=&quot;headerlink&quot; title=&quot;网站制作app&quot;&gt;&lt;/a&gt;网站制作app&lt;/h1&gt;&lt;p&gt;工具 Hbuilder&lt;/p&gt;
-&lt;p&gt;下载地址：&lt;a href=&quot;http://dcloud.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://dcloud.io/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;步骤 ：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="app" scheme="https://www.wuxinvip.com/categories/app/"/>
-    
-      <category term="android" scheme="https://www.wuxinvip.com/categories/app/android/"/>
-    
-    
-      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
     <title>每天一点人生感悟的句子</title>
     <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-14/"/>
     <id>https://www.wuxinvip.com/2018/09/24/essay/essay-14/</id>
@@ -519,6 +489,33 @@
     </summary>
     
       <category term="essay" scheme="https://www.wuxinvip.com/categories/essay/"/>
+    
+    
+      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>网站制作app、并发布github、生成二维码推广下载</title>
+    <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-15/"/>
+    <id>https://www.wuxinvip.com/2018/09/24/essay/essay-15/</id>
+    <published>2018-09-24T00:00:00.000Z</published>
+    <updated>2018-12-04T09:17:23.173Z</updated>
+    
+    <content type="html"><![CDATA[<p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p><h1 id="网站制作app"><a href="#网站制作app" class="headerlink" title="网站制作app"></a>网站制作app</h1><p>工具 Hbuilder</p><p>下载地址：<a href="http://dcloud.io/" target="_blank" rel="noopener">http://dcloud.io/</a></p><p>步骤 ：</p><a id="more"></a><h3 id="新建工程-添加app信息"><a href="#新建工程-添加app信息" class="headerlink" title="新建工程 添加app信息"></a>新建工程 添加app信息</h3><p><img src="/img/essay/essay-15/new-project.png" alt="如图"></p><h3 id="选择wap转app"><a href="#选择wap转app" class="headerlink" title="选择wap转app"></a>选择wap转app</h3><p><img src="/img/essay/essay-15/project-config.png" alt="如图"></p><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><ul><li>选择发行-》》app在云端打包<br><img src="/img/essay/essay-15/faxing.png" alt="如图"></li></ul><p>然后等待 后台打包<br>控制台会实时输出打包信息</p><h1 id="github发布二进制可下载文件"><a href="#github发布二进制可下载文件" class="headerlink" title="github发布二进制可下载文件"></a>github发布二进制可下载文件</h1><h3 id="仓库release分支建立一个新的release-tag"><a href="#仓库release分支建立一个新的release-tag" class="headerlink" title="仓库release分支建立一个新的release tag"></a>仓库release分支建立一个新的release tag</h3><p><img src="/img/essay/essay-15/release.png" alt="如图"></p><h3 id="把生成的文件上传上去"><a href="#把生成的文件上传上去" class="headerlink" title="把生成的文件上传上去"></a>把生成的文件上传上去</h3><p><img src="/img/essay/essay-15/publish-github.png" alt="如图"></p><h3 id="选中文件右键复制下载地址"><a href="#选中文件右键复制下载地址" class="headerlink" title="选中文件右键复制下载地址"></a>选中文件右键复制下载地址</h3><h1 id="草料二维码生成下载图片"><a href="#草料二维码生成下载图片" class="headerlink" title="草料二维码生成下载图片"></a>草料二维码生成下载图片</h1><ul><li>地址：<a href="https://cli.im/" target="_blank" rel="noopener">https://cli.im/</a></li></ul><p><img src="/img/essay/essay-15/download-photo.png" alt="如图"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;应用全部工具 ：Hbuilder、 github账户、草料二维码生成器&lt;/p&gt;
+&lt;h1 id=&quot;网站制作app&quot;&gt;&lt;a href=&quot;#网站制作app&quot; class=&quot;headerlink&quot; title=&quot;网站制作app&quot;&gt;&lt;/a&gt;网站制作app&lt;/h1&gt;&lt;p&gt;工具 Hbuilder&lt;/p&gt;
+&lt;p&gt;下载地址：&lt;a href=&quot;http://dcloud.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://dcloud.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;步骤 ：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="app" scheme="https://www.wuxinvip.com/categories/app/"/>
+    
+      <category term="android" scheme="https://www.wuxinvip.com/categories/app/android/"/>
     
     
       <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
