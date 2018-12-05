@@ -337,7 +337,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">226</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">227</span></a>
 
   </li>
         
@@ -439,7 +439,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-3/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-lock/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -459,666 +459,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/service-design/design-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">高可用架构设计考虑</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-design/design-3/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-design/design-4/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">用户池系统 构思</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
-<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
-<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
-<p>不同的key对应不同的分组数据</p>
-<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
-<p>获取不同排序 前端发送不同的key值即可</p>
-<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-design/design-4/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-design/design-5/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">风控系统</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/风控系统/" itemprop="url" rel="index"><span itemprop="name">风控系统</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
-</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
-    针对各类支付业务交易风险事件进行监测与控制
-
-同步反馈、
-    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
-
-联动控制、
-    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
-
-持续迭代、
-    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
-    或者与外部资源共享等进行持续动态更新
-</code></pre>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-design/design-5/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-recovery/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jvm-memory-recovery/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">jvm内存回收</a>
+                <a href="/2018/03/24/mysql/optimization-sql-lock/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">SQL优化【锁优化】</a>
               
             
           </h2>
@@ -1168,7 +509,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -1203,14 +544,15 @@
 
       
         
-          <p>回收区域：堆【主要区域】、方法区【回收废弃常量、无用类】</p>
-<p>无用类定义：<br>1、jvm中不存在该实例<br>2、加载该类classLoader已被回收<br>3、任何地方都不存在引用</p>
-<p>回收算法：<br>1、标记清除<br>2、标记整理<br>3、复制<br>4、分代收集</p>
-<p>回收器：<br>单线程<br>1、serial<br>2、serial old<br>多线程<br>1、parNew<br>2、parallel scavenge<br>3、parallel old<br>4、cms<br>5、G1</p>
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-b679147e38a9e162.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>MySQL使用锁管理对表内容的争用 ：</p>
+<p>内部锁定在MySQL服务器内部执行，以管理多个线程对表内容的争用。<br>这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。<br>参见 第8.11.1节“内部锁定方法”。</p>
+<p>当服务器和其他程序锁定MyISAM表文件以相互协调哪个程序可以访问表时，发生外部锁定。<br>参见第8.11.5节“外部锁定”。</p>
+<p>8.11.1内部锁定方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">本节讨论内部锁定; 即在MySQL服务器本身内执行锁定以管理多个会话对表内容的争用。</span><br><span class="line">这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。</span><br><span class="line">对于其他程序在MySQL文件上执行的锁定，请参见第8.11.5节“外部锁定”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line"></span><br><span class="line">选择锁定类型</span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line">MySQL使用行级锁定为InnoDB表，以支持由多个会话并发写入权限，使其适用于多用户，高并发，和OLTP应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了避免在单个表上执行多个并发写入操作时发生死锁， InnoDB通过SELECT ... FOR UPDATE为每组预计要修改的行发布语句，即使数据更改语句稍后在事务中发生，也可以在事务启动时获取必要的锁。</span><br><span class="line">如果交易修改或锁定多个表，请在每个交易中以相同的顺序发布适用的报表。</span><br><span class="line">死锁会影响性能而不是表示严重的错误，因为它会 InnoDB自动 检测 死锁条件并回滚其中一个受影响的事务。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在高并发系统上，当大量线程等待相同的锁时，死锁检测会导致速度下降。</span><br><span class="line">有时候，innodb_lock_wait_timeout 当死锁发生时，禁用死锁检测并依赖事务回滚的设置可能更有效 。</span><br><span class="line">使用innodb_deadlock_detect 配置选项可以禁用死锁检测 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定的优点：</span><br><span class="line"></span><br><span class="line">当不同的会话访问不同的行时，更少的锁冲突。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">回滚更少。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">可能长时间锁定一行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line">MySQL使用表级锁的MyISAM， MEMORY和MERGE 表，只允许一个会话更新一次这些表。</span><br><span class="line">这种锁定级别使得这些存储引擎更适合于只读，主要读取或单用户应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些存储引擎通过始终在查询开始时一次请求所有需要的锁，并始终以相同的顺序锁定表来避免 死锁。</span><br><span class="line">权衡是这种策略降低了并发性; 其他要修改表的会话必须等到当前数据更改语句结束。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定的优点：</span><br><span class="line"></span><br><span class="line">所需的内存相对较少（行锁定需要锁定每行或一组行的内存）</span><br><span class="line"></span><br><span class="line">在大部分表格上使用时都很快，因为只涉及一个锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您经常GROUP BY 对大部分数据执行操作，或者必须频繁扫描整个表，则速度很快。</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/jdk/jvm-memory-recovery/" rel="contents">
+              <a class="btn" href="/2018/03/24/mysql/optimization-sql-lock/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1229,14 +571,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
@@ -1293,7 +656,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-thread/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-deploy/bandwidth/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1313,7 +676,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/jdk/jdk-thread/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">线程</a>
+                <a href="/2018/03/24/service-deploy/bandwidth/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">服务器带宽</a>
               
             
           </h2>
@@ -1363,7 +726,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-deploy/" itemprop="url" rel="index"><span itemprop="name">service-deploy</span></a></span>
 
                 
                 
@@ -1398,18 +761,440 @@
 
       
         
-          <p>线程四种<br>单线程 固定数目线程 缓存线程 定时线程</p>
-<p>关于线程:</p>
+          <p><strong>首先要知道影响在线人数的因素</strong></p>
+<p>1，访问量</p>
+<p>2，网站类型：如果是出文字的网站(如小说站)，1M带宽带动日均5000IP，还勉强。如果是普通网站有图片，有文字、论坛、新闻资讯类型网站 大概1M能带一千IP。考虑到高峰期并发，1M高峰期还会卡。【最低配 单核CPU+512内存。1千IP CPU占用10%左右，内存200到300之间】。</p>
+<p><strong>下面根据影响因素计算下1M带宽能同时承受多少人在线(以网络状况良好为前提)</strong></p>
+<p>1、</p>
+<p><a href="http://www.wusiwei.com/post-904.html" target="_blank" rel="noopener">打开网站8秒原则</a>;</p>
+<p>2、 评判的只是：用户从云服务器下载文件的速度;</p>
+<p>3、 页面的标准尺寸大小为：60KB;</p>
+<p>参考公式：<strong>支持连接个人 = 服务器带宽/页面尺寸大小</strong></p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/service-deploy/bandwidth/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/04/service-deploy/ftp/" rel="bookmark">ftp部署</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/jenkins/" rel="bookmark">jenkins部署</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/service-design/design-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">医院总流程图</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/医院架构/" itemprop="url" rel="index"><span itemprop="name">医院架构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-6fd65b85b06a5237.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/rpc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/agreement/rpc/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">RPC</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>RPC（Remote Procedure Call）—远程过程调用</p>
+<p><strong>工作原理</strong></p>
 <ul>
-<li>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了</li>
-<li>2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能</li>
-<li>3.线程池数量 差不多是 CPU核数 * 2</li>
-<li>4.阿里编码规范已不推荐使用ExcutorService方法使用线程</li>
+<li>1.调用客户端句柄；执行传送参数</li>
+<li>2.调用本地系统内核发送网络消息</li>
+<li>3.消息传送到远程主机</li>
+<li>4.服务器句柄得到消息并取得参数</li>
+<li><p>5.执行远程过程</p>
+</li>
+<li><p>6.执行的过程将结果返回服务器句柄</p>
+</li>
+<li>7.服务器句柄返回结果，调用远程系统内核</li>
+<li>8.消息传回本地主机</li>
+<li>9.客户句柄由内核接收消息</li>
+<li>10.客户接收句柄返回的数据</li>
 </ul>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/jdk/jdk-thread/" rel="contents">
+              <a class="btn" href="/2018/03/24/agreement/rpc/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1428,35 +1213,231 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-translation/" rel="bookmark">事务</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-set/" rel="bookmark">集合Set</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/cache/redis/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">redis</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>1、使用ANSIC编写 （基于BSD协议）<br>2、开源、内存中数据结构存储<br>3、可以用作数据库、缓存、消息中间件</p>
+<p>支持多种数据结构<br>String、hash、list、set、sorted sets、bitmaps、geospatial<br>字符串、散列、列表、集合、有序集合、bitmaps、地理空间</p>
+<p>redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations) 和不同级别的硬盘持久化<br>并通过redis哨兵(sentinel)和自动分区(cluster)提高可用性</p>
+<p>Redis支持每隔一段时间将数据导出磁盘、支持主从复制、且第一次是快速非阻塞形式</p>
+<p>由于组合式压缩、内存使用率要高于memcached</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/cache/redis/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
       
     </li>
   
@@ -1569,7 +1550,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">226</span>
+                    <span class="site-state-item-count">227</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
