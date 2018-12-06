@@ -81,6 +81,39 @@
   </entry>
   
   <entry>
+    <title>kafka生产者发送</title>
+    <link href="https://www.wuxinvip.com/2018/11/27/message-queue/kafka/06/"/>
+    <id>https://www.wuxinvip.com/2018/11/27/message-queue/kafka/06/</id>
+    <published>2018-11-27T00:00:00.000Z</published>
+    <updated>2018-12-06T08:40:35.631Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>kafka消息发送</li><li>kafka消息同步发送</li><li><p>kafka消息异步发送</p></li><li><p>kafka生产者配置</p></li></ul><a id="more"></a><ul><li>kafka消息发送</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 最简单发送</span><br><span class="line">     */</span><br><span class="line">    public void test01() &#123;</span><br><span class="line">        ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">                new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            producer.send(record);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><ul><li><p>kafka消息同步发送</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka同步发送</span><br><span class="line"> */</span><br><span class="line">public void test02() &#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Future result = producer.send(record);</span><br><span class="line">        result.get();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>kafka消息异步发送</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka 异步发送</span><br><span class="line"> */</span><br><span class="line">public void test03()&#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try&#123;</span><br><span class="line">        Future result = producer.send(record,new DemoProducerCallback());</span><br><span class="line">        result.get();</span><br><span class="line">    &#125;catch(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoProducerCallback implements Callback &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onCompletion(RecordMetadata recordMetadata, Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>kafka生产者配置</p></li></ul><ul><li><p>acks</p><ul><li>acks = 0<ul><li>不回调通知</li></ul></li><li>acks = a<ul><li>只保存首领节点、即返回消息确认</li></ul></li><li>acks = all<ul><li>保存首领节点和所有副节点后、即返回消息确认</li></ul></li></ul></li><li><p>buffer.memory</p><ul><li>设置生产者内存缓存大小、生产者又来缓冲发送到服务器的消息、</li><li>0.9.00版本中、被替换为max.block.ms 表示抛出异常前可以阻塞一段时间</li></ul></li><li><p>compression.type</p><ul><li>消息压缩、可设置为snappy、gzip、lz4</li><li>指定消息被发送给broker之前使用哪一种压缩算法进行压缩</li></ul></li><li><p>retries</p><ul><li>重试次数</li><li>默认每次重试等待100ms、可以通过retry.backoff.ms 设置</li><li>一般首领选举中易发生重试、建议该时间大于选举时间、崩溃恢复时间长等</li></ul></li><li><p>batch.size</p><ul><li>消息批次大小、累积到一定大小发送消息</li></ul></li><li><p>linger.ms</p><ul><li>指定生产者在发送批次之前等待更多消息加入批次时间</li><li>消息发送两个控制点、一个是累计大小、一个是这个时间、规定时间内没有达到累积值、也要发送消息</li></ul></li><li><p>client.id</p><ul><li>可以设置任意字符串</li><li>服务器用来判断消息来源、用来标记消息</li></ul></li><li><p>max.in.flight.requests.pre.connection</p><ul><li>指定、生产者在受到服务器响应之前可以发送多少个消息、</li><li>值越高、就会占用更多内存、也会提升吞吐量、</li><li>设置为1 可保证消息桉顺序写入broker服务器</li></ul></li><li><p>timeout.ms、request.timeout.ms、metadata.fetch.timeout.ms</p><ul><li>timeout.ms 生产者发送数据时等待服务器返回响应时间</li><li>request.timeout.ms 指定生产者在获取元数据（比如broker首领是谁）等待服务器返回响应时间、超时重试</li><li>metadata.fetch.timeout.ms 指定 broker等待同步副本返回消息确认时间、超时认为失败</li></ul></li></ul><ul><li><p>max.block.ms</p><ul><li>指定调用send方法或者使用partitionFor()方法获取元数据生产者的阻塞时间</li><li>超时抛出异常</li></ul></li><li><p>max.request.size</p><ul><li>控制生产者发送消息大小、单个请求大小、单个请求中一个批次消息的总大小</li></ul></li><li><p>receive.buffer.bytes、send.buffer.bytes</p><ul><li>tcp、socket的接收和发送缓冲区大小</li></ul></li></ul><ul><li>kafka顺序<ul><li>可设置max.in.flight.request.pre.connection = 1、但会严重影响吞吐量</li><li>这点或许rabbitmq和rocketmq做的更好</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;kafka消息发送&lt;/li&gt;
+&lt;li&gt;kafka消息同步发送&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;kafka消息异步发送&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;kafka生产者配置&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="kafka" scheme="https://www.wuxinvip.com/categories/java/message-queue/kafka/"/>
+    
+    
+      <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
+    
+  </entry>
+  
+  <entry>
     <title>kafka集群</title>
     <link href="https://www.wuxinvip.com/2018/11/26/message-queue/kafka/04/"/>
     <id>https://www.wuxinvip.com/2018/11/26/message-queue/kafka/04/</id>
@@ -616,35 +649,6 @@
     
     
       <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>timestamp 转 date 少一天</title>
-    <link href="https://www.wuxinvip.com/2018/08/24/exception/exception-4/"/>
-    <id>https://www.wuxinvip.com/2018/08/24/exception/exception-4/</id>
-    <published>2018-08-24T00:00:00.000Z</published>
-    <updated>2018-10-20T14:46:02.349Z</updated>
-    
-    <content type="html"><![CDATA[<p>timestamp 时间为 GMT</p><p>而我们数据库大都设置时区GMT+8</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 根据long类型时间戳 获取当前date  添加时区判断</span><br><span class="line"> * @param timestamp</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static Date getDateByLongTime(Long timestamp)&#123;</span><br><span class="line"></span><br><span class="line">    TimeZone.setDefault(TimeZone.getTimeZone(&quot;GMT+8&quot;));</span><br><span class="line">    Calendar c = Calendar.getInstance(TimeZone.getTimeZone(&quot;GMT+8&quot;));</span><br><span class="line">    c.setTime(new Date(timestamp));</span><br><span class="line">    return c.getTime();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;timestamp 时间为 GMT&lt;/p&gt;
-&lt;p&gt;而我们数据库大都设置时区GMT+8&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/s
-      
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="exception" scheme="https://www.wuxinvip.com/categories/java/exception/"/>
-    
-    
-      <category term="exception" scheme="https://www.wuxinvip.com/tags/exception/"/>
     
   </entry>
   

@@ -337,7 +337,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">230</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">231</span></a>
 
   </li>
         
@@ -458,7 +458,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/04/log/log-total/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/06/mongodb/mongodb-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -478,7 +478,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/06/04/log/log-total/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/14/index.html">日志发展史</a>
+                <a href="/2018/06/06/mongodb/mongodb-4/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/14/index.html">mongodb 使用</a>
               
             
           </h2>
@@ -503,7 +503,7 @@
                 
               
 
-              <time title="创建时间：2018-06-04 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-04T08:00:00+08:00">2018-06-04</time>
+              <time title="创建时间：2018-06-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-06T08:00:00+08:00">2018-06-06</time>
             
 
             
@@ -528,7 +528,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mongodb/" itemprop="url" rel="index"><span itemprop="name">mongodb</span></a></span>
 
                 
                 
@@ -563,20 +563,11 @@
 
       
         
-          <p><img src="/img/log/img/log-total.jpg" alt="图片">日志总图<br>接口定制组建使用interface标识<br><br>具体实现组建使用class标识</p>
-<p><strong>you must know</strong></p>
-<p>从log4j到log4j2.0 <br><br>logback是log4j升级版 是slf4j完美实现<br><br>sun出品的接口JUL、后来的commons-logging</p>
-<p>ceki写的slf4j、logback、log4j、log4j2.0</p>
-<p>这人简直神了 日志发展史上重要人物啊 写一个一个规则</p>
-          <!--noindex-->
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/06/04/log/log-total/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
+            <p><strong>mongodb 使用</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">文档性数据库 针对类型、无格式文档、只根据id、type区分</span><br><span class="line"></span><br><span class="line">代码 使用封装data-mongodb数据</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Autowired</span><br><span class="line">MongoTemplate mongoTemplate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mongoTemplate.save(logDocument);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//入参 当前第1页、显示20条数据、搜索类型demo封装类</span><br><span class="line">Query query = new Query();</span><br><span class="line">  //构造分页请求信息</span><br><span class="line">  Sort sort = new Sort(Sort.Direction.DESC,&quot;createTime&quot;);</span><br><span class="line">  PageRequest pageRequest = new PageRequest(1,20,sort);</span><br><span class="line">  query.with(pageRequest);</span><br><span class="line"></span><br><span class="line">  query.addCriteria(Criteria.where(&quot;id&quot;).is(demo.getId());</span><br><span class="line"></span><br><span class="line">mongoTemplate.find(query,LogDocument.class);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">///指定全文模糊匹配检索 代码片段 用作以后参考</span><br><span class="line">    TextCriteria criteria = new TextCriteria();</span><br><span class="line">    Map&lt;String,String&gt; map = JsonUtil.beanToMap(demo);</span><br><span class="line">    for(String string :map.values())&#123;</span><br><span class="line">        criteria.matching(string);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
@@ -590,21 +581,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-3/" rel="bookmark">mongodb 命令</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-2/" rel="bookmark">mongodb 集群</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-1/" rel="bookmark">mongodb 简介</a></div>
       
     </li>
   
@@ -1237,7 +1228,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/05/30/shell/shell-3/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/04/log/log-total/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1257,7 +1248,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/30/shell/shell-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/14/index.html">linux 清空缓存</a>
+                <a href="/2018/06/04/log/log-total/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/14/index.html">日志发展史</a>
               
             
           </h2>
@@ -1282,7 +1273,7 @@
                 
               
 
-              <time title="创建时间：2018-05-30 08:00:00" itemprop="dateCreated datePublished" datetime="2018-05-30T08:00:00+08:00">2018-05-30</time>
+              <time title="创建时间：2018-06-04 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-04T08:00:00+08:00">2018-06-04</time>
             
 
             
@@ -1300,7 +1291,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
 
                 
                 
@@ -1335,11 +1333,15 @@
 
       
         
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> 确认缓存或不用内存</span><br><span class="line">free -m</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vi drop_caches.sh</span><br><span class="line"></span><br><span class="line">#页面缓存</span><br><span class="line">echo 1 &gt; /proc/sys/vm/drop_caches</span><br><span class="line">#目录缓存和inodes</span><br><span class="line">echo 2 &gt; /proc/sys/vm/drop_caches</span><br><span class="line">#页面缓存，目录缓存和inodes</span><br><span class="line">echo 3 &gt; /proc/sys/vm/drop_caches</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#清理文件系统缓存</span><br><span class="line">sync</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">save  </span><br><span class="line"></span><br><span class="line">sh drop_caches.sh</span><br></pre></td></tr></table></figure>
+          <p><img src="/img/log/img/log-total.jpg" alt="图片">日志总图<br>接口定制组建使用interface标识<br><br>具体实现组建使用class标识</p>
+<p><strong>you must know</strong></p>
+<p>从log4j到log4j2.0 <br><br>logback是log4j升级版 是slf4j完美实现<br><br>sun出品的接口JUL、后来的commons-logging</p>
+<p>ceki写的slf4j、logback、log4j、log4j2.0</p>
+<p>这人简直神了 日志发展史上重要人物啊 写一个一个规则</p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/05/30/shell/shell-3/" rel="contents">
+              <a class="btn" href="/2018/06/04/log/log-total/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1358,35 +1360,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/11/15/shell/shell-5/" rel="bookmark">linux 删除命令 rm 改为 mv</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-2/" rel="bookmark">java后台升级命令</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-1/" rel="bookmark">java后台常用命令</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
       
     </li>
   
@@ -1450,7 +1438,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1499,7 +1487,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">230</span>
+                    <span class="site-state-item-count">231</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
