@@ -155,14 +155,14 @@
   <meta name="description" content="kafka消息发送 kafka消息同步发送 kafka消息异步发送  kafka生产者配置">
 <meta name="keywords" content="kafka">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kafka生产者发送">
-<meta property="og:url" content="https://www.wuxinvip.com/2018/11/27/message-queue/kafka/06/index.html">
+<meta property="og:title" content="kafka生产者发送和配置">
+<meta property="og:url" content="https://www.wuxinvip.com/2018/11/28/message-queue/kafka/06/index.html">
 <meta property="og:site_name" content="上善若水の技术簿">
 <meta property="og:description" content="kafka消息发送 kafka消息同步发送 kafka消息异步发送  kafka生产者配置">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-06T08:40:35.631Z">
+<meta property="og:updated_time" content="2018-12-06T08:59:54.351Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="kafka生产者发送">
+<meta name="twitter:title" content="kafka生产者发送和配置">
 <meta name="twitter:description" content="kafka消息发送 kafka消息同步发送 kafka消息异步发送  kafka生产者配置">
 
 
@@ -172,7 +172,7 @@
 
 
 
-  <link rel="canonical" href="https://www.wuxinvip.com/2018/11/27/message-queue/kafka/06/"/>
+  <link rel="canonical" href="https://www.wuxinvip.com/2018/11/28/message-queue/kafka/06/"/>
 
 
 
@@ -182,7 +182,7 @@
   };
 </script>
 
-  <title>kafka生产者发送 | 上善若水の技术簿</title>
+  <title>kafka生产者发送和配置 | 上善若水の技术簿</title>
   
 
 
@@ -341,7 +341,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">231</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">232</span></a>
 
   </li>
         
@@ -464,7 +464,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/27/message-queue/kafka/06/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/28/message-queue/kafka/06/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -481,7 +481,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">kafka生产者发送
+          <h2 class="post-title" itemprop="name headline">kafka生产者发送和配置
               
             
           </h2>
@@ -506,7 +506,7 @@
                 
               
 
-              <time title="创建时间：2018-11-27 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-27T08:00:00+08:00">2018-11-27</time>
+              <time title="创建时间：2018-11-28 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-28T08:00:00+08:00">2018-11-28</time>
             
 
             
@@ -589,21 +589,10 @@
 </li>
 </ul>
 <a id="more"></a>
-<ul>
-<li>kafka消息发送</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 最简单发送</span><br><span class="line">     */</span><br><span class="line">    public void test01() &#123;</span><br><span class="line">        ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">                new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            producer.send(record);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>kafka消息同步发送</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka同步发送</span><br><span class="line"> */</span><br><span class="line">public void test02() &#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Future result = producer.send(record);</span><br><span class="line">        result.get();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>kafka消息异步发送</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka 异步发送</span><br><span class="line"> */</span><br><span class="line">public void test03()&#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try&#123;</span><br><span class="line">        Future result = producer.send(record,new DemoProducerCallback());</span><br><span class="line">        result.get();</span><br><span class="line">    &#125;catch(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoProducerCallback implements Callback &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onCompletion(RecordMetadata recordMetadata, Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>kafka生产者配置</p>
-</li>
-</ul>
-<ul>
+<h2 id="kafka消息发送"><a href="#kafka消息发送" class="headerlink" title="kafka消息发送"></a>kafka消息发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 最简单发送</span><br><span class="line">     */</span><br><span class="line">    public void test01() &#123;</span><br><span class="line">        ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">                new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            producer.send(record);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kafka消息同步发送"><a href="#kafka消息同步发送" class="headerlink" title="kafka消息同步发送"></a>kafka消息同步发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka同步发送</span><br><span class="line"> */</span><br><span class="line">public void test02() &#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Future result = producer.send(record);</span><br><span class="line">        result.get();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kafka消息异步发送"><a href="#kafka消息异步发送" class="headerlink" title="kafka消息异步发送"></a>kafka消息异步发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka 异步发送</span><br><span class="line"> */</span><br><span class="line">public void test03()&#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try&#123;</span><br><span class="line">        Future result = producer.send(record,new DemoProducerCallback());</span><br><span class="line">        result.get();</span><br><span class="line">    &#125;catch(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoProducerCallback implements Callback &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onCompletion(RecordMetadata recordMetadata, Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kafka生产者配置"><a href="#kafka生产者配置" class="headerlink" title="kafka生产者配置"></a>kafka生产者配置</h2><ul>
 <li><p>acks</p>
 <ul>
 <li>acks = 0<ul>
@@ -709,6 +698,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/11/29/message-queue/kafka/07/" rel="bookmark">kafka消费者接收和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
       
     </li>
@@ -731,13 +727,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/11/24/message-queue/kafka/02/" rel="bookmark">kafka安装</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/23/message-queue/kafka/01/" rel="bookmark">kafka简介</a></div>
       
     </li>
   
@@ -786,8 +775,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/04/version/version-1/" rel="prev" title="app版本更新">
-                app版本更新 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/29/message-queue/kafka/07/" rel="prev" title="kafka消费者接收和配置">
+                kafka消费者接收和配置 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -838,8 +827,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -858,7 +856,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">232</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1166,6 +1164,22 @@
       </section>
 
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka消息发送"><span class="nav-number">1.</span> <span class="nav-text">kafka消息发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka消息同步发送"><span class="nav-number">2.</span> <span class="nav-text">kafka消息同步发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka消息异步发送"><span class="nav-number">3.</span> <span class="nav-text">kafka消息异步发送</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kafka生产者配置"><span class="nav-number">4.</span> <span class="nav-text">kafka生产者配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
