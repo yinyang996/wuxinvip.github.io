@@ -51,13 +51,44 @@
   </entry>
   
   <entry>
+    <title>kafka集群复制</title>
+    <link href="https://www.wuxinvip.com/2018/11/30/message-queue/kafka/08/"/>
+    <id>https://www.wuxinvip.com/2018/11/30/message-queue/kafka/08/</id>
+    <published>2018-11-30T00:00:00.000Z</published>
+    <updated>2018-12-07T08:29:04.669Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>kafka集群复制</li><li>kafka数据结构</li><li>kafka请求处理流程</li><li>kafka消息格式</li></ul><a id="more"></a><h2 id="kafka集群复制"><a href="#kafka集群复制" class="headerlink" title="kafka集群复制"></a>kafka集群复制</h2><h3 id="kafka数据结构"><a href="#kafka数据结构" class="headerlink" title="kafka数据结构"></a>kafka数据结构</h3><ul><li>kafka是以主题来组织数据</li><li>每个主题下有多个分区、每个分区下有多个副本【数据元】、</li><li>【玩过 mongodb 和 elasticsearch 的一看就懂、一个东西】</li><li>每个broker可以存储不同主题和不同分区的副本</li><li>副本分为两种<ul><li>首领副本【数据存储、对接客户端请求、消费】</li><li>跟随者副本【数据备份、不处理来自客户端的任何请求、待首领挂掉、迅速顶上】</li><li>另、首领还会处理副本的备份请求、以判断哪个副本是最新的、最新的版本才可以当“储君”</li></ul></li></ul><h4 id="图纸解说"><a href="#图纸解说" class="headerlink" title="图纸解说"></a>图纸解说</h4><p><img src="/img/kafka/04.png" alt="kafka储存结构"></p><ul><li>照了一张差不多的图、不是kafka的、是es的 不过解释起来足够了</li><li>主节点 node3、为broker协调者</li><li>所有数据都是一个主题topic通过tag来区分数据【一般一个应用要给同topic、这里就当1个多个tag、】</li><li>每个tag下有很多数据、每个数据有多个副本、【这里配置就2个、一个首领副本、一个跟随着副本】</li></ul><h3 id="kafka请求处理流程"><a href="#kafka请求处理流程" class="headerlink" title="kafka请求处理流程"></a>kafka请求处理流程</h3><h4 id="图纸解说-1"><a href="#图纸解说-1" class="headerlink" title="图纸解说"></a>图纸解说</h4><p><img src="/img/kafka/05.jpg" alt="kafka请求流程"></p><ul><li>请求通过processor线程发向请求队列、处理IO逻辑、将响应发向响应队列</li></ul><h3 id="kafka消息格式"><a href="#kafka消息格式" class="headerlink" title="kafka消息格式"></a>kafka消息格式</h3><ul><li>Request type 【API key】</li><li>Request version 【version版本号】</li><li>Correlation ID【消息唯一id】</li><li>Client ID【客户端唯一id】</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;kafka集群复制&lt;/li&gt;
+&lt;li&gt;kafka数据结构&lt;/li&gt;
+&lt;li&gt;kafka请求处理流程&lt;/li&gt;
+&lt;li&gt;kafka消息格式&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="kafka" scheme="https://www.wuxinvip.com/categories/java/message-queue/kafka/"/>
+    
+    
+      <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
+    
+  </entry>
+  
+  <entry>
     <title>kafka消费者接收和配置</title>
     <link href="https://www.wuxinvip.com/2018/11/29/message-queue/kafka/07/"/>
     <id>https://www.wuxinvip.com/2018/11/29/message-queue/kafka/07/</id>
     <published>2018-11-29T00:00:00.000Z</published>
-    <updated>2018-12-06T08:57:26.766Z</updated>
+    <updated>2018-12-07T07:50:05.892Z</updated>
     
-    <content type="html"><![CDATA[<ul><li>kafka消息接收方式</li><li>kafka消息偏移量提交</li><li><p>kafka序列化</p></li><li><p>kafka消费者配置</p></li></ul><a id="more"></a><h2 id="kafka消息接收方式"><a href="#kafka消息接收方式" class="headerlink" title="kafka消息接收方式"></a>kafka消息接收方式</h2><ul><li>kafka有两种消息接收方式、1:主动拉取、2:服务器端推送</li></ul><h2 id="kafka消息偏移量提交"><a href="#kafka消息偏移量提交" class="headerlink" title="kafka消息偏移量提交"></a>kafka消息偏移量提交</h2><ul><li>提交已处理消息标记位</li></ul><h2 id="kafka序列化"><a href="#kafka序列化" class="headerlink" title="kafka序列化"></a>kafka序列化</h2><ul><li>kafka使用avro序列化</li><li>可以看这边文章、<a href="https://www.wuxinvip.com/2018/11/10/essay/avro/">Apache Avro</a></li></ul><h2 id="kafka消费者配置"><a href="#kafka消费者配置" class="headerlink" title="kafka消费者配置"></a>kafka消费者配置</h2><p><em></em></p>]]></content>
+    <content type="html"><![CDATA[<ul><li>kafka消息接收方式</li><li>kafka消息偏移量提交</li><li><p>kafka序列化</p></li><li><p>kafka消费者配置</p></li></ul><a id="more"></a><h2 id="kafka消息接收方式"><a href="#kafka消息接收方式" class="headerlink" title="kafka消息接收方式"></a>kafka消息接收方式</h2><ul><li>kafka有两种消息接收方式、1:主动拉取、2:服务器端推送</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka消费者</span><br><span class="line"> */</span><br><span class="line">public void test04() &#123;</span><br><span class="line">    Properties properties = new Properties();</span><br><span class="line">    properties.put(&quot;bootstrap.servers&quot;, &quot;broker1:9002,broker2:9002&quot;);</span><br><span class="line">    properties.put(&quot;group.id&quot;, &quot;CountryCounter&quot;);</span><br><span class="line">    properties.put(&quot;key.deserializer&quot;, &quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line">    properties.put(&quot;value.deserializer&quot;, &quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line">    KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;String, String&gt;(properties);</span><br><span class="line"></span><br><span class="line">    //订阅主题</span><br><span class="line">    consumer.subscribe(Collections.singletonList(&quot;customerCountries&quot;));</span><br><span class="line">    //订阅所有主题</span><br><span class="line">    consumer.subscribe(Collections.singletonList(&quot;test.*&quot;));</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            ConsumerRecords&lt;String, String&gt; records = consumer.poll(100);</span><br><span class="line">            for (ConsumerRecord&lt;String, String&gt; record : records) &#123;</span><br><span class="line">                logger.debug(&quot;topic=%s,partition=%s,offset=%d,constomer=%s,country=%s\n&quot;,</span><br><span class="line">                        record.topic(),record.partition(),record.offset(),record.key(),record.value());</span><br><span class="line"></span><br><span class="line">                //todo 执行消费逻辑</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="kafka消息偏移量提交"><a href="#kafka消息偏移量提交" class="headerlink" title="kafka消息偏移量提交"></a>kafka消息偏移量提交</h2><ul><li>提交已处理消息标记位</li></ul><h2 id="kafka序列化"><a href="#kafka序列化" class="headerlink" title="kafka序列化"></a>kafka序列化</h2><ul><li>kafka使用avro序列化</li><li>可以看这边文章、<a href="https://www.wuxinvip.com/2018/11/10/essay/avro/">Apache Avro</a></li></ul><h2 id="kafka消费者配置"><a href="#kafka消费者配置" class="headerlink" title="kafka消费者配置"></a>kafka消费者配置</h2><ul><li>fetch.min.bytes<ul><li>指定消费者从服务器获取记录的最小字节数</li></ul></li><li>fetch.max.wait.ms<ul><li>累积多少时间把数据返还给消费者</li><li>数值大、吞吐量大、延迟高、</li><li>数值小、吞吐量小、延迟低、</li></ul></li><li><p>max.partition.fetch.bytes</p><ul><li>指定每个分区返给消费者的最大字节数、默认值1MB</li><li>如果有20个分区、5个消费者、那么这里就可以配置4MB</li><li>该值一定要大于broker能够接收数据最大值、否则会一直挂起重试</li></ul></li><li><p>session.timeout.ms</p><ul><li>指定消费者在被认为死亡之前可以与服务器断开连接时间、默认3s</li><li>如果规定时间内没有发送心跳、认为死亡、触发再均衡</li></ul></li><li><p>auto.offset.reset</p><ul><li>指定 消费者在读取一个没有偏移量的分区或者偏移量无效情况下（因消费者长时间失效、包含偏移量的记录已经过时并被删除）该如何处理</li><li>默认值 latest、最新数据</li><li>earliest 在偏移量无效情况下、消费者将从起始位置读取分区记录【幂等消费？】</li></ul></li><li><p>enable.auto.commit</p><ul><li>指定消费者是否自动提交偏移量 默认值true</li></ul></li><li><p>partition.assignment.strategy</p><ul><li>指定分配主题分区给消费者的分配策略</li><li>Range   轮询、如果分区数量大于消费者数量、那么排在前面的消费者会被分配到更多的分区</li><li>RoundRobin  给消费者分配更加平等数量的分区、或者最多小差一个分区</li></ul></li><li><p>client.id</p><ul><li>分区id 标识分区唯一、以及客户端、识别消息、也被用在日志和度量指标和配额里</li></ul></li><li><p>max.poll.records</p><ul><li>指定单次调用call()方法能够返回的记录数量</li></ul></li><li><p>receive.buffer.bytes、send.buffer.bytes</p><ul><li>socket在读写数据时用到的TCP缓冲区 -1使用系统默认值</li><li>如果消费者和生产者不再统一数据中心内、可以适当增大该值</li></ul></li></ul><h2 id="kafka消费者注意点"><a href="#kafka消费者注意点" class="headerlink" title="kafka消费者注意点"></a>kafka消费者注意点</h2><ul><li>消费者数量大于主题分区数量、否则消费者会被闲置；比如5个主题分区、4个消费者、那么会有一个主题分区会被闲置</li></ul><ul><li>再均衡<ul><li>分区所有权从一个消费者转移到另一个消费者、这样的行为被称为再均衡</li><li>再均衡期间、消费者不能消费消息</li><li>也是这样的设置、能是消费者分区能动态增减</li><li>维持：消费者通过向消费者协调者broker发送心跳、来维持他们与群组的从属关系以及他们对分区的所有权关系</li><li>消费者死亡、消费协调者broker会等待几秒钟、确认死亡后会触发再均衡</li></ul></li></ul>]]></content>
     
     <summary type="html">
     
@@ -241,6 +272,34 @@
   </entry>
   
   <entry>
+    <title>rocketmq简介</title>
+    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/"/>
+    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/</id>
+    <published>2018-11-23T00:00:00.000Z</published>
+    <updated>2018-12-04T13:09:59.263Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑</li></ul><a id="more"></a><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul><li>微服务之间的通信问题<ul><li>具体的业务场景有很多、比如、支付完成后的订单状态修改、用户充值后的vip等级提升、物流信息等等</li><li>各个微服务之间的消息、业务场景有：按实时性可分为实时消息、非实时消息；</li></ul></li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>rocketmq 有两个部件 nameserver：服务管理中心、broker：消息存储中心<ul><li>nameserver管理业务服务注册、保证服务稳定运行</li><li>broker负责消息的持久化、保证消息不丢失</li></ul></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li>应用解耦<ul><li>替换应用上的https协议、又能保证服务之间的动态性</li></ul></li><li>流量削峰<ul><li>非即时消息、延后处理</li></ul></li><li>消息分发<ul><li>消息生产者只负责消息生产、消息消费者只负责消息消费、只管把消息发到消息队列、而不关心、哪台服务消费这个消息</li><li>消息轮询消费、不会造成只在某一台机器上消费、压跨服务器</li></ul></li><li>保证分布式事务的最终一致性</li><li>动态扩容</li></ul><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>目前已是apache的顶级项目、</li><li>2017年双十一的主要驱动力、处理消息万亿级别、tps:5600万</li><li>java语言开发、对java开发者亲和度较高</li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
+    
+    
+      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
+    
+  </entry>
+  
+  <entry>
     <title>rabbitmq简介</title>
     <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
     <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
@@ -305,34 +364,6 @@
     
     
       <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>rocketmq简介</title>
-    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/"/>
-    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/</id>
-    <published>2018-11-23T00:00:00.000Z</published>
-    <updated>2018-12-04T13:09:59.263Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑</li></ul><a id="more"></a><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul><li>微服务之间的通信问题<ul><li>具体的业务场景有很多、比如、支付完成后的订单状态修改、用户充值后的vip等级提升、物流信息等等</li><li>各个微服务之间的消息、业务场景有：按实时性可分为实时消息、非实时消息；</li></ul></li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>rocketmq 有两个部件 nameserver：服务管理中心、broker：消息存储中心<ul><li>nameserver管理业务服务注册、保证服务稳定运行</li><li>broker负责消息的持久化、保证消息不丢失</li></ul></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li>应用解耦<ul><li>替换应用上的https协议、又能保证服务之间的动态性</li></ul></li><li>流量削峰<ul><li>非即时消息、延后处理</li></ul></li><li>消息分发<ul><li>消息生产者只负责消息生产、消息消费者只负责消息消费、只管把消息发到消息队列、而不关心、哪台服务消费这个消息</li><li>消息轮询消费、不会造成只在某一台机器上消费、压跨服务器</li></ul></li><li>保证分布式事务的最终一致性</li><li>动态扩容</li></ul><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>目前已是apache的顶级项目、</li><li>2017年双十一的主要驱动力、处理消息万亿级别、tps:5600万</li><li>java语言开发、对java开发者亲和度较高</li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
-    
-    
-      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
     
   </entry>
   
@@ -624,33 +655,6 @@
     
     
       <category term="服务架构" scheme="https://www.wuxinvip.com/tags/%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网站制作app、并发布github、生成二维码推广下载</title>
-    <link href="https://www.wuxinvip.com/2018/09/24/essay/essay-15/"/>
-    <id>https://www.wuxinvip.com/2018/09/24/essay/essay-15/</id>
-    <published>2018-09-24T00:00:00.000Z</published>
-    <updated>2018-12-04T09:17:23.173Z</updated>
-    
-    <content type="html"><![CDATA[<p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p><h1 id="网站制作app"><a href="#网站制作app" class="headerlink" title="网站制作app"></a>网站制作app</h1><p>工具 Hbuilder</p><p>下载地址：<a href="http://dcloud.io/" target="_blank" rel="noopener">http://dcloud.io/</a></p><p>步骤 ：</p><a id="more"></a><h3 id="新建工程-添加app信息"><a href="#新建工程-添加app信息" class="headerlink" title="新建工程 添加app信息"></a>新建工程 添加app信息</h3><p><img src="/img/essay/essay-15/new-project.png" alt="如图"></p><h3 id="选择wap转app"><a href="#选择wap转app" class="headerlink" title="选择wap转app"></a>选择wap转app</h3><p><img src="/img/essay/essay-15/project-config.png" alt="如图"></p><h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><ul><li>选择发行-》》app在云端打包<br><img src="/img/essay/essay-15/faxing.png" alt="如图"></li></ul><p>然后等待 后台打包<br>控制台会实时输出打包信息</p><h1 id="github发布二进制可下载文件"><a href="#github发布二进制可下载文件" class="headerlink" title="github发布二进制可下载文件"></a>github发布二进制可下载文件</h1><h3 id="仓库release分支建立一个新的release-tag"><a href="#仓库release分支建立一个新的release-tag" class="headerlink" title="仓库release分支建立一个新的release tag"></a>仓库release分支建立一个新的release tag</h3><p><img src="/img/essay/essay-15/release.png" alt="如图"></p><h3 id="把生成的文件上传上去"><a href="#把生成的文件上传上去" class="headerlink" title="把生成的文件上传上去"></a>把生成的文件上传上去</h3><p><img src="/img/essay/essay-15/publish-github.png" alt="如图"></p><h3 id="选中文件右键复制下载地址"><a href="#选中文件右键复制下载地址" class="headerlink" title="选中文件右键复制下载地址"></a>选中文件右键复制下载地址</h3><h1 id="草料二维码生成下载图片"><a href="#草料二维码生成下载图片" class="headerlink" title="草料二维码生成下载图片"></a>草料二维码生成下载图片</h1><ul><li>地址：<a href="https://cli.im/" target="_blank" rel="noopener">https://cli.im/</a></li></ul><p><img src="/img/essay/essay-15/download-photo.png" alt="如图"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;应用全部工具 ：Hbuilder、 github账户、草料二维码生成器&lt;/p&gt;
-&lt;h1 id=&quot;网站制作app&quot;&gt;&lt;a href=&quot;#网站制作app&quot; class=&quot;headerlink&quot; title=&quot;网站制作app&quot;&gt;&lt;/a&gt;网站制作app&lt;/h1&gt;&lt;p&gt;工具 Hbuilder&lt;/p&gt;
-&lt;p&gt;下载地址：&lt;a href=&quot;http://dcloud.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://dcloud.io/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;步骤 ：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="app" scheme="https://www.wuxinvip.com/categories/app/"/>
-    
-      <category term="android" scheme="https://www.wuxinvip.com/categories/app/android/"/>
-    
-    
-      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
