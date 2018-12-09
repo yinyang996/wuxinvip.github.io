@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2018-12-09T13:57:54.285Z</updated>
+  <updated>2018-12-09T14:03:41.724Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>rocketmq使用示例</title>
+    <link href="https://www.wuxinvip.com/2018/12/08/message-queue/rocketmq/04/"/>
+    <id>https://www.wuxinvip.com/2018/12/08/message-queue/rocketmq/04/</id>
+    <published>2018-12-08T00:00:00.000Z</published>
+    <updated>2018-12-09T14:03:41.724Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>spring cloud中集成rocketmq</li></ul><a id="more"></a><h2 id="spring-cloud中集成rocketmq"><a href="#spring-cloud中集成rocketmq" class="headerlink" title="spring cloud中集成rocketmq"></a>spring cloud中集成rocketmq</h2><p><a href="https://github.com/wuxinvip/base-cloud/tree/2.0.X-boot/message-queue" target="_blank" rel="noopener">代码地址</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  接收bean 将消息发送到spring event事件中进行处理 解耦数据处理</span><br><span class="line"> *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class ConsumerMessageListener implements MessageListener &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(ConsumerMessageListener.class);</span><br><span class="line">    @Autowired</span><br><span class="line">    ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    public Action consume(Message message, ConsumeContext context) &#123;</span><br><span class="line">        System.out.println(&quot;Receive: &quot; + message);</span><br><span class="line">        try &#123;</span><br><span class="line">            logger.info(&quot;rocket 接收到消息:&#123;&#125;&quot;,message);</span><br><span class="line">            //do something..</span><br><span class="line">            applicationContext.publishEvent(new RocketmqEvent(message));</span><br><span class="line"></span><br><span class="line">            return Action.CommitMessage; //消息处理正常</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            //消费失败</span><br><span class="line">            logger.error(&quot;rocket 消息处理失败 ：&#123;&#125;&quot;,message);</span><br><span class="line">            return Action.ReconsumeLater;//消息加入重试</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 接收示例</span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    @EventListener(condition = &quot;#event.topic==&apos;your.topic&apos; &amp;&amp; #event.tag==&apos;your.tag&apos;&quot;)</span><br><span class="line">    public void MessageListener(RocketmqEvent rocketmqEvent) throws IOException &#123;</span><br><span class="line">        String string = rocketmqEvent.getMsg();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 发送bean类</span><br><span class="line"> *  引用统一发送 解耦数据处理 </span><br><span class="line"> *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class MessageQueueTemplate &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    ProducerBean producerBean;</span><br><span class="line"></span><br><span class="line">    public void send(RocketmqEvent rocketmqEvent)&#123;</span><br><span class="line"></span><br><span class="line">        Message message = new Message();</span><br><span class="line">        message.setTopic(rocketmqEvent.getTopic());</span><br><span class="line">        message.setTag(rocketmqEvent.getTag());</span><br><span class="line">        message.setBody(rocketmqEvent.getMsg().getBytes());</span><br><span class="line">        producerBean.send(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;spring cloud中集成rocketmq&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
+    
+    
+      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
+    
+  </entry>
   
   <entry>
     <title>rocketmq图解</title>
@@ -389,6 +417,39 @@
   </entry>
   
   <entry>
+    <title>rabbitmq简介</title>
+    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
+    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
+    <published>2018-11-23T00:00:00.000Z</published>
+    <updated>2018-12-05T01:55:13.806Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;rocketmq、rabbitmq、kafka&lt;/p&gt;
+&lt;ul&gt;
+&lt;l
+      
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="rabbitmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rabbitmq/"/>
+    
+    
+      <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
     <title>kafka简介</title>
     <link href="https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/"/>
     <id>https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/</id>
@@ -420,39 +481,6 @@
     
     
       <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>rabbitmq简介</title>
-    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
-    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
-    <published>2018-11-23T00:00:00.000Z</published>
-    <updated>2018-12-05T01:55:13.806Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;rocketmq、rabbitmq、kafka&lt;/p&gt;
-&lt;ul&gt;
-&lt;l
-      
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="rabbitmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rabbitmq/"/>
-    
-    
-      <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
     
   </entry>
   
@@ -596,41 +624,6 @@
     
     
       <category term="服务架构" scheme="https://www.wuxinvip.com/tags/%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java7 异常分类总结</title>
-    <link href="https://www.wuxinvip.com/2018/10/26/exception/exception-0/"/>
-    <id>https://www.wuxinvip.com/2018/10/26/exception/exception-0/</id>
-    <published>2018-10-26T00:00:00.000Z</published>
-    <updated>2018-10-23T15:00:39.675Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="为什么要学-异常"><a href="#为什么要学-异常" class="headerlink" title="为什么要学 异常"></a>为什么要学 异常</h2><ul><li><p>java异常是 对java语言错误的一种错误类型整合、无论是编译、运行、都有相应的异常来标记</p></li><li><p>在一个大型项目中、要找到错误是非常困难的、这时候就需要自定义异常抛出、以便于更迅速地定位代码问题</p></li><li><p>但有一个问题、永远不可能定义出所有的异常、因为有的异常是于业务息息相关的<br>对此、java创始人、定义了异常的分类、以及常见的异常信息</p></li><li><p>在我们编写代码的过程中、有现成的异常就可以直接抛出异常信息、没有的就需要自定义</p></li><li><p>自定义异常、根据不同类别、分别继承不同的异常类、对于团队其他成员、也是一种便捷、<br>大家学的都一样、然后规定都这么写、自然懂得每个异常的意思、也就更方便维护代码</p></li></ul><a id="more"></a><h2 id="java-api"><a href="#java-api" class="headerlink" title="java api"></a>java api</h2><ul><li>java 7<br><img src="/img/exception/exception-0.png" alt="如图"></li></ul><h3 id="Exceptions"><a href="#Exceptions" class="headerlink" title="Exceptions"></a>Exceptions</h3><ul><li>ArithmeticException<ul><li>算术类异常</li></ul></li><li>ArrayIndexOutOfBoundsException<ul><li>数组下标越界异常</li></ul></li><li>ArrayStoreException<ul><li>数组存储异常。当向数组中存放非数组声明类型对象时抛出。</li></ul></li><li>ClassCastException<ul><li>类转换异常</li></ul></li><li>ClassNotFoundException<ul><li>类未找到异常</li></ul></li><li>CloneNotSupportedException<ul><li>不支持克隆异常。</li><li>当没有实现Cloneable接口或者不支持克隆方法时,调用其clone()方法则抛出该异常。</li></ul></li><li>EnumConstantNotPresentException<ul><li>枚举常量不存在异常。</li><li>当应用试图通过名称和枚举类型访问一个枚举对象，但该枚举对象并不包含常量时，抛出该异常。</li></ul></li><li>Exception<ul><li>根异常。</li><li>用以描述应用程序希望捕获的情况。</li></ul></li><li>IllegalAccessException<ul><li>违法的访问异常。</li><li>当应用试图通过反射方式创建某个类的实例、访问该类属性、调用该类方法，而当时又无法访问类的、属性的、方法的或构造方法的定义时抛出该异常。</li></ul></li><li>IllegalArgumentException<ul><li>这个异常的解释是”方法的参数错误”，很多j2me的类库中的方法在一些情况下都会引发这样的错误，</li><li>比如音量调节方法中的音量参数如果写成负数就会出现这个异常，</li><li>再比如g.setcolor(int red,int green,int blue)这个方法中的三个值，如果有超过２５５的也会出现这个异常，<br>因此一旦发现这个异常，我们要做的，就是赶紧去检查一下方法调用中的参数传递是不是出现了错误。</li></ul></li><li>IllegalMonitorStateException<ul><li>违法的监控状态异常。</li><li>当某个线程试图等待一个自己并不拥有的对象（O）的监控器或者通知其他线程等待该对象（O）的监控器时，抛出该异常。</li></ul></li><li>IllegalStateException<ul><li>违法的状态异常。</li><li>当在Java环境和应用尚未处于某个方法的合法调用状态，而调用了该方法时，抛出该异常</li></ul></li><li>IllegalThreadStateException<ul><li>违法的线程状态异常。</li><li>当县城尚未处于某个方法的合法调用状态，而调用了该方法时，抛出异常</li></ul></li><li>IndexOutOfBoundsException<ul><li>索引越界异常。</li><li>当访问某个序列的索引值小于0或大于等于序列大小时，抛出该异常。</li></ul></li><li>InstantiationException<ul><li>实例化异常。</li><li>当试图通过newInstance()方法创建某个类的实例，而该类是一个抽象类或接口时，抛出该异常。</li></ul></li><li>InterruptedException<ul><li>被中止异常。</li><li>当某个线程处于长时间的等待、休眠或其他暂停状态，而此时其他的线程通过Thread的interrupt方法终止该线程时抛出该异常。</li></ul></li><li>NegativeArraySizeException<ul><li>NoSuchFieldException数组大小为负值异常。</li><li>当使用负数大小值创建数组时抛出该异常。</li></ul></li><li>NoSuchFieldException<ul><li>属性不存在异常。</li><li>当访问某个类的不存在的属性时抛出该异常。</li></ul></li><li>NoSuchMethodException<ul><li>方法未找到异常</li></ul></li><li>NullPointerException<ul><li>NPE 空指针异常</li></ul></li><li>NumberFormatException<ul><li>数字转换异常</li></ul></li><li>ReflectiveOperationException<ul><li>反射异常</li></ul></li><li>RuntimeException<ul><li>运行时异常</li></ul></li><li>SecurityException<ul><li>安全异常、由安全管理器抛出，用于指示违反安全情况的异常。</li></ul></li><li>StringIndexOutOfBoundsException<ul><li>字符串索引越界异常。</li><li>当使用索引值访问某个字符串中的字符，而该索引值小于0或大于等于序列大小时，抛出该异常。</li></ul></li><li>TypeNotPresentException<ul><li>类型不存在异常。</li><li>当应用试图以某个类型名称的字符串表达方式访问该类型，但是根据给定的名称又找不到该类型是抛出该异常。</li><li>该异常与ClassNotFoundException的区别在于该异常是unchecked（不被检查）异常，而ClassNotFoundException是checked（被检查）异常。</li></ul></li><li>UnsupportedOperationException<ul><li>不支持的方法异常。指明请求的方法不被支持情况的异常。</li></ul></li></ul><h3 id="Errors"><a href="#Errors" class="headerlink" title="Errors"></a>Errors</h3><ul><li>AbstractMethodError<ul><li>抽象方法错误。当应用试图调用抽象方法时抛出。</li></ul></li><li>AssertionError<ul><li>断言错。用来指示一个断言失败的情况。</li></ul></li><li>BootstrapMethodError<ul><li>引导方法异常</li></ul></li><li>ClassCircularityError<ul><li>类循环依赖错误。</li><li>在初始化一个类时，若检测到类之间循环依赖则抛出该异常。</li></ul></li><li>ClassFormatError<ul><li>Error类格式错误。</li><li>当Java虚拟机试图从一个文件中读取Java类，而检测到该文件的内容不符合类的有效格式时抛出。</li></ul></li><li>Error<ul><li>错误。</li><li>是所有错误的基类，用于标识严重的程序运行问题。这些问题通常描述一些不应被应用程序捕获的反常情况。</li></ul></li><li>ExceptionInInitializerError<ul><li>初始化程序错误。</li><li>当执行一个类的静态初始化程序的过程中，发生了异常时抛出。静态初始化程序是指直接包含于类中的static语句段。</li></ul></li><li>IllegalAccessError<ul><li>违法访问错误。</li><li>当一个应用试图访问、修改某个类的域（Field）或者调用其方法，但是又违反域或方法的可见性声明，则抛出该异常。</li></ul></li><li>IncompatibleClassChangeError<ul><li>不兼容的类变化错误。</li><li>当正在执行的方法所依赖的类定义发生了不兼容的改变时，抛出该异常。</li><li>一般在修改了应用中的某些类的声明定义而没有对整个应用重新编译而直接运行的情况下，容易引发该错误。</li></ul></li><li>InstantiationError<ul><li>实例化错误。</li><li>当一个应用试图通过Java的new操作符构造一个抽象类或者接口时抛出该异常.</li></ul></li><li>InternalError<ul><li>内部错误。</li><li>用于指示Java虚拟机发生了内部错误。</li></ul></li><li>LinkageError<ul><li>链接错误。</li><li>该错误及其所有子类指示某个类依赖于另外一些类，在该类编译之后，被依赖的类改变了其类定义而没有重新编译所有的类，进而引发错误的情况。</li></ul></li><li>NoClassDefFoundError<ul><li>未找到类定义错误。</li><li>当Java虚拟机或者类装载器试图实例化某个类，而找不到该类的定义时抛出该错误。</li></ul></li><li>NoSuchFieldError<ul><li>域不存在错误。</li><li>当应用试图访问或者修改某类的某个域，而该类的定义中没有该域的定义时抛出该错误。</li></ul></li><li>NoSuchMethodError<ul><li>方法不存在错误。</li><li>当应用试图调用某类的某个方法，而该类的定义中没有该方法的定义时抛出该错误。</li></ul></li><li>OutOfMemoryError<ul><li>内存不足错误。</li><li>当可用内存不足以让Java虚拟机分配给一个对象时抛出该错误。</li></ul></li><li>StackOverflowError<ul><li>堆栈溢出错误。</li><li>当一个应用递归调用的层次太深而导致堆栈溢出时抛出该错误。</li></ul></li><li>ThreadDeath<ul><li>线程结束。</li><li>当调用Thread类的stop方法时抛出该错误，用于指示线程结束。</li></ul></li><li>UnknownError<ul><li>未知错误。</li><li>用于指示Java虚拟机发生了未知严重错误的情况。</li></ul></li><li>UnsatisfiedLinkError<ul><li>未满足的链接错误。</li><li>当Java虚拟机未找到某个类的声明为native方法的本机语言定义时抛出。</li></ul></li><li>UnsupportedClassVersionError<ul><li>不支持的类版本错误。</li><li>当Java虚拟机试图从读取某个类文件，但是发现该文件的主、次版本号不被当前Java虚拟机支持的时候，抛出该错误。</li></ul></li><li>VerifyError<ul><li>验证错误。当验证器检测到某个类文件中存在内部不兼容或者安全问题时抛出该错误。</li></ul></li><li>VirtualMachineError<ul><li>虚拟机错误。用于指示虚拟机被破坏或者继续执行操作所需的资源不足的情况。</li></ul></li></ul><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul><li><p>java.lang.Exception</p><ul><li>RuntimeException<ul><li>AclNotFoundException</li><li>ActivationException</li><li>AlreadyBoundException</li><li>ApplicationException</li><li>AWTException</li><li>BackingStoreException,</li><li>BadAttributeValueExpException</li><li>BadBinaryOpValueExpException</li><li>BadLocationException</li><li>BadStringOperationException</li><li>BrokenBarrierException</li><li>CertificateException</li><li>DataFormatException</li><li>DatatypeConfigurationException</li><li>DestroyFailedException</li><li>ExecutionException</li><li>ExpandVetoException</li><li>FontFormatException</li><li>GeneralSecurityException</li><li>GSSException</li><li>IllegalClassFormatException</li><li>IntrospectionException</li><li>InvalidApplicationException</li><li>InvalidMidiDataException</li><li>InvalidPreferencesFormatException</li><li>InvalidTargetObjectTypeException</li><li>IOException</li><li>JAXBException</li><li>JMException</li><li>KeySelectorException</li><li>LastOwnerException</li><li>LineUnavailableException</li><li>MarshalException</li><li>MidiUnavailableException</li><li>MimeTypeParseException</li><li>MimeTypeParseException</li><li>NamingException</li><li>NoninvertibleTransformException</li><li>NotBoundException</li><li>NotOwnerException</li><li>ParseException</li><li>ParserConfigurationException</li><li>PrinterException</li><li>PrintException</li><li>PrivilegedActionException</li><li>PropertyVetoException</li><li>ReflectiveOperationException</li><li>RefreshFailedException</li><li>RemarshalException</li><li>SAXException</li><li>ScriptException</li><li>ServerNotActiveException</li><li>SOAPException</li><li>SQLException</li><li>TimeoutException</li><li>TooManyListenersException</li><li>TransformerException</li><li>TransformException</li><li>UnmodifiableClassException</li><li>UnsupportedAudioFileException</li><li>UnsupportedCallbackException</li><li>UnsupportedFlavorException</li><li>UnsupportedLookAndFeelException</li><li>URIReferenceException</li><li>URISyntaxException</li><li>UserException</li><li>XAException</li><li>XMLParseException</li><li>XMLSignatureException</li><li>XMLStreamException</li><li>XPathException</li></ul></li><li>ReflectiveOperationException<ul><li>ClassNotFoundException, </li><li>IllegalAccessException, </li><li>InstantiationException, </li><li>InvocationTargetException, </li><li>NoSuchFieldException, </li><li>NoSuchMethodException</li></ul></li><li>CloneNotSupportedException</li><li>InterruptedException<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分割线</span><br></pre></td></tr></table></figure></li></ul></li><li><p>java.lang.Error</p><ul><li>AnnotationFormatError</li><li>AssertionError</li><li>AWTError</li><li>CoderMalfunctionError</li><li>FactoryConfigurationError</li><li>FactoryConfigurationError</li><li>IOError</li><li>LinkageError<ul><li>BootstrapMethodError</li><li>ClassCircularityError</li><li>ClassFormatError<ul><li>UnsupportedClassVersionError</li></ul></li><li>ExceptionInInitializerError</li><li>NoClassDefFoundError</li><li>UnsatisfiedLinkError</li><li>VerifyError</li><li>IncompatibleClassChangeError<ul><li>AbstractMethodError</li><li>IllegalAccessError</li><li>InstantiationError</li><li>NoSuchFieldError</li><li>NoSuchMethodError</li></ul></li></ul></li><li>ServiceConfigurationError</li><li>ThreadDeath</li><li>TransformerFactoryConfigurationError</li><li>VirtualMachineError<ul><li>InternalError</li><li>OutOfMemoryError</li><li>StackOverflowError</li><li>UnknownError</li></ul></li></ul></li></ul><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>异常分类：运行时异常、中断异常、反射异常、无法克隆异常</p><p>错误分类：io、线程终止、堆栈溢出、文件或者方法未找到、类格式错误、</p><h4 id="熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、"><a href="#熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、" class="headerlink" title="熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、"></a>熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、</h4>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;为什么要学-异常&quot;&gt;&lt;a href=&quot;#为什么要学-异常&quot; class=&quot;headerlink&quot; title=&quot;为什么要学 异常&quot;&gt;&lt;/a&gt;为什么要学 异常&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;java异常是 对java语言错误的一种错误类型整合、无论是编译、运行、都有相应的异常来标记&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在一个大型项目中、要找到错误是非常困难的、这时候就需要自定义异常抛出、以便于更迅速地定位代码问题&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;但有一个问题、永远不可能定义出所有的异常、因为有的异常是于业务息息相关的&lt;br&gt;对此、java创始人、定义了异常的分类、以及常见的异常信息&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在我们编写代码的过程中、有现成的异常就可以直接抛出异常信息、没有的就需要自定义&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;自定义异常、根据不同类别、分别继承不同的异常类、对于团队其他成员、也是一种便捷、&lt;br&gt;大家学的都一样、然后规定都这么写、自然懂得每个异常的意思、也就更方便维护代码&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="exception" scheme="https://www.wuxinvip.com/categories/java/exception/"/>
-    
-    
-      <category term="exception" scheme="https://www.wuxinvip.com/tags/exception/"/>
     
   </entry>
   
