@@ -337,7 +337,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">233</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">234</span></a>
 
   </li>
         
@@ -458,7 +458,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud-exception/feign-exception-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/cache-elimination-algorithm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -478,7 +478,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/spring-cloud-exception/feign-exception-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/35/index.html">cloud feign灵异事件</a>
+                <a href="/2018/03/24/cache/cache-elimination-algorithm/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/35/index.html">缓存淘汰算法</a>
               
             
           </h2>
@@ -528,7 +528,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
 
                 
                 
@@ -563,14 +563,12 @@
 
       
         
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">报错 ：</span><br><span class="line">Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &apos;dataSourceInitializerPostProcessor&apos;: Unsatisfied dependency expressed through field &apos;beanFactory&apos;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;com.****.feign.UserCenterFeignService&apos;: Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.feign.FeignClientFactoryBean] from ClassLoader [sun.misc.Launcher$AppClassLoader@61e4705b]</span><br></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7df99f9e93f72b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法 加入依赖</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-c71a9b346663d6f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原因未明 、创建项目时候导入了feign</span><br><span class="line">使用@EnableFeignClients注解 也ok 不报错 我就以为 feign包导入了  </span><br><span class="line">结果不知道哪来的包来的这个注解  导致 灵异事件</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
+          <p>常见算法:<br>LRU<br>LRU-K<br>2Q<br>MQ</p>
+<p>缓存淘汰算法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">缓存分析三大要点：</span><br><span class="line">    命中率、复杂度、代价</span><br><span class="line"></span><br><span class="line">LRU     最近最少使用算法</span><br><span class="line">FIFO    先入先出算法</span><br><span class="line">MRU     最近最常使用算法</span><br><span class="line"></span><br><span class="line">FIFO 先进先出 LFU 最少使用算法 LFU（Least Frequently Used）最近最少使用算法。</span><br><span class="line">它是基于“如果一个数据在最近一段时间内使用次数很少，那么在将来一段时间内被使用的可能性也很小”的思路。</span><br><span class="line"></span><br><span class="line">LRU LRU全称是Least Recently Used，即最近最久未使用的意思</span><br><span class="line"></span><br><span class="line">注意LFU和LRU算法的不同之处，LRU的淘汰规则是基于访问时间，而LFU是基于访问次数的。</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/spring-cloud-exception/feign-exception-1/" rel="contents">
+              <a class="btn" href="/2018/03/24/cache/cache-elimination-algorithm/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -589,35 +587,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/eureka-1/" rel="bookmark">EUREKA服务治理</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
       
     </li>
   
@@ -674,7 +658,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud-exception/sleuth-exception-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/log/elk-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -694,7 +678,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/35/index.html">sleuth灵异事件</a>
+                <a href="/2018/03/24/log/elk-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/35/index.html">ELK 简介</a>
               
             
           </h2>
@@ -744,7 +728,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
 
                 
                 
@@ -779,14 +763,14 @@
 
       
         
-          <p>分布式 服务跟踪系统</p>
-<p>客户端发送ok<br><img src="http://upload-images.jianshu.io/upload_images/6434888-39e03c88f9cbc91d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>server端 启动ok<br>但是就是没有数据</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-0873f181258771f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">转载链接：http://www.jianshu.com/p/97fcb10c3556</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a>是一个基于<a href="https://link.jianshu.com/?t=http://lucene.apache.org/core/documentation.html" target="_blank" rel="noopener">Lucene</a>构建的开源，分布式，RESTful 搜索引擎。</p>
+<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a>传输和处理你的日志、事务或其他数据。</p>
+<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a>将 Elasticsearch 的数据分析并渲染为可视化的报表。</p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="contents">
+              <a class="btn" href="/2018/03/24/log/elk-2/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -805,35 +789,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/eureka-1/" rel="bookmark">EUREKA服务治理</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
       
     </li>
   
@@ -1019,20 +989,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
       
     </li>
@@ -1041,6 +997,20 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
       
     </li>
   
@@ -1097,7 +1067,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-exception/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1117,7 +1087,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/message-queue/rabbitmq-exception/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/35/index.html">RabbitMQ Exception</a>
+                <a href="/2018/03/24/message-queue/rabbitmq-install/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/35/index.html">Rabbitmq 安装</a>
               
             
           </h2>
@@ -1202,13 +1172,16 @@
 
       
         
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">eralng官方地址 : https://github.com/rabbitmq/erlang-rpm/releases</span><br><span class="line"></span><br><span class="line">socat官方地址 : https://centos.pkgs.org/7/lux/socat-1.7.3.2-5.el7.lux.x86_64.rpm.html</span><br><span class="line"></span><br><span class="line">rabbitmq 官方地址: http://www.rabbitmq.com/install-rpm.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下载命令</span><br><span class="line"></span><br><span class="line">erlang : curl -L -O https://github.com/rabbitmq/erlang-rpm/releases/download/v20.1.7/erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
           
-            <p>需求@RabbitListener - defining queues from properties</p>
-<p><a href="https://jira.spring.io/browse/AMQP-533?jql=project = AMQP AND fixVersion =" title="1.5 GA" target="_blank" rel="noopener">issues</a></p>
-<p>1.5.RA版本修复</p>
-<p>修复方式 spel表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@RabbitListener(queues = &#123;&quot;#&#123;&apos;$&#123;listener.channel&#125;&apos;.split(&apos;,&apos;)&#125;&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
-
-          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/message-queue/rabbitmq-install/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
         
       
     </div>
@@ -1229,21 +1202,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
       
     </li>
   
@@ -1300,7 +1273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-test/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rocketmq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1320,7 +1293,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/message-queue/rabbitmq-test/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/35/index.html">RabbitMQ test</a>
+                <a href="/2018/03/24/message-queue/rocketmq/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/35/index.html">RocketMQ</a>
               
             
           </h2>
@@ -1405,17 +1378,24 @@
 
       
         
+          <p>解决问题</p>
+<pre><code>分布式各系统之间的消息通讯【一般用来解决事务性提交】
+</code></pre><p>应用场景</p>
+<pre><code>各模块之间 消息调用、
+高并发的数据落地
+事务解决方案
+</code></pre><p>使用方式</p>
+<p><a href="https://gitee.com/none_heart/base-cloud/tree/develop/" target="_blank" rel="noopener">我的开源服务中集成代码</a></p>
+<p><strong>message-queue 模块</strong></p>
+          <!--noindex-->
           
-            <p>累积 36万条消息堆积</p>
-<p>启动消费端【单机】</p>
-<p>开始消费time 00:52:28  结束时间00:54:40</p>
-<p>测试环境 三台rabbit集群  两台持久化【n/2+1】 一台非持久化</p>
-<p>queue两个 消费由业务房监听spring streamListener完成</p>
-<p>总计366178消息 总计消费时间132s<br>平均每秒2774条</p>
-<p>单机实例消费水平收到限制</p>
-<p>如果启动多实例消费 那么距离理论4000+4000+12000 = 20000条 有待考证 不过压力不大</p>
-
-          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/message-queue/rocketmq/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
         
       
     </div>
@@ -1436,13 +1416,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
       
     </li>
@@ -1450,7 +1423,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
       
     </li>
   
@@ -1563,7 +1543,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">233</span>
+                    <span class="site-state-item-count">234</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

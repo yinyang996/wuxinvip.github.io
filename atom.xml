@@ -51,6 +51,41 @@
   </entry>
   
   <entry>
+    <title>kafka构建数据管道需要注意的问题</title>
+    <link href="https://www.wuxinvip.com/2018/12/01/message-queue/kafka/09/"/>
+    <id>https://www.wuxinvip.com/2018/12/01/message-queue/kafka/09/</id>
+    <published>2018-12-01T00:00:00.000Z</published>
+    <updated>2018-12-09T12:54:33.514Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="kafka构建数据管道需要注意的问题"><a href="#kafka构建数据管道需要注意的问题" class="headerlink" title="kafka构建数据管道需要注意的问题"></a>kafka构建数据管道需要注意的问题</h2><ul><li>及时性</li><li>可靠性</li><li>高吞吐量和动态吞吐量</li><li>数据格式</li><li>转换</li><li>安全性</li><li>故障处理能力</li><li>耦合性和灵活性</li></ul><a id="more"></a><h2 id="及时性"><a href="#及时性" class="headerlink" title="及时性"></a>及时性</h2><ul><li>在业务需求变更时、具有不同及时性需求的数据之间可以方便的进行迁移</li><li>数据支持实时性处理、也支持延迟批处理</li><li>消费者可以实时拉取处理、也可以延迟批量处理一批数据</li></ul><h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><ul><li>能够在各种故障中快速回复</li><li>支持、至少一次传递【本身支持】</li><li>支持、仅一次传递、避免幂等消费【需结合实物模型或者唯一键特性的外部存储系统】</li></ul><h2 id="高吞吐量和动态吞吐量"><a href="#高吞吐量和动态吞吐量" class="headerlink" title="高吞吐量和动态吞吐量"></a>高吞吐量和动态吞吐量</h2><ul><li>自动伸缩功能</li><li>管理员可以调整压缩来网络和存储资源的使用【支持多种类型压缩】</li></ul><h2 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h2><ul><li>avro、xml也可以使用自定义</li><li>读取数据源schema载入数据</li></ul><h2 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h2><ul><li>ETL【提取、转换、加载】<ul><li>过滤掉部分数据、为下游服务过滤不必要数据信息</li><li>缺点、下游的调整可能需要重新调整数据管道</li></ul></li><li>ELT【提取、加载、转换】<ul><li>高保真数据管道、数据湖结构</li><li>占用了目标系统太多的CPU和存储资源、使得目标系统造价高昂、不过也给下游保证了最原始的数据、利于调整需求</li></ul></li></ul><h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><ul><li>支持加密数据、</li><li>支持认证【SASL实现】、授权消费</li><li>支持数据追踪、时间来源、事件修改者、日志审计、访问记录</li></ul><h2 id="故障处理能力"><a href="#故障处理能力" class="headerlink" title="故障处理能力"></a>故障处理能力</h2><ul><li>数据保留一周、一月、任意时间以便于追溯</li></ul><h2 id="耦合性和灵活性"><a href="#耦合性和灵活性" class="headerlink" title="耦合性和灵活性"></a>耦合性和灵活性</h2><ul><li><p>临时数据管道</p><ul><li>常用数据管道<ul><li>logstash—–&gt; elasticsearch</li><li>flume——&gt; HDFS</li><li>GoldenGate——&gt;Oracle</li><li>mysql【xml】——–&gt;Informatica——-&gt;oracle</li><li>当有新的需求时候有需要重新构建新的管道、增加新技术成本</li></ul></li></ul></li><li><p>元数据丢失</p><ul><li>元数据没有保留schema数据、导致数据交换过程中、没有处理元数据新增字段【因为新的schema中没有该字段】</li><li>而如果数据管道允许修改schema信息、那么双方只需要修改内部数据处理就可以了</li></ul></li><li><p>末端处理</p><ul><li>让下端可以自己决定数据处理、而不是数据管道直接处理、直接处理会对下游数据的完整性造成破坏<br>同时新的需求更迭、也会造成成本提升</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;kafka构建数据管道需要注意的问题&quot;&gt;&lt;a href=&quot;#kafka构建数据管道需要注意的问题&quot; class=&quot;headerlink&quot; title=&quot;kafka构建数据管道需要注意的问题&quot;&gt;&lt;/a&gt;kafka构建数据管道需要注意的问题&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;及时性&lt;/li&gt;
+&lt;li&gt;可靠性&lt;/li&gt;
+&lt;li&gt;高吞吐量和动态吞吐量&lt;/li&gt;
+&lt;li&gt;数据格式&lt;/li&gt;
+&lt;li&gt;转换&lt;/li&gt;
+&lt;li&gt;安全性&lt;/li&gt;
+&lt;li&gt;故障处理能力&lt;/li&gt;
+&lt;li&gt;耦合性和灵活性&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="kafka" scheme="https://www.wuxinvip.com/categories/java/message-queue/kafka/"/>
+    
+    
+      <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
+    
+  </entry>
+  
+  <entry>
     <title>kafka集群复制</title>
     <link href="https://www.wuxinvip.com/2018/11/30/message-queue/kafka/08/"/>
     <id>https://www.wuxinvip.com/2018/11/30/message-queue/kafka/08/</id>
@@ -272,34 +307,6 @@
   </entry>
   
   <entry>
-    <title>rocketmq简介</title>
-    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/"/>
-    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/</id>
-    <published>2018-11-23T00:00:00.000Z</published>
-    <updated>2018-12-04T13:09:59.263Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑</li></ul><a id="more"></a><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul><li>微服务之间的通信问题<ul><li>具体的业务场景有很多、比如、支付完成后的订单状态修改、用户充值后的vip等级提升、物流信息等等</li><li>各个微服务之间的消息、业务场景有：按实时性可分为实时消息、非实时消息；</li></ul></li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>rocketmq 有两个部件 nameserver：服务管理中心、broker：消息存储中心<ul><li>nameserver管理业务服务注册、保证服务稳定运行</li><li>broker负责消息的持久化、保证消息不丢失</li></ul></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li>应用解耦<ul><li>替换应用上的https协议、又能保证服务之间的动态性</li></ul></li><li>流量削峰<ul><li>非即时消息、延后处理</li></ul></li><li>消息分发<ul><li>消息生产者只负责消息生产、消息消费者只负责消息消费、只管把消息发到消息队列、而不关心、哪台服务消费这个消息</li><li>消息轮询消费、不会造成只在某一台机器上消费、压跨服务器</li></ul></li><li>保证分布式事务的最终一致性</li><li>动态扩容</li></ul><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>目前已是apache的顶级项目、</li><li>2017年双十一的主要驱动力、处理消息万亿级别、tps:5600万</li><li>java语言开发、对java开发者亲和度较高</li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
-    
-    
-      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
-    
-  </entry>
-  
-  <entry>
     <title>rabbitmq简介</title>
     <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
     <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
@@ -329,6 +336,34 @@
     
     
       <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>rocketmq简介</title>
+    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/"/>
+    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/</id>
+    <published>2018-11-23T00:00:00.000Z</published>
+    <updated>2018-12-04T13:09:59.263Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑</li></ul><a id="more"></a><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul><li>微服务之间的通信问题<ul><li>具体的业务场景有很多、比如、支付完成后的订单状态修改、用户充值后的vip等级提升、物流信息等等</li><li>各个微服务之间的消息、业务场景有：按实时性可分为实时消息、非实时消息；</li></ul></li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>rocketmq 有两个部件 nameserver：服务管理中心、broker：消息存储中心<ul><li>nameserver管理业务服务注册、保证服务稳定运行</li><li>broker负责消息的持久化、保证消息不丢失</li></ul></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li>应用解耦<ul><li>替换应用上的https协议、又能保证服务之间的动态性</li></ul></li><li>流量削峰<ul><li>非即时消息、延后处理</li></ul></li><li>消息分发<ul><li>消息生产者只负责消息生产、消息消费者只负责消息消费、只管把消息发到消息队列、而不关心、哪台服务消费这个消息</li><li>消息轮询消费、不会造成只在某一台机器上消费、压跨服务器</li></ul></li><li>保证分布式事务的最终一致性</li><li>动态扩容</li></ul><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>目前已是apache的顶级项目、</li><li>2017年双十一的主要驱动力、处理消息万亿级别、tps:5600万</li><li>java语言开发、对java开发者亲和度较高</li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
+    
+    
+      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
     
   </entry>
   
@@ -615,46 +650,6 @@
     
     
       <category term="全月一次加权平均法" scheme="https://www.wuxinvip.com/tags/%E5%85%A8%E6%9C%88%E4%B8%80%E6%AC%A1%E5%8A%A0%E6%9D%83%E5%B9%B3%E5%9D%87%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>微博社交广告系统架构实践</title>
-    <link href="https://www.wuxinvip.com/2018/10/04/service-design/design-6/"/>
-    <id>https://www.wuxinvip.com/2018/10/04/service-design/design-6/</id>
-    <published>2018-10-04T00:00:00.000Z</published>
-    <updated>2018-10-20T15:09:30.495Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://wemedia.ifeng.com/60159435/wemedia.shtml" target="_blank" rel="noopener">原链接地址</a><br>整理了一下演讲内容、记录一下、也分享一下</p><p>技术内容并不多、主要学习微博对于自己产品形式利用推广广告的idea、<br>充分利用自己的优势进行深度挖掘广告投放点</p><h2 id="基本需求"><a href="#基本需求" class="headerlink" title="基本需求"></a>基本需求</h2><ul><li><p>在微博内投放广告进行收益分成</p></li><li><p>需求特点【利用自己的优势、做怎样的产品】</p><ul><li>粉丝头条 </li><li>无购买门槛</li><li>社交关系传播 </li></ul></li></ul><h2 id="微博特点【微博投放广告优势】"><a href="#微博特点【微博投放广告优势】" class="headerlink" title="微博特点【微博投放广告优势】"></a>微博特点【微博投放广告优势】</h2><ul><li>海量投放</li><li>定价保量【合约投放】</li><li>opcm、【pcm、一种广告计费模式、点击计费、曝光计费】<a id="more"></a><h2 id="模块设计"><a href="#模块设计" class="headerlink" title="模块设计"></a>模块设计</h2></li></ul><p><img src="/img/service-design/adsense-1.jpeg" alt="图片"></p><ul><li>投放系统–对外广告接入系统、进行广告流入、整理广告属性、用户属性</li><li>人群定向–广告匹配用户属性</li><li>在线分发–广告列表整理、根据用户属性进行用户画像、形成用户池、广告池</li><li>竞价–对整理后的广告列表进行评分排序</li><li>模型匹配–精准匹配用户投放</li><li>预算–对外提供购买服务、已投放次数整理、对投放次数进行控制</li></ul><h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><ul><li><p>人群定向 </p><ul><li>用户属性与广告定向条件匹配</li><li>维度 性别、年龄、地域、兴趣、设备、社交关系、考虑交叉</li><li>实时性</li><li>性能要求 10ms</li></ul></li><li><p>社交定向【依据产品形式深度挖掘】</p><ul><li>一度关系<ul><li>关注流消息过载</li><li>精准触达</li><li>粉丝传播效果</li></ul></li><li>二度关系<ul><li>通过粉丝关系进行人群扩展</li><li>基于社交关系的Look-alike</li><li>根据亲密度选取关键节点</li></ul></li><li>相似用户<ul><li>通过粉丝相似度挖掘相似用户</li><li>通过相似用户进行定向扩展</li></ul></li><li>行为定向<ul><li>利用互动性为扩展定向人群</li><li>行为实时反馈</li><li>行为类型、评论、赞、关注</li></ul></li><li>亲密度</li></ul></li></ul><h2 id="需要解决问题【依据广告需求考虑性能、需求】"><a href="#需要解决问题【依据广告需求考虑性能、需求】" class="headerlink" title="需要解决问题【依据广告需求考虑性能、需求】"></a>需要解决问题【依据广告需求考虑性能、需求】</h2><ul><li>降低使用门槛</li><li>冷启动如何投放</li><li>复购用户扩展目标人群</li></ul><h2 id="核心服务如何保证稳定性"><a href="#核心服务如何保证稳定性" class="headerlink" title="核心服务如何保证稳定性"></a>核心服务如何保证稳定性</h2><ul><li>控制中心的稳定性</li><li>耦合服务、负载分发、并行执行</li><li>服务快速迭代</li></ul><p><img src="/img/service-design/adsense-2.jpeg" alt="图片"></p><ul><li>以实时消息处理+es搜索技术完成消息注入</li><li>以openresty+nginx保证服务负载的可靠稳定性和快速迭代性</li><li>内部提供服务集群提供服务处理【这里基本都差不多、对要求高的服务提供并发服务】</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://wemedia.ifeng.com/60159435/wemedia.shtml&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;原链接地址&lt;/a&gt;&lt;br&gt;整理了一下演讲内容、记录一下、也分享一下&lt;/p&gt;
-&lt;p&gt;技术内容并不多、主要学习微博对于自己产品形式利用推广广告的idea、&lt;br&gt;充分利用自己的优势进行深度挖掘广告投放点&lt;/p&gt;
-&lt;h2 id=&quot;基本需求&quot;&gt;&lt;a href=&quot;#基本需求&quot; class=&quot;headerlink&quot; title=&quot;基本需求&quot;&gt;&lt;/a&gt;基本需求&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;在微博内投放广告进行收益分成&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;需求特点【利用自己的优势、做怎样的产品】&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;粉丝头条 &lt;/li&gt;
-&lt;li&gt;无购买门槛&lt;/li&gt;
-&lt;li&gt;社交关系传播 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;微博特点【微博投放广告优势】&quot;&gt;&lt;a href=&quot;#微博特点【微博投放广告优势】&quot; class=&quot;headerlink&quot; title=&quot;微博特点【微博投放广告优势】&quot;&gt;&lt;/a&gt;微博特点【微博投放广告优势】&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;海量投放&lt;/li&gt;
-&lt;li&gt;定价保量【合约投放】&lt;/li&gt;
-&lt;li&gt;opcm、【pcm、一种广告计费模式、点击计费、曝光计费】
-    
-    </summary>
-    
-      <category term="服务架构" scheme="https://www.wuxinvip.com/categories/%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/"/>
-    
-      <category term="广告架构" scheme="https://www.wuxinvip.com/categories/%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/%E5%B9%BF%E5%91%8A%E6%9E%B6%E6%9E%84/"/>
-    
-    
-      <category term="服务架构" scheme="https://www.wuxinvip.com/tags/%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/"/>
     
   </entry>
   
