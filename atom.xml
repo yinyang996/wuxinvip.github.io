@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2018-12-04T11:23:25.476Z</updated>
+  <updated>2018-12-09T13:40:17.862Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -15,6 +15,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>rocketmq安装</title>
+    <link href="https://www.wuxinvip.com/2018/12/06/message-queue/rocketmq/02/"/>
+    <id>https://www.wuxinvip.com/2018/12/06/message-queue/rocketmq/02/</id>
+    <published>2018-12-06T00:00:00.000Z</published>
+    <updated>2018-12-09T13:40:17.862Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#   基础环境</span><br><span class="line">64bit OS, Linux/Unix/Mac is recommended;</span><br><span class="line">64bit JDK 1.8+;</span><br><span class="line">Maven 3.2.x;</span><br><span class="line">Git;</span><br><span class="line">4g+ free disk for Broker server</span><br><span class="line"></span><br><span class="line">curl -L -O https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.3.2/rocketmq-all-4.3.2-bin-release.zip</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt; unzip rocketmq-all-4.3.2-source-release.zip</span><br><span class="line">  &gt; cd rocketmq-all-4.3.2/</span><br><span class="line">  &gt; mvn -Prelease-all -DskipTests clean install -U</span><br><span class="line">  &gt; cd distribution/target/apache-rocketmq</span><br></pre></td></tr></table></figure><a id="more"></a><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#启动nameserver</span><br><span class="line"></span><br><span class="line">&gt; nohup sh bin/mqnamesrv &amp;</span><br><span class="line">&gt; tail -f ~/logs/rocketmqlogs/namesrv.log</span><br><span class="line">The Name Server boot success...</span><br><span class="line">#启动broker</span><br><span class="line">&gt; nohup sh bin/mqbroker -n localhost:9876 &amp;</span><br><span class="line">&gt; tail -f ~/logs/rocketmqlogs/broker.log </span><br><span class="line">The broker[%s, 172.30.30.233:10911] boot success...</span><br><span class="line"></span><br><span class="line">#发送消息</span><br><span class="line">&gt; export NAMESRV_ADDR=localhost:9876</span><br><span class="line">&gt; sh bin/tools.sh org.apache.rocketmq.example.quickstart.Producer</span><br><span class="line">SendResult [sendStatus=SEND_OK, msgId= ...</span><br><span class="line"></span><br><span class="line">&gt; sh bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer</span><br><span class="line">ConsumeMessageThread_%d Receive New Messages: [MessageExt...</span><br></pre></td></tr></table></figure><h2 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; sh bin/mqshutdown broker</span><br><span class="line">The mqbroker(36695) is running...</span><br><span class="line">Send shutdown request to mqbroker(36695) OK</span><br><span class="line"></span><br><span class="line">&gt; sh bin/mqshutdown namesrv</span><br><span class="line">The mqnamesrv(36664) is running...</span><br><span class="line">Send shutdown request to mqnamesrv(36664) OK</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#   基础环境&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64bit OS, Linux/Unix/Mac is recommended;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64bit JDK 1.8+;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Maven 3.2.x;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Git;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4g+ free disk for Broker server&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;curl -L -O https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.3.2/rocketmq-all-4.3.2-bin-release.zip&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;gt; unzip rocketmq-all-4.3.2-source-release.zip&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;gt; cd rocketmq-all-4.3.2/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;gt; mvn -Prelease-all -DskipTests clean install -U&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;gt; cd distribution/target/apache-rocketmq&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
+    
+    
+      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>rocketmq简介</title>
+    <link href="https://www.wuxinvip.com/2018/12/05/message-queue/rocketmq/01/"/>
+    <id>https://www.wuxinvip.com/2018/12/05/message-queue/rocketmq/01/</id>
+    <published>2018-12-05T00:00:00.000Z</published>
+    <updated>2018-12-09T13:40:17.866Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑</li></ul><a id="more"></a><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul><li>微服务之间的通信问题<ul><li>具体的业务场景有很多、比如、支付完成后的订单状态修改、用户充值后的vip等级提升、物流信息等等</li><li>各个微服务之间的消息、业务场景有：按实时性可分为实时消息、非实时消息；</li></ul></li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>rocketmq 有两个部件 nameserver：服务管理中心、broker：消息存储中心<ul><li>nameserver管理业务服务注册、保证服务稳定运行</li><li>broker负责消息的持久化、保证消息不丢失</li></ul></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li>应用解耦<ul><li>替换应用上的https协议、又能保证服务之间的动态性</li></ul></li><li>流量削峰<ul><li>非即时消息、延后处理</li></ul></li><li>消息分发<ul><li>消息生产者只负责消息生产、消息消费者只负责消息消费、只管把消息发到消息队列、而不关心、哪台服务消费这个消息</li><li>消息轮询消费、不会造成只在某一台机器上消费、压跨服务器</li></ul></li><li>保证分布式事务的最终一致性</li><li>动态扩容</li></ul><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>目前已是apache的顶级项目、</li><li>2017年双十一的主要驱动力、处理消息万亿级别、tps:5600万</li><li>java语言开发、对java开发者亲和度较高</li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
+    
+    
+      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
+    
+  </entry>
   
   <entry>
     <title>app版本更新</title>
@@ -307,67 +361,6 @@
   </entry>
   
   <entry>
-    <title>rabbitmq简介</title>
-    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
-    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
-    <published>2018-11-23T00:00:00.000Z</published>
-    <updated>2018-12-05T01:55:13.806Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;rocketmq、rabbitmq、kafka&lt;/p&gt;
-&lt;ul&gt;
-&lt;l
-      
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="rabbitmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rabbitmq/"/>
-    
-    
-      <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>rocketmq简介</title>
-    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/"/>
-    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rocketmq/01/</id>
-    <published>2018-11-23T00:00:00.000Z</published>
-    <updated>2018-12-04T13:09:59.263Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑</li></ul><a id="more"></a><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul><li>微服务之间的通信问题<ul><li>具体的业务场景有很多、比如、支付完成后的订单状态修改、用户充值后的vip等级提升、物流信息等等</li><li>各个微服务之间的消息、业务场景有：按实时性可分为实时消息、非实时消息；</li></ul></li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>rocketmq 有两个部件 nameserver：服务管理中心、broker：消息存储中心<ul><li>nameserver管理业务服务注册、保证服务稳定运行</li><li>broker负责消息的持久化、保证消息不丢失</li></ul></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li>应用解耦<ul><li>替换应用上的https协议、又能保证服务之间的动态性</li></ul></li><li>流量削峰<ul><li>非即时消息、延后处理</li></ul></li><li>消息分发<ul><li>消息生产者只负责消息生产、消息消费者只负责消息消费、只管把消息发到消息队列、而不关心、哪台服务消费这个消息</li><li>消息轮询消费、不会造成只在某一台机器上消费、压跨服务器</li></ul></li><li>保证分布式事务的最终一致性</li><li>动态扩容</li></ul><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>目前已是apache的顶级项目、</li><li>2017年双十一的主要驱动力、处理消息万亿级别、tps:5600万</li><li>java语言开发、对java开发者亲和度较高</li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
-    
-    
-      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
-    
-  </entry>
-  
-  <entry>
     <title>kafka简介</title>
     <link href="https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/"/>
     <id>https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/</id>
@@ -399,6 +392,39 @@
     
     
       <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>rabbitmq简介</title>
+    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
+    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
+    <published>2018-11-23T00:00:00.000Z</published>
+    <updated>2018-12-05T01:55:13.806Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;rocketmq、rabbitmq、kafka&lt;/p&gt;
+&lt;ul&gt;
+&lt;l
+      
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="rabbitmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rabbitmq/"/>
+    
+    
+      <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
     
   </entry>
   
@@ -615,41 +641,6 @@
     
     
       <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>全月一次加权平均法【转】</title>
-    <link href="https://www.wuxinvip.com/2018/10/08/algorithm/algorithm-0/"/>
-    <id>https://www.wuxinvip.com/2018/10/08/algorithm/algorithm-0/</id>
-    <published>2018-10-08T00:00:00.000Z</published>
-    <updated>2018-11-01T06:30:40.383Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="什么是全月一次加权平均法"><a href="#什么是全月一次加权平均法" class="headerlink" title="什么是全月一次加权平均法"></a>什么是全月一次加权平均法</h2><ul><li>全月一次加权平均法是以本月的期初数量和本月全部进货数量作为权数，取出本月全部进货成本加上期初的进货成本，计算出本月存货平均单位成本，以此作为基础算出本月的发出存货的成本以及月末的库存实际成本。</li></ul><h2 id="全月一次加权平均法的计算公式"><a href="#全月一次加权平均法的计算公式" class="headerlink" title="全月一次加权平均法的计算公式"></a>全月一次加权平均法的计算公式</h2><p>　　</p><ul><li><p>平均单位成本= (期初结存材料成本+∑(本月入库成本))/(期初结存数量+∑(本月入库数量))</p></li><li><p>发出成本 = 发出数量×平均单位成本</p></li><li><p>结存成本 = 结存数量×平均单位成本</p></li></ul><a id="more"></a><h2 id="全月一次加权平均法的特点"><a href="#全月一次加权平均法的特点" class="headerlink" title="全月一次加权平均法的特点"></a>全月一次加权平均法的特点</h2><p>　　1.在全月一次加权平均法下，采用全月一次加权平均法使得本期销货成本介于早期购货成本与当期购货成本之间。这种方法计算得到的销售成本不易被操纵，因而被广泛采用。</p><p>　　2.全月一次加权平均法作为一种平均价格法，在一定程度上修正了价格波动趋势的影响；存货计价工作可以分散在月内进行。</p><h2 id="全月一次加权平均法的优缺点"><a href="#全月一次加权平均法的优缺点" class="headerlink" title="全月一次加权平均法的优缺点"></a>全月一次加权平均法的优缺点</h2><p>　　全月一次加权平均法的优点是计算手续简便。缺点是：</p><p>　　第一，采用这种方法，必须要到月末才能计算出全月的加权平均单价，这显然不利于核算的及时性；</p><p>　　第二，按照月末加权平均单价计算的期末库存材料价值，与现行成本相比，有比较大的差异。当物价呈现上升趋势时，月末一次加权平均单价将低于现行成本；反之，当物价呈现下降趋势时，那么，月末一次加权平均单价又将高于现行。</p><h2 id="全月一次加权平均法的适用范围"><a href="#全月一次加权平均法的适用范围" class="headerlink" title="全月一次加权平均法的适用范围"></a>全月一次加权平均法的适用范围</h2><p>　　1、此方法适合各期存货成本变动不大的情况或者存货品种较少或收发次数较少，而且前后收入存货单位成本相差较大的企业使用。</p><p>　　2、全月一次平均法主要适用于生产企业的产成品、半成品的成本核算；原材料的成本核算，用户可以自己选择。由于各企业费用分摊所采用的方法不尽相同，因此，用户可以手工进行计算，然后再将计算结果输入到各个产品入库单中。</p><h2 id="全月一次加权平均法的案例分析"><a href="#全月一次加权平均法的案例分析" class="headerlink" title="全月一次加权平均法的案例分析"></a>全月一次加权平均法的案例分析</h2><ul><li>企业采用永续盘存制，并用全月一次加权平均法对发出存货计价，某企业2008年度一月某存货期初存货10件，本期收、付、存数量及金额如下表所示：</li></ul><p><img src="/img/algorithm/img/algorithm-0-1.png" alt="图片"></p><p>　　根据上表的计算，本月的平均单价及发出存货成本如下：</p><p>　　全月平均单价=（10<em>10+5</em>9+10<em>11+5</em>9.5）/（10+5+10+5）=10.1元</p><p>　　本月发出存货成本=(2+5+6)*10.2=132.6元</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;什么是全月一次加权平均法&quot;&gt;&lt;a href=&quot;#什么是全月一次加权平均法&quot; class=&quot;headerlink&quot; title=&quot;什么是全月一次加权平均法&quot;&gt;&lt;/a&gt;什么是全月一次加权平均法&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;全月一次加权平均法是以本月的期初数量和本月全部进货数量作为权数，取出本月全部进货成本加上期初的进货成本，计算出本月存货平均单位成本，以此作为基础算出本月的发出存货的成本以及月末的库存实际成本。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;全月一次加权平均法的计算公式&quot;&gt;&lt;a href=&quot;#全月一次加权平均法的计算公式&quot; class=&quot;headerlink&quot; title=&quot;全月一次加权平均法的计算公式&quot;&gt;&lt;/a&gt;全月一次加权平均法的计算公式&lt;/h2&gt;&lt;p&gt;　　&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;平均单位成本= (期初结存材料成本+∑(本月入库成本))/(期初结存数量+∑(本月入库数量))&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;发出成本 = 发出数量×平均单位成本&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;结存成本 = 结存数量×平均单位成本&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="algorithm" scheme="https://www.wuxinvip.com/categories/java/algorithm/"/>
-    
-    
-      <category term="全月一次加权平均法" scheme="https://www.wuxinvip.com/tags/%E5%85%A8%E6%9C%88%E4%B8%80%E6%AC%A1%E5%8A%A0%E6%9D%83%E5%B9%B3%E5%9D%87%E6%B3%95/"/>
     
   </entry>
   
