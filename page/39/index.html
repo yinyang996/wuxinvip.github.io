@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">239</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">240</span></a>
 
   </li>
         
@@ -608,13 +608,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
@@ -623,6 +616,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
       
     </li>
   
@@ -686,7 +686,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-indexes/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-innodb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -706,7 +706,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/mysql/optimization-sql-indexes/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/39/index.html">SQL优化【SQL索引】</a>
+                <a href="/2018/03/24/mysql/optimization-sql-innodb/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/39/index.html">SQL优化【InnoDB-表优化】</a>
               
             
           </h2>
@@ -791,13 +791,13 @@
 
       
         
-          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-3abe1a92a6358cf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>提高操作性能的最佳方法 SELECT是在查询中测试的一列或多列上创建索引。<br>索引条目就像指向表行的指针，允许查询快速确定哪些行与WHERE子句中的条件匹配，并检索这些行的其他列值。<br>所有的MySQL数据类型都可以被索引。</p>
-<p>尽管为查询中使用的每个可能的列创建索引是很诱人的，但不必要的索引会浪费空间并浪费时间让MySQL确定要使用的索引。<br>索引还会增加插入，更新和删除的成本，因为每个索引都必须更新。<br>您必须找到适当的平衡，才能使用最佳索引集实现快速查询。</p>
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-9ddb3d7a935ae42f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>innodb表优化</p>
+<p>8.5.1优化InnoDB表的存储布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">一旦数据达到稳定的大小，或者增长表增加了几十或几百兆字节，请考虑使用该OPTIMIZE TABLE语句来重新组织表并压缩任何浪费的空间。</span><br><span class="line"></span><br><span class="line">重新组织的表需要更少的磁盘I / O来执行全表扫描。</span><br><span class="line">当其他技术（如改进索引使用或调整应用程序代码）不切实际时，这是一种直接技术，可以提高性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OPTIMIZE TABLE复制表格的数据部分并重建索引。</span><br><span class="line">好处来自改进索引内数据的打包，并减少表空间和磁盘内的碎片。</span><br><span class="line">好处取决于每个表中的数据。</span><br><span class="line">您可能会发现某些人有显着的收益，而不是其他人，或者收益会随着时间的推移而下降，直到您再次优化表。</span><br><span class="line">如果表很大或者重建的索引不适合缓冲池，则此操作可能会很慢。</span><br><span class="line">向表中添加大量数据后的第一次运行通常比后期运行慢得多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在中InnoDB，有一个很长的PRIMARY KEY（无论是一个长的值的单个列，还是多个形成一个长复合值的列）浪费了大量的磁盘空间。</span><br><span class="line">一行中的主键值在所有指向同一行的二级索引记录中都是重复的。</span><br><span class="line">（请参见第14.8.2.1节“集群索引和二级索引”。</span><br><span class="line">）AUTO_INCREMENT如果主键很长，或者索引长VARCHAR列的前缀而不是整列，则创建一个列作为主键。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用VARCHAR数据类型而不是CHAR存储可变长度的字符串或具有多个NULL值的列 。</span><br><span class="line">甲 列总是占据字符来存储数据，即使该字符串是较短，或者其值 。</span><br><span class="line">较小的表适合缓冲池，并减少磁盘I / O。</span><br><span class="line"> CHAR(N)NNULL</span><br><span class="line"></span><br><span class="line">使用COMPACT行格式（默认InnoDB格式）和可变长度字符集（如 utf8或）时sjis， 列占用可变数量的空间，但仍至少为字节。</span><br><span class="line"> CHAR(N)N</span><br><span class="line"></span><br><span class="line">对于大的表或者包含大量重复的文本或数字数据的表，请考虑使用 COMPRESSED行格式。</span><br><span class="line">将数据带入缓冲池或执行全表扫描需要较少的磁盘I / O。</span><br><span class="line">在做出永久性决定之前，请测量使用行格式COMPRESSED与 您可以实现的压缩量 COMPACT。</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/mysql/optimization-sql-indexes/" rel="contents">
+              <a class="btn" href="/2018/03/24/mysql/optimization-sql-innodb/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -816,7 +816,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
       
     </li>
   
@@ -830,13 +830,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
@@ -844,7 +837,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
@@ -901,7 +901,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-0/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-care-point/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -921,7 +921,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/rpc/dubbo-0/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/39/index.html">dubbo 框架设计</a>
+                <a href="/2018/03/24/mysql/mysql-care-point/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/39/index.html">mysql-care点</a>
               
             
           </h2>
@@ -971,7 +971,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/rpc/" itemprop="url" rel="index"><span itemprop="name">rpc</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -1006,33 +1006,10 @@
 
       
         
-          <p>假设我们开发一个rpc远程调用框架</p>
-<p>那么这个框架需要怎么去写</p>
-<ul>
-<li>1、首先有远程配置中心config</li>
-<li>2、有服务代理层【包装业务上的服务做一个代理】</li>
-<li>3、有服务注册中心【代理了服务之后 向该注册中心注册服务代理】</li>
-<li>4、有路由【远程调用先走路由获取服务代理实例、集群必备的东西】</li>
-<li>5、有远程调用层【发起服务调用】</li>
-<li>6、有网络传输层、有信息交换层【这个是一个传输协议的实现层】</li>
-<li>7、有序列化层【针对网络IO信息编码方式的统一、传输协议最基本的东西】</li>
-<li>8、服务监控【不属于RPC、但是服务监控必不可少】</li>
-</ul>
-<p>总结：</p>
-<ul>
-<li>核心配置：服务注册中心、服务代理和服务调用</li>
-<li>优化配置：配置中心、服务监控、</li>
-<li>基石配置：网络传输以及协议、序列化方式的定制</li>
-</ul>
-          <!--noindex-->
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/rpc/dubbo-0/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">查询缓存从 Mysql5.7.20开始已经弃用、并在MySQL8.0中删除</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
@@ -1046,7 +1023,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-1/" rel="bookmark">dubbo分析</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
       
     </li>
   
@@ -1103,7 +1108,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/container/what-docker/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/about-agreement/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1123,198 +1128,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/container/what-docker/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/39/index.html">what is the docker</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/container/" itemprop="url" rel="index"><span itemprop="name">container</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>what is docker?</strong></p>
-<p>百度 告诉我们docker是一个容器</p>
-<p>作为java码头搬砖的 我想到了 spring也是叫做容器</p>
-<p>那么容器是一个什么样的概念? 不由想到了水缸—容器   容器装载水的 与水毫无关系</p>
-<p>spring容器 IOC AOP 都晓得<br>IOC 把对象创建交给spring管理 然后加载到jvm中运行java 程序<br>AOP 面向切面编程.其实就是提供了一个切面模式.能够很好地控制类的加载顺序.或者类的执行顺序</p>
-<p>但是本质上spring容器就是装载java程序的</p>
-<p>那么docker?<br>装载各种程序的.暂时可以理解为一个系统.系统也是一个容器.装载我们运行的程序<br>window装载 exe.        linux装载rpm.        android 装载一类apk的程序             ios装载一类ipa的程序</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/container/what-docker/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/container/install-docker/" rel="bookmark">install docker</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/container/pouch/" rel="bookmark">pouch</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/rpc/dubbo-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/39/index.html">dubbo分析</a>
+                <a href="/2018/03/24/agreement/about-agreement/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/39/index.html">关于协议</a>
               
             
           </h2>
@@ -1364,7 +1178,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/rpc/" itemprop="url" rel="index"><span itemprop="name">rpc</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
 
                 
                 
@@ -1399,15 +1213,13 @@
 
       
         
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">手册地址:https://gitee.com/none_heart/RPC/raw/master/dubbo/doc/dubbo-用户指南-带标签.pdf</span><br></pre></td></tr></table></figure>
-<p>RPC Remote Procedure call 远程过程调用</p>
-<p>一个RPC框架有几个特点:<br>远程调用.协议.暴露端口方式<br>稳定性.一致性.容错性<br>并发性.<br>简单插入性.高度解耦</p>
-<p>那么从这几个方面来思考dubbo</p>
-<p><strong>协议:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dubbo缺省协议采用单一长连接和NIO异步通讯，适合于小数据量大并发的服务调用，以及服务消费者机器数远大于服务提供者机器数的情况。</span><br><span class="line"></span><br><span class="line">缺省协议，使用基于mina1.1.7+hessian3.2.1的tbremoting交互。</span><br><span class="line"></span><br><span class="line">连接个数：单连接</span><br><span class="line">连接方式：长连接</span><br><span class="line">传输协议：TCP</span><br><span class="line">传输方式：NIO异步传输</span><br><span class="line">序列化：Hessian二进制序列化</span><br><span class="line">适用范围：传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</span><br><span class="line">适用场景：常规远程服务方法调用</span><br></pre></td></tr></table></figure></p>
+          <p>what 协议？<br>人民币算不算是一种协议？买家和卖家协议一张纸为 10元 、50元、100元</p>
+<p>so ： 协议在互联网届就是发送方和接收方商量好的一种消息模式，</p>
+<p>Http：规定两个ip、一个发送ip、一个接收ip、这两个ip进行数据交互时候、先握手、确定数据畅通、然后在进行数据通信、<br>握手协议：规定握手消息格式【一系列参数的排序】、<br>数据通信规定http发送消息体消息格式。</p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/rpc/dubbo-1/" rel="contents">
+              <a class="btn" href="/2018/03/24/agreement/about-agreement/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1426,7 +1238,237 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-0/" rel="bookmark">dubbo 框架设计</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-max-connects/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/mysql-max-connects/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/39/index.html">mysql最大连接数</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-aaa92b6cba2ad4d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>linux默认1000  window 默认2000</p>
+<p>还要根据文件系统 性能 来调节 mysql连接数</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
       
     </li>
   
@@ -1539,7 +1581,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">239</span>
+                    <span class="site-state-item-count">240</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

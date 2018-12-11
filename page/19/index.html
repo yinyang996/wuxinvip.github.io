@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">239</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">240</span></a>
 
   </li>
         
@@ -451,6 +451,213 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/05/24/search-engine/elasticsearch-bean-setting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">elasticsearch-bean-setting</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-05-24T08:00:00+08:00">2018-05-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/search-engine/" itemprop="url" rel="index"><span itemprop="name">search-engine</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">#分片数</span><br><span class="line">index.number_of_shards</span><br><span class="line"></span><br><span class="line">#副本数</span><br><span class="line">index.number_of_replicas</span><br><span class="line"></span><br><span class="line">#是否设为影子副本（暂未研究）</span><br><span class="line">index.shadow_replicas</span><br><span class="line"></span><br><span class="line">#是否设为可分享文件系统（暂未研究）</span><br><span class="line">index.shard_filesystem</span><br><span class="line"></span><br><span class="line">#是否自动扩展副本（暂未研究）</span><br><span class="line">index.auto_expand_replicas</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.read_only</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.read</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.write</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.metadata</span><br><span class="line"></span><br><span class="line">#创建该index用到的Elasticsearch版本</span><br><span class="line">index.version.created</span><br><span class="line"></span><br><span class="line">index.version.created_string</span><br><span class="line"></span><br><span class="line">#更新该index用到的Elasticsearch版本</span><br><span class="line">index.verison.upgraded</span><br><span class="line"></span><br><span class="line">index.version.upgraded_string</span><br><span class="line"></span><br><span class="line">#该index支持的最小lucene版本</span><br><span class="line">index.version.minimum_compatible</span><br><span class="line"></span><br><span class="line">#该index建立日期</span><br><span class="line">index.creating_data</span><br><span class="line"></span><br><span class="line">index.creating_data_string</span><br><span class="line"></span><br><span class="line">#该index的优先级</span><br><span class="line">index.priority</span><br><span class="line"></span><br><span class="line">#该index的uuid，唯一标识</span><br><span class="line">index.uuid</span><br><span class="line"></span><br><span class="line">#该index各索引的routing规则，采用何种Hash方式，默认使用Murmur3，还有一种普通的Hash算法</span><br><span class="line">index.legacy.routing.hash.type</span><br><span class="line"></span><br><span class="line">#routing计算是否使用type，内部计算shard id的方法已经废弃，建议不使用，不设置，默认false即可</span><br><span class="line">index.legacy.routing.use_type</span><br><span class="line"></span><br><span class="line">#该index的数据存储路径</span><br><span class="line">index.data_path</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">#index.shared_filesystem.recover_on_any_node</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-1/" rel="bookmark">elasticsearch内部存储执行机制</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-config/" rel="bookmark">elasticsearch-config</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -626,7 +833,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/maglev/" rel="bookmark">maglev</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/dns/" rel="bookmark">DNS负载均衡</a></div>
       
     </li>
   
@@ -848,7 +1055,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/maglev/" rel="bookmark">maglev</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/load-balance/dns/" rel="bookmark">DNS负载均衡</a></div>
       
     </li>
   
@@ -905,7 +1112,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/crontab/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/shell-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -925,7 +1132,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/shell/crontab/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">crontab</a>
+                <a href="/2018/03/24/shell/shell-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">java后台升级命令</a>
               
             
           </h2>
@@ -1004,7 +1211,8 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/crond start    //启动服务</span><br><span class="line">/sbin/service crond stop     //关闭服务</span><br><span class="line">/sbin/service crond restart  //重启服务</span><br><span class="line">/sbin/service crond reload   //重新载入配置&lt;/pre&gt;</span><br><span class="line"></span><br><span class="line">service crond status</span><br><span class="line">service crond start</span><br><span class="line"></span><br><span class="line">查看crontab服务是否已设置为开机启动，执行命令：</span><br><span class="line">ntsysv</span><br><span class="line">加入开机自动启动：</span><br><span class="line">chkconfig -level 35 crond on</span><br><span class="line"></span><br><span class="line">定制脚本</span><br><span class="line">crontab -e  </span><br><span class="line">相当于vim</span><br><span class="line">文档加入</span><br><span class="line">0 1 * * * root /data/bakdb.sh  &gt; /data/bak.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">*/2 * * * * /bin/bash -x /shell/web_monit/http_monit.sh  &gt; /dev/null 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">查看定时任务</span><br><span class="line">crontab -u root -l</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">top</span><br><span class="line"></span><br><span class="line">netstat</span><br><span class="line">netstat -ano | grep 8080</span><br><span class="line"></span><br><span class="line">kill</span><br><span class="line">kill -9</span><br><span class="line"></span><br><span class="line">#读写执行 all user</span><br><span class="line">chmod 777 123.txt</span><br><span class="line">#当前用户执行权限</span><br><span class="line">chmod +x  git_pull.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">chown root:root 123.txt</span><br><span class="line"></span><br><span class="line">sudo apt-get install</span><br><span class="line">sudo apt-get remove</span><br><span class="line"></span><br><span class="line">sudo yum install</span><br><span class="line">sudo yum remove</span><br><span class="line"></span><br><span class="line">sudo yum -y install</span><br><span class="line"></span><br><span class="line">sudo -s -H</span><br><span class="line">su root</span><br><span class="line"></span><br><span class="line">unzip -d 123.zip</span><br><span class="line"></span><br><span class="line">touch readme.txt</span><br><span class="line">cat readme.txt</span><br><span class="line">more readme.txt</span><br><span class="line">less readme.txt</span><br><span class="line"></span><br><span class="line">sort readme.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">du -h</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/version</span><br><span class="line"></span><br><span class="line">awk</span><br><span class="line"></span><br><span class="line">if..else</span><br><span class="line"></span><br><span class="line">sleep</span><br><span class="line"></span><br><span class="line">man</span><br><span class="line"></span><br><span class="line">lsof -i:8080</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">useradd -r nexus</span><br><span class="line"># 打印关键字行</span><br><span class="line">grep -n &quot;业务有关的关键字&quot;  2018-06-26.log</span><br><span class="line"> </span><br><span class="line">#文件切割 开始2行、结束6行</span><br><span class="line">sed -n &apos;2,6p&apos; access.log &gt; new-access.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#统计文件内容出现次数</span><br><span class="line">grep -o &quot;message&quot; nohup.out | wc -l</span><br><span class="line"></span><br><span class="line">#scp远程拷贝</span><br><span class="line">scp -r /usr/local/mongodb-3.6.5/ root@10.44.33.22:/opt/software/</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1048,7 +1256,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-2/" rel="bookmark">java后台升级命令</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
       
     </li>
   
@@ -1105,7 +1313,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-stored-procedure/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-performance-measurement/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1125,7 +1333,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/mysql/mysql-stored-procedure/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">mysql存储过程</a>
+                <a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">SQL优化【绩效衡量】</a>
               
             
           </h2>
@@ -1210,241 +1418,17 @@
 
       
         
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DELIMIT ;</span><br><span class="line">  CREATE DROP ();</span><br><span class="line"></span><br><span class="line">DELIMIT //</span><br></pre></td></tr></table></figure>
-<p>为什么使用存储过程<br>有过统计:一个事务提交放到service层 大概一秒能处理500个(好像是2ms一个.算上网络延迟)<br>而使用mysql存储过程 一秒钟大概能处理2000个事物</p>
-<p>阿里编码规范有讲不适用存储过程.维护起来很困难.但是该用还得用.像秒杀.</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/memcached/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/cache/memcached/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">memcached</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/cache/" itemprop="url" rel="index"><span itemprop="name">cache</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>memcached</p>
-<p><strong>简介</strong></p>
-<pre><code>Memcached的
-Memcached.svg
-开发者（S）    Danga Interactive
-初始发行    2003年5月22日
-稳定版本
-1.5.8 / 2018年5月25日; 39天前[1]
-知识库
-https://github.com/memcached/memcached
-在维基数据上编辑此内容
-写入    C
-操作系统    跨平台
-类型    分布式内存缓存系统
-执照    修订BSD许可证[2]
-网站    memcached .org
-Memcached（发音：mem-cash-dee，mem-cashed）是一种通用的分布式内存缓存系统。它通常用于通过在RAM中缓存数据和对象来加速动态数据库驱动的网站，以减少必须读取外部数据源（如数据库或API）的次数。Memcached是免费的开源软件，根据修订的BSD许可证授权。[2] Memcached在类Unix操作系统（至少是Linux和OS X）和Microsoft Windows上运行。这取决于libevent库。
-
-Memcached的API提供了一个分布在多台机器上的非常大的哈希表。当表已满时，后续插入会导致较旧的数据以最近最少使用（LRU）顺序被清除。[3] [4]使用Memcached的应用程序通常将请求和添加分层到RAM中，然后再回到较慢的后备存储（例如数据库）上。
-
-Memcached没有内部机制来跟踪可能发生的未命中，但是，某些第三方实用程序提供此功能。
-</code></pre>
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-0cd4ca1ab65a3ad0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>8.13.1测量表达式和函数的速度<br>8.13.2使用您自己的基准<br>8.13.3使用performance_schema测量绩效<br>要衡量绩效，请考虑以下因素：</p>
+<p>无论您是在安静系统上测量单个操作的速度，还是在一段时间内如何操作一组操作（ “ 工作负载 ”）。通过简单的测试，您通常可以测试更改一个方面（配置设置，表上的索引集，查询中的SQL子句）如何影响性能。基准测试通常是长时间运行和精心设计的性能测试，其结果可能决定硬件和存储配置等高级选择，或者升级到新MySQL版本的时间。</p>
+<p>对于基准测试，有时您必须模拟繁重的数据库工作负载才能获得准确的图像。</p>
+<p>表现可能会因许多不同的因素而有所不同，因为几个百分点的差异可能不是决定性的胜利。在不同的环境中进行测试时，结果可能会发生相反的变化。</p>
+<p>某些MySQL功能根据工作负载提供帮助或无法帮助提高性能。为了完整性，请始终在打开和关闭这些功能的情况下测试性能。尝试与每个工作负载的两个最重要的功能是 MySQL查询缓存，以及 适应性的散列索引的InnoDB表。</p>
+<p>本节从单个开发人员可以执行的简单和直接测量技术发展到需要额外专业知识来执行和解释结果的更复杂测量技术。</p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/cache/memcached/" rel="contents">
+              <a class="btn" href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1463,21 +1447,35 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
       
     </li>
   
@@ -1590,7 +1588,7 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">239</span>
+                    <span class="site-state-item-count">240</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
