@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2018-12-22T11:57:02.905Z</updated>
+  <updated>2019-01-11T16:31:16.975Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>遐想--定制应用</title>
+    <link href="https://www.wuxinvip.com/2019/01/12/essay/essay-20/"/>
+    <id>https://www.wuxinvip.com/2019/01/12/essay/essay-20/</id>
+    <published>2019-01-12T00:00:00.000Z</published>
+    <updated>2019-01-11T16:31:16.975Z</updated>
+    
+    <content type="html"><![CDATA[<p>随意遐想、马云说过、未来从普遍化走向定制化、在泛滥得互联网app中、会不会也会也有这么一条路子</p><p>现在各种app都是提供特殊的功能、</p><p>社交、微信、QQ、陌陌、<br>音乐、网易云音乐、QQ音乐、酷狗音乐、酷我音乐、百度音乐<br>等等</p><p>那么、我可不可以做一个定制应用、这个应用接入各种互联网应用后台？<br>前期没有开放接口是不是可以做页面入口、web展示或者唤起、没有的就启用应用唤醒播放、</p><p>一家一个定制应用、在这个应用中、如有付费可以统一付费等等</p><p>然后把应用商店中得app全部做上权限管理、再把统一付费的钱、使用时间差打向各个服务应用</p><p>还可以加上阅读时间计时、以提醒用户沉浸使用、防沉迷机制</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;随意遐想、马云说过、未来从普遍化走向定制化、在泛滥得互联网app中、会不会也会也有这么一条路子&lt;/p&gt;
+&lt;p&gt;现在各种app都是提供特殊的功能、&lt;/p&gt;
+&lt;p&gt;社交、微信、QQ、陌陌、&lt;br&gt;音乐、网易云音乐、QQ音乐、酷狗音乐、酷我音乐、百度音乐&lt;br&gt;等等&lt;/p&gt;
+&lt;p
+      
+    
+    </summary>
+    
+      <category term="essay" scheme="https://www.wuxinvip.com/categories/essay/"/>
+    
+    
+      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
   
   <entry>
     <title>TOGAF架构认证</title>
@@ -591,34 +619,6 @@
     
     
       <category term="shell" scheme="https://www.wuxinvip.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>apache avro 序列化</title>
-    <link href="https://www.wuxinvip.com/2018/11/10/essay/avro/"/>
-    <id>https://www.wuxinvip.com/2018/11/10/essay/avro/</id>
-    <published>2018-11-10T00:00:00.000Z</published>
-    <updated>2018-11-21T06:23:20.444Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>当前序列化最常用的两种数据格式 json xml</p><h2 id="json"><a href="#json" class="headerlink" title="json"></a>json</h2><p><a href="https://zh.wikipedia.org/wiki/JSON" target="_blank" rel="noopener">wiki</a></p><p>常用包 jackson 、gson 【google】、fastjson【alibaba】</p><h2 id="xml"><a href="#xml" class="headerlink" title="xml"></a>xml</h2><p><a href="https://zh.wikipedia.org/wiki/XML" target="_blank" rel="noopener">XML</a><br>现在用的比较少、起源比json要早很多、有点类似与html<br>应该是依据html的dom树形式创建的一套信息序列化</p><p>现在不常用了，原因是占用文件大部分内容的都是标签语言、实际有效信息占比太少 </p><a id="more"></a><h2 id="Avro"><a href="#Avro" class="headerlink" title="Avro"></a>Avro</h2><p>最近看kafka 组件 解决 服务端与客户端序列化问题是 看到这种解决方案 avro</p><p>文中也提到要想实现一种自己的序列化格式太难、需要考虑版本兼容、服务消费端和服务提供者都对序列化样式兼容<br>文中推荐了这个序列化方式 Avro</p><p>另 之前在研究 es搜索引擎 对于es的sql也是使用avro序列化方式</p><p>可以说是比较不错的一种解决方案</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;namespace&quot;: &quot;com.wuxinvip.data&quot;,</span><br><span class="line">  &quot;type&quot;: &quot;record&quot;,</span><br><span class="line">  &quot;name&quot;: &quot;User&quot;,</span><br><span class="line">  &quot;fields&quot;: [</span><br><span class="line">    &#123;&quot;name&quot;: &quot;name&quot;, &quot;type&quot;: &quot;string&quot;&#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;address&quot;, &quot;type&quot;: [&quot;string&quot;, &quot;null&quot;]&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这种序列化 采用了一种注册表方式 双方都从注册表中获取一个schema 标准<br>然后采用这种标准来解析数据<br>形式类似于json 不过补充了json在迭代上的不足</p><p><img src="/img/essay/img/avro.webp" alt="图片"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;序列化&quot;&gt;&lt;a href=&quot;#序列化&quot; class=&quot;headerlink&quot; title=&quot;序列化&quot;&gt;&lt;/a&gt;序列化&lt;/h2&gt;&lt;p&gt;当前序列化最常用的两种数据格式 json xml&lt;/p&gt;
-&lt;h2 id=&quot;json&quot;&gt;&lt;a href=&quot;#json&quot; class=&quot;headerlink&quot; title=&quot;json&quot;&gt;&lt;/a&gt;json&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/JSON&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;wiki&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;常用包 jackson 、gson 【google】、fastjson【alibaba】&lt;/p&gt;
-&lt;h2 id=&quot;xml&quot;&gt;&lt;a href=&quot;#xml&quot; class=&quot;headerlink&quot; title=&quot;xml&quot;&gt;&lt;/a&gt;xml&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/XML&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;XML&lt;/a&gt;&lt;br&gt;现在用的比较少、起源比json要早很多、有点类似与html&lt;br&gt;应该是依据html的dom树形式创建的一套信息序列化&lt;/p&gt;
-&lt;p&gt;现在不常用了，原因是占用文件大部分内容的都是标签语言、实际有效信息占比太少 &lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="序列化" scheme="https://www.wuxinvip.com/categories/java/%E5%BA%8F%E5%88%97%E5%8C%96/"/>
-    
-    
-      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
     
   </entry>
   
