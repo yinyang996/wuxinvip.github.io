@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,7 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/11/23/message-queue/rabbitmq/01/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">rabbitmq简介</a>
+                <a href="/2018/11/23/message-queue/kafka/01/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">kafka简介</a>
               
             
           </h2>
@@ -544,7 +544,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/rabbitmq/" itemprop="url" rel="index"><span itemprop="name">rabbitmq</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a></span>
 
                 
                 
@@ -579,36 +579,71 @@
 
       
         
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>kafka最初为limkedIn的一个内部基础服务</li>
+<li>最早的设计观念是、把数据看作流、消费者、订阅和发布各种各样的消息、这在大数据上应用非常广泛</li>
+</ul>
+<h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul>
+<li>一个部件broker、每一个broker就是一个单独的服务器</li>
+<li>每一个集群有一个broker作为集群控制器角色【分区选举】、与rocketmq区别是、rocketmq使用了nameserver作为注册中心</li>
+<li>多级群中、kafka提供了一个mirrorMaker工具实现集群间消息复制</li>
+<li>mirroMaker核心部分是一个生产者一个消费者、中间是一个队列、也是kafka的最基本原理、实际上在复杂的集群环境中、对于数据的可靠性更复杂些</li>
+</ul>
+          <!--noindex-->
           
-            <a id="more"></a>
-<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
-<li><p>rocketmq、rabbitmq、kafka</p>
-<ul>
-<li>没有谁好谁坏</li>
-<li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li>
-<li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li>
-<li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li>
-</ul>
-</li>
-<li><p>个人见解</p>
-<ul>
-<li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li>
-<li>稳定不丢消息：rocketmq、tabbitmq、</li>
-<li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li>
-<li>rocketmq底层netty、异步机制优秀</li>
-<li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li>
-<li>非实时性要求高、同时又要求高吞吐量 rocketmq</li>
-</ul>
-</li>
-</ul>
-
-          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/11/23/message-queue/kafka/01/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
         
       
     </div>
 
     
       
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/01/message-queue/kafka/09/" rel="bookmark">kafka构建数据管道需要注意的问题</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/30/message-queue/kafka/08/" rel="bookmark">kafka集群复制</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/29/message-queue/kafka/07/" rel="bookmark">kafka消费者接收和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/28/message-queue/kafka/06/" rel="bookmark">kafka生产者发送和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
+      
+    </li>
+  
+  </ul>
 
 
     
@@ -791,14 +826,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
       
     </li>
   
@@ -1415,14 +1450,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-set/" rel="bookmark">集合Set</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-thread/" rel="bookmark">线程</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-thread/" rel="bookmark">线程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-translation/" rel="bookmark">事务</a></div>
       
     </li>
   
