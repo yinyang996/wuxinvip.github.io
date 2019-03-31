@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">243</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">247</span></a>
 
   </li>
         
@@ -604,7 +604,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
       
     </li>
   
@@ -618,13 +618,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
@@ -632,7 +625,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
@@ -689,7 +689,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-system/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-sentence/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -709,7 +709,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/mysql/optimization-sql-system/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">SQL优化【服务器优化】</a>
+                <a href="/2018/03/24/mysql/optimization-sql-sentence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">SQL优化【SQL语句】</a>
               
             
           </h2>
@@ -794,16 +794,15 @@
 
       
         
-          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-6042e18b04a9453d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>本节讨论数据库服务器的优化技术，主要处理系统配置而不是调整SQL语句。<br>本节中的信息适用于想要确保他们管理的服务器的性能和可扩展性的DBA; 对于构建包括设置数据库的安装脚本的开发人员; 以及那些希望最大限度提高自身生产力的开发，测试等人员自己运行MySQL。</p>
-<ul>
-<li>8.12.1系统因素</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">一些系统级因素可能会以主要方式影响性能：</span><br><span class="line"></span><br><span class="line">如果有足够的RAM，则可以删除所有交换设备。</span><br><span class="line">某些操作系统在某些情况下使用交换设备，即使您拥有可用内存。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">避免对MyISAM表格进行外部锁定 。</span><br><span class="line">默认值是禁用外部锁定。</span><br><span class="line">在 --external-locking和 --skip-external-locking 选项明确地启用和禁用外部锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">只要您只运行一台服务器，禁用外部锁定不会影响MySQL的功能。</span><br><span class="line">请记住在运行myisamchk之前取下服务器（或者锁定并冲洗相关的表格） 。</span><br><span class="line">在某些系统中，强制禁用外部锁定是因为它无法工作。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">唯一不能禁用外部锁定的情况是在 同一数据上运行多个MySQL 服务器（而不是客户端），或者如果您运行 myisamchk检查（而不是修复）表而不告知服务器先刷新和锁定表。</span><br><span class="line">请注意 ，除了使用NDB群集时，通常不建议使用多个MySQL服务器同时访问相同的数据。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该LOCK TABLES和 UNLOCK TABLES语句使用内部锁定，所以你可以使用他们，即使外部锁定被禁用。</span><br></pre></td></tr></table></figure>
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-83893c4315e86c69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录"></p>
+<p>1、select语句</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-188c121b283eff2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语句优化"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优化考虑点"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】</span><br><span class="line">2、持续折叠</span><br><span class="line">3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】</span><br><span class="line">4、及时检测无效常量表达式</span><br><span class="line">5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用</span><br><span class="line">6、where 表达式尽量简单、便于快速建立where评估表</span><br><span class="line">7、查询其他表之前首先查询所有常量表</span><br><span class="line">【</span><br><span class="line">        SELECT * FROM t WHERE primary_key=1;</span><br><span class="line">        SELECT * FROM t1,t2</span><br><span class="line">            WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</span><br><span class="line">】</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/mysql/optimization-sql-system/" rel="contents">
+              <a class="btn" href="/2018/03/24/mysql/optimization-sql-sentence/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -822,7 +821,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
       
     </li>
   
@@ -836,13 +835,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
@@ -850,7 +842,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
@@ -1041,7 +1040,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
       
     </li>
   
@@ -1055,21 +1054,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
@@ -1126,7 +1125,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/encryption/password-develop/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1146,7 +1145,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/encryption/password-develop/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">密码加密方式</a>
+                <a href="/2018/03/24/rpc/dubbo-0/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">dubbo 框架设计</a>
               
             
           </h2>
@@ -1196,7 +1195,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/password/" itemprop="url" rel="index"><span itemprop="name">password</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/rpc/" itemprop="url" rel="index"><span itemprop="name">rpc</span></a></span>
 
                 
                 
@@ -1231,24 +1230,28 @@
 
       
         
-          <p>常见攻击方式：<br>字典攻击：早期base64+md5</p>
-<p>破解方式–把常见密码进行base63+md5加密 通过重复登陆服务器 或者拖库进行匹配破解【破解方式属于开放状态】</p>
-<p><strong>对称加密</strong></p>
-<pre><code>加密解密效率高、速度快、空间占用小、加密强度高
-缺点是 参与多方都需要持有密钥、一旦有一个人泄露则安全性遭到破坏、另外再不容安全通道下分发密钥也是个问题
-
-    代表算法：DES、3DES、AES、IDEA等等
-    DES：其密钥长度为56位+8位校验  破解方式：暴力破解
-    3DES：3重DES操作 算法不能靠累积增加防御力
-    AES：分组算法、分组长度为128、192、256位三种、其优势在于 速度快 整个过程可以数学化描述、目前尚未有效破解手段
-
-
-    适用于大量数据加解密、不能用于签名场景 需要提前分法密钥
-</code></pre>
+          <p>假设我们开发一个rpc远程调用框架</p>
+<p>那么这个框架需要怎么去写</p>
+<ul>
+<li>1、首先有远程配置中心config</li>
+<li>2、有服务代理层【包装业务上的服务做一个代理】</li>
+<li>3、有服务注册中心【代理了服务之后 向该注册中心注册服务代理】</li>
+<li>4、有路由【远程调用先走路由获取服务代理实例、集群必备的东西】</li>
+<li>5、有远程调用层【发起服务调用】</li>
+<li>6、有网络传输层、有信息交换层【这个是一个传输协议的实现层】</li>
+<li>7、有序列化层【针对网络IO信息编码方式的统一、传输协议最基本的东西】</li>
+<li>8、服务监控【不属于RPC、但是服务监控必不可少】</li>
+</ul>
+<p>总结：</p>
+<ul>
+<li>核心配置：服务注册中心、服务代理和服务调用</li>
+<li>优化配置：配置中心、服务监控、</li>
+<li>基石配置：网络传输以及协议、序列化方式的定制</li>
+</ul>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/encryption/password-develop/" rel="contents">
+              <a class="btn" href="/2018/03/24/rpc/dubbo-0/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1267,14 +1270,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/13/encryption/password-cracked/" rel="bookmark">破解密码常见的几种方式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/02/encryption/password-java-pbkdf2/" rel="bookmark">慢哈希加密</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-1/" rel="bookmark">dubbo分析</a></div>
       
     </li>
   
@@ -1331,7 +1327,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-config/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1351,7 +1347,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/search-engine/elasticsearch-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">elasticsearch-config</a>
+                <a href="/2018/03/24/search-engine/elasticsearch-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">elasticsearch内部存储执行机制</a>
               
             
           </h2>
@@ -1436,10 +1432,24 @@
 
       
         
+          <p><strong>新建、索引和删除单个文档</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-2206994bb24e32f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="elas_0402.png"></p>
+<p>以下是在主副分片和任何副本分片上面成功新建，索引和删除文档所需要的步骤顺序：</p>
+<ol>
+<li>客户端向 <code>Node 1</code> 发送新建、索引或者删除请求。</li>
+<li>节点使用文档的 <code>_id</code> 确定文档属于分片 0 。请求会被转发到 <code>Node 3</code>，因为分片 0 的主分片目前被分配在 <code>Node 3</code> 上。</li>
+<li><code>Node 3</code> 在主分片上面执行请求。如果成功了，它将请求并行转发到 <code>Node 1</code> 和 <code>Node 2</code> 的副本分片上。一旦所有的副本分片都报告成功, <code>Node 3</code> 将向协调节点报告成功，协调节点向客户端报告成功。</li>
+</ol>
+<p>在客户端收到成功响应时，文档变更已经在主分片和所有副本分片执行完成，变更是安全的。</p>
+          <!--noindex-->
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># ---------------------------------- Cluster -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 为群集使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#cluster.name: my-application</span><br><span class="line">#</span><br><span class="line"># ------------------------------------ Node ------------------------------------</span><br><span class="line">#</span><br><span class="line">#为节点使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#node.name: node-1</span><br><span class="line">#</span><br><span class="line">#  向节点添加自定义属性:</span><br><span class="line">#</span><br><span class="line">#node.attr.rack: r1</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Paths ------------------------------------</span><br><span class="line">#</span><br><span class="line"># 路径到目录存储数据的位置 (用逗号分隔多个位置):</span><br><span class="line">#</span><br><span class="line">#path.data: /path/to/data</span><br><span class="line">#</span><br><span class="line"># 日志文件的路径:</span><br><span class="line">#</span><br><span class="line">#path.logs: /path/to/logs</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Memory -----------------------------------</span><br><span class="line">#</span><br><span class="line">#  启动时锁定内存:</span><br><span class="line">#</span><br><span class="line">#bootstrap.memory_lock: true</span><br><span class="line">#</span><br><span class="line">#确保堆大小设置为大约一半的可用内存在系统上, 并且允许进程的所有者使用此限制。</span><br><span class="line">#</span><br><span class="line"># 当系统交换内存时, Elasticsearch 执行得很差。</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Network -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 将绑定地址设置为特定 IP (IPv4 或 IPv6):</span><br><span class="line">#</span><br><span class="line">#network.host: 192.168.0.1</span><br><span class="line">#</span><br><span class="line"># 为 HTTP 设置自定义端口:</span><br><span class="line">#</span><br><span class="line">#http.port: 9200</span><br><span class="line">#</span><br><span class="line"># 有关详细信息, 请参阅网络模块文档。</span><br><span class="line">#</span><br><span class="line"># --------------------------------- Discovery ----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在启动新节点时传递初始主机列表以执行发现:</span><br><span class="line"># 主机的默认列表为 [ &quot;127.0.0.1 &quot;, [:: 1] &quot;]</span><br><span class="line">#</span><br><span class="line">#discovery. zen.ping.unicast.hosts: [ &quot;host1 &quot;, &quot;host2 &quot;]</span><br><span class="line">#</span><br><span class="line"># 通过配置大多数节点 (主合格节点总数/2 + 1) 来防止 &quot;分裂大脑 &quot;:</span><br><span class="line">#</span><br><span class="line">#discovery.zen.minimum_master_nodes:</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Gateway -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在完全群集重新启动后阻止初始恢复, 直到开始 N 个节点:</span><br><span class="line">#</span><br><span class="line">#gateway.recover_after_nodes: 3</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Various -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 删除索引时需要显式名称:</span><br><span class="line">#</span><br><span class="line">#action.destructive_requires_name: true</span><br></pre></td></tr></table></figure>
-
-          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/search-engine/elasticsearch-1/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
         
       
     </div>
@@ -1449,6 +1459,20 @@
 
   <div class="popular-posts-header">相关文章</div>
   <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
+      
+    </li>
   
     <li class="popular-posts-item">
       
@@ -1467,21 +1491,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-1/" rel="bookmark">elasticsearch内部存储执行机制</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-config/" rel="bookmark">elasticsearch-config</a></div>
       
     </li>
   
@@ -1545,7 +1555,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/50/">50</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1594,7 +1604,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">243</span>
+                    <span class="site-state-item-count">247</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

@@ -161,7 +161,7 @@
 <meta property="og:description" content="jvm内存 一条线线程共享 线程不共线【也叫非线程共享】 线程共享： 堆【Heap】、 方法区【method area】非线程共享： 程序计数器、虚拟机栈、本地方法栈 方法区还包含 运行时常量池【类常量数据】">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-56f59944c8ae5b02.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-10-15T08:31:42.774Z">
+<meta property="og:updated_time" content="2019-03-31T15:22:49.311Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm内存结构">
 <meta name="twitter:description" content="jvm内存 一条线线程共享 线程不共线【也叫非线程共享】 线程共享： 堆【Heap】、 方法区【method area】非线程共享： 程序计数器、虚拟机栈、本地方法栈 方法区还包含 运行时常量池【类常量数据】">
@@ -352,7 +352,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">243</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">247</span></a>
 
   </li>
         
@@ -590,6 +590,8 @@
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">异常：</span><br><span class="line">jvm中定义两种异常 StackOverflow、outofmemory</span><br><span class="line">一种是栈溢出 一种是内存溢出</span><br><span class="line">官方定义栈溢出：线程请求深度大于虚拟机允许深度、抛出StackOverflow</span><br><span class="line">官方定义内存溢出：java内存扩展、当虚拟机申请不到足够的内存、抛出outofmemory</span><br></pre></td></tr></table></figure>
 <p><strong>jvm堆</strong><br>细分：新生代、老年代【分代收集算法】<br>再细分：Eden、From Survivor、To Survivor空间<br>再内存分配黑可以分出多个线程私有的分配缓冲区<br>存放内容：对象实例、细致的划分只是为了更好的回收<br>堆是回收主要区域</p>
+<p>edgn区域 首次存放数据 内存不够会触发 MinorGC </p>
+<p>针对老年代 还有MajorGC、Full GC、其中 FUll GC较慢 量级：10倍</p>
 <p><strong>jvm方法区</strong><br>1、线程共享<br>2、存储已被虚拟机加载、类信息、常量、静态变量、即时编译器编译后的代码数据</p>
 <p><strong>jvm运行时常量池</strong><br>1、方法区一部分<br>2、存放编译期生成各种字面量和符号引用、</p>
 <p><strong>直接内存</strong><br>1、不属于jvm运行时数据取一部分 再五大板块外、<br>2、jdk1.4中 引入NIO、引用了一种基于通道（channel）与缓冲区（Buffer）的IO方式、它可以使用Native函数库直接分配对外内存、然后通过一个存储再java堆中的DirectByteBuffer对象来作为这一块内存引用、来进行操作、避免了java堆和native堆中来回复制数据<br>3、该内存受限于 操作系统和物理内存</p>
@@ -610,6 +612,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-classloader/" rel="bookmark">类加载过程</a></div>
       
     </li>
   
@@ -655,8 +664,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/essay/essay-13/" rel="next" title="阿里面霸总结的面试题">
-                <i class="fa fa-chevron-left"></i> 阿里面霸总结的面试题
+              <a href="/2018/03/24/essay/essay-10/" rel="next" title="架构师之路">
+                <i class="fa fa-chevron-left"></i> 架构师之路
               </a>
             
           </div>
@@ -665,8 +674,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="prev" title="jvm内存回收">
-                jvm内存回收 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/load-balance/dns/" rel="prev" title="DNS负载均衡">
+                DNS负载均衡 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -737,7 +746,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">243</span>
+                    <span class="site-state-item-count">247</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

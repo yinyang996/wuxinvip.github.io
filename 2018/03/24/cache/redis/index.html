@@ -160,7 +160,7 @@
 <meta property="og:site_name" content="上善若水の技术簿">
 <meta property="og:description" content="1、使用ANSIC编写 （基于BSD协议）2、开源、内存中数据结构存储3、可以用作数据库、缓存、消息中间件 支持多种数据结构String、hash、list、set、sorted sets、bitmaps、geospatial字符串、散列、列表、集合、有序集合、bitmaps、地理空间 redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-15T08:24:19.548Z">
+<meta property="og:updated_time" content="2019-03-31T15:50:09.404Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis">
 <meta name="twitter:description" content="1、使用ANSIC编写 （基于BSD协议）2、开源、内存中数据结构存储3、可以用作数据库、缓存、消息中间件 支持多种数据结构String、hash、list、set、sorted sets、bitmaps、geospatial字符串、散列、列表、集合、有序集合、bitmaps、地理空间 redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations)">
@@ -350,7 +350,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">243</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">247</span></a>
 
   </li>
         
@@ -593,6 +593,7 @@
 <p>redis命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">创建当前备份 save</span><br><span class="line">恢复数据：config get dit &quot;dir&quot; &quot;usr/local/redis/bin&quot;</span><br><span class="line">将dump移动到安装目录 并启动服务即可</span><br><span class="line">创建备份：</span><br><span class="line">Bg save</span><br><span class="line">background saving started 该命令后台执行</span><br><span class="line">恢复备份</span><br><span class="line">redis-cli --rdb /tmp/dump.rdb</span><br><span class="line">检查主从数据流：从模式 redis-cli --slave</span><br><span class="line">从配置修改: slave-read-only yes</span><br><span class="line">从数据库: slave of host:port</span><br><span class="line">清空: flushall</span><br><span class="line">远程连接: redis-cli -h host -p port -a password</span><br></pre></td></tr></table></figure></p>
 <p>redis发布订阅<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">声明客户端 subscribe  redischat</span><br><span class="line">推动消息 publish redischat &quot;this is a exp&quot;</span><br><span class="line">创建集合 sadd a redis</span><br><span class="line">set sadd a memcached</span><br><span class="line">smembers a</span><br><span class="line">创建列表结合list</span><br><span class="line">lpush a redis</span><br><span class="line">lpush a mysql</span><br><span class="line">lrange a 0/0</span><br></pre></td></tr></table></figure></p>
 <p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum install redis -y</span><br><span class="line"></span><br><span class="line">cat /etc/redis.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">默认配置可能要修改的数据</span><br><span class="line">logfile /var/log/redis/redis.log</span><br><span class="line">slave-serve-stale-data yes</span><br><span class="line">slave-read-only yes</span><br><span class="line">#requirepass redisPassword</span><br><span class="line"></span><br><span class="line"># The filename where to dump the DB</span><br><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure></p>
+<h2 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h2><p>1、简单动态字符串（SDS）防止缓冲区溢出、减少字符串拼接带来的内存重新分配【非预分配内存策略】<br>2、链表（双向）–list<br>3、字典<br>4、跳跃表（每个节点维持多个指向其他节点的指针 zskiplist、zskipnode）–sorted set<br>5、整数集合<br>6、压缩列表–list hash<br>7、对象</p>
 
       
     </div>
@@ -606,14 +607,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
       
     </li>
   
@@ -659,8 +660,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/mysql/mysql-version-selected/" rel="next" title="MYSQL版本选择">
-                <i class="fa fa-chevron-left"></i> MYSQL版本选择
+              <a href="/2018/03/24/encryption/password-develop/" rel="next" title="密码加密方式">
+                <i class="fa fa-chevron-left"></i> 密码加密方式
               </a>
             
           </div>
@@ -669,8 +670,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/mysql/mysql-max-connects/" rel="prev" title="mysql最大连接数">
-                mysql最大连接数 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/design-pattern/structure/" rel="prev" title="设计模式-结构型">
+                设计模式-结构型 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -721,8 +722,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -741,7 +751,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">243</span>
+                    <span class="site-state-item-count">247</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1046,6 +1056,22 @@
       </section>
 
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存结构"><span class="nav-number">1.</span> <span class="nav-text">内存结构</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

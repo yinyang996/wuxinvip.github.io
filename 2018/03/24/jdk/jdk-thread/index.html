@@ -152,18 +152,18 @@
 
 
 
-  <meta name="description" content="线程四种单线程 固定数目线程 缓存线程 定时线程 关于线程:  1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了 2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能 3.线程池数量 差不多是 CPU核数 * 2 4.阿里编码规范已不推荐使用ExcutorService方法使用线程">
+  <meta name="description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep()monitor 持有锁Object.wait()monitor 释放锁 Threa">
 <meta name="keywords" content="jdk">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程">
 <meta property="og:url" content="https://www.wuxinvip.com/2018/03/24/jdk/jdk-thread/index.html">
 <meta property="og:site_name" content="上善若水の技术簿">
-<meta property="og:description" content="线程四种单线程 固定数目线程 缓存线程 定时线程 关于线程:  1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了 2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能 3.线程池数量 差不多是 CPU核数 * 2 4.阿里编码规范已不推荐使用ExcutorService方法使用线程">
+<meta property="og:description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep()monitor 持有锁Object.wait()monitor 释放锁 Threa">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-15T08:31:42.951Z">
+<meta property="og:updated_time" content="2019-03-31T15:55:43.825Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程">
-<meta name="twitter:description" content="线程四种单线程 固定数目线程 缓存线程 定时线程 关于线程:  1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了 2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能 3.线程池数量 差不多是 CPU核数 * 2 4.阿里编码规范已不推荐使用ExcutorService方法使用线程">
+<meta name="twitter:description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep()monitor 持有锁Object.wait()monitor 释放锁 Threa">
 
 
 
@@ -350,7 +350,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">243</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">247</span></a>
 
   </li>
         
@@ -582,7 +582,21 @@
       
 
       
-        <p>线程四种<br>单线程 固定数目线程 缓存线程 定时线程</p>
+        <p>实现线程方式 继承Thread类 和 实现 Runnable接口</p>
+<p>调用start执行线程、调用run 会在主线程执行</p>
+<p>线程五个状态：新建、就绪、运行、阻塞（等待）、结束</p>
+<p>等待分为：有限期等待和无限期等待<br>    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒</p>
+<p>Thread.sleep()<br>monitor 持有锁<br>Object.wait()<br>monitor 释放锁</p>
+<p>Thread.interrupt()</p>
+<p>Thread.isInterrupt()</p>
+<p>join 等待子线程执行完毕</p>
+<p>volatile关键字：轻量级线程并发行变量可见、数据在CPU RAM中直接读取、并维护更新</p>
+<p>yield 让出线程给 同等级线程执行时间</p>
+<p><strong>  线程四种 </strong></p>
+<p>1、单线程 </p>
+<p>2、固定数目线程 </p>
+<p>3、缓存线程 </p>
+<p>4、定时线程</p>
 <p>关于线程:</p>
 <ul>
 <li>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了</li>
@@ -593,7 +607,10 @@
 <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样</span><br><span class="line">的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。</span><br><span class="line">说明：Executors 返回的线程池对象的弊端如下：</span><br><span class="line">1）FixedThreadPool 和 SingleThreadPool:</span><br><span class="line">允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。</span><br><span class="line">2）CachedThreadPool 和 ScheduledThreadPool:</span><br><span class="line">允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</span><br></pre></td></tr></table></figure>
 <p>代码地址:<a href="https://gitee.com/none_heart/xingchen/tree/master/excutor" target="_blank" rel="noopener">https://gitee.com/none_heart/xingchen/tree/master/excutor</a></p>
+<pre><code>void execute（）
 
+Future sumbit()
+</code></pre>
       
     </div>
 
@@ -620,13 +637,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
       
     </li>
@@ -634,7 +644,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-translation/" rel="bookmark">事务</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-proxy/" rel="bookmark">动态代理</a></div>
       
     </li>
   
@@ -673,8 +690,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/jdk/jdk-translation/" rel="next" title="事务">
-                <i class="fa fa-chevron-left"></i> 事务
+              <a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="next" title="sleuth灵异事件">
+                <i class="fa fa-chevron-left"></i> sleuth灵异事件
               </a>
             
           </div>
@@ -683,8 +700,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/jdk/jdk-map/" rel="prev" title="集合Map">
-                集合Map <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/spring-cloud-exception/feign-exception-1/" rel="prev" title="cloud feign灵异事件">
+                cloud feign灵异事件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -755,7 +772,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">243</span>
+                    <span class="site-state-item-count">247</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
