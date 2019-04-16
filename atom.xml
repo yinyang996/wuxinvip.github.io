@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2019-01-11T16:31:16.975Z</updated>
+  <updated>2019-04-16T05:34:56.314Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>二叉树的深度遍历与广度遍历</title>
+    <link href="https://www.wuxinvip.com/2019/03/16/jdk/jdk-tree-2/"/>
+    <id>https://www.wuxinvip.com/2019/03/16/jdk/jdk-tree-2/</id>
+    <published>2019-03-15T16:00:00.000Z</published>
+    <updated>2019-04-16T05:34:56.314Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）"><a href="#二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）" class="headerlink" title="二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）"></a>二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）</h4><p><strong>  深度优先遍历：从根节点出发，沿着左子树方向进行纵向遍历，直到找到叶子节点为止。然后回溯到前一个节点，进行右子树节点的遍历，直到遍历完所有可达节点为止。 </strong></p><p><strong>  广度优先遍历：从根节点出发，在横向遍历二叉树层段节点的基础上纵向遍历二叉树的层次。 </strong><br><a id="more"></a></p><p><img src="/img/jdk/jdk-tree-2.png" alt="jdktree"></p><pre><code>DFS:A-B-D-E-C-F-GBFS:A-B-C-D-E-F-GDFS实现：数据结构：栈父节点入栈，父节点出栈，先右子节点入栈，后左子节点入栈。递归遍历全部节点即可BFS实现：数据结构：队列父节点入队，父节点出队列，先左子节点入队，后右子节点入队。递归遍历全部节点即可</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line">#include &lt;Stack&gt;</span><br><span class="line">#include &lt;Queue&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"> </span><br><span class="line">typedef struct Node &#123;</span><br><span class="line">    char data;</span><br><span class="line">    struct Node *lchild;</span><br><span class="line">    struct Node *rchild;</span><br><span class="line">&#125; *Tree;</span><br><span class="line">//Tree 是一个node指针的类型定义</span><br><span class="line"> </span><br><span class="line">int index = 0;  //全局索引变量</span><br><span class="line">//二叉树构造器,按先序遍历顺序构造二叉树</span><br><span class="line">//无左子树或右子树用&apos;#&apos;表示</span><br><span class="line">void treeNodeConstructor(Tree &amp;root, char data[])&#123;</span><br><span class="line">    char e = data[index++];</span><br><span class="line">    if(e == &apos;#&apos;)&#123;</span><br><span class="line">        root = NULL;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        root = (Node *)malloc(sizeof(Node));</span><br><span class="line">        root-&gt;data = e;</span><br><span class="line">        treeNodeConstructor(root-&gt;lchild, data);  //递归构建左子树</span><br><span class="line">        treeNodeConstructor(root-&gt;rchild, data);  //递归构建右子树</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//深度优先遍历</span><br><span class="line">void depthFirstSearch(Tree root)&#123;</span><br><span class="line">    stack&lt;Node *&gt; nodeStack;  //使用C++的STL标准模板库</span><br><span class="line">    nodeStack.push(root);</span><br><span class="line">    Node *node;</span><br><span class="line">    while(!nodeStack.empty())&#123;</span><br><span class="line">    node = nodeStack.top();</span><br><span class="line">cout&lt;&lt;node-&gt;data;//遍历根结点</span><br><span class="line">        nodeStack.pop();</span><br><span class="line">        if(node-&gt;rchild)&#123;</span><br><span class="line">            nodeStack.push(node-&gt;rchild);  //先将右子树压栈</span><br><span class="line">        &#125;</span><br><span class="line">        if(node-&gt;lchild)&#123;</span><br><span class="line">            nodeStack.push(node-&gt;lchild);  //再将左子树压栈</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//广度优先遍历</span><br><span class="line">void breadthFirstSearch(Tree root)&#123;</span><br><span class="line">    queue&lt;Node *&gt; nodeQueue;  //使用C++的STL标准模板库</span><br><span class="line">    nodeQueue.push(root);</span><br><span class="line">    Node *node;</span><br><span class="line">    while(!nodeQueue.empty())&#123;</span><br><span class="line">        node = nodeQueue.front();</span><br><span class="line">        nodeQueue.pop();</span><br><span class="line">        cout&lt;&lt;node-&gt;data;//遍历根结点</span><br><span class="line">        if(node-&gt;lchild)&#123;</span><br><span class="line">            nodeQueue.push(node-&gt;lchild);  //先将左子树入队</span><br><span class="line">        &#125;</span><br><span class="line">        if(node-&gt;rchild)&#123;</span><br><span class="line">            nodeQueue.push(node-&gt;rchild);  //再将右子树入队</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main() &#123;</span><br><span class="line">    //上图所示的二叉树先序遍历序列,其中用&apos;#&apos;表示结点无左子树或无右子树</span><br><span class="line">    char data[15] = &#123;&apos;A&apos;, &apos;B&apos;, &apos;D&apos;, &apos;#&apos;, &apos;#&apos;, &apos;E&apos;, &apos;#&apos;, &apos;#&apos;, &apos;C&apos;, &apos;F&apos;,&apos;#&apos;, &apos;#&apos;, &apos;G&apos;, &apos;#&apos;, &apos;#&apos;&#125;;</span><br><span class="line">    Tree tree;</span><br><span class="line">    treeNodeConstructor(tree, data);</span><br><span class="line">    printf(&quot;深度优先遍历二叉树结果: &quot;);</span><br><span class="line">    depthFirstSearch(tree);</span><br><span class="line">    printf(&quot;\n\n广度优先遍历二叉树结果: &quot;);</span><br><span class="line">    breadthFirstSearch(tree);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><a href="https://blog.csdn.net/mingwanganyu/article/details/72033122#commentBox" target="_blank" rel="noopener">原文地址</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）&quot;&gt;&lt;a href=&quot;#二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）&quot; class=&quot;headerlink&quot; title=&quot;二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）&quot;&gt;&lt;/a&gt;二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;  深度优先遍历：从根节点出发，沿着左子树方向进行纵向遍历，直到找到叶子节点为止。然后回溯到前一个节点，进行右子树节点的遍历，直到遍历完所有可达节点为止。 &lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;  广度优先遍历：从根节点出发，在横向遍历二叉树层段节点的基础上纵向遍历二叉树的层次。 &lt;/strong&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="jdk" scheme="https://www.wuxinvip.com/categories/java/jdk/"/>
+    
+    
+      <category term="jdk" scheme="https://www.wuxinvip.com/tags/jdk/"/>
+    
+  </entry>
   
   <entry>
     <title>遐想--定制应用</title>
@@ -524,39 +549,6 @@
   </entry>
   
   <entry>
-    <title>rabbitmq简介</title>
-    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
-    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
-    <published>2018-11-23T00:00:00.000Z</published>
-    <updated>2018-12-05T01:55:13.806Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;rocketmq、rabbitmq、kafka&lt;/p&gt;
-&lt;ul&gt;
-&lt;l
-      
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="rabbitmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rabbitmq/"/>
-    
-    
-      <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
-    
-  </entry>
-  
-  <entry>
     <title>kafka简介</title>
     <link href="https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/"/>
     <id>https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/</id>
@@ -592,33 +584,35 @@
   </entry>
   
   <entry>
-    <title>linux 删除命令 rm 改为 mv</title>
-    <link href="https://www.wuxinvip.com/2018/11/15/shell/shell-5/"/>
-    <id>https://www.wuxinvip.com/2018/11/15/shell/shell-5/</id>
-    <published>2018-11-15T00:00:00.000Z</published>
-    <updated>2018-11-22T03:14:15.079Z</updated>
+    <title>rabbitmq简介</title>
+    <link href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/"/>
+    <id>https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/</id>
+    <published>2018-11-23T00:00:00.000Z</published>
+    <updated>2018-12-05T01:55:13.806Z</updated>
     
-    <content type="html"><![CDATA[<ul><li><p>非常实用</p></li><li><p>rm </p></li><li><p>Linux下修改rm命令为mv，使rm命令原有功能失效</p></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.trash   #在家目录下创建一个.trash文件夹</span><br><span class="line">alias rm=del        #使用别名del代替rm   </span><br><span class="line">del()               #函数del，作用：将rm命令修改为mv命令</span><br><span class="line">&#123;  </span><br><span class="line">  mv $@ ~/.trash/  </span><br><span class="line">&#125;  </span><br><span class="line">cleardel()          #函数cleardel，作用：清空回收站.trash文件夹，y或Y表示确认，n表示取消</span><br><span class="line">&#123;  </span><br><span class="line">    read -p &quot;clear sure?[Input &apos;y&apos; or &apos;Y&apos; to confirm. &amp;&amp; Input &apos;n&apos; to cancel.]&quot; confirm   </span><br><span class="line">    [ $confirm == &apos;y&apos; ] || [ $confirm == &apos;Y&apos; ]  &amp;&amp; /bin/rm -rf ~/.trash/*   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><a id="more"></a><p>然后 加载配置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure><ul><li>清空回收站<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cleardel</span><br></pre></td></tr></table></figure></li></ul><p>注：rm命令已经删除，所以要彻底删除文件的话，可以先del删除文件到垃圾箱，然后进入~/.trash文件夹使用cleardel命令来彻底清除垃圾箱里的所有文件。</p>]]></content>
+    <content type="html"><![CDATA[<a id="more"></a><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
     
     <summary type="html">
     
-      &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;非常实用&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;rm &lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Linux下修改rm命令为mv，使rm命令原有功能失效&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;vim ~/.bashrc&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mkdir -p ~/.trash   #在家目录下创建一个.trash文件夹&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alias rm=del        #使用别名del代替rm   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;del()               #函数del，作用：将rm命令修改为mv命令&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  mv $@ ~/.trash/  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cleardel()          #函数cleardel，作用：清空回收站.trash文件夹，y或Y表示确认，n表示取消&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    read -p &amp;quot;clear sure?[Input &amp;apos;y&amp;apos; or &amp;apos;Y&amp;apos; to confirm. &amp;amp;&amp;amp; Input &amp;apos;n&amp;apos; to cancel.]&amp;quot; confirm   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [ $confirm == &amp;apos;y&amp;apos; ] || [ $confirm == &amp;apos;Y&amp;apos; ]  &amp;amp;&amp;amp; /bin/rm -rf ~/.trash/*   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;rocketmq、rabbitmq、kafka&lt;/p&gt;
+&lt;ul&gt;
+&lt;l
+      
     
     </summary>
     
-      <category term="shell" scheme="https://www.wuxinvip.com/categories/shell/"/>
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="rabbitmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rabbitmq/"/>
     
     
-      <category term="shell" scheme="https://www.wuxinvip.com/tags/shell/"/>
+      <category term="RabbitMQ" scheme="https://www.wuxinvip.com/tags/RabbitMQ/"/>
     
   </entry>
   
