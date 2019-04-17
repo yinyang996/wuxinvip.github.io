@@ -152,18 +152,18 @@
 
 
 
-  <meta name="description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep()monitor 持有锁Object.wait()monitor 释放锁 Threa">
+  <meta name="description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep() monitor 持有锁 Object.wait() monitor 释放锁 Th">
 <meta name="keywords" content="jdk">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程">
 <meta property="og:url" content="https://www.wuxinvip.com/2018/03/24/jdk/jdk-thread/index.html">
 <meta property="og:site_name" content="上善若水の技术簿">
-<meta property="og:description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep()monitor 持有锁Object.wait()monitor 释放锁 Threa">
+<meta property="og:description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep() monitor 持有锁 Object.wait() monitor 释放锁 Th">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-31T15:55:43.825Z">
+<meta property="og:updated_time" content="2019-04-17T03:07:50.726Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程">
-<meta name="twitter:description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep()monitor 持有锁Object.wait()monitor 释放锁 Threa">
+<meta name="twitter:description" content="实现线程方式 继承Thread类 和 实现 Runnable接口 调用start执行线程、调用run 会在主线程执行 线程五个状态：新建、就绪、运行、阻塞（等待）、结束 等待分为：有限期等待和无限期等待    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒 Thread.sleep() monitor 持有锁 Object.wait() monitor 释放锁 Th">
 
 
 
@@ -586,17 +586,23 @@
 <p>调用start执行线程、调用run 会在主线程执行</p>
 <p>线程五个状态：新建、就绪、运行、阻塞（等待）、结束</p>
 <p>等待分为：有限期等待和无限期等待<br>    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒</p>
-<p>Thread.sleep()<br>monitor 持有锁<br>Object.wait()<br>monitor 释放锁</p>
-<p>Thread.interrupt()</p>
+<p>Thread.sleep()</p>
+<pre><code>monitor 持有锁
+</code></pre><p>Object.wait()</p>
+<pre><code>monitor 释放锁
+</code></pre><p>Thread.interrupt()</p>
 <p>Thread.isInterrupt()</p>
 <p>join 等待子线程执行完毕</p>
-<p>volatile关键字：轻量级线程并发行变量可见、数据在CPU RAM中直接读取、并维护更新</p>
+<pre><code>A线程中等待B线程执行完毕 使用方式：b.join()
+在线程池中join方法不适用
+join()似乎要在thread.start()后才能有效，而线程池则直接用threadPool.execute(runnable or thread),用join()无效。
+</code></pre><p>volatile关键字：轻量级线程并发行变量可见、数据在CPU RAM中直接读取、并维护更新</p>
 <p>yield 让出线程给 同等级线程执行时间</p>
 <p><strong>  线程四种 </strong></p>
-<p>1、单线程 </p>
-<p>2、固定数目线程 </p>
-<p>3、缓存线程 </p>
-<p>4、定时线程</p>
+<p>1、单线程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建一个单线程的线程池.</span></span><br><span class="line"><span class="comment"> * 这个线程池只有一个线程在工程,也就是相当于单线程串行执行所有任务.</span></span><br><span class="line"><span class="comment"> * 如果这个唯一的线程因为异常结束,那么会有一个新的线程来替代它.</span></span><br><span class="line"><span class="comment"> * 此线程池保证所有任务的执行顺序都会按照提交的顺序执行.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>2、固定数目线程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建固定大小的线程池.</span></span><br><span class="line"><span class="comment"> * 每次提交一个任务就会创建一个线程,直到线程达到线程池的最大大小.</span></span><br><span class="line"><span class="comment"> * 线程池的大小一旦达到最大值就会保持不变,如果某个线程因为异常而技术,</span></span><br><span class="line"><span class="comment"> * 那么该线程池会补充一个新的线程.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">            <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">            <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3、缓存线程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *创建一个可缓存的线程池.</span></span><br><span class="line"><span class="comment"> *如果线程池的大小超过了处理任务所需要的线程,</span></span><br><span class="line"><span class="comment"> *那么就会回收部分空闲(60秒不执行任务)的线程,</span></span><br><span class="line"><span class="comment"> *当任务数增加时,此线程池又可以智能的添加新线程来处理任务.</span></span><br><span class="line"><span class="comment"> *此线程池不会对线程池大小做限制,</span></span><br><span class="line"><span class="comment"> *线程池大小完全依赖与操作系统(或者说JVM)能够创建的最大线程数.</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line">            <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line">            <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4、定时线程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *创建一个大小无限的线程池.此线程池支持定时以及周期性执行任务的需求.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE, <span class="number">0</span>, NANOSECONDS, <span class="keyword">new</span> DelayedWorkQueue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>关于线程:</p>
 <ul>
 <li>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了</li>
@@ -610,7 +616,7 @@
 <pre><code>void execute（）
 
 Future sumbit()
-</code></pre>
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 线程池管理的工具类，封装类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ThinkPad</span></span><br><span class="line"><span class="comment"> * 线程池的管理 ，通过java 中的api实现管理</span></span><br><span class="line"><span class="comment"> *   采用conncurrent框架： 非常成熟的并发框架 ，特别在匿名线程管理非常优秀的</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadManager</span> </span>&#123;</span><br><span class="line">    <span class="comment">//通过ThreadPoolExecutor的代理类来对线程池的管理</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadPollProxy mThreadPollProxy;</span><br><span class="line">    <span class="comment">//单列对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ThreadPollProxy <span class="title">getThreadPollProxy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (ThreadPollProxy.class) &#123;</span><br><span class="line">            <span class="keyword">if</span>(mThreadPollProxy==<span class="keyword">null</span>)&#123;</span><br><span class="line">                mThreadPollProxy=<span class="keyword">new</span> ThreadPollProxy(<span class="number">3</span>,<span class="number">6</span>,<span class="number">1000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mThreadPollProxy;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通过ThreadPoolExecutor的代理类来对线程池的管理</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPollProxy</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> ThreadPoolExecutor poolExecutor;<span class="comment">//线程池执行者 ，java内部通过该api实现对线程池管理</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> corePoolSize;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">long</span> keepAliveTime;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadPollProxy</span><span class="params">(<span class="keyword">int</span> corePoolSize,<span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.corePoolSize=corePoolSize;</span><br><span class="line">            <span class="keyword">this</span>.maximumPoolSize=maximumPoolSize;</span><br><span class="line">            <span class="keyword">this</span>.keepAliveTime=keepAliveTime;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//对外提供一个执行任务的方法</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable r)</span></span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(poolExecutor==<span class="keyword">null</span>||poolExecutor.isShutdown())&#123;</span><br><span class="line">                poolExecutor=<span class="keyword">new</span> ThreadPoolExecutor(</span><br><span class="line">                        <span class="comment">//核心线程数量</span></span><br><span class="line">                        corePoolSize,</span><br><span class="line">                        <span class="comment">//最大线程数量</span></span><br><span class="line">                        maximumPoolSize,</span><br><span class="line">                        <span class="comment">//当线程空闲时，保持活跃的时间</span></span><br><span class="line">                        keepAliveTime,</span><br><span class="line">                        <span class="comment">//时间单元 ，毫秒级</span></span><br><span class="line">                        TimeUnit.MILLISECONDS,</span><br><span class="line">                        <span class="comment">//线程任务队列</span></span><br><span class="line">                        <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(),</span><br><span class="line">                        <span class="comment">//创建线程的工厂</span></span><br><span class="line">                        Executors.defaultThreadFactory());</span><br><span class="line">            &#125;</span><br><span class="line">            poolExecutor.execute(r);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -644,14 +650,14 @@ Future sumbit()
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-proxy/" rel="bookmark">动态代理</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-proxy/" rel="bookmark">动态代理</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
       
     </li>
   
@@ -690,8 +696,8 @@ Future sumbit()
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/jdk/jdk-translation/" rel="next" title="事务">
-                <i class="fa fa-chevron-left"></i> 事务
+              <a href="/2018/03/24/spring-cloud/feign-1/" rel="next" title="Feign服务调用">
+                <i class="fa fa-chevron-left"></i> Feign服务调用
               </a>
             
           </div>
@@ -700,8 +706,8 @@ Future sumbit()
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/jdk/jdk-set/" rel="prev" title="集合Set">
-                集合Set <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/spring-cloud/eureka-1/" rel="prev" title="EUREKA服务治理">
+                EUREKA服务治理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
