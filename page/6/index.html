@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">250</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">251</span></a>
 
   </li>
         
@@ -451,6 +451,236 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/07/10/essay/hash/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/10/essay/hash/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/6/index.html">Hash环、一致性hash</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-10 08:00:00" itemprop="dateCreated datePublished" datetime="2018-07-10T08:00:00+08:00">2018-07-10</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="/img/essay/img/hash环.png" alt="图片">hash环、一致性hash</p>
+<p><strong>Hash环</strong></p>
+<p>上面说的Hash函数，只经过了1次hash，即把key hash到对应的机器编号。<br>而Hash环有2次Hash： </p>
+<ul>
+<li>（1）把所有机器编号hash到这个环上 </li>
+<li>（2）把key也hash到这个环上。然后在这个环上进行匹配，看这个key和哪台机器匹配。</li>
+</ul>
+<p>具体来讲，如下：</p>
+<pre><code>假定有这样一个Hash函数，其值空间为（0到2的32次方-1) ，也就是说，其hash值是个32位无整型数字 ，这些数字组成一个环。
+然后，先对机器进行hash(比如根据机器的ip)，算出每台机器在这个环上的位置； 再对key进行hash，算出该key在环上的位置，
+然后从这个位置往前走，遇到的第一台机器就是该key对应的机器，就把该(key, value) 存储到该机器上。
+
+首先计算出每台Cache服务器在环上的位置（图中的大圆圈）；然后每来一个(key, value)，计算出在环上的位置（图中的小圆圈），
+然后顺时针走，遇到的第1个机器，就是其要存储的机器。
+
+这里的关键点是：当你增加/减少机器时，其他机器在环上的位置并不会发生改变。这样只有增加的那台机器、
+或者减少的那台机器附近的数据会失效，其他机器上的数据都还是有效的。
+</code></pre>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/10/essay/hash/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/01/12/essay/essay-20/" rel="bookmark">遐想--定制应用</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -805,14 +1035,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/jenkins/" rel="bookmark">jenkins部署</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/jenkins/" rel="bookmark">jenkins部署</a></div>
       
     </li>
   
@@ -1019,6 +1249,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/07/01/github/tengine/" rel="bookmark">Tengine</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/07/01/github/cc-iptable/" rel="bookmark">基于Strom的日志实时流量分析主动防御(CCFirewall)系统</a></div>
       
     </li>
@@ -1026,7 +1263,219 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/07/03/load-balance/nginx-plus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/03/load-balance/nginx-plus/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/6/index.html">nginx-plus</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-03 08:00:00" itemprop="dateCreated datePublished" datetime="2018-07-03T08:00:00+08:00">2018-07-03</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/load-balance/" itemprop="url" rel="index"><span itemprop="name">load-balance</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="好用软件推荐"><a href="#好用软件推荐" class="headerlink" title="好用软件推荐"></a>好用软件推荐</h2><h2 id="简化部署、多云环境更容易发现服务的故障"><a href="#简化部署、多云环境更容易发现服务的故障" class="headerlink" title="简化部署、多云环境更容易发现服务的故障"></a>简化部署、多云环境更容易发现服务的故障</h2><h2 id="结合nginx-controller非常好用软件"><a href="#结合nginx-controller非常好用软件" class="headerlink" title="结合nginx-controller非常好用软件"></a>结合nginx-controller非常好用软件</h2><p><a href="https://www.nginx.com/products/nginx/" target="_blank" rel="noopener">官方网站-nginx-plus</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
+<li>NGINX Plus是一个基于开源NGINX构建的软件负载均衡器，Web服务器和内容缓存。</li>
+<li>NGINX Plus在开源产品的基础上提供独家的生产就绪功能，包括会话持久性，通过API配置和主动健康检查。</li>
+<li>使用NGINX Plus代替硬件负载均衡器，获得创新的自由，而不受基础设施的限制。</li>
+</ul>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/03/load-balance/nginx-plus/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/07/01/github/tengine/" rel="bookmark">Tengine</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/01/github/cc-iptable/" rel="bookmark">基于Strom的日志实时流量分析主动防御(CCFirewall)系统</a></div>
       
     </li>
   
@@ -1263,225 +1712,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/07/03/load-balance/nginx-plus/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/07/03/load-balance/nginx-plus/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/6/index.html">nginx-plus</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-03 08:00:00" itemprop="dateCreated datePublished" datetime="2018-07-03T08:00:00+08:00">2018-07-03</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/load-balance/" itemprop="url" rel="index"><span itemprop="name">load-balance</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="好用软件推荐"><a href="#好用软件推荐" class="headerlink" title="好用软件推荐"></a>好用软件推荐</h2><h2 id="简化部署、多云环境更容易发现服务的故障"><a href="#简化部署、多云环境更容易发现服务的故障" class="headerlink" title="简化部署、多云环境更容易发现服务的故障"></a>简化部署、多云环境更容易发现服务的故障</h2><h2 id="结合nginx-controller非常好用软件"><a href="#结合nginx-controller非常好用软件" class="headerlink" title="结合nginx-controller非常好用软件"></a>结合nginx-controller非常好用软件</h2><p><a href="https://www.nginx.com/products/nginx/" target="_blank" rel="noopener">官方网站-nginx-plus</a></p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
-<li>NGINX Plus是一个基于开源NGINX构建的软件负载均衡器，Web服务器和内容缓存。</li>
-<li>NGINX Plus在开源产品的基础上提供独家的生产就绪功能，包括会话持久性，通过API配置和主动健康检查。</li>
-<li>使用NGINX Plus代替硬件负载均衡器，获得创新的自由，而不受基础设施的限制。</li>
-</ul>
-<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/03/load-balance/nginx-plus/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/01/github/cc-iptable/" rel="bookmark">基于Strom的日志实时流量分析主动防御(CCFirewall)系统</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/01/github/tengine/" rel="bookmark">Tengine</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
       
     </li>
   
@@ -1898,201 +2128,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/07/02/encryption/password-java-pbkdf2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/07/02/encryption/password-java-pbkdf2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/6/index.html">慢哈希加密</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-02 08:00:00" itemprop="dateCreated datePublished" datetime="2018-07-02T08:00:00+08:00">2018-07-02</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/password/" itemprop="url" rel="index"><span itemprop="name">password</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>PBKDF2算法【三种】介绍：</p>
-<p><a href="https://en.wikipedia.org/wiki/PBKDF2" target="_blank" rel="noopener">wiki</a></p>
-<p><a href="http://blog.jobbole.com/61872/#java" target="_blank" rel="noopener">加盐密码哈希：如何正确使用</a></p>
-<p><a href="http://blog.csdn.net/u014375869/article/details/46773995" target="_blank" rel="noopener">PBKDF2加密的实现</a></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/02/encryption/password-java-pbkdf2/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/13/encryption/password-cracked/" rel="bookmark">破解密码常见的几种方式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/encryption/password-develop/" rel="bookmark">密码加密方式</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2164,7 +2199,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">250</span>
+                    <span class="site-state-item-count">251</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2451,7 +2486,7 @@
                 </div>
                <img src="/images/download/android-download.png" />
                <!--增加以前旧版本连接博文-->
-               <a href="https://www.wuxinvip.com/2018/12/04/version/version-1/" text-decoration:none; >Previous Releases</a>
+               <a href="https://www.wuxinvip.com/2018/12/04/version/version-1/" >Previous Releases</a>
               </div>
            
 
