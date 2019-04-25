@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">251</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">252</span></a>
 
   </li>
         
@@ -451,1088 +451,6 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/search-engine/elasticsearch-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">elasticsearch-config</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/search-engine/" itemprop="url" rel="index"><span itemprop="name">search-engine</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># ---------------------------------- Cluster -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 为群集使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#cluster.name: my-application</span><br><span class="line">#</span><br><span class="line"># ------------------------------------ Node ------------------------------------</span><br><span class="line">#</span><br><span class="line">#为节点使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#node.name: node-1</span><br><span class="line">#</span><br><span class="line">#  向节点添加自定义属性:</span><br><span class="line">#</span><br><span class="line">#node.attr.rack: r1</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Paths ------------------------------------</span><br><span class="line">#</span><br><span class="line"># 路径到目录存储数据的位置 (用逗号分隔多个位置):</span><br><span class="line">#</span><br><span class="line">#path.data: /path/to/data</span><br><span class="line">#</span><br><span class="line"># 日志文件的路径:</span><br><span class="line">#</span><br><span class="line">#path.logs: /path/to/logs</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Memory -----------------------------------</span><br><span class="line">#</span><br><span class="line">#  启动时锁定内存:</span><br><span class="line">#</span><br><span class="line">#bootstrap.memory_lock: true</span><br><span class="line">#</span><br><span class="line">#确保堆大小设置为大约一半的可用内存在系统上, 并且允许进程的所有者使用此限制。</span><br><span class="line">#</span><br><span class="line"># 当系统交换内存时, Elasticsearch 执行得很差。</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Network -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 将绑定地址设置为特定 IP (IPv4 或 IPv6):</span><br><span class="line">#</span><br><span class="line">#network.host: 192.168.0.1</span><br><span class="line">#</span><br><span class="line"># 为 HTTP 设置自定义端口:</span><br><span class="line">#</span><br><span class="line">#http.port: 9200</span><br><span class="line">#</span><br><span class="line"># 有关详细信息, 请参阅网络模块文档。</span><br><span class="line">#</span><br><span class="line"># --------------------------------- Discovery ----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在启动新节点时传递初始主机列表以执行发现:</span><br><span class="line"># 主机的默认列表为 [ &quot;127.0.0.1 &quot;, [:: 1] &quot;]</span><br><span class="line">#</span><br><span class="line">#discovery. zen.ping.unicast.hosts: [ &quot;host1 &quot;, &quot;host2 &quot;]</span><br><span class="line">#</span><br><span class="line"># 通过配置大多数节点 (主合格节点总数/2 + 1) 来防止 &quot;分裂大脑 &quot;:</span><br><span class="line">#</span><br><span class="line">#discovery.zen.minimum_master_nodes:</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Gateway -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在完全群集重新启动后阻止初始恢复, 直到开始 N 个节点:</span><br><span class="line">#</span><br><span class="line">#gateway.recover_after_nodes: 3</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Various -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 删除索引时需要显式名称:</span><br><span class="line">#</span><br><span class="line">#action.destructive_requires_name: true</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-1/" rel="bookmark">elasticsearch内部存储执行机制</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-design/design-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">分布式架构</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近几年关于架构的信息<br>高并发架构、<br>异地多活架构【出自淘宝】<br>容器化【知名docker、阿里Pouch】<br>微服务架构【spring cloud】<br>高可用架构<br>弹性架构【DB中间件 需要极致的弹性】</p>
-<p>相关的技术<br>DevOps、应用监控、自动化运维、SOA服务治理、去IOE等等</p>
-<p>分布式能解决的两大问题：<br>1、系统容量更大<br>  面对的业务量与日俱增、垂直水平拆分系统业务<br>2、系统可用性更强<br>  整个系统不会因为一个单点故障而导致整个系统不可用<br>  分布式冗余节点、以消除单点故障</p>
-<p>分布式优势：<br>1、模块化、系统模块重用度更高<br>2、模块化、服务开发、发布更快<br>3、系统扩展性更高<br>4、团队协作更有效率</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-design/design-1/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-design/design-4/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">用户池系统 构思</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
-<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
-<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
-<p>不同的key对应不同的分组数据</p>
-<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
-<p>获取不同排序 前端发送不同的key值即可</p>
-<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-design/design-4/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-design/design-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">高可用架构设计考虑</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-design/design-3/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-design/design-5/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">风控系统</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/风控系统/" itemprop="url" rel="index"><span itemprop="name">风控系统</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
-</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
-    针对各类支付业务交易风险事件进行监测与控制
-
-同步反馈、
-    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
-
-联动控制、
-    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
-
-持续迭代、
-    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
-    或者与外部资源共享等进行持续动态更新
-</code></pre>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-design/design-5/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
     
       
 
@@ -1754,7 +672,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/https/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-selector-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1774,7 +692,224 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/agreement/https/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">Https协议</a>
+                <a href="/2018/03/24/mysql/optimization-sql-selector-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">SQL优化【查询器优化·二】</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="https://upload-images.jianshu.io/upload_images/6434888-6fd8630f76bf000c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>8.9.1控制查询计划评估</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">查询优化器的任务是查找执行SQL查询的最佳计划。</span><br><span class="line">由于“ 好 ”和“ 坏 ”之间的表现差异计划可以是数量级（即秒数与数小时甚至数天），</span><br><span class="line">    大多数查询优化器（包括MySQL的查询优化器）在所有可能的查询评估计划中执行或多或少的穷举搜索优化计划。</span><br><span class="line">    对于连接查询，由MySQL优化器调查的可能计划的数量随着查询中引用的表的数量呈指数增长。</span><br><span class="line">    对于少量表格（通常小于7到10），这不是问题。</span><br><span class="line">    但是，当提交更大的查询时，查询优化花费的时间可能很容易成为服务器性能的主要瓶颈。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">用于查询优化的更灵活的方法使用户能够控制优化器在搜索最优查询评估计划时的详尽程度。</span><br><span class="line">总体思路是，优化程序调查的计划越少，编译查询花费的时间就越少。</span><br><span class="line">另一方面，因为优化器跳过了一些计划，所以可能会错过找到最佳计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化程序相对于其计算的计划数量的行为可以使用两个系统变量进行控制：</span><br><span class="line"></span><br><span class="line">该optimizer_prune_level 变量告诉优化器根据每个表访问的行数的估计值跳过某些计划。</span><br><span class="line">我们的经验表明，这种“ 受过教育的猜测 ”很少会错过最佳计划，并且可能大大减少查询编译时间。</span><br><span class="line">这就是为什么这个选项optimizer_prune_level=1默认是on（）。</span><br><span class="line">但是，如果您认为优化器错过了更好的查询计划，则可以关闭此选项（optimizer_prune_level=0）与查询编译可能花费更长时间的风险有关。</span><br><span class="line">请注意，即使使用这种启发式，优化器仍然会探索大致指数级的计划。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这个optimizer_search_depth 变量告诉优化器应该看看每个不完整计划的“ 未来 ”有多远，以评估它是否应该进一步扩展。</span><br><span class="line">较小的值 optimizer_search_depth可能会导致查询编译时间缩短几个数量级。</span><br><span class="line">例如，如果optimizer_search_depth接近查询中的表的数量，具有12,13或更多表的查询可能很容易需要数小时甚至数天来编译 。</span><br><span class="line">同时，如果编译一下 optimizer_search_depth 等于3或4，优化器可以在不到一分钟的时间内编译相同的查询。</span><br><span class="line">如果您不确定合理的值是什么 optimizer_search_depth，则可以将此变量设置为0，以通知优化器自动确定该值。</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/amqp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/agreement/amqp/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">AMQP</a>
               
             
           </h2>
@@ -1859,20 +994,19 @@
 
       
         
+          <p>AMQP，即Advanced Message Queuing Protocol、高级队列消息协议</p>
+<p>一个提供统一消息服务的应用层标准高级消息队列协议,是应用层协议的一个开放标准,为面向消息的中间件设计。<br>基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。<br>Erlang中的实现有 RabbitMQ等。</p>
+<p><strong>协议特性</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、消息方向</span><br><span class="line">2、消息队列</span><br><span class="line">3、消息路由</span><br><span class="line">4、消息可靠性</span><br><span class="line">5、消息安全性</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
           
-            <p><strong>http+ssl</strong></p>
-<pre><code>使用http进行通信 ssl作为数据通信加密方式
-使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
-</code></pre><p>混合加密方式</p>
-<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
-<ul>
-<li>1、客户端 发送公钥、支持加密方式、版本号</li>
-<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
-<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
-<li>4、使用协商后的加密方式加密http请求</li>
-</ul>
-
-          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/agreement/amqp/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
         
       
     </div>
@@ -1886,20 +1020,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
       
     </li>
@@ -1908,6 +1028,20 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
       
     </li>
   
@@ -1964,7 +1098,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-deploy/bandwidth/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1984,7 +1118,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/service-deploy/bandwidth/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">服务器带宽</a>
+                <a href="/2018/03/24/service-design/design-0/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">系统设计一些基本原则</a>
               
             
           </h2>
@@ -2027,14 +1161,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-deploy/" itemprop="url" rel="index"><span itemprop="name">service-deploy</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
 
                 
                 
@@ -2069,19 +1203,14 @@
 
       
         
-          <p><strong>首先要知道影响在线人数的因素</strong></p>
-<p>1，访问量</p>
-<p>2，网站类型：如果是出文字的网站(如小说站)，1M带宽带动日均5000IP，还勉强。如果是普通网站有图片，有文字、论坛、新闻资讯类型网站 大概1M能带一千IP。考虑到高峰期并发，1M高峰期还会卡。【最低配 单核CPU+512内存。1千IP CPU占用10%左右，内存200到300之间】。</p>
-<p><strong>下面根据影响因素计算下1M带宽能同时承受多少人在线(以网络状况良好为前提)</strong></p>
-<p>1、</p>
-<p><a href="http://www.wusiwei.com/post-904.html" target="_blank" rel="noopener">打开网站8秒原则</a>;</p>
-<p>2、 评判的只是：用户从云服务器下载文件的速度;</p>
-<p>3、 页面的标准尺寸大小为：60KB;</p>
-<p>参考公式：<strong>支持连接个人 = 服务器带宽/页面尺寸大小</strong></p>
+          <p>参照梁飞–dubbo创始人—<a href="http://dubbo.io/books/dubbo-dev-book/principals/general-knowledge.html" target="_blank" rel="noopener">一些设计上的基本常识</a></p>
+<p>不看不知道 一看吓一跳<br>原来一个复杂的服务系统这么多门道</p>
+<p>以前只晓得 API SPI分离。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">API 与 SPI 分离</span><br><span class="line"></span><br><span class="line">服务域/实体域/会话域分离</span><br><span class="line"></span><br><span class="line">在重要的过程上设置拦截接口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重要的状态的变更发送事件并留出监听接口</span><br><span class="line"></span><br><span class="line">扩展接口职责尽可能单一，具有可组合性</span><br><span class="line"></span><br><span class="line">微核插件式，平等对待第三方</span><br><span class="line"></span><br><span class="line">不要控制外部对象的生命周期</span><br><span class="line"></span><br><span class="line">可配置一定可编程，并保持友好的 CoC 约定</span><br><span class="line"></span><br><span class="line">区分命令与查询，明确前置条件与后置条件</span><br><span class="line"></span><br><span class="line">增量式扩展，而不要扩充原始核心概念</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-deploy/bandwidth/" rel="contents">
+              <a class="btn" href="/2018/03/24/service-design/design-0/" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -2100,21 +1229,898 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/04/service-deploy/ftp/" rel="bookmark">ftp部署</a></div>
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/jenkins/" rel="bookmark">jenkins部署</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/service-design/design-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">分布式架构</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近几年关于架构的信息<br>高并发架构、<br>异地多活架构【出自淘宝】<br>容器化【知名docker、阿里Pouch】<br>微服务架构【spring cloud】<br>高可用架构<br>弹性架构【DB中间件 需要极致的弹性】</p>
+<p>相关的技术<br>DevOps、应用监控、自动化运维、SOA服务治理、去IOE等等</p>
+<p>分布式能解决的两大问题：<br>1、系统容量更大<br>  面对的业务量与日俱增、垂直水平拆分系统业务<br>2、系统可用性更强<br>  整个系统不会因为一个单点故障而导致整个系统不可用<br>  分布式冗余节点、以消除单点故障</p>
+<p>分布式优势：<br>1、模块化、系统模块重用度更高<br>2、模块化、服务开发、发布更快<br>3、系统扩展性更高<br>4、团队协作更有效率</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/service-design/design-1/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/service-design/design-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">医院总流程图</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/医院架构/" itemprop="url" rel="index"><span itemprop="name">医院架构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-6fd65b85b06a5237.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/service-design/design-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">高可用架构设计考虑</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/service-design/design-3/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/service-design/design-5/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/15/index.html">风控系统</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/风控系统/" itemprop="url" rel="index"><span itemprop="name">风控系统</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
+</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
+    针对各类支付业务交易风险事件进行监测与控制
+
+同步反馈、
+    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
+
+联动控制、
+    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
+
+持续迭代、
+    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
+    或者与外部资源共享等进行持续动态更新
+</code></pre>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/24/service-design/design-5/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
       
     </li>
   
@@ -2227,7 +2233,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">251</span>
+                    <span class="site-state-item-count">252</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
