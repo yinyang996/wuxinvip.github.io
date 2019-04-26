@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">252</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">253</span></a>
 
   </li>
         
@@ -835,6 +835,180 @@
     </li>
   
   </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/05/30/mysql/mysql-indexes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/30/mysql/mysql-indexes/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/12/index.html">mysql 索引</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-30 08:00:00" itemprop="dateCreated datePublished" datetime="2018-05-30T08:00:00+08:00">2018-05-30</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>mysql 索引</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">单列索引</span><br><span class="line">1、普通索引--允许null和重复--优点就是查询快</span><br><span class="line">2、唯一索引--允许null  但是不可重复</span><br><span class="line">3、主键索引--不允许null 不可重复</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">组合索引</span><br><span class="line">1、联合索引【组合索引】</span><br><span class="line">    多个字段创建一个索引健、只有最左边的索引被用到 联合索引才能被用到</span><br><span class="line">    索引最多包含16列</span><br><span class="line">全文索引</span><br><span class="line">1、全文索引</span><br><span class="line">    MyISAM 引擎独有 只能用在 char varchar text使用 检索文字关键字</span><br><span class="line">空间索引</span><br><span class="line">1、空间索引</span><br><span class="line">    针对空间数据类型的字段所建立的索引</span><br><span class="line">    MyISAM 引擎独有 空间引擎所在列 not null</span><br><span class="line">    支持数据类型 geometry、point、linestring、polygon</span><br><span class="line">    创建索引使用 spatial 关键字</span><br><span class="line">    </span><br><span class="line">    纠正： MyISAM并InnoDB 支持空间类型的R-tree索引。</span><br><span class="line">    其他存储引擎使用B树来索引空间类型（除了 ARCHIVE不支持空间类型索引）。</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">所有的索引 必须合适业务使用在创建 </span><br><span class="line">    对于更新频繁 检索较少的不得加除了主键索引之外的任何索引 徒增insert 和 update delete 消耗</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/05/30/mysql/mysql-indexes/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
 
 
     
@@ -1671,7 +1845,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/05/24/spring-cloud/eureka-2/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/05/24/search-engine/elasticsearch-bean-setting/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1691,345 +1865,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/05/24/spring-cloud/eureka-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/12/index.html">EUREKA配置</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-05-24T08:00:00+08:00">2018-05-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>配置</strong></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">配置参数</th>
-<th style="text-align:left">默认值</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">服务注册中心配置</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">Bean类：org.springframework.cloud.netflix.eureka.server.EurekaServerConfigBean</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.server.enable-self-preservation</td>
-<td style="text-align:left">false</td>
-<td style="text-align:left">关闭注册中心的保护机制，Eureka 会统计15分钟之内心跳失败的比例低于85%将会触发保护机制，不剔除服务提供者，如果关闭服务注册中心将不可用的实例正确剔除</td>
-</tr>
-<tr>
-<td style="text-align:left">服务实例类配置</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">Bean类：org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.prefer-ip-address</td>
-<td style="text-align:left">false</td>
-<td style="text-align:left">不使用主机名来定义注册中心的地址，而使用IP地址的形式，如果设置了eureka.instance.ip-address 属性，则使用该属性配置的IP，否则自动获取除环路IP外的第一个IP地址</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.ip-address</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">IP地址</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.hostname</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">设置当前实例的主机名称</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.appname</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">服务名，默认取 spring.application.name 配置值，如果没有则为 unknown</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.lease-renewal-interval-in-seconds</td>
-<td style="text-align:left">30</td>
-<td style="text-align:left">定义服务续约任务（心跳）的调用间隔，单位：秒</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.lease-expiration-duration-in-seconds</td>
-<td style="text-align:left">90</td>
-<td style="text-align:left">定义服务失效的时间，单位：秒</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.status-page-url-path</td>
-<td style="text-align:left">/info</td>
-<td style="text-align:left">状态页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.status-page-url</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">状态页面的URL，绝对路径</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.health-check-url-path</td>
-<td style="text-align:left">/health</td>
-<td style="text-align:left">健康检查页面的URL，相对路径，默认使用 HTTP 访问，如果需要使用 HTTPS则需要使用绝对路径配置</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.instance.health-check-url</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">健康检查页面的URL，绝对路径</td>
-</tr>
-<tr>
-<td style="text-align:left">服务注册类配置</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">Bean类：org.springframework.cloud.netflix.eureka.EurekaClientConfigBean</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.service-url.</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">指定服务注册中心地址，类型为 HashMap，并设置有一组默认值，默认的Key为 defaultZone；默认的Value为 <a href="http://localhost:8761/eureka" target="_blank" rel="noopener">http://localhost:8761/eureka</a> ，如果服务注册中心为高可用集群时，多个注册中心地址以逗号分隔。如果服务注册中心加入了安全验证，这里配置的地址格式为：http://<username>:<password>@localhost:8761/eureka 其中 <username> 为安全校验的用户名；<password> 为该用户的密码</password></username></password></username></td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.fetch-registery</td>
-<td style="text-align:left">true</td>
-<td style="text-align:left">检索服务</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.registery-fetch-interval-seconds</td>
-<td style="text-align:left">30</td>
-<td style="text-align:left">从Eureka服务器端获取注册信息的间隔时间，单位：秒</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.register-with-eureka</td>
-<td style="text-align:left">true</td>
-<td style="text-align:left">启动服务注册</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.eureka-server-connect-timeout-seconds</td>
-<td style="text-align:left">5</td>
-<td style="text-align:left">连接 Eureka Server 的超时时间，单位：秒</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.eureka-server-read-timeout-seconds</td>
-<td style="text-align:left">8</td>
-<td style="text-align:left">读取 Eureka Server 信息的超时时间，单位：秒</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.filter-only-up-instances</td>
-<td style="text-align:left">true</td>
-<td style="text-align:left">获取实例时是否过滤，只保留UP状态的实例</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.eureka-connection-idle-timeout-seconds</td>
-<td style="text-align:left">30</td>
-<td style="text-align:left">Eureka 服务端连接空闲关闭时间，单位：秒</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.eureka-server-total-connections</td>
-<td style="text-align:left">200</td>
-<td style="text-align:left">从Eureka 客户端到所有Eureka服务端的连接总数</td>
-</tr>
-<tr>
-<td style="text-align:left">eureka.client.eureka-server-total-connections-per-host</td>
-<td style="text-align:left">50</td>
-<td style="text-align:left">从Eureka客户端到每个Eureka服务主机的连接总数</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/17/spring-cloud/zuul-1/" rel="bookmark">zuul 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/05/24/search-engine/elasticsearch-xmind/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/24/search-engine/elasticsearch-xmind/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/12/index.html">elasticsearch-xmind</a>
+                <a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/12/index.html">elasticsearch-bean-setting</a>
               
             
           </h2>
@@ -2115,7 +1951,7 @@
       
         
           
-            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-56a14948701ba906.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="elasticsearch.jpg"></p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">#分片数</span><br><span class="line">index.number_of_shards</span><br><span class="line"></span><br><span class="line">#副本数</span><br><span class="line">index.number_of_replicas</span><br><span class="line"></span><br><span class="line">#是否设为影子副本（暂未研究）</span><br><span class="line">index.shadow_replicas</span><br><span class="line"></span><br><span class="line">#是否设为可分享文件系统（暂未研究）</span><br><span class="line">index.shard_filesystem</span><br><span class="line"></span><br><span class="line">#是否自动扩展副本（暂未研究）</span><br><span class="line">index.auto_expand_replicas</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.read_only</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.read</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.write</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">index.blocks.metadata</span><br><span class="line"></span><br><span class="line">#创建该index用到的Elasticsearch版本</span><br><span class="line">index.version.created</span><br><span class="line"></span><br><span class="line">index.version.created_string</span><br><span class="line"></span><br><span class="line">#更新该index用到的Elasticsearch版本</span><br><span class="line">index.verison.upgraded</span><br><span class="line"></span><br><span class="line">index.version.upgraded_string</span><br><span class="line"></span><br><span class="line">#该index支持的最小lucene版本</span><br><span class="line">index.version.minimum_compatible</span><br><span class="line"></span><br><span class="line">#该index建立日期</span><br><span class="line">index.creating_data</span><br><span class="line"></span><br><span class="line">index.creating_data_string</span><br><span class="line"></span><br><span class="line">#该index的优先级</span><br><span class="line">index.priority</span><br><span class="line"></span><br><span class="line">#该index的uuid，唯一标识</span><br><span class="line">index.uuid</span><br><span class="line"></span><br><span class="line">#该index各索引的routing规则，采用何种Hash方式，默认使用Murmur3，还有一种普通的Hash算法</span><br><span class="line">index.legacy.routing.hash.type</span><br><span class="line"></span><br><span class="line">#routing计算是否使用type，内部计算shard id的方法已经废弃，建议不使用，不设置，默认false即可</span><br><span class="line">index.legacy.routing.use_type</span><br><span class="line"></span><br><span class="line">#该index的数据存储路径</span><br><span class="line">index.data_path</span><br><span class="line"></span><br><span class="line">#暂未研究</span><br><span class="line">#index.shared_filesystem.recover_on_any_node</span><br></pre></td></tr></table></figure>
 
           
         
@@ -2131,7 +1967,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
       
     </li>
   
@@ -2139,13 +1982,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
       
     </li>
   
@@ -2272,7 +2108,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">252</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
