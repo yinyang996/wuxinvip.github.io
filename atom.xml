@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2019-04-25T18:12:11.043Z</updated>
+  <updated>2019-04-26T08:09:16.365Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -17,9 +17,33 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>redis 锁</title>
+    <link href="https://www.wuxinvip.com/2019/04/13/cache/redis-2/"/>
+    <id>https://www.wuxinvip.com/2019/04/13/cache/redis-2/</id>
+    <published>2019-04-13T00:00:00.000Z</published>
+    <updated>2019-04-26T08:09:16.365Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="redis-锁分类"><a href="#redis-锁分类" class="headerlink" title="redis 锁分类"></a>redis 锁分类</h3><ul><li>INCR、SETNX、SET</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$redis-&gt;incr($key);</span><br><span class="line">$redis-&gt;expire($key, $ttl); //设置生成时间为1秒</span><br><span class="line"></span><br><span class="line">1、 客户端A请求服务器获取key的值为1表示获取了锁</span><br><span class="line">2、 客户端B也去请求服务器获取key的值为2表示获取锁失败</span><br><span class="line">3、 客户端A执行代码完成，删除锁</span><br><span class="line">4、 客户端B在等待一段时间后在去请求的时候获取key的值为1表示获取锁成功</span><br><span class="line">5、 客户端B执行代码完成，删除锁</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$redis-&gt;setNX($key, $value);</span><br><span class="line">$redis-&gt;expire($key, $ttl);</span><br><span class="line"></span><br><span class="line">1、 客户端A请求服务器设置key的值，如果设置成功就表示加锁成功</span><br><span class="line">2、 客户端B也去请求服务器设置key的值，如果返回失败，那么就代表加锁失败</span><br><span class="line">3、 客户端A执行代码完成，删除锁</span><br><span class="line">4、 客户端B在等待一段时间后在去请求设置key的值，设置成功</span><br><span class="line">5、 客户端B执行代码完成，删除锁</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$redis-&gt;set($key, $value, array(&apos;nx&apos;, &apos;ex&apos; =&gt; $ttl));  //ex表示秒</span><br><span class="line"></span><br><span class="line">1、 客户端A请求服务器设置key的值，如果设置成功就表示加锁成功</span><br><span class="line">2、 客户端B也去请求服务器设置key的值，如果返回失败，那么就代表加锁失败</span><br><span class="line">3、 客户端A执行代码完成，删除锁</span><br><span class="line">4、 客户端B在等待一段时间后在去请求设置key的值，设置成功</span><br><span class="line">5、 客户端B执行代码完成，删除锁</span><br></pre></td></tr></table></figure><ul><li><p>锁临界问题</p><ul><li>解决方案 【循环锁】</li></ul></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">do &#123;  </span><br><span class="line">    $timeout = 10;</span><br><span class="line">    $roomid = 10001;</span><br><span class="line">    $key = &apos;room_lock&apos;;</span><br><span class="line">    $value = &apos;room_&apos;.$roomid;  //分配一个随机的值针对问题3</span><br><span class="line">    $isLock = Redis::set($key, $value, &apos;ex&apos;, $timeout, &apos;nx&apos;);//ex 秒</span><br><span class="line">    if ($isLock) &#123;</span><br><span class="line">        if (Redis::get($key) == $value) &#123;  //防止提前过期，误删其它请求创建的锁</span><br><span class="line">            //执行内部代码</span><br><span class="line">            Redis::del($key);</span><br><span class="line">            continue;//执行成功删除key并跳出循环</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        usleep(5000); //睡眠，降低抢锁频率，缓解redis压力，针对问题2</span><br><span class="line">    &#125;</span><br><span class="line">&#125; while(!$isLock);</span><br></pre></td></tr></table></figure><a id="more"></a><h3 id="封装spring-data-redis操作redis分布式锁"><a href="#封装spring-data-redis操作redis分布式锁" class="headerlink" title="封装spring-data-redis操作redis分布式锁"></a>封装spring-data-redis操作redis分布式锁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * 操作redis获取全局锁</span><br><span class="line">    *</span><br><span class="line">    * @param redisLock           锁的名称</span><br><span class="line">    * @param timeout        获取的超时时间</span><br><span class="line">    * @param tryInterval    多少ms尝试一次</span><br><span class="line">    * @return true 获取成功，false获取失败</span><br><span class="line">    */</span><br><span class="line">   public boolean getLock(RedisLock redisLock, long timeout, long tryInterval)&#123;</span><br><span class="line">       try&#123;</span><br><span class="line">           if(StringUtils.isEmpty(redisLock.getKey()) || StringUtils.isEmpty(redisLock.getValue()))&#123;</span><br><span class="line">               return false;</span><br><span class="line">           &#125;</span><br><span class="line">           while (true)&#123;</span><br><span class="line">               List&lt;String&gt; keys = new ArrayList&lt;&gt;(1);</span><br><span class="line">               keys.add(redisLock.getKey());</span><br><span class="line">               String result = this.execute(new RedisCallback&lt;String&gt;() &#123;</span><br><span class="line">                   @Override</span><br><span class="line">                   public String doInRedis(RedisConnection connection) throws DataAccessException &#123;</span><br><span class="line">                       JedisCommands commands = (JedisCommands) connection.getNativeConnection();</span><br><span class="line">                       return commands.set(redisLock.getKey(), redisLock.getValue(), &quot;NX&quot;, &quot;PX&quot;, redisLock.getLockExpireTime());</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;);</span><br><span class="line">               if (StringUtils.isNotEmpty(result))&#123;</span><br><span class="line">                   return true;</span><br><span class="line">               &#125;</span><br><span class="line">               Thread.sleep(tryInterval);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;catch (Exception e)&#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">           return false;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><p>this.execute(new RedisCallback<string>() //封装 spring-data-redis 分布式锁<br>//获取redisnativeConnection 初始化为 JedisCommands返回操作类<br>JedisCommands commands = (JedisCommands) connection.getNativeConnection();<br>//使用commands操作类设置数据锁<br>return commands.set(redisLock.getKey(), redisLock.getValue(), “NX”, “PX”, redisLock.getLockExpireTime());</string></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 释放锁</span><br><span class="line">     */</span><br><span class="line">    public void releaseLock(RedisLock redisLock) &#123;</span><br><span class="line">        final List&lt;String&gt; keys = new ArrayList(1);</span><br><span class="line">        final List&lt;String&gt; args = new ArrayList(1);</span><br><span class="line">        keys.add(redisLock.getKey());</span><br><span class="line">        args.add(redisLock.getValue());</span><br><span class="line">        Long result = this.execute(new RedisCallback&lt;Long&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Long doInRedis(RedisConnection connection) throws DataAccessException &#123;</span><br><span class="line">                Object nativeConnection = connection.getNativeConnection();</span><br><span class="line">                // 集群模式和单机模式虽然执行脚本的方法一样，但是没有共同的接口，所以只能分开执行</span><br><span class="line">                // 集群模式</span><br><span class="line">                if (nativeConnection instanceof JedisCluster) &#123;</span><br><span class="line">                    return (Long) ((JedisCluster) nativeConnection).eval(EQ_DEL_STR, keys, args);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // 单机模式</span><br><span class="line">                else if (nativeConnection instanceof Jedis) &#123;</span><br><span class="line">                    return (Long) ((Jedis) nativeConnection).eval(EQ_DEL_STR, keys, args);</span><br><span class="line">                &#125;</span><br><span class="line">                return 0L;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">`</span><br></pre></td></tr></table></figure><p>释放锁 调用spring-data-redis封装类 ResdTemplate.excute()</p><p>返回类型初始化为 JedisCluster 或者 Jedis操作类 调用 eval方法  解锁数据</p>]]></content>
+    
+    <summary type="html">
+    
+      封装spring-data-redis操作redis分布式锁 
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="cache" scheme="https://www.wuxinvip.com/categories/java/cache/"/>
+    
+    
+      <category term="缓存" scheme="https://www.wuxinvip.com/tags/%E7%BC%93%E5%AD%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title>feign ribbon 配置</title>
-    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/"/>
-    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/</id>
+    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/"/>
+    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/</id>
     <published>2019-04-12T00:00:00.000Z</published>
     <updated>2019-04-25T18:12:11.043Z</updated>
     
@@ -45,8 +69,8 @@
   
   <entry>
     <title>feign ribbon 配置</title>
-    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/"/>
-    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/</id>
+    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/"/>
+    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/</id>
     <published>2019-04-12T00:00:00.000Z</published>
     <updated>2019-04-25T18:12:11.043Z</updated>
     
@@ -542,36 +566,6 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;kafka生产者配置&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="kafka" scheme="https://www.wuxinvip.com/categories/java/message-queue/kafka/"/>
-    
-    
-      <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kafka数据流向图</title>
-    <link href="https://www.wuxinvip.com/2018/11/27/message-queue/kafka/05/"/>
-    <id>https://www.wuxinvip.com/2018/11/27/message-queue/kafka/05/</id>
-    <published>2018-11-27T00:00:00.000Z</published>
-    <updated>2018-12-06T07:29:54.724Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>kafka简单集群</li><li>kafka生产者</li><li>kafka消费者</li></ul><a id="more"></a><h2 id="kafka简单集群"><a href="#kafka简单集群" class="headerlink" title="kafka简单集群"></a>kafka简单集群</h2><p><img src="/img/kafka/01.jpg" alt="kafka简单集群"></p><h2 id="kafka生产者"><a href="#kafka生产者" class="headerlink" title="kafka生产者"></a>kafka生产者</h2><p><img src="/img/kafka/02.jpg" alt="kafka简单集群"></p><h2 id="kafka消费者"><a href="#kafka消费者" class="headerlink" title="kafka消费者"></a>kafka消费者</h2><p><img src="/img/kafka/03.jpg" alt="kafka简单集群"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;ul&gt;
-&lt;li&gt;kafka简单集群&lt;/li&gt;
-&lt;li&gt;kafka生产者&lt;/li&gt;
-&lt;li&gt;kafka消费者&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>
