@@ -258,34 +258,6 @@ npm install
   </entry>
   
   <entry>
-    <title></title>
-    <link href="https://www.wuxinvip.com/2019/01/12/essay/essay-21/"/>
-    <id>https://www.wuxinvip.com/2019/01/12/essay/essay-21/</id>
-    <published>2019-01-12T00:00:00.000Z</published>
-    <updated>2019-05-08T09:13:04.901Z</updated>
-    
-    <content type="html"><![CDATA[<p>随意遐想、马云说过、未来从普遍化走向定制化、在泛滥得互联网app中、会不会也会也有这么一条路子</p><p>现在各种app都是提供特殊的功能、</p><p>社交、微信、QQ、陌陌、<br>音乐、网易云音乐、QQ音乐、酷狗音乐、酷我音乐、百度音乐<br>等等</p><p>那么、我可不可以做一个定制应用、这个应用接入各种互联网应用后台？<br>前期没有开放接口是不是可以做页面入口、web展示或者唤起、没有的就启用应用唤醒播放、</p><p>一家一个定制应用、在这个应用中、如有付费可以统一付费等等</p><p>然后把应用商店中得app全部做上权限管理、再把统一付费的钱、使用时间差打向各个服务应用</p><p>还可以加上阅读时间计时、以提醒用户沉浸使用、防沉迷机制</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;随意遐想、马云说过、未来从普遍化走向定制化、在泛滥得互联网app中、会不会也会也有这么一条路子&lt;/p&gt;
-&lt;p&gt;现在各种app都是提供特殊的功能、&lt;/p&gt;
-&lt;p&gt;社交、微信、QQ、陌陌、&lt;br&gt;音乐、网易云音乐、QQ音乐、酷狗音乐、酷我音乐、百度音乐&lt;br&gt;等等&lt;/p&gt;
-&lt;p
-      
-    
-    </summary>
-    
-      <category term="essay" scheme="https://www.wuxinvip.com/categories/essay/"/>
-    
-    
-      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
     <title>遐想--定制应用</title>
     <link href="https://www.wuxinvip.com/2019/01/12/essay/essay-20/"/>
     <id>https://www.wuxinvip.com/2019/01/12/essay/essay-20/</id>
@@ -556,6 +528,37 @@ npm install
 &lt;li&gt;安全性&lt;/li&gt;
 &lt;li&gt;故障处理能力&lt;/li&gt;
 &lt;li&gt;耦合性和灵活性&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
+    
+      <category term="kafka" scheme="https://www.wuxinvip.com/categories/java/message-queue/kafka/"/>
+    
+    
+      <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kafka集群复制</title>
+    <link href="https://www.wuxinvip.com/2018/11/30/message-queue/kafka/08/"/>
+    <id>https://www.wuxinvip.com/2018/11/30/message-queue/kafka/08/</id>
+    <published>2018-11-30T00:00:00.000Z</published>
+    <updated>2018-12-07T08:29:04.669Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>kafka集群复制</li><li>kafka数据结构</li><li>kafka请求处理流程</li><li>kafka消息格式</li></ul><a id="more"></a><h2 id="kafka集群复制"><a href="#kafka集群复制" class="headerlink" title="kafka集群复制"></a>kafka集群复制</h2><h3 id="kafka数据结构"><a href="#kafka数据结构" class="headerlink" title="kafka数据结构"></a>kafka数据结构</h3><ul><li>kafka是以主题来组织数据</li><li>每个主题下有多个分区、每个分区下有多个副本【数据元】、</li><li>【玩过 mongodb 和 elasticsearch 的一看就懂、一个东西】</li><li>每个broker可以存储不同主题和不同分区的副本</li><li>副本分为两种<ul><li>首领副本【数据存储、对接客户端请求、消费】</li><li>跟随者副本【数据备份、不处理来自客户端的任何请求、待首领挂掉、迅速顶上】</li><li>另、首领还会处理副本的备份请求、以判断哪个副本是最新的、最新的版本才可以当“储君”</li></ul></li></ul><h4 id="图纸解说"><a href="#图纸解说" class="headerlink" title="图纸解说"></a>图纸解说</h4><p><img src="/img/kafka/04.png" alt="kafka储存结构"></p><ul><li>照了一张差不多的图、不是kafka的、是es的 不过解释起来足够了</li><li>主节点 node3、为broker协调者</li><li>所有数据都是一个主题topic通过tag来区分数据【一般一个应用要给同topic、这里就当1个多个tag、】</li><li>每个tag下有很多数据、每个数据有多个副本、【这里配置就2个、一个首领副本、一个跟随着副本】</li></ul><h3 id="kafka请求处理流程"><a href="#kafka请求处理流程" class="headerlink" title="kafka请求处理流程"></a>kafka请求处理流程</h3><h4 id="图纸解说-1"><a href="#图纸解说-1" class="headerlink" title="图纸解说"></a>图纸解说</h4><p><img src="/img/kafka/05.jpg" alt="kafka请求流程"></p><ul><li>请求通过processor线程发向请求队列、处理IO逻辑、将响应发向响应队列</li></ul><h3 id="kafka消息格式"><a href="#kafka消息格式" class="headerlink" title="kafka消息格式"></a>kafka消息格式</h3><ul><li>Request type 【API key】</li><li>Request version 【version版本号】</li><li>Correlation ID【消息唯一id】</li><li>Client ID【客户端唯一id】</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;kafka集群复制&lt;/li&gt;
+&lt;li&gt;kafka数据结构&lt;/li&gt;
+&lt;li&gt;kafka请求处理流程&lt;/li&gt;
+&lt;li&gt;kafka消息格式&lt;/li&gt;
 &lt;/ul&gt;
     
     </summary>
