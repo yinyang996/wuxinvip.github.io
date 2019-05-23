@@ -44,6 +44,36 @@
   </entry>
   
   <entry>
+    <title>linux 排查命令</title>
+    <link href="https://www.wuxinvip.com/2019/05/15/shell/shell-7/"/>
+    <id>https://www.wuxinvip.com/2019/05/15/shell/shell-7/</id>
+    <published>2019-05-14T16:00:00.000Z</published>
+    <updated>2019-05-22T05:31:35.250Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code class="shell">pid=11683<span class="meta">#</span><span class="bash">命令查看该进程的线程情况</span>ps -mp pid -o THREAD,tid,timetid 转为 16进制printf "%x\n" 67661a6e<span class="meta">#</span><span class="bash">使用jstack 查看线程使用情况</span>jstack 11683 | grep 2df4 -A 30"Thread-38" #51 daemon prio=5 os_prio=0 tid=0x00007f96ec675000 nid=0x2df4 runnable [0x00007f970065a000]<span class="meta">#</span><span class="bash">打印线程信息</span>jstack -l 11683 &gt; /logs/dump.txt<span class="meta">#</span><span class="bash">打印对象信息【死锁信息】</span>jstack -m 11683 &gt; /logs/dump.txt</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;pid=11683
+
+&lt;span class=&quot;meta&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;bash&quot;&gt;命令查看该进程的线程情况&lt;/span&gt;
+ps -mp pid -o THREAD,tid,time
+
+tid 转为 
+      
+    
+    </summary>
+    
+      <category term="shell" scheme="https://www.wuxinvip.com/categories/shell/"/>
+    
+    
+      <category term="shell" scheme="https://www.wuxinvip.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springboot logger  配置</title>
     <link href="https://www.wuxinvip.com/2019/05/12/spring-cloud/logger-config/"/>
     <id>https://www.wuxinvip.com/2019/05/12/spring-cloud/logger-config/</id>
@@ -128,8 +158,8 @@ npm install
   
   <entry>
     <title>feign ribbon 配置</title>
-    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/"/>
-    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/</id>
+    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/"/>
+    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/</id>
     <published>2019-04-12T00:00:00.000Z</published>
     <updated>2019-04-25T18:12:11.043Z</updated>
     
@@ -155,8 +185,8 @@ npm install
   
   <entry>
     <title>feign ribbon 配置</title>
-    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/"/>
-    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/</id>
+    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/"/>
+    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/</id>
     <published>2019-04-12T00:00:00.000Z</published>
     <updated>2019-04-25T18:12:11.043Z</updated>
     
@@ -532,41 +562,6 @@ npm install
     
     
       <category term="app版本更新" scheme="https://www.wuxinvip.com/tags/app%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kafka构建数据管道需要注意的问题</title>
-    <link href="https://www.wuxinvip.com/2018/12/01/message-queue/kafka/09/"/>
-    <id>https://www.wuxinvip.com/2018/12/01/message-queue/kafka/09/</id>
-    <published>2018-12-01T00:00:00.000Z</published>
-    <updated>2018-12-09T12:54:33.514Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="kafka构建数据管道需要注意的问题"><a href="#kafka构建数据管道需要注意的问题" class="headerlink" title="kafka构建数据管道需要注意的问题"></a>kafka构建数据管道需要注意的问题</h2><ul><li>及时性</li><li>可靠性</li><li>高吞吐量和动态吞吐量</li><li>数据格式</li><li>转换</li><li>安全性</li><li>故障处理能力</li><li>耦合性和灵活性</li></ul><a id="more"></a><h2 id="及时性"><a href="#及时性" class="headerlink" title="及时性"></a>及时性</h2><ul><li>在业务需求变更时、具有不同及时性需求的数据之间可以方便的进行迁移</li><li>数据支持实时性处理、也支持延迟批处理</li><li>消费者可以实时拉取处理、也可以延迟批量处理一批数据</li></ul><h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><ul><li>能够在各种故障中快速回复</li><li>支持、至少一次传递【本身支持】</li><li>支持、仅一次传递、避免幂等消费【需结合实物模型或者唯一键特性的外部存储系统】</li></ul><h2 id="高吞吐量和动态吞吐量"><a href="#高吞吐量和动态吞吐量" class="headerlink" title="高吞吐量和动态吞吐量"></a>高吞吐量和动态吞吐量</h2><ul><li>自动伸缩功能</li><li>管理员可以调整压缩来网络和存储资源的使用【支持多种类型压缩】</li></ul><h2 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h2><ul><li>avro、xml也可以使用自定义</li><li>读取数据源schema载入数据</li></ul><h2 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h2><ul><li>ETL【提取、转换、加载】<ul><li>过滤掉部分数据、为下游服务过滤不必要数据信息</li><li>缺点、下游的调整可能需要重新调整数据管道</li></ul></li><li>ELT【提取、加载、转换】<ul><li>高保真数据管道、数据湖结构</li><li>占用了目标系统太多的CPU和存储资源、使得目标系统造价高昂、不过也给下游保证了最原始的数据、利于调整需求</li></ul></li></ul><h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><ul><li>支持加密数据、</li><li>支持认证【SASL实现】、授权消费</li><li>支持数据追踪、时间来源、事件修改者、日志审计、访问记录</li></ul><h2 id="故障处理能力"><a href="#故障处理能力" class="headerlink" title="故障处理能力"></a>故障处理能力</h2><ul><li>数据保留一周、一月、任意时间以便于追溯</li></ul><h2 id="耦合性和灵活性"><a href="#耦合性和灵活性" class="headerlink" title="耦合性和灵活性"></a>耦合性和灵活性</h2><ul><li><p>临时数据管道</p><ul><li>常用数据管道<ul><li>logstash—–&gt; elasticsearch</li><li>flume——&gt; HDFS</li><li>GoldenGate——&gt;Oracle</li><li>mysql【xml】——–&gt;Informatica——-&gt;oracle</li><li>当有新的需求时候有需要重新构建新的管道、增加新技术成本</li></ul></li></ul></li><li><p>元数据丢失</p><ul><li>元数据没有保留schema数据、导致数据交换过程中、没有处理元数据新增字段【因为新的schema中没有该字段】</li><li>而如果数据管道允许修改schema信息、那么双方只需要修改内部数据处理就可以了</li></ul></li><li><p>末端处理</p><ul><li>让下端可以自己决定数据处理、而不是数据管道直接处理、直接处理会对下游数据的完整性造成破坏<br>同时新的需求更迭、也会造成成本提升</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;kafka构建数据管道需要注意的问题&quot;&gt;&lt;a href=&quot;#kafka构建数据管道需要注意的问题&quot; class=&quot;headerlink&quot; title=&quot;kafka构建数据管道需要注意的问题&quot;&gt;&lt;/a&gt;kafka构建数据管道需要注意的问题&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;及时性&lt;/li&gt;
-&lt;li&gt;可靠性&lt;/li&gt;
-&lt;li&gt;高吞吐量和动态吞吐量&lt;/li&gt;
-&lt;li&gt;数据格式&lt;/li&gt;
-&lt;li&gt;转换&lt;/li&gt;
-&lt;li&gt;安全性&lt;/li&gt;
-&lt;li&gt;故障处理能力&lt;/li&gt;
-&lt;li&gt;耦合性和灵活性&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="kafka" scheme="https://www.wuxinvip.com/categories/java/message-queue/kafka/"/>
-    
-    
-      <category term="kafka" scheme="https://www.wuxinvip.com/tags/kafka/"/>
     
   </entry>
   
