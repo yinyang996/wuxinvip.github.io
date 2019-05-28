@@ -160,7 +160,7 @@
 <meta property="og:site_name" content="上善若水の技术簿">
 <meta property="og:description" content="pid=11683  #命令查看该进程的线程情况 ps -mp pid -o THREAD,tid,time  tid 转为 16进制 printf &quot;%x\n&quot; 6766 1a6e    #使用jstack 查看线程使用情况 jstack 11683 | grep 2df4 -A 30  &quot;Thread-38&quot; #51 daemon prio=5 os_prio=0 tid=0x00007f96">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-22T05:31:35.250Z">
+<meta property="og:updated_time" content="2019-05-28T05:48:56.336Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux 排查命令">
 <meta name="twitter:description" content="pid=11683  #命令查看该进程的线程情况 ps -mp pid -o THREAD,tid,time  tid 转为 16进制 printf &quot;%x\n&quot; 6766 1a6e    #使用jstack 查看线程使用情况 jstack 11683 | grep 2df4 -A 30  &quot;Thread-38&quot; #51 daemon prio=5 os_prio=0 tid=0x00007f96">
@@ -597,6 +597,19 @@ jstack -l 11683 &gt; /logs/dump.txt
 
 <span class="meta">#</span><span class="bash">打印对象信息【死锁信息】</span>
 jstack -m 11683 &gt; /logs/dump.txt
+
+
+<span class="meta">#</span><span class="bash">IO使用率</span>
+iostat 5 
+<span class="meta">#</span><span class="bash">系统使用率</span>
+vmstat 5
+<span class="meta">#</span><span class="bash">网络使用率</span>
+nicstat 5
+
+<span class="meta">#</span><span class="bash">cpu 使用率</span>
+typeperf -si | "System\Processor\Queue\Length"
+
+
 </code></pre>
 
       
@@ -625,13 +638,6 @@ jstack -m 11683 &gt; /logs/dump.txt
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
       
     </li>
@@ -639,7 +645,14 @@ jstack -m 11683 &gt; /logs/dump.txt
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-1/" rel="bookmark">java后台常用命令</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
       
     </li>
   
