@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2019-05-22T03:13:56.531Z</updated>
+  <updated>2019-05-28T10:00:59.054Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>jdk内存模型</title>
+    <link href="https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/"/>
+    <id>https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/</id>
+    <published>2019-05-26T00:00:00.000Z</published>
+    <updated>2019-05-28T10:00:59.054Z</updated>
+    
+    <content type="html"><![CDATA[<p>#8个原子操作<br>针对jvm主内存与工作内存的数据操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lock----锁定</span><br><span class="line">unlock----释放锁</span><br><span class="line">read----读</span><br><span class="line">write----写</span><br><span class="line">load----加载</span><br><span class="line">assign----赋值</span><br><span class="line">use----使用</span><br><span class="line">store----写入主内存</span><br></pre></td></tr></table></figure></p><p>特例：<br>long、double、64为内存、在32为虚拟机中分两次操作、<br>load、store、read、write都不是源自操作</p><p>#8个规则：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、不允许read、load、store、write单独出现</span><br><span class="line">2、不允许thread丢弃assign</span><br><span class="line">3、不允许任何一线程、没有assign的数据 从工作内存store到主内存</span><br><span class="line">4、一个新变量只能在主内存“诞生”、对一个变量“use/store”之前、执行assign、load操作</span><br><span class="line">5、一个变量在同一时刻只允许一个线程对其进行lock、但lock可以被执行多次、lock标记为累加、多次lock需要多次unlock</span><br><span class="line"></span><br><span class="line">6、对一个变量执行lock、会清空工作内存中变量值、使用之前需要重新load、assign</span><br><span class="line">7、如果未lock、不能unlock</span><br><span class="line">8、执行unlock之前、限制性工作内存同步主内存</span><br></pre></td></tr></table></figure><p>都挺好理解、计算机这个东西、没啥难度、<br>lock是做标记为int ++  –做锁标记位</p><p>#内存可见性</p><p>1、volatile<br>2、sychronized<br>3、final</p><p>#有序性<br>1、线程内表现为串行</p><p>#无序<br>1、指令重排序【使用volatile可以阻止指令重排序】<br>2、sychronized 同一个变量、在同一时刻、允许同一线程串行进入</p><p>#线程安全<br>1、不可变—final<br>2、绝对安全<br>3、相对安全<br>4、线程兼容<br>5、独立—对程序有害</p><p>#线程发展史</p><p>1、重量级、执行标记位 加sychronized的地方、我在内存中加一个标记为、标记该方法、该对象、我正在使用、你不能使用<br>2、轻量级、object标记、又叫内置锁、增加了trylock（times）、reentranlock、可队列执行锁方法、规则名aqs、<br>3、算法代替锁、设计思想是、假设没有竞争、竞争时候通过算法判断、cas、拿旧值和内存原值比较、一致则修改为新值<br>4、</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#8个原子操作&lt;br&gt;针对jvm主内存与工作内存的数据操作&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span 
+      
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="jdk" scheme="https://www.wuxinvip.com/categories/java/jdk/"/>
+    
+    
+      <category term="jdk" scheme="https://www.wuxinvip.com/tags/jdk/"/>
+    
+  </entry>
   
   <entry>
     <title>数据库链接已关闭</title>
@@ -516,34 +543,6 @@ npm install
     <summary type="html">
     
       &lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#   基础环境&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64bit OS, Linux/Unix/Mac is recommended;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64bit JDK 1.8+;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Maven 3.2.x;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Git;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4g+ free disk for Broker server&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;curl -L -O https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.3.2/rocketmq-all-4.3.2-bin-release.zip&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;gt; unzip rocketmq-all-4.3.2-source-release.zip&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;gt; cd rocketmq-all-4.3.2/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;gt; mvn -Prelease-all -DskipTests clean install -U&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;gt; cd distribution/target/apache-rocketmq&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="message-queue" scheme="https://www.wuxinvip.com/categories/java/message-queue/"/>
-    
-      <category term="rocketmq" scheme="https://www.wuxinvip.com/categories/java/message-queue/rocketmq/"/>
-    
-    
-      <category term="RocketMQ" scheme="https://www.wuxinvip.com/tags/RocketMQ/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>rocketmq简介</title>
-    <link href="https://www.wuxinvip.com/2018/12/05/message-queue/rocketmq/01/"/>
-    <id>https://www.wuxinvip.com/2018/12/05/message-queue/rocketmq/01/</id>
-    <published>2018-12-05T00:00:00.000Z</published>
-    <updated>2018-12-09T13:40:17.866Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul><li>互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑</li></ul><a id="more"></a><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul><li>微服务之间的通信问题<ul><li>具体的业务场景有很多、比如、支付完成后的订单状态修改、用户充值后的vip等级提升、物流信息等等</li><li>各个微服务之间的消息、业务场景有：按实时性可分为实时消息、非实时消息；</li></ul></li></ul><h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul><li>rocketmq 有两个部件 nameserver：服务管理中心、broker：消息存储中心<ul><li>nameserver管理业务服务注册、保证服务稳定运行</li><li>broker负责消息的持久化、保证消息不丢失</li></ul></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li>应用解耦<ul><li>替换应用上的https协议、又能保证服务之间的动态性</li></ul></li><li>流量削峰<ul><li>非即时消息、延后处理</li></ul></li><li>消息分发<ul><li>消息生产者只负责消息生产、消息消费者只负责消息消费、只管把消息发到消息队列、而不关心、哪台服务消费这个消息</li><li>消息轮询消费、不会造成只在某一台机器上消费、压跨服务器</li></ul></li><li>保证分布式事务的最终一致性</li><li>动态扩容</li></ul><h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul><li>目前已是apache的顶级项目、</li><li>2017年双十一的主要驱动力、处理消息万亿级别、tps:5600万</li><li>java语言开发、对java开发者亲和度较高</li></ul><h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li><p>rocketmq、rabbitmq、kafka</p><ul><li>没有谁好谁坏</li><li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li><li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li><li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li></ul></li><li><p>个人见解</p><ul><li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li><li>稳定不丢消息：rocketmq、tabbitmq、</li><li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li><li>rocketmq底层netty、异步机制优秀</li><li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li><li>非实时性要求高、同时又要求高吞吐量 rocketmq</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑&lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     
