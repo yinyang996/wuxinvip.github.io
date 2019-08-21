@@ -467,222 +467,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/12/spring-cloud/feign-ribbon-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/2/index.html">feign ribbon 配置</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-12 08:00:00" itemprop="dateCreated datePublished" datetime="2019-04-12T08:00:00+08:00">2019-04-12</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="feign-配置"><a href="#feign-配置" class="headerlink" title="feign 配置"></a>feign 配置</h3><p><a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html" target="_blank" rel="noopener">官方文档配置</a></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      feignName:</span></span><br><span class="line"><span class="attr">        connectTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        readTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        loggerLevel:</span> <span class="string">full</span></span><br><span class="line"><span class="attr">        errorDecoder:</span> <span class="string">com.example.SimpleErrorDecoder</span></span><br><span class="line"><span class="attr">        retryer:</span> <span class="string">com.example.SimpleRetryer</span></span><br><span class="line"><span class="attr">        requestInterceptors:</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">com.example.FooRequestInterceptor</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">com.example.BarRequestInterceptor</span></span><br><span class="line"><span class="attr">        decode404:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">        encoder:</span> <span class="string">com.example.SimpleEncoder</span></span><br><span class="line"><span class="attr">        decoder:</span> <span class="string">com.example.SimpleDecoder</span></span><br><span class="line"><span class="attr">        contract:</span> <span class="string">com.example.SimpleContract</span></span><br><span class="line"><span class="attr">      default:</span></span><br><span class="line"><span class="attr">        connectTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        readTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        loggerLevel:</span> <span class="string">basic</span></span><br><span class="line"><span class="comment"># To disable Hystrix in Feign</span></span><br><span class="line"><span class="attr">  hystrix:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="comment"># To set thread isolation to SEMAPHORE</span></span><br><span class="line"><span class="attr">hystrix:</span></span><br><span class="line"><span class="attr">  command:</span></span><br><span class="line"><span class="attr">    default:</span></span><br><span class="line"><span class="attr">      execution:</span></span><br><span class="line"><span class="attr">        isolation:</span></span><br><span class="line"><span class="attr">          strategy:</span> <span class="string">SEMAPHORE</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 配置请求GZIP压缩</span><br><span class="line">feign.compression.request.enabled=true</span><br><span class="line"># 配置响应GZIP压缩</span><br><span class="line">feign.compression.response.enabled=true</span><br><span class="line"># 配置压缩支持的MIME TYPE</span><br><span class="line">feign.compression.request.mime-types=text/xml,application/xml,application/json</span><br><span class="line"># 配置压缩数据大小的下限</span><br><span class="line">feign.compression.request.min-request-size=2048</span><br><span class="line"></span><br><span class="line">#熔断</span><br><span class="line">feign.hystrix.enabled=false</span><br></pre></td></tr></table></figure>
-<h3 id="ribbon-配置"><a href="#ribbon-配置" class="headerlink" title="ribbon 配置"></a>ribbon 配置</h3><p><a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-ribbon.html" target="_blank" rel="noopener">官方文档</a></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attr">users:</span></span><br><span class="line"><span class="attr">  ribbon:</span></span><br><span class="line"><span class="attr">    NIWSServerListClassName:</span> <span class="string">com.netflix.loadbalancer.ConfigurationBasedServerList</span></span><br><span class="line"><span class="attr">    NFLoadBalancerRuleClassName:</span> <span class="string">com.netflix.loadbalancer.WeightedResponseTimeRule</span></span><br><span class="line"><span class="attr">stores:</span></span><br><span class="line"><span class="attr">  ribbon:</span></span><br><span class="line"><span class="attr">    listOfServers:</span> <span class="string">example.com,google.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">ribbon:</span></span><br><span class="line"><span class="attr">  eureka:</span></span><br><span class="line"><span class="attr">   enabled:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">  eager-load:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    clients:</span> <span class="string">client1,</span> <span class="string">client2,</span> <span class="string">client3</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"># 设置连接超时时间</span><br><span class="line">ribbon.ConnectTimeout=3000</span><br><span class="line"># 设置读取超时时间</span><br><span class="line">ribbon.ReadTimeout=2000</span><br><span class="line"># 对所有操作请求都进行重试</span><br><span class="line">ribbon.OkToRetryOnAllOperations=true</span><br><span class="line"># 切换实例的重试次数</span><br><span class="line">ribbon.MaxAutoRetriesNextServer=2</span><br><span class="line"># 对当前实例的重试次数</span><br><span class="line">ribbon.MaxAutoRetries=1</span><br><span class="line">#切换实例的重试次数</span><br><span class="line">ribbon.MaxAutoRetriesNextServer=1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#暂不开启重试,以防请求重复</span><br><span class="line">spring.cloud.loadbalancer.retry.enabled=false</span><br></pre></td></tr></table></figure>
-<ul>
-<li>这种配置是一种全局配置，就是是对所有的请求生效的，如果我想针对不同的服务配置不同的连接超时和读取超时，那么我们可以在属性的前面加上服务的名字，如下：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"># 设置针对hello-service服务的连接超时时间</span><br><span class="line">hello-service.ribbon.ConnectTimeout=600</span><br><span class="line"># 设置针对hello-service服务的读取超时时间</span><br><span class="line">hello-service.ribbon.ReadTimeout=6000</span><br><span class="line"># 设置针对hello-service服务所有操作请求都进行重试</span><br><span class="line">hello-service.ribbon.OkToRetryOnAllOperations=true</span><br><span class="line"># 设置针对hello-service服务切换实例的重试次数</span><br><span class="line">hello-service.ribbon.MaxAutoRetriesNextServer=2</span><br><span class="line"># 设置针对hello-service服务的当前实例的重试次数</span><br><span class="line">hello-service.ribbon.MaxAutoRetries=1</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="bookmark">sleuth灵异事件</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/17/spring-cloud/zuul-1/" rel="bookmark">zuul 配置</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -814,7 +598,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="bookmark">sleuth灵异事件</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
       
     </li>
   
@@ -828,6 +612,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
       
     </li>
@@ -835,7 +626,216 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2019/03/17/spring-cloud/zuul-1/" rel="bookmark">zuul 配置</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/12/spring-cloud/feign-ribbon-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/2/index.html">feign ribbon 配置</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-12 08:00:00" itemprop="dateCreated datePublished" datetime="2019-04-12T08:00:00+08:00">2019-04-12</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="feign-配置"><a href="#feign-配置" class="headerlink" title="feign 配置"></a>feign 配置</h3><p><a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html" target="_blank" rel="noopener">官方文档配置</a></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      feignName:</span></span><br><span class="line"><span class="attr">        connectTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        readTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        loggerLevel:</span> <span class="string">full</span></span><br><span class="line"><span class="attr">        errorDecoder:</span> <span class="string">com.example.SimpleErrorDecoder</span></span><br><span class="line"><span class="attr">        retryer:</span> <span class="string">com.example.SimpleRetryer</span></span><br><span class="line"><span class="attr">        requestInterceptors:</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">com.example.FooRequestInterceptor</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">com.example.BarRequestInterceptor</span></span><br><span class="line"><span class="attr">        decode404:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">        encoder:</span> <span class="string">com.example.SimpleEncoder</span></span><br><span class="line"><span class="attr">        decoder:</span> <span class="string">com.example.SimpleDecoder</span></span><br><span class="line"><span class="attr">        contract:</span> <span class="string">com.example.SimpleContract</span></span><br><span class="line"><span class="attr">      default:</span></span><br><span class="line"><span class="attr">        connectTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        readTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        loggerLevel:</span> <span class="string">basic</span></span><br><span class="line"><span class="comment"># To disable Hystrix in Feign</span></span><br><span class="line"><span class="attr">  hystrix:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="comment"># To set thread isolation to SEMAPHORE</span></span><br><span class="line"><span class="attr">hystrix:</span></span><br><span class="line"><span class="attr">  command:</span></span><br><span class="line"><span class="attr">    default:</span></span><br><span class="line"><span class="attr">      execution:</span></span><br><span class="line"><span class="attr">        isolation:</span></span><br><span class="line"><span class="attr">          strategy:</span> <span class="string">SEMAPHORE</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 配置请求GZIP压缩</span><br><span class="line">feign.compression.request.enabled=true</span><br><span class="line"># 配置响应GZIP压缩</span><br><span class="line">feign.compression.response.enabled=true</span><br><span class="line"># 配置压缩支持的MIME TYPE</span><br><span class="line">feign.compression.request.mime-types=text/xml,application/xml,application/json</span><br><span class="line"># 配置压缩数据大小的下限</span><br><span class="line">feign.compression.request.min-request-size=2048</span><br><span class="line"></span><br><span class="line">#熔断</span><br><span class="line">feign.hystrix.enabled=false</span><br></pre></td></tr></table></figure>
+<h3 id="ribbon-配置"><a href="#ribbon-配置" class="headerlink" title="ribbon 配置"></a>ribbon 配置</h3><p><a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-ribbon.html" target="_blank" rel="noopener">官方文档</a></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attr">users:</span></span><br><span class="line"><span class="attr">  ribbon:</span></span><br><span class="line"><span class="attr">    NIWSServerListClassName:</span> <span class="string">com.netflix.loadbalancer.ConfigurationBasedServerList</span></span><br><span class="line"><span class="attr">    NFLoadBalancerRuleClassName:</span> <span class="string">com.netflix.loadbalancer.WeightedResponseTimeRule</span></span><br><span class="line"><span class="attr">stores:</span></span><br><span class="line"><span class="attr">  ribbon:</span></span><br><span class="line"><span class="attr">    listOfServers:</span> <span class="string">example.com,google.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">ribbon:</span></span><br><span class="line"><span class="attr">  eureka:</span></span><br><span class="line"><span class="attr">   enabled:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">  eager-load:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    clients:</span> <span class="string">client1,</span> <span class="string">client2,</span> <span class="string">client3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"># 设置连接超时时间</span><br><span class="line">ribbon.ConnectTimeout=3000</span><br><span class="line"># 设置读取超时时间</span><br><span class="line">ribbon.ReadTimeout=2000</span><br><span class="line"># 对所有操作请求都进行重试</span><br><span class="line">ribbon.OkToRetryOnAllOperations=true</span><br><span class="line"># 切换实例的重试次数</span><br><span class="line">ribbon.MaxAutoRetriesNextServer=2</span><br><span class="line"># 对当前实例的重试次数</span><br><span class="line">ribbon.MaxAutoRetries=1</span><br><span class="line">#切换实例的重试次数</span><br><span class="line">ribbon.MaxAutoRetriesNextServer=1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#暂不开启重试,以防请求重复</span><br><span class="line">spring.cloud.loadbalancer.retry.enabled=false</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这种配置是一种全局配置，就是是对所有的请求生效的，如果我想针对不同的服务配置不同的连接超时和读取超时，那么我们可以在属性的前面加上服务的名字，如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"># 设置针对hello-service服务的连接超时时间</span><br><span class="line">hello-service.ribbon.ConnectTimeout=600</span><br><span class="line"># 设置针对hello-service服务的读取超时时间</span><br><span class="line">hello-service.ribbon.ReadTimeout=6000</span><br><span class="line"># 设置针对hello-service服务所有操作请求都进行重试</span><br><span class="line">hello-service.ribbon.OkToRetryOnAllOperations=true</span><br><span class="line"># 设置针对hello-service服务切换实例的重试次数</span><br><span class="line">hello-service.ribbon.MaxAutoRetriesNextServer=2</span><br><span class="line"># 设置针对hello-service服务的当前实例的重试次数</span><br><span class="line">hello-service.ribbon.MaxAutoRetries=1</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
       
     </li>
   
@@ -1119,213 +1119,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/03/18/spring-cloud/spring-boot-mybatis-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/2/index.html">spring boot mybatis 配置</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-18 08:00:00" itemprop="dateCreated datePublished" datetime="2019-03-18T08:00:00+08:00">2019-03-18</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#MYBATIS</span><br><span class="line">#---------------------------mybatis-plus-------------------------#</span><br><span class="line"># mapper 位置</span><br><span class="line">mybatis-plus.mapper-locations=classpath:/mapper/*Mapper.xml</span><br><span class="line">#实体类扫描包</span><br><span class="line">#mybatis-plus.type-aliases-package=cn.wuxinvip.demo.entity</span><br><span class="line">#主键类型  0:&quot;数据库ID自增&quot;, 1:&quot;用户输入ID&quot;,2:&quot;全局唯一ID (数字类型唯一ID)&quot;, 3:&quot;全局唯一ID UUID&quot;;</span><br><span class="line">mybatis-plus.global-config.id-type=1</span><br><span class="line">#字段策略 0:&quot;忽略判断&quot;,1:&quot;非 NULL 判断&quot;),2:&quot;非空判断&quot;</span><br><span class="line">mybatis-plus.global-config.field-strategy=2</span><br><span class="line">#驼峰下划线转换</span><br><span class="line">mybatis-plus.global-config.db-column-underline=true</span><br><span class="line">#刷新mapper 调试神器，开发环境使用，部署环境必须关掉</span><br><span class="line">mybatis-plus.global-config.refresh-mapper=true</span><br><span class="line">#数据库大写下划线转换</span><br><span class="line">#mybatis-plus.global-config.capital-mode=true</span><br><span class="line">#序列接口实现类配置</span><br><span class="line">#mybatis-plus.global-config.key-generator=com.baomidou.springboot.xxx</span><br><span class="line">#逻辑删除配置</span><br><span class="line">#mybatis-plus.global-config.logic-delete-value=0</span><br><span class="line">#mybatis-plus.global-config.logic-not-delete-value=1</span><br><span class="line">#自定义填充策略接口实现</span><br><span class="line">#mybatis-plus.global-config.meta-object-handler=com.baomidou.springboot.xxx</span><br><span class="line">#自定义SQL注入器</span><br><span class="line">#mybatis-plus.global-config.sql-injector=com.baomidou.springboot.xxx</span><br><span class="line">#mybatis-plus.global-config.meta-object-handler=cn.wuxinvip.demo.base.ObjectHandler</span><br><span class="line">#下划线转驼峰</span><br><span class="line">mybatis-plus.configuration.map-underscore-to-camel-case=true</span><br><span class="line"># 缓存开关</span><br><span class="line">mybatis-plus.configuration.cache-enabled=false</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="bookmark">sleuth灵异事件</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/17/spring-cloud/zuul-1/" rel="bookmark">zuul 配置</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/03/18/spring-cloud/zuul-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1454,7 +1247,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="bookmark">sleuth灵异事件</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
       
     </li>
   
@@ -1468,7 +1261,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
       
     </li>
   
@@ -1476,6 +1269,213 @@
       
       
       <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/17/spring-cloud/zuul-1/" rel="bookmark">zuul 配置</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/03/18/spring-cloud/spring-boot-mybatis-config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/2/index.html">spring boot mybatis 配置</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-18 08:00:00" itemprop="dateCreated datePublished" datetime="2019-03-18T08:00:00+08:00">2019-03-18</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#MYBATIS</span><br><span class="line">#---------------------------mybatis-plus-------------------------#</span><br><span class="line"># mapper 位置</span><br><span class="line">mybatis-plus.mapper-locations=classpath:/mapper/*Mapper.xml</span><br><span class="line">#实体类扫描包</span><br><span class="line">#mybatis-plus.type-aliases-package=cn.wuxinvip.demo.entity</span><br><span class="line">#主键类型  0:&quot;数据库ID自增&quot;, 1:&quot;用户输入ID&quot;,2:&quot;全局唯一ID (数字类型唯一ID)&quot;, 3:&quot;全局唯一ID UUID&quot;;</span><br><span class="line">mybatis-plus.global-config.id-type=1</span><br><span class="line">#字段策略 0:&quot;忽略判断&quot;,1:&quot;非 NULL 判断&quot;),2:&quot;非空判断&quot;</span><br><span class="line">mybatis-plus.global-config.field-strategy=2</span><br><span class="line">#驼峰下划线转换</span><br><span class="line">mybatis-plus.global-config.db-column-underline=true</span><br><span class="line">#刷新mapper 调试神器，开发环境使用，部署环境必须关掉</span><br><span class="line">mybatis-plus.global-config.refresh-mapper=true</span><br><span class="line">#数据库大写下划线转换</span><br><span class="line">#mybatis-plus.global-config.capital-mode=true</span><br><span class="line">#序列接口实现类配置</span><br><span class="line">#mybatis-plus.global-config.key-generator=com.baomidou.springboot.xxx</span><br><span class="line">#逻辑删除配置</span><br><span class="line">#mybatis-plus.global-config.logic-delete-value=0</span><br><span class="line">#mybatis-plus.global-config.logic-not-delete-value=1</span><br><span class="line">#自定义填充策略接口实现</span><br><span class="line">#mybatis-plus.global-config.meta-object-handler=com.baomidou.springboot.xxx</span><br><span class="line">#自定义SQL注入器</span><br><span class="line">#mybatis-plus.global-config.sql-injector=com.baomidou.springboot.xxx</span><br><span class="line">#mybatis-plus.global-config.meta-object-handler=cn.wuxinvip.demo.base.ObjectHandler</span><br><span class="line">#下划线转驼峰</span><br><span class="line">mybatis-plus.configuration.map-underscore-to-camel-case=true</span><br><span class="line"># 缓存开关</span><br><span class="line">mybatis-plus.configuration.cache-enabled=false</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
       
     </li>
   
@@ -1667,7 +1667,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="bookmark">sleuth灵异事件</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
       
     </li>
   
@@ -1681,14 +1681,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
       
     </li>
   
@@ -1696,6 +1689,13 @@
       
       
       <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
       
     </li>
   
@@ -1902,14 +1902,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
       
     </li>
   
