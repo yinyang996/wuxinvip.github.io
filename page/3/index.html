@@ -308,7 +308,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -451,6 +451,214 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/03/17/spring-cloud/zuul-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/17/spring-cloud/zuul-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/3/index.html">zuul 配置</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-17 08:00:00" itemprop="dateCreated datePublished" datetime="2019-03-17T08:00:00+08:00">2019-03-17</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="zuul-配置"><a href="#zuul-配置" class="headerlink" title="zuul 配置"></a>zuul 配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#url转发</span><br><span class="line">#zuul.routes.api-a-url.path=/api-a/**</span><br><span class="line">#zuul.routes.api-a-url.url=http://127.0.0.1:9000/</span><br><span class="line"></span><br><span class="line">#结合eureka 进行服务转发</span><br><span class="line">zuul.routes.agent.path=/project/**</span><br><span class="line">zuul.routes.agent.serviceId=project-center</span><br><span class="line"></span><br><span class="line">zuul.routes.user-center.path=/uc/**</span><br><span class="line">zuul.routes.user-center.serviceId=user-center</span><br><span class="line"></span><br><span class="line">zuul.routes.eureka=/eureka/**</span><br><span class="line">zuul.routes.eureka.serviceId=eureka-server</span><br><span class="line"></span><br><span class="line">#此外结合eureka </span><br><span class="line">eureka.client.service-url.defaultZone=http://eureka.wuxinvip.com/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#以及结合config配置【以下配置需要放到bootstrap.properties中】</span><br><span class="line"></span><br><span class="line">#可以通过eureka注册中心获取配置中心</span><br><span class="line">spring.application.name=api-gateway</span><br><span class="line">#eureka.client.service-url.defaultZone=http://eureka.wuxinvip.com/</span><br><span class="line">#spring.cloud.config.discovery.enabled=true</span><br><span class="line">#spring.cloud.config.discovery.service-id=CONFIG-SERVER</span><br><span class="line"></span><br><span class="line">#也可以采用此种配置获取uri地址</span><br><span class="line">spring.application.name=api-gateway</span><br><span class="line">spring.cloud.config.uri=http://config.wuxinvip.com</span><br></pre></td></tr></table></figure>
+<p>{———-}</p>
+<h3 id="zuul自定义拦截器"><a href="#zuul自定义拦截器" class="headerlink" title="zuul自定义拦截器"></a>zuul自定义拦截器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@title</span>:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>:</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: 无心</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span>:2019/4/17 13:03</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@location</span> com.wuxinvip.apigateway.route.DemoFilter.class</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger logger = LoggerFactory.getLogger(DemoFilter.class);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//前置过滤器</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//优先级，数字越大，优先级越低</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//是否执行该过滤器，true代表需要过滤</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</span><br><span class="line">        RequestContext ctx = RequestContext.getCurrentContext();</span><br><span class="line">        HttpServletRequest request = ctx.getRequest();</span><br><span class="line"></span><br><span class="line">        logger.info(<span class="string">"send &#123;&#125; request to &#123;&#125;"</span>, request.getMethod(), request.getRequestURL().toString());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取传来的参数accessToken</span></span><br><span class="line">        Object accessToken = request.getParameter(<span class="string">"token"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//TODO</span></span><br><span class="line">        <span class="comment">//toke验证 可以选择连接redis、也可以选择连接权限组件、</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">//这里return的值没有意义，zuul框架没有使用该返回值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/eureka-1/" rel="bookmark">EUREKA服务治理</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -572,17 +780,29 @@
 
       
         
-          <h4 id="二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）"><a href="#二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）" class="headerlink" title="二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）"></a>二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）</h4><p><strong>  深度优先遍历：从根节点出发，沿着左子树方向进行纵向遍历，直到找到叶子节点为止。然后回溯到前一个节点，进行右子树节点的遍历，直到遍历完所有可达节点为止。 </strong></p>
-<p><strong>  广度优先遍历：从根节点出发，在横向遍历二叉树层段节点的基础上纵向遍历二叉树的层次。 </strong><br>
-          <!--noindex-->
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/03/16/jdk/jdk-tree-2/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
+            <h4 id="二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）"><a href="#二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）" class="headerlink" title="二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）"></a>二叉树的深度优先遍历（DFS）与广度优先遍历（BFS）</h4><p><strong>  深度优先遍历：从根节点出发，沿着左子树方向进行纵向遍历，直到找到叶子节点为止。然后回溯到前一个节点，进行右子树节点的遍历，直到遍历完所有可达节点为止。 </strong></p>
+<p><strong>  广度优先遍历：从根节点出发，在横向遍历二叉树层段节点的基础上纵向遍历二叉树的层次。 </strong><br>{———-}</p>
+<p><img src="/img/jdk/jdk-tree-2.png" alt="jdktree"></p>
+<pre><code>DFS:A-B-D-E-C-F-G
+
+BFS:A-B-C-D-E-F-G
+
+DFS实现：
+
+数据结构：栈
+
+父节点入栈，父节点出栈，先右子节点入栈，后左子节点入栈。递归遍历全部节点即可
+
+BFS实现：
+
+数据结构：队列
+
+父节点入队，父节点出队列，先左子节点入队，后右子节点入队。递归遍历全部节点即可
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;malloc.h&gt;</span><br><span class="line">#include &lt;Stack&gt;</span><br><span class="line">#include &lt;Queue&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"> </span><br><span class="line">typedef struct Node &#123;</span><br><span class="line">    char data;</span><br><span class="line">    struct Node *lchild;</span><br><span class="line">    struct Node *rchild;</span><br><span class="line">&#125; *Tree;</span><br><span class="line">//Tree 是一个node指针的类型定义</span><br><span class="line"> </span><br><span class="line">int index = 0;  //全局索引变量</span><br><span class="line">//二叉树构造器,按先序遍历顺序构造二叉树</span><br><span class="line">//无左子树或右子树用&apos;#&apos;表示</span><br><span class="line">void treeNodeConstructor(Tree &amp;root, char data[])&#123;</span><br><span class="line">    char e = data[index++];</span><br><span class="line">    if(e == &apos;#&apos;)&#123;</span><br><span class="line">        root = NULL;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        root = (Node *)malloc(sizeof(Node));</span><br><span class="line">        root-&gt;data = e;</span><br><span class="line">        treeNodeConstructor(root-&gt;lchild, data);  //递归构建左子树</span><br><span class="line">        treeNodeConstructor(root-&gt;rchild, data);  //递归构建右子树</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//深度优先遍历</span><br><span class="line">void depthFirstSearch(Tree root)&#123;</span><br><span class="line">    stack&lt;Node *&gt; nodeStack;  //使用C++的STL标准模板库</span><br><span class="line">    nodeStack.push(root);</span><br><span class="line">    Node *node;</span><br><span class="line">    while(!nodeStack.empty())&#123;</span><br><span class="line">	    node = nodeStack.top();</span><br><span class="line">		cout&lt;&lt;node-&gt;data;//遍历根结点</span><br><span class="line">        nodeStack.pop();</span><br><span class="line">        if(node-&gt;rchild)&#123;</span><br><span class="line">            nodeStack.push(node-&gt;rchild);  //先将右子树压栈</span><br><span class="line">        &#125;</span><br><span class="line">        if(node-&gt;lchild)&#123;</span><br><span class="line">            nodeStack.push(node-&gt;lchild);  //再将左子树压栈</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//广度优先遍历</span><br><span class="line">void breadthFirstSearch(Tree root)&#123;</span><br><span class="line">    queue&lt;Node *&gt; nodeQueue;  //使用C++的STL标准模板库</span><br><span class="line">    nodeQueue.push(root);</span><br><span class="line">    Node *node;</span><br><span class="line">    while(!nodeQueue.empty())&#123;</span><br><span class="line">        node = nodeQueue.front();</span><br><span class="line">        nodeQueue.pop();</span><br><span class="line">        cout&lt;&lt;node-&gt;data;//遍历根结点</span><br><span class="line">        if(node-&gt;lchild)&#123;</span><br><span class="line">            nodeQueue.push(node-&gt;lchild);  //先将左子树入队</span><br><span class="line">        &#125;</span><br><span class="line">        if(node-&gt;rchild)&#123;</span><br><span class="line">            nodeQueue.push(node-&gt;rchild);  //再将右子树入队</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">int main() &#123;</span><br><span class="line">    //上图所示的二叉树先序遍历序列,其中用&apos;#&apos;表示结点无左子树或无右子树</span><br><span class="line">    char data[15] = &#123;&apos;A&apos;, &apos;B&apos;, &apos;D&apos;, &apos;#&apos;, &apos;#&apos;, &apos;E&apos;, &apos;#&apos;, &apos;#&apos;, &apos;C&apos;, &apos;F&apos;,&apos;#&apos;, &apos;#&apos;, &apos;G&apos;, &apos;#&apos;, &apos;#&apos;&#125;;</span><br><span class="line">    Tree tree;</span><br><span class="line">    treeNodeConstructor(tree, data);</span><br><span class="line">    printf(&quot;深度优先遍历二叉树结果: &quot;);</span><br><span class="line">    depthFirstSearch(tree);</span><br><span class="line">    printf(&quot;\n\n广度优先遍历二叉树结果: &quot;);</span><br><span class="line">    breadthFirstSearch(tree);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/mingwanganyu/article/details/72033122#commentBox" target="_blank" rel="noopener">原文地址</a></p>
+
+          
         
       
     </div>
@@ -596,7 +816,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
@@ -624,7 +844,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
       
     </li>
   
@@ -985,19 +1205,26 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>一入架构深似海啊</li>
 </ul>
 <p><img src="/img/essay/19/19.jpg" alt="TOGAF"></p>
-          <!--noindex-->
+<p>{———-}</p>
+<ul>
+<li><p>没有梦想和咸鱼有什么区别</p>
+</li>
+<li><p><a href="https://www.opengroup.org/togaf" target="_blank" rel="noopener">open group网站</a></p>
+</li>
+<li><p><a href="https://zh.wikipedia.org/wiki/%E5%BC%80%E6%94%BE%E7%BB%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E6%A1%86%E6%9E%B6" target="_blank" rel="noopener">wiki</a></p>
+</li>
+<li><p><a href="http://www.opengroup.org.cn/resources?field_download_category_value=1" target="_blank" rel="noopener">TOGAF图书馆</a></p>
+</li>
+<li><p><a href="http://pubs.opengroup.org/architecture/togaf9-doc/arch/" target="_blank" rel="noopener">TOGAF9.2</a></p>
+</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/22/essay/essay-19/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1194,18 +1421,32 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>有人讲linux底层原理是一切编程原理所在</li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h2><ul>
+<li>Kafka中消息序列化使用avro序列化、avro使用注册表机制</li>
+<li>spring 容器初始化中的bean初始化使用注册表机制</li>
+<li><p>win系统启动也是采用了注册表机制</p>
+</li>
+<li><p><a href="https://www.wuxinvip.com/2018/11/10/essay/avro/">avro 详解</a></p>
+</li>
+<li>avro 使用注册表来存储 协议schema、以便于消费者和生产者采用双方认可解析协议 解析数据</li>
+<li>spring bean注册中、注册每一个bean类初始化类信息、方法、常量等等、在使用的时候注入应用中使用</li>
+<li>windows的注册表是二进制的数据库、作为整个系统和应用上的核心数据库在各个应用中共享数据</li>
+</ul>
+<p>套路：注册表:数据唯一识别、也可以作为协议、也可以作为数据库、<br>共同点：数据特征识别、</p>
+<h2 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h2><ul>
+<li>主副本数据存储</li>
+</ul>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ul>
+<li>hash索引【mysql】</li>
+<li>btree索引【mysql】</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/12/essay/essay-18/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1409,22 +1650,162 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>写的很不错 从浅入深、还有代码示例、还有模型示例</li>
 </ul>
 <h2 id="转-美团技术团队-以示版权"><a href="#转-美团技术团队-以示版权" class="headerlink" title="转-美团技术团队-以示版权"></a><a href="https://tech.meituan.com/nio.html" target="_blank" rel="noopener">转-美团技术团队-以示版权</a></h2><p>NIO（Non-blocking I/O，在Java领域，也称为New I/O），是一种同步非阻塞的I/O模型，也是I/O多路复用的基础，已经被越来越多地应用到大型应用服务器，成为解决高并发与大量连接、I/O处理问题的有效方式。</p>
 <p>那么NIO的本质是什么样的呢？它是怎样与事件模型结合来解放线程、提高系统吞吐的呢？</p>
 <p>本文会从传统的阻塞I/O和线程池模型面临的问题讲起，然后对比几种常见I/O模型，一步步分析NIO怎么利用事件模型处理I/O，解决线程池瓶颈处理海量连接，包括利用面向事件的方式编写服务端/客户端程序。最后延展到一些高级主题，如Reactor与Proactor模型的对比、Selector的唤醒、Buffer的选择等。</p>
 <p>注：本文的代码都是伪代码，主要是为了示意，不可用于生产环境。</p>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="传统BIO模型分析"><a href="#传统BIO模型分析" class="headerlink" title="传统BIO模型分析"></a>传统BIO模型分析</h2><p>让我们先回忆一下传统的服务器端同步阻塞I/O处理（也就是BIO，Blocking I/O）的经典编程模型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> ExecutorService executor = Excutors.newFixedThreadPollExecutor(100);//线程池</span><br><span class="line"></span><br><span class="line"> ServerSocket serverSocket = new ServerSocket();</span><br><span class="line"> serverSocket.bind(8088);</span><br><span class="line"> while(!Thread.currentThread.isInturrupted())&#123;//主线程死循环等待新连接到来</span><br><span class="line"> Socket socket = serverSocket.accept();</span><br><span class="line"> executor.submit(new ConnectIOnHandler(socket));//为新的连接创建新的线程</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ConnectIOnHandler extends Thread&#123;</span><br><span class="line">    private Socket socket;</span><br><span class="line">    public ConnectIOnHandler(Socket socket)&#123;</span><br><span class="line">       this.socket = socket;</span><br><span class="line">    &#125;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">      while(!Thread.currentThread.isInturrupted()&amp;&amp;!socket.isClosed())&#123;死循环处理读写事件</span><br><span class="line">          String someThing = socket.read()....//读取数据</span><br><span class="line">          if(someThing!=null)&#123;</span><br><span class="line">             ......//处理数据</span><br><span class="line">             socket.write()....//写数据</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个经典的每连接每线程的模型，之所以使用多线程，主要原因在于socket.accept()、socket.read()、socket.write()三个主要函数都是同步阻塞的，当一个连接在处理I/O的时候，系统是阻塞的，如果是单线程的话必然就挂死在那里；但CPU是被释放出来的，开启多线程，就可以让CPU去处理更多的事情。其实这也是所有使用多线程的本质：</p>
+<ul>
+<li>利用多核。</li>
+<li>当I/O阻塞系统，但CPU空闲的时候，可以利用多线程使用CPU资源。</li>
+</ul>
+<p>现在的多线程一般都使用线程池，可以让线程的创建和回收成本相对较低。在活动连接数不是特别高（小于单机1000）的情况下，这种模型是比较不错的，可以让每一个连接专注于自己的I/O并且编程模型简单，也不用过多考虑系统的过载、限流等问题。线程池本身就是一个天然的漏斗，可以缓冲一些系统处理不了的连接或请求。</p>
+<p>不过，这个模型最本质的问题在于，严重依赖于线程。但线程是很”贵”的资源，主要表现在：</p>
+<ul>
+<li>线程的创建和销毁成本很高，在Linux这样的操作系统中，线程本质上就是一个进程。创建和销毁都是重量级的系统函数。</li>
+<li>线程本身占用较大内存，像Java的线程栈，一般至少分配512K～1M的空间，如果系统中的线程数过千，恐怕整个JVM的内存都会被吃掉一半。</li>
+<li>线程的切换成本是很高的。操作系统发生线程切换的时候，需要保留线程的上下文，然后执行系统调用。如果线程数过高，可能执行线程切换的时间甚至会大于线程执行的时间，这时候带来的表现往往是系统load偏高、CPU sy使用率特别高（超过20%以上)，导致系统几乎陷入不可用的状态。</li>
+<li>容易造成锯齿状的系统负载。因为系统负载是用活动线程数或CPU核心数，一旦线程数量高但外部网络环境不是很稳定，就很容易造成大量请求的结果同时返回，激活大量阻塞线程从而使系统负载压力过大。</li>
+</ul>
+<p>所以，当面对十万甚至百万级连接的时候，传统的BIO模型是无能为力的。随着移动端应用的兴起和各种网络游戏的盛行，百万级长连接日趋普遍，此时，必然需要一种更高效的I/O处理模型。</p>
+<h2 id="NIO是怎么工作的"><a href="#NIO是怎么工作的" class="headerlink" title="NIO是怎么工作的"></a>NIO是怎么工作的</h2><p>很多刚接触NIO的人，第一眼看到的就是Java相对晦涩的API，比如：Channel，Selector，Socket什么的；然后就是一坨上百行的代码来演示NIO的服务端Demo……瞬间头大有没有？</p>
+<p>我们不管这些，抛开现象看本质，先分析下NIO是怎么工作的。</p>
+<h3 id="常见I-O模型对比"><a href="#常见I-O模型对比" class="headerlink" title="常见I/O模型对比"></a>常见I/O模型对比</h3><p>所有的系统I/O都分为两个阶段：等待就绪和操作。举例来说，读函数，分为等待系统可读和真正的读；同理，写函数分为等待网卡可以写和真正的写。</p>
+<p>需要说明的是等待就绪的阻塞是不使用CPU的，是在“空等”；而真正的读写操作的阻塞是使用CPU的，真正在”干活”，而且这个过程非常快，属于memory copy，带宽通常在1GB/s级别以上，可以理解为基本不耗时。</p>
+<p>下图是几种常见I/O模型的对比：</p>
+<p><img src="/img/jdk/nio2.jpg" alt="NIO模型对比"></p>
+<p>以socket.read()为例子：</p>
+<p>传统的BIO里面socket.read()，如果TCP RecvBuffer里没有数据，函数会一直阻塞，直到收到数据，返回读到的数据。</p>
+<p>对于NIO，如果TCP RecvBuffer有数据，就把数据从网卡读到内存，并且返回给用户；反之则直接返回0，永远不会阻塞。</p>
+<p>最新的AIO(Async I/O)里面会更进一步：不但等待就绪是非阻塞的，就连数据从网卡到内存的过程也是异步的。</p>
+<p>换句话说，BIO里用户最关心“我要读”，NIO里用户最关心”我可以读了”，在AIO模型里用户更需要关注的是“读完了”。</p>
+<p>NIO一个重要的特点是：socket主要的读、写、注册和接收函数，在等待就绪阶段都是非阻塞的，真正的I/O操作是同步阻塞的（消耗CPU但性能非常高）。</p>
+<h2 id="如何结合事件模型使用NIO同步非阻塞特性"><a href="#如何结合事件模型使用NIO同步非阻塞特性" class="headerlink" title="如何结合事件模型使用NIO同步非阻塞特性"></a>如何结合事件模型使用NIO同步非阻塞特性</h2><p>回忆BIO模型，之所以需要多线程，是因为在进行I/O操作的时候，一是没有办法知道到底能不能写、能不能读，只能”傻等”，即使通过各种估算，算出来操作系统没有能力进行读写，也没法在socket.read()和socket.write()函数中返回，这两个函数无法进行有效的中断。所以除了多开线程另起炉灶，没有好的办法利用CPU。</p>
+<p>NIO的读写函数可以立刻返回，这就给了我们不开线程利用CPU的最好机会：如果一个连接不能读写（socket.read()返回0或者socket.write()返回0），我们可以把这件事记下来，记录的方式通常是在Selector上注册标记位，然后切换到其它就绪的连接（channel）继续进行读写。</p>
+<p>下面具体看下如何利用事件模型单线程处理所有I/O请求：</p>
+<p>NIO的主要事件有几个：读就绪、写就绪、有新连接到来。</p>
+<p>我们首先需要注册当这几个事件到来的时候所对应的处理器。然后在合适的时机告诉事件选择器：我对这个事件感兴趣。对于写操作，就是写不出去的时候对写事件感兴趣；对于读操作，就是完成连接和系统没有办法承载新读入的数据的时；对于accept，一般是服务器刚启动的时候；而对于connect，一般是connect失败需要重连或者直接异步调用connect的时候。</p>
+<p>其次，用一个死循环选择就绪的事件，会执行系统调用（Linux 2.6之前是select、poll，2.6之后是epoll，Windows是IOCP），还会阻塞的等待新事件的到来。新事件到来的时候，会在selector上注册标记位，标示可读、可写或者有连接到来。</p>
+<p>注意，select是阻塞的，无论是通过操作系统的通知（epoll）还是不停的轮询(select，poll)，这个函数是阻塞的。所以你可以放心大胆地在一个while(true)里面调用这个函数而不用担心CPU空转。</p>
+<p>所以我们的程序大概的模样是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">interface ChannelHandler&#123;</span><br><span class="line">    void channelReadable(Channel channel);</span><br><span class="line">    void channelWritable(Channel channel);</span><br><span class="line"> &#125;</span><br><span class="line"> class Channel&#123;</span><br><span class="line">   Socket socket;</span><br><span class="line">   Event event;//读，写或者连接</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> //IO线程主循环:</span><br><span class="line"> class IoThread extends Thread&#123;</span><br><span class="line"> public void run()&#123;</span><br><span class="line"> Channel channel;</span><br><span class="line"> while(channel=Selector.select())&#123;//选择就绪的事件和对应的连接</span><br><span class="line">    if(channel.event==accept)&#123;</span><br><span class="line">       registerNewChannelHandler(channel);//如果是新连接，则注册一个新的读写处理器</span><br><span class="line">    &#125;</span><br><span class="line">    if(channel.event==write)&#123;</span><br><span class="line">       getChannelHandler(channel).channelWritable(channel);//如果可以写，则执行写事件</span><br><span class="line">    &#125;</span><br><span class="line">    if(channel.event==read)&#123;</span><br><span class="line">        getChannelHandler(channel).channelReadable(channel);//如果可以读，则执行读事件</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> Map&lt;Channel，ChannelHandler&gt; handlerMap;//所有channel的对应事件处理器</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个程序很简短，也是最简单的Reactor模式：注册所有感兴趣的事件处理器，单线程轮询选择就绪事件，执行事件处理器。</p>
+<h2 id="优化线程模型"><a href="#优化线程模型" class="headerlink" title="优化线程模型"></a>优化线程模型</h2><p>由上面的示例我们大概可以总结出NIO是怎么解决掉线程的瓶颈并处理海量连接的：</p>
+<p>NIO由原来的阻塞读写（占用线程）变成了单线程轮询事件，找到可以进行读写的网络描述符进行读写。除了事件的轮询是阻塞的（没有可干的事情必须要阻塞），剩余的I/O操作都是纯CPU操作，没有必要开启多线程。</p>
+<p>并且由于线程的节约，连接数大的时候因为线程切换带来的问题也随之解决，进而为处理海量连接提供了可能。</p>
+<p>单线程处理I/O的效率确实非常高，没有线程切换，只是拼命的读、写、选择事件。但现在的服务器，一般都是多核处理器，如果能够利用多核心进行I/O，无疑对效率会有更大的提高。</p>
+<p>仔细分析一下我们需要的线程，其实主要包括以下几种：</p>
+<ul>
+<li>事件分发器，单线程选择就绪的事件。</li>
+<li>I/O处理器，包括connect、read、write等，这种纯CPU操作，一般开启CPU核心个线程就可以。</li>
+<li>业务线程，在处理完I/O后，业务一般还会有自己的业务逻辑，有的还会有其他的阻塞I/O，如DB操作，RPC等。只要有阻塞，就需要单独的线程。</li>
+</ul>
+<p>Java的Selector对于Linux系统来说，有一个致命限制：同一个channel的select不能被并发的调用。因此，如果有多个I/O线程，必须保证：一个socket只能属于一个IoThread，而一个IoThread可以管理多个socket。</p>
+<p>另外连接的处理和读写的处理通常可以选择分开，这样对于海量连接的注册和读写就可以分发。虽然read()和write()是比较高效无阻塞的函数，但毕竟会占用CPU，如果面对更高的并发则无能为力。</p>
+<p><img src="/img/jdk/reactor.png" alt=""></p>
+<h2 id="NIO在客户端的魔力"><a href="#NIO在客户端的魔力" class="headerlink" title="NIO在客户端的魔力"></a>NIO在客户端的魔力</h2><p>通过上面的分析，可以看出NIO在服务端对于解放线程，优化I/O和处理海量连接方面，确实有自己的用武之地。那么在客户端上，NIO又有什么使用场景呢?</p>
+<p>常见的客户端BIO+连接池模型，可以建立n个连接，然后当某一个连接被I/O占用的时候，可以使用其他连接来提高性能。</p>
+<p>但多线程的模型面临和服务端相同的问题：如果指望增加连接数来提高性能，则连接数又受制于线程数、线程很贵、无法建立很多线程，则性能遇到瓶颈。</p>
+<h3 id="每连接顺序请求的Redis"><a href="#每连接顺序请求的Redis" class="headerlink" title="每连接顺序请求的Redis"></a>每连接顺序请求的Redis</h3><p>对于Redis来说，由于服务端是全局串行的，能够保证同一连接的所有请求与返回顺序一致。这样可以使用单线程＋队列，把请求数据缓冲。然后pipeline发送，返回future，然后channel可读时，直接在队列中把future取回来，done()就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">伪代码如下：</span><br><span class="line">class RedisClient Implements ChannelHandler&#123;</span><br><span class="line">     private BlockingQueue CmdQueue;</span><br><span class="line">     private EventLoop eventLoop;</span><br><span class="line">     private Channel channel;</span><br><span class="line">     class Cmd&#123;</span><br><span class="line">      String cmd;</span><br><span class="line">      Future result;</span><br><span class="line">     &#125;</span><br><span class="line">     public Future get(String key)&#123;</span><br><span class="line">       Cmd cmd= new Cmd(key);</span><br><span class="line">       queue.offer(cmd);</span><br><span class="line">       eventLoop.submit(new Runnable()&#123;</span><br><span class="line">            List list = new ArrayList();</span><br><span class="line">            queue.drainTo(list);</span><br><span class="line">            if(channel.isWritable())&#123;</span><br><span class="line">             channel.writeAndFlush(list);</span><br><span class="line">            &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">     public void ChannelReadFinish(Channel channel，Buffer Buffer)&#123;</span><br><span class="line">        List result = handleBuffer();//处理数据</span><br><span class="line">        //从cmdQueue取出future，并设值，future.done();</span><br><span class="line">    &#125;</span><br><span class="line">     public void ChannelWritable(Channel channel)&#123;</span><br><span class="line">       channel.flush();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样做，能够充分的利用pipeline来提高I/O能力，同时获取异步处理能力。</p>
+<h3 id="多连接短连接的HttpClient"><a href="#多连接短连接的HttpClient" class="headerlink" title="多连接短连接的HttpClient"></a>多连接短连接的HttpClient</h3><p>类似于竞对抓取的项目，往往需要建立无数的HTTP短连接，然后抓取，然后销毁，当需要单机抓取上千网站线程数又受制的时候，怎么保证性能呢?</p>
+<p>何不尝试NIO，单线程进行连接、写、读操作？如果连接、读、写操作系统没有能力处理，简单的注册一个事件，等待下次循环就好了。</p>
+<p>如何存储不同的请求/响应呢？由于http是无状态没有版本的协议，又没有办法使用队列，好像办法不多。比较笨的办法是对于不同的socket，直接存储socket的引用作为map的key。</p>
+<h3 id="常见的RPC框架，如Thrift，Dubbo"><a href="#常见的RPC框架，如Thrift，Dubbo" class="headerlink" title="常见的RPC框架，如Thrift，Dubbo"></a>常见的RPC框架，如Thrift，Dubbo</h3><p>这种框架内部一般维护了请求的协议和请求号，可以维护一个以请求号为key，结果的result为future的map，结合NIO+长连接，获取非常不错的性能。</p>
+<h2 id="NIO高级主题"><a href="#NIO高级主题" class="headerlink" title="NIO高级主题"></a>NIO高级主题</h2><h3 id="Proactor与Reactor"><a href="#Proactor与Reactor" class="headerlink" title="Proactor与Reactor"></a>Proactor与Reactor</h3><p>一般情况下，I/O 复用机制需要事件分发器（event dispatcher）。 事件分发器的作用，即将那些读写事件源分发给各读写事件的处理者，就像送快递的在楼下喊: 谁谁谁的快递到了， 快来拿吧！开发人员在开始的时候需要在分发器那里注册感兴趣的事件，并提供相应的处理者（event handler)，或者是回调函数；事件分发器在适当的时候，会将请求的事件分发给这些handler或者回调函数。</p>
+<p>涉及到事件分发器的两种模式称为：Reactor和Proactor。 Reactor模式是基于同步I/O的，而Proactor模式是和异步I/O相关的。在Reactor模式中，事件分发器等待某个事件或者可应用或个操作的状态发生（比如文件描述符可读写，或者是socket可读写），事件分发器就把这个事件传给事先注册的事件处理函数或者回调函数，由后者来做实际的读写操作。</p>
+<p>而在Proactor模式中，事件处理者（或者代由事件分发器发起）直接发起一个异步读写操作（相当于请求），而实际的工作是由操作系统来完成的。发起时，需要提供的参数包括用于存放读到数据的缓存区、读的数据大小或用于存放外发数据的缓存区，以及这个请求完后的回调函数等信息。事件分发器得知了这个请求，它默默等待这个请求的完成，然后转发完成事件给相应的事件处理者或者回调。举例来说，在Windows上事件处理者投递了一个异步IO操作（称为overlapped技术），事件分发器等IO Complete事件完成。这种异步模式的典型实现是基于操作系统底层异步API的，所以我们可称之为“系统级别”的或者“真正意义上”的异步，因为具体的读写是由操作系统代劳的。</p>
+<p>举个例子，将有助于理解Reactor与Proactor二者的差异，以读操作为例（写操作类似）。</p>
+<h4 id="在Reactor中实现读"><a href="#在Reactor中实现读" class="headerlink" title="在Reactor中实现读"></a>在Reactor中实现读</h4><ul>
+<li>注册读就绪事件和相应的事件处理器。</li>
+<li>事件分发器等待事件。</li>
+<li>事件到来，激活分发器，分发器调用事件对应的处理器。</li>
+<li>事件处理器完成实际的读操作，处理读到的数据，注册新的事件，然后返还控制权。</li>
+</ul>
+<h4 id="在Proactor中实现读："><a href="#在Proactor中实现读：" class="headerlink" title="在Proactor中实现读："></a>在Proactor中实现读：</h4><ul>
+<li>处理器发起异步读操作（注意：操作系统必须支持异步IO）。在这种情况下，处理器无视IO就绪事件，它关注的是完成事件。</li>
+<li>事件分发器等待操作完成事件。</li>
+<li>在分发器等待过程中，操作系统利用并行的内核线程执行实际的读操作，并将结果数据存入用户自定义缓冲区，最后通知事件分发器读操作完成。</li>
+<li>事件分发器呼唤处理器。</li>
+<li>事件处理器处理用户自定义缓冲区中的数据，然后启动一个新的异步操作，并将控制权返回事件分发器。</li>
+</ul>
+<p>可以看出，两个模式的相同点，都是对某个I/O事件的事件通知（即告诉某个模块，这个I/O操作可以进行或已经完成)。在结构上，两者也有相同点：事件分发器负责提交IO操作（异步)、查询设备是否可操作（同步)，然后当条件满足时，就回调handler；不同点在于，异步情况下（Proactor)，当回调handler时，表示I/O操作已经完成；同步情况下（Reactor)，回调handler时，表示I/O设备可以进行某个操作（can read 或 can write)。</p>
+<p>下面，我们将尝试应对为Proactor和Reactor模式建立可移植框架的挑战。在改进方案中，我们将Reactor原来位于事件处理器内的Read/Write操作移至分发器（不妨将这个思路称为“模拟异步”），以此寻求将Reactor多路同步I/O转化为模拟异步I/O。以读操作为例子，改进过程如下：</p>
+<ul>
+<li>注册读就绪事件和相应的事件处理器。并为分发器提供数据缓冲区地址，需要读取数据量等信息。</li>
+<li>分发器等待事件（如在select()上等待）。</li>
+<li>事件到来，激活分发器。分发器执行一个非阻塞读操作（它有完成这个操作所需的全部信息），最后调用对应处理器。</li>
+<li>事件处理器处理用户自定义缓冲区的数据，注册新的事件（当然同样要给出数据缓冲区地址，需要读取的数据量等信息），最后将控制权返还分发器。</li>
+</ul>
+<p>如我们所见，通过对多路I/O模式功能结构的改造，可将Reactor转化为Proactor模式。改造前后，模型实际完成的工作量没有增加，只不过参与者间对工作职责稍加调换。没有工作量的改变，自然不会造成性能的削弱。对如下各步骤的比较，可以证明工作量的恒定：</p>
+<h4 id="标准-典型的Reactor："><a href="#标准-典型的Reactor：" class="headerlink" title="标准/典型的Reactor："></a>标准/典型的Reactor：</h4><ul>
+<li>步骤1：等待事件到来（Reactor负责）。</li>
+<li>步骤2：将读就绪事件分发给用户定义的处理器（Reactor负责）。</li>
+<li>步骤3：读数据（用户处理器负责）。</li>
+<li>步骤4：处理数据（用户处理器负责）。</li>
+</ul>
+<h4 id="标准-改进实现的模拟Proactor："><a href="#标准-改进实现的模拟Proactor：" class="headerlink" title="标准/改进实现的模拟Proactor："></a>标准/改进实现的模拟Proactor：</h4><ul>
+<li>步骤1：等待事件到来（Proactor负责）。</li>
+<li>步骤2：得到读就绪事件，执行读数据（现在由Proactor负责）。</li>
+<li>步骤3：将读完成事件分发给用户处理器（Proactor负责）。</li>
+<li>步骤4：处理数据（用户处理器负责）。</li>
+</ul>
+<p>对于不提供异步I/O API的操作系统来说，这种办法可以隐藏Socket API的交互细节，从而对外暴露一个完整的异步接口。借此，我们就可以进一步构建完全可移植的，平台无关的，有通用对外接口的解决方案。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">代码示例如下：</span><br><span class="line"></span><br><span class="line">interface ChannelHandler&#123;</span><br><span class="line">      void channelReadComplate(Channel channel，byte[] data);</span><br><span class="line">      void channelWritable(Channel channel);</span><br><span class="line">   &#125;</span><br><span class="line">   class Channel&#123;</span><br><span class="line">     Socket socket;</span><br><span class="line">     Event event;//读，写或者连接</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   //IO线程主循环：</span><br><span class="line">   class IoThread extends Thread&#123;</span><br><span class="line">   public void run()&#123;</span><br><span class="line">   Channel channel;</span><br><span class="line">   while(channel=Selector.select())&#123;//选择就绪的事件和对应的连接</span><br><span class="line">      if(channel.event==accept)&#123;</span><br><span class="line">         registerNewChannelHandler(channel);//如果是新连接，则注册一个新的读写处理器</span><br><span class="line">         Selector.interested(read);</span><br><span class="line">      &#125;</span><br><span class="line">      if(channel.event==write)&#123;</span><br><span class="line">         getChannelHandler(channel).channelWritable(channel);//如果可以写，则执行写事件</span><br><span class="line">      &#125;</span><br><span class="line">      if(channel.event==read)&#123;</span><br><span class="line">          byte[] data = channel.read();</span><br><span class="line">          if(channel.read()==0)//没有读到数据，表示本次数据读完了</span><br><span class="line">          &#123;</span><br><span class="line">          getChannelHandler(channel).channelReadComplate(channel，data;//处理读完成事件</span><br><span class="line">          &#125;</span><br><span class="line">          if(过载保护)&#123;</span><br><span class="line">          Selector.interested(read);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">     &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   Map&lt;Channel，ChannelHandler&gt; handlerMap;//所有channel的对应事件处理器</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Selector-wakeup"><a href="#Selector-wakeup" class="headerlink" title="Selector.wakeup()"></a>Selector.wakeup()</h3><h4 id="主要作用"><a href="#主要作用" class="headerlink" title="主要作用"></a>主要作用</h4><ul>
+<li><p>解除阻塞在Selector.select()/select(long)上的线程，立即返回。</p>
+</li>
+<li><p>两次成功的select之间多次调用wakeup等价于一次调用。</p>
+</li>
+<li><p>如果当前没有阻塞在select上，则本次wakeup调用将作用于下一次select——“记忆”作用。</p>
+</li>
+<li><p>为什么要唤醒？</p>
+</li>
+<li><p>注册了新的channel或者事件。</p>
+</li>
+<li><p>channel关闭，取消注册。</p>
+</li>
+</ul>
+<p>优先级更高的事件触发（如定时器事件），希望及时处理。</p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>Linux上利用pipe调用创建一个管道，Windows上则是一个loopback的tcp连接。这是因为win32的管道无法加入select的fd set，将管道或者TCP连接加入select fd set。</p>
+<p>wakeup往管道或者连接写入一个字节，阻塞的select因为有I/O事件就绪，立即返回。可见，wakeup的调用开销不可忽视。</p>
+<h3 id="Buffer的选择"><a href="#Buffer的选择" class="headerlink" title="Buffer的选择"></a>Buffer的选择</h3><p>通常情况下，操作系统的一次写操作分为两步：</p>
+<ul>
+<li>将数据从用户空间拷贝到系统空间。</li>
+<li>从系统空间往网卡写。同理，读操作也分为两步：<ul>
+<li>① 将数据从网卡拷贝到系统空间；</li>
+<li>② 将数据从系统空间拷贝到用户空间。</li>
+</ul>
+</li>
+</ul>
+<p>对于NIO来说，缓存的使用可以使用DirectByteBuffer和HeapByteBuffer。如果使用了DirectByteBuffer，一般来说可以减少一次系统空间到用户空间的拷贝。但Buffer创建和销毁的成本更高，更不宜维护，通常会用内存池来提高性能。</p>
+<p>如果数据量比较小的中小应用情况下，可以考虑使用heapBuffer；反之可以用directBuffer。</p>
+<h3 id="NIO存在的问题"><a href="#NIO存在的问题" class="headerlink" title="NIO存在的问题"></a>NIO存在的问题</h3><p>使用NIO != 高性能，当连接数&lt;1000，并发程度不高或者局域网环境下NIO并没有显著的性能优势。</p>
+<p>NIO并没有完全屏蔽平台差异，它仍然是基于各个操作系统的I/O系统实现的，差异仍然存在。使用NIO做网络编程构建事件驱动模型并不容易，陷阱重重。</p>
+<p>推荐大家使用成熟的NIO框架，如Netty，MINA等。解决了很多NIO的陷阱，并屏蔽了操作系统的差异，有较好的性能和编程模型。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最后总结一下到底NIO给我们带来了些什么：</p>
+<p>native函数库中封装一个方法 java/direct buffer对象 来操作对外内存、避免java堆和native堆来回复制数据</p>
+<p>本地方发栈 【执行native方法栈】</p>
+<p>虚拟机栈   【 执行java程序使用栈】</p>
+<ul>
+<li>事件驱动模型</li>
+<li>避免多线程</li>
+<li>单线程处理多任务</li>
+<li>非阻塞I/O，I/O读写不再阻塞，而是返回0</li>
+<li>基于block的传输，通常比基于流的传输更高效</li>
+<li>更高级的IO函数，zero-copy</li>
+<li>IO多路复用大大提高了Java网络应用的可伸缩性和实用性</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/11/jdk/jdk-nio/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1438,7 +1819,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
@@ -1466,7 +1847,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
       
     </li>
   
@@ -1635,18 +2016,15 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>spring cloud中集成rocketmq</li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="spring-cloud中集成rocketmq"><a href="#spring-cloud中集成rocketmq" class="headerlink" title="spring cloud中集成rocketmq"></a>spring cloud中集成rocketmq</h2><p><a href="https://github.com/wuxinvip/base-cloud/tree/2.0.X-boot/message-queue" target="_blank" rel="noopener">代码地址</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  接收bean 将消息发送到spring event事件中进行处理 解耦数据处理</span><br><span class="line"> *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class ConsumerMessageListener implements MessageListener &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(ConsumerMessageListener.class);</span><br><span class="line">    @Autowired</span><br><span class="line">    ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    public Action consume(Message message, ConsumeContext context) &#123;</span><br><span class="line">        System.out.println(&quot;Receive: &quot; + message);</span><br><span class="line">        try &#123;</span><br><span class="line">            logger.info(&quot;rocket 接收到消息:&#123;&#125;&quot;,message);</span><br><span class="line">            //do something..</span><br><span class="line">            applicationContext.publishEvent(new RocketmqEvent(message));</span><br><span class="line"></span><br><span class="line">            return Action.CommitMessage; //消息处理正常</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            //消费失败</span><br><span class="line">            logger.error(&quot;rocket 消息处理失败 ：&#123;&#125;&quot;,message);</span><br><span class="line">            return Action.ReconsumeLater;//消息加入重试</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 接收示例</span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    @EventListener(condition = &quot;#event.topic==&apos;your.topic&apos; &amp;&amp; #event.tag==&apos;your.tag&apos;&quot;)</span><br><span class="line">    public void MessageListener(RocketmqEvent rocketmqEvent) throws IOException &#123;</span><br><span class="line">        String string = rocketmqEvent.getMsg();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 发送bean类</span><br><span class="line"> *  引用统一发送 解耦数据处理 </span><br><span class="line"> *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class MessageQueueTemplate &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    ProducerBean producerBean;</span><br><span class="line"></span><br><span class="line">    public void send(RocketmqEvent rocketmqEvent)&#123;</span><br><span class="line"></span><br><span class="line">        Message message = new Message();</span><br><span class="line">        message.setTopic(rocketmqEvent.getTopic());</span><br><span class="line">        message.setTag(rocketmqEvent.getTag());</span><br><span class="line">        message.setBody(rocketmqEvent.getMsg().getBytes());</span><br><span class="line">        producerBean.send(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/08/message-queue/rocketmq/04/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1843,18 +2221,17 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>组件结构图</li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="RocketMQ-各个角色关系"><a href="#RocketMQ-各个角色关系" class="headerlink" title="RocketMQ 各个角色关系"></a>RocketMQ 各个角色关系</h2><p><img src="/img/rocketmq/01.jpg" alt="rocketmq组件结构图"></p>
+<ul>
+<li>与kafka区别就是 kafka使用zk来管理服务注册、rocketmq用的自己的rpc【nameserver】</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/07/message-queue/rocketmq/03/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1876,212 +2253,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/12/06/message-queue/rocketmq/02/" rel="bookmark">rocketmq安装</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/05/message-queue/rocketmq/01/" rel="bookmark">rocketmq简介</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/12/06/message-queue/rocketmq/02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/12/06/message-queue/rocketmq/02/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/3/index.html">rocketmq安装</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-12-06T08:00:00+08:00">2018-12-06</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/rocketmq/" itemprop="url" rel="index"><span itemprop="name">rocketmq</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#   基础环境</span><br><span class="line">64bit OS, Linux/Unix/Mac is recommended;</span><br><span class="line">64bit JDK 1.8+;</span><br><span class="line">Maven 3.2.x;</span><br><span class="line">Git;</span><br><span class="line">4g+ free disk for Broker server</span><br><span class="line"></span><br><span class="line">curl -L -O https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.3.2/rocketmq-all-4.3.2-bin-release.zip</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt; unzip rocketmq-all-4.3.2-source-release.zip</span><br><span class="line">  &gt; cd rocketmq-all-4.3.2/</span><br><span class="line">  &gt; mvn -Prelease-all -DskipTests clean install -U</span><br><span class="line">  &gt; cd distribution/target/apache-rocketmq</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/06/message-queue/rocketmq/02/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/08/message-queue/rocketmq/04/" rel="bookmark">rocketmq使用示例</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/07/message-queue/rocketmq/03/" rel="bookmark">rocketmq图解</a></div>
       
     </li>
   
@@ -2201,7 +2372,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2421,7 +2592,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

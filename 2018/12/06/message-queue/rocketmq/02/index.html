@@ -160,7 +160,7 @@
 <meta property="og:site_name" content="上善若水の技术簿">
 <meta property="og:description" content="安装1234567891011121314#   基础环境64bit OS, Linux/Unix/Mac is recommended;64bit JDK 1.8+;Maven 3.2.x;Git;4g+ free disk for Broker servercurl -L -O https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.3.2/">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-09T13:40:17.862Z">
+<meta property="og:updated_time" content="2019-09-03T05:45:11.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rocketmq安装">
 <meta name="twitter:description" content="安装1234567891011121314#   基础环境64bit OS, Linux/Unix/Mac is recommended;64bit JDK 1.8+;Maven 3.2.x;Git;4g+ free disk for Broker servercurl -L -O https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.3.2/">
@@ -312,7 +312,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -350,7 +350,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -590,7 +590,7 @@
 
       
         <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#   基础环境</span><br><span class="line">64bit OS, Linux/Unix/Mac is recommended;</span><br><span class="line">64bit JDK 1.8+;</span><br><span class="line">Maven 3.2.x;</span><br><span class="line">Git;</span><br><span class="line">4g+ free disk for Broker server</span><br><span class="line"></span><br><span class="line">curl -L -O https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.3.2/rocketmq-all-4.3.2-bin-release.zip</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt; unzip rocketmq-all-4.3.2-source-release.zip</span><br><span class="line">  &gt; cd rocketmq-all-4.3.2/</span><br><span class="line">  &gt; mvn -Prelease-all -DskipTests clean install -U</span><br><span class="line">  &gt; cd distribution/target/apache-rocketmq</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
+<p>{———-}</p>
 <h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#启动nameserver</span><br><span class="line"></span><br><span class="line">&gt; nohup sh bin/mqnamesrv &amp;</span><br><span class="line">&gt; tail -f ~/logs/rocketmqlogs/namesrv.log</span><br><span class="line">The Name Server boot success...</span><br><span class="line">#启动broker</span><br><span class="line">&gt; nohup sh bin/mqbroker -n localhost:9876 &amp;</span><br><span class="line">&gt; tail -f ~/logs/rocketmqlogs/broker.log </span><br><span class="line">The broker[%s, 172.30.30.233:10911] boot success...</span><br><span class="line"></span><br><span class="line">#发送消息</span><br><span class="line">&gt; export NAMESRV_ADDR=localhost:9876</span><br><span class="line">&gt; sh bin/tools.sh org.apache.rocketmq.example.quickstart.Producer</span><br><span class="line">SendResult [sendStatus=SEND_OK, msgId= ...</span><br><span class="line"></span><br><span class="line">&gt; sh bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer</span><br><span class="line">ConsumeMessageThread_%d Receive New Messages: [MessageExt...</span><br></pre></td></tr></table></figure>
 <h2 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; sh bin/mqshutdown broker</span><br><span class="line">The mqbroker(36695) is running...</span><br><span class="line">Send shutdown request to mqbroker(36695) OK</span><br><span class="line"></span><br><span class="line">&gt; sh bin/mqshutdown namesrv</span><br><span class="line">The mqnamesrv(36664) is running...</span><br><span class="line">Send shutdown request to mqnamesrv(36664) OK</span><br></pre></td></tr></table></figure>
       
@@ -749,7 +749,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -969,7 +969,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

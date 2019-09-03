@@ -161,7 +161,7 @@
 <meta property="og:description" content="innodb表优化 8.5.1优化InnoDB表的存储布局12345678910111213141516171819202122232425262728293031一旦数据达到稳定的大小，或者增长表增加了几十或几百兆字节，请考虑使用该OPTIMIZE TABLE语句来重新组织表并压缩任何浪费的空间。重新组织的表需要更少的磁盘I / O来执行全表扫描。当其他技术（如改进索引使用或调整应用程序代码）">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6434888-9ddb3d7a935ae42f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-10-15T08:31:42.917Z">
+<meta property="og:updated_time" content="2019-09-03T05:45:11.943Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL优化【InnoDB-表优化】">
 <meta name="twitter:description" content="innodb表优化 8.5.1优化InnoDB表的存储布局12345678910111213141516171819202122232425262728293031一旦数据达到稳定的大小，或者增长表增加了几十或几百兆字节，请考虑使用该OPTIMIZE TABLE语句来重新组织表并压缩任何浪费的空间。重新组织的表需要更少的磁盘I / O来执行全表扫描。当其他技术（如改进索引使用或调整应用程序代码）">
@@ -314,7 +314,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -352,7 +352,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -587,7 +587,7 @@
         <p><img src="https://upload-images.jianshu.io/upload_images/6434888-9ddb3d7a935ae42f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p>innodb表优化</p>
 <p>8.5.1优化InnoDB表的存储布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">一旦数据达到稳定的大小，或者增长表增加了几十或几百兆字节，请考虑使用该OPTIMIZE TABLE语句来重新组织表并压缩任何浪费的空间。</span><br><span class="line"></span><br><span class="line">重新组织的表需要更少的磁盘I / O来执行全表扫描。</span><br><span class="line">当其他技术（如改进索引使用或调整应用程序代码）不切实际时，这是一种直接技术，可以提高性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OPTIMIZE TABLE复制表格的数据部分并重建索引。</span><br><span class="line">好处来自改进索引内数据的打包，并减少表空间和磁盘内的碎片。</span><br><span class="line">好处取决于每个表中的数据。</span><br><span class="line">您可能会发现某些人有显着的收益，而不是其他人，或者收益会随着时间的推移而下降，直到您再次优化表。</span><br><span class="line">如果表很大或者重建的索引不适合缓冲池，则此操作可能会很慢。</span><br><span class="line">向表中添加大量数据后的第一次运行通常比后期运行慢得多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在中InnoDB，有一个很长的PRIMARY KEY（无论是一个长的值的单个列，还是多个形成一个长复合值的列）浪费了大量的磁盘空间。</span><br><span class="line">一行中的主键值在所有指向同一行的二级索引记录中都是重复的。</span><br><span class="line">（请参见第14.8.2.1节“集群索引和二级索引”。</span><br><span class="line">）AUTO_INCREMENT如果主键很长，或者索引长VARCHAR列的前缀而不是整列，则创建一个列作为主键。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用VARCHAR数据类型而不是CHAR存储可变长度的字符串或具有多个NULL值的列 。</span><br><span class="line">甲 列总是占据字符来存储数据，即使该字符串是较短，或者其值 。</span><br><span class="line">较小的表适合缓冲池，并减少磁盘I / O。</span><br><span class="line"> CHAR(N)NNULL</span><br><span class="line"></span><br><span class="line">使用COMPACT行格式（默认InnoDB格式）和可变长度字符集（如 utf8或）时sjis， 列占用可变数量的空间，但仍至少为字节。</span><br><span class="line"> CHAR(N)N</span><br><span class="line"></span><br><span class="line">对于大的表或者包含大量重复的文本或数字数据的表，请考虑使用 COMPRESSED行格式。</span><br><span class="line">将数据带入缓冲池或执行全表扫描需要较少的磁盘I / O。</span><br><span class="line">在做出永久性决定之前，请测量使用行格式COMPRESSED与 您可以实现的压缩量 COMPACT。</span><br></pre></td></tr></table></figure></p>
-<a id="more"></a>
+<p>{———-}</p>
 <p>8.5.2优化InnoDB事务管理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">要优化InnoDB事务处理，请在事务功能的性能开销和服务器的工作负载之间找到理想的平衡点。</span><br><span class="line">例如，如果应用程序每秒提交数千次，则应用程序可能会遇到性能问题，如果应用程序每2-3小时提交一次，则会出现不同的性能问题。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">默认的MySQL设置AUTOCOMMIT=1 可能会对繁忙的数据库服务器造成性能限制。</span><br><span class="line">在可行的情况下，在进行所有更改后，通过发布SET AUTOCOMMIT=0或START TRANSACTION声明将几个相关的数据更改操作包括到单个事务中 ，然后包含 COMMIT声明。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">InnoDB如果该事务对数据库进行了修改，则必须在每次事务提交时将日志刷新到磁盘。</span><br><span class="line">当每次更改之后都进行提交（与默认的自动提交设置一样）时，存储设备的I / O吞吐量会对每秒潜在操作的数量设置上限。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">或者，对于仅由单个SELECT语句组成的事务，开启AUTOCOMMIT有助于 InnoDB识别只读事务并优化它们。</span><br><span class="line">有关要求，请参见 第8.5.3节“优化InnoDB只读事务”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">避免在插入，更新或删除大量行后执行回滚。</span><br><span class="line">如果一个大事务正在降低服务器的性能，那么回滚会导致问题变得更糟，可能需要几次才能执行原始数据更改操作。</span><br><span class="line">杀死数据库进程无济于事，因为在服务器启动时会再次开始回滚。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了尽量减少发生此问题的机会：</span><br><span class="line"></span><br><span class="line">增加缓冲池的大小， 以便可以缓存所有数据更改更改，而不是立即写入磁盘。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">设置 innodb_change_buffering=all 以便更新和删除操作在插入之外进行缓冲。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">考虑COMMIT在大数据更改操作期间定期发布语句，可能会将单个删除或更新分为多个在较少数量的行上操作的语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为避免出现失控回滚，请增加缓冲池，以便回滚变为受CPU限制且运行速度很快，或者innodb_force_recovery=3按照第14.18.2节“InnoDB恢复”中的说明关闭服务器并重新启动 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">预计这个问题很少出现在默认设置下 innodb_change_buffering=all，这样可以将更新和删除操作缓存到内存中，从而使它们在第一时间执行得更快，并且如果需要还可以更快地回滚。</span><br><span class="line">确保在处理长时间运行事务的服务器上使用此参数设置，并进行多次插入，更新或删除操作。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果发生崩溃时可以承受某些最新已提交事务的丢失，则可以将该innodb_flush_log_at_trx_commit 参数设置 为0. InnoDB尽管无法保证刷新，但试图每秒刷新一次日志。</span><br><span class="line">另外，将值设置 innodb_support_xa为0，这将减少由于在磁盘数据和二进制日志上同步而导致的磁盘刷新次数。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">innodb_support_xa已弃用，将在未来版本中删除。</span><br><span class="line">从MySQL 5.7.10开始，InnoDB对XA事务中的两阶段提交的支持始终处于启用状态，并且innodb_support_xa不再允许禁用 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当行被修改或删除时，行和关联的 撤消日志不会立即被物理删除，甚至在事务提交后立即被删除。</span><br><span class="line">保留旧数据，直到完成较早或同时开始的事务，以便这些事务可以访问修改行或已删除行的先前状态。</span><br><span class="line">因此，长时间运行的事务可以防止InnoDB清除不同事务更改的数据。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当在长时间运行的事务中修改或删除行时，使用READ COMMITTED和 REPEATABLE READ隔离级别的其他事务在 读取相同行时必须执行更多工作才能重新构建旧数据。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当长时间运行的事务修改表时，其他事务对该表的查询不使用覆盖索引技术。</span><br><span class="line">通常可以从辅助索引中检索所有结果列的查询，而是从表格数据中查找适当的值。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果发现二级索引页面 PAGE_MAX_TRX_ID太新，或者二级索引中的记录被删除标记，则 InnoDB可能需要使用聚簇索引查找记录。</span><br></pre></td></tr></table></figure></p>
 <p>8.5.3优化InnoDB只读事务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">InnoDB可以避免与为已知为只读的事务设置事务ID（TRX_ID字段）相关联的开销。</span><br><span class="line">只有可能执行写入操作或锁定读取的事务才需要事务ID ， 例如 。</span><br><span class="line">消除不必要的事务ID会减少每次查询或数据更改语句构造读取视图时查阅的内部数据结构的大小。</span><br><span class="line"> SELECT ... FOR UPDATE</span><br><span class="line"></span><br><span class="line">InnoDB 在以下情况下检测只读事务：</span><br><span class="line"></span><br><span class="line">交易以START TRANSACTION READ ONLY声明开始 。</span><br><span class="line">在这种情况下，尝试更改数据库（for InnoDB， MyISAM或其他类型的表）会导致错误，并且事务以只读状态继续：</span><br><span class="line"></span><br><span class="line">错误1792（25006）：无法在READ ONLY事务中执行语句。</span><br><span class="line"></span><br><span class="line">您仍然可以在只读事务中更改特定于会话的临时表，或者为它们发出锁定查询，因为这些更改和锁对任何其他事务都不可见。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该autocommit设置处于打开状态，以便事务保证为单个语句，构成事务的单个语句为“ 非锁定 ” SELECT语句。</span><br><span class="line">也就是说 SELECT，它不使用一个FOR UPDATE或一个LOCK IN SHARED MODE 子句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">事务在没有READ ONLY选项的情况下启动，但没有显式锁定行的更新或语句已经执行。</span><br><span class="line">在需要更新或显式锁定之前，事务处于只读模式。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">因此，对于读取密集型应用，如报表生成器，您可以调整的序列，InnoDB 由内而外将它们分组查询 START TRANSACTION READ ONLY和 COMMIT，</span><br><span class="line">    或通过打开autocommit 运行之前设置SELECT语句，或简单地避免与查询穿插任何数据更改语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关信息 START TRANSACTION，并 autocommit请参见 13.3.1节，“START TRANSACTION，COMMIT和ROLLBACK语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">具有自动提交，非锁定和只读（AC-NL-RO）资格的事务处于特定内部 InnoDB数据结构之外，因此未在SHOW ENGINE INNODB STATUS输出中列出 。</span><br></pre></td></tr></table></figure></p>
 <p>8.5.4优化InnoDB重做日志<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">考虑以下关于优化重做日志的指导原则：</span><br><span class="line"></span><br><span class="line">使您的重做日志文件变大，甚至与缓冲池一样大 。</span><br><span class="line">当 InnoDB写完重做日志文件时，它必须将检查点中缓冲池的修改内容写入磁盘 。</span><br><span class="line"></span><br><span class="line">    小的重做日志文件导致许多不必要的磁盘写入。</span><br><span class="line">虽然历史上重要的重做日志文件会导致冗长的恢复时间，但现在恢复速度更快，</span><br><span class="line">    您可以放心地使用大型重做日志文件。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重做日志文件的大小和数量使用innodb_log_file_size 和 innodb_log_files_in_group 配置选项进行配置。</span><br><span class="line"></span><br><span class="line">    有关修改现有重做日志文件配置的信息，请参见 第14.7.2节“更改InnoDB重做日志文件的数量或大小”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">考虑增加日志缓冲区的大小 。</span><br><span class="line">大型日志缓冲区允许大型 事务运行，而无需在事务提交之前将日志写入磁盘。</span><br><span class="line"></span><br><span class="line">    因此，如果您有更新，插入或删除多行的事务，则使日志缓冲区更大可节省磁盘I / O。</span><br><span class="line"></span><br><span class="line">    日志缓冲区大小使用innodb_log_buffer_size 配置选项进行 配置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">配置 innodb_log_write_ahead_size 配置选项以避免“ 读写 ”。</span><br><span class="line">该选项定义重做日志的预写块大小。</span><br><span class="line"></span><br><span class="line">    设置 innodb_log_write_ahead_size 为匹配操作系统或文件系统缓存块大小。</span><br><span class="line"></span><br><span class="line">    由于重做日志的预写块大小与操作系统或文件系统高速缓存块大小之间的不匹配，</span><br><span class="line">    重做日志块未完全缓存到操作系统或文件系统时发生了写入时读写。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有效值 innodb_log_write_ahead_size 是InnoDB日志文件块大小（2 n）的倍数。</span><br><span class="line">最小值是InnoDB日志文件块大小（512）。</span><br><span class="line"></span><br><span class="line">    指定最小值时不发生预写。</span><br><span class="line">最大值等于该 innodb_page_size值。</span><br><span class="line"></span><br><span class="line">    如果您指定的值 innodb_log_write_ahead_size 大于该 innodb_page_size值，则该 innodb_log_write_ahead_size 设置将被截断为该 innodb_page_size值。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">innodb_log_write_ahead_size 相对于操作系统或文件系统缓存块大小 设置 值太低会导致写入时读写。</span><br><span class="line">fsync由于一次写入多个块，因此将值设置得过高可能会对日志文件写入的性能产生轻微影响 。</span><br></pre></td></tr></table></figure></p>
@@ -610,14 +610,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
       
     </li>
   
@@ -632,6 +625,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
       
     </li>
   
@@ -677,8 +677,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/message-queue/rocketmq/" rel="next" title="RocketMQ">
-                <i class="fa fa-chevron-left"></i> RocketMQ
+              <a href="/2018/03/24/jdk/jdk-total/" rel="next" title="jdk各个包 概述">
+                <i class="fa fa-chevron-left"></i> jdk各个包 概述
               </a>
             
           </div>
@@ -687,8 +687,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/message-queue/rabbitmq-test/" rel="prev" title="RabbitMQ test">
-                RabbitMQ test <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/mysql/mysql-care-point/" rel="prev" title="mysql-care点">
+                mysql-care点 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -759,7 +759,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -979,7 +979,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

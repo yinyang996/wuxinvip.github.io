@@ -152,18 +152,18 @@
 
 
 
-  <meta name="description" content="spring cloud中集成rocketmq">
+  <meta name="description" content="spring cloud中集成rocketmq  {———-} spring cloud中集成rocketmq代码地址 12345678910111213141516171819202122232425262728293031323334/** *  接收bean 将消息发送到spring event事件中进行处理 解耦数据处理 *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件">
 <meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="rocketmq使用示例">
 <meta property="og:url" content="https://www.wuxinvip.com/2018/12/08/message-queue/rocketmq/04/index.html">
 <meta property="og:site_name" content="上善若水の技术簿">
-<meta property="og:description" content="spring cloud中集成rocketmq">
+<meta property="og:description" content="spring cloud中集成rocketmq  {———-} spring cloud中集成rocketmq代码地址 12345678910111213141516171819202122232425262728293031323334/** *  接收bean 将消息发送到spring event事件中进行处理 解耦数据处理 *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-09T14:03:41.724Z">
+<meta property="og:updated_time" content="2019-09-03T05:45:11.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rocketmq使用示例">
-<meta name="twitter:description" content="spring cloud中集成rocketmq">
+<meta name="twitter:description" content="spring cloud中集成rocketmq  {———-} spring cloud中集成rocketmq代码地址 12345678910111213141516171819202122232425262728293031323334/** *  接收bean 将消息发送到spring event事件中进行处理 解耦数据处理 *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件">
 
 
 
@@ -312,7 +312,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -350,7 +350,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -592,7 +592,7 @@
         <ul>
 <li>spring cloud中集成rocketmq</li>
 </ul>
-<a id="more"></a>
+<p>{———-}</p>
 <h2 id="spring-cloud中集成rocketmq"><a href="#spring-cloud中集成rocketmq" class="headerlink" title="spring cloud中集成rocketmq"></a>spring cloud中集成rocketmq</h2><p><a href="https://github.com/wuxinvip/base-cloud/tree/2.0.X-boot/message-queue" target="_blank" rel="noopener">代码地址</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  接收bean 将消息发送到spring event事件中进行处理 解耦数据处理</span><br><span class="line"> *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class ConsumerMessageListener implements MessageListener &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(ConsumerMessageListener.class);</span><br><span class="line">    @Autowired</span><br><span class="line">    ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    public Action consume(Message message, ConsumeContext context) &#123;</span><br><span class="line">        System.out.println(&quot;Receive: &quot; + message);</span><br><span class="line">        try &#123;</span><br><span class="line">            logger.info(&quot;rocket 接收到消息:&#123;&#125;&quot;,message);</span><br><span class="line">            //do something..</span><br><span class="line">            applicationContext.publishEvent(new RocketmqEvent(message));</span><br><span class="line"></span><br><span class="line">            return Action.CommitMessage; //消息处理正常</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            //消费失败</span><br><span class="line">            logger.error(&quot;rocket 消息处理失败 ：&#123;&#125;&quot;,message);</span><br><span class="line">            return Action.ReconsumeLater;//消息加入重试</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 接收示例</span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    @EventListener(condition = &quot;#event.topic==&apos;your.topic&apos; &amp;&amp; #event.tag==&apos;your.tag&apos;&quot;)</span><br><span class="line">    public void MessageListener(RocketmqEvent rocketmqEvent) throws IOException &#123;</span><br><span class="line">        String string = rocketmqEvent.getMsg();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 发送bean类</span><br><span class="line"> *  引用统一发送 解耦数据处理 </span><br><span class="line"> *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class MessageQueueTemplate &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    ProducerBean producerBean;</span><br><span class="line"></span><br><span class="line">    public void send(RocketmqEvent rocketmqEvent)&#123;</span><br><span class="line"></span><br><span class="line">        Message message = new Message();</span><br><span class="line">        message.setTopic(rocketmqEvent.getTopic());</span><br><span class="line">        message.setTag(rocketmqEvent.getTag());</span><br><span class="line">        message.setBody(rocketmqEvent.getMsg().getBytes());</span><br><span class="line">        producerBean.send(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -752,7 +752,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -972,7 +972,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

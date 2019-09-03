@@ -162,7 +162,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://www.wuxinvip.com/img/jdk/nio2.jpg">
 <meta property="og:image" content="https://www.wuxinvip.com/img/jdk/reactor.png">
-<meta property="og:updated_time" content="2019-03-31T15:54:44.251Z">
+<meta property="og:updated_time" content="2019-09-03T05:45:11.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java NIO浅析【转】">
 <meta name="twitter:description" content="写的很不错 从浅入深、还有代码示例、还有模型示例  转-美团技术团队-以示版权NIO（Non-blocking I/O，在Java领域，也称为New I/O），是一种同步非阻塞的I/O模型，也是I/O多路复用的基础，已经被越来越多地应用到大型应用服务器，成为解决高并发与大量连接、I/O处理问题的有效方式。 那么NIO的本质是什么样的呢？它是怎样与事件模型结合来解放线程、提高系统吞吐的呢？ 本文会">
@@ -315,7 +315,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -353,7 +353,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -592,7 +592,7 @@
 <p>那么NIO的本质是什么样的呢？它是怎样与事件模型结合来解放线程、提高系统吞吐的呢？</p>
 <p>本文会从传统的阻塞I/O和线程池模型面临的问题讲起，然后对比几种常见I/O模型，一步步分析NIO怎么利用事件模型处理I/O，解决线程池瓶颈处理海量连接，包括利用面向事件的方式编写服务端/客户端程序。最后延展到一些高级主题，如Reactor与Proactor模型的对比、Selector的唤醒、Buffer的选择等。</p>
 <p>注：本文的代码都是伪代码，主要是为了示意，不可用于生产环境。</p>
-<a id="more"></a>
+<p>{———-}</p>
 <h2 id="传统BIO模型分析"><a href="#传统BIO模型分析" class="headerlink" title="传统BIO模型分析"></a>传统BIO模型分析</h2><p>让我们先回忆一下传统的服务器端同步阻塞I/O处理（也就是BIO，Blocking I/O）的经典编程模型：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> ExecutorService executor = Excutors.newFixedThreadPollExecutor(100);//线程池</span><br><span class="line"></span><br><span class="line"> ServerSocket serverSocket = new ServerSocket();</span><br><span class="line"> serverSocket.bind(8088);</span><br><span class="line"> while(!Thread.currentThread.isInturrupted())&#123;//主线程死循环等待新连接到来</span><br><span class="line"> Socket socket = serverSocket.accept();</span><br><span class="line"> executor.submit(new ConnectIOnHandler(socket));//为新的连接创建新的线程</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ConnectIOnHandler extends Thread&#123;</span><br><span class="line">    private Socket socket;</span><br><span class="line">    public ConnectIOnHandler(Socket socket)&#123;</span><br><span class="line">       this.socket = socket;</span><br><span class="line">    &#125;</span><br><span class="line">    public void run()&#123;</span><br><span class="line">      while(!Thread.currentThread.isInturrupted()&amp;&amp;!socket.isClosed())&#123;死循环处理读写事件</span><br><span class="line">          String someThing = socket.read()....//读取数据</span><br><span class="line">          if(someThing!=null)&#123;</span><br><span class="line">             ......//处理数据</span><br><span class="line">             socket.write()....//写数据</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这是一个经典的每连接每线程的模型，之所以使用多线程，主要原因在于socket.accept()、socket.read()、socket.write()三个主要函数都是同步阻塞的，当一个连接在处理I/O的时候，系统是阻塞的，如果是单线程的话必然就挂死在那里；但CPU是被释放出来的，开启多线程，就可以让CPU去处理更多的事情。其实这也是所有使用多线程的本质：</p>
@@ -751,7 +751,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
@@ -779,7 +779,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
       
     </li>
   
@@ -909,7 +909,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1129,7 +1129,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

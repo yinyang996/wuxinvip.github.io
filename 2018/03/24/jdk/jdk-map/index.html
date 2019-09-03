@@ -161,7 +161,7 @@
 <meta property="og:description" content="Java Map 集合类简介 【关键点】map的hash冲突  Map 处理这些冲突的方法是在索引位置处插入一个链接列表，并简单地将元素添加到此链接列表 HashMap 1.7以前 hash位桶+链表        1.8  hash位桶+链表（8）+ 红黑树 几个 关键值 0.75  2倍扩充  链表与红黑树阈值-8 CurcentHashMap 结构 hashEntry+segment锁结构">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/6434888-b1fe33e331ca2ef2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-03-31T15:10:28.718Z">
+<meta property="og:updated_time" content="2019-09-03T05:45:11.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集合Map">
 <meta name="twitter:description" content="Java Map 集合类简介 【关键点】map的hash冲突  Map 处理这些冲突的方法是在索引位置处插入一个链接列表，并简单地将元素添加到此链接列表 HashMap 1.7以前 hash位桶+链表        1.8  hash位桶+链表（8）+ 红黑树 几个 关键值 0.75  2倍扩充  链表与红黑树阈值-8 CurcentHashMap 结构 hashEntry+segment锁结构">
@@ -314,7 +314,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -352,7 +352,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -592,7 +592,7 @@
 <p>几个 关键值 0.75  2倍扩充  链表与红黑树阈值-8</p>
 <p>CurcentHashMap 结构 hashEntry+segment锁结构</p>
 <p>segment继承 reentrantLock 具有更好的线程并发 相比 sychronized锁 更为轻量 </p>
-<a id="more"></a>
+<p>{———-}</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public Object put(Object key, Object value) &#123;</span><br><span class="line">  //我们的内部数组是一个 Entry 对象数组</span><br><span class="line">  //Entry[] table;</span><br><span class="line"></span><br><span class="line">  //获取哈希码，并映射到一个索引</span><br><span class="line">  int hash = key.hashCode();</span><br><span class="line">  int index = (hash &amp; 0x7FFFFFFF) % table.length;</span><br><span class="line"></span><br><span class="line">  //循环遍历位于 table[index] 处的链接列表，以查明</span><br><span class="line">  //我们是否拥有此键项 — 如果拥有，则覆盖它</span><br><span class="line">  for (Entry e = table[index] ; e != null ; e = e.next) &#123;</span><br><span class="line">    //必须检查键是否相等，原因是不同的键对象</span><br><span class="line">    //可能拥有相同的哈希</span><br><span class="line">    if ((e.hash == hash) &amp;&amp; e.key.equals(key)) &#123;</span><br><span class="line">      //这是相同键，覆盖该值</span><br><span class="line">      //并从该方法返回 old 值</span><br><span class="line">      Object old = e.value;</span><br><span class="line">      e.value = value;</span><br><span class="line">      return old;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //仍然在此处，因此它是一个新键，只需添加一个新 Entry</span><br><span class="line">  //Entry 对象包含 key 对象、 value 对象、一个整型的 hash、</span><br><span class="line">  //和一个指向列表中的下一个 Entry 的 next Entry</span><br><span class="line"></span><br><span class="line">  //创建一个指向上一个列表开头的新 Entry，</span><br><span class="line">  //并将此新 Entry 插入表中</span><br><span class="line">  Entry e = new Entry(hash, key, value, table[index]);</span><br><span class="line">  table[index] = e;</span><br><span class="line"></span><br><span class="line">  return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
@@ -674,8 +674,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/spring-cloud/Hystrix/" rel="next" title="Hystrix">
-                <i class="fa fa-chevron-left"></i> Hystrix
+              <a href="/2018/03/24/spring-cloud/spring-roo/" rel="next" title="spring Roo">
+                <i class="fa fa-chevron-left"></i> spring Roo
               </a>
             
           </div>
@@ -684,8 +684,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/24/spring-boot/spring-boot-1/" rel="prev" title="springboot mybatis 配置">
-                springboot mybatis 配置 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="prev" title="spring cloud 总 架构图">
+                spring cloud 总 架构图 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -756,7 +756,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -976,7 +976,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

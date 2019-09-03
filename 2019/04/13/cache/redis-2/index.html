@@ -160,7 +160,7 @@
 <meta property="og:site_name" content="上善若水の技术簿">
 <meta property="og:description" content="封装spring-data-redis操作redis分布式锁">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-26T08:09:16.365Z">
+<meta property="og:updated_time" content="2019-09-03T05:45:11.908Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis 锁">
 <meta name="twitter:description" content="封装spring-data-redis操作redis分布式锁">
@@ -312,7 +312,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -350,7 +350,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -598,7 +598,7 @@
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">do &#123;  </span><br><span class="line">    $timeout = 10;</span><br><span class="line">    $roomid = 10001;</span><br><span class="line">    $key = &apos;room_lock&apos;;</span><br><span class="line">    $value = &apos;room_&apos;.$roomid;  //分配一个随机的值针对问题3</span><br><span class="line">    $isLock = Redis::set($key, $value, &apos;ex&apos;, $timeout, &apos;nx&apos;);//ex 秒</span><br><span class="line">    if ($isLock) &#123;</span><br><span class="line">        if (Redis::get($key) == $value) &#123;  //防止提前过期，误删其它请求创建的锁</span><br><span class="line">            //执行内部代码</span><br><span class="line">            Redis::del($key);</span><br><span class="line">            continue;//执行成功删除key并跳出循环</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        usleep(5000); //睡眠，降低抢锁频率，缓解redis压力，针对问题2</span><br><span class="line">    &#125;</span><br><span class="line">&#125; while(!$isLock);</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
+<p>{———-}</p>
 <h3 id="封装spring-data-redis操作redis分布式锁"><a href="#封装spring-data-redis操作redis分布式锁" class="headerlink" title="封装spring-data-redis操作redis分布式锁"></a>封装spring-data-redis操作redis分布式锁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * 操作redis获取全局锁</span><br><span class="line">    *</span><br><span class="line">    * @param redisLock           锁的名称</span><br><span class="line">    * @param timeout        获取的超时时间</span><br><span class="line">    * @param tryInterval    多少ms尝试一次</span><br><span class="line">    * @return true 获取成功，false获取失败</span><br><span class="line">    */</span><br><span class="line">   public boolean getLock(RedisLock redisLock, long timeout, long tryInterval)&#123;</span><br><span class="line">       try&#123;</span><br><span class="line">           if(StringUtils.isEmpty(redisLock.getKey()) || StringUtils.isEmpty(redisLock.getValue()))&#123;</span><br><span class="line">               return false;</span><br><span class="line">           &#125;</span><br><span class="line">           while (true)&#123;</span><br><span class="line">               List&lt;String&gt; keys = new ArrayList&lt;&gt;(1);</span><br><span class="line">               keys.add(redisLock.getKey());</span><br><span class="line">               String result = this.execute(new RedisCallback&lt;String&gt;() &#123;</span><br><span class="line">                   @Override</span><br><span class="line">                   public String doInRedis(RedisConnection connection) throws DataAccessException &#123;</span><br><span class="line">                       JedisCommands commands = (JedisCommands) connection.getNativeConnection();</span><br><span class="line">                       return commands.set(redisLock.getKey(), redisLock.getValue(), &quot;NX&quot;, &quot;PX&quot;, redisLock.getLockExpireTime());</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;);</span><br><span class="line">               if (StringUtils.isNotEmpty(result))&#123;</span><br><span class="line">                   return true;</span><br><span class="line">               &#125;</span><br><span class="line">               Thread.sleep(tryInterval);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;catch (Exception e)&#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">           return false;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>this.execute(new RedisCallback<string>() //封装 spring-data-redis 分布式锁<br>//获取redisnativeConnection 初始化为 JedisCommands返回操作类<br>JedisCommands commands = (JedisCommands) connection.getNativeConnection();<br>//使用commands操作类设置数据锁<br>return commands.set(redisLock.getKey(), redisLock.getValue(), “NX”, “PX”, redisLock.getLockExpireTime());</string></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 释放锁</span><br><span class="line">     */</span><br><span class="line">    public void releaseLock(RedisLock redisLock) &#123;</span><br><span class="line">        final List&lt;String&gt; keys = new ArrayList(1);</span><br><span class="line">        final List&lt;String&gt; args = new ArrayList(1);</span><br><span class="line">        keys.add(redisLock.getKey());</span><br><span class="line">        args.add(redisLock.getValue());</span><br><span class="line">        Long result = this.execute(new RedisCallback&lt;Long&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Long doInRedis(RedisConnection connection) throws DataAccessException &#123;</span><br><span class="line">                Object nativeConnection = connection.getNativeConnection();</span><br><span class="line">                // 集群模式和单机模式虽然执行脚本的方法一样，但是没有共同的接口，所以只能分开执行</span><br><span class="line">                // 集群模式</span><br><span class="line">                if (nativeConnection instanceof JedisCluster) &#123;</span><br><span class="line">                    return (Long) ((JedisCluster) nativeConnection).eval(EQ_DEL_STR, keys, args);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // 单机模式</span><br><span class="line">                else if (nativeConnection instanceof Jedis) &#123;</span><br><span class="line">                    return (Long) ((Jedis) nativeConnection).eval(EQ_DEL_STR, keys, args);</span><br><span class="line">                &#125;</span><br><span class="line">                return 0L;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">`</span><br></pre></td></tr></table></figure>
@@ -638,14 +638,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
       
     </li>
   
@@ -775,7 +775,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -995,7 +995,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

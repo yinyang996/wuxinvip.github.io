@@ -308,7 +308,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">50</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
 
   </li>
         
@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">263</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
 
   </li>
         
@@ -451,6 +451,208 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/12/06/message-queue/rocketmq/02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/06/message-queue/rocketmq/02/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/4/index.html">rocketmq安装</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-12-06T08:00:00+08:00">2018-12-06</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/rocketmq/" itemprop="url" rel="index"><span itemprop="name">rocketmq</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#   基础环境</span><br><span class="line">64bit OS, Linux/Unix/Mac is recommended;</span><br><span class="line">64bit JDK 1.8+;</span><br><span class="line">Maven 3.2.x;</span><br><span class="line">Git;</span><br><span class="line">4g+ free disk for Broker server</span><br><span class="line"></span><br><span class="line">curl -L -O https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.3.2/rocketmq-all-4.3.2-bin-release.zip</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt; unzip rocketmq-all-4.3.2-source-release.zip</span><br><span class="line">  &gt; cd rocketmq-all-4.3.2/</span><br><span class="line">  &gt; mvn -Prelease-all -DskipTests clean install -U</span><br><span class="line">  &gt; cd distribution/target/apache-rocketmq</span><br></pre></td></tr></table></figure>
+<p>{———-}</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#启动nameserver</span><br><span class="line"></span><br><span class="line">&gt; nohup sh bin/mqnamesrv &amp;</span><br><span class="line">&gt; tail -f ~/logs/rocketmqlogs/namesrv.log</span><br><span class="line">The Name Server boot success...</span><br><span class="line">#启动broker</span><br><span class="line">&gt; nohup sh bin/mqbroker -n localhost:9876 &amp;</span><br><span class="line">&gt; tail -f ~/logs/rocketmqlogs/broker.log </span><br><span class="line">The broker[%s, 172.30.30.233:10911] boot success...</span><br><span class="line"></span><br><span class="line">#发送消息</span><br><span class="line">&gt; export NAMESRV_ADDR=localhost:9876</span><br><span class="line">&gt; sh bin/tools.sh org.apache.rocketmq.example.quickstart.Producer</span><br><span class="line">SendResult [sendStatus=SEND_OK, msgId= ...</span><br><span class="line"></span><br><span class="line">&gt; sh bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer</span><br><span class="line">ConsumeMessageThread_%d Receive New Messages: [MessageExt...</span><br></pre></td></tr></table></figure>
+<h2 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; sh bin/mqshutdown broker</span><br><span class="line">The mqbroker(36695) is running...</span><br><span class="line">Send shutdown request to mqbroker(36695) OK</span><br><span class="line"></span><br><span class="line">&gt; sh bin/mqshutdown namesrv</span><br><span class="line">The mqnamesrv(36664) is running...</span><br><span class="line">Send shutdown request to mqnamesrv(36664) OK</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/08/message-queue/rocketmq/04/" rel="bookmark">rocketmq使用示例</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/07/message-queue/rocketmq/03/" rel="bookmark">rocketmq图解</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/05/message-queue/rocketmq/01/" rel="bookmark">rocketmq简介</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -579,18 +781,69 @@
 
       
         
-          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+          
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
 <li>互联网应用拆分为微服务、解决各个微服务模块的互相通信问题、并能够提供大流量技术支撑</li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>微服务之间的通信问题<ul>
+<li>具体的业务场景有很多、比如、支付完成后的订单状态修改、用户充值后的vip等级提升、物流信息等等</li>
+<li>各个微服务之间的消息、业务场景有：按实时性可分为实时消息、非实时消息；</li>
+</ul>
+</li>
+</ul>
+<h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul>
+<li>rocketmq 有两个部件 nameserver：服务管理中心、broker：消息存储中心<ul>
+<li>nameserver管理业务服务注册、保证服务稳定运行</li>
+<li>broker负责消息的持久化、保证消息不丢失</li>
+</ul>
+</li>
+</ul>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul>
+<li>应用解耦<ul>
+<li>替换应用上的https协议、又能保证服务之间的动态性</li>
+</ul>
+</li>
+<li>流量削峰<ul>
+<li>非即时消息、延后处理</li>
+</ul>
+</li>
+<li>消息分发<ul>
+<li>消息生产者只负责消息生产、消息消费者只负责消息消费、只管把消息发到消息队列、而不关心、哪台服务消费这个消息</li>
+<li>消息轮询消费、不会造成只在某一台机器上消费、压跨服务器</li>
+</ul>
+</li>
+<li>保证分布式事务的最终一致性</li>
+<li>动态扩容</li>
+</ul>
+<h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul>
+<li>目前已是apache的顶级项目、</li>
+<li>2017年双十一的主要驱动力、处理消息万亿级别、tps:5600万</li>
+<li>java语言开发、对java开发者亲和度较高</li>
+</ul>
+<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
+<li><p>rocketmq、rabbitmq、kafka</p>
+<ul>
+<li>没有谁好谁坏</li>
+<li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li>
+<li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li>
+<li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li>
+</ul>
+</li>
+<li><p>个人见解</p>
+<ul>
+<li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li>
+<li>稳定不丢消息：rocketmq、tabbitmq、</li>
+<li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li>
+<li>rocketmq底层netty、异步机制优秀</li>
+<li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li>
+<li>非实时性要求高、同时又要求高吞吐量 rocketmq</li>
+</ul>
+</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/05/message-queue/rocketmq/01/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -780,7 +1033,8 @@
 
       
         
-          <p>app版本更新 </p>
+          
+            <p>app版本更新 </p>
 <h2 id="v1-1-0"><a href="#v1-1-0" class="headerlink" title="v1.1.0"></a>v1.1.0</h2><ul>
 <li><a href="https://github.com/wuxinvip/wuxinvip.github.io/releases/download/1.1.0/com.wuxinvip.blog_v1.1.0.apk" target="_blank" rel="noopener">下载地址</a></li>
 <li>新增分享功能</li>
@@ -791,15 +1045,9 @@
 <li><a href="https://github.com/wuxinvip/wuxinvip.github.io/releases/download/1.0.0/com.wuxinvip.blog.apk" target="_blank" rel="noopener">下载地址</a></li>
 </ul>
 <p><a href="https://gra.u2sk.com/?url=https://github.com/wuxinvip/wuxinvip.github.io" target="_blank" rel="noopener">下载次数</a></p>
-          <!--noindex-->
+<p>{———-}</p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/04/version/version-1/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -970,7 +1218,8 @@
 
       
         
-          <h2 id="kafka构建数据管道需要注意的问题"><a href="#kafka构建数据管道需要注意的问题" class="headerlink" title="kafka构建数据管道需要注意的问题"></a>kafka构建数据管道需要注意的问题</h2><ul>
+          
+            <h2 id="kafka构建数据管道需要注意的问题"><a href="#kafka构建数据管道需要注意的问题" class="headerlink" title="kafka构建数据管道需要注意的问题"></a>kafka构建数据管道需要注意的问题</h2><ul>
 <li>及时性</li>
 <li>可靠性</li>
 <li>高吞吐量和动态吞吐量</li>
@@ -980,15 +1229,72 @@
 <li>故障处理能力</li>
 <li>耦合性和灵活性</li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="及时性"><a href="#及时性" class="headerlink" title="及时性"></a>及时性</h2><ul>
+<li>在业务需求变更时、具有不同及时性需求的数据之间可以方便的进行迁移</li>
+<li>数据支持实时性处理、也支持延迟批处理</li>
+<li>消费者可以实时拉取处理、也可以延迟批量处理一批数据</li>
+</ul>
+<h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><ul>
+<li>能够在各种故障中快速回复</li>
+<li>支持、至少一次传递【本身支持】</li>
+<li>支持、仅一次传递、避免幂等消费【需结合实物模型或者唯一键特性的外部存储系统】</li>
+</ul>
+<h2 id="高吞吐量和动态吞吐量"><a href="#高吞吐量和动态吞吐量" class="headerlink" title="高吞吐量和动态吞吐量"></a>高吞吐量和动态吞吐量</h2><ul>
+<li>自动伸缩功能</li>
+<li>管理员可以调整压缩来网络和存储资源的使用【支持多种类型压缩】</li>
+</ul>
+<h2 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h2><ul>
+<li>avro、xml也可以使用自定义</li>
+<li>读取数据源schema载入数据</li>
+</ul>
+<h2 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h2><ul>
+<li>ETL【提取、转换、加载】<ul>
+<li>过滤掉部分数据、为下游服务过滤不必要数据信息</li>
+<li>缺点、下游的调整可能需要重新调整数据管道</li>
+</ul>
+</li>
+<li>ELT【提取、加载、转换】<ul>
+<li>高保真数据管道、数据湖结构</li>
+<li>占用了目标系统太多的CPU和存储资源、使得目标系统造价高昂、不过也给下游保证了最原始的数据、利于调整需求</li>
+</ul>
+</li>
+</ul>
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><ul>
+<li>支持加密数据、</li>
+<li>支持认证【SASL实现】、授权消费</li>
+<li>支持数据追踪、时间来源、事件修改者、日志审计、访问记录</li>
+</ul>
+<h2 id="故障处理能力"><a href="#故障处理能力" class="headerlink" title="故障处理能力"></a>故障处理能力</h2><ul>
+<li>数据保留一周、一月、任意时间以便于追溯</li>
+</ul>
+<h2 id="耦合性和灵活性"><a href="#耦合性和灵活性" class="headerlink" title="耦合性和灵活性"></a>耦合性和灵活性</h2><ul>
+<li><p>临时数据管道</p>
+<ul>
+<li>常用数据管道<ul>
+<li>logstash—–&gt; elasticsearch</li>
+<li>flume——&gt; HDFS</li>
+<li>GoldenGate——&gt;Oracle</li>
+<li>mysql【xml】——–&gt;Informatica——-&gt;oracle</li>
+<li>当有新的需求时候有需要重新构建新的管道、增加新技术成本</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>元数据丢失</p>
+<ul>
+<li>元数据没有保留schema数据、导致数据交换过程中、没有处理元数据新增字段【因为新的schema中没有该字段】</li>
+<li>而如果数据管道允许修改schema信息、那么双方只需要修改内部数据处理就可以了</li>
+</ul>
+</li>
+<li><p>末端处理</p>
+<ul>
+<li>让下端可以自己决定数据处理、而不是数据管道直接处理、直接处理会对下游数据的完整性造成破坏<br>同时新的需求更迭、也会造成成本提升</li>
+</ul>
+</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/01/message-queue/kafka/09/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1199,21 +1505,45 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>kafka集群复制</li>
 <li>kafka数据结构</li>
 <li>kafka请求处理流程</li>
 <li>kafka消息格式</li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="kafka集群复制"><a href="#kafka集群复制" class="headerlink" title="kafka集群复制"></a>kafka集群复制</h2><h3 id="kafka数据结构"><a href="#kafka数据结构" class="headerlink" title="kafka数据结构"></a>kafka数据结构</h3><ul>
+<li>kafka是以主题来组织数据</li>
+<li>每个主题下有多个分区、每个分区下有多个副本【数据元】、</li>
+<li>【玩过 mongodb 和 elasticsearch 的一看就懂、一个东西】</li>
+<li>每个broker可以存储不同主题和不同分区的副本</li>
+<li>副本分为两种<ul>
+<li>首领副本【数据存储、对接客户端请求、消费】</li>
+<li>跟随者副本【数据备份、不处理来自客户端的任何请求、待首领挂掉、迅速顶上】</li>
+<li>另、首领还会处理副本的备份请求、以判断哪个副本是最新的、最新的版本才可以当“储君”</li>
+</ul>
+</li>
+</ul>
+<h4 id="图纸解说"><a href="#图纸解说" class="headerlink" title="图纸解说"></a>图纸解说</h4><p><img src="/img/kafka/04.png" alt="kafka储存结构"></p>
+<ul>
+<li>照了一张差不多的图、不是kafka的、是es的 不过解释起来足够了</li>
+<li>主节点 node3、为broker协调者</li>
+<li>所有数据都是一个主题topic通过tag来区分数据【一般一个应用要给同topic、这里就当1个多个tag、】</li>
+<li>每个tag下有很多数据、每个数据有多个副本、【这里配置就2个、一个首领副本、一个跟随着副本】</li>
+</ul>
+<h3 id="kafka请求处理流程"><a href="#kafka请求处理流程" class="headerlink" title="kafka请求处理流程"></a>kafka请求处理流程</h3><h4 id="图纸解说-1"><a href="#图纸解说-1" class="headerlink" title="图纸解说"></a>图纸解说</h4><p><img src="/img/kafka/05.jpg" alt="kafka请求流程"></p>
+<ul>
+<li>请求通过processor线程发向请求队列、处理IO逻辑、将响应发向响应队列</li>
+</ul>
+<h3 id="kafka消息格式"><a href="#kafka消息格式" class="headerlink" title="kafka消息格式"></a>kafka消息格式</h3><ul>
+<li>Request type 【API key】</li>
+<li>Request version 【version版本号】</li>
+<li>Correlation ID【消息唯一id】</li>
+<li>Client ID【客户端唯一id】</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/30/message-queue/kafka/08/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1424,7 +1754,8 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>kafka消息接收方式</li>
 <li>kafka消息偏移量提交</li>
 <li><p>kafka序列化</p>
@@ -1432,15 +1763,93 @@
 <li><p>kafka消费者配置</p>
 </li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="kafka消息接收方式"><a href="#kafka消息接收方式" class="headerlink" title="kafka消息接收方式"></a>kafka消息接收方式</h2><ul>
+<li>kafka有两种消息接收方式、1:主动拉取、2:服务器端推送</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka消费者</span><br><span class="line"> */</span><br><span class="line">public void test04() &#123;</span><br><span class="line">    Properties properties = new Properties();</span><br><span class="line">    properties.put(&quot;bootstrap.servers&quot;, &quot;broker1:9002,broker2:9002&quot;);</span><br><span class="line">    properties.put(&quot;group.id&quot;, &quot;CountryCounter&quot;);</span><br><span class="line">    properties.put(&quot;key.deserializer&quot;, &quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line">    properties.put(&quot;value.deserializer&quot;, &quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line">    KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;String, String&gt;(properties);</span><br><span class="line"></span><br><span class="line">    //订阅主题</span><br><span class="line">    consumer.subscribe(Collections.singletonList(&quot;customerCountries&quot;));</span><br><span class="line">    //订阅所有主题</span><br><span class="line">    consumer.subscribe(Collections.singletonList(&quot;test.*&quot;));</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            ConsumerRecords&lt;String, String&gt; records = consumer.poll(100);</span><br><span class="line">            for (ConsumerRecord&lt;String, String&gt; record : records) &#123;</span><br><span class="line">                logger.debug(&quot;topic=%s,partition=%s,offset=%d,constomer=%s,country=%s\n&quot;,</span><br><span class="line">                        record.topic(),record.partition(),record.offset(),record.key(),record.value());</span><br><span class="line"></span><br><span class="line">                //todo 执行消费逻辑</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kafka消息偏移量提交"><a href="#kafka消息偏移量提交" class="headerlink" title="kafka消息偏移量提交"></a>kafka消息偏移量提交</h2><ul>
+<li>提交已处理消息标记位</li>
+</ul>
+<h2 id="kafka序列化"><a href="#kafka序列化" class="headerlink" title="kafka序列化"></a>kafka序列化</h2><ul>
+<li>kafka使用avro序列化</li>
+<li>可以看这边文章、<a href="https://www.wuxinvip.com/2018/11/10/essay/avro/">Apache Avro</a></li>
+</ul>
+<h2 id="kafka消费者配置"><a href="#kafka消费者配置" class="headerlink" title="kafka消费者配置"></a>kafka消费者配置</h2><ul>
+<li>fetch.min.bytes<ul>
+<li>指定消费者从服务器获取记录的最小字节数</li>
+</ul>
+</li>
+<li>fetch.max.wait.ms<ul>
+<li>累积多少时间把数据返还给消费者</li>
+<li>数值大、吞吐量大、延迟高、</li>
+<li>数值小、吞吐量小、延迟低、</li>
+</ul>
+</li>
+<li><p>max.partition.fetch.bytes</p>
+<ul>
+<li>指定每个分区返给消费者的最大字节数、默认值1MB</li>
+<li>如果有20个分区、5个消费者、那么这里就可以配置4MB</li>
+<li>该值一定要大于broker能够接收数据最大值、否则会一直挂起重试</li>
+</ul>
+</li>
+<li><p>session.timeout.ms</p>
+<ul>
+<li>指定消费者在被认为死亡之前可以与服务器断开连接时间、默认3s</li>
+<li>如果规定时间内没有发送心跳、认为死亡、触发再均衡</li>
+</ul>
+</li>
+<li><p>auto.offset.reset</p>
+<ul>
+<li>指定 消费者在读取一个没有偏移量的分区或者偏移量无效情况下（因消费者长时间失效、包含偏移量的记录已经过时并被删除）该如何处理</li>
+<li>默认值 latest、最新数据</li>
+<li>earliest 在偏移量无效情况下、消费者将从起始位置读取分区记录【幂等消费？】</li>
+</ul>
+</li>
+<li><p>enable.auto.commit</p>
+<ul>
+<li>指定消费者是否自动提交偏移量 默认值true</li>
+</ul>
+</li>
+<li><p>partition.assignment.strategy</p>
+<ul>
+<li>指定分配主题分区给消费者的分配策略</li>
+<li>Range   轮询、如果分区数量大于消费者数量、那么排在前面的消费者会被分配到更多的分区</li>
+<li>RoundRobin  给消费者分配更加平等数量的分区、或者最多小差一个分区</li>
+</ul>
+</li>
+<li><p>client.id</p>
+<ul>
+<li>分区id 标识分区唯一、以及客户端、识别消息、也被用在日志和度量指标和配额里</li>
+</ul>
+</li>
+<li><p>max.poll.records</p>
+<ul>
+<li>指定单次调用call()方法能够返回的记录数量</li>
+</ul>
+</li>
+<li><p>receive.buffer.bytes、send.buffer.bytes</p>
+<ul>
+<li>socket在读写数据时用到的TCP缓冲区 -1使用系统默认值</li>
+<li>如果消费者和生产者不再统一数据中心内、可以适当增大该值</li>
+</ul>
+</li>
+</ul>
+<h2 id="kafka消费者注意点"><a href="#kafka消费者注意点" class="headerlink" title="kafka消费者注意点"></a>kafka消费者注意点</h2><ul>
+<li>消费者数量大于主题分区数量、否则消费者会被闲置；比如5个主题分区、4个消费者、那么会有一个主题分区会被闲置</li>
+</ul>
+<ul>
+<li>再均衡<ul>
+<li>分区所有权从一个消费者转移到另一个消费者、这样的行为被称为再均衡</li>
+<li>再均衡期间、消费者不能消费消息</li>
+<li>也是这样的设置、能是消费者分区能动态增减</li>
+<li>维持：消费者通过向消费者协调者broker发送心跳、来维持他们与群组的从属关系以及他们对分区的所有权关系</li>
+<li>消费者死亡、消费协调者broker会等待几秒钟、确认死亡后会触发再均衡</li>
+</ul>
+</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/29/message-queue/kafka/07/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1651,7 +2060,8 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>kafka消息发送</li>
 <li>kafka消息同步发送</li>
 <li><p>kafka消息异步发送</p>
@@ -1659,15 +2069,105 @@
 <li><p>kafka生产者配置</p>
 </li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="kafka消息发送"><a href="#kafka消息发送" class="headerlink" title="kafka消息发送"></a>kafka消息发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 最简单发送</span><br><span class="line">     */</span><br><span class="line">    public void test01() &#123;</span><br><span class="line">        ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">                new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            producer.send(record);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kafka消息同步发送"><a href="#kafka消息同步发送" class="headerlink" title="kafka消息同步发送"></a>kafka消息同步发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka同步发送</span><br><span class="line"> */</span><br><span class="line">public void test02() &#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Future result = producer.send(record);</span><br><span class="line">        result.get();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kafka消息异步发送"><a href="#kafka消息异步发送" class="headerlink" title="kafka消息异步发送"></a>kafka消息异步发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka 异步发送</span><br><span class="line"> */</span><br><span class="line">public void test03()&#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try&#123;</span><br><span class="line">        Future result = producer.send(record,new DemoProducerCallback());</span><br><span class="line">        result.get();</span><br><span class="line">    &#125;catch(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoProducerCallback implements Callback &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onCompletion(RecordMetadata recordMetadata, Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kafka生产者配置"><a href="#kafka生产者配置" class="headerlink" title="kafka生产者配置"></a>kafka生产者配置</h2><ul>
+<li><p>acks</p>
+<ul>
+<li>acks = 0<ul>
+<li>不回调通知</li>
+</ul>
+</li>
+<li>acks = a<ul>
+<li>只保存首领节点、即返回消息确认</li>
+</ul>
+</li>
+<li>acks = all<ul>
+<li>保存首领节点和所有副节点后、即返回消息确认</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>buffer.memory</p>
+<ul>
+<li>设置生产者内存缓存大小、生产者又来缓冲发送到服务器的消息、</li>
+<li>0.9.00版本中、被替换为max.block.ms 表示抛出异常前可以阻塞一段时间</li>
+</ul>
+</li>
+<li><p>compression.type</p>
+<ul>
+<li>消息压缩、可设置为snappy、gzip、lz4</li>
+<li>指定消息被发送给broker之前使用哪一种压缩算法进行压缩</li>
+</ul>
+</li>
+<li><p>retries</p>
+<ul>
+<li>重试次数</li>
+<li>默认每次重试等待100ms、可以通过retry.backoff.ms 设置</li>
+<li>一般首领选举中易发生重试、建议该时间大于选举时间、崩溃恢复时间长等</li>
+</ul>
+</li>
+<li><p>batch.size</p>
+<ul>
+<li>消息批次大小、累积到一定大小发送消息</li>
+</ul>
+</li>
+<li><p>linger.ms</p>
+<ul>
+<li>指定生产者在发送批次之前等待更多消息加入批次时间</li>
+<li>消息发送两个控制点、一个是累计大小、一个是这个时间、规定时间内没有达到累积值、也要发送消息</li>
+</ul>
+</li>
+<li><p>client.id</p>
+<ul>
+<li>可以设置任意字符串</li>
+<li>服务器用来判断消息来源、用来标记消息</li>
+</ul>
+</li>
+<li><p>max.in.flight.requests.pre.connection</p>
+<ul>
+<li>指定、生产者在受到服务器响应之前可以发送多少个消息、</li>
+<li>值越高、就会占用更多内存、也会提升吞吐量、</li>
+<li>设置为1 可保证消息桉顺序写入broker服务器</li>
+</ul>
+</li>
+<li><p>timeout.ms、request.timeout.ms、metadata.fetch.timeout.ms</p>
+<ul>
+<li>timeout.ms 生产者发送数据时等待服务器返回响应时间</li>
+<li>request.timeout.ms 指定生产者在获取元数据（比如broker首领是谁）等待服务器返回响应时间、超时重试</li>
+<li>metadata.fetch.timeout.ms 指定 broker等待同步副本返回消息确认时间、超时认为失败</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>max.block.ms</p>
+<ul>
+<li>指定调用send方法或者使用partitionFor()方法获取元数据生产者的阻塞时间</li>
+<li>超时抛出异常</li>
+</ul>
+</li>
+<li><p>max.request.size</p>
+<ul>
+<li>控制生产者发送消息大小、单个请求大小、单个请求中一个批次消息的总大小</li>
+</ul>
+</li>
+<li><p>receive.buffer.bytes、send.buffer.bytes</p>
+<ul>
+<li>tcp、socket的接收和发送缓冲区大小</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>kafka顺序<ul>
+<li>可设置max.in.flight.request.pre.connection = 1、但会严重影响吞吐量</li>
+<li>这点或许rabbitmq和rocketmq做的更好</li>
+</ul>
+</li>
+</ul>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/28/message-queue/kafka/06/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1878,20 +2378,18 @@
 
       
         
-          <ul>
+          
+            <ul>
 <li>kafka简单集群</li>
 <li>kafka生产者</li>
 <li>kafka消费者</li>
 </ul>
-          <!--noindex-->
+<p>{———-}</p>
+<h2 id="kafka简单集群"><a href="#kafka简单集群" class="headerlink" title="kafka简单集群"></a>kafka简单集群</h2><p><img src="/img/kafka/01.jpg" alt="kafka简单集群"></p>
+<h2 id="kafka生产者"><a href="#kafka生产者" class="headerlink" title="kafka生产者"></a>kafka生产者</h2><p><img src="/img/kafka/02.jpg" alt="kafka简单集群"></p>
+<h2 id="kafka消费者"><a href="#kafka消费者" class="headerlink" title="kafka消费者"></a>kafka消费者</h2><p><img src="/img/kafka/03.jpg" alt="kafka简单集群"></p>
+
           
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/27/message-queue/kafka/05/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
         
       
     </div>
@@ -1934,235 +2432,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/11/26/message-queue/kafka/04/" rel="bookmark">kafka集群</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/26/message-queue/kafka/04/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/26/message-queue/kafka/04/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/4/index.html">kafka集群</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-26 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-26T08:00:00+08:00">2018-11-26</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li>需要多少个broker</li>
-<li>broker配置</li>
-<li>操作系统调优<ul>
-<li>虚拟内存</li>
-<li>磁盘</li>
-<li>网络</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/26/message-queue/kafka/04/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/01/message-queue/kafka/09/" rel="bookmark">kafka构建数据管道需要注意的问题</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/30/message-queue/kafka/08/" rel="bookmark">kafka集群复制</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/29/message-queue/kafka/07/" rel="bookmark">kafka消费者接收和配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/28/message-queue/kafka/06/" rel="bookmark">kafka生产者发送和配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
       
     </li>
   
@@ -2275,7 +2544,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">263</span>
+                    <span class="site-state-item-count">264</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2495,7 +2764,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">50</span>
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
