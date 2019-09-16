@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/reactor-core/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud-exception/feign-exception-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,7 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/spring-cloud/reactor-core/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">Reactor Core</a>
+                <a href="/2018/03/24/spring-cloud-exception/feign-exception-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">cloud feign灵异事件</a>
               
             
           </h2>
@@ -573,29 +573,13 @@
       
         
           
-            <p>本文从以下介绍下 Reactor （反应堆）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">首先简单介绍Reactor 是什么东西、</span><br><span class="line">其次解决什么问题、</span><br><span class="line">领域应用、</span><br><span class="line">原理、</span><br><span class="line">优点和缺点、</span><br></pre></td></tr></table></figure></p>
-<h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-8bbb8b631b3797b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h2 id="2、解决问题"><a href="#2、解决问题" class="headerlink" title="2、解决问题"></a>2、解决问题</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-57e816852fa46e19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h2 id="3、领域应用"><a href="#3、领域应用" class="headerlink" title="3、领域应用"></a>3、领域应用</h2><p>举个比较熟悉的例子 dubbo<br>dubbo底层使用了netty线程模型  netty 中使用了reactor模式</p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">报错 ：</span><br><span class="line">Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &apos;dataSourceInitializerPostProcessor&apos;: Unsatisfied dependency expressed through field &apos;beanFactory&apos;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;com.****.feign.UserCenterFeignService&apos;: Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.feign.FeignClientFactoryBean] from ClassLoader [sun.misc.Launcher$AppClassLoader@61e4705b]</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7df99f9e93f72b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>解决办法 加入依赖</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-c71a9b346663d6f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原因未明 、创建项目时候导入了feign</span><br><span class="line">使用@EnableFeignClients注解 也ok 不报错 我就以为 feign包导入了  </span><br><span class="line">结果不知道哪来的包来的这个注解  导致 灵异事件</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
 <p>{———-}</p>
-<h3 id="那么什么是reactor模式？"><a href="#那么什么是reactor模式？" class="headerlink" title="那么什么是reactor模式？"></a>那么什么是reactor模式？</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-858fe9a54def75b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="Reactor三种模型"><a href="#Reactor三种模型" class="headerlink" title="Reactor三种模型"></a>Reactor三种模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-2406b26b0cca44ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="Netty线程模型"><a href="#Netty线程模型" class="headerlink" title="Netty线程模型"></a>Netty线程模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-7fac4e58c9c1fe4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="Netty结构"><a href="#Netty结构" class="headerlink" title="Netty结构"></a>Netty结构</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-44f3e9b29ec969cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="dubbo中使用的netty"><a href="#dubbo中使用的netty" class="headerlink" title="dubbo中使用的netty"></a>dubbo中使用的netty</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-6a1f8184f9fcfae3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h2 id="4、Reactor-原理介绍"><a href="#4、Reactor-原理介绍" class="headerlink" title="4、Reactor 原理介绍"></a>4、Reactor 原理介绍</h2><h3 id="4-1-Reactor模式结构"><a href="#4-1-Reactor模式结构" class="headerlink" title="4.1 Reactor模式结构"></a>4.1 Reactor模式结构</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-fc4c0369774e482d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-1c48977348cea778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h3 id="4-2Reactor模式模块之间的交互"><a href="#4-2Reactor模式模块之间的交互" class="headerlink" title="4.2Reactor模式模块之间的交互"></a>4.2Reactor模式模块之间的交互</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-420d7e53a12f5a5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-9b0b54d48117cc51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-76867da8faa4836f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-de7a2593190a5eb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h2 id="5、-Reactor优点"><a href="#5、-Reactor优点" class="headerlink" title="5、  Reactor优点"></a>5、  Reactor优点</h2><p><a href="http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf" target="_blank" rel="noopener">Reactor An Object Behavioral Pattern for Demultiplexing and Dispatching Handles for Synchronous Events</a><br>解耦、提升复用性、模块化、可移植性、事件驱动、细力度的并发控制等。<br>相比 传统的实现、即线程的切换、同步、数据的移动会引起性能问题。也就是说从性能的角度上，它最大的提升就是减少了性能的使用，即不需要每个Client对应一个线程</p>
-<p>关于 减少使用线程使用 对性能提升的影响 可看这篇论文</p>
-<p><a href="http://www.eecs.harvard.edu/~mdw/papers/seda-sosp01.pdf" target="_blank" rel="noopener">SEDA: Staged Event-Driven Architecture - An Architecture for Well-Conditioned, Scalable Internet Service</a></p>
-<p>对随着线程的增长带来性能降低做了一个统计：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-27a8db8c88ddbcc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>在这个统计中，每个线程从磁盘中读8KB数据，每个线程读同一个文件，因而数据本身是缓存在操作系统内部的，即减少IO的影响；所有线程是事先分配的，不会有线程启动的影响；所有任务在测试内部产生，因而不会有网络的影响。该统计数据运行环境：Linux 2.2.14，2GB内存，4-way 500MHz Pentium III。从图中可以看出，随着线程的增长，吞吐量在线程数为8个左右的时候开始线性下降，并且到64个以后而迅速下降，其相应事件也在线程达到256个后指数上升。即1+1&lt;2，因为线程切换、同步、数据移动会有性能损失，线程数增加到一定数量时，这种性能影响效果会更加明显。</p>
-<h2 id="6-Reactor模式的缺点"><a href="#6-Reactor模式的缺点" class="headerlink" title="6.Reactor模式的缺点"></a>6.Reactor模式的缺点</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-fc5e8ab386e2f710.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-55ccd9dddc1f19e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">严重怀疑是这个包里的</span><br><span class="line"></span><br><span class="line">mmp  莫名其妙的好了 仿佛又回到从前</span><br><span class="line">你对java 一无所知......</span><br></pre></td></tr></table></figure>
 
           
         
@@ -625,7 +609,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
       
     </li>
   
@@ -696,7 +680,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/ribbon/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud-exception/sleuth-exception-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -716,7 +700,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/spring-cloud/ribbon/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">Ribbon</a>
+                <a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">sleuth灵异事件</a>
               
             
           </h2>
@@ -802,24 +786,13 @@
       
         
           
-            <p>官方wiki地址：<a href="https://github.com/Netflix/ribbon/wiki" target="_blank" rel="noopener">https://github.com/Netflix/ribbon/wiki</a></p>
-<p>功能简介：</p>
-<ul>
-<li>1、多重和可插入的负载平衡</li>
-<li>2、与eureka服务整合</li>
-<li>3、内置故障发现能力</li>
-<li>4、云启用</li>
-<li>5、与负载均衡器集成客户端</li>
-<li>6、Archaius配置驱动客户端工厂</li>
-</ul>
-<p>三个子项目：</p>
-<ul>
-<li>ribbon-core：包括负载均衡器和客户端接口定义、通用负载均衡器实现、客户端与负载均衡器和客户端工厂集成</li>
-<li>ribbon-eureka：包含基于Eureka客户端的负载均衡器实现、这是用于服务注册和发现的liberary</li>
-<li>ribbon-httpclient：包含基于JSR-311的Rest客户端与服务均衡器集成的实现</li>
-</ul>
+            <p>分布式 服务跟踪系统</p>
+<p>客户端发送ok<br><img src="http://upload-images.jianshu.io/upload_images/6434888-39e03c88f9cbc91d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>server端 启动ok<br>但是就是没有数据</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-0873f181258771f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 <p>{———-}</p>
-<p>配置 sample-client.properties<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># Max number of retries on the same server (excluding the first try)</span><br><span class="line">sample-client.ribbon.MaxAutoRetries=1</span><br><span class="line"></span><br><span class="line"># Max number of next servers to retry (excluding the first server)</span><br><span class="line">sample-client.ribbon.MaxAutoRetriesNextServer=1</span><br><span class="line"></span><br><span class="line"># Whether all operations can be retried for this client</span><br><span class="line">sample-client.ribbon.OkToRetryOnAllOperations=true</span><br><span class="line"></span><br><span class="line"># Interval to refresh the server list from the source</span><br><span class="line">sample-client.ribbon.ServerListRefreshInterval=2000</span><br><span class="line"></span><br><span class="line"># Connect timeout used by Apache HttpClient</span><br><span class="line">sample-client.ribbon.ConnectTimeout=3000</span><br><span class="line"></span><br><span class="line"># Read timeout used by Apache HttpClient</span><br><span class="line">sample-client.ribbon.ReadTimeout=3000</span><br><span class="line"></span><br><span class="line"># Initial list of servers, can be changed via Archaius dynamic property at runtime</span><br><span class="line">sample-client.ribbon.listOfServers=www.microsoft.com:80,www.yahoo.com:80,www.google.com:80</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">灵异原因：可能是版本不一致</span><br><span class="line"></span><br><span class="line">要保证 客户端 cloud version</span><br><span class="line">和sleuth server  cloud version 版本一致</span><br><span class="line">修改方式：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-332963ea8a515ceb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 
           
         
@@ -849,7 +822,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
       
     </li>
   
@@ -864,6 +837,242 @@
       
       
       <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-classloader/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/jdk/jvm-classloader/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">类加载过程</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>类加载过程</p>
+<p>加载–》验证–》准备—》解析—》初始化—》使用—-》卸载</p>
+<p>其中 在准备阶段完成 成员变量初始值赋值 0 、 0.0之类</p>
+<p><strong>  加载 </strong></p>
+<p>1、将java字节码以二进制的方式读入到jvm内存中，然后将二进制数据流按照字节码规范解析成jvm内部的运行时数据结构<br>2、对外暴露加载结构 更广泛的加载类</p>
+<pre><code>(1) 从本地文件系统中读取
+
+(2) 从网络上加载（典型应用：java Applet）
+
+(3) 从jar，zip，war等压缩文件中加载
+
+(4) 通过动态将java源文件动态编译产生（jsp的动态编译）
+
+(5) 通过程序直接生成。
+</code></pre><p><strong>  验证 </strong></p>
+<p>1、文件格式验证（这一步会与装载阶段交叉进行），元数据验证，字节码验证，符号引用验证（这个阶段的验证往往会与解析阶段交叉进行）。</p>
+<p><strong>  准备 </strong></p>
+<pre><code>int,byte,char,long,float,double 默认初始值为0
+
+boolean 为false（在jvm内部用int表示boolean，因此初始值为0）
+
+reference类型为null
+
+对于final static基本类型或者String类型，则直接采用常量值（这实际上是在编译阶段就已经处理好了）。
+</code></pre><p><strong>  解析 </strong></p>
+<p>1、类的常量池中的类，字段，方法，接口的符号引用，将他们替换成直接引用的过程</p>
+<pre><code>CONSTANT_Class_info
+CONSTANT_Fieldref_info
+CONSTANT_Methodref_info
+CONSTANT_InterfaceMethodref_info
+</code></pre><p><strong> 初始化 </strong></p>
+<p>1、根据用户程序中的初始化语句为类的静态变量赋予正确的初始值</p>
+<p>2、执行时机</p>
+<pre><code>(1) 通过new关键字实例化对象、读取或设置类的静态变量、调用类的静态方法(对应new,getstatic,putstatic,invokespecial这四条字节码指令）。
+
+(2) 通过反射方式执行以上行为时。
+
+(3) 初始化子类的时候，会触发父类的初始化。
+
+(4) 作为程序入口直接运行时的主类。
+</code></pre><h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>类加载器：启动类加载器、扩展类加载器、应用类加载器、自定义加载器</p>
+<p>自定义加载器：<br>比如tomcat：CommonClassloader—CatalinaClassLoader、ShareClassLoader、WebappClassLoader、JspClassLoader</p>
+<p><strong>  双亲委派模型  </strong></p>
+<p>1、当一个类触发init方法进行初始化、先判断是否已经加载、没有的话交由父类classloader进行初始化、父类不存在使用启动类加载器初始化、父类的加载器加载失败则使用自己的classloader加载启动</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
       
     </li>
   
@@ -1128,435 +1337,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/spring-cloud-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/spring-cloud/spring-cloud-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">spring cloud 族谱</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>功能简介来自官网<br>整理人：上善若水</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-62c252d188cc323b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （一）_7.jpg"></p>
-<p>{———-}</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cbaa0e5231ad5957.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （二）_8.jpg"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-d83fdc2d81c655a0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （三）_9.jpg"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-8ae4d6293e2169ea.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （四）_10.jpg"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-81c3451edd0b17ef.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （五）_11.jpg"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">总结下 ： 可以说 spring cloud 服务中 包括各种spring 基础服务也有了很多更新</span><br><span class="line"></span><br><span class="line">有RPC 框架的 注册 netflix</span><br><span class="line">有 关于配置的 远程仓库配置 config</span><br><span class="line">有 关于消息 bus stream</span><br><span class="line">有关于app的 for android (提供RestTemplate)</span><br><span class="line">有关任务调度 的 task</span><br><span class="line">有关于 shell 编程</span><br><span class="line">有关于安全方面的</span><br><span class="line">有关于系统拦截 zuul</span><br><span class="line">等等。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">那么看名字可以分为两种</span><br><span class="line">1、Spring * --- spring 为了完善&quot;应用&quot;增加的功能机制  例如 spring security 、spring vault、等等</span><br><span class="line">2、Spring Cloud * ---spring cloud * 是在 微服务中 为了&quot;微服务系统&quot;更方便的集成 对各个功能模块进行封装的结果、</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/spring-cloud-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/spring-cloud/spring-cloud-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">spring cloud 总 架构图</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-d7f0fb7315ad664a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-6001018c84d36f24.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.jpg"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-aa10c11f1f366701.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="springcloud 组件集合.jpg"></p>
-<p>版权所有 转载 请表明出处</p>
-<p><a href="https://gitee.com/none_heart/base-cloud.git" target="_blank" rel="noopener">相关代码地址</a></p>
-<p>{———-}</p>
-<p>纠正：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cli 是 结合grovy脚本 工程</span><br><span class="line">consul 是服务注册中心 不过可以结合docker做更容易扩散的集群中心</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">总结下 ： 可以说 spring cloud 服务中 包括各种spring 基础服务也有了很多更新</span><br><span class="line"></span><br><span class="line">有RPC 框架的 注册 netflix</span><br><span class="line">有 关于配置的 远程仓库配置 config</span><br><span class="line">有 关于消息 bus stream</span><br><span class="line">有关于app的 for android (提供RestTemplate)</span><br><span class="line">有关任务调度 的 task</span><br><span class="line">有关于 shell 编程</span><br><span class="line">有关于安全方面的</span><br><span class="line">有关于系统拦截 zuul</span><br><span class="line">等等。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">那么看名字可以分为两种</span><br><span class="line">1、Spring * --- spring 为了完善&quot;应用&quot;增加的功能机制  例如 spring security 、spring vault、等等</span><br><span class="line">2、Spring Cloud * ---spring cloud * 是在 微服务中 为了&quot;微服务系统&quot;更方便的集成 对各个功能模块进行封装的结果、</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-structure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1763,216 +1543,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/spring-roo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/spring-cloud/spring-roo/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">spring Roo</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>what？<br>      使用命令行形式构建项目</p>
-<p>下载地址：<a href="https://projects.spring.io/spring-roo/#running-from-shell" target="_blank" rel="noopener">https://projects.spring.io/spring-roo/#running-from-shell</a></p>
-<p>{———-}</p>
-<p>快速搭建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mkdir hello</span><br><span class="line">cd hello</span><br><span class="line">roo.sh</span><br><span class="line">roo&gt; project setup --topLevelPackage com.foo</span><br><span class="line">roo&gt; jpa setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY</span><br><span class="line">roo&gt; entity jpa --class ~.domain.Timer</span><br><span class="line">roo&gt; field string --fieldName message --notNull</span><br><span class="line">roo&gt; repository jpa --all</span><br><span class="line">roo&gt; service --all</span><br><span class="line">roo&gt; web mvc setup</span><br><span class="line">roo&gt; web mvc view setup --type THYMELEAF</span><br><span class="line">roo&gt; web mvc controller --all --responseType THYMELEAF</span><br><span class="line">roo&gt; web mvc controller --all --pathPrefix /api</span><br><span class="line">roo&gt; quit</span><br><span class="line">mvn spring-boot:run</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/feign-1/" rel="bookmark">Feign服务调用</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-total/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2117,6 +1687,443 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/log/elk-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/log/elk-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">ELK 简介</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">转载链接：http://www.jianshu.com/p/97fcb10c3556</span><br></pre></td></tr></table></figure>
+<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a>是一个基于<a href="https://link.jianshu.com/?t=http://lucene.apache.org/core/documentation.html" target="_blank" rel="noopener">Lucene</a>构建的开源，分布式，RESTful 搜索引擎。</p>
+<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a>传输和处理你的日志、事务或其他数据。</p>
+<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a>将 Elasticsearch 的数据分析并渲染为可视化的报表。</p>
+<p>{———-}</p>
+<p>为什么使用 ELK ？</p>
+<p>对于有一定规模的公司来说，通常会很多个应用，并部署在大量的服务器上。运维和开发人员常常需要通过查看日志来定位问题。如果应用是集群化部署，试想如果登录一台台服务器去查看日志，是多么费时费力。</p>
+<p>而通过 ELK 这套解决方案，可以同时实现日志收集、日志搜索和日志分析的功能。</p>
+<p>ELK 架构</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-316ba06db8ae9b10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>说明</strong></p>
+<p>以上是 ELK 技术栈的一个架构图。从图中可以清楚的看到数据流向。</p>
+<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/beats" target="_blank" rel="noopener">Beats</a> 是单一用途的数据传输平台，它可以将多台机器的数据发送到 Logstash 或 ElasticSearch。但 Beats 并不是不可或缺的一环，所以本文中暂不介绍。</p>
+<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a> 是一个动态数据收集管道。支持以 TCP/UDP/HTTP 多种方式收集数据（也可以接受 Beats 传输来的数据），并对数据做进一步丰富或提取字段处理。</p>
+<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a> 是一个基于 JSON 的分布式的搜索和分析引擎。作为 ELK 的核心，它集中存储数据。</p>
+<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a> 是 ELK 的用户界面。它将收集的数据进行可视化展示（各种报表、图形化数据），并提供配置、管理 ELK 的界面。</p>
+<p>支持图形各种数据图形</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/log/elk-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/log/elk-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">ELK 搭建</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>elasticsearch 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/downloads/elasticsearch</a><br>linux执行 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>下载解压 【建议使用zsh】</p>
+<p>修改配置文件<br>config/elasticsearch.yml</p>
+<p>{———-}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 集群的名字  </span><br><span class="line">cluster.name: cloud</span><br><span class="line"># 节点名字  </span><br><span class="line">node.name: node-1   </span><br><span class="line"># 数据存储目录（多个路径用逗号分隔）  </span><br><span class="line">path.data: /usr/local/logUtils/elasticsearch/es-data</span><br><span class="line"># 日志目录  </span><br><span class="line">path.logs: /usr/local/logUtils/elasticsearch/log</span><br><span class="line">#本机的ip地址</span><br><span class="line">network.host: 192.168.0.135  </span><br><span class="line">#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;192.168.161.128&quot;]</span><br><span class="line"># 设置节点间交互的tcp端口（集群）,(默认9300)  </span><br><span class="line">transport.tcp.port: 9300  </span><br><span class="line"># 监听端口（默认）  </span><br><span class="line">http.port: 9200  </span><br><span class="line"># 增加参数，使head插件可以访问es  </span><br><span class="line">http.cors.enabled: true  </span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+<p>运行 bin下的 elasticsearch 进行启动<br>后台启动 bin/elasticsearch  -d</p>
+<p>启动结果如下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-c3defbf97ceb3d06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>启动会遇到的问题<br>1、非root权限启动<br>新建用户  es<br>然后把 elasticsearch 文件夹权限归给 新用户es<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R  es:es  elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>2、 软硬进程限制</p>
+<p>max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]</p>
+<p>解决办法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf</span><br></pre></td></tr></table></figure></p>
+<p>文后添加<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2291db66448586cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>然后使用source 重新加载<br>并使用 ulimit -n 查看 是否为 65536 如果还是1024 那么重新连接linux 试下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-032a906cd27eeca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>3、<br>.max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</p>
+<p>解决办法 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">执行    ：sysctl -w vm.max_map_count=655360</span><br><span class="line">查看执行结果 ： sysctl -a | grep vm.max_map_count</span><br></pre></td></tr></table></figure></p>
+<p><strong>elasticsearch 插件 head 安装</strong></p>
+<p>下载head插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/mobz/elasticsearch-head/archive/master.zip</span><br><span class="line">安装node</span><br><span class="line">wget https://npm.taobao.org/mirrors/node/latest-v4.x/node-v4.4.7-linux-x64.tar.gz</span><br><span class="line">tar -zxvf node-v4.4.7-linux-x64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>配置环境变量<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b86cce5f1787b61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>安装 grunt<br>cd /opt/elasticsearch-head-master<br>npm install -g grunt-cli  //执行后会生成node_modules文件夹<br>grunt是基于Node.js的项目构建工具，可以进行打包压缩、测试、执行等等的工作，head插件就是通过grunt启动</p>
+<p>检查是否安装成功<br>grunt -version</p>
+<p>修改head 插件源码<br>vi  Gruntfile.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e777189ec26ea9b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>vi _site/app.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-99ec0f1955f299a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>文件较大 建议下载下来 使用文本编辑器查找<br>或者使用命令替换localhost 为 你的ip</p>
+<p>运行head<br>head根目录<br>运行 npm install<br>启动head grunt server<br>后台启动 nohup grunt server  &amp;<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e00e0f1850d2b2f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Logstash 安装</strong></p>
+<p>官方下载地址 ：<a href="https://www.elastic.co/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/downloads/logstash</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">linux安装：curl -L -O https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz</span><br><span class="line"></span><br><span class="line">config 添加 配置文件</span><br><span class="line"></span><br><span class="line">vi logstash.conf</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  # stdin &#123; &#125;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    # host:port就是上面appender中的 destination，</span><br><span class="line">    # 这里其实把logstash作为服务，开启9250端口接收logback发出的消息</span><br><span class="line">    host =&gt; &quot;192.168.0.135&quot;</span><br><span class="line">     port =&gt; 9250</span><br><span class="line">     mode =&gt; &quot;server&quot;</span><br><span class="line">    tags :&gt; [&quot;tags&quot;]</span><br><span class="line">    codec =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123; hosts =&gt; [&quot;localhost:9200&quot;] &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动logstash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./logstash -f ../config/logstash.conf  &amp;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Kibana 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/kibana" target="_blank" rel="noopener">https://www.elastic.co/downloads/kibana</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim config/kibana.yml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server.host:&quot;192.168.0.135&quot;</span><br><span class="line">elasticsearch.url:http://192.168.0.135:9200</span><br><span class="line"></span><br><span class="line">启动kibana</span><br><span class="line"></span><br><span class="line">bin/kibana</span><br></pre></td></tr></table></figure></p>
+<p>启动服务 <a href="http://192.168.0.135:5601" target="_blank" rel="noopener">http://192.168.0.135:5601</a></p>
+<p>至此 ELK服务单机版部署完成</p>
+<p>springcloud 集成logback</p>
+<p>引入pom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志发送logstash--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>logback-spring.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=&quot;LOGSTASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        destination 是 logstash 服务的 host:port，</span><br><span class="line">        相当于和 logstash 建立了管道，将日志数据定向传输到 logstash</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;destination&gt;192.168.0.135:9250&lt;/destination&gt;</span><br><span class="line">        &lt;encoder charset=&quot;UTF-8&quot; class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">  &lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">          &lt;appender-ref ref=&quot;LOGSTASH&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
       
     </li>
   
