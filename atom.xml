@@ -92,6 +92,33 @@
   </entry>
   
   <entry>
+    <title>jdk内存模型</title>
+    <link href="https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/"/>
+    <id>https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/</id>
+    <published>2019-05-26T00:00:00.000Z</published>
+    <updated>2019-05-28T11:09:12.792Z</updated>
+    
+    <content type="html"><![CDATA[<p>#8个原子操作<br>针对jvm主内存与工作内存的数据操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lock----锁定</span><br><span class="line">unlock----释放锁</span><br><span class="line">read----读</span><br><span class="line">write----写</span><br><span class="line">load----加载</span><br><span class="line">assign----赋值</span><br><span class="line">use----使用</span><br><span class="line">store----写入主内存</span><br></pre></td></tr></table></figure></p><p>特例：<br>long、double、64为内存、在32为虚拟机中分两次操作、<br>load、store、read、write都不是源自操作</p><p>#8个规则：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、不允许read、load、store、write单独出现</span><br><span class="line">2、不允许thread丢弃assign</span><br><span class="line">3、不允许任何一线程、没有assign的数据 从工作内存store到主内存</span><br><span class="line">4、一个新变量只能在主内存“诞生”、对一个变量“use/store”之前、执行assign、load操作</span><br><span class="line">5、一个变量在同一时刻只允许一个线程对其进行lock、但lock可以被执行多次、lock标记为累加、多次lock需要多次unlock</span><br><span class="line"></span><br><span class="line">6、对一个变量执行lock、会清空工作内存中变量值、使用之前需要重新load、assign</span><br><span class="line">7、如果未lock、不能unlock</span><br><span class="line">8、执行unlock之前、限制性工作内存同步主内存</span><br></pre></td></tr></table></figure><p>都挺好理解、计算机这个东西、没啥难度、<br>lock是做标记为int ++  –做锁标记位</p><p>#内存可见性</p><p>1、volatile<br>2、sychronized<br>3、final</p><p>#有序性<br>1、线程内表现为串行</p><p>#无序<br>1、指令重排序【使用volatile可以阻止指令重排序】<br>2、sychronized 同一个变量、在同一时刻、允许同一线程串行进入</p><p>3、编译器静态优化会打乱代码执行顺序<br>4、jvm动态优化会打乱代码执行顺序<br>5、硬件可以打乱执行顺序以优化其性能</p><p>#线程安全<br>1、不可变—final<br>2、绝对安全<br>3、相对安全<br>4、线程兼容<br>5、独立—对程序有害</p><p>#线程发展史</p><p>1、重量级、执行标记位 加sychronized的地方、我在内存中加一个标记为、标记该方法、该对象、我正在使用、你不能使用<br>2、偏向锁、object标记、Mark Word中偏向锁的标识<br>3、轻量级、reentranlock、线程中自建一个object标记、增加了trylock（times）、可队列执行锁方法、规则名aqs、<br>4、算法代替锁、设计思想是、假设没有竞争、竞争时候通过算法判断、cas、拿旧值和内存原值比较、一致则修改为新值</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#8个原子操作&lt;br&gt;针对jvm主内存与工作内存的数据操作&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span 
+      
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="jdk" scheme="https://www.wuxinvip.com/categories/java/jdk/"/>
+    
+    
+      <category term="jdk" scheme="https://www.wuxinvip.com/tags/jdk/"/>
+    
+  </entry>
+  
+  <entry>
     <title>AI 机器学习发展史</title>
     <link href="https://www.wuxinvip.com/2019/05/26/ai/ai-002/"/>
     <id>https://www.wuxinvip.com/2019/05/26/ai/ai-002/</id>
@@ -118,33 +145,6 @@
     
     
       <category term="AI" scheme="https://www.wuxinvip.com/tags/AI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>jdk内存模型</title>
-    <link href="https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/"/>
-    <id>https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/</id>
-    <published>2019-05-26T00:00:00.000Z</published>
-    <updated>2019-05-28T11:09:12.792Z</updated>
-    
-    <content type="html"><![CDATA[<p>#8个原子操作<br>针对jvm主内存与工作内存的数据操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lock----锁定</span><br><span class="line">unlock----释放锁</span><br><span class="line">read----读</span><br><span class="line">write----写</span><br><span class="line">load----加载</span><br><span class="line">assign----赋值</span><br><span class="line">use----使用</span><br><span class="line">store----写入主内存</span><br></pre></td></tr></table></figure></p><p>特例：<br>long、double、64为内存、在32为虚拟机中分两次操作、<br>load、store、read、write都不是源自操作</p><p>#8个规则：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、不允许read、load、store、write单独出现</span><br><span class="line">2、不允许thread丢弃assign</span><br><span class="line">3、不允许任何一线程、没有assign的数据 从工作内存store到主内存</span><br><span class="line">4、一个新变量只能在主内存“诞生”、对一个变量“use/store”之前、执行assign、load操作</span><br><span class="line">5、一个变量在同一时刻只允许一个线程对其进行lock、但lock可以被执行多次、lock标记为累加、多次lock需要多次unlock</span><br><span class="line"></span><br><span class="line">6、对一个变量执行lock、会清空工作内存中变量值、使用之前需要重新load、assign</span><br><span class="line">7、如果未lock、不能unlock</span><br><span class="line">8、执行unlock之前、限制性工作内存同步主内存</span><br></pre></td></tr></table></figure><p>都挺好理解、计算机这个东西、没啥难度、<br>lock是做标记为int ++  –做锁标记位</p><p>#内存可见性</p><p>1、volatile<br>2、sychronized<br>3、final</p><p>#有序性<br>1、线程内表现为串行</p><p>#无序<br>1、指令重排序【使用volatile可以阻止指令重排序】<br>2、sychronized 同一个变量、在同一时刻、允许同一线程串行进入</p><p>3、编译器静态优化会打乱代码执行顺序<br>4、jvm动态优化会打乱代码执行顺序<br>5、硬件可以打乱执行顺序以优化其性能</p><p>#线程安全<br>1、不可变—final<br>2、绝对安全<br>3、相对安全<br>4、线程兼容<br>5、独立—对程序有害</p><p>#线程发展史</p><p>1、重量级、执行标记位 加sychronized的地方、我在内存中加一个标记为、标记该方法、该对象、我正在使用、你不能使用<br>2、偏向锁、object标记、Mark Word中偏向锁的标识<br>3、轻量级、reentranlock、线程中自建一个object标记、增加了trylock（times）、可队列执行锁方法、规则名aqs、<br>4、算法代替锁、设计思想是、假设没有竞争、竞争时候通过算法判断、cas、拿旧值和内存原值比较、一致则修改为新值</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;#8个原子操作&lt;br&gt;针对jvm主内存与工作内存的数据操作&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span 
-      
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="jdk" scheme="https://www.wuxinvip.com/categories/java/jdk/"/>
-    
-    
-      <category term="jdk" scheme="https://www.wuxinvip.com/tags/jdk/"/>
     
   </entry>
   
