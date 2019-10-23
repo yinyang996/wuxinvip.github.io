@@ -308,7 +308,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">52</span></a>
 
   </li>
         
@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">265</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">266</span></a>
 
   </li>
         
@@ -451,6 +451,211 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/12/08/message-queue/rocketmq/04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/08/message-queue/rocketmq/04/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/4/index.html">rocketmq使用示例</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-08 08:00:00" itemprop="dateCreated datePublished" datetime="2018-12-08T08:00:00+08:00">2018-12-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/rocketmq/" itemprop="url" rel="index"><span itemprop="name">rocketmq</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>spring cloud中集成rocketmq</li>
+</ul>
+<p>{———-}</p>
+<h2 id="spring-cloud中集成rocketmq"><a href="#spring-cloud中集成rocketmq" class="headerlink" title="spring cloud中集成rocketmq"></a>spring cloud中集成rocketmq</h2><p><a href="https://github.com/wuxinvip/base-cloud/tree/2.0.X-boot/message-queue" target="_blank" rel="noopener">代码地址</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  接收bean 将消息发送到spring event事件中进行处理 解耦数据处理</span><br><span class="line"> *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class ConsumerMessageListener implements MessageListener &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(ConsumerMessageListener.class);</span><br><span class="line">    @Autowired</span><br><span class="line">    ApplicationContext applicationContext;</span><br><span class="line"></span><br><span class="line">    public Action consume(Message message, ConsumeContext context) &#123;</span><br><span class="line">        System.out.println(&quot;Receive: &quot; + message);</span><br><span class="line">        try &#123;</span><br><span class="line">            logger.info(&quot;rocket 接收到消息:&#123;&#125;&quot;,message);</span><br><span class="line">            //do something..</span><br><span class="line">            applicationContext.publishEvent(new RocketmqEvent(message));</span><br><span class="line"></span><br><span class="line">            return Action.CommitMessage; //消息处理正常</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            //消费失败</span><br><span class="line">            logger.error(&quot;rocket 消息处理失败 ：&#123;&#125;&quot;,message);</span><br><span class="line">            return Action.ReconsumeLater;//消息加入重试</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 接收示例</span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    @EventListener(condition = &quot;#event.topic==&apos;your.topic&apos; &amp;&amp; #event.tag==&apos;your.tag&apos;&quot;)</span><br><span class="line">    public void MessageListener(RocketmqEvent rocketmqEvent) throws IOException &#123;</span><br><span class="line">        String string = rocketmqEvent.getMsg();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 发送bean类</span><br><span class="line"> *  引用统一发送 解耦数据处理 </span><br><span class="line"> *  屏蔽rockemq的依赖性 可以不影响业务转换别的消息组件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class MessageQueueTemplate &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    ProducerBean producerBean;</span><br><span class="line"></span><br><span class="line">    public void send(RocketmqEvent rocketmqEvent)&#123;</span><br><span class="line"></span><br><span class="line">        Message message = new Message();</span><br><span class="line">        message.setTopic(rocketmqEvent.getTopic());</span><br><span class="line">        message.setTag(rocketmqEvent.getTag());</span><br><span class="line">        message.setBody(rocketmqEvent.getMsg().getBytes());</span><br><span class="line">        producerBean.send(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/07/message-queue/rocketmq/03/" rel="bookmark">rocketmq图解</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/06/message-queue/rocketmq/02/" rel="bookmark">rocketmq安装</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/05/message-queue/rocketmq/01/" rel="bookmark">rocketmq简介</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -2140,324 +2345,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/28/message-queue/kafka/06/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/28/message-queue/kafka/06/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/4/index.html">kafka生产者发送和配置</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-28 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-28T08:00:00+08:00">2018-11-28</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>kafka消息发送</li>
-<li>kafka消息同步发送</li>
-<li><p>kafka消息异步发送</p>
-</li>
-<li><p>kafka生产者配置</p>
-</li>
-</ul>
-<p>{———-}</p>
-<h2 id="kafka消息发送"><a href="#kafka消息发送" class="headerlink" title="kafka消息发送"></a>kafka消息发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 最简单发送</span><br><span class="line">     */</span><br><span class="line">    public void test01() &#123;</span><br><span class="line">        ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">                new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            producer.send(record);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="kafka消息同步发送"><a href="#kafka消息同步发送" class="headerlink" title="kafka消息同步发送"></a>kafka消息同步发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka同步发送</span><br><span class="line"> */</span><br><span class="line">public void test02() &#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Future result = producer.send(record);</span><br><span class="line">        result.get();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="kafka消息异步发送"><a href="#kafka消息异步发送" class="headerlink" title="kafka消息异步发送"></a>kafka消息异步发送</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka 异步发送</span><br><span class="line"> */</span><br><span class="line">public void test03()&#123;</span><br><span class="line">    ProducerRecord&lt;String, String&gt; record =</span><br><span class="line">            new ProducerRecord&lt;&gt;(&quot;CustomerCountory&quot;, &quot;Precision Products&quot;, &quot;France&quot;);</span><br><span class="line">    try&#123;</span><br><span class="line">        Future result = producer.send(record,new DemoProducerCallback());</span><br><span class="line">        result.get();</span><br><span class="line">    &#125;catch(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoProducerCallback implements Callback &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onCompletion(RecordMetadata recordMetadata, Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="kafka生产者配置"><a href="#kafka生产者配置" class="headerlink" title="kafka生产者配置"></a>kafka生产者配置</h2><ul>
-<li><p>acks</p>
-<ul>
-<li>acks = 0<ul>
-<li>不回调通知</li>
-</ul>
-</li>
-<li>acks = a<ul>
-<li>只保存首领节点、即返回消息确认</li>
-</ul>
-</li>
-<li>acks = all<ul>
-<li>保存首领节点和所有副节点后、即返回消息确认</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>buffer.memory</p>
-<ul>
-<li>设置生产者内存缓存大小、生产者又来缓冲发送到服务器的消息、</li>
-<li>0.9.00版本中、被替换为max.block.ms 表示抛出异常前可以阻塞一段时间</li>
-</ul>
-</li>
-<li><p>compression.type</p>
-<ul>
-<li>消息压缩、可设置为snappy、gzip、lz4</li>
-<li>指定消息被发送给broker之前使用哪一种压缩算法进行压缩</li>
-</ul>
-</li>
-<li><p>retries</p>
-<ul>
-<li>重试次数</li>
-<li>默认每次重试等待100ms、可以通过retry.backoff.ms 设置</li>
-<li>一般首领选举中易发生重试、建议该时间大于选举时间、崩溃恢复时间长等</li>
-</ul>
-</li>
-<li><p>batch.size</p>
-<ul>
-<li>消息批次大小、累积到一定大小发送消息</li>
-</ul>
-</li>
-<li><p>linger.ms</p>
-<ul>
-<li>指定生产者在发送批次之前等待更多消息加入批次时间</li>
-<li>消息发送两个控制点、一个是累计大小、一个是这个时间、规定时间内没有达到累积值、也要发送消息</li>
-</ul>
-</li>
-<li><p>client.id</p>
-<ul>
-<li>可以设置任意字符串</li>
-<li>服务器用来判断消息来源、用来标记消息</li>
-</ul>
-</li>
-<li><p>max.in.flight.requests.pre.connection</p>
-<ul>
-<li>指定、生产者在受到服务器响应之前可以发送多少个消息、</li>
-<li>值越高、就会占用更多内存、也会提升吞吐量、</li>
-<li>设置为1 可保证消息桉顺序写入broker服务器</li>
-</ul>
-</li>
-<li><p>timeout.ms、request.timeout.ms、metadata.fetch.timeout.ms</p>
-<ul>
-<li>timeout.ms 生产者发送数据时等待服务器返回响应时间</li>
-<li>request.timeout.ms 指定生产者在获取元数据（比如broker首领是谁）等待服务器返回响应时间、超时重试</li>
-<li>metadata.fetch.timeout.ms 指定 broker等待同步副本返回消息确认时间、超时认为失败</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>max.block.ms</p>
-<ul>
-<li>指定调用send方法或者使用partitionFor()方法获取元数据生产者的阻塞时间</li>
-<li>超时抛出异常</li>
-</ul>
-</li>
-<li><p>max.request.size</p>
-<ul>
-<li>控制生产者发送消息大小、单个请求大小、单个请求中一个批次消息的总大小</li>
-</ul>
-</li>
-<li><p>receive.buffer.bytes、send.buffer.bytes</p>
-<ul>
-<li>tcp、socket的接收和发送缓冲区大小</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>kafka顺序<ul>
-<li>可设置max.in.flight.request.pre.connection = 1、但会严重影响吞吐量</li>
-<li>这点或许rabbitmq和rocketmq做的更好</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/01/message-queue/kafka/09/" rel="bookmark">kafka构建数据管道需要注意的问题</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/30/message-queue/kafka/08/" rel="bookmark">kafka集群复制</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/29/message-queue/kafka/07/" rel="bookmark">kafka消费者接收和配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/26/message-queue/kafka/04/" rel="bookmark">kafka集群</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2529,7 +2416,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">265</span>
+                    <span class="site-state-item-count">266</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2751,7 +2638,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">51</span>
+                      
+                    
+                    <span class="site-state-item-count">52</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

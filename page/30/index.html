@@ -308,7 +308,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">51</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">52</span></a>
 
   </li>
         
@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">265</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">266</span></a>
 
   </li>
         
@@ -451,6 +451,181 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/07/08/algorithm/paxos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/07/08/algorithm/paxos/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/30/index.html">paxos【转】</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-07-08 08:00:00" itemprop="dateCreated datePublished" datetime="2017-07-08T08:00:00+08:00">2017-07-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/algorithm/" itemprop="url" rel="index"><span itemprop="name">algorithm</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://zh.wikipedia.org/zh-cn/Paxos算法" target="_blank" rel="noopener">wiki-paxos</a></p>
+<p><a href="http://cailin.iteye.com/blog/2014486" target="_blank" rel="noopener">zk 原理 watcher 监听</a></p>
+<h2 id="paxos"><a href="#paxos" class="headerlink" title="paxos"></a>paxos</h2><p>转载地址：<a href="http://www.cnblogs.com/endsock/p/3480093.html" target="_blank" rel="noopener">http://www.cnblogs.com/endsock/p/3480093.html</a></p>
+<p>{———-}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">在paxos算法中，分为4种角色：</span><br><span class="line"></span><br><span class="line">  Proposer ：提议者</span><br><span class="line"></span><br><span class="line">  Acceptor：决策者</span><br><span class="line"></span><br><span class="line">  Client：产生议题者</span><br><span class="line"></span><br><span class="line">  Learner：最终决策学习者</span><br><span class="line"></span><br><span class="line">上面4种角色中，提议者和决策者是很重要的，其他的2个角色在整个算法中应该算做打酱油的，</span><br><span class="line">Proposer就像Client的使者，由Proposer使者拿着Client的议题去向Acceptor提议，让Acceptor来决策。</span><br><span class="line">这里上面出现了个新名词：最终决策。现在来系统的介绍一下paxos算法中所有的行为：</span><br><span class="line"></span><br><span class="line">    1、Proposer提出议题</span><br><span class="line">    2、Acceptor初步接受 或者 Acceptor初步不接受</span><br><span class="line">    3、如果上一步Acceptor初步接受则Proposer再次向Acceptor确认是否最终接受</span><br><span class="line">    4、Acceptor 最终接受 或者Acceptor 最终不接受</span><br><span class="line">    5、上面Learner最终学习的目标是Acceptor们最终接受了什么议题？注意，这里是向所有Acceptor学习，</span><br><span class="line">    6、如果有多数派个Acceptor最终接受了某提议，那就得到了最终的结果，算法的目的就达到了。</span><br><span class="line">    画一幅图来更加直观：</span><br></pre></td></tr></table></figure>
+<p><img src="/img/algorithm/img/paxos-1.png" alt="图片"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    为什么需要3个Acceptor？因为Acceptor必须是最少大于等于3个，并且必须是奇数个，</span><br><span class="line">    因为要形成多数派嘛，如果是偶数个，比如4个，2个接受2个不接受，各执己见，没法搞下去了。</span><br><span class="line"></span><br><span class="line">    为什么是3个Proposer？ 其实无所谓是多少个了，1~n 都可以的；如果是1个proposer，毫无竞争压力，很顺利的完成2阶段提交，</span><br><span class="line">    Acceptor们最终批准了事。如果是多个proposer就比较复杂了，请继续看。</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">    上面的图中是画了很多节点的，每个节点需要一台机器么？答案是不需要的，上面的图是逻辑图，</span><br><span class="line">    物理中，可以将Acceptor和Proposer以及Client放到一台机器上，只是使用了不同的端口号罢了，</span><br><span class="line">    Acceptor们启动不同端口的TCP监听，Proposer来主动连接即可；</span><br><span class="line">    完全可以将Client、Proposer、Acceptor、Learner合并到一个程序里面；</span><br><span class="line"></span><br><span class="line">这里举一个例子：</span><br><span class="line">    比如开发一个JOB程序，JOB程序部署在多台服务器上(数量为奇数)，这些JOB有可能同时处理一项任务，</span><br><span class="line">    现在使用paxos算法让这些JOB自己来商量由谁(哪台机器)来处理这项任务，这样JOB程序里就需要包含Client、</span><br><span class="line">    Proposer、Acceptor、Learner这4大功能，并且需要配置其他JOB服务器的IP地址。</span><br><span class="line"></span><br><span class="line">再举一个例子，zookeeper常常用来做分布式事务锁。Zookeeper所使用的zad协议也是类似paxos协议的。</span><br><span class="line">    所有分布式自协商一致性算法都是paxos算法的简化或者变种。</span><br><span class="line">    Client是使用zookeeper服务的机器，Zookeeper自身包含了Acceptor, Proposer, Learner。</span><br><span class="line">    Zookeeper领导选举就是paxos过程，还有Client对Zookeeper写Znode时，也是要进行Paxos过程的，</span><br><span class="line">    因为不同Client可能连接不同的Zookeeper服务器来写Znode，到底哪个Client才能写成功？</span><br><span class="line">    需要依靠Zookeeper的paxos保证一致性，写成功Znode的Client自然就是被最终接受了，</span><br><span class="line">    Znode包含了写入Client的IP与端口，其他的Client也可以读取到这个Znode来进行Learner。</span><br><span class="line">    也就是说在Zookeeper自身包含了Learner(因为Zookeeper为了保证自身的一致性而会进行领导选举，</span><br><span class="line">    所以需要有Learner的内部机制，多个Zookeeper服务器之间需要知道现在谁是领导了)，</span><br><span class="line">    Client端也可以Learner，Learner是广义的。</span><br><span class="line">    </span><br><span class="line">     </span><br><span class="line"></span><br><span class="line">现在通过一则故事来学习paxos的算法的流程(2阶段提交)，有2个Client(老板，老板之间是竞争关系)和3个Acceptor(政府官员)：</span><br><span class="line"></span><br><span class="line">现在需要对一项议题来进行paxos过程，议题是“A项目我要中标！”，这里的“我”指每个带着他的秘书Proposer的Client老板。</span><br><span class="line"></span><br><span class="line">    Proposer当然听老板的话了，赶紧带着议题和现金去找Acceptor政府官员。</span><br><span class="line">    作为政府官员，当然想谁给的钱多就把项目给谁。</span><br><span class="line">    Proposer-1小姐带着现金同时找到了Acceptor-1~Acceptor-3官员，1与2号官员分别收取了10比特币，找到第3号官员时，</span><br><span class="line">    没想到遭到了3号官员的鄙视，3号官员告诉她，Proposer-2给了11比特币。</span><br><span class="line">    不过没关系，Proposer-1已经得到了1,2两个官员的认可，形成了多数派(如果没有形成多数派，</span><br><span class="line">    Proposer-1会去银行提款在来找官员们给每人20比特币，这个过程一直重复每次+10比特币，直到多数派的形成)，</span><br><span class="line">    满意的找老板复命去了，但是此时Proposer-2保镖找到了1,2号官员，分别给了他们11比特币，</span><br><span class="line">    1,2号官员的态度立刻转变，都说Proposer-2的老板懂事，这下子Proposer-2放心了，搞定了3个官员，</span><br><span class="line">    找老板复命去了，当然这个过程是第一阶段提交，只是官员们初步接受贿赂而已。</span><br><span class="line">    故事中的比特币是编号，议题是value。</span><br><span class="line"></span><br><span class="line">　　　　这个过程保证了在某一时刻，某一个proposer的议题会形成一个多数派进行初步支持；</span><br><span class="line"></span><br><span class="line"> ===============华丽的分割线，第一阶段结束================</span><br><span class="line"></span><br><span class="line">　　5.　现在进入第二阶段提交，现在proposer-1小姐使用分身术(多线程并发)分了3个自己分别去找3位官员，</span><br><span class="line">    最先找到了1号官员签合同，遭到了1号官员的鄙视，1号官员告诉他proposer-2先生给了他11比特币，</span><br><span class="line">    因为上一条规则的性质proposer-1小姐知道proposer-2第一阶段在她之后又形成了多数派(至少有2位官员的赃款被更新了);</span><br><span class="line">    此时她赶紧去提款准备重新贿赂这3个官员(重新进入第一阶段)，每人20比特币。</span><br><span class="line">    刚给1号官员20比特币， 1号官员很高兴初步接受了议题，还没来得及见到2,3号官员的时候</span><br><span class="line"></span><br><span class="line">    这时proposer-2先生也使用分身术分别找3位官员(注意这里是proposer-2的第二阶段)，被第1号官员拒绝了告诉他收到了20比特币，</span><br><span class="line">    第2,3号官员顺利签了合同，这时2，3号官员记录client-2老板用了11比特币中标，因为形成了多数派，</span><br><span class="line">    所以最终接受了Client2老板中标这个议题，对于proposer-2先生已经出色的完成了工作；</span><br><span class="line"></span><br><span class="line">    这时proposer-1小姐找到了2号官员，官员告诉她合同已经签了，将合同给她看，proposer-1小姐是一个没有什么职业操守的聪明人，</span><br><span class="line">    觉得跟Client1老板混没什么前途，所以将自己的议题修改为“Client2老板中标”，并且给了2号官员20比特币，这样形成了一个多数派。</span><br><span class="line">    顺利的再次进入第二阶段。由于此时没有人竞争了，顺利的找3位官员签合同，3位官员看到议题与上次一次的合同是一致的，</span><br><span class="line">    所以最终接受了，形成了多数派，proposer-1小姐跳槽到Client2老板的公司去了。</span><br><span class="line"></span><br><span class="line">===============华丽的分割线，第二阶段结束===============</span><br><span class="line"></span><br><span class="line">　　Paxos过程结束了，这样，一致性得到了保证，算法运行到最后所有的proposer都投“client2中标”所有的acceptor都接受这个议题，</span><br><span class="line">    也就是说在最初的第二阶段，议题是先入为主的，谁先占了先机，后面的proposer在第一阶段就会学习到这个议题而修改自己本身的议题，</span><br><span class="line">    因为这样没职业操守，才能让一致性得到保证，这就是paxos算法的一个过程。</span><br><span class="line"></span><br><span class="line">    原来paxos算法里的角色都是这样的不靠谱，不过没关系，结果靠谱就可以了。该算法就是为了追求结果的一致性。</span><br></pre></td></tr></table></figure>
+<p>两阶段提交解决分布式事务 有瑕疵 还有个三阶段提交 2pc、3pc概念 以后再整理</p>
+<p>一致性hash：<a href="https://www.cnblogs.com/lpfuture/p/5796398.html" target="_blank" rel="noopener">https://www.cnblogs.com/lpfuture/p/5796398.html</a></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -959,7 +1134,7 @@ android ios
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/06/13/xmind/other/xmind-java-map/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/06/13/xmind/other/xmind-jvm-garbage/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -979,7 +1154,7 @@ android ios
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/06/13/xmind/other/xmind-java-map/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/30/index.html">java map 图谱</a>
+                <a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/30/index.html">jvm 垃圾回收 图谱</a>
               
             
           </h2>
@@ -1064,11 +1239,11 @@ android ios
 
       
         
-          xmind java map 图谱
+          xmind jvm 垃圾回收 图谱
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2017/06/13/xmind/other/xmind-java-map/">
+              <a class="btn" href="/2017/06/13/xmind/other/xmind-jvm-garbage/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1087,7 +1262,7 @@ android ios
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" rel="bookmark">jvm 垃圾回收 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-maintenance/" rel="bookmark">运维 图谱</a></div>
       
     </li>
   
@@ -1108,14 +1283,14 @@ android ios
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-container/" rel="bookmark">容器 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-devops/" rel="bookmark">DevOps 图谱</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-big-data/" rel="bookmark">大数据 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-embedded/" rel="bookmark">嵌入式 图谱</a></div>
       
     </li>
   
@@ -1300,14 +1475,14 @@ android ios
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" rel="bookmark">jvm 垃圾回收 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-maintenance/" rel="bookmark">运维 图谱</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-java-map/" rel="bookmark">java map 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" rel="bookmark">jvm 垃圾回收 图谱</a></div>
       
     </li>
   
@@ -1315,425 +1490,6 @@ android ios
       
       
       <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-design-model-1/" rel="bookmark">设计模式图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-container/" rel="bookmark">容器 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-big-data/" rel="bookmark">大数据 图谱</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/06/13/xmind/other/xmind-devops/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/06/13/xmind/other/xmind-devops/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/30/index.html">DevOps 图谱</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-06-13 08:00:00" itemprop="dateCreated datePublished" datetime="2017-06-13T08:00:00+08:00">2017-06-13</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/" itemprop="url" rel="index"><span itemprop="name">xmind</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/收集的技术图谱/" itemprop="url" rel="index"><span itemprop="name">收集的技术图谱</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          xmind DevOps 图谱
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2017/06/13/xmind/other/xmind-devops/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" rel="bookmark">jvm 垃圾回收 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-java-map/" rel="bookmark">java map 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-design-model-1/" rel="bookmark">设计模式图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-container/" rel="bookmark">容器 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-big-data/" rel="bookmark">大数据 图谱</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/06/13/xmind/other/xmind-design-model-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/06/13/xmind/other/xmind-design-model-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/30/index.html">设计模式图谱</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-06-13 08:00:00" itemprop="dateCreated datePublished" datetime="2017-06-13T08:00:00+08:00">2017-06-13</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/" itemprop="url" rel="index"><span itemprop="name">xmind</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/收集的技术图谱/" itemprop="url" rel="index"><span itemprop="name">收集的技术图谱</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          xmind 设计模式图谱
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2017/06/13/xmind/other/xmind-design-model-1/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" rel="bookmark">jvm 垃圾回收 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-java-map/" rel="bookmark">java map 图谱</a></div>
       
     </li>
   
@@ -1747,14 +1503,7 @@ android ios
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-container/" rel="bookmark">容器 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-big-data/" rel="bookmark">大数据 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-embedded/" rel="bookmark">嵌入式 图谱</a></div>
       
     </li>
   
@@ -1939,21 +1688,14 @@ android ios
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-maintenance/" rel="bookmark">运维 图谱</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" rel="bookmark">jvm 垃圾回收 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-java-map/" rel="bookmark">java map 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-devops/" rel="bookmark">DevOps 图谱</a></div>
       
     </li>
   
@@ -1967,7 +1709,14 @@ android ios
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-big-data/" rel="bookmark">大数据 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-devops/" rel="bookmark">DevOps 图谱</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-embedded/" rel="bookmark">嵌入式 图谱</a></div>
       
     </li>
   
@@ -2024,7 +1773,7 @@ android ios
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/06/13/xmind/other/xmind-big-data/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/06/13/xmind/other/xmind-design-model-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -2044,7 +1793,7 @@ android ios
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/06/13/xmind/other/xmind-big-data/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/30/index.html">大数据 图谱</a>
+                <a href="/2017/06/13/xmind/other/xmind-design-model-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/30/index.html">设计模式图谱</a>
               
             
           </h2>
@@ -2129,11 +1878,11 @@ android ios
 
       
         
-          xmind 大数据 图谱
+          xmind 设计模式图谱
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2017/06/13/xmind/other/xmind-big-data/">
+              <a class="btn" href="/2017/06/13/xmind/other/xmind-design-model-1/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -2152,6 +1901,13 @@ android ios
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-maintenance/" rel="bookmark">运维 图谱</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" rel="bookmark">jvm 垃圾回收 图谱</a></div>
       
     </li>
@@ -2159,7 +1915,7 @@ android ios
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-java-map/" rel="bookmark">java map 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-container/" rel="bookmark">容器 图谱</a></div>
       
     </li>
   
@@ -2173,7 +1929,199 @@ android ios
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-design-model-1/" rel="bookmark">设计模式图谱</a></div>
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-embedded/" rel="bookmark">嵌入式 图谱</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/06/13/xmind/other/xmind-devops/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/06/13/xmind/other/xmind-devops/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/30/index.html">DevOps 图谱</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-06-13 08:00:00" itemprop="dateCreated datePublished" datetime="2017-06-13T08:00:00+08:00">2017-06-13</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/" itemprop="url" rel="index"><span itemprop="name">xmind</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/收集的技术图谱/" itemprop="url" rel="index"><span itemprop="name">收集的技术图谱</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          xmind DevOps 图谱
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2017/06/13/xmind/other/xmind-devops/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-maintenance/" rel="bookmark">运维 图谱</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-jvm-garbage/" rel="bookmark">jvm 垃圾回收 图谱</a></div>
       
     </li>
   
@@ -2181,6 +2129,20 @@ android ios
       
       
       <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-container/" rel="bookmark">容器 图谱</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-design-model-1/" rel="bookmark">设计模式图谱</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2017/06/13/xmind/other/xmind-embedded/" rel="bookmark">嵌入式 图谱</a></div>
       
     </li>
   
@@ -2293,7 +2255,7 @@ android ios
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">265</span>
+                    <span class="site-state-item-count">266</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2515,7 +2477,9 @@ android ios
                     
                       
                     
-                    <span class="site-state-item-count">51</span>
+                      
+                    
+                    <span class="site-state-item-count">52</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
