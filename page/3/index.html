@@ -467,6 +467,213 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/03/18/spring-cloud/spring-boot-mybatis-config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/3/index.html">spring boot mybatis 配置</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-18 08:00:00" itemprop="dateCreated datePublished" datetime="2019-03-18T08:00:00+08:00">2019-03-18</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#MYBATIS</span><br><span class="line">#---------------------------mybatis-plus-------------------------#</span><br><span class="line"># mapper 位置</span><br><span class="line">mybatis-plus.mapper-locations=classpath:/mapper/*Mapper.xml</span><br><span class="line">#实体类扫描包</span><br><span class="line">#mybatis-plus.type-aliases-package=cn.wuxinvip.demo.entity</span><br><span class="line">#主键类型  0:&quot;数据库ID自增&quot;, 1:&quot;用户输入ID&quot;,2:&quot;全局唯一ID (数字类型唯一ID)&quot;, 3:&quot;全局唯一ID UUID&quot;;</span><br><span class="line">mybatis-plus.global-config.id-type=1</span><br><span class="line">#字段策略 0:&quot;忽略判断&quot;,1:&quot;非 NULL 判断&quot;),2:&quot;非空判断&quot;</span><br><span class="line">mybatis-plus.global-config.field-strategy=2</span><br><span class="line">#驼峰下划线转换</span><br><span class="line">mybatis-plus.global-config.db-column-underline=true</span><br><span class="line">#刷新mapper 调试神器，开发环境使用，部署环境必须关掉</span><br><span class="line">mybatis-plus.global-config.refresh-mapper=true</span><br><span class="line">#数据库大写下划线转换</span><br><span class="line">#mybatis-plus.global-config.capital-mode=true</span><br><span class="line">#序列接口实现类配置</span><br><span class="line">#mybatis-plus.global-config.key-generator=com.baomidou.springboot.xxx</span><br><span class="line">#逻辑删除配置</span><br><span class="line">#mybatis-plus.global-config.logic-delete-value=0</span><br><span class="line">#mybatis-plus.global-config.logic-not-delete-value=1</span><br><span class="line">#自定义填充策略接口实现</span><br><span class="line">#mybatis-plus.global-config.meta-object-handler=com.baomidou.springboot.xxx</span><br><span class="line">#自定义SQL注入器</span><br><span class="line">#mybatis-plus.global-config.sql-injector=com.baomidou.springboot.xxx</span><br><span class="line">#mybatis-plus.global-config.meta-object-handler=cn.wuxinvip.demo.base.ObjectHandler</span><br><span class="line">#下划线转驼峰</span><br><span class="line">mybatis-plus.configuration.map-underscore-to-camel-case=true</span><br><span class="line"># 缓存开关</span><br><span class="line">mybatis-plus.configuration.cache-enabled=false</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/17/spring-cloud/zuul-1/" rel="bookmark">zuul 配置</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/03/18/spring-cloud/zuul-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -676,213 +883,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/03/18/spring-cloud/spring-boot-mybatis-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/3/index.html">spring boot mybatis 配置</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-18 08:00:00" itemprop="dateCreated datePublished" datetime="2019-03-18T08:00:00+08:00">2019-03-18</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#MYBATIS</span><br><span class="line">#---------------------------mybatis-plus-------------------------#</span><br><span class="line"># mapper 位置</span><br><span class="line">mybatis-plus.mapper-locations=classpath:/mapper/*Mapper.xml</span><br><span class="line">#实体类扫描包</span><br><span class="line">#mybatis-plus.type-aliases-package=cn.wuxinvip.demo.entity</span><br><span class="line">#主键类型  0:&quot;数据库ID自增&quot;, 1:&quot;用户输入ID&quot;,2:&quot;全局唯一ID (数字类型唯一ID)&quot;, 3:&quot;全局唯一ID UUID&quot;;</span><br><span class="line">mybatis-plus.global-config.id-type=1</span><br><span class="line">#字段策略 0:&quot;忽略判断&quot;,1:&quot;非 NULL 判断&quot;),2:&quot;非空判断&quot;</span><br><span class="line">mybatis-plus.global-config.field-strategy=2</span><br><span class="line">#驼峰下划线转换</span><br><span class="line">mybatis-plus.global-config.db-column-underline=true</span><br><span class="line">#刷新mapper 调试神器，开发环境使用，部署环境必须关掉</span><br><span class="line">mybatis-plus.global-config.refresh-mapper=true</span><br><span class="line">#数据库大写下划线转换</span><br><span class="line">#mybatis-plus.global-config.capital-mode=true</span><br><span class="line">#序列接口实现类配置</span><br><span class="line">#mybatis-plus.global-config.key-generator=com.baomidou.springboot.xxx</span><br><span class="line">#逻辑删除配置</span><br><span class="line">#mybatis-plus.global-config.logic-delete-value=0</span><br><span class="line">#mybatis-plus.global-config.logic-not-delete-value=1</span><br><span class="line">#自定义填充策略接口实现</span><br><span class="line">#mybatis-plus.global-config.meta-object-handler=com.baomidou.springboot.xxx</span><br><span class="line">#自定义SQL注入器</span><br><span class="line">#mybatis-plus.global-config.sql-injector=com.baomidou.springboot.xxx</span><br><span class="line">#mybatis-plus.global-config.meta-object-handler=cn.wuxinvip.demo.base.ObjectHandler</span><br><span class="line">#下划线转驼峰</span><br><span class="line">mybatis-plus.configuration.map-underscore-to-camel-case=true</span><br><span class="line"># 缓存开关</span><br><span class="line">mybatis-plus.configuration.cache-enabled=false</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/reactor-core/" rel="bookmark">Reactor Core</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/17/spring-cloud/zuul-1/" rel="bookmark">zuul 配置</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/03/17/spring-cloud/zuul-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1027,14 +1027,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
       
     </li>
   
@@ -1232,7 +1232,7 @@ BFS实现：
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
       
     </li>
   
@@ -1260,7 +1260,7 @@ BFS实现：
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-proxy/" rel="bookmark">动态代理</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
@@ -2235,7 +2235,7 @@ BFS实现：
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
       
     </li>
   
@@ -2263,7 +2263,7 @@ BFS实现：
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-proxy/" rel="bookmark">动态代理</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
