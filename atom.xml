@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wuxinvip.com/"/>
-  <updated>2019-09-02T05:30:27.627Z</updated>
+  <updated>2019-10-23T10:14:27.919Z</updated>
   <id>https://www.wuxinvip.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AES加密 </title>
+    <link href="https://www.wuxinvip.com/2019/09/02/encryption/aes/"/>
+    <id>https://www.wuxinvip.com/2019/09/02/encryption/aes/</id>
+    <published>2019-09-02T00:00:00.000Z</published>
+    <updated>2019-10-23T10:14:27.919Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="AES加密"><a href="#AES加密" class="headerlink" title="AES加密"></a>AES加密</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">java.security.InvalidKeyException: Illegal key size</span><br></pre></td></tr></table></figure><h4 id="Java实现AES加密-异常java-security-InvalidKeyException-Illegal-key-size-的解决"><a href="#Java实现AES加密-异常java-security-InvalidKeyException-Illegal-key-size-的解决" class="headerlink" title="Java实现AES加密,异常java.security.InvalidKeyException: Illegal key size 的解决"></a>Java实现AES加密,异常java.security.InvalidKeyException: Illegal key size 的解决</h4><h5 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h5><h6 id="限制-jdk1-8-0-151版本之后可采用次解决方案-不需要改JCE包"><a href="#限制-jdk1-8-0-151版本之后可采用次解决方案-不需要改JCE包" class="headerlink" title="限制 jdk1.8.0 151版本之后可采用次解决方案 不需要改JCE包"></a>限制 jdk1.8.0 151版本之后可采用次解决方案 不需要改JCE包</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 初始化中执行解除密钥长度限制</span><br><span class="line"> */</span><br><span class="line">static &#123;</span><br><span class="line">    Security.setProperty(&quot;crypto.policy&quot;, &quot;unlimited&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;AES加密&quot;&gt;&lt;a href=&quot;#AES加密&quot; class=&quot;headerlink&quot; title=&quot;AES加密&quot;&gt;&lt;/a&gt;AES加密&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
+      
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="password" scheme="https://www.wuxinvip.com/categories/java/password/"/>
+    
+    
+      <category term="密码加密" scheme="https://www.wuxinvip.com/tags/%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86/"/>
+    
+  </entry>
   
   <entry>
     <title>mysql X锁和S锁</title>
@@ -92,33 +119,6 @@
   </entry>
   
   <entry>
-    <title>jdk内存模型</title>
-    <link href="https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/"/>
-    <id>https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/</id>
-    <published>2019-05-26T00:00:00.000Z</published>
-    <updated>2019-05-28T11:09:12.792Z</updated>
-    
-    <content type="html"><![CDATA[<p>#8个原子操作<br>针对jvm主内存与工作内存的数据操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lock----锁定</span><br><span class="line">unlock----释放锁</span><br><span class="line">read----读</span><br><span class="line">write----写</span><br><span class="line">load----加载</span><br><span class="line">assign----赋值</span><br><span class="line">use----使用</span><br><span class="line">store----写入主内存</span><br></pre></td></tr></table></figure></p><p>特例：<br>long、double、64为内存、在32为虚拟机中分两次操作、<br>load、store、read、write都不是源自操作</p><p>#8个规则：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、不允许read、load、store、write单独出现</span><br><span class="line">2、不允许thread丢弃assign</span><br><span class="line">3、不允许任何一线程、没有assign的数据 从工作内存store到主内存</span><br><span class="line">4、一个新变量只能在主内存“诞生”、对一个变量“use/store”之前、执行assign、load操作</span><br><span class="line">5、一个变量在同一时刻只允许一个线程对其进行lock、但lock可以被执行多次、lock标记为累加、多次lock需要多次unlock</span><br><span class="line"></span><br><span class="line">6、对一个变量执行lock、会清空工作内存中变量值、使用之前需要重新load、assign</span><br><span class="line">7、如果未lock、不能unlock</span><br><span class="line">8、执行unlock之前、限制性工作内存同步主内存</span><br></pre></td></tr></table></figure><p>都挺好理解、计算机这个东西、没啥难度、<br>lock是做标记为int ++  –做锁标记位</p><p>#内存可见性</p><p>1、volatile<br>2、sychronized<br>3、final</p><p>#有序性<br>1、线程内表现为串行</p><p>#无序<br>1、指令重排序【使用volatile可以阻止指令重排序】<br>2、sychronized 同一个变量、在同一时刻、允许同一线程串行进入</p><p>3、编译器静态优化会打乱代码执行顺序<br>4、jvm动态优化会打乱代码执行顺序<br>5、硬件可以打乱执行顺序以优化其性能</p><p>#线程安全<br>1、不可变—final<br>2、绝对安全<br>3、相对安全<br>4、线程兼容<br>5、独立—对程序有害</p><p>#线程发展史</p><p>1、重量级、执行标记位 加sychronized的地方、我在内存中加一个标记为、标记该方法、该对象、我正在使用、你不能使用<br>2、偏向锁、object标记、Mark Word中偏向锁的标识<br>3、轻量级、reentranlock、线程中自建一个object标记、增加了trylock（times）、可队列执行锁方法、规则名aqs、<br>4、算法代替锁、设计思想是、假设没有竞争、竞争时候通过算法判断、cas、拿旧值和内存原值比较、一致则修改为新值</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;#8个原子操作&lt;br&gt;针对jvm主内存与工作内存的数据操作&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span 
-      
-    
-    </summary>
-    
-      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
-    
-      <category term="jdk" scheme="https://www.wuxinvip.com/categories/java/jdk/"/>
-    
-    
-      <category term="jdk" scheme="https://www.wuxinvip.com/tags/jdk/"/>
-    
-  </entry>
-  
-  <entry>
     <title>AI 机器学习发展史</title>
     <link href="https://www.wuxinvip.com/2019/05/26/ai/ai-002/"/>
     <id>https://www.wuxinvip.com/2019/05/26/ai/ai-002/</id>
@@ -145,6 +145,33 @@
     
     
       <category term="AI" scheme="https://www.wuxinvip.com/tags/AI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>jdk内存模型</title>
+    <link href="https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/"/>
+    <id>https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/</id>
+    <published>2019-05-26T00:00:00.000Z</published>
+    <updated>2019-05-28T11:09:12.792Z</updated>
+    
+    <content type="html"><![CDATA[<p>#8个原子操作<br>针对jvm主内存与工作内存的数据操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lock----锁定</span><br><span class="line">unlock----释放锁</span><br><span class="line">read----读</span><br><span class="line">write----写</span><br><span class="line">load----加载</span><br><span class="line">assign----赋值</span><br><span class="line">use----使用</span><br><span class="line">store----写入主内存</span><br></pre></td></tr></table></figure></p><p>特例：<br>long、double、64为内存、在32为虚拟机中分两次操作、<br>load、store、read、write都不是源自操作</p><p>#8个规则：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、不允许read、load、store、write单独出现</span><br><span class="line">2、不允许thread丢弃assign</span><br><span class="line">3、不允许任何一线程、没有assign的数据 从工作内存store到主内存</span><br><span class="line">4、一个新变量只能在主内存“诞生”、对一个变量“use/store”之前、执行assign、load操作</span><br><span class="line">5、一个变量在同一时刻只允许一个线程对其进行lock、但lock可以被执行多次、lock标记为累加、多次lock需要多次unlock</span><br><span class="line"></span><br><span class="line">6、对一个变量执行lock、会清空工作内存中变量值、使用之前需要重新load、assign</span><br><span class="line">7、如果未lock、不能unlock</span><br><span class="line">8、执行unlock之前、限制性工作内存同步主内存</span><br></pre></td></tr></table></figure><p>都挺好理解、计算机这个东西、没啥难度、<br>lock是做标记为int ++  –做锁标记位</p><p>#内存可见性</p><p>1、volatile<br>2、sychronized<br>3、final</p><p>#有序性<br>1、线程内表现为串行</p><p>#无序<br>1、指令重排序【使用volatile可以阻止指令重排序】<br>2、sychronized 同一个变量、在同一时刻、允许同一线程串行进入</p><p>3、编译器静态优化会打乱代码执行顺序<br>4、jvm动态优化会打乱代码执行顺序<br>5、硬件可以打乱执行顺序以优化其性能</p><p>#线程安全<br>1、不可变—final<br>2、绝对安全<br>3、相对安全<br>4、线程兼容<br>5、独立—对程序有害</p><p>#线程发展史</p><p>1、重量级、执行标记位 加sychronized的地方、我在内存中加一个标记为、标记该方法、该对象、我正在使用、你不能使用<br>2、偏向锁、object标记、Mark Word中偏向锁的标识<br>3、轻量级、reentranlock、线程中自建一个object标记、增加了trylock（times）、可队列执行锁方法、规则名aqs、<br>4、算法代替锁、设计思想是、假设没有竞争、竞争时候通过算法判断、cas、拿旧值和内存原值比较、一致则修改为新值</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#8个原子操作&lt;br&gt;针对jvm主内存与工作内存的数据操作&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span 
+      
+    
+    </summary>
+    
+      <category term="java" scheme="https://www.wuxinvip.com/categories/java/"/>
+    
+      <category term="jdk" scheme="https://www.wuxinvip.com/categories/java/jdk/"/>
+    
+    
+      <category term="jdk" scheme="https://www.wuxinvip.com/tags/jdk/"/>
     
   </entry>
   
@@ -290,8 +317,8 @@ npm install
   
   <entry>
     <title>feign ribbon 配置</title>
-    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/"/>
-    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/</id>
+    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/"/>
+    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/</id>
     <published>2019-04-12T00:00:00.000Z</published>
     <updated>2019-04-25T18:12:11.043Z</updated>
     
@@ -317,8 +344,8 @@ npm install
   
   <entry>
     <title>feign ribbon 配置</title>
-    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/"/>
-    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/feign-ribbon-config/</id>
+    <link href="https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/"/>
+    <id>https://www.wuxinvip.com/2019/04/12/spring-cloud/hystrix-config/</id>
     <published>2019-04-12T00:00:00.000Z</published>
     <updated>2019-04-25T18:12:11.043Z</updated>
     
@@ -530,36 +557,6 @@ npm install
 &lt;li&gt;&lt;p&gt;没有梦想和咸鱼有什么区别&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;a 
-      
-    
-    </summary>
-    
-      <category term="essay" scheme="https://www.wuxinvip.com/categories/essay/"/>
-    
-    
-      <category term="随笔" scheme="https://www.wuxinvip.com/tags/%E9%9A%8F%E7%AC%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>编程的套路</title>
-    <link href="https://www.wuxinvip.com/2018/12/12/essay/essay-18/"/>
-    <id>https://www.wuxinvip.com/2018/12/12/essay/essay-18/</id>
-    <published>2018-12-12T00:00:00.000Z</published>
-    <updated>2019-09-03T05:45:11.194Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>有人讲linux底层原理是一切编程原理所在</li></ul><p>{———-}</p><h2 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h2><ul><li>Kafka中消息序列化使用avro序列化、avro使用注册表机制</li><li>spring 容器初始化中的bean初始化使用注册表机制</li><li><p>win系统启动也是采用了注册表机制</p></li><li><p><a href="https://www.wuxinvip.com/2018/11/10/essay/avro/">avro 详解</a></p></li><li>avro 使用注册表来存储 协议schema、以便于消费者和生产者采用双方认可解析协议 解析数据</li><li>spring bean注册中、注册每一个bean类初始化类信息、方法、常量等等、在使用的时候注入应用中使用</li><li>windows的注册表是二进制的数据库、作为整个系统和应用上的核心数据库在各个应用中共享数据</li></ul><p>套路：注册表:数据唯一识别、也可以作为协议、也可以作为数据库、<br>共同点：数据特征识别、</p><h2 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h2><ul><li>主副本数据存储</li></ul><h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ul><li>hash索引【mysql】</li><li>btree索引【mysql】</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;有人讲linux底层原理是一切编程原理所在&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;{———-}&lt;/p&gt;
-&lt;h2 id=&quot;注册表&quot;&gt;&lt;a href=&quot;#注册表&quot; class=&quot;headerlink&quot; title=&quot;注册表&quot;&gt;&lt;/a&gt;注册表&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;Kafk
       
     
     </summary>
