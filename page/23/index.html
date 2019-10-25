@@ -467,6 +467,233 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/technical-summary/technical-summary-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">一个HTTP请求究竟发生了什么</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这个问题 去年 分析过一次</p>
+<p>1、首先 请求从浏览器出发<br>2、到达 服务器 nginx<br>3、nginx分发给 各个服务容器 tomcat<br>4、tomcat 把请求发给 服务系统<br>5、服务 接收请求 由前端控制器 struts 或者 springmvc 接收<br>6、进行业务控制 service<br>7、获取业务数据 dao层 查询db 并返回 数据<br>8、数据 反向 dao —-service—controller<br>9、最后由springmvc 返回 不经历nginx 返回到浏览器</p>
+<p>{———-}</p>
+<p>那么今年 结合新了解的 服务 更新这个列表</p>
+<p>首先建立连接 【tcp ip 协议 】<br>1、三次握手 【过程】<br>2、经过的信息 源地址 ip 发送 一个请求连接包 到 目标地址<br>3、目标服务器 接收到信息 返回数据包 表明连接成功 可以继续发送请求</p>
+<p>请求建立后 发送 https请求服务<br>服务会先到 目标地址的linux服务器<br>linux 先到网卡<br>网卡把请求 发给 linux端口服务<br>如果还有LVS负载均衡服务等服务、会把请求发送给负载服务器<br>如果没有LVS服务器 那么服务进入nginx等应用层负载均衡服务<br>nginx服务分发给各个端口  端口内是真是服务的地址</p>
+<p>如果有docker容器 要进入docker容器</p>
+<p>进入docker容器 再进入服务实例<br>服务实例 有springmvc 接收请求<br>调用service服务【会有服务调用】<br>服务调用有RPC框架【dubbo或者 eureka等等】<br>service 调用dao</p>
+<p>【这里还有java 底层】</p>
+<p>从service说吧<br>服务进入service<br>那么要在虚拟机开辟一块新内存 用户内容存储和业务执行<br>开辟方法 是调用的C<br>c指针开辟空间 把业务逻辑代码 转为 二进制数据 然后cpu 执行<br>【关于CPU】<br>学过计算机或者单片机的应该都了解cpu 单片机 也是个简单的cpu 只能执行一些较为简单的逻辑控制 一般cpu不都讲由多少多少亿个晶体管构成吗 、其实蛮复杂的、一个个数起来都得好几年吧、何况是按一定的方法方式排列到一起 能够执行起来</p>
+<p>跑偏了<br>在dubbo或者eureka中还会有netty nio aio bio问题<br>由于了解不全面 这块就不写了</p>
+<p>还有数据库，并发访问量，事务，存储过程。</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-3/" rel="bookmark">总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-4/" rel="bookmark">高并发</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud-exception/exception-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -616,7 +843,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
       
     </li>
   
@@ -645,6 +872,884 @@
       
       
       <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-100/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/technical-summary/technical-summary-100/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">阿里证书</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong> 阿里编码规范 </strong><br><img src="http://upload-images.jianshu.io/upload_images/6434888-317a169e420db862.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong> 阿里API服务调用 </strong><br><img src="http://upload-images.jianshu.io/upload_images/6434888-8008672ec776cb3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>{———-}</p>
+<p><strong> 阿里网站部署 </strong></p>
+<p><strong> 阿里mysql </strong></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/technical-summary/technical-summary-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">技术负责人应有的几项要求</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:38:38" itemprop="dateModified" datetime="2018-10-15T16:38:38+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1、把控进度<br>2、把控风险<br>3、任务分发【开发量分配】<br>4、需求分析、需求拆解【功能可实现性功能实现周期预估】、需求合理性判断<br>5、技术过关【架构、细节、各个组件的选型】</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-3/" rel="bookmark">总结</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-4/" rel="bookmark">高并发</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/technical-summary/technical-summary-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">总结</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>梳理一下脑子里的东西按点整理一下</p>
+<p>消息中间件，ActiveMQ.Kafka.ZeroMQ.RabbitMQ.RocketMQ</p>
+<p>服务治理Dubbo.eureka.</p>
+<p>服务网springcloud</p>
+<p>cpu线程</p>
+<p>docker容器</p>
+<p>负载均衡lvs radware nginx keepalived</p>
+<p>端口转发，网卡驱动</p>
+<p>jvm内存 . 堆.栈 规则  一个线程会占用掉多少内存.一个对象会占用多少内存</p>
+<p>{———-}</p>
+<p>javac 编译后文件 字节码文件</p>
+<p>数据库mysql.alisql.oracle (并发.事物.存储过程)</p>
+<p>Nosql.redis.memcached.ecache.mongdb</p>
+<p>算法、负载均衡算法，缓存淘汰算法，排序算法，数据整理算法</p>
+<p>uml设计.部署图，流程图，ER图，时序图。</p>
+<p>搜索引擎</p>
+<p>权限架构</p>
+<p>IO:AIO　BIO  NIO　</p>
+<p>消息流　Netty</p>
+<p>怎么讲呢 今年大脑经历了大量信息的冲击.有些东西可能会很快忘记.留下的只有感悟.经验</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">总结.构建知识体系.</span><br><span class="line"></span><br><span class="line">分流:负载均衡(软硬件).算法(随机.权重.最小调用).</span><br><span class="line">软件:nginx.vortex.radware</span><br><span class="line">硬件:LVS.F5</span><br><span class="line"></span><br><span class="line">缓存: Redis.   Memcached. Mongdb. ehcache</span><br><span class="line">问题:缓存击穿.缓存同步</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">并发.线程.</span><br><span class="line"></span><br><span class="line">数据库:mysql.AliSQL</span><br><span class="line">容量.并发线程.事物提交.存储过程</span><br><span class="line"></span><br><span class="line">java基本功.io.util.sql.</span><br><span class="line"></span><br><span class="line">主流中间件:</span><br><span class="line">RPC:dubbo. eureka</span><br><span class="line">消息中间件rocketmq.rabbitmq.zeromq.</span><br><span class="line"></span><br><span class="line">技术架构:springcloud</span><br><span class="line"></span><br><span class="line">服务架构:SOA</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">渗透:</span><br><span class="line">1.基本工具使用</span><br><span class="line"></span><br><span class="line">比如wifi劫持.https劫持.session劫持.</span><br><span class="line"></span><br><span class="line">1.5.网站探测:whois.钟馗之眼.</span><br><span class="line"></span><br><span class="line">2.跳点搭建.vpn.或者直接控制肉鸡进行跳点</span><br><span class="line"></span><br><span class="line">3.主机扫描.漏洞扫描.关注国家网络安全网发布的漏洞.</span><br><span class="line"></span><br><span class="line">4.脚本攻击.shell脚本 python脚本</span><br><span class="line"></span><br><span class="line">5.日志清除.</span><br></pre></td></tr></table></figure>
+<p>今日起 关注人工智能、进军人工智能。以备将来使用。</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-4/" rel="bookmark">高并发</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/load-balance/dns/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/load-balance/dns/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">DNS负载均衡</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/load-balance/" itemprop="url" rel="index"><span itemprop="name">load-balance</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>dns重定向<br>存储:本地.阿里云.万网dns服务器</p>
+<p>dns 在网络上其实就是域名解析到ip的一个过程叫dns解析</p>
+<p>本站域名 <a href="http://www.wuxinvip.com">www.wuxinvip.com</a> </p>
+<p>解析ip 为 39.107.82.228 </p>
+<p>{———-}</p>
+<p>以此为例、过程</p>
+<pre><code>1、用户请求数据、发送域名到域名解析服务器
+2、将域名发送到dns服务解析器【国外顶级域名dns服务器、万网dns服务器、阿里dns服务器】
+一般你的域名在哪里买的 会有相应的dns解析服务器【免费提供】
+
+当然这个解析的过程、请求会发到一个主机器、这个机器按照不同规则、将解析
+分发个各个dns解析器、然后返回域名对应的外网ip地址
+
+用户拿个这个ip 呼叫公网上叫这个ip的服务器 建立会话
+</code></pre><h2 id="域名攻击"><a href="#域名攻击" class="headerlink" title="域名攻击"></a>域名攻击</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    域名直接污染</span><br><span class="line">    域名间接污染</span><br><span class="line"></span><br><span class="line">域名直接污染: 在用户请求域名的ip地址途中、通过拦截域名解析、把ip指向别的服务器、</span><br><span class="line">    比如很普通的、当年百度网站被指向了一个荷兰的一个ip、这就是dns劫持攻击、简单暴力直接瘫痪你的网站</span><br><span class="line">    </span><br><span class="line">域名间接污染：这个就比较复杂了、dns解析服务器也是一个梯度服务器、上游将域名解析列表发送给下游服务器</span><br><span class="line"></span><br><span class="line">如果在上游服务器到下游服务器之间做一个拦截、那么将导致下游的dns解析全部错误、</span><br><span class="line">现在的google不能访问就是这个样子、所以有了各大host访问谷歌的功能、</span><br><span class="line"></span><br><span class="line">不过把google真正的ip解析放到自己的电脑里直接访问ip方式、也只能解决很小一部分墙问题、这些ip后续防火墙也会封掉的、</span><br><span class="line"></span><br><span class="line">这个就涉及到国家的网络与国际链接的国际出入口的防火墙上（像我天朝“G/.F/.W/.”）、基本上也算是最大的dns污染源</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
       
     </li>
   
@@ -842,13 +1947,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
       
     </li>
@@ -857,6 +1955,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
       
     </li>
   
@@ -920,7 +2025,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/container/what-docker/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/about-agreement/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -940,451 +2045,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/container/what-docker/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">what is the docker</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/container/" itemprop="url" rel="index"><span itemprop="name">container</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>what is docker?</strong></p>
-<p>百度 告诉我们docker是一个容器</p>
-<p>作为java码头搬砖的 我想到了 spring也是叫做容器</p>
-<p>那么容器是一个什么样的概念? 不由想到了水缸—容器   容器装载水的 与水毫无关系</p>
-<p>spring容器 IOC AOP 都晓得<br>IOC 把对象创建交给spring管理 然后加载到jvm中运行java 程序<br>AOP 面向切面编程.其实就是提供了一个切面模式.能够很好地控制类的加载顺序.或者类的执行顺序</p>
-<p>但是本质上spring容器就是装载java程序的</p>
-<p>那么docker?<br>装载各种程序的.暂时可以理解为一个系统.系统也是一个容器.装载我们运行的程序<br>window装载 exe.        linux装载rpm.        android 装载一类apk的程序             ios装载一类ipa的程序</p>
-<p>{———-}</p>
-<p> 那么官网是怎么吹皮的呢?<br>Docker是推动集装箱运动的公司，也是唯一一家能够解决混合云中的每个应用的集装箱平台提供商。当今的企业面临数字化转型的压力，但受到现有应用程序和基础架构的制约，同时合理化日益多样化的云，数据中心和应用程序体系结构。Docker实现了应用程序和基础架构与开发人员和IT运营商之间的真正独立性，从而发挥其潜力，并创建更好的协作和创新模式。</p>
-<p><strong>docker给我们提供了什么样的先进功能? 也是我们要用它的原因</strong></p>
-<p>1.敏捷<br>  通过13X加速软件开发和部署，并立即响应客户的需求。<br>2.可移植性<br>一劳永逸地消除“在我的机器上工作”。在本地和云环境中获得独立性。<br>3.安全<br>通过内置的安全功能和配置，在整个生命周期中提供更安全的应用程序。<br>4.节约成本<br>优化基础架构资源的使用并简化操作，以节省总成本的50％。</p>
-<p>在使用上:<br> 1.简单<br>Docker为应用创建和编排提供了强大的工具<br>2.透明度<br>采用开源技术和模块化设计构建，可轻松集成到现有环境中。<br>3.独立<br>Docker在开发人员和IT部门之间以及应用程序和基础架构之间创建了一个关注点，以解锁创新</p>
-<p>在行业上<br>1.现代化传统应用[MTA]<br>Docker的第一步是现有的应用程序组合。将现有应用程序打包到容器中可以立即提高安全性，降低成本并获得云的便携性。这种转换将现代属性应用于遗留应用程序 - 所有这些都不需要更改一行代码。</p>
-<p>2.混合云<br>云迁移，多云或混合云基础架构需要应用程序的无缝移植。Docker将应用程序及其依赖关系打包到一个独立的容器中，使它们可以移植到任何基础架构中 一劳永逸地消除“在我的机器上工作”的问题。Docker认证的基础架构确保集装箱化的应用程序一直工作。</p>
-<p>3.持续集成和部署[DEVOPS]<br>集成现代方法并通过集成Docker和DevOps来自动化开发流程。通过消除应用程序冲突并提高开发人员的生产力，容器的独立性使其有助于快速变化的环境。Docker实现了关注的真正分离，加速了DevOps流程的采用。</p>
-<p>4.微服务<br>Docker容器在设计上是轻量级的，是实现微服务应用程序开发的理想选择。加速作为单个应用程序组成的数十个或数百个容器的开发，部署和回滚。无论是构建新的微服务还是将小块服务转换为更小的服务，简单易用的工具都可以轻松组合，部署和维护复杂的应用程序。</p>
-<p>docker安装:<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">https://docs.docker.com/engine/installation/</a></p>
-<p>docker与虚拟机区别<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b1a9ef4bb7dc455.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="docekr与虚拟机区别.png"></p>
-<p>可看出虚拟机拥有较强的隔离技术。虚拟机承载的镜像都是互相独立的。<br>而且虚拟机中执行的进程是被虚拟机管理的，并不与主机进程等价。</p>
-<p>docker容器技术中，最主要一点就是容器进程与主机进程等价。省去了虚拟机进程管理的消耗。<br>但是这样也带来了问题。容器隔离度安全问题。</p>
-<p>另外docker中可以两个应用共用一个库。而虚拟机因为隔离性太强，只能各用个的。</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/container/install-docker/" rel="bookmark">install docker</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/container/pouch/" rel="bookmark">pouch</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud-exception/feign-exception-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/spring-cloud-exception/feign-exception-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">cloud feign灵异事件</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">报错 ：</span><br><span class="line">Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &apos;dataSourceInitializerPostProcessor&apos;: Unsatisfied dependency expressed through field &apos;beanFactory&apos;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;com.****.feign.UserCenterFeignService&apos;: Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.feign.FeignClientFactoryBean] from ClassLoader [sun.misc.Launcher$AppClassLoader@61e4705b]</span><br></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-7df99f9e93f72b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法 加入依赖</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-c71a9b346663d6f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原因未明 、创建项目时候导入了feign</span><br><span class="line">使用@EnableFeignClients注解 也ok 不报错 我就以为 feign包导入了  </span><br><span class="line">结果不知道哪来的包来的这个注解  导致 灵异事件</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
-<p>{———-}</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-55ccd9dddc1f19e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">严重怀疑是这个包里的</span><br><span class="line"></span><br><span class="line">mmp  莫名其妙的好了 仿佛又回到从前</span><br><span class="line">你对java 一无所知......</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/ribbon/" rel="bookmark">Ribbon</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-translation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jdk-translation/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">事务</a>
+                <a href="/2018/03/24/agreement/about-agreement/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">关于协议</a>
               
             
           </h2>
@@ -1450,7 +2111,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
 
                 
                 
@@ -1486,26 +2147,11 @@
       
         
           
-            <p>事务：用来保证几个操作一致性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> 事务必须服从ISO/IEC所制定的ACID原则。</span><br><span class="line"></span><br><span class="line">ACID是原子性（atomicity）、一致性（consistency）、隔离性 （isolation）和持久性（durability）的缩写。</span><br><span class="line"></span><br><span class="line">事务的原子性表示事务执行过程中的任何失败都将导致事务所做的任何修改失效。</span><br><span class="line">一致性表示 当事务执行失败时，所有被该事务影响的数据都应该恢复到事务执行前的状态。</span><br><span class="line">隔离性表示在事务执行过程中对数据的修改，在事务提交之前对其他事务不可见。</span><br><span class="line">持 久性表示已提交的数据在事务执行失败时，数据的状态都应该正确。</span><br></pre></td></tr></table></figure></p>
+            <p>what 协议？<br>人民币算不算是一种协议？买家和卖家协议一张纸为 10元 、50元、100元</p>
+<p>so ： 协议在互联网届就是发送方和接收方商量好的一种消息模式，</p>
+<p>Http：规定两个ip、一个发送ip、一个接收ip、这两个ip进行数据交互时候、先握手、确定数据畅通、然后在进行数据通信、<br>握手协议：规定握手消息格式【一系列参数的排序】、<br>数据通信规定http发送消息体消息格式。</p>
 <p>{———-}</p>
-<p>简单理解就是 保证一组sql语句的执行完整性、要么全部成功、要么全部失败<br>由于不同的业务环境对事物有不同的要求、通常把事物写到java程序中来控制sql语句通知db环境。<br>默认情况下是一条语句一个事物执行的</p>
-<p>java.sql.Connection  中提供了对于事物的控制方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void setAutoCommit(boolean)</span><br><span class="line">public boolean getAutoCommit()</span><br><span class="line">public void commit()</span><br><span class="line">public void rollback()</span><br></pre></td></tr></table></figure></p>
-<p>JDBC的事务支持</p>
-<p>JDBC对事务的支持体现在三个方面：</p>
-<p>1.自动提交模式(Auto-commit mode)</p>
-<p>Connection提供了一个auto-commit的属性来指定事务何时结束。</p>
-<p>a.当auto-commit为true时，当每个独立SQL操作的执行完毕，事务立即自动提交，也就是说每个SQL操作都是一个事务。</p>
-<p>一个独立SQL操作什么时候算执行完毕，JDBC规范是这样规定的：</p>
-<p>对数据操作语言(DML，如insert,update,delete)和数据定义语言(如create,drop)，语句一执行完就视为执行完毕。</p>
-<p>对select语句，当与它关联的ResultSet对象关闭时，视为执行完毕。</p>
-<p>对存储过程或其他返回多个结果的语句，当与它关联的所有ResultSet对象全部关闭，所有update count(update,delete等语句操作影响的行数)和output parameter(存储过程的输出参数)都已经获取之后，视为执行完毕。</p>
-<p>b. 当auto-commit为false时，每个事务都必须显示调用commit方法进行提交，或者显示调用rollback方法进行回滚。auto-commit默认为true。</p>
-<p>JDBC提供了5种不同的事务隔离级别，在Connection中进行了定义。</p>
-<p>2.事务隔离级别(Transaction Isolation Levels)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">JDBC定义了五种事务隔离级别：</span><br><span class="line"></span><br><span class="line">TRANSACTION_NONE JDBC驱动不支持事务</span><br><span class="line"></span><br><span class="line">TRANSACTION_READ_UNCOMMITTED 允许脏读、不可重复读和幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_READ_COMMITTED 禁止脏读，但允许不可重复读和幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_REPEATABLE_READ 禁止脏读和不可重复读，单运行幻读。</span><br><span class="line"></span><br><span class="line">TRANSACTION_SERIALIZABLE 禁止脏读、不可重复读和幻读。</span><br></pre></td></tr></table></figure></p>
-<p>3.保存点(SavePoint)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JDBC定义了SavePoint接口，提供在一个更细粒度的事务控制机制。</span><br><span class="line">当设置了一个保存点后，可以rollback到该保存点处的状态，而不是rollback整个事务。</span><br><span class="line"></span><br><span class="line">Connection接口的setSavepoint和releaseSavepoint方法可以设置和释放保存点。</span><br></pre></td></tr></table></figure></p>
-<p>JDBC规范虽然定义了事务的以上支持行为，但是各个JDBC驱动，数据库厂商对事务的支持程度可能各不相同。如果在程序中任意设置，可能得不到想要的效果。为此，JDBC提供了DatabaseMetaData接口，提供了一系列JDBC特性支持情况的获取方法。比如，通过DatabaseMetaData.supportsTransactionIsolationLevel方法可以判断对事务隔离级别的支持情况，通过DatabaseMetaData.supportsSavepoints方法可以判断对保存点的支持情况。</p>
-<p>与事务相关的理论<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1.事务(Transaction)的四个属性(ACID)</span><br><span class="line"></span><br><span class="line">原子性(Atomic) 对数据的修改要么全部执行，要么全部不执行。</span><br><span class="line"></span><br><span class="line">一致性(Consistent) 在事务执行前后，数据状态保持一致性。</span><br><span class="line"></span><br><span class="line">隔离性(Isolated) 一个事务的处理不能影响另一个事务的处理。</span><br><span class="line"></span><br><span class="line">持续性(Durable) 事务处理结束，其效果在数据库中持久化。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2.事务并发处理可能引起的问题</span><br><span class="line"></span><br><span class="line">脏读(dirty read) 一个事务读取了另一个事务尚未提交的数据，</span><br><span class="line"></span><br><span class="line">不可重复读(non-repeatable read) 一个事务的操作导致另一个事务前后两次读取到不同的数据</span><br><span class="line"></span><br><span class="line">幻读(phantom read) 一个事务的操作导致另一个事务前后两次查询的结果数据量不同。</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line"></span><br><span class="line">事务A、B并发执行时，</span><br><span class="line"></span><br><span class="line">当A事务update后，B事务select读取到A尚未提交的数据，此时A事务rollback，则B读到的数据是无效的&quot;脏&quot;数据。</span><br><span class="line"></span><br><span class="line">当B事务select读取数据后，A事务update操作更改B事务select到的数据，此时B事务再次读去该数据，发现前后两次的数据不一样。</span><br><span class="line"></span><br><span class="line">当B事务select读取数据后，A事务insert或delete了一条满足A事务的select条件的记录，此时B事务再次select，发现查询到前次不存在的记录(&quot;幻影&quot;)，或者前次的某个记录不见了。</span><br></pre></td></tr></table></figure></p>
-<p><a href="http://blog.csdn.net/sinat_33536912/article/details/51200630" target="_blank" rel="noopener">转载地址</a><br><a href="https://github.com/davenkin/java_transaction_workshop.git" target="_blank" rel="noopener">github相关使用整理</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-477f618f1456f9ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 
           
         
@@ -1521,733 +2167,28 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/05/26/jdk/jdk-model/" rel="bookmark">jdk内存模型</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/12/11/jdk/jdk-nio/" rel="bookmark">Java NIO浅析【转】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-classloader/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jvm-classloader/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">类加载过程</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-31 23:37:53" itemprop="dateModified" datetime="2019-03-31T23:37:53+08:00">2019-03-31</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>类加载过程</p>
-<p>加载–》验证–》准备—》解析—》初始化—》使用—-》卸载</p>
-<p>其中 在准备阶段完成 成员变量初始值赋值 0 、 0.0之类</p>
-<p><strong>  加载 </strong></p>
-<p>1、将java字节码以二进制的方式读入到jvm内存中，然后将二进制数据流按照字节码规范解析成jvm内部的运行时数据结构<br>2、对外暴露加载结构 更广泛的加载类</p>
-<pre><code>(1) 从本地文件系统中读取
-
-(2) 从网络上加载（典型应用：java Applet）
-
-(3) 从jar，zip，war等压缩文件中加载
-
-(4) 通过动态将java源文件动态编译产生（jsp的动态编译）
-
-(5) 通过程序直接生成。
-</code></pre><p><strong>  验证 </strong></p>
-<p>1、文件格式验证（这一步会与装载阶段交叉进行），元数据验证，字节码验证，符号引用验证（这个阶段的验证往往会与解析阶段交叉进行）。</p>
-<p><strong>  准备 </strong></p>
-<pre><code>int,byte,char,long,float,double 默认初始值为0
-
-boolean 为false（在jvm内部用int表示boolean，因此初始值为0）
-
-reference类型为null
-
-对于final static基本类型或者String类型，则直接采用常量值（这实际上是在编译阶段就已经处理好了）。
-</code></pre><p><strong>  解析 </strong></p>
-<p>1、类的常量池中的类，字段，方法，接口的符号引用，将他们替换成直接引用的过程</p>
-<pre><code>CONSTANT_Class_info
-CONSTANT_Fieldref_info
-CONSTANT_Methodref_info
-CONSTANT_InterfaceMethodref_info
-</code></pre><p><strong> 初始化 </strong></p>
-<p>1、根据用户程序中的初始化语句为类的静态变量赋予正确的初始值</p>
-<p>2、执行时机</p>
-<pre><code>(1) 通过new关键字实例化对象、读取或设置类的静态变量、调用类的静态方法(对应new,getstatic,putstatic,invokespecial这四条字节码指令）。
-
-(2) 通过反射方式执行以上行为时。
-
-(3) 初始化子类的时候，会触发父类的初始化。
-
-(4) 作为程序入口直接运行时的主类。
-</code></pre><h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>类加载器：启动类加载器、扩展类加载器、应用类加载器、自定义加载器</p>
-<p>自定义加载器：<br>比如tomcat：CommonClassloader—CatalinaClassLoader、ShareClassLoader、WebappClassLoader、JspClassLoader</p>
-<p><strong>  双亲委派模型  </strong></p>
-<p>1、当一个类触发init方法进行初始化、先判断是否已经加载、没有的话交由父类classloader进行初始化、父类不存在使用启动类加载器初始化、父类的加载器加载失败则使用自己的classloader加载启动</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-recovery/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jvm-memory-recovery/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">jvm内存回收</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>回收区域：堆【主要区域】、方法区【回收废弃常量、无用类】</p>
-<p>无用类定义：<br>1、jvm中不存在该实例<br>2、加载该类classLoader已被回收<br>3、任何地方都不存在引用</p>
-<p>回收算法：<br>1、标记清除<br>2、标记整理<br>3、复制<br>4、分代收集</p>
-<p>回收器：<br>单线程<br>1、serial<br>2、serial old<br>多线程<br>1、parNew<br>2、parallel scavenge<br>3、parallel old<br>4、cms<br>5、G1</p>
-<p>{———-}</p>
-<p>回收新生代<br>serial、parNew、parallel scavenge</p>
-<p>回收老年代<br>cms、serial old、parallel old</p>
-<p>分代收集 G1</p>
-<p><strong>serial</strong><br>最老、也是默认回收算法、单线程<br>缺点：暂定所有用户进程来回收垃圾、每一小时有五分钟不能给用户提供服务<br>优点:   简单高效<br>适合场景、clent模式</p>
-<p><strong>ParNew</strong><br>serial多线程版本<br>场景：参考serial 多核处理器</p>
-<p><strong>Parallel scavenge</strong><br>1、复制算法<br>2、目标、回收达到一个可控的吞吐量【吞吐量=运行代码时间/（运行代码时间+GC时间）】<br>3、吞吐量优先收集器</p>
-<p><strong>serial old</strong><br>1、单线程、标记整理算法<br>2、serial 老版本<br>3、jdk1.5之前配合Parallel scavenge、cms后备预案</p>
-<p><strong>parallel old</strong><br>1、Parallel scavenge老版本<br>2、标记整理算法<br>3、注重吞吐量以及CPU资源敏感场景、使用Parallel scavenge  ++ parallel old<br>4、吞吐量优先</p>
-<p><strong>CMS</strong><br>1、标记清除<br>2、目标：最短回收停顿时间<br>3、四个步骤：初始标记、并发标记、重新标记、并发清除</p>
-<p><strong>G1</strong><br>1、1.7HotSpot重要进化特征<br>2、优点：并行并发、分代收集、空间整合【标记整理】、可预测停顿<br>3、四个步骤：初始标记、并发标记、最终标记、筛选回收</p>
-<p>对象回收算法：引用计数法、引用不可达算法、</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-classloader/" rel="bookmark">类加载过程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-structure/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jvm-memory-structure/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">jvm内存结构</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>jvm内存 一条线<br>线程共享 线程不共线【也叫非线程共享】</p>
-<p>线程共享： 堆【Heap】、 方法区【method area】<br>非线程共享： 程序计数器、虚拟机栈、本地方法栈</p>
-<p>方法区还包含 运行时常量池【类常量数据】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-56f59944c8ae5b02.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="内存.jpg"></p>
-<p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">异常：</span><br><span class="line">jvm中定义两种异常 StackOverflow、outofmemory</span><br><span class="line">一种是栈溢出 一种是内存溢出</span><br><span class="line">官方定义栈溢出：线程请求深度大于虚拟机允许深度、抛出StackOverflow</span><br><span class="line">官方定义内存溢出：java内存扩展、当虚拟机申请不到足够的内存、抛出outofmemory</span><br></pre></td></tr></table></figure>
-<p><strong>jvm堆</strong><br>细分：新生代、老年代【分代收集算法】<br>再细分：Eden、From Survivor、To Survivor空间<br>再内存分配黑可以分出多个线程私有的分配缓冲区<br>存放内容：对象实例、细致的划分只是为了更好的回收<br>堆是回收主要区域</p>
-<p>edgn区域 首次存放数据 内存不够会触发 MinorGC </p>
-<p>针对老年代 还有MajorGC、Full GC、其中 FUll GC较慢 量级：10倍</p>
-<p><strong>jvm方法区</strong><br>1、线程共享<br>2、存储已被虚拟机加载、类信息、常量、静态变量、即时编译器编译后的代码数据</p>
-<p><strong>jvm运行时常量池</strong><br>1、方法区一部分<br>2、存放编译期生成各种字面量和符号引用、</p>
-<p><strong>直接内存</strong><br>1、不属于jvm运行时数据取一部分 再五大板块外、<br>2、jdk1.4中 引入NIO、引用了一种基于通道（channel）与缓冲区（Buffer）的IO方式、它可以使用Native函数库直接分配对外内存、然后通过一个存储再java堆中的DirectByteBuffer对象来作为这一块内存引用、来进行操作、避免了java堆和native堆中来回复制数据<br>3、该内存受限于 操作系统和物理内存</p>
-<p><strong>虚拟机栈</strong><br>1、虚拟机执行java程序使用栈</p>
-<p><strong>本地方法栈</strong><br>1、执行native方法使用栈</p>
-<p><strong>程序计数器</strong><br>1、与c交界点、一个线程一个程序计数器、内存耗费较小、记录执行指针</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-classloader/" rel="bookmark">类加载过程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
       
     </li>
   
@@ -2740,7 +2681,7 @@ CONSTANT_InterfaceMethodref_info
   		var mta = document.createElement("script");
   		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
   		mta.setAttribute("name", "MTAH5");
-  		mta.setAttribute("sid", "33080c03d7f08b2e4f4aed9a22cd0f29");
+  		mta.setAttribute("sid", "500700937");
 
   		var s = document.getElementsByTagName("script")[0];
   		s.parentNode.insertBefore(mta, s);

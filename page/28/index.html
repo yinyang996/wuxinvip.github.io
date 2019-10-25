@@ -467,6 +467,465 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/rpc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/agreement/rpc/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">RPC</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>RPC（Remote Procedure Call）—远程过程调用</p>
+<p><strong>工作原理</strong></p>
+<ul>
+<li>1.调用客户端句柄；执行传送参数</li>
+<li>2.调用本地系统内核发送网络消息</li>
+<li>3.消息传送到远程主机</li>
+<li>4.服务器句柄得到消息并取得参数</li>
+<li><p>5.执行远程过程</p>
+</li>
+<li><p>6.执行的过程将结果返回服务器句柄</p>
+</li>
+<li>7.服务器句柄返回结果，调用远程系统内核</li>
+<li>8.消息传回本地主机</li>
+<li>9.客户句柄由内核接收消息</li>
+<li>10.客户接收句柄返回的数据</li>
+</ul>
+<p>{———-}</p>
+<p><strong>协议结构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">远程过程调用（RPC）信息协议由两个不同结构组成：调用信息和答复信息。信息流程如下所示：</span><br><span class="line">RPC：远程过程调用流程</span><br><span class="line">RPC 调用信息：每条远程过程调用信息包括以下无符号整数字段，以独立识别远程过程：</span><br><span class="line">程序号（Program number）</span><br><span class="line">程序版本号（Program version number）</span><br><span class="line">过程号（Procedure number）</span><br><span class="line">RPC 调用信息主体形式如下：</span><br><span class="line">struct call_body &#123;</span><br><span class="line">unsigned int rpcvers;</span><br><span class="line">unsigned int prog;</span><br><span class="line">unsigned int vers;</span><br><span class="line">unsigned int proc;</span><br><span class="line">opaque_auth cred;</span><br><span class="line">opaque_auth verf;</span><br><span class="line">1 parameter</span><br><span class="line">2 parameter . . . &#125;；</span><br><span class="line">RPC 答复信息：RPC 协议的答复信息的改变取决于网络服务器对调用信息是接收还是拒绝。答复信息请求包括区别以下情形的各种信息：</span><br><span class="line">RPC 成功执行调用信息。.</span><br><span class="line">RPC 的远程实现不是协议第二版，返回 RPC 支持的最低和最高版本号。</span><br><span class="line">在远程系统中，远程程序不可用。</span><br><span class="line">远程程序不支持被请求的版本号。返回远程程序所支持的最低和最高版本号。</span><br><span class="line">请求的过程号不存在。通常是呼叫方协议或程序差错。</span><br><span class="line">RPC答复信息形式如下：</span><br><span class="line">enum reply_stat stat</span><br><span class="line">&#123;MSG_ACCEPTED = 0,</span><br><span class="line">MSG_DENIED = 1 &#125;;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-shell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/mysql-shell/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">MySQL常用命令</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="mysql常用sql命令"><a href="#mysql常用sql命令" class="headerlink" title="mysql常用sql命令"></a>mysql常用sql命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">use user;</span><br><span class="line"></span><br><span class="line">drop database user;</span><br><span class="line"></span><br><span class="line">use mysql</span><br><span class="line"></span><br><span class="line">select Host,User,authentication_string from mysql.user;</span><br><span class="line"></span><br><span class="line">grant all privileges on *.* to &apos;dbuser&apos;@&apos;115.171.60.75&apos;identified by &apos;root&apos; with grant option;</span><br><span class="line"></span><br><span class="line">all insert update ...</span><br><span class="line">*.*    :    数据库.表名</span><br><span class="line">root    :   用户名</span><br><span class="line">115.170.*.*     :   远程访问ip地址</span><br><span class="line"></span><br><span class="line">刷新配置</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line">UPDATE user SET password=PASSWORD(&quot;新密码&quot;) WHERE user=&apos;你的用户名&apos;;</span><br><span class="line"></span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">delete from mysql.user where user=root and host = 115.171.60.75;</span><br></pre></td></tr></table></figure>
+<p>{———-}</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>原装地址：<a href="http://www.cnblogs.com/5201351/p/4912614.html" target="_blank" rel="noopener">http://www.cnblogs.com/5201351/p/4912614.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">卸载mriadb包</span><br><span class="line">[root@5201351 ~]# rpm -qa|grep mariadb</span><br><span class="line">mariadb-libs-5.5.41-2.el7_0.x86_64</span><br><span class="line">[root@5201351 ~]# rpm -e mariadb-libs-5.5.41-2.el7_0.x86_64 --nodeps</span><br><span class="line"></span><br><span class="line">安装</span><br><span class="line">mysql 安装包 https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.20-1.el7.x86_64.rpm-bundle.tar</span><br><span class="line">rpm -ivh *.rpm</span><br><span class="line"></span><br><span class="line">安装顺序 common libs client server</span><br><span class="line"></span><br><span class="line">两种初始化启动方式</span><br><span class="line">[root@5201351 ~]# mysql_install_db --datadir=/var/lib/mysql   //必须指定datadir,执行后会生成~/.mysql_secret密码文件</span><br><span class="line">[root@5201351 ~]# mysqld --initialize                         //新版的推荐此方法，执行生会在/var/log/mysqld.log生成随机密码</span><br><span class="line"></span><br><span class="line">启动mysql</span><br><span class="line">[root@5201351 ~]# chown mysql:mysql /var/lib/mysql -R</span><br><span class="line">[root@5201351 ~]# systemctl start mysqld.service      </span><br><span class="line"></span><br><span class="line">查看密码</span><br><span class="line">cat ~/.mysql_secret</span><br><span class="line">cat  /var/log/mysqld.log</span><br><span class="line"></span><br><span class="line">登录</span><br><span class="line">[root@5201351 ~]# mysql -uroot -p&apos;)j#)=uRig4yJ&apos;</span><br><span class="line">mysql&gt; set password=password(&apos;www.cnblogs.com/5201351&apos;);</span><br><span class="line"></span><br><span class="line">创建用户以及分配权限</span><br><span class="line">mysql&gt; create user &apos;root&apos;@&apos;192.168.100.2&apos; identified by &apos;QQ5201351&apos;;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON dbname.* to &apos;root&apos;@&apos;192.168.100.2&apos;;</span><br><span class="line">mysql&gt; flush privileges</span><br></pre></td></tr></table></figure></p>
+<h3 id="常用sql"><a href="#常用sql" class="headerlink" title="常用sql"></a>常用sql</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ALTER  TABLE table_name RENAME TO new_table_name</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-stored-procedure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -614,6 +1073,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
@@ -629,13 +1095,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
       
     </li>
   
@@ -846,6 +1305,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
@@ -861,461 +1327,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/http/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/agreement/http/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">http协议</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>http协议<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2a523de3228d986b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发展年历"></p>
-<p>{———-}</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cdf479dfba52d38b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="97年协定1.1"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fdc25911c760f33f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http数据流向图"></p>
-<p>HTTP　定义了　消息发送流程与信息格式</p>
-<p>发送端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、请求行</span><br><span class="line">2、请求头</span><br><span class="line">3、请求体</span><br></pre></td></tr></table></figure></p>
-<p>接受端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、响应行</span><br><span class="line">2、响应头</span><br><span class="line">3、响应体</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/https/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/agreement/https/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">Https协议</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:25:03" itemprop="dateModified" datetime="2018-10-15T16:25:03+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>http+ssl</strong></p>
-<pre><code>使用http进行通信 ssl作为数据通信加密方式
-使用非对称方式协商加密密钥、然后使用协商后的密钥进行密钥通信
-</code></pre><p>混合加密方式</p>
-<p>  非对称加密方式协商加密方式、最后使用加密方式通讯</p>
-<ul>
-<li>1、客户端 发送公钥、支持加密方式、版本号</li>
-<li>2、服务器接收 公钥加密校验、选择加密方式 放松给客户端</li>
-<li>3、客户端接收 服务器选定加密方式进行数据加密</li>
-<li>4、使用协商后的加密方式加密http请求</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
       
     </li>
   
@@ -1532,7 +1543,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
       
     </li>
   
@@ -1546,7 +1557,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
@@ -1554,243 +1572,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-sentence/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/mysql/optimization-sql-sentence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">SQL优化【SQL语句】</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-83893c4315e86c69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录"></p>
-<p>1、select语句</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-188c121b283eff2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语句优化"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优化考虑点"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】</span><br><span class="line">2、持续折叠</span><br><span class="line">3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】</span><br><span class="line">4、及时检测无效常量表达式</span><br><span class="line">5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用</span><br><span class="line">6、where 表达式尽量简单、便于快速建立where评估表</span><br><span class="line">7、查询其他表之前首先查询所有常量表</span><br><span class="line">【</span><br><span class="line">        SELECT * FROM t WHERE primary_key=1;</span><br><span class="line">        SELECT * FROM t1,t2</span><br><span class="line">            WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</span><br><span class="line">】</span><br></pre></td></tr></table></figure>
-<p>{———-}</p>
-<p>2、范围优化<br><img src="https://upload-images.jianshu.io/upload_images/6434888-8c3818c4dbff38fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>对于两种索引结构使用不同的范围条件【hash索引、B树索引】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-9820225eacc468b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>==========mmp 太难了 没办法写下去 只能贴图了 以后慢慢品鉴</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
@@ -1996,7 +1777,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
       
     </li>
   
@@ -2010,7 +1791,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
@@ -2018,13 +1806,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
@@ -2081,7 +1862,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-sentence/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -2101,7 +1882,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/mysql/optimization-sql-total/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">SQL优化【总方向】</a>
+                <a href="/2018/03/24/mysql/optimization-sql-sentence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">SQL优化【SQL语句】</a>
               
             
           </h2>
@@ -2143,7 +1924,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
               
             
           </span>
@@ -2203,16 +1984,14 @@
       
         
           
-            <p>老生常谈 SQL 优化<br>而且一百度一堆，却没有一个令人满意的</p>
-<p>秉承官方文档 原则 【MYSQL第八章 SQL优化】</p>
-<p>优化方向：<br>SQL查询and存储<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sql语句</span><br><span class="line">sql索引</span><br><span class="line">sql数据库结构</span><br><span class="line">sql表【InnoDb表、MyISAM表、Memory表】</span><br></pre></td></tr></table></figure></p>
-<p>缓存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">查询优化器</span><br><span class="line">缓冲和高速缓冲区</span><br></pre></td></tr></table></figure></p>
-<p>锁<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">优化锁定操作</span><br></pre></td></tr></table></figure></p>
-<p>MYSQL服务器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">系统因素-并发量</span><br><span class="line">磁盘IO</span><br><span class="line">内存使用</span><br><span class="line">网络使用</span><br></pre></td></tr></table></figure></p>
-<p>检查<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">检查线程信息</span><br></pre></td></tr></table></figure></p>
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-83893c4315e86c69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录"></p>
+<p>1、select语句</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-188c121b283eff2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语句优化"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优化考虑点"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】</span><br><span class="line">2、持续折叠</span><br><span class="line">3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】</span><br><span class="line">4、及时检测无效常量表达式</span><br><span class="line">5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用</span><br><span class="line">6、where 表达式尽量简单、便于快速建立where评估表</span><br><span class="line">7、查询其他表之前首先查询所有常量表</span><br><span class="line">【</span><br><span class="line">        SELECT * FROM t WHERE primary_key=1;</span><br><span class="line">        SELECT * FROM t1,t2</span><br><span class="line">            WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</span><br><span class="line">】</span><br></pre></td></tr></table></figure>
 <p>{———-}</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-2cec330583be3f8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-4a09738bdf68cbfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>2、范围优化<br><img src="https://upload-images.jianshu.io/upload_images/6434888-8c3818c4dbff38fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>对于两种索引结构使用不同的范围条件【hash索引、B树索引】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-9820225eacc468b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>==========mmp 太难了 没办法写下去 只能贴图了 以后慢慢品鉴</p>
 
           
         
@@ -2228,7 +2007,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
       
     </li>
   
@@ -2242,7 +2021,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
@@ -2253,10 +2039,235 @@
       
     </li>
   
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/rpc/dubbo-0/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">dubbo 框架设计</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/rpc/" itemprop="url" rel="index"><span itemprop="name">rpc</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>假设我们开发一个rpc远程调用框架</p>
+<p>那么这个框架需要怎么去写</p>
+<ul>
+<li>1、首先有远程配置中心config</li>
+<li>2、有服务代理层【包装业务上的服务做一个代理】</li>
+<li>3、有服务注册中心【代理了服务之后 向该注册中心注册服务代理】</li>
+<li>4、有路由【远程调用先走路由获取服务代理实例、集群必备的东西】</li>
+<li>5、有远程调用层【发起服务调用】</li>
+<li>6、有网络传输层、有信息交换层【这个是一个传输协议的实现层】</li>
+<li>7、有序列化层【针对网络IO信息编码方式的统一、传输协议最基本的东西】</li>
+<li>8、服务监控【不属于RPC、但是服务监控必不可少】</li>
+</ul>
+<p>总结：</p>
+<ul>
+<li>核心配置：服务注册中心、服务代理和服务调用</li>
+<li>优化配置：配置中心、服务监控、</li>
+<li>基石配置：网络传输以及协议、序列化方式的定制</li>
+</ul>
+<p>{———-}</p>
+<p><a href="http://dubbo.apache.org/books/dubbo-dev-book/design.html" target="_blank" rel="noopener">dubbo框架设计</a></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-efad1aa420ebfed2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dubbo-framework.jpg"></p>
+<p><strong>简单用自己的语言描述这个图</strong></p>
+<ul>
+<li>1、左上角 Dubbo Framework</li>
+<li>2、左上角往右简单标识 每个颜色代表什么意思、更好理解图中数据流向</li>
+<li>消费者、提供者、开始、接口、类、继承关系、调用链方向、依赖方向</li>
+<li>3、左侧一竖列、黑体字 service\config、等等</li>
+<li>服务接口【service】、配置层【config】、服务代理层【proxy】、注册中心【registry】、</li>
+<li>路由【cluster】、监控中心【monitor】、远程调用【protocol】、</li>
+<li>信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
+</ul>
+<p>结合自己所想做一个分类</p>
+<ul>
+<li>核心配置：服务代理层【proxy】、注册中心【registry】、远程调用【protocol】</li>
+<li>优化配置：配置层【config】、路由【cluster】、监控中心【monitor】</li>
+<li>基石配置：信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
+</ul>
+<p><strong>简单猜想一下dubbo这么设计的代码架构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">service：对外暴露接口 API与SPI分离</span><br><span class="line"></span><br><span class="line">config：核心referenceConfig、ServiceConfig</span><br><span class="line">              serviceConfig----获取远程仓库配置、获取文件配置、貌似还可以获取环境变量</span><br><span class="line">              【实质上跟修改本地host一个道理、规定了一个locahost代理 然后操作系统去解析这个配置】</span><br><span class="line"></span><br><span class="line">referenceConfig--是消费端配置、其应该是从服务端获取配置信息</span><br><span class="line"></span><br><span class="line">proxy：不由想到代理模式、原业务逻辑bean不变、新建bean来实现原bean的代理【也算是一种封装】</span><br><span class="line"></span><br><span class="line">registry：注册中心、看过eureka、底层内存中维护了 一个双map结构数据列表、维护服务实例、服务地址、以及代理service等</span><br><span class="line"></span><br><span class="line">cluster：路由器、想到最简单的就是url转发、当然肯定没这么简单、应该还会有、实时获取服务列表、负载均衡算法等等</span><br><span class="line"></span><br><span class="line">monitor：监控中心、这个web服务把各路信息提上来做一个展示、应该没啥、最多维护一个硬盘文件</span><br><span class="line"></span><br><span class="line">protocol：远程调用、怎么调用--不太清楚--再看看</span><br><span class="line"></span><br><span class="line">exchange：信息交换、request、response封装</span><br><span class="line"></span><br><span class="line">transport：网络传输、大名鼎鼎的netty就在这吧~~</span><br><span class="line"></span><br><span class="line">seriallize：数据序列化、提供多重序列化方式、hessian【本地存根方式】、rmi等等吧</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-1/" rel="bookmark">dubbo分析</a></div>
       
     </li>
   
@@ -2749,7 +2760,7 @@
   		var mta = document.createElement("script");
   		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
   		mta.setAttribute("name", "MTAH5");
-  		mta.setAttribute("sid", "33080c03d7f08b2e4f4aed9a22cd0f29");
+  		mta.setAttribute("sid", "500700937");
 
   		var s = document.getElementsByTagName("script")[0];
   		s.parentNode.insertBefore(mta, s);
