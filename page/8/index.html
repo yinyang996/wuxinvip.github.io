@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">266</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">267</span></a>
 
   </li>
         
@@ -451,6 +451,246 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/07/10/essay/hash/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/10/essay/hash/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/8/index.html">Hash环、一致性hash</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-10 08:00:00" itemprop="dateCreated datePublished" datetime="2018-07-10T08:00:00+08:00">2018-07-10</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/img/essay/img/hash环.png" alt="图片">hash环、一致性hash</p>
+<p><strong>Hash环</strong></p>
+<p>上面说的Hash函数，只经过了1次hash，即把key hash到对应的机器编号。<br>而Hash环有2次Hash： </p>
+<ul>
+<li>（1）把所有机器编号hash到这个环上 </li>
+<li>（2）把key也hash到这个环上。然后在这个环上进行匹配，看这个key和哪台机器匹配。</li>
+</ul>
+<p>具体来讲，如下：</p>
+<pre><code>假定有这样一个Hash函数，其值空间为（0到2的32次方-1) ，也就是说，其hash值是个32位无整型数字 ，这些数字组成一个环。
+然后，先对机器进行hash(比如根据机器的ip)，算出每台机器在这个环上的位置； 再对key进行hash，算出该key在环上的位置，
+然后从这个位置往前走，遇到的第一台机器就是该key对应的机器，就把该(key, value) 存储到该机器上。
+
+首先计算出每台Cache服务器在环上的位置（图中的大圆圈）；然后每来一个(key, value)，计算出在环上的位置（图中的小圆圈），
+然后顺时针走，遇到的第1个机器，就是其要存储的机器。
+
+这里的关键点是：当你增加/减少机器时，其他机器在环上的位置并不会发生改变。这样只有增加的那台机器、
+或者减少的那台机器附近的数据会失效，其他机器上的数据都还是有效的。
+</code></pre><p>{———-}</p>
+<p><strong>数据倾斜问题</strong></p>
+<pre><code>当你机器不多的时候，很可能出现几台机器在环上面贴的很近，不是在环上均匀分布。这将会导致大部分数据，都会集中在某1台机器上。
+为了解决这个问题，可以引入“虚拟机器”的概念，也就是说：1台机器，我在环上面计算出多个位置。
+
+怎么弄呢？ 假设用机器的ip来hash，我可以在ip后面加上几个编号, ip_1, ip_2, ip_3, .. 把1台物理机器生个多个虚拟机器的编号。
+
+数据首先映射到“虚拟机器上”，再从“虚拟机器”映射到物理机器上。
+因为虚拟机器可以很多，在环上面均匀分布，从而保证数据均匀分布到物理机器上面。
+</code></pre><p><strong>ZK的引入</strong></p>
+<pre><code>上面我们提到了服务器的机器增加、减少，问题是客户端怎么知道呢？
+
+一种笨办法就是手动的，当服务器机器增加、减少时候，重新配置客户端，重启客户端。
+
+另外一种，就是引入ZK，服务器的节点列表注册到ZK上面，客户端监听ZK。发现结点数发生变化，自动更新自己的配置。
+
+当然，不用ZK，用一个其他的中心结点，只要能实现这种更改的通知，也是可以的。
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/30/essay/weichat-h5-pay/" rel="bookmark">微信H5支付</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -597,14 +837,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/30/essay/weichat-h5-pay/" rel="bookmark">微信H5支付</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/01/12/essay/essay-20/" rel="bookmark">遐想--定制应用</a></div>
+      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
       
     </li>
   
@@ -619,13 +866,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
       
     </li>
   
@@ -804,13 +1044,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/jenkins/" rel="bookmark">jenkins部署</a></div>
       
     </li>
@@ -818,7 +1051,246 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/service-deploy/bandwidth/" rel="bookmark">服务器带宽</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/07/03/essay/essay-11/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/03/essay/essay-11/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/8/index.html">关于编码方式</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-03 08:00:00" itemprop="dateCreated datePublished" datetime="2018-07-03T08:00:00+08:00">2018-07-03</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>编码</p>
+<pre><code>将人类语言解释为机器语言的一种关系映射
+</code></pre><p>常见编码方式</p>
+<p>ASCII</p>
+<pre><code>128个
+0-31控制字符、换行、删除、回车
+32-126打印字符
+</code></pre><p>ISO8859-1</p>
+<pre><code>在ASCII上 加上了大多数修语言字符、256个字符 
+</code></pre><p>{———-}<br>GB2312</p>
+<pre><code>信息交换用汉字编码字符集基本集、双字节编码、
+A1-A9 符号区
+B0-F7 汉字区
+</code></pre><p>GBK</p>
+<pre><code>汉字内码扩展规范
+对GB2312扩展
+编码范围 8140-FEFE 与GB2312兼容
+</code></pre><p>GB18030</p>
+<pre><code>数字交换用汉字编码字符集
+单字节、双字节、四字节、与GB2312兼容
+</code></pre><p>UTF-16</p>
+<pre><code>Unicode字符集的存取方法
+使用2字节标识Unicode转化格式、定长表示
+</code></pre><p>UTF-8<br>    边长字符集、1-6个字节<br>    涵盖了所有各国字符编码</p>
+<p>UTF-8mb4</p>
+<pre><code>在UTF8基础上 增加了表情字符
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/30/essay/weichat-h5-pay/" rel="bookmark">微信H5支付</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
       
     </li>
   
@@ -1054,14 +1526,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/01/github/cc-iptable/" rel="bookmark">基于Strom的日志实时流量分析主动防御(CCFirewall)系统</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/01/github/tengine/" rel="bookmark">Tengine</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/01/github/tengine/" rel="bookmark">Tengine</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/01/github/cc-iptable/" rel="bookmark">基于Strom的日志实时流量分析主动防御(CCFirewall)系统</a></div>
       
     </li>
   
@@ -1076,238 +1548,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/07/03/essay/essay-11/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/07/03/essay/essay-11/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/8/index.html">关于编码方式</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-03 08:00:00" itemprop="dateCreated datePublished" datetime="2018-07-03T08:00:00+08:00">2018-07-03</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>编码</p>
-<pre><code>将人类语言解释为机器语言的一种关系映射
-</code></pre><p>常见编码方式</p>
-<p>ASCII</p>
-<pre><code>128个
-0-31控制字符、换行、删除、回车
-32-126打印字符
-</code></pre><p>ISO8859-1</p>
-<pre><code>在ASCII上 加上了大多数修语言字符、256个字符 
-</code></pre><p>{———-}<br>GB2312</p>
-<pre><code>信息交换用汉字编码字符集基本集、双字节编码、
-A1-A9 符号区
-B0-F7 汉字区
-</code></pre><p>GBK</p>
-<pre><code>汉字内码扩展规范
-对GB2312扩展
-编码范围 8140-FEFE 与GB2312兼容
-</code></pre><p>GB18030</p>
-<pre><code>数字交换用汉字编码字符集
-单字节、双字节、四字节、与GB2312兼容
-</code></pre><p>UTF-16</p>
-<pre><code>Unicode字符集的存取方法
-使用2字节标识Unicode转化格式、定长表示
-</code></pre><p>UTF-8<br>    边长字符集、1-6个字节<br>    涵盖了所有各国字符编码</p>
-<p>UTF-8mb4</p>
-<pre><code>在UTF8基础上 增加了表情字符
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/28/essay/atom/" rel="bookmark">atom 快捷键</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/01/12/essay/essay-20/" rel="bookmark">遐想--定制应用</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/24/essay/essay-16/" rel="bookmark">本博客成长笔记</a></div>
       
     </li>
   
@@ -2009,14 +2249,14 @@ B0-F7 汉字区
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/01/github/cc-iptable/" rel="bookmark">基于Strom的日志实时流量分析主动防御(CCFirewall)系统</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/01/github/tengine/" rel="bookmark">Tengine</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/01/github/tengine/" rel="bookmark">Tengine</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/01/github/cc-iptable/" rel="bookmark">基于Strom的日志实时流量分析主动防御(CCFirewall)系统</a></div>
       
     </li>
   
@@ -2031,232 +2271,6 @@ B0-F7 汉字区
       
       
       <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/07/02/block-chain/block-chain-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/07/02/block-chain/block-chain-0/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/8/index.html">谈谈区块链对互联网的冲击</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-02 08:00:00" itemprop="dateCreated datePublished" datetime="2018-07-02T08:00:00+08:00">2018-07-02</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/block-chain/" itemprop="url" rel="index"><span itemprop="name">block-chain</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>区块链 起源于比特币、不对、应该是说、区块链理论的第一应用是比特币</p>
-<p>是日本一位大佬、看透了金融行业金融机构对货币的管理和控制能力、<br>金融机构可以任意发行货币、日本那次经济危机有关吧、</p>
-<p>区块链涉及的新技术 有：</p>
-<ul>
-<li>去中心化、采取共识机制来获取最值得信任的交易链、</li>
-<li>智能合约、不借助第三方签订协议、这种协议一旦生效不可修改、可追溯</li>
-</ul>
-<p>{———-}</p>
-<p>去中心化：</p>
-<pre><code>现在互联网技术的交易基本上都是有第三方担保、比如淘宝的支付宝、以及货币发行机构各大银行
-
-这种新技术是怎么改变互联网世界的架构的呢？
-
-首先这种不适用第三方担保的协议、可以无视第三方支付平台的兴衰而动荡、
-</code></pre><p>然后结合去中心化和智能合约、有些人头一次接触这种思维方式、于是很多人的思考就诞生了一波思维风暴</p>
-<p>银行去中心化、货币去中心化、法律去中心化、等等各个行业的去中心化、共识机制、其实我觉得蛮不现实的、<br>机器会共识、人可不一定、人心可以收买的、没有一个良好的信任体系、共识机制也只是一个泡沫而已</p>
-<p>再说智能合约、法律智能合约、货币交易智能合约、物联网智能合约、也是各个方面各个行业都可以嵌入</p>
-<p>智能合约可以用来在多方的情况下、动态的签署一份使用合约、随后由去中心化的货币再进行支付自动转账</p>
-<ul>
-<li>法律：甲乙丙三方 签订一个合约、到期后合约执行、货币支付或者行为交易、这份合约保存到信任链条中永久保存</li>
-<li>物联网：家电、车、购物、都可以接入智能合约、进行一个行为合约、然后通知货币链支付</li>
-</ul>
-<p>看起来就一个完全自由化的社会</p>
-<p><strong>关于共识机制的解决方案</strong></p>
-<h3 id="公有链——对任何人开放，任何人都能参与"><a href="#公有链——对任何人开放，任何人都能参与" class="headerlink" title="公有链——对任何人开放，任何人都能参与"></a>公有链——对任何人开放，任何人都能参与</h3><pre><code>公有链通常也称为非许可链（Permissionless Blockchain），
-任何人都可以参与区块链数据维护和读取，容易部署应用程序，完全去中心化不受任何机构控制。
-
-公有链的应用非常广泛，例如资产证券化、数字资产的跨链流通 
-……现在市场上的主流大势区块链项目比特币、以太坊、量子链、EOS、唯链以及Neo等都是公有链项目。
-
-公有链是真正意义上的完全去中心化的区块链，它通过密码学保证交易不可篡改，同时也利用密码学验证以及经济上的激励，
-在互为陌生的网络环境中建立共识，从而形成去中心化的信用机制。在公有链中的共识机制一般是工作量证明（PoW）和权益证明（PoS） 。
-
-公有链具有通过去中介化的方式打破当前中心化商业模式的潜力，
-而且本身无需维护服务器或管理系统，从根本上降低创建和运行去中心化应用程序（dApp）的成本。
-</code></pre><h3 id="联盟链——仅对联盟成员开放"><a href="#联盟链——仅对联盟成员开放" class="headerlink" title="联盟链——仅对联盟成员开放"></a>联盟链——仅对联盟成员开放</h3><pre><code>联盟链是一种需要注册许可的区块链，这种区块链也称为许可链（Permissioned Blockchain）。
-联盟链仅限于联盟成员参与，联盟规模可以大到国与国之间，也可以是不同的机构企业之间。
-
-区块链上的读写权限、参与记账权限按联盟规则来制定。
-整个网络由成员机构共同维护，网络接入一般通过成员机构的网关节点接入，共识过程由预先选好的节点控制。
-因此联盟链一般不采用工作量证明的挖矿机制，而是多采用权益证明（PoS）或PBFT（Practical Byzantine Fault Tolerant）、RAFT等共识算法。
-
-和公有链最高每秒完成交易3-20相比，联盟链可以达到1000-10000 ，交易速度更快且交易成本大幅降低。
-
-联盟链可以解决结算问题，降低两地结算的成本和时间，适合于机构间的交易、结算等B2B场景，因此金融行业应用最广泛。
-其中最知名的就是R3CVE组织，即R3联盟，有包括花旗银行、中国平安银行、纽约梅隆银行在内的50多家银行机构加入
-</code></pre><h3 id="私有链——仅行业内部透明，不对外开放"><a href="#私有链——仅行业内部透明，不对外开放" class="headerlink" title="私有链——仅行业内部透明，不对外开放"></a>私有链——仅行业内部透明，不对外开放</h3><pre><code>私有链，仅限于企业、国家机构或者单独个体使用，不完全能够解决信任问题，但是可以改善可审计性。
-常用于企业内部的数据库管理、审计等，政府的预算和执行，或者政府的行业统计数据等。
-他们彼此之间需要透明，但没必要对外公众透明。
-
-私有链的价值主要是提供安全、可追溯、不可篡改、自动执行的运算平台，
-可以同时防范来自内部和外部对数据的安全攻击，这个在传统的系统是很难做到的。
-
-任何人都可以创建私链的平台的Multichain项目本身就是一个私有链项目。
-</code></pre><p>另：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">不管区块链是不是泡沫。反正各大佬已经部署未来了、阿里、腾讯、百度、京东也在看形势、</span><br><span class="line"></span><br><span class="line">还有众多小企业在瞄准区块链猛打擦边球、毕竟这是一个机会也是一个机遇、不走未必能活、走了就可能一夜发达、</span><br><span class="line"></span><br><span class="line">互联网时代、数据时代、人工智能时代、区块链时代、</span><br><span class="line"></span><br><span class="line">小视频时代、老博客时代、共享社会、</span><br><span class="line"></span><br><span class="line">这个世界、名词化社会、动不动就我们重新定义了XXX、、、、、这样拉融资也算个噱头、、</span><br><span class="line"></span><br><span class="line">不过也可以看出机遇、机会是真的多、看准未来【未来在变、我们也要变】、and 、坚持以获成功</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/03/block-chain/block-chain-3/" rel="bookmark">区块链 概述、开源</a></div>
       
     </li>
   
@@ -2568,7 +2582,7 @@ B0-F7 汉字区
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">266</span>
+                    <span class="site-state-item-count">267</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

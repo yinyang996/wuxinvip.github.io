@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">266</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">267</span></a>
 
   </li>
         
@@ -451,6 +451,312 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/29/message-queue/kafka/07/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/29/message-queue/kafka/07/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">kafka消费者接收和配置</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-29 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-29T08:00:00+08:00">2018-11-29</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>kafka消息接收方式</li>
+<li>kafka消息偏移量提交</li>
+<li><p>kafka序列化</p>
+</li>
+<li><p>kafka消费者配置</p>
+</li>
+</ul>
+<p>{———-}</p>
+<h2 id="kafka消息接收方式"><a href="#kafka消息接收方式" class="headerlink" title="kafka消息接收方式"></a>kafka消息接收方式</h2><ul>
+<li>kafka有两种消息接收方式、1:主动拉取、2:服务器端推送</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka消费者</span><br><span class="line"> */</span><br><span class="line">public void test04() &#123;</span><br><span class="line">    Properties properties = new Properties();</span><br><span class="line">    properties.put(&quot;bootstrap.servers&quot;, &quot;broker1:9002,broker2:9002&quot;);</span><br><span class="line">    properties.put(&quot;group.id&quot;, &quot;CountryCounter&quot;);</span><br><span class="line">    properties.put(&quot;key.deserializer&quot;, &quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line">    properties.put(&quot;value.deserializer&quot;, &quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line">    KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;String, String&gt;(properties);</span><br><span class="line"></span><br><span class="line">    //订阅主题</span><br><span class="line">    consumer.subscribe(Collections.singletonList(&quot;customerCountries&quot;));</span><br><span class="line">    //订阅所有主题</span><br><span class="line">    consumer.subscribe(Collections.singletonList(&quot;test.*&quot;));</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            ConsumerRecords&lt;String, String&gt; records = consumer.poll(100);</span><br><span class="line">            for (ConsumerRecord&lt;String, String&gt; record : records) &#123;</span><br><span class="line">                logger.debug(&quot;topic=%s,partition=%s,offset=%d,constomer=%s,country=%s\n&quot;,</span><br><span class="line">                        record.topic(),record.partition(),record.offset(),record.key(),record.value());</span><br><span class="line"></span><br><span class="line">                //todo 执行消费逻辑</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="kafka消息偏移量提交"><a href="#kafka消息偏移量提交" class="headerlink" title="kafka消息偏移量提交"></a>kafka消息偏移量提交</h2><ul>
+<li>提交已处理消息标记位</li>
+</ul>
+<h2 id="kafka序列化"><a href="#kafka序列化" class="headerlink" title="kafka序列化"></a>kafka序列化</h2><ul>
+<li>kafka使用avro序列化</li>
+<li>可以看这边文章、<a href="https://www.wuxinvip.com/2018/11/10/essay/avro/">Apache Avro</a></li>
+</ul>
+<h2 id="kafka消费者配置"><a href="#kafka消费者配置" class="headerlink" title="kafka消费者配置"></a>kafka消费者配置</h2><ul>
+<li>fetch.min.bytes<ul>
+<li>指定消费者从服务器获取记录的最小字节数</li>
+</ul>
+</li>
+<li>fetch.max.wait.ms<ul>
+<li>累积多少时间把数据返还给消费者</li>
+<li>数值大、吞吐量大、延迟高、</li>
+<li>数值小、吞吐量小、延迟低、</li>
+</ul>
+</li>
+<li><p>max.partition.fetch.bytes</p>
+<ul>
+<li>指定每个分区返给消费者的最大字节数、默认值1MB</li>
+<li>如果有20个分区、5个消费者、那么这里就可以配置4MB</li>
+<li>该值一定要大于broker能够接收数据最大值、否则会一直挂起重试</li>
+</ul>
+</li>
+<li><p>session.timeout.ms</p>
+<ul>
+<li>指定消费者在被认为死亡之前可以与服务器断开连接时间、默认3s</li>
+<li>如果规定时间内没有发送心跳、认为死亡、触发再均衡</li>
+</ul>
+</li>
+<li><p>auto.offset.reset</p>
+<ul>
+<li>指定 消费者在读取一个没有偏移量的分区或者偏移量无效情况下（因消费者长时间失效、包含偏移量的记录已经过时并被删除）该如何处理</li>
+<li>默认值 latest、最新数据</li>
+<li>earliest 在偏移量无效情况下、消费者将从起始位置读取分区记录【幂等消费？】</li>
+</ul>
+</li>
+<li><p>enable.auto.commit</p>
+<ul>
+<li>指定消费者是否自动提交偏移量 默认值true</li>
+</ul>
+</li>
+<li><p>partition.assignment.strategy</p>
+<ul>
+<li>指定分配主题分区给消费者的分配策略</li>
+<li>Range   轮询、如果分区数量大于消费者数量、那么排在前面的消费者会被分配到更多的分区</li>
+<li>RoundRobin  给消费者分配更加平等数量的分区、或者最多小差一个分区</li>
+</ul>
+</li>
+<li><p>client.id</p>
+<ul>
+<li>分区id 标识分区唯一、以及客户端、识别消息、也被用在日志和度量指标和配额里</li>
+</ul>
+</li>
+<li><p>max.poll.records</p>
+<ul>
+<li>指定单次调用call()方法能够返回的记录数量</li>
+</ul>
+</li>
+<li><p>receive.buffer.bytes、send.buffer.bytes</p>
+<ul>
+<li>socket在读写数据时用到的TCP缓冲区 -1使用系统默认值</li>
+<li>如果消费者和生产者不再统一数据中心内、可以适当增大该值</li>
+</ul>
+</li>
+</ul>
+<h2 id="kafka消费者注意点"><a href="#kafka消费者注意点" class="headerlink" title="kafka消费者注意点"></a>kafka消费者注意点</h2><ul>
+<li>消费者数量大于主题分区数量、否则消费者会被闲置；比如5个主题分区、4个消费者、那么会有一个主题分区会被闲置</li>
+</ul>
+<ul>
+<li>再均衡<ul>
+<li>分区所有权从一个消费者转移到另一个消费者、这样的行为被称为再均衡</li>
+<li>再均衡期间、消费者不能消费消息</li>
+<li>也是这样的设置、能是消费者分区能动态增减</li>
+<li>维持：消费者通过向消费者协调者broker发送心跳、来维持他们与群组的从属关系以及他们对分区的所有权关系</li>
+<li>消费者死亡、消费协调者broker会等待几秒钟、确认死亡后会触发再均衡</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/01/message-queue/kafka/09/" rel="bookmark">kafka构建数据管道需要注意的问题</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/30/message-queue/kafka/08/" rel="bookmark">kafka集群复制</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/28/message-queue/kafka/06/" rel="bookmark">kafka生产者发送和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/26/message-queue/kafka/04/" rel="bookmark">kafka集群</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1782,6 +2088,200 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/23/message-queue/rabbitmq/01/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">rabbitmq简介</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-23 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-23T08:00:00+08:00">2018-11-23</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/rabbitmq/" itemprop="url" rel="index"><span itemprop="name">rabbitmq</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>{———-}</p>
+<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
+<li><p>rocketmq、rabbitmq、kafka</p>
+<ul>
+<li>没有谁好谁坏</li>
+<li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li>
+<li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li>
+<li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li>
+</ul>
+</li>
+<li><p>个人见解</p>
+<ul>
+<li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li>
+<li>稳定不丢消息：rocketmq、tabbitmq、</li>
+<li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li>
+<li>rocketmq底层netty、异步机制优秀</li>
+<li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li>
+<li>非实时性要求高、同时又要求高吞吐量 rocketmq</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2021,417 +2521,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/23/message-queue/rabbitmq/01/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">rabbitmq简介</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-23 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-23T08:00:00+08:00">2018-11-23</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/rabbitmq/" itemprop="url" rel="index"><span itemprop="name">rabbitmq</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>{———-}</p>
-<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
-<li><p>rocketmq、rabbitmq、kafka</p>
-<ul>
-<li>没有谁好谁坏</li>
-<li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li>
-<li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li>
-<li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li>
-</ul>
-</li>
-<li><p>个人见解</p>
-<ul>
-<li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li>
-<li>稳定不丢消息：rocketmq、tabbitmq、</li>
-<li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li>
-<li>rocketmq底层netty、异步机制优秀</li>
-<li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li>
-<li>非实时性要求高、同时又要求高吞吐量 rocketmq</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/15/shell/shell-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/15/shell/shell-5/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">linux 删除命令 rm 改为 mv</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-15 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-15T08:00:00+08:00">2018-11-15</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/shell/" itemprop="url" rel="index"><span itemprop="name">shell</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><p>非常实用</p>
-</li>
-<li><p>rm </p>
-</li>
-<li><p>Linux下修改rm命令为mv，使rm命令原有功能失效</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/.trash   #在家目录下创建一个.trash文件夹</span><br><span class="line">alias rm=del        #使用别名del代替rm   </span><br><span class="line">del()               #函数del，作用：将rm命令修改为mv命令</span><br><span class="line">&#123;  </span><br><span class="line">  mv $@ ~/.trash/  </span><br><span class="line">&#125;  </span><br><span class="line">cleardel()          #函数cleardel，作用：清空回收站.trash文件夹，y或Y表示确认，n表示取消</span><br><span class="line">&#123;  </span><br><span class="line">    read -p &quot;clear sure?[Input &apos;y&apos; or &apos;Y&apos; to confirm. &amp;&amp; Input &apos;n&apos; to cancel.]&quot; confirm   </span><br><span class="line">    [ $confirm == &apos;y&apos; ] || [ $confirm == &apos;Y&apos; ]  &amp;&amp; /bin/rm -rf ~/.trash/*   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>{———-}</p>
-<p>然后 加载配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
-<ul>
-<li>清空回收站<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cleardel</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>注：rm命令已经删除，所以要彻底删除文件的话，可以先del删除文件到垃圾箱，然后进入~/.trash文件夹使用cleardel命令来彻底清除垃圾箱里的所有文件。</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/15/shell/shell-7/" rel="bookmark">linux 排查命令</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/15/shell/shell-6/" rel="bookmark">node--npm    命令</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2503,7 +2592,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">266</span>
+                    <span class="site-state-item-count">267</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
