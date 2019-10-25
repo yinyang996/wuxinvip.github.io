@@ -467,6 +467,238 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/rpc/dubbo-0/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/29/index.html">dubbo 框架设计</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/rpc/" itemprop="url" rel="index"><span itemprop="name">rpc</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>假设我们开发一个rpc远程调用框架</p>
+<p>那么这个框架需要怎么去写</p>
+<ul>
+<li>1、首先有远程配置中心config</li>
+<li>2、有服务代理层【包装业务上的服务做一个代理】</li>
+<li>3、有服务注册中心【代理了服务之后 向该注册中心注册服务代理】</li>
+<li>4、有路由【远程调用先走路由获取服务代理实例、集群必备的东西】</li>
+<li>5、有远程调用层【发起服务调用】</li>
+<li>6、有网络传输层、有信息交换层【这个是一个传输协议的实现层】</li>
+<li>7、有序列化层【针对网络IO信息编码方式的统一、传输协议最基本的东西】</li>
+<li>8、服务监控【不属于RPC、但是服务监控必不可少】</li>
+</ul>
+<p>总结：</p>
+<ul>
+<li>核心配置：服务注册中心、服务代理和服务调用</li>
+<li>优化配置：配置中心、服务监控、</li>
+<li>基石配置：网络传输以及协议、序列化方式的定制</li>
+</ul>
+<p>{———-}</p>
+<p><a href="http://dubbo.apache.org/books/dubbo-dev-book/design.html" target="_blank" rel="noopener">dubbo框架设计</a></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-efad1aa420ebfed2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dubbo-framework.jpg"></p>
+<p><strong>简单用自己的语言描述这个图</strong></p>
+<ul>
+<li>1、左上角 Dubbo Framework</li>
+<li>2、左上角往右简单标识 每个颜色代表什么意思、更好理解图中数据流向</li>
+<li>消费者、提供者、开始、接口、类、继承关系、调用链方向、依赖方向</li>
+<li>3、左侧一竖列、黑体字 service\config、等等</li>
+<li>服务接口【service】、配置层【config】、服务代理层【proxy】、注册中心【registry】、</li>
+<li>路由【cluster】、监控中心【monitor】、远程调用【protocol】、</li>
+<li>信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
+</ul>
+<p>结合自己所想做一个分类</p>
+<ul>
+<li>核心配置：服务代理层【proxy】、注册中心【registry】、远程调用【protocol】</li>
+<li>优化配置：配置层【config】、路由【cluster】、监控中心【monitor】</li>
+<li>基石配置：信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
+</ul>
+<p><strong>简单猜想一下dubbo这么设计的代码架构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">service：对外暴露接口 API与SPI分离</span><br><span class="line"></span><br><span class="line">config：核心referenceConfig、ServiceConfig</span><br><span class="line">              serviceConfig----获取远程仓库配置、获取文件配置、貌似还可以获取环境变量</span><br><span class="line">              【实质上跟修改本地host一个道理、规定了一个locahost代理 然后操作系统去解析这个配置】</span><br><span class="line"></span><br><span class="line">referenceConfig--是消费端配置、其应该是从服务端获取配置信息</span><br><span class="line"></span><br><span class="line">proxy：不由想到代理模式、原业务逻辑bean不变、新建bean来实现原bean的代理【也算是一种封装】</span><br><span class="line"></span><br><span class="line">registry：注册中心、看过eureka、底层内存中维护了 一个双map结构数据列表、维护服务实例、服务地址、以及代理service等</span><br><span class="line"></span><br><span class="line">cluster：路由器、想到最简单的就是url转发、当然肯定没这么简单、应该还会有、实时获取服务列表、负载均衡算法等等</span><br><span class="line"></span><br><span class="line">monitor：监控中心、这个web服务把各路信息提上来做一个展示、应该没啥、最多维护一个硬盘文件</span><br><span class="line"></span><br><span class="line">protocol：远程调用、怎么调用--不太清楚--再看看</span><br><span class="line"></span><br><span class="line">exchange：信息交换、request、response封装</span><br><span class="line"></span><br><span class="line">transport：网络传输、大名鼎鼎的netty就在这吧~~</span><br><span class="line"></span><br><span class="line">seriallize：数据序列化、提供多重序列化方式、hessian【本地存根方式】、rmi等等吧</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-1/" rel="bookmark">dubbo分析</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -643,21 +875,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
       
     </li>
   
@@ -671,214 +889,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-config/" rel="bookmark">elasticsearch-config</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
       
     </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/rpc/dubbo-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/29/index.html">dubbo分析</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/rpc/" itemprop="url" rel="index"><span itemprop="name">rpc</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">手册地址:https://gitee.com/none_heart/RPC/raw/master/dubbo/doc/dubbo-用户指南-带标签.pdf</span><br></pre></td></tr></table></figure>
-<p>RPC Remote Procedure call 远程过程调用</p>
-<p>一个RPC框架有几个特点:<br>远程调用.协议.暴露端口方式<br>稳定性.一致性.容错性<br>并发性.<br>简单插入性.高度解耦</p>
-<p>那么从这几个方面来思考dubbo</p>
-<p><strong>协议:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dubbo缺省协议采用单一长连接和NIO异步通讯，适合于小数据量大并发的服务调用，以及服务消费者机器数远大于服务提供者机器数的情况。</span><br><span class="line"></span><br><span class="line">缺省协议，使用基于mina1.1.7+hessian3.2.1的tbremoting交互。</span><br><span class="line"></span><br><span class="line">连接个数：单连接</span><br><span class="line">连接方式：长连接</span><br><span class="line">传输协议：TCP</span><br><span class="line">传输方式：NIO异步传输</span><br><span class="line">序列化：Hessian二进制序列化</span><br><span class="line">适用范围：传入传出参数数据包较小（建议小于100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用dubbo协议传输大文件或超大字符串。</span><br><span class="line">适用场景：常规远程服务方法调用</span><br></pre></td></tr></table></figure></p>
-<p>{———-}</p>
-<p><strong>高可用-容错性:</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-330842d2593cb2af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>五种回调方式:Failover.Failfast.Failsafe.Failback.Forking<br>应对不同场景使用不同回调方式</p>
-<p><strong>高可用-负载均衡</strong><br>dubbo支持 随机.轮询.最小调用次数调用.hash值余数调用</p>
-<p><strong>并发-线程</strong><br><img src="http://upload-images.jianshu.io/upload_images/6434888-44726a6f519dd60e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>没什么可说的.该用就得用.但是不能乱用.</p>
-<p><strong>服务暴露地址:多协议.多注册方式.无中心化</strong><br><img src="http://upload-images.jianshu.io/upload_images/6434888-5e36e7fdf0869da0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong>参数校验.服务分组等等</strong></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-0/" rel="bookmark">dubbo 框架设计</a></div>
+      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-config/" rel="bookmark">elasticsearch-config</a></div>
       
     </li>
   
@@ -1093,7 +1118,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="bookmark">SQL优化【MyISAM-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
       
     </li>
   
@@ -1114,7 +1139,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
       
     </li>
   
@@ -1317,14 +1342,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/version-config/" rel="bookmark">版本问题</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/spring-boot-1/" rel="bookmark">springboot mybatis 配置</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/spring-boot-1/" rel="bookmark">springboot mybatis 配置</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/version-config/" rel="bookmark">版本问题</a></div>
       
     </li>
   
@@ -1753,6 +1778,483 @@
 <ul>
 <li>81.信言不美。美言不信。善者不辩。辩者不善。知者不博。博者不知。圣人不积。既以为人己愈有。既以与人己愈多。天之道利而不害。圣人之道为而不争。</li>
 </ul>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/20/essay/essay-5/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/29/index.html">转知乎关于工作</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-20 08:00:00" itemprop="dateCreated datePublished" datetime="2017-08-20T08:00:00+08:00">2017-08-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>1、领导就是领导，无论你们年纪多么相近，无论你们之前多么相熟，在他是你的领导的时候，请你保持对领导的尊重，这也包括，你并不能把所有的想法都告诉他。</li>
+</ul>
+<ul>
+<li>2、积极主动、落落大方。只要是同事，不论是什么部门的，你们能遇见，有说话的机会 ，比如一起在食堂吃饭、在会上遇见，请你积极主动和别人打招呼，并且保留联系方式。</li>
+</ul>
+<ul>
+<li><p>3、对于你认可而你领导不认可的意见，请你保留，直到你当上领导的那一天。</p>
+</li>
+<li><p>4、全面了解公司架构，并寻找自己的扩展机会。这不是让你换岗位，而是对外讲得清自己公司的架构，对内如果有主动或者被动的调整机会，你知道自己想去哪儿。</p>
+</li>
+</ul>
+<ul>
+<li>5、积累、寻找上升机会。尤其是你怀才不遇的时候，如果你真的有“才”，只有你有话语权的时候，你才有更大的发展可能。</li>
+</ul>
+<p>{———-}</p>
+<ul>
+<li><p>6、保持平常心，顺势而为。做积极主动的努力，但并不执着于结果。很多职业上的发展是能力、机遇、人脉等各种综合作用的结果，并不被单一因素所决定。所以如果做了努力，但没有结果，不要灰心。付出不会浪费，可以寻找别的机会，也可以等待机会。</p>
+</li>
+<li><p>7、自己的成长才是最重要的。除了薪水、职位，在你发展过程中，不论在哪个单位的哪个进程中，都要不断成长，或者说拿到你想拿到的东西再离开。</p>
+</li>
+</ul>
+<ul>
+<li>8、当你想换工作，又有一份你愿意尝试的工作愿意接受你的时候，不要太过犹豫自己是不是换工作换的太频繁，别人如何想。只要你进行过基本的分析，不会比现在差，就鼓励你尝试。尝试有50%的可能变好。要相信，时间是一张网，撒在哪里都会有收获。</li>
+</ul>
+<ul>
+<li>9、善于发挥自己的优势。如果你学历高，建议你去一个学历门槛比较重的单位，当然只是建议，依次类推。</li>
+</ul>
+<ul>
+<li>10、不断学习。英语啊、各种证书啊，等等，在不耽误工作的基础上，学习和拿下工作不断推进。</li>
+</ul>
+<p><a href="https://www.zhihu.com/question/30147821/answer/222317278" target="_blank" rel="noopener">原文地址</a></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/08/20/essay/essay-6/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/29/index.html">面试时候看一下 系列</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-20 08:00:00" itemprop="dateCreated datePublished" datetime="2017-08-20T08:00:00+08:00">2017-08-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://36kr.com/video/3925" target="_blank" rel="noopener">职场宫心计之面试遇到“你有什么要问我的吗”，该如何回答？</a></p>
 
           
         
@@ -2330,483 +2832,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/08/20/essay/essay-5/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/29/index.html">转知乎关于工作</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-08-20 08:00:00" itemprop="dateCreated datePublished" datetime="2017-08-20T08:00:00+08:00">2017-08-20</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>1、领导就是领导，无论你们年纪多么相近，无论你们之前多么相熟，在他是你的领导的时候，请你保持对领导的尊重，这也包括，你并不能把所有的想法都告诉他。</li>
-</ul>
-<ul>
-<li>2、积极主动、落落大方。只要是同事，不论是什么部门的，你们能遇见，有说话的机会 ，比如一起在食堂吃饭、在会上遇见，请你积极主动和别人打招呼，并且保留联系方式。</li>
-</ul>
-<ul>
-<li><p>3、对于你认可而你领导不认可的意见，请你保留，直到你当上领导的那一天。</p>
-</li>
-<li><p>4、全面了解公司架构，并寻找自己的扩展机会。这不是让你换岗位，而是对外讲得清自己公司的架构，对内如果有主动或者被动的调整机会，你知道自己想去哪儿。</p>
-</li>
-</ul>
-<ul>
-<li>5、积累、寻找上升机会。尤其是你怀才不遇的时候，如果你真的有“才”，只有你有话语权的时候，你才有更大的发展可能。</li>
-</ul>
-<p>{———-}</p>
-<ul>
-<li><p>6、保持平常心，顺势而为。做积极主动的努力，但并不执着于结果。很多职业上的发展是能力、机遇、人脉等各种综合作用的结果，并不被单一因素所决定。所以如果做了努力，但没有结果，不要灰心。付出不会浪费，可以寻找别的机会，也可以等待机会。</p>
-</li>
-<li><p>7、自己的成长才是最重要的。除了薪水、职位，在你发展过程中，不论在哪个单位的哪个进程中，都要不断成长，或者说拿到你想拿到的东西再离开。</p>
-</li>
-</ul>
-<ul>
-<li>8、当你想换工作，又有一份你愿意尝试的工作愿意接受你的时候，不要太过犹豫自己是不是换工作换的太频繁，别人如何想。只要你进行过基本的分析，不会比现在差，就鼓励你尝试。尝试有50%的可能变好。要相信，时间是一张网，撒在哪里都会有收获。</li>
-</ul>
-<ul>
-<li>9、善于发挥自己的优势。如果你学历高，建议你去一个学历门槛比较重的单位，当然只是建议，依次类推。</li>
-</ul>
-<ul>
-<li>10、不断学习。英语啊、各种证书啊，等等，在不耽误工作的基础上，学习和拿下工作不断推进。</li>
-</ul>
-<p><a href="https://www.zhihu.com/question/30147821/answer/222317278" target="_blank" rel="noopener">原文地址</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2017/08/20/essay/essay-6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/08/20/essay/essay-6/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/29/index.html">面试时候看一下 系列</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-08-20 08:00:00" itemprop="dateCreated datePublished" datetime="2017-08-20T08:00:00+08:00">2017-08-20</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://36kr.com/video/3925" target="_blank" rel="noopener">职场宫心计之面试遇到“你有什么要问我的吗”，该如何回答？</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3251,6 +3276,19 @@
 
 
 
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "33080c03d7f08b2e4f4aed9a22cd0f29");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
 
 
 
