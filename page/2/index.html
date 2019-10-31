@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/05/26/ai/ai-002/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2019/05/26/jdk/jdk-model/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,7 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/05/26/ai/ai-002/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/2/index.html">AI 机器学习发展史</a>
+                <a href="/2019/05/26/jdk/jdk-model/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/2/index.html">jdk内存模型</a>
               
             
           </h2>
@@ -529,7 +529,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-28 19:02:42" itemprop="dateModified" datetime="2019-05-28T19:02:42+08:00">2019-05-28</time>
+                <time title="修改时间：2019-05-28 19:09:12" itemprop="dateModified" datetime="2019-05-28T19:09:12+08:00">2019-05-28</time>
               
             
           </span>
@@ -546,7 +546,14 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
 
                 
                 
@@ -582,38 +589,19 @@
       
         
           
-            <p>1、模型 M-P神经网络模型</p>
-<p>2、1949 Hebb规则 刺激–》加强 训练强化</p>
-<p>3、1957 Perception模型</p>
-<p>4、1969 感知机模型 不能解决XOR问题</p>
-<p>5、1982 离散网络模型、连续网络模型</p>
-<p>6、BP算法 多层网络误差反传</p>
-<p>7、90中期 orther竞争力学习模型 低潮</p>
-<p>8、2006 热点 梯度消失、梯度爆炸、计算机算力提升</p>
-<h1 id="神经元传输"><a href="#神经元传输" class="headerlink" title="神经元传输"></a>神经元传输</h1><p>特性：多输入、单输出</p>
-<p><img src="/img/ai/神经元模型.jpg" alt="图片"></p>
-<p>神经元先对入参数据进行求和操作、之后经过激活函数、最终得到data值</p>
-<p>感知机 ：<br>    线程分割<br>    不能XOR 【异或】<br>    加入隐藏层 支持XOR</p>
-<p><img src="/img/ai/神经元传递参数.jpg" alt="图片"></p>
-<ul>
-<li>损失函数定义</li>
-</ul>
-<p><img src="/img/ai/损失函数.jpg" alt="图片"></p>
-<h1 id="Tensorflow"><a href="#Tensorflow" class="headerlink" title="Tensorflow"></a>Tensorflow</h1><ul>
-<li>定义域 obj定义</li>
-<li>操作域 赋值</li>
-</ul>
-<p>namescope ： 在同一个变量名不同作用效果、好处、代码配置化</p>
-<p>placeholder：运行时赋值<br>session.run{feed.dict=”指定初始值”}</p>
-<ul>
-<li>训练模式 ：分批小批数据训练</li>
-</ul>
-<p>*深度学习</p>
-<p>1、CNN 卷积神经网络【图像识别】</p>
-<p>流程：【卷积过程依据特征粒度（特征粒度自己创造的词汇）】<br>输入-》卷积-》池化-》卷积-》池化-》全连接</p>
-<p>2、循环神经网络【语言识别、股票预测】</p>
-<p>第一个如参值参与后边所有数据入参</p>
-<p><img src="/img/ai/循环神经网络.jpg" alt="图片"></p>
+            <p>#8个原子操作<br>针对jvm主内存与工作内存的数据操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lock----锁定</span><br><span class="line">unlock----释放锁</span><br><span class="line">read----读</span><br><span class="line">write----写</span><br><span class="line">load----加载</span><br><span class="line">assign----赋值</span><br><span class="line">use----使用</span><br><span class="line">store----写入主内存</span><br></pre></td></tr></table></figure></p>
+<p>特例：<br>long、double、64为内存、在32为虚拟机中分两次操作、<br>load、store、read、write都不是源自操作</p>
+<p>#8个规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、不允许read、load、store、write单独出现</span><br><span class="line">2、不允许thread丢弃assign</span><br><span class="line">3、不允许任何一线程、没有assign的数据 从工作内存store到主内存</span><br><span class="line">4、一个新变量只能在主内存“诞生”、对一个变量“use/store”之前、执行assign、load操作</span><br><span class="line">5、一个变量在同一时刻只允许一个线程对其进行lock、但lock可以被执行多次、lock标记为累加、多次lock需要多次unlock</span><br><span class="line"></span><br><span class="line">6、对一个变量执行lock、会清空工作内存中变量值、使用之前需要重新load、assign</span><br><span class="line">7、如果未lock、不能unlock</span><br><span class="line">8、执行unlock之前、限制性工作内存同步主内存</span><br></pre></td></tr></table></figure>
+<p>都挺好理解、计算机这个东西、没啥难度、<br>lock是做标记为int ++  –做锁标记位</p>
+<p>#内存可见性</p>
+<p>1、volatile<br>2、sychronized<br>3、final</p>
+<p>#有序性<br>1、线程内表现为串行</p>
+<p>#无序<br>1、指令重排序【使用volatile可以阻止指令重排序】<br>2、sychronized 同一个变量、在同一时刻、允许同一线程串行进入</p>
+<p>3、编译器静态优化会打乱代码执行顺序<br>4、jvm动态优化会打乱代码执行顺序<br>5、硬件可以打乱执行顺序以优化其性能</p>
+<p>#线程安全<br>1、不可变—final<br>2、绝对安全<br>3、相对安全<br>4、线程兼容<br>5、独立—对程序有害</p>
+<p>#线程发展史</p>
+<p>1、重量级、执行标记位 加sychronized的地方、我在内存中加一个标记为、标记该方法、该对象、我正在使用、你不能使用<br>2、偏向锁、object标记、Mark Word中偏向锁的标识<br>3、轻量级、reentranlock、线程中自建一个object标记、增加了trylock（times）、可队列执行锁方法、规则名aqs、<br>4、算法代替锁、设计思想是、假设没有竞争、竞争时候通过算法判断、cas、拿旧值和内存原值比较、一致则修改为新值</p>
 
           
         
@@ -629,7 +617,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2017/07/04/ai/ai-001/" rel="bookmark">AI 人机交互发展史</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/16/jdk/jdk-tree-2/" rel="bookmark">二叉树的深度遍历与广度遍历</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-proxy/" rel="bookmark">动态代理</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
       
     </li>
   
@@ -1145,7 +1161,7 @@ jvisualvm
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-1/" rel="bookmark">java后台常用命令</a></div>
       
     </li>
   
@@ -1341,7 +1357,7 @@ jvisualvm
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/eureka-1/" rel="bookmark">EUREKA服务治理</a></div>
       
     </li>
   
@@ -1355,14 +1371,14 @@ jvisualvm
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
       
     </li>
   
@@ -1646,7 +1662,7 @@ pm2 restart 0
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/crontab/" rel="bookmark">crontab</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-1/" rel="bookmark">java后台常用命令</a></div>
       
     </li>
   
@@ -1854,13 +1870,6 @@ pm2 restart 0
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/cache/cache-elimination-algorithm/" rel="bookmark">缓存淘汰算法</a></div>
       
     </li>
@@ -1868,14 +1877,21 @@ pm2 restart 0
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/ehcache/" rel="bookmark">ehcache</a></div>
       
     </li>
   
@@ -2079,7 +2095,7 @@ pm2 restart 0
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/eureka-1/" rel="bookmark">EUREKA服务治理</a></div>
       
     </li>
   
@@ -2093,14 +2109,14 @@ pm2 restart 0
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
       
     </li>
   
@@ -2311,7 +2327,7 @@ pm2 restart 0
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/spring-cloud-1/" rel="bookmark">spring cloud 总 架构图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/eureka-1/" rel="bookmark">EUREKA服务治理</a></div>
       
     </li>
   
@@ -2325,14 +2341,14 @@ pm2 restart 0
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
       
     </li>
   

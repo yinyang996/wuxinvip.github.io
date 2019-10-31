@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/zuul/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,7 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/technical-summary/technical-summary-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">一个HTTP请求究竟发生了什么</a>
+                <a href="/2018/03/24/spring-cloud/zuul/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">zuul</a>
               
             
           </h2>
@@ -529,234 +529,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个问题 去年 分析过一次</p>
-<p>1、首先 请求从浏览器出发<br>2、到达 服务器 nginx<br>3、nginx分发给 各个服务容器 tomcat<br>4、tomcat 把请求发给 服务系统<br>5、服务 接收请求 由前端控制器 struts 或者 springmvc 接收<br>6、进行业务控制 service<br>7、获取业务数据 dao层 查询db 并返回 数据<br>8、数据 反向 dao —-service—controller<br>9、最后由springmvc 返回 不经历nginx 返回到浏览器</p>
-<p>{———-}</p>
-<p>那么今年 结合新了解的 服务 更新这个列表</p>
-<p>首先建立连接 【tcp ip 协议 】<br>1、三次握手 【过程】<br>2、经过的信息 源地址 ip 发送 一个请求连接包 到 目标地址<br>3、目标服务器 接收到信息 返回数据包 表明连接成功 可以继续发送请求</p>
-<p>请求建立后 发送 https请求服务<br>服务会先到 目标地址的linux服务器<br>linux 先到网卡<br>网卡把请求 发给 linux端口服务<br>如果还有LVS负载均衡服务等服务、会把请求发送给负载服务器<br>如果没有LVS服务器 那么服务进入nginx等应用层负载均衡服务<br>nginx服务分发给各个端口  端口内是真是服务的地址</p>
-<p>如果有docker容器 要进入docker容器</p>
-<p>进入docker容器 再进入服务实例<br>服务实例 有springmvc 接收请求<br>调用service服务【会有服务调用】<br>服务调用有RPC框架【dubbo或者 eureka等等】<br>service 调用dao</p>
-<p>【这里还有java 底层】</p>
-<p>从service说吧<br>服务进入service<br>那么要在虚拟机开辟一块新内存 用户内容存储和业务执行<br>开辟方法 是调用的C<br>c指针开辟空间 把业务逻辑代码 转为 二进制数据 然后cpu 执行<br>【关于CPU】<br>学过计算机或者单片机的应该都了解cpu 单片机 也是个简单的cpu 只能执行一些较为简单的逻辑控制 一般cpu不都讲由多少多少亿个晶体管构成吗 、其实蛮复杂的、一个个数起来都得好几年吧、何况是按一定的方法方式排列到一起 能够执行起来</p>
-<p>跑偏了<br>在dubbo或者eureka中还会有netty nio aio bio问题<br>由于了解不全面 这块就不写了</p>
-<p>还有数据库，并发访问量，事务，存储过程。</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-3/" rel="bookmark">总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-4/" rel="bookmark">高并发</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud-exception/exception-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/spring-cloud-exception/exception-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">容器已经关闭</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
               
             
           </span>
@@ -816,18 +589,21 @@
       
         
           
-            <p>spring cloud task 启动报错 context  has been closed already</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3cd5e3be89b57280.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法<br><img src="http://upload-images.jianshu.io/upload_images/6434888-6b79c65a09e5f95f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.5.2 版本ok</span><br><span class="line">2.0.0 报错容器已关闭</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">解决办法</span><br><span class="line"></span><br><span class="line">#spring.cloud.task.closecontext_enabled=false</span><br></pre></td></tr></table></figure>
+            <p>zuul</p>
+<p>是架设在整个springcloud微服务服务网中的门户模块<br>所有的外界访问请求 都要经过 这个模块<br>zuul结合eureka 可以做到动态服务代理</p>
+<p>实现功能：</p>
+<ul>
+<li>1、身份验证和安全性-识别每个资源的身份验证要求并拒绝不满足的要求</li>
+<li>2、洞察和检测-在边缘跟踪有意义的数据和统计数据、以便为我们提供准确的生产视图</li>
+<li>3、动态路由-根据需要将请求动态路由到不同的后端集群</li>
+<li>4、压力测试-逐渐增加到群集的流量，以衡量表现</li>
+<li>5、加载Shedding-为每种类型的请求分配容量，并删除超出限制的请求</li>
+<li>6、静态响应处理-直接边缘建立响应、而不是将他们转发到内部群集</li>
+<li>7、多区域弹性-跨AWS区域的路由请求、以使我们的ELB使用多样化、并使我们的边缘更接近我们的成员</li>
+</ul>
 <p>{———-}</p>
-<p>spring cloud Ribbon</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-5ecbb7d4b4281217.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>解决办法</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-4359cf1b075c1e4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>写到启动类就行</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-6d1ec769099be987.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">spring boot &lt;= 1.3</span><br><span class="line">无需定义</span><br><span class="line"></span><br><span class="line">spring boot &gt;= 1.4</span><br><span class="line"></span><br><span class="line">springboot不在维护 需要自己定义RestTempalte</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Bean</span><br><span class="line">public RestTemplate restTemplate (RestTemplateBuilder builder)&#123;</span><br><span class="line">  //Do any additional configuration here</span><br><span class="line">  return builder.build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">组件包含：</span><br><span class="line">zuul-core ：包含编译和执行过滤器的核心功能的库</span><br><span class="line">zuul-simple-webapp ：它显示了如何用zuul-core 构建一个应用程序的简单例子</span><br><span class="line">zuul-netflix ： 将其他NetflixOSS组件添加到Zuul的库 使用功能区来执行路由请求</span><br><span class="line">zuul-netflix-webapp ：webapp 把zuul-core 和 zuul-netflix 组合成一个 易于使用的软件包</span><br></pre></td></tr></table></figure>
+<p>官方架构<br><img src="http://upload-images.jianshu.io/upload_images/6434888-5569728ff93abbdf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
 
           
         
@@ -843,7 +619,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud/Hystrix/" rel="bookmark">Hystrix</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/spring-cloud-exception/sleuth-exception-1/" rel="bookmark">sleuth灵异事件</a></div>
       
     </li>
   
@@ -864,17 +640,17 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
       
     </li>
   
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      
+    </li>
+  
   </ul>
 
 
@@ -928,7 +704,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-100/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-thread/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -948,7 +724,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/technical-summary/technical-summary-100/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">阿里证书</a>
+                <a href="/2018/03/24/mysql/optimization-sql-thread/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">SQL优化【线程信息检查】</a>
               
             
           </h2>
@@ -1014,7 +790,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -1050,194 +826,395 @@
       
         
           
-            <p><strong> 阿里编码规范 </strong><br><img src="http://upload-images.jianshu.io/upload_images/6434888-317a169e420db862.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong> 阿里API服务调用 </strong><br><img src="http://upload-images.jianshu.io/upload_images/6434888-8008672ec776cb3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-71c274c3c88b4bda.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>8.14.1线程命令值</li>
+<li>8.14.2一般线程状态</li>
+<li>8.14.3查询缓存线程状态</li>
+<li>8.14.4复制主线程状态</li>
+<li>8.14.5复制从站I / O线程状态</li>
+<li>8.14.6复制从属SQL线程状态</li>
+<li>8.14.7复制从站连接线程状态</li>
+<li>8.14.8 NDB集群线程状态</li>
+<li>8.14.9事件调度程序线程状态</li>
+</ul>
 <p>{———-}</p>
-<p><strong> 阿里网站部署 </strong></p>
-<p><strong> 阿里mysql </strong></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/technical-summary/technical-summary-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">技术负责人应有的几项要求</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:38:38" itemprop="dateModified" datetime="2018-10-15T16:38:38+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、把控进度<br>2、把控风险<br>3、任务分发【开发量分配】<br>4、需求分析、需求拆解【功能可实现性功能实现周期预估】、需求合理性判断<br>5、技术过关【架构、细节、各个组件的选型】</p>
+<p>当您试图确定MySQL服务器正在做什么时，检查进程列表会很有帮助，进程列表是当前在服务器中执行的线程集。可从以下来源获取流程列表信息：</p>
+<p>该SHOW [FULL] PROCESSLIST语句： 第13.7.5.29，“SHOW PROCESSLIST语法”</p>
+<p>该SHOW PROFILE语句： 第13.7.5.31，“显示配置文件语法”</p>
+<p>该INFORMATION_SCHEMA PROCESSLIST表： 第24.17，“该INFORMATION_SCHEMA PROCESSLIST表”</p>
+<p>在中mysqladmin processlist的命令： 第4.5.2节“ 中mysqladmin -客户端管理MySQL服务器”</p>
+<p>性能模式threads 表，阶段表和锁定表： 第25.11.16节“性能模式杂项表”， 第25.11.5节“性能模式阶段事件表”， 第25.11.12节“性能模式锁定表”。</p>
+<p>该sys架构 processlist视图，呈现从性能架构信息 threads表中更方便的格式：第26.4.3.22，“ProcessList中和X $ PROCESSLIST意见”</p>
+<p>该sys架构 session视图，其中介绍有关用户会话的信息（如 sys架构 processlist视图，但是过滤掉后台进程）： 第26.4.3.33，“会议和X $会话视图”</p>
+<p>访问threads不需要互斥锁，对服务器性能的影响最小。 INFORMATION_SCHEMA.PROCESSLIST并且SHOW PROCESSLIST因为它们需要互斥锁而 产生负面的性能影响。 threads还显示有关后台线程的信息，有哪些 INFORMATION_SCHEMA.PROCESSLIST， SHOW PROCESSLIST有时没有。这意味着threads可以用来监视其他线程信息源不能的活动。</p>
+<p>您始终可以查看有关自己的线程的信息。要查看有关正在为其他帐户执行的线程的信息，您必须具有该PROCESS权限。</p>
+<p>每个进程列表条目包含几条信息：</p>
+<p>Id 是与线程关联的客户端的连接标识符。</p>
+<p>User并Host指明与该线程关联的帐户。</p>
+<p>db是线程的默认数据库，或者NULL如果没有选择。</p>
+<p>Command并State 指出线程正在做什么。</p>
+<p>大多数州对应于非常快速的操作。如果一个线程停留在给定状态很多秒，则可能存在需要调查的问题。</p>
+<p>Time表示线程处于当前状态的时间。在某些情况下，线程的当前时间概念可能会改变：线程可以改变时间。对于正在处理来自主站的事件的从站上运行的线程，线程时间设置为在事件中找到的时间，因此反映了主站而不是从站的当前时间。 SET TIMESTAMP = value</p>
+<p>Info包含线程正在执行的语句的文本，或者NULL它是否正在执行。默认情况下，此值仅包含语句的前100个字符。要查看完整的语句，请使用 SHOW FULL PROCESSLIST。</p>
+<p>以下部分列出了可能的 Command值以及State 按类别分组的值。其中一些价值观的含义是不言而喻的。对于其他人，提供了另外的描述。</p>
+<ul>
+<li>8.14.1线程命令值<br>线程可以具有以下任何 Command值：</li>
+</ul>
+<p>Binlog Dump</p>
+<p>这是主服务器上的一个线程，用于将二进制日志内容发送到从属服务器。</p>
+<p>Change user</p>
+<p>线程正在执行更改用户操作。</p>
+<p>Close stmt</p>
+<p>线程正在关闭准备好的声明。</p>
+<p>Connect</p>
+<p>复制从站连接到其主站。</p>
+<p>Connect Out</p>
+<p>复制从站正在连接到其主站。</p>
+<p>Create DB</p>
+<p>线程正在执行create-database操作。</p>
+<p>Daemon</p>
+<p>此线程是服务器的内部线程，而不是为客户端连接提供服务的线程。</p>
+<p>Debug</p>
+<p>该线程正在生成调试信息。</p>
+<p>Delayed insert</p>
+<p>该线程是一个延迟插入处理程序。</p>
+<p>Drop DB</p>
+<p>该线程正在执行drop-database操作。</p>
+<p>Error</p>
+<p>Execute</p>
+<p>线程正在执行预准备语句。</p>
+<p>Fetch</p>
+<p>该线程正在从执行预准备语句中获取结果。</p>
+<p>Field List</p>
+<p>该线程正在检索表列的信息。</p>
+<p>Init DB</p>
+<p>该线程正在选择默认数据库。</p>
+<p>Kill</p>
+<p>该线程正在杀死另一个线程。</p>
+<p>Long Data</p>
+<p>线程正在检索执行预准备语句的结果中的长数据。</p>
+<p>Ping</p>
+<p>该线程正在处理服务器ping请求。</p>
+<p>Prepare</p>
+<p>线程正在准备一份准备好的声明。</p>
+<p>Processlist</p>
+<p>该线程正在生成有关服务器线程的信息。</p>
+<p>Query</p>
+<p>线程正在执行一个语句。</p>
+<p>Quit</p>
+<p>线程正在终止。</p>
+<p>Refresh</p>
+<p>该线程正在刷新表，日志或缓存，或重置状态变量或复制服务器信息。</p>
+<p>Register Slave</p>
+<p>线程正在注册从服务器。</p>
+<p>Reset stmt</p>
+<p>该线程正在重置准备好的语句。</p>
+<p>Set option</p>
+<p>该线程正在设置或重置客户端语句执行选项。</p>
+<p>Shutdown</p>
+<p>该线程正在关闭服务器。</p>
+<p>Sleep</p>
+<p>线程正在等待客户端向其发送新语句。</p>
+<p>Statistics</p>
+<p>该线程正在生成服务器状态信息。</p>
+<p>Table Dump</p>
+<p>线程正在将表内容发送到从属服务器。</p>
+<p>Time</p>
+<p>没用过。</p>
+<ul>
+<li>8.14.2一般线程状态<br>以下列表描述了State 与常规查询处理相关联的线程值，而不是更复杂的特殊活动。其中许多仅用于查找服务器中的错误。</li>
+</ul>
+<p>After create</p>
+<p>当线程在创建表的函数末尾创建表（包括内部临时表）时，会发生这种情况。即使由于某些错误而无法创建表，也会使用此状态。</p>
+<p>Analyzing</p>
+<p>线程正在计算MyISAM表键分布（例如，for ANALYZE TABLE）。</p>
+<p>checking permissions</p>
+<p>线程正在检查服务器是否具有执行该语句所需的权限。</p>
+<p>Checking table</p>
+<p>该线程正在执行表检查操作。</p>
+<p>cleaning up</p>
+<p>该线程已经处理了一个命令，并准备释放内存并重置某些状态变量。</p>
+<p>closing tables</p>
+<p>该线程正在将更改的表数据刷新到磁盘并关闭已使用的表。这应该是一个快速的操作。如果没有，请验证您没有完整磁盘并且磁盘使用不是很大。</p>
+<p>converting HEAP to ondisk</p>
+<p>该线程正在将内部临时表从 MEMORY表转换为磁盘表。</p>
+<p>copy to tmp table</p>
+<p>线程正在处理一个ALTER TABLE语句。这种状态发生在创建新结构的表之后，但在将行复制到其中之前。</p>
+<p>对于处于此状态的线程，可以使用性能模式来获取有关复制操作的进度。请参见 第25.11.5节“性能模式阶段事件表”。</p>
+<p>Copying to group table</p>
+<p>如果语句具有不同ORDER BY和 GROUP BY标准，各行按组排列和复制到一个临时表。</p>
+<p>Copying to tmp table</p>
+<p>服务器正在复制到内存中的临时表。</p>
+<p>altering table</p>
+<p>服务器正在执行就地 ALTER TABLE。</p>
+<p>Copying to tmp table on disk</p>
+<p>服务器正在复制到磁盘上的临时表。临时结果集变得太大（请参见 第8.4.4节“MySQL中的内部临时表使用”）。因此，线程正在将临时表从内存更改为基于磁盘的格式以节省内存。</p>
+<p>Creating index</p>
+<p>线程正在处理ALTER TABLE … ENABLE KEYS一个MyISAM表。</p>
+<p>Creating sort index</p>
+<p>线程正在处理SELECT使用内部临时表解析的线程 。</p>
+<p>creating table</p>
+<p>线程正在创建一个表。这包括创建临时表。</p>
+<p>Creating tmp table</p>
+<p>该线程正在内存或磁盘上创建临时表。如果表在内存中创建但稍后转换为磁盘表，则该操作期间的状态将为Copying to tmp table on disk。</p>
+<p>committing alter table to storage engine</p>
+<p>服务器已就地完成 ALTER TABLE并正在提交结果。</p>
+<p>deleting from main table</p>
+<p>服务器正在执行多表删除的第一部分。它仅从第一个表中删除，并保存用于从其他（引用）表中删除的列和偏移量。</p>
+<p>deleting from reference tables</p>
+<p>服务器正在执行多表删除的第二部分，并从其他表中删除匹配的行。</p>
+<p>discard_or_import_tablespace</p>
+<p>线程正在处理ALTER TABLE … DISCARD TABLESPACE或ALTER TABLE … IMPORT TABLESPACE声明。</p>
+<p>end</p>
+<p>这发生在结束，但的清理之前 ALTER TABLE， CREATE VIEW， DELETE， INSERT， SELECT，或 UPDATE语句。</p>
+<p>executing</p>
+<p>线程已开始执行语句。</p>
+<p>Execution of init_command</p>
+<p>线程正在执行init_command系统变量值中的语句 。</p>
+<p>freeing items</p>
+<p>线程执行了一个命令。在此状态期间完成的一些项目的释放涉及查询缓存。这种状态通常紧随其后cleaning up。</p>
+<p>FULLTEXT initialization</p>
+<p>服务器正准备执行自然语言全文搜索。</p>
+<p>init</p>
+<p>出现这种情况的初始化之前 ALTER TABLE， DELETE， INSERT， SELECT，或 UPDATE语句。服务器在此状态下采取的操作包括刷新二进制日志，InnoDB日志和一些查询缓存清理操作。</p>
+<p>对于end州，可能会发生以下操作：</p>
+<p>删除表中的数据后删除查询缓存条目</p>
+<p>将事件写入二进制日志</p>
+<p>释放内存缓冲区，包括blob</p>
+<p>Killed</p>
+<p>有人KILL 向线程发送了一个语句，它应该在下次检查kill标志时中止。在MySQL中的每个主循环中检查该标志，但在某些情况下，线程可能仍然需要很短的时间才能死掉。如果线程被某个其他线程锁定，则一旦另一个线程释放其锁定，kill就会生效。</p>
+<p>logging slow query</p>
+<p>该线程正在向慢查询日志写一条语句。</p>
+<p>login</p>
+<p>连接线程的初始状态，直到客户端成功通过身份验证。</p>
+<p>manage keys</p>
+<p>服务器正在启用或禁用表索引。</p>
+<p>NULL</p>
+<p>该状态用于该SHOW PROCESSLIST状态。</p>
+<p>Opening tables</p>
+<p>该线程正在尝试打开一个表。这应该是非常快的程序，除非有什么东西阻止打开。例如，一个ALTER TABLE或一个 LOCK TABLE语句可以阻止在语句结束之前打开表。还值得检查您的table_open_cache价值是否足够大。</p>
+<p>optimizing</p>
+<p>服务器正在对查询执行初始优化。</p>
+<p>preparing</p>
+<p>在查询优化期间发生此状态。</p>
+<p>Purging old relay logs</p>
+<p>该线程正在删除不需要的中继日志文件。</p>
+<p>query end</p>
+<p>处理查询后但在freeing items状态之前发生此 状态。</p>
+<p>Receiving from client</p>
+<p>服务器正在从客户端读取数据包。Reading from net在MySQL 5.7.8之前调用此状态。</p>
+<p>Removing duplicates</p>
+<p>该查询使用 SELECT DISTINCT的方式是MySQL无法在早期阶段优化掉不同的操作。因此，在将结果发送到客户端之前，MySQL需要额外的阶段来删除所有重复的行。</p>
+<p>removing tmp table</p>
+<p>该线程在处理SELECT 语句后删除内部临时表。如果未创建临时表，则不使用此状态。</p>
+<p>rename</p>
+<p>该线程正在重命名一个表。</p>
+<p>rename result table</p>
+<p>线程正在处理一个ALTER TABLE语句，创建了新表，并重命名它以替换原始表。</p>
+<p>Reopen tables</p>
+<p>线程获得了表的锁定，但在获取锁定后注意到基础表结构发生了变化。它释放了锁，关闭了桌子，并试图重新打开它。</p>
+<p>Repair by sorting</p>
+<p>修复代码使用排序来创建索引。</p>
+<p>preparing for alter table</p>
+<p>服务器正准备执行就地 ALTER TABLE。</p>
+<p>Repair done</p>
+<p>该线程已完成对MyISAM表的多线程修复 。</p>
+<p>Repair with keycache</p>
+<p>修复代码通过密钥缓存逐个创建密钥。这比慢得多Repair by sorting。</p>
+<p>Rolling back</p>
+<p>该线程正在回滚一个事务。</p>
+<p>Saving state</p>
+<p>对于MyISAM诸如修复或分析的表操作，线程将新表状态保存到.MYI文件头。State包括诸如行数， AUTO_INCREMENT计数器和密钥分发之类的信息。</p>
+<p>Searching rows for update</p>
+<p>该线程正在进行第一阶段以在更新之前查找所有匹配的行。如果 UPDATE要更改用于查找所涉及行的索引，则必须执行此操作。</p>
+<p>Sending data</p>
+<p>线程正在读取和处理SELECT语句的行 ，并将数据发送到客户端。由于在此状态期间发生的操作往往会执行大量磁盘访问（读取），因此它通常是给定查询生命周期中运行时间最长的状态。</p>
+<p>Sending to client</p>
+<p>服务器正在将数据包写入客户端。Writing to net在MySQL 5.7.8之前调用此状态。</p>
+<p>setup</p>
+<p>线程正在开始一个ALTER TABLE操作。</p>
+<p>Sorting for group</p>
+<p>线程正在进行排序以满足a GROUP BY。</p>
+<p>Sorting for order</p>
+<p>线程正在进行排序以满足ORDER BY。</p>
+<p>Sorting index</p>
+<p>线程正在对索引页进行排序，以便在MyISAM表优化操作期间进行更有效的访问。</p>
+<p>Sorting result</p>
+<p>对于SELECT声明，这类似于Creating sort index非临时表。</p>
+<p>statistics</p>
+<p>服务器正在计算统计信息以开发查询执行计划。如果线程长时间处于此状态，则服务器可能是磁盘绑定执行其他工作。</p>
+<p>System lock</p>
+<p>线程已调用mysql_lock_tables() ，并且线程状态尚未更新。这是一个非常普遍的状态，可能由于许多原因而发生。</p>
+<p>例如，线程将要求或正在等待表的内部或外部系统锁定。InnoDB在执行期间等待表级锁定时会 发生这种情况LOCK TABLES。如果此状态是由外部锁的请求引起的，并且您没有使用多个访问相同 表的mysqld服务器，则MyISAM可以使用该–skip-external-locking 选项禁用外部系统锁 。但是，默认情况下禁用外部锁定，因此该选项很可能无效。对于 SHOW PROFILE，这个状态意味着线程正在请求锁定（不等待它）。</p>
+<p>update</p>
+<p>线程正准备开始更新表。</p>
+<p>Updating</p>
+<p>线程正在搜索要更新的行并正在更新它们。</p>
+<p>updating main table</p>
+<p>服务器正在执行多表更新的第一部分。它仅更新第一个表，并保存用于更新其他（引用）表的列和偏移量。</p>
+<p>updating reference tables</p>
+<p>服务器正在执行多表更新的第二部分，并更新其他表中的匹配行。</p>
+<p>User lock</p>
+<p>该线程将要求或正在等待通过GET_LOCK()呼叫请求的咨询锁 。对于 SHOW PROFILE，此状态表示线程正在请求锁定（不等待它）。</p>
+<p>User sleep</p>
+<p>该线程已经调用了一个 SLEEP()调用。</p>
+<p>Waiting for commit lock</p>
+<p>FLUSH TABLES WITH READ LOCK 正在等待提交锁定。</p>
+<p>Waiting for global read lock</p>
+<p>FLUSH TABLES WITH READ LOCK 正在等待全局读锁定或read_only正在设置全局 系统变量。</p>
+<p>Waiting for tables</p>
+<p>该线程得到一个通知，表明表的底层结构已经改变，它需要重新打开表以获得新结构。但是，要重新打开表，它必须等到所有其他线程关闭了相关表。</p>
+<p>该通知发生如果另一个线程已使用 FLUSH TABLES或有问题的表下面的语句之一： ， ， ， ， ，或 。 FLUSH TABLES tbl_nameALTER TABLERENAME TABLEREPAIR TABLEANALYZE TABLEOPTIMIZE TABLE</p>
+<p>Waiting for table flush</p>
+<p>线程正在执行FLUSH TABLES并正在等待所有线程关闭它们的表，或者线程得到一个表的基础结构已经更改的通知，并且需要重新打开表以获取新结构。但是，要重新打开表，它必须等到所有其他线程关闭了相关表。</p>
+<p>该通知发生如果另一个线程已使用 FLUSH TABLES或有问题的表下面的语句之一： ， ， ， ， ，或 。 FLUSH TABLES tbl_nameALTER TABLERENAME TABLEREPAIR TABLEANALYZE TABLEOPTIMIZE TABLE</p>
+<p>Waiting for lock_type lock</p>
+<p>服务器正在等待THR_LOCK从元数据锁定子系统获取 锁定或锁定，其中 lock_type指示锁定的类型。</p>
+<p>此状态表示等待 THR_LOCK：</p>
+<p>Waiting for table level lock</p>
+<p>这些状态表示等待元数据锁定：</p>
+<p>Waiting for event metadata lock</p>
+<p>Waiting for global read lock</p>
+<p>Waiting for schema metadata lock</p>
+<p>Waiting for stored function metadata lock</p>
+<p>Waiting for stored procedure metadata lock</p>
+<p>Waiting for table metadata lock</p>
+<p>Waiting for trigger metadata lock</p>
+<p>有关表锁指示器的信息，请参见 第8.11.1节“内部锁定方法”。有关元数据锁定的信息，请参见第8.11.4节“元数据锁定”。要查看哪些锁阻止了锁请求，请使用 第25.11.12节“性能模式锁表”中所述的性能模式锁表。</p>
+<p>Waiting on cond</p>
+<p>线程正在等待条件变为真的通用状态。没有具体的州信息。</p>
+<p>Writing to net</p>
+<p>服务器正在将数据包写入网络。Sending to client从MySQL 5.7.8开始调用此状态。</p>
+<ul>
+<li>8.14.3查询缓存线程状态<br>这些线程状态与查询缓存相关联（请参见 第8.10.3节“MySQL查询缓存”）。</li>
+</ul>
+<p>checking privileges on cached query</p>
+<p>服务器正在检查用户是否具有访问缓存查询结果的权限。</p>
+<p>checking query cache for query</p>
+<p>服务器正在检查查询缓存中是否存在当前查询。</p>
+<p>invalidating query cache entries</p>
+<p>查询缓存条目被标记为无效，因为基础表已更改。</p>
+<p>sending cached result to client</p>
+<p>服务器从查询缓存中获取查询结果并将其发送到客户端。</p>
+<p>storing result in query cache</p>
+<p>服务器将查询结果存储在查询缓存中。</p>
+<p>Waiting for query cache lock</p>
+<p>在会话等待获取查询缓存锁定时发生此状态。对于需要执行某些查询缓存操作的任何语句，例如 使查询缓存无效INSERT或 查找缓存条目 DELETE的语句，等等，都会发生这种情况。 SELECTRESET QUERY CACHE</p>
+<ul>
+<li>8.14.4复制主线程状态<br>以下列表显示了您可能在State主Binlog Dump线程的列中 看到的最常见状态。如果Binlog Dump在主服务器上看不到任何 线程，则表示复制未运行; 也就是说，当前没有连接任何奴隶。</li>
+</ul>
+<p>Finished reading one binlog; switching to next binlog</p>
+<p>线程已经读完二进制日志文件并打开下一个发送给从属的文件。</p>
+<p>Master has sent all binlog to slave; waiting for more updates</p>
+<p>该线程已从二进制日志中读取所有剩余更新并将其发送给从属。该线程现在处于空闲状态，等待主事件上发生的新更新导致二进制日志中出现新事件。</p>
+<p>Sending binlog event to slave</p>
+<p>二进制日志由事件组成，其中事件通常是更新以及一些其他信息。线程已从二进制日志中读取事件，现在将其发送给从站。</p>
+<p>Waiting to finalize termination</p>
+<p>线程停止时发生的非常短暂的状态。</p>
+<ul>
+<li>8.14.5复制从站I / O线程状态<br>以下列表显示了在State从属服务器I / O线程的列中看到的最常见状态 。此状态也出现在Slave_IO_State 显示的列中SHOW SLAVE STATUS，因此您可以通过使用该语句很好地了解正在发生的情况。</li>
+</ul>
+<p>Checking master version</p>
+<p>在建立与主站的连接之后非常短暂地发生的状态。</p>
+<p>Connecting to master</p>
+<p>线程正在尝试连接到主服务器。</p>
+<p>Queueing master event to the relay log</p>
+<p>线程已读取事件并将其复制到中继日志，以便SQL线程可以处理它。</p>
+<p>Reconnecting after a failed binlog dump request</p>
+<p>线程正在尝试重新连接到主服务器。</p>
+<p>Reconnecting after a failed master event read</p>
+<p>线程正在尝试重新连接到主服务器。当再次建立连接时，状态变为 Waiting for master to send event。</p>
+<p>Registering slave on master</p>
+<p>建立与主站连接后非常短暂发生的状态。</p>
+<p>Requesting binlog dump</p>
+<p>在建立与主站的连接之后非常短暂地发生的状态。线程从请求的二进制日志文件名和位置开始向主机发送对其二进制日志内容的请求。</p>
+<p>Waiting for its turn to commit</p>
+<p>slave_preserve_commit_order 启用 了从属线程等待较旧的工作线程提交时发生的状态 。</p>
+<p>Waiting for master to send event</p>
+<p>线程已连接到主服务器并正在等待二进制日志事件到达。如果主站空闲，这可能会持续很长时间。如果等待持续 slave_net_timeout几秒钟，则发生超时。此时，线程认为连接被破坏并尝试重新连接。</p>
+<p>Waiting for master update</p>
+<p>之前的初始状态Connecting to master。</p>
+<p>Waiting for slave mutex on exit</p>
+<p>线程停止时短暂发生的状态。</p>
+<p>Waiting for the slave SQL thread to free enough relay log space</p>
+<p>您使用的是非零 relay_log_space_limit 值，并且中继日志已经增长到足以使其组合大小超过此值。I / O线程正在等待，直到SQL线程通过处理中继日志内容释放足够的空间，以便它可以删除一些中继日志文件。</p>
+<p>Waiting to reconnect after a failed binlog dump request</p>
+<p>如果二进制日志转储请求失败（由于断开连接），则线程在休眠时进入此状态，然后尝试定期重新连接。可以使用CHANGE MASTER TO语句指定重试之间的间隔 。</p>
+<p>Waiting to reconnect after a failed master event read</p>
+<p>读取时发生错误（由于断开连接）。CHANGE MASTER TO在尝试重新连接之前，线程正在休眠该语句设置的秒数 （默认为60）。</p>
+<ul>
+<li>8.14.6复制从属SQL线程状态<br>以下列表显示了您可能在State从属服务器SQL线程列中看到的最常见状态：</li>
+</ul>
+<p>Killing slave</p>
+<p>线程正在处理一个STOP SLAVE 语句。</p>
+<p>Making temporary file (append) before replaying LOAD DATA INFILE</p>
+<p>线程正在执行一个 LOAD DATA INFILE语句，并将数据附加到一个临时文件中，该文件包含从属将从中读取行的数据。</p>
+<p>Making temporary file (create) before replaying LOAD DATA INFILE</p>
+<p>线程正在执行一个 LOAD DATA INFILE语句，并且正在创建一个临时文件，其中包含从属将从中读取行的数据。只有在LOAD DATA INFILE运行早于5.0.3版本的MySQL版本的主机记录原始语句时，才会遇到此状态 。</p>
+<p>Reading event from the relay log</p>
+<p>线程已从中继日志中读取事件，以便可以处理事件。</p>
+<p>Slave has read all relay log; waiting for more updates</p>
+<p>该线程已处理中继日志文件中的所有事件，现在正在等待I / O线程将新事件写入中继日志。</p>
+<p>Waiting for an event from Coordinator</p>
+<p>使用多线程从属（slave_parallel_workers大于1），其中一个从属工作线程正在等待来自协调器线程的事件。</p>
+<p>Waiting for slave mutex on exit</p>
+<p>线程停止时发生的非常短暂的状态。</p>
+<p>Waiting for Slave Workers to free pending events</p>
+<p>当Workers正在处理的事件的总大小超过slave_pending_jobs_size_max 系统变量的大小时，会发生此等待操作 。当大小低于此限制时，协调器将恢复计划。仅当slave_parallel_workers设置大于0 时才会出现此状态 。</p>
+<p>Waiting for the next event in relay log</p>
+<p>之前的初始状态Reading event from the relay log。</p>
+<p>Waiting until MASTER_DELAY seconds after master executed event</p>
+<p>SQL线程已读取一个事件，但正在等待从属延迟失效。此延迟通过 MASTER_DELAY选项设置 CHANGE MASTER TO。</p>
+<p>InfoSQL线程 的列也可以显示语句的文本。这表明线程已从中继日志中读取事件，从中提取语句，并可能正在执行它。</p>
+<ul>
+<li>8.14.7复制从站连接线程状态<br>这些线程状态出现在复制从属服务器上，但与连接线程相关联，而不是与I / O或SQL线程相关联。</li>
+</ul>
+<p>Changing master</p>
+<p>线程正在处理一个CHANGE MASTER TO语句。</p>
+<p>Killing slave</p>
+<p>线程正在处理一个STOP SLAVE 语句。</p>
+<p>Opening master dump table</p>
+<p>此状态发生在Creating table from master dump。</p>
+<p>Reading master dump table data</p>
+<p>此状态发生在Opening master dump table。</p>
+<p>Rebuilding the index on master dump table</p>
+<p>此状态发生在Reading master dump table data。</p>
+<ul>
+<li>8.14.8 NDB集群线程状态<br>Committing events to binlog</li>
+</ul>
+<p>Opening mysql.ndb_apply_status</p>
+<p>Processing events</p>
+<p>该线程正在处理二进制日志记录的事件。</p>
+<p>Processing events from schema table</p>
+<p>该线程正在进行模式复制的工作。</p>
+<p>Shutting down</p>
+<p>Syncing ndb table schema operation and binlog</p>
+<p>这用于为NDB提供正确的模式操作二进制日志。</p>
+<p>Waiting for allowed to take ndbcluster global schema lock</p>
+<p>线程正在等待获取全局模式锁的权限。</p>
+<p>Waiting for event from ndbcluster</p>
+<p>服务器充当NDB群集中的SQL节点，并连接到群集管理节点。</p>
+<p>Waiting for first event from ndbcluster</p>
+<p>Waiting for ndbcluster binlog update to reach current position</p>
+<p>Waiting for ndbcluster global schema lock</p>
+<p>线程正在等待另一个线程持有的全局模式锁定被释放。</p>
+<p>Waiting for ndbcluster to start</p>
+<p>Waiting for schema epoch</p>
+<p>线程正在等待架构时期（即全局检查点）。</p>
+<ul>
+<li>8.14.9事件调度程序线程状态<br>这些状态发生在Event Scheduler线程，为执行调度事件而创建的线程或终止调度程序的线程中。</li>
+</ul>
+<p>Clearing</p>
+<p>调度程序线程或正在执行事件的线程正在终止并即将结束。</p>
+<p>Initialized</p>
+<p>调度程序线程或将执行事件的线程已初始化。</p>
+<p>Waiting for next activation</p>
+<p>调度程序具有非空事件队列，但下一次激活是将来的。</p>
+<p>Waiting for scheduler to stop</p>
+<p>线程已发出SET GLOBAL event_scheduler=OFF并正在等待调度程序停止。</p>
+<p>Waiting on empty queue</p>
+<p>调度程序的事件队列为空并且正在休眠。</p>
 
           
         
@@ -1253,28 +1230,35 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-3/" rel="bookmark">总结</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-4/" rel="bookmark">高并发</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
       
     </li>
   
@@ -1331,7 +1315,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-3/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-recovery/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1351,7 +1335,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/technical-summary/technical-summary-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">总结</a>
+                <a href="/2018/03/24/jdk/jvm-memory-recovery/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">jvm内存回收</a>
               
             
           </h2>
@@ -1417,7 +1401,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
 
                 
                 
@@ -1453,29 +1437,22 @@
       
         
           
-            <p>梳理一下脑子里的东西按点整理一下</p>
-<p>消息中间件，ActiveMQ.Kafka.ZeroMQ.RabbitMQ.RocketMQ</p>
-<p>服务治理Dubbo.eureka.</p>
-<p>服务网springcloud</p>
-<p>cpu线程</p>
-<p>docker容器</p>
-<p>负载均衡lvs radware nginx keepalived</p>
-<p>端口转发，网卡驱动</p>
-<p>jvm内存 . 堆.栈 规则  一个线程会占用掉多少内存.一个对象会占用多少内存</p>
+            <p>回收区域：堆【主要区域】、方法区【回收废弃常量、无用类】</p>
+<p>无用类定义：<br>1、jvm中不存在该实例<br>2、加载该类classLoader已被回收<br>3、任何地方都不存在引用</p>
+<p>回收算法：<br>1、标记清除<br>2、标记整理<br>3、复制<br>4、分代收集</p>
+<p>回收器：<br>单线程<br>1、serial<br>2、serial old<br>多线程<br>1、parNew<br>2、parallel scavenge<br>3、parallel old<br>4、cms<br>5、G1</p>
 <p>{———-}</p>
-<p>javac 编译后文件 字节码文件</p>
-<p>数据库mysql.alisql.oracle (并发.事物.存储过程)</p>
-<p>Nosql.redis.memcached.ecache.mongdb</p>
-<p>算法、负载均衡算法，缓存淘汰算法，排序算法，数据整理算法</p>
-<p>uml设计.部署图，流程图，ER图，时序图。</p>
-<p>搜索引擎</p>
-<p>权限架构</p>
-<p>IO:AIO　BIO  NIO　</p>
-<p>消息流　Netty</p>
-<p>怎么讲呢 今年大脑经历了大量信息的冲击.有些东西可能会很快忘记.留下的只有感悟.经验</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">总结.构建知识体系.</span><br><span class="line"></span><br><span class="line">分流:负载均衡(软硬件).算法(随机.权重.最小调用).</span><br><span class="line">软件:nginx.vortex.radware</span><br><span class="line">硬件:LVS.F5</span><br><span class="line"></span><br><span class="line">缓存: Redis.   Memcached. Mongdb. ehcache</span><br><span class="line">问题:缓存击穿.缓存同步</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">并发.线程.</span><br><span class="line"></span><br><span class="line">数据库:mysql.AliSQL</span><br><span class="line">容量.并发线程.事物提交.存储过程</span><br><span class="line"></span><br><span class="line">java基本功.io.util.sql.</span><br><span class="line"></span><br><span class="line">主流中间件:</span><br><span class="line">RPC:dubbo. eureka</span><br><span class="line">消息中间件rocketmq.rabbitmq.zeromq.</span><br><span class="line"></span><br><span class="line">技术架构:springcloud</span><br><span class="line"></span><br><span class="line">服务架构:SOA</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">渗透:</span><br><span class="line">1.基本工具使用</span><br><span class="line"></span><br><span class="line">比如wifi劫持.https劫持.session劫持.</span><br><span class="line"></span><br><span class="line">1.5.网站探测:whois.钟馗之眼.</span><br><span class="line"></span><br><span class="line">2.跳点搭建.vpn.或者直接控制肉鸡进行跳点</span><br><span class="line"></span><br><span class="line">3.主机扫描.漏洞扫描.关注国家网络安全网发布的漏洞.</span><br><span class="line"></span><br><span class="line">4.脚本攻击.shell脚本 python脚本</span><br><span class="line"></span><br><span class="line">5.日志清除.</span><br></pre></td></tr></table></figure>
-<p>今日起 关注人工智能、进军人工智能。以备将来使用。</p>
+<p>回收新生代<br>serial、parNew、parallel scavenge</p>
+<p>回收老年代<br>cms、serial old、parallel old</p>
+<p>分代收集 G1</p>
+<p><strong>serial</strong><br>最老、也是默认回收算法、单线程<br>缺点：暂定所有用户进程来回收垃圾、每一小时有五分钟不能给用户提供服务<br>优点:   简单高效<br>适合场景、clent模式</p>
+<p><strong>ParNew</strong><br>serial多线程版本<br>场景：参考serial 多核处理器</p>
+<p><strong>Parallel scavenge</strong><br>1、复制算法<br>2、目标、回收达到一个可控的吞吐量【吞吐量=运行代码时间/（运行代码时间+GC时间）】<br>3、吞吐量优先收集器</p>
+<p><strong>serial old</strong><br>1、单线程、标记整理算法<br>2、serial 老版本<br>3、jdk1.5之前配合Parallel scavenge、cms后备预案</p>
+<p><strong>parallel old</strong><br>1、Parallel scavenge老版本<br>2、标记整理算法<br>3、注重吞吐量以及CPU资源敏感场景、使用Parallel scavenge  ++ parallel old<br>4、吞吐量优先</p>
+<p><strong>CMS</strong><br>1、标记清除<br>2、目标：最短回收停顿时间<br>3、四个步骤：初始标记、并发标记、重新标记、并发清除</p>
+<p><strong>G1</strong><br>1、1.7HotSpot重要进化特征<br>2、优点：并行并发、分代收集、空间整合【标记整理】、可预测停顿<br>3、四个步骤：初始标记、并发标记、最终标记、筛选回收</p>
+<p>对象回收算法：引用计数法、引用不可达算法、</p>
 
           
         
@@ -1491,28 +1468,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-4/" rel="bookmark">高并发</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-classloader/" rel="bookmark">类加载过程</a></div>
       
     </li>
   
@@ -1569,7 +1539,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/load-balance/dns/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-total/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1589,7 +1559,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/load-balance/dns/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">DNS负载均衡</a>
+                <a href="/2018/03/24/jdk/jvm-total/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">jvm内存一条线路</a>
               
             
           </h2>
@@ -1655,7 +1625,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/load-balance/" itemprop="url" rel="index"><span itemprop="name">load-balance</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
 
                 
                 
@@ -1691,21 +1661,14 @@
       
         
           
-            <h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>dns重定向<br>存储:本地.阿里云.万网dns服务器</p>
-<p>dns 在网络上其实就是域名解析到ip的一个过程叫dns解析</p>
-<p>本站域名 <a href="http://www.wuxinvip.com">www.wuxinvip.com</a> </p>
-<p>解析ip 为 39.107.82.228 </p>
-<p>{———-}</p>
-<p>以此为例、过程</p>
-<pre><code>1、用户请求数据、发送域名到域名解析服务器
-2、将域名发送到dns服务解析器【国外顶级域名dns服务器、万网dns服务器、阿里dns服务器】
-一般你的域名在哪里买的 会有相应的dns解析服务器【免费提供】
-
-当然这个解析的过程、请求会发到一个主机器、这个机器按照不同规则、将解析
-分发个各个dns解析器、然后返回域名对应的外网ip地址
-
-用户拿个这个ip 呼叫公网上叫这个ip的服务器 建立会话
-</code></pre><h2 id="域名攻击"><a href="#域名攻击" class="headerlink" title="域名攻击"></a>域名攻击</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    域名直接污染</span><br><span class="line">    域名间接污染</span><br><span class="line"></span><br><span class="line">域名直接污染: 在用户请求域名的ip地址途中、通过拦截域名解析、把ip指向别的服务器、</span><br><span class="line">    比如很普通的、当年百度网站被指向了一个荷兰的一个ip、这就是dns劫持攻击、简单暴力直接瘫痪你的网站</span><br><span class="line">    </span><br><span class="line">域名间接污染：这个就比较复杂了、dns解析服务器也是一个梯度服务器、上游将域名解析列表发送给下游服务器</span><br><span class="line"></span><br><span class="line">如果在上游服务器到下游服务器之间做一个拦截、那么将导致下游的dns解析全部错误、</span><br><span class="line">现在的google不能访问就是这个样子、所以有了各大host访问谷歌的功能、</span><br><span class="line"></span><br><span class="line">不过把google真正的ip解析放到自己的电脑里直接访问ip方式、也只能解决很小一部分墙问题、这些ip后续防火墙也会封掉的、</span><br><span class="line"></span><br><span class="line">这个就涉及到国家的网络与国际链接的国际出入口的防火墙上（像我天朝“G/.F/.W/.”）、基本上也算是最大的dns污染源</span><br></pre></td></tr></table></figure>
+            <p>入手从collection开始<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">集合常用 arrayList 底层数据结构 object[]  </span><br><span class="line">数组特点</span><br><span class="line">    内存连续 数据挨个存放  那么删除中间一个时候 后面的数据会挨个往前挪移  </span><br><span class="line">    因为地址可知 查询节点数据 较快 通过下标获取</span><br><span class="line">应对业务场景 插入后查询修改数据   如果执行删除操作会造成资源浪费 需要时间重新规划数组结构</span><br><span class="line"></span><br><span class="line">linkedList 底层数据结构链表</span><br><span class="line">链表特点</span><br><span class="line">  内存不连续</span><br><span class="line">  代码 node  first、 last； object；存放前后节点hash值【待查询】 然后跟节点对象</span><br><span class="line">  该链表实现 Deque 接口，为 add、poll 提供先进先出队列操作，以及其他堆栈和双端队列操作。</span><br><span class="line">应对业务场景</span><br><span class="line">   插入后 可能会删除某项数据 以作数据调整</span><br><span class="line"></span><br><span class="line">&#123;----------&#125;</span><br><span class="line"></span><br><span class="line">hashMap</span><br><span class="line">内存结构是hash散列 【我理解为 散着放的列表】</span><br><span class="line">  内存特点</span><br><span class="line">    hash值分桶存储【其实就一一小块内存】 当hash值冲突 会在该桶内维护一个链表</span><br><span class="line"></span><br><span class="line">警告：暂时不晓得这个桶有多大 所以尽量避免hash冲突 万一桶满了是不是要重新规划内存  造成资源浪费？</span><br><span class="line"></span><br><span class="line">linkedHashMap</span><br><span class="line"> 内存特点 与hashMap一致</span><br><span class="line">不同点 linkedHashMap 额外维护了一个双重链表来记录数据插入的顺序性</span><br><span class="line">那么相比较hashMap 多了一个链表要维护 性能要有所下降 【业务需要 没办法】</span><br><span class="line"></span><br><span class="line">treeMap</span><br><span class="line">内存结构 红黑二叉树</span><br><span class="line">内存特点：位置 对于二叉树还没搞明白 只晓得父红子黑【还不知道对不对】</span><br></pre></td></tr></table></figure></p>
+<p>说到数据内存 就要讲讲内存结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">jvm内存分为五大块【程序计数器、虚拟机栈、本地方法栈、方法区、堆】</span><br><span class="line"></span><br><span class="line">从线程是否共享分起： 线程共享：堆、方法区/非线程共享：程序计数器、虚拟机栈、本地方法栈</span><br><span class="line"></span><br><span class="line">简单说下存储信息</span><br><span class="line">1、程序计数器 用于存放下一条指令所在单元的地址的地方 【c与java的交界点用以存放执行指针】</span><br><span class="line">2、虚拟机栈  【为java方法提供服务】</span><br><span class="line">3、本地方法栈【为jvm提供使用native方法服务】</span><br><span class="line">4、方法区 【存储类常量、静态变量等信息】</span><br><span class="line">5、堆 【存放对象实例、对象成员变量】</span><br><span class="line"></span><br><span class="line">对于一个obj：</span><br><span class="line">类引用--stack中</span><br><span class="line">类成员变量--Heap中【回收主要地方】</span><br><span class="line">类静态变量、常量--Method Area中</span><br><span class="line">类方法--以帧栈形式保存到栈中</span><br></pre></td></tr></table></figure>
+<p>那么内存存储规划完 就得看看 内存的回收机制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">随便一查 就能查到 四种算法：标记清除、标记整理、复制、分代收集</span><br><span class="line"></span><br><span class="line">那么实现这些算法的回收器：仔细查查有六种 ：</span><br><span class="line">Serial收集器【串行】、parNew收集器【并行】、Parallel Scavenge收集器 【并行】</span><br><span class="line">Serial Old收集器 【串行】、Parallel Old 收集器 【并行】、cms收集器</span><br></pre></td></tr></table></figure></p>
+<p>差不多 回收完成</p>
+<p>然后就是 jvm的执行优化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">优化方向 对回收进行控制【减小回收频率】 设定堆栈大小、新生代老年代大小等等、很多很多</span><br></pre></td></tr></table></figure></p>
+<p>那么总结完成之后这一条内存线路就算差不多了 算一条知识线路</p>
+<p>貌似还没有 创建….[尴尬笑]</p>
 
           
         
@@ -1721,35 +1684,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-classloader/" rel="bookmark">类加载过程</a></div>
       
     </li>
   
@@ -1806,7 +1755,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/technical-summary/technical-summary-4/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-structure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1826,7 +1775,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/technical-summary/technical-summary-4/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">高并发</a>
+                <a href="/2018/03/24/jdk/jvm-memory-structure/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">jvm内存结构</a>
               
             
           </h2>
@@ -1892,7 +1841,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
 
                 
                 
@@ -1928,10 +1877,20 @@
       
         
           
-            <p>分布式，服务SOA，集群</p>
-<p>建个好的表结构，降低业余逻辑代码量，因为多一行代码，多一份危险，简单到极致的增删改最最能抗住高并发的</p>
+            <p>jvm内存 一条线<br>线程共享 线程不共线【也叫非线程共享】</p>
+<p>线程共享： 堆【Heap】、 方法区【method area】<br>非线程共享： 程序计数器、虚拟机栈、本地方法栈</p>
+<p>方法区还包含 运行时常量池【类常量数据】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-56f59944c8ae5b02.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="内存.jpg"></p>
 <p>{———-}</p>
-<p>申明:spring cloud 1.0 就经过了千万级别用户洗礼才发布的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">异常：</span><br><span class="line">jvm中定义两种异常 StackOverflow、outofmemory</span><br><span class="line">一种是栈溢出 一种是内存溢出</span><br><span class="line">官方定义栈溢出：线程请求深度大于虚拟机允许深度、抛出StackOverflow</span><br><span class="line">官方定义内存溢出：java内存扩展、当虚拟机申请不到足够的内存、抛出outofmemory</span><br></pre></td></tr></table></figure>
+<p><strong>jvm堆</strong><br>细分：新生代、老年代【分代收集算法】<br>再细分：Eden、From Survivor、To Survivor空间<br>再内存分配黑可以分出多个线程私有的分配缓冲区<br>存放内容：对象实例、细致的划分只是为了更好的回收<br>堆是回收主要区域</p>
+<p>edgn区域 首次存放数据 内存不够会触发 MinorGC </p>
+<p>针对老年代 还有MajorGC、Full GC、其中 FUll GC较慢 量级：10倍</p>
+<p><strong>jvm方法区</strong><br>1、线程共享<br>2、存储已被虚拟机加载、类信息、常量、静态变量、即时编译器编译后的代码数据</p>
+<p><strong>jvm运行时常量池</strong><br>1、方法区一部分<br>2、存放编译期生成各种字面量和符号引用、</p>
+<p><strong>直接内存</strong><br>1、不属于jvm运行时数据取一部分 再五大板块外、<br>2、jdk1.4中 引入NIO、引用了一种基于通道（channel）与缓冲区（Buffer）的IO方式、它可以使用Native函数库直接分配对外内存、然后通过一个存储再java堆中的DirectByteBuffer对象来作为这一块内存引用、来进行操作、避免了java堆和native堆中来回复制数据<br>3、该内存受限于 操作系统和物理内存</p>
+<p><strong>虚拟机栈</strong><br>1、虚拟机执行java程序使用栈</p>
+<p><strong>本地方法栈</strong><br>1、执行native方法使用栈</p>
+<p><strong>程序计数器</strong><br>1、与c交界点、一个线程一个程序计数器、内存耗费较小、记录执行指针</p>
 
           
         
@@ -1947,28 +1906,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-0/" rel="bookmark">技术发展</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-1/" rel="bookmark">一个HTTP请求究竟发生了什么</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-2/" rel="bookmark">技术负责人应有的几项要求</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/technical-summary/technical-summary-3/" rel="bookmark">总结</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-classloader/" rel="bookmark">类加载过程</a></div>
       
     </li>
   
@@ -2025,7 +1977,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/about-agreement/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/kafka-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -2045,7 +1997,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/agreement/about-agreement/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">关于协议</a>
+                <a href="/2018/03/24/message-queue/kafka-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">Kafka-1.0.0版本</a>
               
             
           </h2>
@@ -2111,7 +2063,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
 
                 
                 
@@ -2147,11 +2099,11 @@
       
         
           
-            <p>what 协议？<br>人民币算不算是一种协议？买家和卖家协议一张纸为 10元 、50元、100元</p>
-<p>so ： 协议在互联网届就是发送方和接收方商量好的一种消息模式，</p>
-<p>Http：规定两个ip、一个发送ip、一个接收ip、这两个ip进行数据交互时候、先握手、确定数据畅通、然后在进行数据通信、<br>握手协议：规定握手消息格式【一系列参数的排序】、<br>数据通信规定http发送消息体消息格式。</p>
+            <p>Kafka 1.0.0发布的主要内容如下。</p>
+<p>0.10.0版本里开始引入的Streams API在1.0.0版本里继续演进，改进了builder API（KIP-120），<br>新增了用于查看运行时活跃任务的API（KIP-130）和用于聚合分区的cogroup<br>API（KIP-150）。增强的print()和writeAsText()方法让调试变得更容易（KIP-160）。<br>其他更多信息可以参考Streams文档。</p>
 <p>{———-}</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-477f618f1456f9ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>改进了Connect的度量指标（KIP-196），新增了大量用于健康监测的度量指标（KIP-188），<br>并提供了集群的GloabalTopicCount和GlobalPartitionCount度量指标（KIP-168）。<br>支持Java 9，实现更快的TLS和CRC32C，加快了加密速度，降低了计算开销。<br>调整了SASL认证模块的错误处理逻辑（KIP-152），原先的认证错误信息现在被清晰地记录到日志当中。<br>更好地支持磁盘容错（KIP-112），更优雅地处理磁盘错误，单个JBOD上的磁盘错误不会导致整个集群崩溃。<br>0.11.0版本中引入的幂等性生产者需要将max.in.flight.requests.per.connection参数设置为1，这对吞吐量造成了一定的限制。<br>而在1.0.0版本里，这个参数最大可以被设置为5（KAFKA-5949），极大提升了吞吐量范围。</p>
+<p>关于新版本更多的变化可以查看<a href="https://dist.apache.org/repos/dist/release/kafka/1.0.0/RELEASE_NOTES.html" target="_blank" rel="noopener">发布说明</a>，也可以下载<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka-1.0.0-src.tgz" target="_blank" rel="noopener">源代码</a>和二进制包（<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.11-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.11</a>、<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.12-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.12</a>）。</p>
 
           
         
@@ -2167,28 +2119,512 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-classloader/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/jdk/jvm-classloader/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">类加载过程</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-31 23:37:53" itemprop="dateModified" datetime="2019-03-31T23:37:53+08:00">2019-03-31</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>类加载过程</p>
+<p>加载–》验证–》准备—》解析—》初始化—》使用—-》卸载</p>
+<p>其中 在准备阶段完成 成员变量初始值赋值 0 、 0.0之类</p>
+<p><strong>  加载 </strong></p>
+<p>1、将java字节码以二进制的方式读入到jvm内存中，然后将二进制数据流按照字节码规范解析成jvm内部的运行时数据结构<br>2、对外暴露加载结构 更广泛的加载类</p>
+<pre><code>(1) 从本地文件系统中读取
+
+(2) 从网络上加载（典型应用：java Applet）
+
+(3) 从jar，zip，war等压缩文件中加载
+
+(4) 通过动态将java源文件动态编译产生（jsp的动态编译）
+
+(5) 通过程序直接生成。
+</code></pre><p><strong>  验证 </strong></p>
+<p>1、文件格式验证（这一步会与装载阶段交叉进行），元数据验证，字节码验证，符号引用验证（这个阶段的验证往往会与解析阶段交叉进行）。</p>
+<p><strong>  准备 </strong></p>
+<pre><code>int,byte,char,long,float,double 默认初始值为0
+
+boolean 为false（在jvm内部用int表示boolean，因此初始值为0）
+
+reference类型为null
+
+对于final static基本类型或者String类型，则直接采用常量值（这实际上是在编译阶段就已经处理好了）。
+</code></pre><p><strong>  解析 </strong></p>
+<p>1、类的常量池中的类，字段，方法，接口的符号引用，将他们替换成直接引用的过程</p>
+<pre><code>CONSTANT_Class_info
+CONSTANT_Fieldref_info
+CONSTANT_Methodref_info
+CONSTANT_InterfaceMethodref_info
+</code></pre><p><strong> 初始化 </strong></p>
+<p>1、根据用户程序中的初始化语句为类的静态变量赋予正确的初始值</p>
+<p>2、执行时机</p>
+<pre><code>(1) 通过new关键字实例化对象、读取或设置类的静态变量、调用类的静态方法(对应new,getstatic,putstatic,invokespecial这四条字节码指令）。
+
+(2) 通过反射方式执行以上行为时。
+
+(3) 初始化子类的时候，会触发父类的初始化。
+
+(4) 作为程序入口直接运行时的主类。
+</code></pre><h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>类加载器：启动类加载器、扩展类加载器、应用类加载器、自定义加载器</p>
+<p>自定义加载器：<br>比如tomcat：CommonClassloader—CatalinaClassLoader、ShareClassLoader、WebappClassLoader、JspClassLoader</p>
+<p><strong>  双亲委派模型  </strong></p>
+<p>1、当一个类触发init方法进行初始化、先判断是否已经加载、没有的话交由父类classloader进行初始化、父类不存在使用启动类加载器初始化、父类的加载器加载失败则使用自己的classloader加载启动</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rocketmq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/message-queue/rocketmq/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/23/index.html">RocketMQ</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>解决问题</p>
+<pre><code>分布式各系统之间的消息通讯【一般用来解决事务性提交】
+</code></pre><p>应用场景</p>
+<pre><code>各模块之间 消息调用、
+高并发的数据落地
+事务解决方案
+</code></pre><p>使用方式</p>
+<p><a href="https://gitee.com/none_heart/base-cloud/tree/develop/" target="_blank" rel="noopener">我的开源服务中集成代码</a></p>
+<p><strong>message-queue 模块</strong></p>
+<p>{———-}</p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://github.com/alibaba/rocketmq/archive/v3.5.8.zip</span><br><span class="line"></span><br><span class="line">unzip v3.5.8.zip -d rocketmq</span><br></pre></td></tr></table></figure></p>
+<p>原理</p>
+<p><a href="https://www.wuxinvip.com/blog/xmind/xmind-%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/">xmind文档</a></p>
+<p>生产环境遇到的问题</p>
+<pre><code>消息阻塞【扩consumer、查看log 是什么原因导致消息阻塞】
+消息长时间不到达【优先级策略】
+消息确认机制会影响消息消费速度、虽然保证了每条消费一次
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
       
     </li>
   
