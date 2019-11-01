@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/search-engine/elasticsearch-config/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/encryption/password-develop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,230 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/search-engine/elasticsearch-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">elasticsearch-config</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:38:38" itemprop="dateModified" datetime="2018-10-15T16:38:38+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/search-engine/" itemprop="url" rel="index"><span itemprop="name">search-engine</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"># ---------------------------------- Cluster -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 为群集使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#cluster.name: my-application</span><br><span class="line">#</span><br><span class="line"># ------------------------------------ Node ------------------------------------</span><br><span class="line">#</span><br><span class="line">#为节点使用描述性名称:</span><br><span class="line">#</span><br><span class="line">#node.name: node-1</span><br><span class="line">#</span><br><span class="line">#  向节点添加自定义属性:</span><br><span class="line">#</span><br><span class="line">#node.attr.rack: r1</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Paths ------------------------------------</span><br><span class="line">#</span><br><span class="line"># 路径到目录存储数据的位置 (用逗号分隔多个位置):</span><br><span class="line">#</span><br><span class="line">#path.data: /path/to/data</span><br><span class="line">#</span><br><span class="line"># 日志文件的路径:</span><br><span class="line">#</span><br><span class="line">#path.logs: /path/to/logs</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Memory -----------------------------------</span><br><span class="line">#</span><br><span class="line">#  启动时锁定内存:</span><br><span class="line">#</span><br><span class="line">#bootstrap.memory_lock: true</span><br><span class="line">#</span><br><span class="line">#确保堆大小设置为大约一半的可用内存在系统上, 并且允许进程的所有者使用此限制。</span><br><span class="line">#</span><br><span class="line"># 当系统交换内存时, Elasticsearch 执行得很差。</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Network -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 将绑定地址设置为特定 IP (IPv4 或 IPv6):</span><br><span class="line">#</span><br><span class="line">#network.host: 192.168.0.1</span><br><span class="line">#</span><br><span class="line"># 为 HTTP 设置自定义端口:</span><br><span class="line">#</span><br><span class="line">#http.port: 9200</span><br><span class="line">#</span><br><span class="line"># 有关详细信息, 请参阅网络模块文档。</span><br><span class="line">#</span><br><span class="line"># --------------------------------- Discovery ----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在启动新节点时传递初始主机列表以执行发现:</span><br><span class="line"># 主机的默认列表为 [ &quot;127.0.0.1 &quot;, [:: 1] &quot;]</span><br><span class="line">#</span><br><span class="line">#discovery. zen.ping.unicast.hosts: [ &quot;host1 &quot;, &quot;host2 &quot;]</span><br><span class="line">#</span><br><span class="line"># 通过配置大多数节点 (主合格节点总数/2 + 1) 来防止 &quot;分裂大脑 &quot;:</span><br><span class="line">#</span><br><span class="line">#discovery.zen.minimum_master_nodes:</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Gateway -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 在完全群集重新启动后阻止初始恢复, 直到开始 N 个节点:</span><br><span class="line">#</span><br><span class="line">#gateway.recover_after_nodes: 3</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Various -----------------------------------</span><br><span class="line">#</span><br><span class="line"># 删除索引时需要显式名称:</span><br><span class="line">#</span><br><span class="line">#action.destructive_requires_name: true</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/spring-cloud/spring-data-es-1/" rel="bookmark">spring-data-es源码</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/nutch-1/" rel="bookmark">nutch简介</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-bean-setting/" rel="bookmark">elasticsearch-bean-setting</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/05/24/search-engine/elasticsearch-xmind/" rel="bookmark">elasticsearch-xmind</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/search-engine/elasticsearch-1/" rel="bookmark">elasticsearch内部存储执行机制</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/permission-data/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-permission/permission-data/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">权限系统_数据权限控制</a>
+                <a href="/2018/03/24/encryption/password-develop/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">密码加密方式</a>
               
             
           </h2>
@@ -776,7 +553,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/password/" itemprop="url" rel="index"><span itemprop="name">password</span></a></span>
 
                 
                 
@@ -812,34 +589,77 @@
       
         
           
-            <ul>
-<li>1、使用 query filter</li>
-</ul>
-<p>先举例说明一下数据权限，假设一个工作任务应用有以下的需求：</p>
-<p>普通员工可以查看自己的工作项<br>部门经理可以查看自己管理部门的所有工作项<br>对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。</p>
-<p>数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数据权限。</p>
-<ul>
-<li>1.1 查询过滤器（Query Filter）</li>
-</ul>
-<p>查询过滤器是 ORM 模块中的功能，默认是关闭的，开启后所有的查询语句都会在 where 语句的最后自动加上类似 @filter(User) 的表达式。</p>
-<p>假设执行查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user u where u.name = :name</span><br><span class="line">那么开启 Query Filter 后将会自动变为：</span><br><span class="line"></span><br><span class="line">select * from user u where ( u.name = :name )&#123;? and ( @filter(User) )&#125;</span><br><span class="line">关于查询过滤器的细节在这里不展开细说，下面具体说明如何使用查询过滤器实现数据权限。</span><br></pre></td></tr></table></figure></p>
-<p>{———-}</p>
-<ul>
-<li><p>1.2 基于 Query Filter 实现数据权限</p>
-</li>
-<li><p>1.3 开启</p>
-</li>
-</ul>
-<p>修改 src/main/resources/conf/config.xml ，增加以下配置属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties prefix=&quot;orm&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;query_filter.enabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>1.4 实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">编写类 SecurityQueryFilter.java ：</span><br><span class="line"></span><br><span class="line">package hello.beans;</span><br><span class="line">import leap.lang.params.Params;</span><br><span class="line">import leap.orm.sql.Sql;</span><br><span class="line">import leap.orm.sql.SqlContext;</span><br><span class="line">import leap.orm.sql.SqlTag;</span><br><span class="line">import leap.orm.sql.SqlTagProcessor;</span><br><span class="line">public class SecurityQueryFilter implements SqlTagProcessor &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String processTag(SqlContext context, Sql sql, SqlTag tag, Params params) &#123;</span><br><span class="line">        String entityName = tag.getContent();</span><br><span class="line">        if(entityName.equals(&quot;User&quot;)) &#123;</span><br><span class="line">            return &quot;t.id = #&#123;env.user.id&#125;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">返回的表达式语法请看数据访问章节，其中别名 t. 是固定写法，在执行中会被替换为真正的别名。</span><br><span class="line"></span><br><span class="line">配置 bean 生效：</span><br><span class="line"></span><br><span class="line">&lt;bean name=&quot;filter&quot; type=&quot;leap.orm.sql.SqlTagProcessor&quot; class=&quot;hello.beans.SecurityQueryFilter&quot;/&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>2.使用sqlMAP进行sql拼接</p>
-</li>
-</ul>
-<p>其原理也是sql拼接  不写了</p>
-<p>参考地址：<a href="http://leapframework.org/doc/security/op_perm.html" target="_blank" rel="noopener">http://leapframework.org/doc/security/op_perm.html</a></p>
+            <p>常见攻击方式：<br>字典攻击：早期base64+md5</p>
+<p>破解方式–把常见密码进行base63+md5加密 通过重复登陆服务器 或者拖库进行匹配破解【破解方式属于开放状态】</p>
+<p><strong>对称加密</strong></p>
+<pre><code>加密解密效率高、速度快、空间占用小、加密强度高
+缺点是 参与多方都需要持有密钥、一旦有一个人泄露则安全性遭到破坏、另外再不容安全通道下分发密钥也是个问题
+
+    代表算法：DES、3DES、AES、IDEA等等
+    DES：其密钥长度为56位+8位校验  破解方式：暴力破解
+    3DES：3重DES操作 算法不能靠累积增加防御力
+    AES：分组算法、分组长度为128、192、256位三种、其优势在于 速度快 整个过程可以数学化描述、目前尚未有效破解手段
+
+
+    适用于大量数据加解密、不能用于签名场景 需要提前分法密钥
+</code></pre><p>{———-}</p>
+<p><strong>非对称加密</strong></p>
+<pre><code>    即公钥+私钥 公钥是公开的、私钥是个人持有的
+
+    代表算法：RSA、EIGamal、椭圆算法 ECC
+    RSA：经典的公钥算法 安全性未知
+    EIGamal：利用了模运算下求离散对数困难的特性
+    椭圆曲线算法：现代备受关注的算法系列，基于对椭圆曲线上特定点进行特殊乘法逆运算难以计算的特性。
+
+RSA 算法等已被认为不够安全，一般推荐采用椭圆曲线系列算法。
+</code></pre><p><strong>混合加密机制</strong></p>
+<pre><code>先用计算复杂度高的非对称加密协商一个临时的对称加密密钥（会话密钥，一般相对内容来说要短得多），然后对方在通过对称加密对传递的大量数据进行加解密处理。
+
+典型应用：现在大家常用的HTTPS机制、
+    HTTPS实际上是利用了Transport Layer Security/Secure Socket Layer（TLS/SSL）来实现可靠性传输、TLS为SSL升级版本
+    目前广泛应用的为  TLS1.0  对应到SSL3.1 版本
+</code></pre><p>建立安全连接的具体步骤如下：</p>
+<pre><code>客户端浏览器发送信息到服务器，包括随机数 R1，支持的加密算法类型、协议版本、压缩算法等。注意该过程为明文。
+服务端返回信息，包括随机数 R2、选定加密算法类型、协议版本，以及服务器证书。注意该过程为明文。
+浏览器检查带有该网站公钥的证书。该证书需要由第三方 CA 来签发，浏览器和操作系统会预置权威 CA 的根证书。如果证书被篡改作假（中间人攻击），很容易通过 CA 的证书验证出来。
+如果证书没问题，则用证书中公钥加密随机数 R3，发送给服务器。此时，只有客户端和服务器都拥有 R1、R2 和 R3 信息，基于 R1、R2 和 R3，生成对称的会话密钥（如 AES算法）。后续通信都通过对称加密进行保护。
+</code></pre><p><strong>最简单的哈希加密</strong></p>
+<p>例如SHA256，SHA512，RipeMD和WHIRLPOOL。</p>
+<p>hash(“hello”) = 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824</p>
+<p>破解方式：字典攻击 、暴力攻击<br>加密算法公开<br>    将常见密码哈希之后与目标进行比对<br>    暴力攻击尝试每一个在给定长度下各种字符的组合<br>    彩虹表枚举哈希值-来更高效的破解密码</p>
+<p>加盐方式</p>
+<pre><code>加盐需要注意两点：短盐值、盐值重复
+
+两大弊端：盐值重复或者硬编到软件中、可以通过破解软件、专门为这个软件生成彩虹表和查询表
+盐值太短：就相当于降低密码复杂度、这使得破解字典体积更小、跑字典破解更快
+</code></pre><p><strong>组合哈希函数</strong></p>
+<pre><code>md5(sha1(password))
+md5(md5(salt) + md5(password))
+sha1(sha1(password))
+sha1(str_rot13(password + salt))
+md5(sha1(md5(md5(password) + sha1(password)) + md5(password)))
+
+源码一丢、系统完蛋
+</code></pre><p>盐值应该使用基于加密的伪随机数生成器<br>（Cryptographically Secure Pseudo-Random Number Generator – CSPRNG）来生成<br>java.security.SecureRandom</p>
+<p>存储密码的步骤</p>
+<p><strong>使用CSPRNG生成一个长度足够的盐值</strong></p>
+<p>将盐值混入密码，并使用标准的加密哈希函数进行加密，如SHA256<br>把哈希值和盐值一起存入数据库中对应此用户的那条记录</p>
+<p>校验密码的步骤</p>
+<p>从数据库取出用户的密码哈希值和对应盐值<br>将盐值混入用户输入的密码，并且使用同样的哈希函数进行加密<br>比较上一步的结果和数据库储存的哈希值是否相同，如果相同那么密码正确，反之密码错误</p>
+<pre><code>    在Web程序中，永远在服务器端进行哈希加密
+    让密码更难破解：慢哈希函数
+
+PBKDF2、BCRYPT、SCRYPT曾经是最常用的三种密码Hash算法，
+至于哪种算法最好，多年以来密码学家们并无定论。但可以确定的是，这三种算法都不完美，各有缺点。
+其中
+PBKDF2因为计算过程需要内存少所以可被GPU/ASIC加速，
+BCRYPT不支持内存占用调整且容易被FPGA加速，
+SCRYPT不支持单独调整内存或计算时间占用且可能被ASIC加速并有被旁路攻击的可能。
+</code></pre><p>关于密码学的另一篇文章<br><a href="http://www.qingruanit.net/blog/23930/note3641.html" target="_blank" rel="noopener">http://www.qingruanit.net/blog/23930/note3641.html</a></p>
+<p>PBKDF2算法【三种】介绍：</p>
+<p><a href="https://en.wikipedia.org/wiki/PBKDF2" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/PBKDF2</a></p>
+<p><a href="http://blog.jobbole.com/61872/#java" target="_blank" rel="noopener">http://blog.jobbole.com/61872/#java</a></p>
+<p><a href="http://blog.csdn.net/u014375869/article/details/46773995" target="_blank" rel="noopener">http://blog.csdn.net/u014375869/article/details/46773995</a></p>
 
           
         
@@ -855,21 +675,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
+      <div class="popular-posts-title"><a href="/2019/09/02/encryption/aes/" rel="bookmark">AES加密 </a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/13/encryption/password-cracked/" rel="bookmark">破解密码常见的几种方式</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/07/02/encryption/password-java-pbkdf2/" rel="bookmark">慢哈希加密</a></div>
       
     </li>
   
@@ -926,7 +746,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-care-point/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-common/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -946,7 +766,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/mysql/mysql-care-point/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">mysql-care点</a>
+                <a href="/2018/03/24/mysql/mysql-common/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">mysql-common</a>
               
             
           </h2>
@@ -988,7 +808,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-31 23:19:56" itemprop="dateModified" datetime="2019-03-31T23:19:56+08:00">2019-03-31</time>
+                <time title="修改时间：2019-03-31 23:44:18" itemprop="dateModified" datetime="2019-03-31T23:44:18+08:00">2019-03-31</time>
               
             
           </span>
@@ -1048,8 +868,259 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">查询缓存从 Mysql5.7.20开始已经弃用、并在MySQL8.0中删除</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!=  已经弃用  使用&lt;&gt; 来代替 二者等效</span><br></pre></td></tr></table></figure>
+            <p><strong>  事务隔离级别 </strong></p>
+<p>1、脏读<br>2、幻读<br>3、可重复读</p>
+<p><strong>  数据隔离级别 </strong></p>
+<p>1、读未提交<br>2、读已提交<br>3、可重复读<br>4、串行化</p>
+<p><strong>  spring事务传播行为 </strong></p>
+<p>1、required</p>
+<pre><code>如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。
+这是最常见的选择。
+</code></pre><p>2、requires_new</p>
+<pre><code>新建事务，如果当前存在事务，把当前事务挂起。
+</code></pre><p>3、supports</p>
+<pre><code>支持当前事务，如果当前没有事务，就以非事务方式执行。
+</code></pre><p>4、not_supported</p>
+<pre><code>以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+</code></pre><p>5、nested</p>
+<pre><code>如果当前存在事务，则在嵌套事务内执行。
+如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。
+</code></pre><p>6、mandatory</p>
+<pre><code>使用当前的事务，如果当前没有事务，就抛出异常。
+</code></pre><p>7、nerver</p>
+<pre><code>以非事务方式执行，如果当前存在事务，则抛出异常。
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-version-selected/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/mysql-version-selected/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">MYSQL版本选择</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>学习阿里mysql笔记</strong></p>
+<p>mysql 历史过程中产生了三个版本</p>
+<p>Percona Server : 有领先的MYSQL咨询公司 Percona公司发布</p>
+<p>Maria DB : MYSQL最早创始人 重新做的一个版本</p>
+<p>MYSQL : Oracle公司收购的版本</p>
+<p>关于mysql存储引擎：MyISAM、InnoDB、XtraDB<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">最早、最原始的存储引擎MyISAM、缺点不支持事务、优点 读写性能要好</span><br><span class="line"></span><br><span class="line">InnoDB 支持了事务、并把数据操作记录到日志、安全性较好、读写性能也有很大提高、稍低MyISAM(mysql 5.5之后默认存储引擎选取了InnoDB)</span><br><span class="line"></span><br><span class="line">XtraDB 是InnoDB增强版本、被设计用来更新计算机硬件系统性能、同时还包含了一些高性能环境下新特性。</span><br></pre></td></tr></table></figure></p>
+<p>{———-}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Percona Server发展到10.X版本、最接近mysql企业版本</span><br><span class="line">最主要特性、提供了存储引擎 XtraDB、还提供PXC高可用解决方案、还有percona-tookit等DBA管理工具箱、</span><br><span class="line">【据使用经验 这个版本性能非常非常高的 推荐排名第一位】</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MariaDB 目标、取代现在mysql、oracle的mysql闭源危机</span><br><span class="line">使用完全兼容mysql。</span><br><span class="line">优点支持脚本初始化、与最初mysql代码改动最大、成熟度较低</span><br><span class="line">支持新工具、新功能在不断完善、、</span><br><span class="line">【第二推荐】</span><br><span class="line"></span><br><span class="line">MYSQL ：官方版本、使用量最多、后续趋势会被其他两种取代、</span><br><span class="line">性能方面、在企业版本会增加一些新功能、但是收费</span><br><span class="line">【第三推荐、对性能要求不高、稳定版本】</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-48a54280ef8d2bf1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>InnoDB :支持事务 、行级锁、外键</p>
 
           
         
@@ -1072,14 +1143,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
   
@@ -1093,677 +1157,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-version-selected/" rel="bookmark">MYSQL版本选择</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/shiro-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-permission/shiro-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">权限系统_shiro_授权流程</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Shiro Authorization （ 授权）</p>
-<p>官方授权图片</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-336b0632fee6bb6a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>步骤：<br><img src="http://upload-images.jianshu.io/upload_images/6434888-d44d3592576f6485?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>授权成功后</p>
-<p>关于权限使用有三种方式</p>
-<p>1、编写代码</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-05cdfe309a99ea49?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>2、JDK标签</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-09b04e1663976962?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>{———-}</p>
-<p>3、JSPGSP标签库</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-118318e60b08f8e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这里要解释下 RBAC </p>
-<p>以前的RBAC是 Role-Based-Access-Control</p>
-<p>基于角色的访问控制</p>
-<p>权限表 是 用户表-角色表-操作url表 【Menu】</p>
-<p>控制方式是 用户拥有某权限——–权限拥有某url【controller】 才可以访问 </p>
-<p>麻烦点就是 后台判断用户是否拥有权限时，判断用户角色 那么就是把角色和资源绑定到一起、这样后期开发会发生这么一种情况、就是有个默认角色后期我可能要删除、使用新角色来控制这些资源、那么 到时候就要更新代码重新发布 </p>
-<p>而最新的RBAC是 Resource-Based-Access-Control </p>
-<p>基于资源的访问控制</p>
-<p>权限表是 用户表【user】-角色表-功能许可表【Permission】</p>
-<p>控制方式就是 用户拥有某一角色——–角色拥有这一资源许可——-资源许可和代码【controller】绑定在一起 后期要更改角色权限 就把这个角色删掉就可以了 并不会影响代码 不需要重构代码</p>
-<p>shiro中同时使用两种方式进行 权限判断 用户可以自行选择 </p>
-<p>相关使用方法 参加xmind</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3de54131aeffcc67?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mybatis-index/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/mysql/mybatis-index/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">mysql-index 索引</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="mysql-索引"><a href="#mysql-索引" class="headerlink" title="mysql 索引"></a>mysql 索引</h2><ul>
-<li>原文索引 <a href="https://cloud.tencent.com/developer/article/1125452" target="_blank" rel="noopener">MySQL索引及其实现原理(基于MyISAM及InnoDB引擎)</a></li>
-</ul>
-<p>本文介绍了 磁盘索引结构 索引结构、索引与文件的规划 </p>
-<p>其中可以了解到 为什么innodb 为什么使用自增主键、</p>
-<p>{———-}</p>
-<p>主要查看两种索引引擎 MYISAM、InnoDB</p>
-<p>两者相同特点：都是B+ TRee</p>
-<p>不同点：</p>
-<ul>
-<li><p>myisam 是非聚集索引  索引与数据分开存储 叶子节点执行 数据的物理地址</p>
-</li>
-<li><p>innodb是 聚集索引、索引即是 数据主键</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">把主键作为索引key、有好处也有缺点、</span><br><span class="line">好处查询IO次数减少、</span><br><span class="line">坏处、每次更新主键都要遍历整个列表来保证主键唯一性、</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>所有索引中 、主键索引和辅助索引区分、主键索引不可重复、辅助索引可重复</p>
-<p>myisam可认为是 双索引或者多索引结构、每一个索引都会生成一个索引树、而innodb是层级关系、</p>
-<h3 id="建立索引注意事项："><a href="#建立索引注意事项：" class="headerlink" title="建立索引注意事项："></a>建立索引注意事项：</h3><ul>
-<li>记录少 不建索引</li>
-<li>选择性低 不建索引【重复率低 即命中率低】</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-lock/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/mysql/optimization-sql-lock/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">SQL优化【锁优化】</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-b679147e38a9e162.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>MySQL使用锁管理对表内容的争用 ：</p>
-<p>内部锁定在MySQL服务器内部执行，以管理多个线程对表内容的争用。<br>这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。<br>参见 第8.11.1节“内部锁定方法”。</p>
-<p>当服务器和其他程序锁定MyISAM表文件以相互协调哪个程序可以访问表时，发生外部锁定。<br>参见第8.11.5节“外部锁定”。</p>
-<p>8.11.1内部锁定方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">本节讨论内部锁定; 即在MySQL服务器本身内执行锁定以管理多个会话对表内容的争用。</span><br><span class="line">这种类型的锁定是内部的，因为它完全由服务器执行，并且不涉及其他程序。</span><br><span class="line">对于其他程序在MySQL文件上执行的锁定，请参见第8.11.5节“外部锁定”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line"></span><br><span class="line">选择锁定类型</span><br><span class="line"></span><br><span class="line">行级锁定</span><br><span class="line">MySQL使用行级锁定为InnoDB表，以支持由多个会话并发写入权限，使其适用于多用户，高并发，和OLTP应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了避免在单个表上执行多个并发写入操作时发生死锁， InnoDB通过SELECT ... FOR UPDATE为每组预计要修改的行发布语句，即使数据更改语句稍后在事务中发生，也可以在事务启动时获取必要的锁。</span><br><span class="line">如果交易修改或锁定多个表，请在每个交易中以相同的顺序发布适用的报表。</span><br><span class="line">死锁会影响性能而不是表示严重的错误，因为它会 InnoDB自动 检测 死锁条件并回滚其中一个受影响的事务。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在高并发系统上，当大量线程等待相同的锁时，死锁检测会导致速度下降。</span><br><span class="line">有时候，innodb_lock_wait_timeout 当死锁发生时，禁用死锁检测并依赖事务回滚的设置可能更有效 。</span><br><span class="line">使用innodb_deadlock_detect 配置选项可以禁用死锁检测 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定的优点：</span><br><span class="line"></span><br><span class="line">当不同的会话访问不同的行时，更少的锁冲突。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">回滚更少。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">可能长时间锁定一行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定</span><br><span class="line">MySQL使用表级锁的MyISAM， MEMORY和MERGE 表，只允许一个会话更新一次这些表。</span><br><span class="line">这种锁定级别使得这些存储引擎更适合于只读，主要读取或单用户应用程序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些存储引擎通过始终在查询开始时一次请求所有需要的锁，并始终以相同的顺序锁定表来避免 死锁。</span><br><span class="line">权衡是这种策略降低了并发性; 其他要修改表的会话必须等到当前数据更改语句结束。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表级锁定的优点：</span><br><span class="line"></span><br><span class="line">所需的内存相对较少（行锁定需要锁定每行或一组行的内存）</span><br><span class="line"></span><br><span class="line">在大部分表格上使用时都很快，因为只涉及一个锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您经常GROUP BY 对大部分数据执行操作，或者必须频繁扫描整个表，则速度很快。</span><br></pre></td></tr></table></figure></p>
-<p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">MySQL授予表写入锁定如下：</span><br><span class="line"></span><br><span class="line">如果表上没有锁，请在其上写入锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">否则，将锁定请求放入写入锁定队列中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL授予表读取锁定如下：</span><br><span class="line"></span><br><span class="line">如果表上没有写入锁，请在其上放置一个读取锁。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">否则，将锁定请求放入读锁定队列中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表格更新优先于表格检索。</span><br><span class="line">因此，当释放一个锁时，该锁可用于写入锁定队列中的请求，然后可用于读取锁定队列中的请求。</span><br><span class="line">这确保了即使桌子上有大量活动时，表格的更新也不会“ 饿死 ”SELECT。</span><br><span class="line">但是，如果有多个表的更新，则 SELECT语句会等待，直到没有更新。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关更改读取和写入优先级的信息，请参见第8.11.2节“表锁定问题”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以通过检查Table_locks_immediate和 Table_locks_waited状态变量来分析系统上的表锁争用 ，这些变量分别表示可以立即授予表锁请求的次数和需要等待的数量：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; SHOW STATUS LIKE &apos;Table%&apos;;</span><br><span class="line">+ ----------------------- + --------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ ----------------------- + --------- +</span><br><span class="line">| Table_locks_immediate | 1151552 |</span><br><span class="line">| Table_locks_waited | 15324 |</span><br><span class="line">+ ----------------------- + --------- +</span><br><span class="line">性能模式锁定表还提供锁定信息。</span><br><span class="line">请参见 第25.11.12节“性能架构锁表”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该MyISAM存储引擎支持并发插入，减少读者和作者之间的竞争给定表：如果一个MyISAM 表有数据文件的中间没有空闲块，行总是在数据文件的末尾插入。</span><br><span class="line">在这种情况下，您可以自由地将一个表的并发INSERT和SELECT语句 混合使用 ， MyISAM而无需锁定。</span><br><span class="line">也就是说，你可以插入行到一个MyISAM表同时其他客户正在阅读它。</span><br><span class="line">在表中间删除或更新的行可能会产生空洞。</span><br><span class="line">如果存在孔，则同时插入将被禁用，但当所有孔已填充新数据时将自动再次启用插入。</span><br><span class="line">要控制此行为，请使用 concurrent_insert系统变量。</span><br><span class="line">请参见第8.11.3节“并发插入”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您显式获取表锁 LOCK TABLES，您可以请求 READ LOCAL锁而不是 READ锁，以使其他会话在表锁定的情况下执行并发插入。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">执行许多INSERT和 SELECT操作上的表 t1时并发的插入是不可能的，你可以插入行到一个临时表 temp_t1，并从临时表中的行更新真正的表：</span><br><span class="line"></span><br><span class="line">mysql&gt; LOCK TABLES t1 WRITE, temp_t1 WRITE;</span><br><span class="line">mysql&gt; INSERT INTO t1 SELECT * FROM temp_t1;</span><br><span class="line">mysql&gt; DELETE FROM temp_t1;</span><br><span class="line">mysql&gt;UNLOCK TABLES;</span><br><span class="line">选择锁定类型</span><br><span class="line">通常，在以下情况下，表锁优于行级锁：</span><br><span class="line"></span><br><span class="line">该表的大多数语句都是读取。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该表的声明是读取和写入的混合，其中写入是对单个行的更新或删除，可以通过读取一个密钥来读取：</span><br><span class="line"></span><br><span class="line">UPDATE tbl_nameSET column= valueWHERE unique_key_col= key_value;</span><br><span class="line">DELETE FROM tbl_nameWHERE unique_key_col= key_value;</span><br><span class="line">SELECT结合并发INSERT 语句，并且很少 UPDATE或者 DELETE语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">许多扫描或GROUP BY整个表上的操作，没有任何作家。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于更高级别的锁定，您可以通过支持不同类型的锁定来更轻松地调整应用程序，因为锁定开销低于行级锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行级锁定以外的选项：</span><br><span class="line"></span><br><span class="line">版本控制（例如在MySQL中用于并发插入的版本），可以在多个读者的同一时间拥有一个作者。</span><br><span class="line">这意味着根据访问何时开始，数据库或表支持不同数据视图。</span><br><span class="line">这个其他常见的术语是 “ 时间旅行， ” “ 上写副本， ” 或“ 按需复制。</span><br><span class="line">”</span><br><span class="line"></span><br><span class="line">在许多情况下，按需复制优于行级锁定。</span><br><span class="line">但是，在最坏的情况下，它可以使用比使用普通锁更多的内存。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">而不是使用行级锁，你可以使用应用程序级锁，如提供的 GET_LOCK()和 RELEASE_LOCK()在MySQL。</span><br><span class="line">这些是咨询锁，因此它们只能与相互合作的应用程序一起工作。</span><br><span class="line">参见 第12.20节“其他功能”。</span><br></pre></td></tr></table></figure>
-<p>8.11.2表锁定问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">InnoDB表使用行级锁定，以便多个会话和应用程序可以同时读取和写入同一个表，而不会让对方等待或产生不一致的结果。</span><br><span class="line">对于这个存储引擎，避免使用该LOCK TABLES语句，因为它没有提供任何额外的保护，而是降低了并发性。</span><br><span class="line">自动行级锁定使得这些表适合于最繁忙的数据库以及最重要的数据，同时还可以简化应用程序逻辑，因为您不需要锁定和解锁表。</span><br><span class="line">因此， InnoDB存储引擎是MySQL中的默认设置。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL除了为所有存储引擎使用表锁（而不是页锁，行锁或列锁） InnoDB。</span><br><span class="line">锁定操作本身没有太多的开销。</span><br><span class="line">但是因为只有一个会话可以同时写入一个表，为了获得这些其他存储引擎的最佳性能，请将它们主要用于经常查询且很少插入或更新的表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">性能考虑因素支持InnoDB</span><br><span class="line"></span><br><span class="line">锁定性能问题的解决方法</span><br><span class="line"></span><br><span class="line">性能考虑因素支持InnoDB</span><br><span class="line">在选择是使用InnoDB或不同的存储引擎创建表时 ，请记住表锁定的以下缺点：</span><br><span class="line"></span><br><span class="line">表锁定使许多会话可以同时从表中读取数据，但是如果会话要写入表中，它必须首先获得独占访问权，这意味着它可能必须先等待其他会话完成表。</span><br><span class="line">在更新期间，想要访问此特定表的所有其他会话必须等到更新完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当会话正在等待时，表锁定会导致问题，因为磁盘已满并且在会话可继续之前需要有空闲空间。</span><br><span class="line">在这种情况下，所有希望访问问题表的会话也会处于等待状态，直到有更多磁盘空间可用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一个SELECT是需要长时间运行的语句防止其他会话更新表的同时，使其他场次出现缓慢或无响应。</span><br><span class="line">虽然会话正在等待独占访问表以进行更新，但发出SELECT语句的其他会话 将排在其后面，即使对于只读会话也会降低并发性。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">锁定性能问题的解决方法</span><br><span class="line">以下各项介绍了一些避免或减少表锁定引起的争用的方法：</span><br><span class="line"></span><br><span class="line">考虑将表切换到 InnoDB存储引擎，或者 CREATE TABLE ... ENGINE=INNODB在安装期间使用，或者使用ALTER TABLE ... ENGINE=INNODB现有的表。</span><br><span class="line">有关此存储引擎的更多详细信息，请参见 第14章，InnoDB存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化SELECT语句以加快运行速度，以便锁定表的时间更短。</span><br><span class="line">您可能需要创建一些汇总表来执行此操作。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">启动mysqld的使用 --low-priority-updates。</span><br><span class="line">对于仅使用表级锁（如存储引擎 MyISAM，MEMORY和 MERGE），这给所有的语句更新（修改），比表低优先级 SELECT的语句。</span><br><span class="line">在这种情况下，SELECT 前面的场景中的第二个语句将在UPDATE语句之前执行，并且不会等待第一个语句 SELECT完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要指定在特定连接中发出的所有更新应该以低优先级完成，请将low_priority_updates 服务器系统变量设置 为1。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要给出特定的INSERT， UPDATE或 DELETE语句较低的优先级，请使用该LOW_PRIORITY 属性。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要给出特定的SELECT 声明更高的优先级，请使用该 HIGH_PRIORITY属性。</span><br><span class="line">请参见 第13.2.9节“SELECT语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以 系统变量的较低值 启动mysqld， max_write_lock_count以强制MySQL临时提升SELECT 在发生特定数量的表插入后等待表的所有语句的优先级。</span><br><span class="line">这允许 READ在一定数量的锁定之后进行 WRITE锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果你有问题 INSERT联合 SELECT，可考虑改用MyISAM表，它支持并发SELECT和 INSERT报表。</span><br><span class="line">（参见 第8.11.3节“并发插入”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果你有问题，混合 SELECT和 DELETE报表，该 LIMIT选项 DELETE可能会有帮助。</span><br><span class="line">请参见 第13.2.2节“删除语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用SQL_BUFFER_RESULTwith SELECT语句可以帮助缩短表锁的持续时间。</span><br><span class="line">请参见 第13.2.9节“SELECT语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">通过允许查询针对一个表中的列运行，而将更新限制在不同表中的列中，将表内容拆分为单独的表格可能会有所帮助。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以将锁定代码更改 mysys/thr_lock.c为使用单个队列。</span><br><span class="line">在这种情况下，写入锁和读取锁具有相同的优先级，这可能有助于某些应用程序。</span><br></pre></td></tr></table></figure></p>
-<p>8.11.3并发插入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">该MyISAM存储引擎支持并发插入，减少读者和作者之间的竞争给定表：如果一个MyISAM表已经在数据文件中没有孔（中删除的行），一个 INSERT语句可以执行行添加到表的末尾同时 SELECT语句正在读取表格中的行。</span><br><span class="line">如果有多个 INSERT语句，它们将按照顺序排列并执行，并与SELECT语句同时执行 。</span><br><span class="line">并发的结果INSERT可能不会立即显示。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所述concurrent_insert系统变量可以被设置为修改并发插入处理。</span><br><span class="line">默认情况下，该变量设置为AUTO（或1），并按前面所述处理并发插入。</span><br><span class="line">如果 concurrent_insert设置为 NEVER（或0），则禁用并发插入。</span><br><span class="line">如果变量设置为ALWAYS （或2），即使对于已删除行的表，也允许在表的末尾进行并发插入。</span><br><span class="line">另请参阅concurrent_insert系统变量的说明。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您正在使用二进制日志，并发插入将转换为正常的插入CREATE ... SELECT或 INSERT ... SELECT语句。</span><br><span class="line">这样做是为了确保您可以通过在备份操作期间应用日志来重新创建表的精确副本。</span><br><span class="line">请参见第5.4.4节“二进制日志”。</span><br><span class="line">另外，对于这些语句，在选定表上放置一个读锁，以便阻止插入到该表中。</span><br><span class="line">结果是该表的并发插入必须等待。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有了LOAD DATA INFILE，如果你指定CONCURRENT 一个MyISAM满足并发插入的状态表（即，它包含在中间没有空闲块），其他会话可以从表中检索数据时LOAD DATA正在执行。</span><br><span class="line">即使没有其他会话同时使用该表，该CONCURRENT选项的使用LOAD DATA也会影响一个位的性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果指定HIGH_PRIORITY，则会覆盖该--low-priority-updates选项的效果（ 如果服务器是使用该选项启动的）。</span><br><span class="line">这也会导致并发插入不被使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为LOCK TABLE，之间的差READ LOCAL并且READ是 READ LOCAL允许非冲突性的 INSERT语句（并发插入），而锁被保持来执行。</span><br><span class="line">但是，如果要在持有锁的同时使用服务器外部的进程来操作数据库，则无法使用此功能。</span><br></pre></td></tr></table></figure></p>
-<p>8.11.4元数据锁定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">MySQL使用元数据锁定来管理对数据库对象的并发访问并确保数据一致性。</span><br><span class="line">元数据锁定不仅适用于表格，还适用于架构，存储的程序（过程，函数，触发器和预定事件）以及表空间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">元数据锁定确实涉及一些开销，随着查询量的增加而增加。</span><br><span class="line">元数据争用增加了多个查询尝试访问相同对象的次数越多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">元数据锁定不是表格定义缓存的替代，其互斥锁和锁定与互斥锁不同 LOCK_open。</span><br><span class="line">以下讨论提供了有关元数据锁定工作原理的一些信息。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为确保事务可序列化，服务器不得允许一个会话在另一个会话中未完成显式或隐式启动事务中使用的表上执行数据定义语言（DDL）语句。</span><br><span class="line">服务器通过获取事务内使用的表上的元数据锁，并推迟释放这些锁，直到事务结束为止。</span><br><span class="line">表上的元数据锁可以防止对表的结构进行更改。</span><br><span class="line">这种锁定方式意味着一个会话中的事务正在使用的表不能在其他会话中用于DDL语句，直到事务结束。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这个原则不仅适用于事务表，也适用于非事务表。</span><br><span class="line">假设一个会话开始一个使用事务表t 和非事务表的事务nt，如下所示：</span><br><span class="line"></span><br><span class="line">开始交易;</span><br><span class="line">SELECT * FROM t;</span><br><span class="line">SELECT * FROM nt;</span><br><span class="line">服务器在两端都保存了元数据锁t， nt直到事务结束。</span><br><span class="line">如果另一个会话尝试对任一表执行DDL或写入锁定操作，则会阻塞，直到事务结束时释放元数据锁。</span><br><span class="line">例如，如果第二个会话尝试执行以下任何操作，则会阻止：</span><br><span class="line"></span><br><span class="line">DROP TABLE t;</span><br><span class="line">ALTER TABLE t ...;</span><br><span class="line">DROP TABLE nt;</span><br><span class="line">ALTER TABLE nt ...;</span><br><span class="line">LOCK TABLE t ... WRITE;</span><br><span class="line">The相同的行为适用于The LOCK TABLES ... READ。</span><br><span class="line">也就是说，更新任何表（事务性或非事务性）的显式或隐式启动事务将被阻塞并被LOCK TABLES ... READ该表阻塞。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果服务器为语句有效但在执行期间失败的语句获取元数据锁，则它不会提前释放锁。</span><br><span class="line">锁释放仍然延迟到事务结束，因为失败的语句被写入二进制日志，并且锁保护日志一致性。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在自动提交模式下，每条语句实际上是一个完整的事务，因此为语句获取的元数据锁只保留在语句的末尾。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在PREPARE准备好声明后，即使在多语句事务中进行准备，也会释放在声明中获取的元数据锁定 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">8.11.5外部锁定</span><br><span class="line">外部锁定是使用文件系统锁定来管理MyISAM多个进程对数据库表的争用。</span><br><span class="line">外部锁定用于单个进程（如MySQL服务器）不能被认为是需要访问表的唯一进程的情况。</span><br><span class="line">这里有些例子：</span><br><span class="line"></span><br><span class="line">如果运行多个使用相同数据库目录的服务器（不推荐），则每台服务器都必须启用外部锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果使用myisamchk在表上执行表维护操作 MyISAM，则必须确保服务器未运行，或者服务器启用了外部锁定，以便根据需要锁定表文件以与myisamchk协调 访问表。</span><br><span class="line">使用myisampack打包 MyISAM表格也是如此 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果服务器在启用外部锁定的情况下运行，则可以随时使用myisamchk进行读取操作，例如检查表。</span><br><span class="line">在这种情况下，如果服务器尝试更新myisamchk正在使用的表， 服务器将在继续之前等待myisamchk完成。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果使用myisamchk进行写入操作（如修复或优化表），或者如果使用 myisampack打包表，则 必须始终确保 mysqld服务器不使用表。</span><br><span class="line">如果您不停止mysqld，至少 在运行myisamchk之前执行 mysqladmin flush-tables。</span><br><span class="line">如果服务器和 myisamchk同时访问表，您的表可能会损坏。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在外部锁定生效的情况下，每个需要访问表的进程在继续访问表之前都会获取表文件的文件系统锁。</span><br><span class="line">如果无法获取所有必需的锁，则会阻止进程访问表，直到获得锁（在当前持有锁的进程释放它们之后）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">外部锁定会影响服务器性能，因为服务器在访问表之前必须等待其他进程。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您运行单个服务器来访问给定的数据目录（通常情况下），并且在服务器运行时没有其他程序（如myisamchk）需要修改表，则不需要外部锁定。</span><br><span class="line">如果只 使用其他程序读取表，则不需要外部锁定，但 如果服务器在myisamchk正在读取表格时更改表，myisamchk可能会报告警告 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在禁用外部锁定的情况下，要使用 myisamchk，必须在执行myisamchk时停止服务器，否则在运行myisamchk之前锁定并刷新表。</span><br><span class="line">（请参见第8.12.1节“系统因素”。</span><br><span class="line">）为避免此要求，请使用CHECK TABLE 和REPAIR TABLE语句来检查和修复MyISAM表格。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于mysqld，外部锁定由skip_external_locking系统变量的值控制 。</span><br><span class="line">当这个变量被启用时，外部锁定被禁用，反之亦然。</span><br><span class="line">外部锁定默认是禁用的。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用--external-locking或 --skip-external-locking 选项可以在服务器启动时控制使用外部锁定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果确实使用外部锁定选项来启用对MyISAM来自多个MySQL进程的表的更新 ，则必须确保满足以下条件：</span><br><span class="line"></span><br><span class="line">不要将查询缓存用于使用另一个进程更新的表的查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">不要使用该--delay-key-write=ALL选项启动服务器，也不要 使用DELAY_KEY_WRITE=1任何共享表的表选项。</span><br><span class="line">否则，可能会发生索引损坏。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">满足这些条件的最简单方法是始终 --external-locking与--delay-key-write=OFF和 一起使用 --query-cache-size=0。</span><br><span class="line">（这不是默认完成的，因为在许多设置中，混合使用上述选项很有用。）</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total/" rel="bookmark">SQL优化【总方向】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-total-2/" rel="bookmark">常见MYSQL调优策略</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
       
     </li>
   
@@ -1985,14 +1386,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
   
@@ -2006,7 +1400,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-version-selected/" rel="bookmark">MYSQL版本选择</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
       
     </li>
   
@@ -2063,7 +1464,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/essay/essay-13/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-performance-measurement/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -2083,7 +1484,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/essay/essay-13/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">阿里面霸总结的面试题</a>
+                <a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">SQL优化【绩效衡量】</a>
               
             
           </h2>
@@ -2149,7 +1550,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -2185,9 +1586,29 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">（1）自我介绍，做过什么项目。</span><br><span class="line">（2）java虚拟机的区域如何划分，每一个区的动能，这一块自由发挥。</span><br><span class="line">（3）双亲委派模型中，从顶层到底层，都是哪些类加载器，分别加载哪些类？</span><br><span class="line">（4）有没有可能父类加载器和子类加载器，加载同一个类？如果加载同一个类，该使用哪一个类？</span><br><span class="line">（5）HashMap的结构，get()，put()是如何实现的？HashMap有哪些问题？</span><br><span class="line">（6）ConcurrentHashMap的get()，put()，又是如何实现的？ConcurrentHashMap有哪些问题？ ConcurrentHashMap的锁是读锁还是写锁？</span><br><span class="line">（7） HashMap与HashTable的区别</span><br><span class="line">（8）sleep()和wait()分别是哪个类的方法，有什么区别？synchronized底层如何实现的？用在代码块和方法上有什么区别？</span><br><span class="line">（9）什么是线程池？如果让你设计一个动态大小的线程池，如何设计，应该有哪些方法？</span><br><span class="line">（10）什么是死锁？JVM线程死锁，你该如何判断是因为什么？如果用VisualVM，dump线程信息出来，会有哪些信息？这一块问的很多....问的我懵了. 因为并没有实际操作过 = =</span><br><span class="line">（11）查看jvm虚拟机里面堆、线程的信息，你用过什么命令？我只用过图形界面VisualVM。。。</span><br><span class="line">（12）垃圾回收算法有哪些？CMS知道吗？如何工作的？</span><br><span class="line">（13）数据库中什么是事务？事务的隔离级别？事务的四个特性？什么是脏读，幻读，不可重复读？</span><br><span class="line">（14）数据库索引的结构有哪些？我说B树和B+树，他说只有这两个吗。我又说全文倒排索引。然后介绍B+树的结构。</span><br><span class="line">（15）数据库中的分页查询语句怎么写？</span><br><span class="line">（16）什么是一致性哈希？用来解决什么问题？</span><br><span class="line">（17）Redis的存储结构，或者说如何工作的，与mysql的区别？有哪些数据类型？</span><br><span class="line">（18）项目中用到redis，为什么选用redis，了解其他NoSQL数据库吗？在你的项目中是如何运用redis的？key是什么，value是什么？</span><br><span class="line">（19）归并排序的过程？时间复杂度？空间复杂度？</span><br><span class="line">（20）你平常用什么排序？快速排序。说说在那些场景下适用，哪些场景下不适用。</span><br><span class="line">（21）你在项目中做什么？因为我用到Solr，他就问我Solr是如何工作的？</span><br></pre></td></tr></table></figure>
-<p>{———-}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">（1）自我介绍。</span><br><span class="line">（2）JVM如何加载一个类的过程，双亲委派模型中有哪些方法？</span><br><span class="line">（3）HashMap如何实现的？</span><br><span class="line">（4）HashMap和Concurrent HashMap区别， Concurrent HashMap 线程安全吗， Concurrent HashMap如何保证 线程安全？</span><br><span class="line">（5）HashMap和HashTable 区别，HashTable线程安全吗？</span><br><span class="line">（6）进程间通信有哪几种方式？</span><br><span class="line">（7）JVM分为哪些区，每一个区干吗的？</span><br><span class="line">（8）JVM如何GC，新生代，老年代，持久代，都存储哪些东西？</span><br><span class="line">（9）GC用的引用可达性分析算法中，哪些对象可作为GC Roots对象？</span><br><span class="line">（10）快速排序，过程，复杂度？</span><br><span class="line">（11）什么是二叉平衡树，如何插入节点，删除节点，说出关键步骤。</span><br><span class="line">（12）TCP如何保证可靠传输？三次握手过程？</span><br><span class="line">（13）TCP和UDP区别？</span><br><span class="line">（14）滑动窗口算法？</span><br><span class="line">（15）Linux下如何进行进程调度的？</span><br><span class="line">（16）Linux下你常用的命令有哪些？</span><br><span class="line">（17）操作系统什么情况下会死锁？</span><br><span class="line">（18）常用的hash算法有哪些？</span><br><span class="line">（19）什么是一致性哈希？</span><br><span class="line">（20）如何理解分布式锁？</span><br><span class="line">（21）数据库中的范式有哪些？</span><br><span class="line">（22）数据库中的索引的结构？什么情况下适合建索引？</span><br><span class="line">（23）Java中的NIO，BIO，AIO分别是什么？</span><br><span class="line">（24）用什么工具调试程序？JConsole，用过吗？</span><br><span class="line">（25）现在JVM中有一个线程挂起了，如何用工具查出原因？</span><br><span class="line">（26）线程同步与阻塞的关系？同步一定阻塞吗？阻塞一定同步吗？</span><br><span class="line">（27）同步和异步有什么区别？</span><br><span class="line">（28）线程池用过吗？</span><br><span class="line">（29）如何创建单例模式？说了双重检查，他说不是线程安全的。如何高效的创建一个线程安全的单例？</span><br><span class="line">（30）concurrent包下面，都用过什么？</span><br><span class="line">（31）常用的数据库有哪些？redis用过吗？</span><br><span class="line">（32）了解hadoop吗？说说hadoop的组件有哪些？hdfs，hive,hbase,zookeeper。说下mapreduce编程模型。</span><br><span class="line">（33）你知道的开源协议有哪些？</span><br><span class="line">（34）你知道的开源软件有哪些？</span><br><span class="line">（35）你最近在看的书有哪些？</span><br><span class="line">（36）你有什么问题要问我吗？</span><br><span class="line">（37）了解哪些设计模式？说说都用过哪些设计模式</span><br><span class="line">（38）如何判断一个单链表是否有环？</span><br><span class="line">（39）操作系统如何进行分页调度？</span><br><span class="line">（40）匿名内部类是什么？如何访问在其外面定义的变量？</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HashMap和Hashtable的区别</span><br><span class="line">实现一个保证迭代顺序的HashMap</span><br><span class="line">说一说排序算法，稳定性，复杂度</span><br><span class="line">说一说GC</span><br><span class="line">可以保证的实习时长</span><br><span class="line">职业规划</span><br></pre></td></tr></table></figure>
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-0cd4ca1ab65a3ad0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>8.13.1测量表达式和函数的速度<br>8.13.2使用您自己的基准<br>8.13.3使用performance_schema测量绩效<br>要衡量绩效，请考虑以下因素：</p>
+<p>无论您是在安静系统上测量单个操作的速度，还是在一段时间内如何操作一组操作（ “ 工作负载 ”）。通过简单的测试，您通常可以测试更改一个方面（配置设置，表上的索引集，查询中的SQL子句）如何影响性能。基准测试通常是长时间运行和精心设计的性能测试，其结果可能决定硬件和存储配置等高级选择，或者升级到新MySQL版本的时间。</p>
+<p>对于基准测试，有时您必须模拟繁重的数据库工作负载才能获得准确的图像。</p>
+<p>表现可能会因许多不同的因素而有所不同，因为几个百分点的差异可能不是决定性的胜利。在不同的环境中进行测试时，结果可能会发生相反的变化。</p>
+<p>某些MySQL功能根据工作负载提供帮助或无法帮助提高性能。为了完整性，请始终在打开和关闭这些功能的情况下测试性能。尝试与每个工作负载的两个最重要的功能是 MySQL查询缓存，以及 适应性的散列索引的InnoDB表。</p>
+<p>本节从单个开发人员可以执行的简单和直接测量技术发展到需要额外专业知识来执行和解释结果的更复杂测量技术。</p>
+<p>{———-}</p>
+<p>8.13.1测量表达式和函数的速度<br>要测量特定MySQL表达式或函数的速度，请BENCHMARK()使用mysql客户端程序调用该函数。它的语法是 。返回值始终为零，但mysql 打印一行显示语句执行的时间。例如： BENCHMARK(loop_count,expression)</p>
+<p>MySQL的&gt; SELECT BENCHMARK(1000000,1+1);</p>
+<ul>
+<li>———————— +<br>| 基准（1000000,1 + 1）|</li>
+<li>———————— +<br>| 0 |</li>
+<li>———————— +<br>1排（0.32秒）<br>该结果在Pentium II 400MHz系统上获得。它表明MySQL可以在0.32秒内在该系统上执行1,000,000个简单的加法表达式。</li>
+</ul>
+<p>内置的MySQL函数通常是高度优化的，但可能有一些例外。 BENCHMARK()是一个很好的工具，可以找出某些功能是否是您的查询的问题。</p>
+<p>8.13.2使用您自己的基准<br>对您的应用程序和数据库进行基准测试，以找出瓶颈所在。在修复一个瓶颈（或者用“ 虚拟 ”模块替换它）之后，您可以继续识别下一个瓶颈。即使您的应用程序的整体性能目前是可接受的，您至少应该为每个瓶颈制定计划，并决定如果有一天您真的需要额外的性能，如何解决它。</p>
+<p>免费的基准测试套件是开源数据库基准测试，可从<a href="http://osdb.sourceforge.net/获得。" target="_blank" rel="noopener">http://osdb.sourceforge.net/获得。</a></p>
+<p>仅在系统负载很重时才会出现问题。我们有许多客户在生产（已测试）系统并遇到负载问题时与我们联系。在大多数情况下，性能问题可能是由于基本数据库设计问题（例如，高负载下的表扫描不好）或操作系统或库的问题。大多数情况下，如果系统尚未投入生产，这些问题将更容易解决。</p>
+<p>为了避免这样的问题，在最糟糕的负载下对整个应用程序进行基准测试：</p>
+<p>该mysqlslap程序可以是用于模拟由多个客户端同时发出查询产生的高负载有帮助的。请参见第4.5.9节“ mysqlslap - 加载仿真客户端”。</p>
+<p>您还可以尝试使用基准测试程序包，例如SysBench和DBT2，可在 <a href="https://launchpad.net/sysbench和" target="_blank" rel="noopener">https://launchpad.net/sysbench和</a> <a href="http://osdldbt.sourceforge.net/#dbt2获得。" target="_blank" rel="noopener">http://osdldbt.sourceforge.net/#dbt2获得。</a></p>
+<p>这些程序或软件包可以使系统瘫痪，因此请务必仅在开发系统上使用它们。</p>
 
           
         
@@ -2203,35 +1624,731 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/07/03/essay/essay-11/" rel="bookmark">关于编码方式</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/12/12/essay/essay-18/" rel="bookmark">编程的套路</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/11/10/essay/avro/" rel="bookmark">apache avro 序列化</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-sentence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/optimization-sql-sentence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">SQL优化【SQL语句】</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-83893c4315e86c69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="目录"></p>
+<p>1、select语句</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-188c121b283eff2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语句优化"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-f9667e691693c83b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优化考虑点"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、删除无效括号【为了增加运算速度牺牲的可读性、mysql会做类似优化】</span><br><span class="line">2、持续折叠</span><br><span class="line">3、恒定条件去除【为了更好的逻辑可读性重复字段=固定值】</span><br><span class="line">4、及时检测无效常量表达式</span><br><span class="line">5、关于havingwhere 、如果不与group by、或者count、min、等聚合函数一起使用、尽量不要使用</span><br><span class="line">6、where 表达式尽量简单、便于快速建立where评估表</span><br><span class="line">7、查询其他表之前首先查询所有常量表</span><br><span class="line">【</span><br><span class="line">        SELECT * FROM t WHERE primary_key=1;</span><br><span class="line">        SELECT * FROM t1,t2</span><br><span class="line">            WHERE t1.primary_key=1 AND t2.primary_key=t1.id;</span><br><span class="line">】</span><br></pre></td></tr></table></figure>
+<p>{———-}</p>
+<p>2、范围优化<br><img src="https://upload-images.jianshu.io/upload_images/6434888-8c3818c4dbff38fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>对于两种索引结构使用不同的范围条件【hash索引、B树索引】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-9820225eacc468b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>==========mmp 太难了 没办法写下去 只能贴图了 以后慢慢品鉴</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/optimization-sql-total-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">常见MYSQL调优策略</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>调优层次：硬件层、磁盘IO、文件系统层、</p>
+<p><strong>硬件层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">修改服务器BIOS设置</span><br><span class="line">1.选择Performance Per Watt Optimized(DAPC)模式 、发挥cpu最大性能</span><br><span class="line">2.Memory Frequency(内存频率)选择 Maximum Performance (最佳性能)</span><br><span class="line">3.内存设置菜单中，启用Node Interleaving 避免NUMA问题</span><br></pre></td></tr></table></figure></p>
+<p><strong>磁盘IO</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用SSD磁盘(瞬时写入非常高、还可以避免很多技术问题)</span><br><span class="line">2.如果是磁盘阵列存储，建议阵列卡同时配备CACHE及BBU模块，可以明显提升IOPS。</span><br><span class="line">3.raid级别尽量选择raid10.而不是raid5(双io方式、也能提高安全性等等)</span><br></pre></td></tr></table></figure></p>
+<p><strong>文件系统层</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.使用deadline/noop这两种I/O调度器。千万别用cfq</span><br><span class="line">2.使用xfs文件系统、千万别用ext3、ext4勉强可用、但是事务量很大一定要用xfs</span><br><span class="line">3.文件系统mount参数中增加：noatime，nodiratime，nobarrier几个选项(nobarrier是xfs文件系统特有的)</span><br></pre></td></tr></table></figure></p>
+<p><strong>内核参数优化</strong></p>
+<pre><code>1.修改vm.swappiness参数，降低swap使用率，RHEL7/centos7以上则慎重设置为0，可能引发OOM(物理内存使用到了90%之后才去修改、设为5-10就可以)
+2.调整vm.dirty_background_ratio(脏数据量占内存量百分比、超过后将脏数据刷到磁盘、最大值（阻塞写）10%)、vm.dirty ratio(标准值（非阻塞写）5%) 内核参数、以确保能持续将脏数据刷新到磁盘，避免瞬I/O写，产生等待。
+3.调整net.ipv4.tcp_tw_recycle、net.ipv4.tcp_tw_reuse都设置为1、减少Time_wait,提高TCP效率
+
+</code></pre><p>{———-}</p>
+<p><strong>MYSQL参数优化建议</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-799fd7a3af94d8ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-cdec42962ed0224d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-total/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/optimization-sql-total/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/28/index.html">SQL优化【总方向】</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>老生常谈 SQL 优化<br>而且一百度一堆，却没有一个令人满意的</p>
+<p>秉承官方文档 原则 【MYSQL第八章 SQL优化】</p>
+<p>优化方向：<br>SQL查询and存储<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sql语句</span><br><span class="line">sql索引</span><br><span class="line">sql数据库结构</span><br><span class="line">sql表【InnoDb表、MyISAM表、Memory表】</span><br></pre></td></tr></table></figure></p>
+<p>缓存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">查询优化器</span><br><span class="line">缓冲和高速缓冲区</span><br></pre></td></tr></table></figure></p>
+<p>锁<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">优化锁定操作</span><br></pre></td></tr></table></figure></p>
+<p>MYSQL服务器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">系统因素-并发量</span><br><span class="line">磁盘IO</span><br><span class="line">内存使用</span><br><span class="line">网络使用</span><br></pre></td></tr></table></figure></p>
+<p>检查<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">检查线程信息</span><br></pre></td></tr></table></figure></p>
+<p>{———-}</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-2cec330583be3f8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6434888-4a09738bdf68cbfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-system/" rel="bookmark">SQL优化【服务器优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-thread/" rel="bookmark">SQL优化【线程信息检查】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
       
     </li>
   
