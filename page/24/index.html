@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">267</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">268</span></a>
 
   </li>
         
@@ -451,6 +451,222 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-total/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/jdk/jvm-total/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">jvm内存一条线路</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>入手从collection开始<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">集合常用 arrayList 底层数据结构 object[]  </span><br><span class="line">数组特点</span><br><span class="line">    内存连续 数据挨个存放  那么删除中间一个时候 后面的数据会挨个往前挪移  </span><br><span class="line">    因为地址可知 查询节点数据 较快 通过下标获取</span><br><span class="line">应对业务场景 插入后查询修改数据   如果执行删除操作会造成资源浪费 需要时间重新规划数组结构</span><br><span class="line"></span><br><span class="line">linkedList 底层数据结构链表</span><br><span class="line">链表特点</span><br><span class="line">  内存不连续</span><br><span class="line">  代码 node  first、 last； object；存放前后节点hash值【待查询】 然后跟节点对象</span><br><span class="line">  该链表实现 Deque 接口，为 add、poll 提供先进先出队列操作，以及其他堆栈和双端队列操作。</span><br><span class="line">应对业务场景</span><br><span class="line">   插入后 可能会删除某项数据 以作数据调整</span><br><span class="line"></span><br><span class="line">&#123;----------&#125;</span><br><span class="line"></span><br><span class="line">hashMap</span><br><span class="line">内存结构是hash散列 【我理解为 散着放的列表】</span><br><span class="line">  内存特点</span><br><span class="line">    hash值分桶存储【其实就一一小块内存】 当hash值冲突 会在该桶内维护一个链表</span><br><span class="line"></span><br><span class="line">警告：暂时不晓得这个桶有多大 所以尽量避免hash冲突 万一桶满了是不是要重新规划内存  造成资源浪费？</span><br><span class="line"></span><br><span class="line">linkedHashMap</span><br><span class="line"> 内存特点 与hashMap一致</span><br><span class="line">不同点 linkedHashMap 额外维护了一个双重链表来记录数据插入的顺序性</span><br><span class="line">那么相比较hashMap 多了一个链表要维护 性能要有所下降 【业务需要 没办法】</span><br><span class="line"></span><br><span class="line">treeMap</span><br><span class="line">内存结构 红黑二叉树</span><br><span class="line">内存特点：位置 对于二叉树还没搞明白 只晓得父红子黑【还不知道对不对】</span><br></pre></td></tr></table></figure></p>
+<p>说到数据内存 就要讲讲内存结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">jvm内存分为五大块【程序计数器、虚拟机栈、本地方法栈、方法区、堆】</span><br><span class="line"></span><br><span class="line">从线程是否共享分起： 线程共享：堆、方法区/非线程共享：程序计数器、虚拟机栈、本地方法栈</span><br><span class="line"></span><br><span class="line">简单说下存储信息</span><br><span class="line">1、程序计数器 用于存放下一条指令所在单元的地址的地方 【c与java的交界点用以存放执行指针】</span><br><span class="line">2、虚拟机栈  【为java方法提供服务】</span><br><span class="line">3、本地方法栈【为jvm提供使用native方法服务】</span><br><span class="line">4、方法区 【存储类常量、静态变量等信息】</span><br><span class="line">5、堆 【存放对象实例、对象成员变量】</span><br><span class="line"></span><br><span class="line">对于一个obj：</span><br><span class="line">类引用--stack中</span><br><span class="line">类成员变量--Heap中【回收主要地方】</span><br><span class="line">类静态变量、常量--Method Area中</span><br><span class="line">类方法--以帧栈形式保存到栈中</span><br></pre></td></tr></table></figure>
+<p>那么内存存储规划完 就得看看 内存的回收机制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">随便一查 就能查到 四种算法：标记清除、标记整理、复制、分代收集</span><br><span class="line"></span><br><span class="line">那么实现这些算法的回收器：仔细查查有六种 ：</span><br><span class="line">Serial收集器【串行】、parNew收集器【并行】、Parallel Scavenge收集器 【并行】</span><br><span class="line">Serial Old收集器 【串行】、Parallel Old 收集器 【并行】、cms收集器</span><br></pre></td></tr></table></figure></p>
+<p>差不多 回收完成</p>
+<p>然后就是 jvm的执行优化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">优化方向 对回收进行控制【减小回收频率】 设定堆栈大小、新生代老年代大小等等、很多很多</span><br></pre></td></tr></table></figure></p>
+<p>那么总结完成之后这一条内存线路就算差不多了 算一条知识线路</p>
+<p>貌似还没有 创建….[尴尬笑]</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-classloader/" rel="bookmark">类加载过程</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -609,20 +825,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
       
     </li>
@@ -631,6 +833,20 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
       
     </li>
   
@@ -687,7 +903,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/memcached/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/cache/redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -707,7 +923,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/cache/memcached/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">memcached</a>
+                <a href="/2018/03/24/cache/redis/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">redis</a>
               
             
           </h2>
@@ -749,7 +965,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
               
             
           </span>
@@ -809,43 +1025,19 @@
       
         
           
-            <p>memcached</p>
-<p><strong>简介</strong></p>
-<pre><code>Memcached的
-Memcached.svg
-开发者（S）    Danga Interactive
-初始发行    2003年5月22日
-稳定版本
-1.5.8 / 2018年5月25日; 39天前[1]
-知识库
-https://github.com/memcached/memcached
-在维基数据上编辑此内容
-写入    C
-操作系统    跨平台
-类型    分布式内存缓存系统
-执照    修订BSD许可证[2]
-网站    memcached .org
-Memcached（发音：mem-cash-dee，mem-cashed）是一种通用的分布式内存缓存系统。它通常用于通过在RAM中缓存数据和对象来加速动态数据库驱动的网站，以减少必须读取外部数据源（如数据库或API）的次数。Memcached是免费的开源软件，根据修订的BSD许可证授权。[2] Memcached在类Unix操作系统（至少是Linux和OS X）和Microsoft Windows上运行。这取决于libevent库。
+            <p>1、使用ANSIC编写 （基于BSD协议）<br>2、开源、内存中数据结构存储<br>3、可以用作数据库、缓存、消息中间件</p>
+<p>支持多种数据结构<br>String、hash、list、set、sorted sets、bitmaps、geospatial<br>字符串、散列、列表、集合、有序集合、bitmaps、地理空间</p>
+<p>redis内置 复制(application) LUA脚本 LRU驱动事件、事物(transtrations) 和不同级别的硬盘持久化<br>并通过redis哨兵(sentinel)和自动分区(cluster)提高可用性</p>
+<p>Redis支持每隔一段时间将数据导出磁盘、支持主从复制、且第一次是快速非阻塞形式</p>
+<p>由于组合式压缩、内存使用率要高于memcached</p>
+<p>{———-}</p>
+<p>其他：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">事物</span><br><span class="line">订阅分发</span><br><span class="line">lua脚本</span><br><span class="line">过期自动删除key</span><br><span class="line">自动故障转移</span><br></pre></td></tr></table></figure></p>
+<p>优势<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">性能极高、读11W次/s  写8.1W次/s</span><br><span class="line">丰富的数据类型</span><br><span class="line">原子性操作</span><br><span class="line">丰富特性、支持publish、sub scribe 通知 key过期等等</span><br></pre></td></tr></table></figure></p>
+<p>redis命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">创建当前备份 save</span><br><span class="line">恢复数据：config get dit &quot;dir&quot; &quot;usr/local/redis/bin&quot;</span><br><span class="line">将dump移动到安装目录 并启动服务即可</span><br><span class="line">创建备份：</span><br><span class="line">Bg save</span><br><span class="line">background saving started 该命令后台执行</span><br><span class="line">恢复备份</span><br><span class="line">redis-cli --rdb /tmp/dump.rdb</span><br><span class="line">检查主从数据流：从模式 redis-cli --slave</span><br><span class="line">从配置修改: slave-read-only yes</span><br><span class="line">从数据库: slave of host:port</span><br><span class="line">清空: flushall</span><br><span class="line">远程连接: redis-cli -h host -p port -a password</span><br></pre></td></tr></table></figure></p>
+<p>redis发布订阅<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">声明客户端 subscribe  redischat</span><br><span class="line">推动消息 publish redischat &quot;this is a exp&quot;</span><br><span class="line">创建集合 sadd a redis</span><br><span class="line">set sadd a memcached</span><br><span class="line">smembers a</span><br><span class="line">创建列表结合list</span><br><span class="line">lpush a redis</span><br><span class="line">lpush a mysql</span><br><span class="line">lrange a 0/0</span><br></pre></td></tr></table></figure></p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yum install redis -y</span><br><span class="line"></span><br><span class="line">cat /etc/redis.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">默认配置可能要修改的数据</span><br><span class="line">logfile /var/log/redis/redis.log</span><br><span class="line">slave-serve-stale-data yes</span><br><span class="line">slave-read-only yes</span><br><span class="line">#requirepass redisPassword</span><br><span class="line"></span><br><span class="line"># The filename where to dump the DB</span><br><span class="line">dbfilename dump.rdb</span><br></pre></td></tr></table></figure></p>
+<h2 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h2><p>1、简单动态字符串（SDS）防止缓冲区溢出、减少字符串拼接带来的内存重新分配【非预分配内存策略】<br>2、链表（双向）–list<br>3、字典<br>4、跳跃表（每个节点维持多个指向其他节点的指针 zskiplist、zskipnode）–sorted set<br>5、整数集合<br>6、压缩列表–list hash<br>7、对象</p>
 
-Memcached的API提供了一个分布在多台机器上的非常大的哈希表。当表已满时，后续插入会导致较旧的数据以最近最少使用（LRU）顺序被清除。[3] [4]使用Memcached的应用程序通常将请求和添加分层到RAM中，然后再回到较慢的后备存储（例如数据库）上。
-
-Memcached没有内部机制来跟踪可能发生的未命中，但是，某些第三方实用程序提供此功能。
-</code></pre><p>{———-}</p>
-<p><strong>数据结构</strong></p>
-<pre><code>key-value【string】
-</code></pre><p><strong>特点</strong></p>
-<pre><code>client-server 结构
-服务端、维护key-value 互不通信
-客户端、自行管理数据在各个服务间的分配
-</code></pre><p><strong>性能</strong></p>
-<pre><code>get获取时间戳、懒校验
-内存不足 LRU算法、主动淘汰
-多核存储、集群性能要高于redis
-内存利用率要高于redis
-</code></pre><p><strong>集群</strong></p>
-<pre><code>服务器互相独立
-客户端hash存储数据
-</code></pre>
           
         
       
@@ -888,7 +1080,908 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/cache/redis/" rel="bookmark">redis</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/cache/memcached/" rel="bookmark">memcached</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/container/install-docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/container/install-docker/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">install docker</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/container/" itemprop="url" rel="index"><span itemprop="name">container</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>国内大佬专玩docker地址<br>中文翻译<br><a href="http://www.widuu.com/docker/" target="_blank" rel="noopener">http://www.widuu.com/docker/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">从官方下载</span><br><span class="line">curl https://get.docker.com &gt; /tmp/install.sh</span><br><span class="line">sh install.sh</span><br><span class="line"></span><br><span class="line">从系统镜像元下载</span><br><span class="line">centos：yum install docker</span><br><span class="line">debian: apt-get install docker</span><br><span class="line"></span><br><span class="line">在centos-6 中 docker 与系统自带可执行程序冲突。</span><br><span class="line">执行：</span><br><span class="line">yum -y remove docker</span><br><span class="line">yum install docker-io</span><br></pre></td></tr></table></figure>
+<p>{———-}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">启动docker</span><br><span class="line">service docker start</span><br><span class="line"></span><br><span class="line">设定默认开机启动</span><br><span class="line">chkconfig docker on</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下载镜像并运行</span><br><span class="line">docker pull centos</span><br><span class="line"></span><br><span class="line">查看镜像</span><br><span class="line">docker images centos</span><br><span class="line"></span><br><span class="line">运行镜像</span><br><span class="line">docker run -i -t centos /bin/bash</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-d5d35c9c2c752dcb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="查看版本号"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-38f424e13f63d94e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="启动docker"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-2b2eaae38ac62f7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="下载镜像.查看镜像"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-729389d55ad5e280.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行镜像"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/container/pouch/" rel="bookmark">pouch</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/container/what-docker/" rel="bookmark">what is the docker</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/log/elk-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/log/elk-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">ELK 搭建</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>elasticsearch 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/downloads/elasticsearch</a><br>linux执行 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>下载解压 【建议使用zsh】</p>
+<p>修改配置文件<br>config/elasticsearch.yml</p>
+<p>{———-}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 集群的名字  </span><br><span class="line">cluster.name: cloud</span><br><span class="line"># 节点名字  </span><br><span class="line">node.name: node-1   </span><br><span class="line"># 数据存储目录（多个路径用逗号分隔）  </span><br><span class="line">path.data: /usr/local/logUtils/elasticsearch/es-data</span><br><span class="line"># 日志目录  </span><br><span class="line">path.logs: /usr/local/logUtils/elasticsearch/log</span><br><span class="line">#本机的ip地址</span><br><span class="line">network.host: 192.168.0.135  </span><br><span class="line">#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;192.168.161.128&quot;]</span><br><span class="line"># 设置节点间交互的tcp端口（集群）,(默认9300)  </span><br><span class="line">transport.tcp.port: 9300  </span><br><span class="line"># 监听端口（默认）  </span><br><span class="line">http.port: 9200  </span><br><span class="line"># 增加参数，使head插件可以访问es  </span><br><span class="line">http.cors.enabled: true  </span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
+<p>运行 bin下的 elasticsearch 进行启动<br>后台启动 bin/elasticsearch  -d</p>
+<p>启动结果如下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-c3defbf97ceb3d06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>启动会遇到的问题<br>1、非root权限启动<br>新建用户  es<br>然后把 elasticsearch 文件夹权限归给 新用户es<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R  es:es  elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>2、 软硬进程限制</p>
+<p>max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]</p>
+<p>解决办法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf</span><br></pre></td></tr></table></figure></p>
+<p>文后添加<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2291db66448586cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>然后使用source 重新加载<br>并使用 ulimit -n 查看 是否为 65536 如果还是1024 那么重新连接linux 试下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-032a906cd27eeca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>3、<br>.max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</p>
+<p>解决办法 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">执行    ：sysctl -w vm.max_map_count=655360</span><br><span class="line">查看执行结果 ： sysctl -a | grep vm.max_map_count</span><br></pre></td></tr></table></figure></p>
+<p><strong>elasticsearch 插件 head 安装</strong></p>
+<p>下载head插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/mobz/elasticsearch-head/archive/master.zip</span><br><span class="line">安装node</span><br><span class="line">wget https://npm.taobao.org/mirrors/node/latest-v4.x/node-v4.4.7-linux-x64.tar.gz</span><br><span class="line">tar -zxvf node-v4.4.7-linux-x64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>配置环境变量<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b86cce5f1787b61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>安装 grunt<br>cd /opt/elasticsearch-head-master<br>npm install -g grunt-cli  //执行后会生成node_modules文件夹<br>grunt是基于Node.js的项目构建工具，可以进行打包压缩、测试、执行等等的工作，head插件就是通过grunt启动</p>
+<p>检查是否安装成功<br>grunt -version</p>
+<p>修改head 插件源码<br>vi  Gruntfile.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e777189ec26ea9b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>vi _site/app.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-99ec0f1955f299a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>文件较大 建议下载下来 使用文本编辑器查找<br>或者使用命令替换localhost 为 你的ip</p>
+<p>运行head<br>head根目录<br>运行 npm install<br>启动head grunt server<br>后台启动 nohup grunt server  &amp;<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e00e0f1850d2b2f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Logstash 安装</strong></p>
+<p>官方下载地址 ：<a href="https://www.elastic.co/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/downloads/logstash</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">linux安装：curl -L -O https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz</span><br><span class="line"></span><br><span class="line">config 添加 配置文件</span><br><span class="line"></span><br><span class="line">vi logstash.conf</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  # stdin &#123; &#125;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    # host:port就是上面appender中的 destination，</span><br><span class="line">    # 这里其实把logstash作为服务，开启9250端口接收logback发出的消息</span><br><span class="line">    host =&gt; &quot;192.168.0.135&quot;</span><br><span class="line">     port =&gt; 9250</span><br><span class="line">     mode =&gt; &quot;server&quot;</span><br><span class="line">    tags :&gt; [&quot;tags&quot;]</span><br><span class="line">    codec =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123; hosts =&gt; [&quot;localhost:9200&quot;] &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动logstash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./logstash -f ../config/logstash.conf  &amp;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Kibana 安装</strong></p>
+<p>官方下载地址：<a href="https://www.elastic.co/downloads/kibana" target="_blank" rel="noopener">https://www.elastic.co/downloads/kibana</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim config/kibana.yml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server.host:&quot;192.168.0.135&quot;</span><br><span class="line">elasticsearch.url:http://192.168.0.135:9200</span><br><span class="line"></span><br><span class="line">启动kibana</span><br><span class="line"></span><br><span class="line">bin/kibana</span><br></pre></td></tr></table></figure></p>
+<p>启动服务 <a href="http://192.168.0.135:5601" target="_blank" rel="noopener">http://192.168.0.135:5601</a></p>
+<p>至此 ELK服务单机版部署完成</p>
+<p>springcloud 集成logback</p>
+<p>引入pom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志发送logstash--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>logback-spring.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=&quot;LOGSTASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        destination 是 logstash 服务的 host:port，</span><br><span class="line">        相当于和 logstash 建立了管道，将日志数据定向传输到 logstash</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;destination&gt;192.168.0.135:9250&lt;/destination&gt;</span><br><span class="line">        &lt;encoder charset=&quot;UTF-8&quot; class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">  &lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">          &lt;appender-ref ref=&quot;LOGSTASH&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-indexes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/optimization-sql-indexes/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">SQL优化【SQL索引】</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-3abe1a92a6358cf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>提高操作性能的最佳方法 SELECT是在查询中测试的一列或多列上创建索引。<br>索引条目就像指向表行的指针，允许查询快速确定哪些行与WHERE子句中的条件匹配，并检索这些行的其他列值。<br>所有的MySQL数据类型都可以被索引。</p>
+<p>尽管为查询中使用的每个可能的列创建索引是很诱人的，但不必要的索引会浪费空间并浪费时间让MySQL确定要使用的索引。<br>索引还会增加插入，更新和删除的成本，因为每个索引都必须更新。<br>您必须找到适当的平衡，才能使用最佳索引集实现快速查询。</p>
+<p>{———-}</p>
+<p>8.3.1 MySQL如何使用索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">索引用于快速查找具有特定列值的行。</span><br><span class="line">如果没有索引，MySQL必须从第一行开始，然后读取整个表以查找相关行。</span><br><span class="line">表格越大，成本越高。</span><br><span class="line">如果表中有相关​​列的索引，MySQL可以快速确定在数据文件中间寻找的位置，而无需查看所有数据。</span><br><span class="line">这比按顺序读取每一行要快得多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">大多数MySQL索引（PRIMARY KEY， UNIQUE，INDEX和 FULLTEXT）存储在 B树。</span><br><span class="line">例外：空间数据类型的索引使用R树; MEMORY 表还支持散列索引 ; 索引InnoDB使用倒排列表FULLTEXT。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一般来说，索引的使用将在下面的讨论中描述。</span><br><span class="line">第8.3.8节“B树和散列索引的比较”MEMORY中描述了特定于散列索引的特性（如表中所用 ） 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL使用这些操作的索引：</span><br><span class="line"></span><br><span class="line">WHERE快速 查找与子句匹配的行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">考虑排除行。</span><br><span class="line">如果在多个索引之间有选择，MySQL通常使用找到最少行数的索引（最具 选择性的索引）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果表具有多列索引，则优化器可以使用该索引的任何最左边的前缀来查找行。</span><br><span class="line">例如，如果你有一个三列索引上 (col1, col2, col3)，你有索引的搜索功能(col1)， (col1, col2)以及(col1, col2, col3)。</span><br><span class="line">有关更多信息，请参见 第8.3.5节“多列索引”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在执行连接时从其他表中检索行。</span><br><span class="line">如果它们被声明为相同的类型和大小，MySQL可以更有效地在列上使用索引。</span><br><span class="line">在这种情况下， VARCHAR与 CHAR被认为是相同的，如果它们被声明为相同的大小。</span><br><span class="line">例如， VARCHAR(10)和 CHAR(10)大小相同，但 VARCHAR(10)与 CHAR(15)不是。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了比较非二进制字符串列，两列应使用相同的字符集。</span><br><span class="line">例如，将utf8列与 latin1列进行比较将排除索引的使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">比较不同的列（例如，比较字符串列与时间或数字列）可能会阻止使用索引，如果无法直接比较值而不进行转换。</span><br><span class="line">对于给定的值，如1 在数值列，它可能比较等于在字符串列，例如任何数量的值 &apos;1&apos;，&apos; 1&apos;， &apos;00001&apos;，或&apos;01.e1&apos;。</span><br><span class="line">这排除了字符串列的任何索引的使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查找特定索引列的值MIN()或 MAX()值key_col。</span><br><span class="line">这由预处理器进行了优化，该预处理器检查您是否使用 索引中之前发生的所有关键部件。</span><br><span class="line">在这种情况下，MySQL会为每个表达式或 单个表达式执行单键查找，并用常量替换它。</span><br><span class="line">如果所有表达式都被常量替换，则查询立即返回。</span><br><span class="line">例如： WHERE key_part_N = constantkey_colMIN()MAX()</span><br><span class="line"></span><br><span class="line">SELECT MIN（key_part2），MAX（key_part2）</span><br><span class="line">  FROM tbl_nameWHERE key_part1= 10;</span><br><span class="line">如果排序或分组是在可用索引的最左侧前缀（例如，）上完成，则对表排序或分组 。</span><br><span class="line">如果所有关键部件都紧随其后，则按相反的顺序读取钥匙。</span><br><span class="line">请参见 第8.2.1.13节“按优化排序”和 第8.2.1.14节“GROUP BY优化”。</span><br><span class="line"> ORDER BY key_part1, key_part2DESC</span><br><span class="line"></span><br><span class="line">在某些情况下，可以优化查询以在不查询数据行的情况下检索值。</span><br><span class="line">（为查询提供所有必要结果的索引称为 覆盖索引。</span><br><span class="line">）如果查询仅使用表中某些索引中包含的列，则可以从索引树中检索所选值以获得更高的速度：</span><br><span class="line"></span><br><span class="line">SELECT key_part3FROM tbl_name</span><br><span class="line">  WHERE key_part1= 1</span><br><span class="line">索引对于小型表或查询处理大部分或全部行的大型表的查询不太重要。</span><br><span class="line">当查询需要访问大多数行时，顺序读取比通过索引处理更快。</span><br><span class="line">即使并非查询所需的所有行，顺序读取也会使磁盘搜索次数最小化。</span><br><span class="line">有关详细信息，请参见第8.2.1.19节“避免全表扫描”。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.2主键优化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">表的主键表示您在最重要的查询中使用的一列或一组列。</span><br><span class="line">它有一个关联索引，用于快速查询性能。</span><br><span class="line">查询性能从NOT NULL优化中受益，因为它不能包含任何NULL值。</span><br><span class="line">通过InnoDB存储引擎，表格数据的物理组织可以进行超快速查找，并根据主键列进行排序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您的表格很重要，但没有明显的列或一组列作为主键，那么您可以创建一个带有自动增量值的单独列作为主键。</span><br><span class="line">当您使用外键连接表时，这些唯一ID可用作指向其他表中相应行的指针。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.3外键优化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如果一个表有许多列，并且查询了许多不同的列组合，将不常用的数据拆分为每列有几列的单独表格，并通过复制数字ID将它们关联回主表可能很有效主表中的列。</span><br><span class="line">这样，每个小表可以有一个快速查找其数据的主键，并且可以使用连接操作仅查询需要的一组列。</span><br><span class="line">根据数据的分布情况，查询可能会执行较少的I / O并占用较少的缓存内存，因为相关列在磁盘上打包在一起。</span><br><span class="line">（为了最大限度提高性能，查询尝试从磁盘读取尽可能少的数据块;</span><br></pre></td></tr></table></figure></p>
+<p>8.3.4列索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">最常见的索引类型涉及单列，将该列中值的副本存储在数据结构中，从而允许快速查找具有相应列值的行。</span><br><span class="line">B树数据结构可以让索引快速查找特定值，一组值，或值的范围，对应于运营商，如=， &gt;，≤， BETWEEN，IN，等等，一在WHERE子句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">每个表的最大索引数和最大索引长度是根据每个存储引擎定义的。</span><br><span class="line">请参阅 第14章InnoDB存储引擎和 第15章备用存储引擎。</span><br><span class="line">所有存储引擎每个表至少支持16个索引，总索引长度至少为256个字节。</span><br><span class="line">大多数存储引擎有更高的限制。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关列索引的其他信息，请参见 第13.1.14节“CREATE INDEX语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">索引前缀</span><br><span class="line"></span><br><span class="line">FULLTEXT索引</span><br><span class="line"></span><br><span class="line">空间索引</span><br><span class="line"></span><br><span class="line">MEMORY存储引擎中的索引</span><br><span class="line"></span><br><span class="line">索引前缀</span><br><span class="line">使用 字符串列的索引规范中的语法，可以创建仅使用列的前几个字符的索引 。</span><br><span class="line">以这种方式仅索引列值的前缀可以使索引文件更小。</span><br><span class="line">索引一 列或一 列时，您 必须为该索引指定一个前缀长度。</span><br><span class="line">例如： col_name(N)NBLOBTEXT</span><br><span class="line"></span><br><span class="line">CREATE TABLE测试（blob_col BLOB，INDEX（blob_col（10）））;</span><br><span class="line">前缀长度可以达到1000字节（InnoDB表格为767字节 ，除非已 innodb_large_prefix设置）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">前缀限制以字节为单位，而在前缀长度CREATE TABLE， </span><br><span class="line">	ALTER TABLE和 CREATE INDEX语句被解释为非二进制串类型的字符数（CHAR， VARCHAR， TEXT二进制串类型（）和字节数BINARY， VARBINARY， BLOB）。</span><br><span class="line">为使用多字节字符集的非二进制字符串列指定前缀长度时，请考虑这一点。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关索引前缀的更多信息，请参见 第13.1.14节“CREATE INDEX语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FULLTEXT索引</span><br><span class="line">FULLTEXT索引用于全文搜索。</span><br><span class="line">只有InnoDB和 MyISAM存储引擎支持 FULLTEXT索引和仅适用于 CHAR， VARCHAR和 TEXT列。</span><br><span class="line">索引始终在整个列上进行，并且不支持列前缀索引。</span><br><span class="line">有关详细信息，请参见 第12.9节“全文搜索功能”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化适用于FULLTEXT针对单个InnoDB表的某些类型的 查询 。</span><br><span class="line">具有这些特征的查询特别有效：</span><br><span class="line"></span><br><span class="line">FULLTEXT 只返回文档ID或文档ID和搜索等级的查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FULLTEXT查询按匹配的降序对匹配的行进行排序，并应用一个 LIMIT子句获取前N个匹配行。</span><br><span class="line">为了应用这种优化，不得有 WHERE条款并且只有一个 ORDER BY条款按降序排列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FULLTEXT只检索COUNT(*)与搜索词相匹配的行的 值的查询，没有附加WHERE 子句。</span><br><span class="line">将该WHERE子句编码为 没有任何比较运算符。</span><br><span class="line"> WHERE MATCH(text) AGAINST (&apos;other_text&apos;)&gt; 0</span><br><span class="line"></span><br><span class="line">对于包含全文表达式的查询，MySQL会在查询执行的优化阶段评估这些表达式。</span><br><span class="line">优化器不仅查看全文表达式并进行估计，而且在开发执行计划的过程中实际评估它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">此行为的含义是， EXPLAIN对于全文查询，通常比在优化阶段没有进行表达式评估的非全文查询要慢。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">EXPLAIN由于在优化过程中发生匹配，全文查询可能会显示Select tables optimized away在Extra列中; 在这种情况下，在稍后的执行过程中不需要进行表访问。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">空间索引</span><br><span class="line">您可以创建空间数据类型的索引。</span><br><span class="line"> MyISAM并InnoDB 支持空间类型的R-tree索引。</span><br><span class="line">其他存储引擎使用B树来索引空间类型（除了 ARCHIVE不支持空间类型索引）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MEMORY存储引擎中的索引</span><br><span class="line">该MEMORY存储引擎使用 HASH默认的索引，而且还支持 BTREE索引。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.5多列索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">MySQL可以创建复合索引（即多列索引）。</span><br><span class="line">索引最多可以包含16列。</span><br><span class="line">对于某些数据类型，您可以索引列的前缀（请参见 第8.3.4节“列索引”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL可以对测试索引中所有列的查询使用多列索引，或者只测试第一列，前两列，前三列等等的查询。</span><br><span class="line">如果您在索引定义中以正确顺序指定列，则单个组合索引可以加速同一个表上的多种查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">多列索引可以被认为是一个有序数组，其行包含通过连接索引列的值创建的值。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">作为组合索引的替代方法，您可以引入基于来自其他列的信息的“ 哈希 ”列。</span><br><span class="line">如果此列较短，合理唯一且编制索引，则它可能比许多列上的“ 宽 ”索引更快。</span><br><span class="line">在MySQL中，使用这个额外的列非常容易：</span><br><span class="line"></span><br><span class="line">SELECT * FROM tbl_name</span><br><span class="line">  WHERE hash_col= MD5（CONCAT（val1，val2））</span><br><span class="line">  AND col1= val1AND col2= val2;</span><br><span class="line">假设一张表具有以下规格：</span><br><span class="line"></span><br><span class="line">CREATE TABLE测试（</span><br><span class="line">    id INT NOT NULL，</span><br><span class="line">    last_name CHAR（30）NOT NULL，</span><br><span class="line">    first_name CHAR（30）NOT NULL，</span><br><span class="line">    PRIMARY KEY（id），</span><br><span class="line">    INDEX名称（姓氏，名字）</span><br><span class="line">）;</span><br><span class="line">该name指数是在一个索引 last_name和first_name 列。</span><br><span class="line">该索引可用于在查询中查找，以指定已知范围中的 值last_name和first_name值的组合 。</span><br><span class="line">它也可以用于仅指定last_name值的查询， 因为该列是索引的最左边的前缀（如本节后面所述）。</span><br><span class="line">因此，该name索引用于以下查询中的查找：</span><br><span class="line"></span><br><span class="line">SELECT * FROM test WHERE last_name =&apos;Widenius&apos;;</span><br><span class="line"></span><br><span class="line">SELECT * FROM测试</span><br><span class="line">  WHERE last_name =&apos;Widenius&apos;AND first_name =&apos;Michael&apos;;</span><br><span class="line"></span><br><span class="line">SELECT * FROM测试</span><br><span class="line">  WHERE last_name =&apos;Widenius&apos;</span><br><span class="line">  AND（first_name =&apos;Michael&apos;OR first_name =&apos;Monty&apos;）;</span><br><span class="line"></span><br><span class="line">SELECT * FROM测试</span><br><span class="line">  WHERE last_name =&apos;Widenius&apos;</span><br><span class="line">  AND first_name&gt; =&apos;M&apos;AND first_name &lt;&apos;N&apos;;</span><br><span class="line">但是，name索引 不用于以下查询中的查找：</span><br><span class="line"></span><br><span class="line">SELECT * FROM test WHERE first_name =&apos;Michael&apos;;</span><br><span class="line"></span><br><span class="line">SELECT * FROM测试</span><br><span class="line">  WHERE last_name =&apos;Widenius&apos;OR first_name =&apos;Michael&apos;;</span><br><span class="line">假设您发出以下 SELECT声明：</span><br><span class="line"></span><br><span class="line">SELECT * FROM tbl_name</span><br><span class="line">  WHERE col1 = val1AND col2 = val2;</span><br><span class="line">如果一个多列索引存在于col1和 col2，相应的行可以直接取出。</span><br><span class="line">如果在col1和上存在单独的单列索引 col2，优化器将尝试使用索引合并优化（请参见 第8.2.1.3节“索引合并优化”），</span><br><span class="line">	或尝试通过确定哪个索引排除更多行并使用它来尝试查找最具限制性的索引该索引来获取行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果表具有多列索引，则优化器可以使用该索引的任何最左边的前缀来查找行。</span><br><span class="line">例如，如果你有一个三列索引上(col1, col2, col3)，你有索引的搜索功能 (col1)，(col1, col2)以及 (col1, col2, col3)。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果列不构成索引的最左边的前缀，则MySQL不能使用索引执行查找。</span><br><span class="line">假设你有SELECT这里显示的语句：</span><br><span class="line"></span><br><span class="line">SELECT * FROM tbl_nameWHERE col1 = val1;</span><br><span class="line">SELECT * FROM tbl_nameWHERE col1 = val1AND col2 = val2;</span><br><span class="line"></span><br><span class="line">SELECT * FROM tbl_nameWHERE col2 = val2;</span><br><span class="line">SELECT * FROM tbl_nameWHERE col2 = val2AND col3 = val3;</span><br><span class="line">如果索引存在(col1, col2, col3)，则只有前两个查询使用该索引。</span><br><span class="line">第三和第四个查询确实包括索引的列，但不使用索引来进行查找，因为(col2)和 (col2, col3)不是的最左边的前缀 (col1, col2, col3)。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.6检验索引使用情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">始终检查您的所有查询是否确实使用您在表中创建的索引。</span><br><span class="line">EXPLAIN如第8.8.1节“使用EXPLAIN优化查询”中所述使用该 语句。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.7 InnoDB和MyISAM指数统计收集<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">存储引擎收集关于优化器使用的表的统计信息。</span><br><span class="line">表统计信息基于值组，其中值组是具有相同关键字前缀值的一组行。</span><br><span class="line">为了优化器的目的，重要的统计数据是平均值组大小。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL通过以下方式使用平均值组大小：</span><br><span class="line"></span><br><span class="line">估计每次ref访问 必须读取的行数</span><br><span class="line"></span><br><span class="line">估计部分连接将产生多少行; 也就是说，这个表单的操作将会产生的行数：</span><br><span class="line"></span><br><span class="line">（...）JOIN tbl_nameON tbl_name。</span><br><span class="line">key=expr</span><br><span class="line">随着索引的平均值组大小增加，索引对于这两个目的的用处不大，因为每次查找的平均行数增加：为了使索引适合优化，最好每个索引值的目标是小表格中的行数。</span><br><span class="line">当一个给定的索引值产生大量的行时，该索引不太有用，而MySQL不太可能使用它。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">平均值组大小与表基数有关，这是值组的数量。</span><br><span class="line">该 SHOW INDEX语句基于表显示基数值N/S，其中 N表S是行中的行数，并且是平均值组大小。</span><br><span class="line">该比率在表格中产生了近似数量的值组。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为联接基础上，&lt;=&gt;比较运营商，NULL没有从任何其它值区别对待：NULL &lt;=&gt; NULL，就像任何其他 。</span><br><span class="line"> N &lt;=&gt; NN</span><br><span class="line"></span><br><span class="line">但是，对于基于=运算符的连接， NULL与非NULL值不同： 在或 （或两者）都不 是真时 。</span><br><span class="line">这会影响 对表单进行比较的访问：如果当前值为is ，则MySQL将不访问表 ，因为比较不成立。</span><br><span class="line"> expr1 = expr2expr1expr2NULLreftbl_name.key = exprexprNULL</span><br><span class="line"></span><br><span class="line">为了=比较，NULL表中有多少个值并不重要。</span><br><span class="line">出于优化目的，相关值是非NULL值组的平均大小。</span><br><span class="line">但是，MySQL目前不支持收集或使用平均大小。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于 表InnoDB和MyISAM表，您可以分别通过innodb_stats_method和 myisam_stats_method系统变量来控制表统计信息的收集 。</span><br><span class="line">这些变量有三个可能的值，其不同之处如下：</span><br><span class="line"></span><br><span class="line">当变量设置为时nulls_equal，所有NULL值都被视为相同（即它们都形成单个值组）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果NULL值组大小远高于平均非NULL值组大小，则此方法会向上倾斜平均值组大小。</span><br><span class="line">这使得索引对于优化器来说显得不如对于查找非NULL值的联接有用。</span><br><span class="line">因此，该 nulls_equal方法可能会导致优化器ref在应该访问时不使用索引进行 访问。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当变量设置为时 nulls_unequal，NULL 值不被视为相同。</span><br><span class="line">相反，每个 NULL值形成一个大小为1的单独值组。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您有很多NULL值，则此方法会向下倾斜平均值组大小。</span><br><span class="line">如果平均非NULL值组大小较大，则将值计算NULL为一组大小1会导致优化程序高估查找非NULL 值的连接的索引值。</span><br><span class="line">因此，当其他方法可能更好时，该nulls_unequal 方法可以使优化器使用该索引进行 ref查找。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当变量设置为时 nulls_ignored，NULL 值将被忽略。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果你倾向于使用很多连接在使用 &lt;=&gt;，而不是=， NULL值并不特殊，在比较和一个NULL等于另一个。</span><br><span class="line">在这种情况下，nulls_equal是适当的统计方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该innodb_stats_method系统变量具有全局值; 该 myisam_stats_method系统变量有全局和会话值。</span><br><span class="line">设置全局值会影响相应存储引擎中表的统计信息收集。</span><br><span class="line">设置会话值仅影响当前客户端连接的统计信息收集。</span><br><span class="line">这意味着您可以强制使用给定方法重新生成表的统计信息，而不会通过设置会话值来影响其他客户端 myisam_stats_method。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要重新生成MyISAM表格统计信息，可以使用以下任何一种方法：</span><br><span class="line"></span><br><span class="line">执行myisamchk --stats_method = - method_name 分析</span><br><span class="line"></span><br><span class="line">更改表使其统计信息过期（例如，插入一行然后删除它），然后设置 myisam_stats_method并发布一个ANALYZE TABLE 语句</span><br><span class="line"></span><br><span class="line">关于使用innodb_stats_method和的 一些注意事项 myisam_stats_method：</span><br><span class="line"></span><br><span class="line">如刚才所描述的，您可以强制显示表格统计信息。</span><br><span class="line">但是，MySQL也可能会自动收集统计信息。</span><br><span class="line">例如，如果在为表执行语句的过程中，其中一些语句会修改表，MySQL可能会收集统计信息。</span><br><span class="line">（例如，对于批量插入或删除，或者某些ALTER TABLE语句，可能会发生 这种情况。</span><br><span class="line">）如果发生这种情况，统计信息将使用任何值 innodb_stats_method或 myisam_stats_method在那个时候。</span><br><span class="line">因此，如果您使用一种方法收集统计信息，但是稍后自动收集表的统计信息时将系统变量设置为另一种方法，则将使用其他方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">无法确定哪种方法用于为给定的表生成统计信息。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些变量仅适用于表格InnoDB和 MyISAM表格。</span><br><span class="line">其他存储引擎只有一种收集表格统计信息的方法。</span><br><span class="line">通常它更接近该nulls_equal方法。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.8 B树和散列索引的比较<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">了解B树和散列数据结构可以帮助预测不同的查询在使用索引中的这些数据结构的不同存储引擎上的性能，特别是用于MEMORY允许您选择B树或散列索引的存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">B树索引特征</span><br><span class="line"></span><br><span class="line">哈希指数特征</span><br><span class="line"></span><br><span class="line">B树索引特征</span><br><span class="line">A B树索引可以在使用表达式中使用的对列的比较 =， &gt;， &gt;=， &lt;， &lt;=，或BETWEEN运营商。</span><br><span class="line">LIKE 如果参数为LIKE不是以通配符开头的常量字符串，则索引也可用于比较 。</span><br><span class="line">例如，以下SELECT语句使用索引：</span><br><span class="line"></span><br><span class="line">选择*从tbl_name哪里key_col &apos;帕特里克％&apos;;</span><br><span class="line">SELECT * FROM tbl_nameWHERE key_colLIKE &apos;％专利％_ck&apos;;</span><br><span class="line">在第一条语句中，只考虑了行。</span><br><span class="line">在第二条语句中，只考虑了行。</span><br><span class="line"> &apos;Patrick&apos; &lt;= key_col &lt; &apos;Patricl&apos;&apos;Pat&apos; &lt;= key_col &lt; &apos;Pau&apos;</span><br><span class="line"></span><br><span class="line">以下SELECT语句不使用索引：</span><br><span class="line"></span><br><span class="line">选择*从tbl_name哪里key_col&apos;％Patrick％&apos;;</span><br><span class="line">SELECT * FROM tbl_nameWHERE key_colLIKE other_col;</span><br><span class="line">在第一个语句中，该LIKE 值以通配符开头。</span><br><span class="line">在第二个声明中，该LIKE值不是一个常数。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您使用并且 长度超过三个字符，则MySQL使用Turbo Boyer-Moore算法来初始化字符串的模式，然后使用此模式更快地执行搜索。</span><br><span class="line"> ... LIKE &apos;%string%&apos;string</span><br><span class="line"></span><br><span class="line">使用col_name IS NULL索引 搜索col_name索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">不跨越子句中所有AND级别的 任何索引 WHERE都不用于优化查询。</span><br><span class="line">换句话说，为了能够使用索引，必须在每个AND组中使用索引的前缀 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以下WHERE条款使用索引：</span><br><span class="line"></span><br><span class="line">... WHERE index_part1= 1 AND index_part2= 2 AND other_column= 3</span><br><span class="line"></span><br><span class="line">    / * index= 1 OR index= 2 * /</span><br><span class="line">... WHERE index= 1或A = 10 AND index= 2</span><br><span class="line"></span><br><span class="line">    / *优化如“ index_part1=&apos;hello&apos;”* /</span><br><span class="line">... WHERE index_part1=&apos;你好&apos;AND index_part3= 5</span><br><span class="line"></span><br><span class="line">    / *可以使用索引index1但不是index2或index3* /</span><br><span class="line">... WHERE index1= 1 AND index2= 2 OR index1= 3 AND index3= 3;</span><br><span class="line">这些WHERE条款 不使用索引：</span><br><span class="line"></span><br><span class="line">    / * index_part1未使用* /</span><br><span class="line">... WHERE index_part2= 1 AND index_part3= 2</span><br><span class="line"></span><br><span class="line">    / *索引不用于WHERE子句的两个部分* /</span><br><span class="line">... WHERE index= 1或A = 10</span><br><span class="line"></span><br><span class="line">    / *没有索引跨越所有行* /</span><br><span class="line">... WHERE index_part1= 1 OR index_part2= 10</span><br><span class="line">有时MySQL不使用索引，即使有索引。</span><br><span class="line">出现这种情况的一种情况是，优化程序估计使用索引需要MySQL访问表中非常大部分的行。</span><br><span class="line">（在这种情况下，表扫描可能会快得多，因为它需要更少的搜索。</span><br><span class="line">）但是，如果这样的查询LIMIT仅用于检索某些行，则MySQL无论如何都会使用索引，因为它可以更快地找到结果中返回的行数很少。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">哈希指数特征</span><br><span class="line">哈希索引与刚刚讨论的哈希索引有些不同：</span><br><span class="line"></span><br><span class="line">它们只用于使用等于比较 =或&lt;=&gt; 运营商（但非常快）。</span><br><span class="line">它们不用于比较运算符，比如 &lt;找到一系列值。</span><br><span class="line">依赖这种单值查找的系统被称为“ 键值存储 ” ; 为这些应用程序使用MySQL，尽可能使用散列索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化器不能使用散列索引来加速 ORDER BY操作。</span><br><span class="line">（这种类型的索引不能用于按顺序搜索下一个条目。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">MySQL不能确定两个值之间大约有多少行（范围优化器使用它来决定使用哪个索引）。</span><br><span class="line">如果您将某个表MyISAM或 InnoDB表更改为散列索引 MEMORY表，这可能会影响某些查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">只有整个键才能用来搜索一行。</span><br><span class="line">（使用B树索引，可以使用密钥的任何最左边的前缀来查找行。</span><br><span class="line">）</span><br></pre></td></tr></table></figure></p>
+<p>8.3.9使用索引扩展<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line">InnoDB通过附加主键列来自动扩展每个二级索引。</span><br><span class="line">考虑这个表格定义：</span><br><span class="line"></span><br><span class="line">CREATE TABLE t1（</span><br><span class="line">  i1 INT NOT NULL DEFAULT 0，</span><br><span class="line">  i2 INT NOT NULL DEFAULT 0，</span><br><span class="line">  d DATE DEFAULT NULL，</span><br><span class="line">  PRIMARY KEY（i1，i2），</span><br><span class="line">  INDEX k_d（d）</span><br><span class="line">）ENGINE = InnoDB;</span><br><span class="line">该表定义列上的主键(i1, i2)。</span><br><span class="line">它还k_d在列上定义了二级索引 (d)，但在内部InnoDB扩展此索引并将其视为列(d, i1, i2)。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化程序在确定如何以及是否使用该索引时会考虑扩展二级索引的主键列。</span><br><span class="line">这可以导致更高效的查询执行计划和更好的性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化器可以使用扩展次要索引 ref，range和 index_merge索引访问，为松散索引扫描，对于加入和排序的优化，以及用于 MIN()/ MAX() 优化。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以下示例显示了执行计划如何受到优化程序是否使用扩展辅助索引的影响。</span><br><span class="line">假设t1这些行被填充：</span><br><span class="line"></span><br><span class="line">INSERT INTO t1 VALUES</span><br><span class="line">（1,1，&apos;1998-01-01&apos;），（1,2，&apos;1999-01-01&apos;），</span><br><span class="line">（1，3，&apos;2000-01-01&apos;），（1，4，&apos;2001-01-01&apos;），</span><br><span class="line">（1，5，&apos;2002-01-01&apos;），（2,1，&apos;1998-01-01&apos;），</span><br><span class="line">（2，2，&apos;1999-01-01&apos;），（2,3，&apos;2000-01-01&apos;），</span><br><span class="line">（2,4，&apos;2001-01-01&apos;），（2，5，&apos;2002-01-01&apos;），</span><br><span class="line">（3,1，&apos;1998-01-01&apos;），（3,2，&apos;1999-01-01&apos;），</span><br><span class="line">（3,3，&apos;2000-01-01&apos;），（3,4，&apos;2001-01-01&apos;），</span><br><span class="line">（3，5，&apos;2002-01-01&apos;），（4,1，&apos;1998-01-01&apos;），</span><br><span class="line">（4，2，&apos;1999-01-01&apos;），（4，3，&apos;2000-01-01&apos;），</span><br><span class="line">（4，4，&apos;2001-01-01&apos;），（4，5，&apos;2002-01-01&apos;），</span><br><span class="line">（5,1，&apos;1998-01-01&apos;），（5,2，&apos;1999-01-01&apos;），</span><br><span class="line">（5，3，&apos;2000-01-01&apos;），（5，4，&apos;2001-01-01&apos;），</span><br><span class="line">（5，5，&apos;2002-01-01&apos;）;</span><br><span class="line">现在考虑这个查询：</span><br><span class="line"></span><br><span class="line">EXPLAIN SELECT COUNT（*）FROM t1 WHERE i1 = 3 AND d =&apos;2000-01-01&apos;</span><br><span class="line">在这种情况下，优化器不能使用主键，因为它包含列(i1, i2)并且查询没有引用i2。</span><br><span class="line">取而代之的是，优化器可以使用二级索引k_d上 (d)，并且执行计划依赖于扩展索引是否被使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当优化器不考虑索引扩展时，它将索引k_d视为唯一(d)。</span><br><span class="line"> EXPLAIN为查询产生这个结果：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; EXPLAIN SELECT COUNT(*) FROM t1 WHERE i1 = 3 AND d = &apos;2000-01-01&apos;\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">           ID：1</span><br><span class="line">  select_type：SIMPLE</span><br><span class="line">        表：t1</span><br><span class="line">         键入：ref</span><br><span class="line">possible_keys：PRIMARY，k_d</span><br><span class="line">          键：k_d</span><br><span class="line">      key_len：4</span><br><span class="line">          ref：const</span><br><span class="line">         行数：5</span><br><span class="line">        额外：使用where; 使用索引</span><br><span class="line">当优化需要索引扩展到帐户，它把k_d作为(d, i1, i2)。</span><br><span class="line">在这种情况下，它可以使用最左边的索引前缀(d, i1)来产生更好的执行计划：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; EXPLAIN SELECT COUNT(*) FROM t1 WHERE i1 = 3 AND d = &apos;2000-01-01&apos;\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">           ID：1</span><br><span class="line">  select_type：SIMPLE</span><br><span class="line">        表：t1</span><br><span class="line">         键入：ref</span><br><span class="line">possible_keys：PRIMARY，k_d</span><br><span class="line">          键：k_d</span><br><span class="line">      key_len：8</span><br><span class="line">          ref：const，const</span><br><span class="line">         行：1</span><br><span class="line">        额外：使用索引</span><br><span class="line">在这两种情况下，都key表示优化器将使用二级索引，k_d但EXPLAIN输出显示了使用扩展索引的这些改进：</span><br><span class="line"></span><br><span class="line">key_len从4个字节到8个字节去，表明键查找中使用的列d 和i1，而不仅仅是d。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该ref从价值变动 const到const,const ，因为键查找使用两个关键部分，没有之一。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">的rows计数降低从5到1，表明InnoDB应该需要检查更少的行，以产生结果。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该Extra值从变化 Using where; Using index到 Using index。</span><br><span class="line">这意味着可以仅使用索引读取行，而无需查阅数据行中的列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用扩展索引的优化器行为差异也可以通过以下方式看出SHOW STATUS：</span><br><span class="line"></span><br><span class="line">FLUSH TABLE t1;</span><br><span class="line">FLUSH STATUS;</span><br><span class="line">SELECT COUNT（*）FROM t1 WHERE i1 = 3 AND d =&apos;2000-01-01&apos;;</span><br><span class="line">SHOW STATUS LIKE&apos;handler_read％&apos;</span><br><span class="line">前面的语句包含FLUSH TABLES并FLUSH STATUS 刷新表缓存并清除状态计数器。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">没有索引扩展，SHOW STATUS产生这样的结果：</span><br><span class="line"></span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">| Handler_read_first | 0 |</span><br><span class="line">| Handler_read_key | 1 |</span><br><span class="line">| Handler_read_last | 0 |</span><br><span class="line">| Handler_read_next | 5 |</span><br><span class="line">| Handler_read_prev | 0 |</span><br><span class="line">| Handler_read_rnd | 0 |</span><br><span class="line">| Handler_read_rnd_next | 0 |</span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">通过索引扩展，SHOW STATUS生成此结果。</span><br><span class="line">该 Handler_read_next值从5减少到1，表示更有效地使用该指数：</span><br><span class="line"></span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">| Handler_read_first | 0 |</span><br><span class="line">| Handler_read_key | 1 |</span><br><span class="line">| Handler_read_last | 0 |</span><br><span class="line">| Handler_read_next | 1 |</span><br><span class="line">| Handler_read_prev | 0 |</span><br><span class="line">| Handler_read_rnd | 0 |</span><br><span class="line">| Handler_read_rnd_next | 0 |</span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">在确定如何使用表的二级索引时use_index_extensions，optimizer_switch系统变量 的标志 允许控制优化程序是否考虑主键列 InnoDB。</span><br><span class="line">默认情况下， use_index_extensions已启用。</span><br><span class="line">要检查禁用索引扩展是否会提高性能，请使用以下语句：</span><br><span class="line"></span><br><span class="line">SET optimizer_switch =&apos;use_index_extensions = off&apos;;</span><br><span class="line">优化器使用索引扩展受索引（16）中关键部分数量和最大关键字长度（3072字节）的通常限制。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.10优化器使用生成的列索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">MySQL支持生成列上的索引。</span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">CREATE TABLE t1（f1 INT，gc INT AS（f1 + 1）STORED，INDEX（gc））;</span><br><span class="line">生成的列gc被定义为表达式f1 + 1。</span><br><span class="line">该列也被编入索引，并且优化程序可以在执行计划构建期间考虑该索引。</span><br><span class="line">在以下查询中，该 WHERE子句引用gc 并且优化器考虑该列上的索引是否产生更高效的计划：</span><br><span class="line"></span><br><span class="line">SELECT * FROM t1 WHERE gc&gt; 9;</span><br><span class="line">优化器可以在生成的列上使用索引来生成执行计划，即使在没有按名称对这些列进行查询时直接引用也是如此。</span><br><span class="line">会发生此如果 WHERE，ORDER BY或 GROUP BY条款是指一些索引生成列的定义相匹配的表达式。</span><br><span class="line">以下查询不直接引用，gc 但使用的表达式符合以下定义 gc：</span><br><span class="line"></span><br><span class="line">SELECT * FROM t1 WHERE f1 + 1&gt; 9;</span><br><span class="line">优化器识别出表达f1 + 1的定义相匹配gc，并且gc被索引，因此它认为执行计划在施工期间的索引。</span><br><span class="line">你可以看到这个使用 EXPLAIN：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; EXPLAIN SELECT * FROM t1 WHERE f1 + 1 &gt; 9\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">           ID：1</span><br><span class="line">  select_type：SIMPLE</span><br><span class="line">        表：t1</span><br><span class="line">   分区：NULL</span><br><span class="line">         键入：范围</span><br><span class="line">possible_keys：gc</span><br><span class="line">          key：gc</span><br><span class="line">      key_len：5</span><br><span class="line">          ref：NULL</span><br><span class="line">         行：1</span><br><span class="line">     过滤：100.00</span><br><span class="line">        额外：使用索引条件</span><br><span class="line">实际上，优化程序已将表达式替换为与表达式f1 + 1匹配的生成列的名称。</span><br><span class="line">在以下EXPLAIN 显示的扩展信息中可用的重写查询中也很明显SHOW WARNINGS：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; SHOW WARNINGS\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">  级别：注意</span><br><span class="line">   代码：1003</span><br><span class="line">Message：/ * select＃1 * / select`test`.`t1`.`f1` as``f1`，`test`.`t1`.`gc`</span><br><span class="line">         as```````````````gc`</span><br><span class="line">以下限制和条件适用于优化器使用生成的列索引：</span><br><span class="line"></span><br><span class="line">对于查询表达式来匹配生成的列定义，表达式必须是相同的，并且它必须具有相同的结果类型。</span><br><span class="line">例如，如果生成的列表达式是f1 + 1，如果查询使用1 + f1，或者f1 + 1 （整数表达式）与字符串进行比较，则优化器不会识别匹配 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化适用于这些操作符： =， &lt;， &lt;=， &gt;， &gt;=， BETWEEN，和 IN()。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于BETWEEN和 以外的 IN()操作符，可以用匹配的生成列替换操作数。</span><br><span class="line">对于 BETWEEN和 IN()，只有第一个参数可以被匹配的生成列替换，其他参数必须具有相同的结果类型。</span><br><span class="line"> BETWEEN并且 IN()尚未支持涉及JSON值的比较。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">生成的列必须被定义为一个表达式，该表达式至少包含一个函数调用或上述项目中提到的某个操作符。</span><br><span class="line">表达式不能包含对另一列的简单引用。</span><br><span class="line">例如，gc INT AS (f1) STORED仅由一个列引用组成，因此gc不考虑索引 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了将字符串与索引生成列进行比较，这些字段从返回带引号字符串的JSON函数计算值，JSON_UNQUOTE()需要在列定义中从函数值中删除多余的引号。</span><br><span class="line">（对于字符串与函数结果的直接比较，JSON比较器处理引用移除，但这不会发生在索引查找中）。</span><br><span class="line">例如，不是像这样写一个列定义：</span><br><span class="line"></span><br><span class="line">doc_name TEXT AS（JSON_EXTRACT（jdoc，&apos;$ .name&apos;））存储</span><br><span class="line">这样写：</span><br><span class="line"></span><br><span class="line">doc_name TEXT AS（JSON_UNQUOTE（JSON_EXTRACT（jdoc，&apos;$ .name&apos;）））STORED</span><br><span class="line">对于后者的定义，优化器可以检测这两个比较的匹配情况：</span><br><span class="line"></span><br><span class="line">... WHERE JSON_EXTRACT（jdoc，&apos;$ .name&apos;）=&apos; some_string&apos;...</span><br><span class="line">... WHERE JSON_UNQUOTE（JSON_EXTRACT（jdoc，&apos;$ .name&apos;））=&apos; some_string&apos;...</span><br><span class="line">如果没有JSON_UNQUOTE()在列定义中，优化器只会对这些比较中的第一个进行匹配。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果优化器未能选择所需的索引，则可以使用索引提示来强制优化器做出不同的选择。</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-myisam/" rel="bookmark">SQL优化【MyISAM-表优化】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-selector-2/" rel="bookmark">SQL优化【查询器优化·二】</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/kafka-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/message-queue/kafka-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">Kafka-1.0.0版本</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Kafka 1.0.0发布的主要内容如下。</p>
+<p>0.10.0版本里开始引入的Streams API在1.0.0版本里继续演进，改进了builder API（KIP-120），<br>新增了用于查看运行时活跃任务的API（KIP-130）和用于聚合分区的cogroup<br>API（KIP-150）。增强的print()和writeAsText()方法让调试变得更容易（KIP-160）。<br>其他更多信息可以参考Streams文档。</p>
+<p>{———-}</p>
+<p>改进了Connect的度量指标（KIP-196），新增了大量用于健康监测的度量指标（KIP-188），<br>并提供了集群的GloabalTopicCount和GlobalPartitionCount度量指标（KIP-168）。<br>支持Java 9，实现更快的TLS和CRC32C，加快了加密速度，降低了计算开销。<br>调整了SASL认证模块的错误处理逻辑（KIP-152），原先的认证错误信息现在被清晰地记录到日志当中。<br>更好地支持磁盘容错（KIP-112），更优雅地处理磁盘错误，单个JBOD上的磁盘错误不会导致整个集群崩溃。<br>0.11.0版本中引入的幂等性生产者需要将max.in.flight.requests.per.connection参数设置为1，这对吞吐量造成了一定的限制。<br>而在1.0.0版本里，这个参数最大可以被设置为5（KAFKA-5949），极大提升了吞吐量范围。</p>
+<p>关于新版本更多的变化可以查看<a href="https://dist.apache.org/repos/dist/release/kafka/1.0.0/RELEASE_NOTES.html" target="_blank" rel="noopener">发布说明</a>，也可以下载<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka-1.0.0-src.tgz" target="_blank" rel="noopener">源代码</a>和二进制包（<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.11-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.11</a>、<a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/1.0.0/kafka_2.12-1.0.0.tgz" target="_blank" rel="noopener">Scala 2.12</a>）。</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
       
     </li>
   
@@ -1147,1139 +2240,6 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/http/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/agreement/http/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">http协议</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>http协议<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2a523de3228d986b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发展年历"></p>
-<p>{———-}</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cdf479dfba52d38b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="97年协定1.1"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fdc25911c760f33f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http数据流向图"></p>
-<p>HTTP　定义了　消息发送流程与信息格式</p>
-<p>发送端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、请求行</span><br><span class="line">2、请求头</span><br><span class="line">3、请求体</span><br></pre></td></tr></table></figure></p>
-<p>接受端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、响应行</span><br><span class="line">2、响应头</span><br><span class="line">3、响应体</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-exception/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/message-queue/rabbitmq-exception/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">RabbitMQ Exception</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>需求@RabbitListener - defining queues from properties</p>
-<p><a href="https://jira.spring.io/browse/AMQP-533?jql=project = AMQP AND fixVersion =" title="1.5 GA" target="_blank" rel="noopener">issues</a></p>
-<p>1.5.RA版本修复</p>
-<p>修复方式 spel表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@RabbitListener(queues = &#123;&quot;#&#123;&apos;$&#123;listener.channel&#125;&apos;.split(&apos;,&apos;)&#125;&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/log/elk-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/log/elk-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">ELK 搭建</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>elasticsearch 安装</strong></p>
-<p>官方下载地址：<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/downloads/elasticsearch</a><br>linux执行 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>下载解压 【建议使用zsh】</p>
-<p>修改配置文件<br>config/elasticsearch.yml</p>
-<p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 集群的名字  </span><br><span class="line">cluster.name: cloud</span><br><span class="line"># 节点名字  </span><br><span class="line">node.name: node-1   </span><br><span class="line"># 数据存储目录（多个路径用逗号分隔）  </span><br><span class="line">path.data: /usr/local/logUtils/elasticsearch/es-data</span><br><span class="line"># 日志目录  </span><br><span class="line">path.logs: /usr/local/logUtils/elasticsearch/log</span><br><span class="line">#本机的ip地址</span><br><span class="line">network.host: 192.168.0.135  </span><br><span class="line">#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;192.168.161.128&quot;]</span><br><span class="line"># 设置节点间交互的tcp端口（集群）,(默认9300)  </span><br><span class="line">transport.tcp.port: 9300  </span><br><span class="line"># 监听端口（默认）  </span><br><span class="line">http.port: 9200  </span><br><span class="line"># 增加参数，使head插件可以访问es  </span><br><span class="line">http.cors.enabled: true  </span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
-<p>运行 bin下的 elasticsearch 进行启动<br>后台启动 bin/elasticsearch  -d</p>
-<p>启动结果如下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-c3defbf97ceb3d06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>启动会遇到的问题<br>1、非root权限启动<br>新建用户  es<br>然后把 elasticsearch 文件夹权限归给 新用户es<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R  es:es  elasticsearch</span><br></pre></td></tr></table></figure></p>
-<p>2、 软硬进程限制</p>
-<p>max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]</p>
-<p>解决办法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf</span><br></pre></td></tr></table></figure></p>
-<p>文后添加<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2291db66448586cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>然后使用source 重新加载<br>并使用 ulimit -n 查看 是否为 65536 如果还是1024 那么重新连接linux 试下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-032a906cd27eeca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>3、<br>.max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</p>
-<p>解决办法 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">执行    ：sysctl -w vm.max_map_count=655360</span><br><span class="line">查看执行结果 ： sysctl -a | grep vm.max_map_count</span><br></pre></td></tr></table></figure></p>
-<p><strong>elasticsearch 插件 head 安装</strong></p>
-<p>下载head插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/mobz/elasticsearch-head/archive/master.zip</span><br><span class="line">安装node</span><br><span class="line">wget https://npm.taobao.org/mirrors/node/latest-v4.x/node-v4.4.7-linux-x64.tar.gz</span><br><span class="line">tar -zxvf node-v4.4.7-linux-x64.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>配置环境变量<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b86cce5f1787b61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>安装 grunt<br>cd /opt/elasticsearch-head-master<br>npm install -g grunt-cli  //执行后会生成node_modules文件夹<br>grunt是基于Node.js的项目构建工具，可以进行打包压缩、测试、执行等等的工作，head插件就是通过grunt启动</p>
-<p>检查是否安装成功<br>grunt -version</p>
-<p>修改head 插件源码<br>vi  Gruntfile.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e777189ec26ea9b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>vi _site/app.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-99ec0f1955f299a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>文件较大 建议下载下来 使用文本编辑器查找<br>或者使用命令替换localhost 为 你的ip</p>
-<p>运行head<br>head根目录<br>运行 npm install<br>启动head grunt server<br>后台启动 nohup grunt server  &amp;<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e00e0f1850d2b2f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong>Logstash 安装</strong></p>
-<p>官方下载地址 ：<a href="https://www.elastic.co/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/downloads/logstash</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">linux安装：curl -L -O https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz</span><br><span class="line"></span><br><span class="line">config 添加 配置文件</span><br><span class="line"></span><br><span class="line">vi logstash.conf</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  # stdin &#123; &#125;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    # host:port就是上面appender中的 destination，</span><br><span class="line">    # 这里其实把logstash作为服务，开启9250端口接收logback发出的消息</span><br><span class="line">    host =&gt; &quot;192.168.0.135&quot;</span><br><span class="line">     port =&gt; 9250</span><br><span class="line">     mode =&gt; &quot;server&quot;</span><br><span class="line">    tags :&gt; [&quot;tags&quot;]</span><br><span class="line">    codec =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123; hosts =&gt; [&quot;localhost:9200&quot;] &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>启动logstash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./logstash -f ../config/logstash.conf  &amp;</span><br></pre></td></tr></table></figure></p>
-<p><strong>Kibana 安装</strong></p>
-<p>官方下载地址：<a href="https://www.elastic.co/downloads/kibana" target="_blank" rel="noopener">https://www.elastic.co/downloads/kibana</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim config/kibana.yml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server.host:&quot;192.168.0.135&quot;</span><br><span class="line">elasticsearch.url:http://192.168.0.135:9200</span><br><span class="line"></span><br><span class="line">启动kibana</span><br><span class="line"></span><br><span class="line">bin/kibana</span><br></pre></td></tr></table></figure></p>
-<p>启动服务 <a href="http://192.168.0.135:5601" target="_blank" rel="noopener">http://192.168.0.135:5601</a></p>
-<p>至此 ELK服务单机版部署完成</p>
-<p>springcloud 集成logback</p>
-<p>引入pom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志发送logstash--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p>logback-spring.xml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=&quot;LOGSTASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        destination 是 logstash 服务的 host:port，</span><br><span class="line">        相当于和 logstash 建立了管道，将日志数据定向传输到 logstash</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;destination&gt;192.168.0.135:9250&lt;/destination&gt;</span><br><span class="line">        &lt;encoder charset=&quot;UTF-8&quot; class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">  &lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">          &lt;appender-ref ref=&quot;LOGSTASH&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/message-queue/rabbitmq-test/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">RabbitMQ test</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>累积 36万条消息堆积</p>
-<p>启动消费端【单机】</p>
-<p>开始消费time 00:52:28  结束时间00:54:40</p>
-<p>测试环境 三台rabbit集群  两台持久化【n/2+1】 一台非持久化</p>
-<p>queue两个 消费由业务房监听spring streamListener完成</p>
-<p>总计366178消息 总计消费时间132s<br>平均每秒2774条</p>
-<p>单机实例消费水平收到限制</p>
-<p>如果启动多实例消费 那么距离理论4000+4000+12000 = 20000条 有待考证 不过压力不大</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/log/elk-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/log/elk-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/24/index.html">ELK 简介</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">转载链接：http://www.jianshu.com/p/97fcb10c3556</span><br></pre></td></tr></table></figure>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a>是一个基于<a href="https://link.jianshu.com/?t=http://lucene.apache.org/core/documentation.html" target="_blank" rel="noopener">Lucene</a>构建的开源，分布式，RESTful 搜索引擎。</p>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a>传输和处理你的日志、事务或其他数据。</p>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a>将 Elasticsearch 的数据分析并渲染为可视化的报表。</p>
-<p>{———-}</p>
-<p>为什么使用 ELK ？</p>
-<p>对于有一定规模的公司来说，通常会很多个应用，并部署在大量的服务器上。运维和开发人员常常需要通过查看日志来定位问题。如果应用是集群化部署，试想如果登录一台台服务器去查看日志，是多么费时费力。</p>
-<p>而通过 ELK 这套解决方案，可以同时实现日志收集、日志搜索和日志分析的功能。</p>
-<p>ELK 架构</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-316ba06db8ae9b10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong>说明</strong></p>
-<p>以上是 ELK 技术栈的一个架构图。从图中可以清楚的看到数据流向。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/beats" target="_blank" rel="noopener">Beats</a> 是单一用途的数据传输平台，它可以将多台机器的数据发送到 Logstash 或 ElasticSearch。但 Beats 并不是不可或缺的一环，所以本文中暂不介绍。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a> 是一个动态数据收集管道。支持以 TCP/UDP/HTTP 多种方式收集数据（也可以接受 Beats 传输来的数据），并对数据做进一步丰富或提取字段处理。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a> 是一个基于 JSON 的分布式的搜索和分析引擎。作为 ELK 的核心，它集中存储数据。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a> 是 ELK 的用户界面。它将收集的数据进行可视化展示（各种报表、图形化数据），并提供配置、管理 ELK 的界面。</p>
-<p>支持图形各种数据图形</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2351,7 +2311,7 @@ Memcached没有内部机制来跟踪可能发生的未命中，但是，某些�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">267</span>
+                    <span class="site-state-item-count">268</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
