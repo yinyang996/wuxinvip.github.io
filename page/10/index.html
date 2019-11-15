@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">268</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">269</span></a>
 
   </li>
         
@@ -451,6 +451,821 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/29/mysql/mysql-solution/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/29/mysql/mysql-solution/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/10/index.html">MySQL经典架构</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-29 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-29T08:00:00+08:00">2018-06-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>mysql主从复制</strong></p>
+<p>此种架构，一般初创企业比较常用，也便于后面步步的扩展</p>
+<p><img src="/img/mysql/img/mysql-slave-master.jpg" alt="图片"></p>
+<p>此架构特点：</p>
+<ul>
+<li>1、成本低，布署快速、方便</li>
+<li>2、读写分离</li>
+<li>3、还能通过及时增加从库来减少读库压力</li>
+<li>4、主库单点故障</li>
+<li>5、数据一致性问题（同步延迟造成）</li>
+</ul>
+<p>{———-}</p>
+<p><strong>MySQL+MMM架构</strong></p>
+<p>通过 DRBD 基于 block 块的复制模式，快速进行双主故障切换，很大程度上解决主库单点故障问题</p>
+<p><img src="/img/mysql/img/mysql-mmm.jpg" alt="图片"></p>
+<p>此架构特点：</p>
+<ul>
+<li>1、高可用软件可使用 Heartbeat, 全面负责 VIP、数据与 DRBD 服务的管理</li>
+<li>2、主故障后可自动快速切换，并且从库仍然能通过 VIP 与新主库进行数据同步</li>
+<li>3、从库也支持读写分离，可使用中间件或程序实现</li>
+</ul>
+<p><strong>MySQL+DRDB架构</strong></p>
+<p>MHA 目前在 Mysql 高可用方案中应该也是比较成熟和常见的方案，它由日本人开发出来，在 mysql 故障切换过程中，MHA 能做到快速自动切换操作，而且还能最大限度保持数据的一致性</p>
+<p><img src="/img/mysql/img/mysql-drdb.jpg" alt="图片"></p>
+<p>此架构特点：</p>
+<ul>
+<li>1、安装布署简单，不影响现有架构</li>
+<li>2、自动监控和故障转移</li>
+<li>3、保障数据一致性</li>
+<li>4、故障切换方式可使用手动或自动多向选择</li>
+<li>5、适应范围大（适用任何存储引擎）</li>
+</ul>
+<p><strong>MySQL+MHA架构</strong></p>
+<p>MMM 即 Master-Master Replication Manager for MySQL（mysql 主主复制管理器），是关于 mysql 主主复制配置的监控、故障转移和管理的一套可伸缩的脚本套件（在任何时候只有一个节点可以被写入），这个套件也能基于标准的主从配置的任意数量的从服务器进行读负载均衡，所以你可以用它来在一组居于复制的服务器启动虚拟 ip，除此之外，它还有实现数据备份、节点之间重新同步功能的脚本。<br>MySQL 本身没有提供 replication failover 的解决方案，通过 MMM 方案能实现服务器的故障转移，从而实现 mysql 的高可用。</p>
+<p><img src="/img/mysql/img/mysql-mha.jpg" alt="图片"></p>
+<p>此方案特点：</p>
+<ul>
+<li>1、安全、稳定性较高，可扩展性好</li>
+<li>2、 对服务器数量要求至少三台及以上</li>
+<li>3、 对双主（主从复制性要求较高）</li>
+<li>4、 同样可实现读写分离</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/28/essay/atom/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/28/essay/atom/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/10/index.html">atom 快捷键</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-28 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-28T08:00:00+08:00">2018-06-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <table>
+<thead>
+<tr>
+<th style="text-align:left">英文</th>
+<th style="text-align:left">中文</th>
+<th style="text-align:left">快捷键</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">New Window</td>
+<td style="text-align:left">新建界面窗口</td>
+<td style="text-align:left">Ctrl + Shift + N</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">New File</td>
+<td style="text-align:left">新建文件</td>
+<td style="text-align:left">Ctrl + N</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Open File</td>
+<td style="text-align:left">打开文件</td>
+<td style="text-align:left">Ctrl + O</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Open Folder</td>
+<td style="text-align:left">打开文件夹</td>
+<td style="text-align:left">Ctrl + Shift + O</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Add Project Folder</td>
+<td style="text-align:left">加载项目目录</td>
+<td style="text-align:left">Ctrl + Alt + O</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Reopen Last Item</td>
+<td style="text-align:left">重新加载上次项目</td>
+<td style="text-align:left">Ctrl + Shift + T</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Save</td>
+<td style="text-align:left">保存文件</td>
+<td style="text-align:left">Ctrl + S</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Save As</td>
+<td style="text-align:left">另存为</td>
+<td style="text-align:left">Ctrl + Shift +S</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Close Tab</td>
+<td style="text-align:left">关闭当前编辑文档</td>
+<td style="text-align:left">Ctrl + W</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Close Window</td>
+<td style="text-align:left">关闭编辑器</td>
+<td style="text-align:left">Ctrl + Shift + W</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Undo</td>
+<td style="text-align:left">撤销</td>
+<td style="text-align:left">Ctrl + Z</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Redo</td>
+<td style="text-align:left">重做</td>
+<td style="text-align:left">Ctrl + Y</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Cut</td>
+<td style="text-align:left">剪切</td>
+<td style="text-align:left">Shift + Delete</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Copy</td>
+<td style="text-align:left">复制</td>
+<td style="text-align:left">Ctrl + Insert</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Copy Path</td>
+<td style="text-align:left">复制文档路径</td>
+<td style="text-align:left">Ctrl + Shift + C</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Paste</td>
+<td style="text-align:left">粘贴</td>
+<td style="text-align:left">Shift + Insert</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Select All</td>
+<td style="text-align:left">全选</td>
+<td style="text-align:left">Ctrl + A</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Select Encoding</td>
+<td style="text-align:left">选择编码</td>
+<td style="text-align:left">Ctrl + Shift +U</td>
+<td>就是设置文件的编码</td>
+</tr>
+<tr>
+<td style="text-align:left">Go to Line</td>
+<td style="text-align:left">跳转到某行</td>
+<td style="text-align:left">Ctrl + G</td>
+<td>支持行列搜索,Row:Column</td>
+</tr>
+<tr>
+<td style="text-align:left">Slect Grammar</td>
+<td style="text-align:left">语法选择</td>
+<td style="text-align:left">Ctrl + Shift + L</td>
+<td>和Sublime的Syntax设置功能一样</td>
+</tr>
+<tr>
+<td style="text-align:left">Reload</td>
+<td style="text-align:left">重载</td>
+<td style="text-align:left">Ctrl+ Alt +R</td>
+<td>重新载入当前编辑的文档</td>
+</tr>
+<tr>
+<td style="text-align:left">Toggle Full Screen</td>
+<td style="text-align:left">全屏</td>
+<td style="text-align:left">F11</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Increase Font Size</td>
+<td style="text-align:left">增大字体</td>
+<td style="text-align:left">Ctrl + Shift + “+”</td>
+<td>Sublime的Ctrl + 也能生效</td>
+</tr>
+<tr>
+<td style="text-align:left">Decrease Font Size</td>
+<td style="text-align:left">减小字体</td>
+<td style="text-align:left">Ctrl + Shift + “-“</td>
+<td>Sublime的Ctrl - 也能生效</td>
+</tr>
+<tr>
+<td style="text-align:left">Toggle Tree View</td>
+<td style="text-align:left">展示隐藏目录树</td>
+<td style="text-align:left">Ctrl + （竖杠）</td>
+<td>Ctrl+b可以隐藏不能展示</td>
+</tr>
+<tr>
+<td style="text-align:left">Toggle Commadn palette</td>
+<td style="text-align:left">全局搜索面板</td>
+<td style="text-align:left">Ctrl + Shift + P</td>
+<td>和Sublime的大同小异</td>
+</tr>
+<tr>
+<td style="text-align:left">Select Line</td>
+<td style="text-align:left">选定一行</td>
+<td style="text-align:left">Ctrl + L</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Select First Character of Line</td>
+<td style="text-align:left">选定光标至行首</td>
+<td style="text-align:left">Shift + Home</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Slect End of Line</td>
+<td style="text-align:left">选定光标至行尾</td>
+<td style="text-align:left">Shift + End</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Select to Top</td>
+<td style="text-align:left">选定光标处至文档首行</td>
+<td style="text-align:left">Ctrl + Shift + Home</td>
+<td>就是光标处作为分割线,取文档上部分</td>
+</tr>
+<tr>
+<td style="text-align:left">Select to Bottom</td>
+<td style="text-align:left">选定光标处至文档尾行</td>
+<td style="text-align:left">Ctrl + Shfit + End</td>
+<td>就是光标处作为分割线,取文档下部分</td>
+</tr>
+<tr>
+<td style="text-align:left">Find in Buffer</td>
+<td style="text-align:left">从缓存器搜索</td>
+<td style="text-align:left">Ctrl + F</td>
+<td>与Sublime一致</td>
+</tr>
+<tr>
+<td style="text-align:left">Replace in Buffer</td>
+<td style="text-align:left">高级替换</td>
+<td style="text-align:left">Ctrl + Shift + F</td>
+<td>与Sublime一致</td>
+</tr>
+<tr>
+<td style="text-align:left">Select Next</td>
+<td style="text-align:left">匹配选定下一个</td>
+<td style="text-align:left">Ctrl + D</td>
+<td>和Sublime一模一样有木有</td>
+</tr>
+<tr>
+<td style="text-align:left">Select All</td>
+<td style="text-align:left">匹配选定所有</td>
+<td style="text-align:left">Alt + F3</td>
+<td>和Sublime一模一样有木有</td>
+</tr>
+<tr>
+<td style="text-align:left">Find File</td>
+<td style="text-align:left">查询文件,选定打开</td>
+<td style="text-align:left">Ctrl + P</td>
+<td>与Sublime不一样</td>
+</tr>
+<tr>
+<td style="text-align:left">Delte End of Word</td>
+<td style="text-align:left">删除光标处至词尾</td>
+<td style="text-align:left">Ctrl + Del</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Duplicate Line</td>
+<td style="text-align:left">复制行</td>
+<td style="text-align:left">Ctrl + Shift + D</td>
+<td>复制光标所在行自动换行</td>
+</tr>
+<tr>
+<td style="text-align:left">Delete Line</td>
+<td style="text-align:left">删除一行</td>
+<td style="text-align:left">Ctrl + Shift + K</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Toggle Comment</td>
+<td style="text-align:left">启用注释</td>
+<td style="text-align:left">Ctrl + /</td>
+<td>与Sublime一致</td>
+</tr>
+<tr>
+<td style="text-align:left">Toggle developer tools</td>
+<td style="text-align:left">打开Chrome调试器</td>
+<td style="text-align:left">Ctrl + Alt + I</td>
+<td>挺神奇的</td>
+</tr>
+<tr>
+<td style="text-align:left">Indent</td>
+<td style="text-align:left">增加缩进</td>
+<td style="text-align:left">Ctrl + [</td>
+<td>向右缩进</td>
+</tr>
+<tr>
+<td style="text-align:left">Outdent</td>
+<td style="text-align:left">减少缩进</td>
+<td style="text-align:left">Ctrl + ]</td>
+<td>向左缩进</td>
+</tr>
+<tr>
+<td style="text-align:left">Move Line Up</td>
+<td style="text-align:left">行向上移动</td>
+<td style="text-align:left">Ctrl + up</td>
+<td>如字面意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Move Line Down</td>
+<td style="text-align:left">行向下移动</td>
+<td style="text-align:left">Ctrl + Down</td>
+<td>如字面意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Join Lines</td>
+<td style="text-align:left">行链接</td>
+<td style="text-align:left">Ctrl + J</td>
+<td>追加</td>
+</tr>
+<tr>
+<td style="text-align:left">newline-below</td>
+<td style="text-align:left">光标之下增加一行</td>
+<td style="text-align:left">Ctrl + Enter</td>
+<td>与sublime 一致</td>
+</tr>
+<tr>
+<td style="text-align:left">editor:newline-above</td>
+<td style="text-align:left">光标之上增加一行</td>
+<td style="text-align:left">Ctrl + Shift + Enter</td>
+<td>与sublime 一致</td>
+</tr>
+<tr>
+<td style="text-align:left">pane:show-next-item</td>
+<td style="text-align:left">切换编辑的标签页</td>
+<td style="text-align:left">Ctrl + Tab</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Fuzzy Finder</td>
+<td style="text-align:left">文件跳转面板</td>
+<td style="text-align:left">Ctrl + T</td>
+<td>如字面意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Select Line Move above</td>
+<td style="text-align:left">选中行上移</td>
+<td style="text-align:left">Ctrl + up</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Select Line Move below</td>
+<td style="text-align:left">选中行下移</td>
+<td style="text-align:left">Ctrl + down</td>
+<td>如中文意思</td>
+</tr>
+<tr>
+<td style="text-align:left">Symbol-view</td>
+<td style="text-align:left">进入变量、函数跳转面板。</td>
+<td style="text-align:left">Ctrl + R</td>
+<td>如中文意思</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/06/essay/essay-2/" rel="bookmark">随便写点</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/11/12/essay/essay-22/" rel="bookmark">OpenVpn 配置保存密码</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/01/12/essay/essay-20/" rel="bookmark">遐想--定制应用</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -610,221 +1425,6 @@
 <li><p>智能合约集群</p>
 <pre><code>区块链技术
 </code></pre></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/20/big-data/spark/spark-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/20/big-data/spark/spark-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/10/index.html">spark 简介</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-20 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-20T08:00:00+08:00">2018-06-20</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/big-data/" itemprop="url" rel="index"><span itemprop="name">big-data</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>spark发展史</li>
-</ul>
-<pre><code>Apache Spark
-Spark Logo
-开发者    Apache软件基金会, 加州大学柏克莱分校AMPLab, Databricks
-稳定版本
-2.1.0 （2016年12月28日 ）
-开发状态    活跃
-编程语言    Scala, Java, Python
-操作系统    Linux, Mac OS, Microsoft Windows
-类型    数据分析, 机器学习算法
-许可协议    Apache许可协议 2.0
-网站    spark.apache.org
-源代码库    github.com/apache/spark
-Apache Spark是一个开源集群运算框架，最初是由加州大学柏克莱分校AMPLab所开发。
-相对于Hadoop的MapReduce会在运行完工作后将中介数据存放到磁盘中，Spark使用了存储器内运算技术，能在数据尚未写入硬盘时即在存储器内分析运算。
-Spark在存储器内运行程序的运算速度能做到比Hadoop MapReduce的运算速度快上100倍，即便是运行程序于硬盘时，Spark也能快上10倍速度。
-[1]Spark允许用户将数据加载至集群存储器，并多次对其进行查询，非常适合用于机器学习算法。
-</code></pre><p>{———-}</p>
-<ul>
-<li>spark简介</li>
-<li>spark应用场景</li>
-</ul>
-<pre><code>使用Spark需要搭配集群管理员和分布式存储系统。
-Spark支持独立模式（本地Spark集群）、Hadoop YARN或Apache Mesos的集群管理。
-[3] 在分布式存储方面，Spark可以和HDFS[4]、 Cassandra[5] 、OpenStack Swift和Amazon S3等接口搭载。
-Spark也支持伪分布式（pseudo-distributed）本地模式，不过通常只用于开发或测试时以本机文件系统取代分布式存储系统。
-在这样的情况下，Spark仅在一台机器上使用每个CPU核心运行程序。
-</code></pre><ul>
-<li>spark组件</li>
-</ul>
-<pre><code>Spark核心是整个项目的基础，提供了分布式任务调度，调度和基本的I／O功能。而其基础的程序抽象则称为弹性分布式数据集（RDDs），是一个可以并行操作、有容错机制的数据集合。
-RDDs可以通过引用外部存储系统的数据集创建（例如：共享文件系统、HDFS、HBase或其他 Hadoop 数据格式的数据源）。
-或者是通过在现有RDDs的转换而创建（比如：map、filter、reduce、join等等）。
-
-RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，简化了编程复杂性，应用程序操纵RDDs的方法类似于操纵本地端的数据集合。
-</code></pre><ul>
-<li>spark集群</li>
 </ul>
 
           
@@ -1151,7 +1751,7 @@ Task&amp;Tracker
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/12/xmind/xmind-search-engine-0/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/20/big-data/spark/spark-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1171,7 +1771,222 @@ Task&amp;Tracker
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/06/12/xmind/xmind-search-engine-0/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/10/index.html">搜索引擎·一 图谱</a>
+                <a href="/2018/06/20/big-data/spark/spark-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/10/index.html">spark 简介</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-20 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-20T08:00:00+08:00">2018-06-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/big-data/" itemprop="url" rel="index"><span itemprop="name">big-data</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>spark发展史</li>
+</ul>
+<pre><code>Apache Spark
+Spark Logo
+开发者    Apache软件基金会, 加州大学柏克莱分校AMPLab, Databricks
+稳定版本
+2.1.0 （2016年12月28日 ）
+开发状态    活跃
+编程语言    Scala, Java, Python
+操作系统    Linux, Mac OS, Microsoft Windows
+类型    数据分析, 机器学习算法
+许可协议    Apache许可协议 2.0
+网站    spark.apache.org
+源代码库    github.com/apache/spark
+Apache Spark是一个开源集群运算框架，最初是由加州大学柏克莱分校AMPLab所开发。
+相对于Hadoop的MapReduce会在运行完工作后将中介数据存放到磁盘中，Spark使用了存储器内运算技术，能在数据尚未写入硬盘时即在存储器内分析运算。
+Spark在存储器内运行程序的运算速度能做到比Hadoop MapReduce的运算速度快上100倍，即便是运行程序于硬盘时，Spark也能快上10倍速度。
+[1]Spark允许用户将数据加载至集群存储器，并多次对其进行查询，非常适合用于机器学习算法。
+</code></pre><p>{———-}</p>
+<ul>
+<li>spark简介</li>
+<li>spark应用场景</li>
+</ul>
+<pre><code>使用Spark需要搭配集群管理员和分布式存储系统。
+Spark支持独立模式（本地Spark集群）、Hadoop YARN或Apache Mesos的集群管理。
+[3] 在分布式存储方面，Spark可以和HDFS[4]、 Cassandra[5] 、OpenStack Swift和Amazon S3等接口搭载。
+Spark也支持伪分布式（pseudo-distributed）本地模式，不过通常只用于开发或测试时以本机文件系统取代分布式存储系统。
+在这样的情况下，Spark仅在一台机器上使用每个CPU核心运行程序。
+</code></pre><ul>
+<li>spark组件</li>
+</ul>
+<pre><code>Spark核心是整个项目的基础，提供了分布式任务调度，调度和基本的I／O功能。而其基础的程序抽象则称为弹性分布式数据集（RDDs），是一个可以并行操作、有容错机制的数据集合。
+RDDs可以通过引用外部存储系统的数据集创建（例如：共享文件系统、HDFS、HBase或其他 Hadoop 数据格式的数据源）。
+或者是通过在现有RDDs的转换而创建（比如：map、filter、reduce、join等等）。
+
+RDD抽象化是经由一个以Scala, Java, Python的语言集成API所呈现，简化了编程复杂性，应用程序操纵RDDs的方法类似于操纵本地端的数据集合。
+</code></pre><ul>
+<li>spark集群</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/12/xmind/xmind-message/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/12/xmind/xmind-message/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/10/index.html">消息中间件 图谱</a>
               
             
           </h2>
@@ -1272,11 +2087,11 @@ Task&amp;Tracker
 
       
         
-          xmind 搜索引擎图谱
+          xmind 消息中间件图谱
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2018/06/12/xmind/xmind-search-engine-0/">
+              <a class="btn" href="/2018/06/12/xmind/xmind-message/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1295,7 +2110,7 @@ Task&amp;Tracker
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-component/" rel="bookmark">各大开源组件解析 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-lock/" rel="bookmark">锁 图谱</a></div>
       
     </li>
   
@@ -1316,243 +2131,14 @@ Task&amp;Tracker
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-algorithm/" rel="bookmark">算法 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-cache/" rel="bookmark">缓存 图谱</a></div>
       
     </li>
   
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/12/xmind/xmind-algorithm/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/12/xmind/xmind-algorithm/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/10/index.html">算法 图谱</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-12 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-12T08:00:00+08:00">2018-06-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:38:38" itemprop="dateModified" datetime="2018-10-15T16:38:38+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/" itemprop="url" rel="index"><span itemprop="name">xmind</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/我的技术图谱/" itemprop="url" rel="index"><span itemprop="name">我的技术图谱</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          xmind 算法图谱
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/06/12/xmind/xmind-algorithm/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-component/" rel="bookmark">各大开源组件解析 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/24/essay/essay-9/" rel="bookmark">我的技术图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/07/12/xmind/xmind-thread/" rel="bookmark">线程 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-search-engine-0/" rel="bookmark">搜索引擎·一 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-cache/" rel="bookmark">缓存 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-container/" rel="bookmark">容器 图谱</a></div>
       
     </li>
   
@@ -1753,7 +2339,7 @@ Task&amp;Tracker
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-component/" rel="bookmark">各大开源组件解析 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-lock/" rel="bookmark">锁 图谱</a></div>
       
     </li>
   
@@ -1774,243 +2360,14 @@ Task&amp;Tracker
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-search-engine-0/" rel="bookmark">搜索引擎·一 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-message/" rel="bookmark">消息中间件 图谱</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-algorithm/" rel="bookmark">算法 图谱</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/12/xmind/xmind-design-model/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/12/xmind/xmind-design-model/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/10/index.html">设计模式 图谱</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-12 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-12T08:00:00+08:00">2018-06-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:38:38" itemprop="dateModified" datetime="2018-10-15T16:38:38+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/" itemprop="url" rel="index"><span itemprop="name">xmind</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/xmind/我的技术图谱/" itemprop="url" rel="index"><span itemprop="name">我的技术图谱</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          xmind 设计模式图谱
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/06/12/xmind/xmind-design-model/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-component/" rel="bookmark">各大开源组件解析 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/24/essay/essay-9/" rel="bookmark">我的技术图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/07/12/xmind/xmind-thread/" rel="bookmark">线程 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-search-engine-0/" rel="bookmark">搜索引擎·一 图谱</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-algorithm/" rel="bookmark">算法 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-container/" rel="bookmark">容器 图谱</a></div>
       
     </li>
   
@@ -2211,7 +2568,7 @@ Task&amp;Tracker
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-component/" rel="bookmark">各大开源组件解析 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-lock/" rel="bookmark">锁 图谱</a></div>
       
     </li>
   
@@ -2232,14 +2589,14 @@ Task&amp;Tracker
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-search-engine-0/" rel="bookmark">搜索引擎·一 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-message/" rel="bookmark">消息中间件 图谱</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-algorithm/" rel="bookmark">算法 图谱</a></div>
+      <div class="popular-posts-title"><a href="/2018/06/12/xmind/xmind-cache/" rel="bookmark">缓存 图谱</a></div>
       
     </li>
   
@@ -2352,7 +2709,7 @@ Task&amp;Tracker
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">268</span>
+                    <span class="site-state-item-count">269</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

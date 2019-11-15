@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">268</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">269</span></a>
 
   </li>
         
@@ -451,6 +451,574 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/12/01/message-queue/kafka/09/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/01/message-queue/kafka/09/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">kafka构建数据管道需要注意的问题</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-01 08:00:00" itemprop="dateCreated datePublished" datetime="2018-12-01T08:00:00+08:00">2018-12-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="kafka构建数据管道需要注意的问题"><a href="#kafka构建数据管道需要注意的问题" class="headerlink" title="kafka构建数据管道需要注意的问题"></a>kafka构建数据管道需要注意的问题</h2><ul>
+<li>及时性</li>
+<li>可靠性</li>
+<li>高吞吐量和动态吞吐量</li>
+<li>数据格式</li>
+<li>转换</li>
+<li>安全性</li>
+<li>故障处理能力</li>
+<li>耦合性和灵活性</li>
+</ul>
+<p>{———-}</p>
+<h2 id="及时性"><a href="#及时性" class="headerlink" title="及时性"></a>及时性</h2><ul>
+<li>在业务需求变更时、具有不同及时性需求的数据之间可以方便的进行迁移</li>
+<li>数据支持实时性处理、也支持延迟批处理</li>
+<li>消费者可以实时拉取处理、也可以延迟批量处理一批数据</li>
+</ul>
+<h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><ul>
+<li>能够在各种故障中快速回复</li>
+<li>支持、至少一次传递【本身支持】</li>
+<li>支持、仅一次传递、避免幂等消费【需结合实物模型或者唯一键特性的外部存储系统】</li>
+</ul>
+<h2 id="高吞吐量和动态吞吐量"><a href="#高吞吐量和动态吞吐量" class="headerlink" title="高吞吐量和动态吞吐量"></a>高吞吐量和动态吞吐量</h2><ul>
+<li>自动伸缩功能</li>
+<li>管理员可以调整压缩来网络和存储资源的使用【支持多种类型压缩】</li>
+</ul>
+<h2 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h2><ul>
+<li>avro、xml也可以使用自定义</li>
+<li>读取数据源schema载入数据</li>
+</ul>
+<h2 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h2><ul>
+<li>ETL【提取、转换、加载】<ul>
+<li>过滤掉部分数据、为下游服务过滤不必要数据信息</li>
+<li>缺点、下游的调整可能需要重新调整数据管道</li>
+</ul>
+</li>
+<li>ELT【提取、加载、转换】<ul>
+<li>高保真数据管道、数据湖结构</li>
+<li>占用了目标系统太多的CPU和存储资源、使得目标系统造价高昂、不过也给下游保证了最原始的数据、利于调整需求</li>
+</ul>
+</li>
+</ul>
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><ul>
+<li>支持加密数据、</li>
+<li>支持认证【SASL实现】、授权消费</li>
+<li>支持数据追踪、时间来源、事件修改者、日志审计、访问记录</li>
+</ul>
+<h2 id="故障处理能力"><a href="#故障处理能力" class="headerlink" title="故障处理能力"></a>故障处理能力</h2><ul>
+<li>数据保留一周、一月、任意时间以便于追溯</li>
+</ul>
+<h2 id="耦合性和灵活性"><a href="#耦合性和灵活性" class="headerlink" title="耦合性和灵活性"></a>耦合性和灵活性</h2><ul>
+<li><p>临时数据管道</p>
+<ul>
+<li>常用数据管道<ul>
+<li>logstash—–&gt; elasticsearch</li>
+<li>flume——&gt; HDFS</li>
+<li>GoldenGate——&gt;Oracle</li>
+<li>mysql【xml】——–&gt;Informatica——-&gt;oracle</li>
+<li>当有新的需求时候有需要重新构建新的管道、增加新技术成本</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>元数据丢失</p>
+<ul>
+<li>元数据没有保留schema数据、导致数据交换过程中、没有处理元数据新增字段【因为新的schema中没有该字段】</li>
+<li>而如果数据管道允许修改schema信息、那么双方只需要修改内部数据处理就可以了</li>
+</ul>
+</li>
+<li><p>末端处理</p>
+<ul>
+<li>让下端可以自己决定数据处理、而不是数据管道直接处理、直接处理会对下游数据的完整性造成破坏<br>同时新的需求更迭、也会造成成本提升</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/30/message-queue/kafka/08/" rel="bookmark">kafka集群复制</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/29/message-queue/kafka/07/" rel="bookmark">kafka消费者接收和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/28/message-queue/kafka/06/" rel="bookmark">kafka生产者发送和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/26/message-queue/kafka/04/" rel="bookmark">kafka集群</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/30/message-queue/kafka/08/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/30/message-queue/kafka/08/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">kafka集群复制</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-30 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-30T08:00:00+08:00">2018-11-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>kafka集群复制</li>
+<li>kafka数据结构</li>
+<li>kafka请求处理流程</li>
+<li>kafka消息格式</li>
+</ul>
+<p>{———-}</p>
+<h2 id="kafka集群复制"><a href="#kafka集群复制" class="headerlink" title="kafka集群复制"></a>kafka集群复制</h2><h3 id="kafka数据结构"><a href="#kafka数据结构" class="headerlink" title="kafka数据结构"></a>kafka数据结构</h3><ul>
+<li>kafka是以主题来组织数据</li>
+<li>每个主题下有多个分区、每个分区下有多个副本【数据元】、</li>
+<li>【玩过 mongodb 和 elasticsearch 的一看就懂、一个东西】</li>
+<li>每个broker可以存储不同主题和不同分区的副本</li>
+<li>副本分为两种<ul>
+<li>首领副本【数据存储、对接客户端请求、消费】</li>
+<li>跟随者副本【数据备份、不处理来自客户端的任何请求、待首领挂掉、迅速顶上】</li>
+<li>另、首领还会处理副本的备份请求、以判断哪个副本是最新的、最新的版本才可以当“储君”</li>
+</ul>
+</li>
+</ul>
+<h4 id="图纸解说"><a href="#图纸解说" class="headerlink" title="图纸解说"></a>图纸解说</h4><p><img src="/img/kafka/04.png" alt="kafka储存结构"></p>
+<ul>
+<li>照了一张差不多的图、不是kafka的、是es的 不过解释起来足够了</li>
+<li>主节点 node3、为broker协调者</li>
+<li>所有数据都是一个主题topic通过tag来区分数据【一般一个应用要给同topic、这里就当1个多个tag、】</li>
+<li>每个tag下有很多数据、每个数据有多个副本、【这里配置就2个、一个首领副本、一个跟随着副本】</li>
+</ul>
+<h3 id="kafka请求处理流程"><a href="#kafka请求处理流程" class="headerlink" title="kafka请求处理流程"></a>kafka请求处理流程</h3><h4 id="图纸解说-1"><a href="#图纸解说-1" class="headerlink" title="图纸解说"></a>图纸解说</h4><p><img src="/img/kafka/05.jpg" alt="kafka请求流程"></p>
+<ul>
+<li>请求通过processor线程发向请求队列、处理IO逻辑、将响应发向响应队列</li>
+</ul>
+<h3 id="kafka消息格式"><a href="#kafka消息格式" class="headerlink" title="kafka消息格式"></a>kafka消息格式</h3><ul>
+<li>Request type 【API key】</li>
+<li>Request version 【version版本号】</li>
+<li>Correlation ID【消息唯一id】</li>
+<li>Client ID【客户端唯一id】</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/01/message-queue/kafka/09/" rel="bookmark">kafka构建数据管道需要注意的问题</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/29/message-queue/kafka/07/" rel="bookmark">kafka消费者接收和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/28/message-queue/kafka/06/" rel="bookmark">kafka生产者发送和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/26/message-queue/kafka/04/" rel="bookmark">kafka集群</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -2169,486 +2737,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/23/message-queue/rabbitmq/01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/23/message-queue/rabbitmq/01/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">rabbitmq简介</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-23 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-23T08:00:00+08:00">2018-11-23</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/rabbitmq/" itemprop="url" rel="index"><span itemprop="name">rabbitmq</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>{———-}</p>
-<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
-<li><p>rocketmq、rabbitmq、kafka</p>
-<ul>
-<li>没有谁好谁坏</li>
-<li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li>
-<li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li>
-<li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li>
-</ul>
-</li>
-<li><p>个人见解</p>
-<ul>
-<li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li>
-<li>稳定不丢消息：rocketmq、tabbitmq、</li>
-<li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li>
-<li>rocketmq底层netty、异步机制优秀</li>
-<li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li>
-<li>非实时性要求高、同时又要求高吞吐量 rocketmq</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/23/message-queue/kafka/01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/23/message-queue/kafka/01/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/5/index.html">kafka简介</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-23 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-23T08:00:00+08:00">2018-11-23</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
-<li>kafka最初为limkedIn的一个内部基础服务</li>
-<li>最早的设计观念是、把数据看作流、消费者、订阅和发布各种各样的消息、这在大数据上应用非常广泛</li>
-</ul>
-<h2 id="组成部件"><a href="#组成部件" class="headerlink" title="组成部件"></a>组成部件</h2><ul>
-<li>一个部件broker、每一个broker就是一个单独的服务器</li>
-<li>每一个集群有一个broker作为集群控制器角色【分区选举】、与rocketmq区别是、rocketmq使用了nameserver作为注册中心</li>
-<li>多级群中、kafka提供了一个mirrorMaker工具实现集群间消息复制</li>
-<li>mirroMaker核心部分是一个生产者一个消费者、中间是一个队列、也是kafka的最基本原理、实际上在复杂的集群环境中、对于数据的可靠性更复杂些</li>
-</ul>
-<p>{———-}</p>
-<h2 id="发展"><a href="#发展" class="headerlink" title="发展"></a>发展</h2><ul>
-<li>kafka的愿景做一个数据生态系统、提供消息发布和消息订阅、</li>
-</ul>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
-<li>活动跟踪、点击量</li>
-<li>传递消息</li>
-<li>度量指标和日志记录</li>
-<li>提交日志</li>
-<li>流处理<ul>
-<li>结合hadoop做数据流的队列</li>
-</ul>
-</li>
-</ul>
-<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
-<li>rocketmq、rabbitmq、kafka<ul>
-<li>没有谁好谁坏</li>
-<li>kafka起源最早、解决消息流处理问题、最早解决监控平台对各个服务模块的消息监控、</li>
-<li>rabbitmq、采用AMQP协议开发、建立了最早的消息模型、定义了消息驱动模式、</li>
-<li>rocketmq、类似于kafka、不过语言是java、经历了阿里的双十一足以证明它的性能。</li>
-</ul>
-</li>
-</ul>
-<h2 id="个人见解"><a href="#个人见解" class="headerlink" title="个人见解"></a>个人见解</h2><ul>
-<li>吞吐量优先、消息丢失小事、选择kafka、kafka的吞吐量要强一个量级</li>
-<li>稳定不丢消息：rocketmq、tabbitmq、</li>
-<li>rabbitmq底层是erlang语言、erlang语言特性、并发性能优秀、</li>
-<li>rocketmq底层netty、异步机制优秀</li>
-<li>实时性要求高、同时又要求高的吞吐量 rabbitmq</li>
-<li>非实时性要求高、同时又要求高吞吐量 rocketmq</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/01/message-queue/kafka/09/" rel="bookmark">kafka构建数据管道需要注意的问题</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/30/message-queue/kafka/08/" rel="bookmark">kafka集群复制</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/29/message-queue/kafka/07/" rel="bookmark">kafka消费者接收和配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/28/message-queue/kafka/06/" rel="bookmark">kafka生产者发送和配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2720,7 +2808,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">268</span>
+                    <span class="site-state-item-count">269</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
