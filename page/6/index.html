@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">270</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">271</span></a>
 
   </li>
         
@@ -451,6 +451,265 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/11/25/message-queue/kafka/03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/25/message-queue/kafka/03/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/6/index.html">kafka硬件选择</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-25 08:00:00" itemprop="dateCreated datePublished" datetime="2018-11-25T08:00:00+08:00">2018-11-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>磁盘吞吐量</li>
+<li>磁盘容量</li>
+<li>内存</li>
+<li>网络</li>
+<li>CPU</li>
+</ul>
+<p>{———-}</p>
+<h2 id="磁盘吞吐量"><a href="#磁盘吞吐量" class="headerlink" title="磁盘吞吐量"></a>磁盘吞吐量</h2><ul>
+<li>直接因素-影响生产者</li>
+<li>磁盘写入越快、生成消息延迟越低</li>
+</ul>
+<h2 id="磁盘容量"><a href="#磁盘容量" class="headerlink" title="磁盘容量"></a>磁盘容量</h2><ul>
+<li>如果每天存储消息量为1TB 、保存周期为7天、那么就需要7TB</li>
+<li>除此之外还要保留10%额外空间</li>
+</ul>
+<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><ul>
+<li>直接因素-影像消费者</li>
+<li>运行kafka不需要jvm太大内存、大部分内存作为页面缓存、或者kafka日志片段</li>
+<li>内存过低会影响消费者性能</li>
+</ul>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><ul>
+<li>直接因素-影响吞吐量</li>
+<li>当内存瓶颈和磁盘瓶颈不存在的时候、如果网络服务接口成为瓶颈也会大大降低消费者和生产者的性能</li>
+</ul>
+<h2 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h2><ul>
+<li>kafka对cpu性能要求较低、但也不是随便就能糊弄</li>
+<li>kafka有自己的消息压缩和解压、都需要使用cpu进行计算</li>
+<li>另 无论什么时候cpu都涉及到并发性能</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/01/message-queue/kafka/09/" rel="bookmark">kafka构建数据管道需要注意的问题</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/30/message-queue/kafka/08/" rel="bookmark">kafka集群复制</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/29/message-queue/kafka/07/" rel="bookmark">kafka消费者接收和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/28/message-queue/kafka/06/" rel="bookmark">kafka生产者发送和配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/27/message-queue/kafka/05/" rel="bookmark">kafka数据流向图</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1402,6 +1661,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2019/03/24/shell/git-01/" rel="bookmark">git</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-3/" rel="bookmark">linux 清空缓存</a></div>
       
     </li>
@@ -1410,13 +1676,6 @@
       
       
       <div class="popular-posts-title"><a href="/2018/05/30/shell/shell-4/" rel="bookmark">linux 监控服务脚本</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/shell/shell-1/" rel="bookmark">java后台常用命令</a></div>
       
     </li>
   
@@ -2068,254 +2327,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-map/" rel="bookmark">集合Map</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/10/31/service-design/design-7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/10/31/service-design/design-7/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/6/index.html">集群调度框架总结</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-10-31 08:00:00" itemprop="dateCreated datePublished" datetime="2018-10-31T08:00:00+08:00">2018-10-31</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/" itemprop="url" rel="index"><span itemprop="name">服务架构</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/服务架构/集群调度/" itemprop="url" rel="index"><span itemprop="name">集群调度</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><p>spring cloud task【springcloud服务集成各种调度框架封装包】</p>
-</li>
-<li><p>spring quarts【现有常用调度框架】</p>
-</li>
-<li><p>TBSchedule【淘宝分布式调度】</p>
-</li>
-<li><p><a href="http://www.infoq.com/cn/articles/firmament-a-cluster-job-scheduler" target="_blank" rel="noopener">Firmament - 大规模集群任务调度</a></p>
-</li>
-<li><p><a href="http://www.firmament.io/blog/scheduler-architectures.html" target="_blank" rel="noopener">集群调度器体系结构的演变。</a></p>
-</li>
-</ul>
-<h3 id="java调度"><a href="#java调度" class="headerlink" title="java调度"></a>java调度</h3><h4 id="推荐两款比较不错的调度框架"><a href="#推荐两款比较不错的调度框架" class="headerlink" title="推荐两款比较不错的调度框架"></a>推荐两款比较不错的调度框架</h4><p>{———-}</p>
-<p><a href="https://github.com/xuxueli/xxl-job.git" target="_blank" rel="noopener">xxl-job</a> </p>
-<ul>
-<li>开源较早 拥有自带的rpc机制、功能比较健全、http远程调度支持的还不是很好 不过可以使用java脚本形式进行调度封装</li>
-<li>数据库使用mysql和oracle</li>
-</ul>
-<p><a href="https://github.com/ihaolin/antares.git" target="_blank" rel="noopener">分布式任务调度平台(Distributed Job Schedule Platform)</a></p>
-<ul>
-<li>使用zk作为注册中心、redis作为存储位置、较为重量级</li>
-</ul>
-<p>依据项目中的注册中心选择不同的任务调度吧</p>
-<p>xxl-job下阶段结合eureka注册中心就比较不错了、目前spring cloud比较火、如果不能积极嵌入到新的微服务中、用的也就越来越少<br>不过稍微改动下注册机制、也不是很困难的是、一个定时线程不断地获取注册中心的服务列表、然后保存到本地作为服务app、便于集群管理</p>
-<p>最后、对于所有开源的产品、尽量测试好了在上生产环境、否则因为生产较为复杂的环境gg掉就悲催了、<br>有些开源产品一遇到高并发就gg、以前碰到过一例</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/10/04/service-design/design-6/" rel="bookmark">微博社交广告系统架构实践</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-1/" rel="bookmark">分布式架构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-2/" rel="bookmark">医院总流程图</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-0/" rel="bookmark">系统设计一些基本原则</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/service-design/design-4/" rel="bookmark">用户池系统 构思</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
@@ -2428,7 +2440,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">270</span>
+                    <span class="site-state-item-count">271</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
