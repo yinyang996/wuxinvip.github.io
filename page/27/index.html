@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring/spring/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/shiro-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,7 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/spring/spring/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">spring</a>
+                <a href="/2018/03/24/service-permission/shiro-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">权限系统_shiro_验证流程</a>
               
             
           </h2>
@@ -553,7 +553,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
 
                 
                 
@@ -589,61 +589,57 @@
       
         
           
-            <p>特性:IOC　AOP</p>
-<p>控制反转．面向切面编程</p>
-<p>由spring创建obj.</p>
-<p>独特的obj注入方式</p>
-<p>执行过程切面管理</p>
+            <p><strong>权限分为：操作权限、业务权限、数据权限三种</strong></p>
+<p>１、操作权限</p>
+<pre><code>现阶段操作权限都是使用shiro进行控制
+
+shiro 也是基于RBAC思想 【不懂的小朋友就去百度RBAC】
+
+shiro 的表设计　
+最基本的无张表：用户表、用户角色表、角色表、角色操作权限表、操作权限表、
+一般也满足使用了　
+
+复杂点有用户组表　角色组表　等等　这些RBAC都有介绍
+</code></pre><p>那么　<strong>What is Apache Shiro?</strong><br>Apache Shiro 是一个强大而灵活的开源安全框架，它干净利落地处理身份认证，授权，企业会话管理和加密。</p>
+<p>这个比较牛逼、集成了 shiro 什么权限怎么控制的你就不用管了、照着他的文档使用就可以了、页面操作按钮【可以使用Tag控制】<br>web.xml　添加了拦截器之后、他能保证整个会话中都知道用户的权限、一直放到缓存中、你在整个流程中想要什么时候查询整个用户的角色、ｉｄ都可以直接通过他的方法拿到、那么他是怎么实现的呢？<br>其实把他理解成一个封装工具或者一个安全框架也行、契合到项目中使用、简洁我们自己的代码、而且他这个工具还是Apache的　在安全方面还是比较值得信任的</p>
 <p>{———-}</p>
-<p>bean加载方式<br><img src="/img/spring/img/spring-aop-1.jpg" alt="AOP"></p>
-<p>spring cglib代理织入切面方法执行<br><img src="/img/spring/img/spring-ioc-1.jpg" alt="spring cglib代理织入切面方法执行"></p>
-<h3 id="spring-容器初始化过程"><a href="#spring-容器初始化过程" class="headerlink" title="spring 容器初始化过程"></a>spring 容器初始化过程</h3><ul>
-<li><p>创建beanFactory 来装配BeanDefinition</p>
-<ul>
-<li>spring将配置文件解析为BeanDefinition对象、并导入容器bean的定义注册表中（BeanDefinitionRegistry）<br>但此时Bean还未初始化、ObtainFreashBeanFactory调用自身的refreshBeanFactory、refreshBeanFactory方法由子类<br>AbstractRefreshableApplicationContext实现、该方法返回创建的DefaultListableFactory对象、这个对象就是由ApplicationContext管理的BeanFactory容器对象</li>
-</ul>
-</li>
-<li><p>加工处理BeanDefinition</p>
-<ul>
-<li>调用工厂处理器、根据反射机制从BeanDefinitionRegistry中找出所有BeanFactoryPostPrecessor类型Bean、并调用其PostProcessBeanFactory接口方法、<br>经过第一步的DefaultListableFactory反射以实现（BeanFactoryPostProcessor 接口）bean、然后调用这些bean工厂后处理器、对注册表中的BeanDefinition对象进行加工处理、</li>
-<li>主要完成工作：bean配置—》beanDefinitionRegistry—》beanDefinition—》property–》注册到spring容器属性编辑器注册表中（propertyEditorRegistry）、</li>
-</ul>
-</li>
-<li><p>注册Bean后处理器</p>
-<ul>
-<li>根据反射机制从BeanDefinitionRegistry中找出所有的BeanPostProcessor类型的Bean并将他们注册到容器Bean后处理器的注册表中</li>
-</ul>
-</li>
-<li><p>初始化消息资源</p>
-<ul>
-<li>初始化容器国际化信息资源</li>
-</ul>
-</li>
-<li><p>初始化应用上下文事件广播器【观察者模式】</p>
-<ul>
-<li>AbstractApplicationContext拥有一个applicationEventMnlticastor成员变量、applicationEventMuticastor提供了容器监听的注册表、成为其广播器<br>以便将事件监听装入其中</li>
-</ul>
-</li>
-<li><p>初始化其他特殊bean</p>
-</li>
-<li><p>注册事件监听器</p>
-<ul>
-<li>观察者模式中观察者角色</li>
-<li>spring根据上下文持有的beanFactory对象找出所有实现ApplicationListener的bean、将BeanDefinition对象生成Bean注册为容器事件监听器</li>
-<li>实际操作就是将其添加到事件广播器所提供的监听器事件中</li>
-</ul>
-</li>
-<li><p>初始化所有sington的bean</p>
-<ul>
-<li>创建一个beanFactory实例化所有单实例bean</li>
-</ul>
-</li>
-<li><p>最后发布上下文刷新事件</p>
-<ul>
-<li></li>
-</ul>
-</li>
-</ul>
+<p><strong>那么他做了什么呢？</strong>　<br>    官方有以下说明：<br>        验证用户来核实用户身份<br>        对用户访问进行控制<br>            判断用户是否被分配了一个确定的安全角色<br>            判断用户是否被允许做某事<br>        在任何环境下使用SessionAPI　即使没有　web　EJB容器<br>        在身份验证、访问控制期间、会话的生命周期、对事件做出反应<br>        聚集一个或多个用户安全数据源、并作为一个单一复合用户“视图”<br>        启动单点登陆【SSO】功能<br>        为没有关联登陆的用户启用　Remember Me服务<br>        。。。</p>
+<p><strong>关于实现原理：</strong><br>    shiro 团队　把这四个功能成为　应用程序的四大基石：身份认证、授权、会话管理、加密</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-ca7b498d80205016?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方原图"></p>
+<p><strong>shiro核心部分：</strong></p>
+<pre><code>Authentication：有时也简称为“登录”，这是一个证明用户是他们所说的他们是谁的行为。
+Authorization：访问控制的过程，也就是绝对“谁”去访问“什么”。
+Session Management：管理用户特定的会话，即使在非 Web 或 EJB 应用程序。
+Cryptography：通过使用加密算法保持数据安全同时易于使用。
+</code></pre><p>看不懂？那么想想我们自己的登陆系统应该是怎样的呢？<br><img src="http://upload-images.jianshu.io/upload_images/6434888-812053f1688a5148?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-7916901ac0a8c963?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"></p>
+<pre><code>那么这样就好理解了　登陆就像是Authentication　管理用户标识　谁是谁　
+那么Authorization就像是登陆系统中的查看角色权限等功能＼管理谁应该访问什么资源　
+Session　Management　就是一个管理会话的工具　将返还的ticket放置在哪里传递给用户
+Cryptography 暂时就理解为加密算法
+
+额外功能：
+
+    Web Support：Shiro 的 web 支持的 API 能够轻松地帮助保护 Web 应用程序。
+    Caching：缓存是 Apache Shiro 中的第一层公民，来确保安全操作快速而又高效。
+    Concurrency：Apache Shiro 利用它的并发特性来支持多线程应用程序。
+    Testing：测试支持的存在来帮助你编写单元测试和集成测试，并确保你的能够如预期的一样安全。
+    &quot;Run As&quot;：一个允许用户假设为另一个用户身份（如果允许）的功能，有时候在管理脚本很有用。
+    &quot;Remember Me&quot;：在会话中记住用户的身份，所以他们只需要在强制时候登录。
+</code></pre><p>分解下：<br>    先说认证 Authenticating Subjects （验证 Subjects）<br>    系统分为了三个不同的步骤：<br>        1、手机Subjects提交的Principals（身份）和Credentials（凭证）<br>        2、提交Principals（身份）和Credentials（凭证）进行认证<br>        3、如果提交成功、则允许访问、否则则重新认证或者阻止进行访问</p>
+<p>代码如下：<br>Step 1 ：收集 Subject 的 的 Principals( 身份)和 和 Credentials( 凭证)<br>    UsernamePasswordToken token = new UsernamePasswordToken(username, password);<br>Step 2 ：提交 Subject 的 的 Principals( 身份)和 和 Credentials(<br>    Subject currentUser = SecurityUtils.getSubject();<br>    currentUser.login(token);<br>Step3<br>    成功： 应用程序继续执行、并把subject.isAuthenticated(true)<br>    失败：返回登录？访问次数过多进行锁定？等等可以用户自己判断</p>
+<p>那么关于注销呢 也是easy<br>调用方法如下：<br>    currentUser.logout(); //removes all identifying information an invalidates their session too.</p>
+<p><strong>贴一下官方文档原图体会下具体流程：</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-fcde51aa1ec15518?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-7acaa4b459d97e2a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"><br><img src="http://upload-images.jianshu.io/upload_images/6434888-c580f286351ecd1f?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"></p>
+<p>功能模块定义<br>1、Authenticator（认证器）<br>    shiro中默认使用了一个ModularRealmAuthenticator实例<br>    这个实例中同样支持着一个Realm以及多个Realm的应用<br>通过配置也可以修改这个配置 在shiro.ini 中配置响应数据</p>
+<p>2、AuthenticationStrategy（认证策略）<br>    当一个应用程序配置了两个或者以上的Realm时候、就需要依靠内部组件来配置认证策略<br>    在这个规则中使用到了AuthenticationStrategy 一个无状态组件 在身份验证尝试中会询问4次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、在任何 Realm 被调用之前被询问；</span><br><span class="line">2. 在一个单独的 Realm 的 getAuthenticationInfo 方法被调用之前立即被询问；</span><br><span class="line">3. 在一个单独的 Realm 的 getAuthenticationInfo 方法被调用之后立即被询问；</span><br><span class="line">4. 在所有的 Realm 被调用后询问。</span><br></pre></td></tr></table></figure>
+<p>然后AuthenticationStrategy  会总结合并所有的返回值 并最终确定Subject的最终ID值 （即Principals身份）</p>
+<p>3、Realm  的验证顺序<br>    关于Realm的验证顺序 有两种 一种是Implicit ordering(隐式排列)  另一种是 Explicit Ordering(显示排列)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">在shiro.ini中配置如下：</span><br><span class="line"></span><br><span class="line">隐式排列：</span><br><span class="line">blahRealm = com.company.blah.Realm</span><br><span class="line">…</span><br><span class="line">fooRealm = com.company.foo.Realm</span><br><span class="line">…</span><br><span class="line">barRealm = com.company.another.Realm</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line">securityManager.realms = $blahRealm, $fooRealm, $barRealm</span><br><span class="line"></span><br><span class="line">显示排列</span><br><span class="line"></span><br><span class="line">	如果你想明确地定义 Realm 的交互顺序，忽略它们是如何定义的，你可以设置 securityManager 的属性作为一</span><br><span class="line">个明确的集合属性。例如，如果使用上面的定义，但你想 blahRealm 最后被请求而不是第一个：</span><br><span class="line">blahRealm = com.company.blah.Realm</span><br><span class="line">…</span><br><span class="line">fooRealm = com.company.foo.Realm</span><br><span class="line">…</span><br><span class="line">barRealm = com.company.another.Realm</span><br><span class="line">securityManager.realms = $fooRealm, $barRealm,$blahRealm</span><br><span class="line"></span><br><span class="line">当你显式地配置 securityManager.realms 的属性是，只有已引用的 Realm 将会在</span><br><span class="line">SecurityManager 中被配置。这意味着你能够在 INI 文件中定义 5 个 realm，但是实际上只能使用 3 个如果只有</span><br><span class="line">这 3 个被引用到 realm 的属性中的话.这是和隐式 realm 顺序不同的，所有可用的隐式的 realm 都将被使用。</span><br></pre></td></tr></table></figure>
+<p>至此 shiro身份认证顺序逻辑结束</p>
+<p>下一篇<a href="http://blog.csdn.net/huoyan403/article/details/78292072" target="_blank" rel="noopener">Shiro Authorization （ 授权）</a></p>
+<p>那么 shiro 的使用呢　<br>    maven 导入 shiro 包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;shiro-core&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.1.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency</span><br><span class="line"></span><br><span class="line">另外 shiro 使用了 slf4j 作为日志记录工具</span><br><span class="line">所以还要导入 slf4j 相关 jar 包</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.slf4j&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;slf4j-simple&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.6.1&lt;/version&gt;</span><br><span class="line">	&lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -659,21 +655,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/30/spring/01/" rel="bookmark">spring 理解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring-crontab/" rel="bookmark">spring-定时任务</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring/springmvc/" rel="bookmark">sringmvc</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
       
     </li>
   
@@ -730,7 +726,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring/springmvc/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/shiro-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -750,7 +746,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/spring/springmvc/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">sringmvc</a>
+                <a href="/2018/03/24/service-permission/shiro-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">权限系统_shiro_授权流程</a>
               
             
           </h2>
@@ -816,7 +812,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
 
                 
                 
@@ -852,12 +848,32 @@
       
         
           
-            <p>启动加载顺序</p>
-<p><strong>spring加载流程</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.监听器加载spring</span><br><span class="line">2.加载配置文件</span><br><span class="line">3.工厂生产实例化对象</span><br><span class="line">4.放入ServletContext</span><br></pre></td></tr></table></figure></p>
-<p><strong>springmvc加载流程</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.Servlet加载（监听器之后即执行）Servlet的init()</span><br><span class="line">2.加载配置文件</span><br><span class="line">3.从ServletContext拿到spring初始化springmvc相关对象</span><br><span class="line">4.放入ServletContext</span><br></pre></td></tr></table></figure></p>
+            <p>Shiro Authorization （ 授权）</p>
+<p>官方授权图片</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-336b0632fee6bb6a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>步骤：<br><img src="http://upload-images.jianshu.io/upload_images/6434888-d44d3592576f6485?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>授权成功后</p>
+<p>关于权限使用有三种方式</p>
+<p>1、编写代码</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-05cdfe309a99ea49?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>2、JDK标签</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-09b04e1663976962?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <p>{———-}</p>
-<p><strong>springmvc执行流程</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.用户请求到DispatcherServlet</span><br><span class="line">2.DispatcherServlet查找HandlerMapping请求Handler并返回查找结果</span><br><span class="line">3.DispatcherServlet调用HandlerAdapter执行Handler并返回执行结果</span><br><span class="line">4.DispatcherServlet调用ResolverView生成视图并返回视图</span><br><span class="line">5.DispatcherServlet返回给用户</span><br></pre></td></tr></table></figure>
+<p>3、JSPGSP标签库</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-118318e60b08f8e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这里要解释下 RBAC </p>
+<p>以前的RBAC是 Role-Based-Access-Control</p>
+<p>基于角色的访问控制</p>
+<p>权限表 是 用户表-角色表-操作url表 【Menu】</p>
+<p>控制方式是 用户拥有某权限——–权限拥有某url【controller】 才可以访问 </p>
+<p>麻烦点就是 后台判断用户是否拥有权限时，判断用户角色 那么就是把角色和资源绑定到一起、这样后期开发会发生这么一种情况、就是有个默认角色后期我可能要删除、使用新角色来控制这些资源、那么 到时候就要更新代码重新发布 </p>
+<p>而最新的RBAC是 Resource-Based-Access-Control </p>
+<p>基于资源的访问控制</p>
+<p>权限表是 用户表【user】-角色表-功能许可表【Permission】</p>
+<p>控制方式就是 用户拥有某一角色——–角色拥有这一资源许可——-资源许可和代码【controller】绑定在一起 后期要更改角色权限 就把这个角色删掉就可以了 并不会影响代码 不需要重构代码</p>
+<p>shiro中同时使用两种方式进行 权限判断 用户可以自行选择 </p>
+<p>相关使用方法 参加xmind</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-3de54131aeffcc67?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 
           
         
@@ -873,21 +889,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/06/30/spring/01/" rel="bookmark">spring 理解</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring-crontab/" rel="bookmark">spring-定时任务</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring/spring/" rel="bookmark">spring</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/permission-data/" rel="bookmark">权限系统_数据权限控制</a></div>
       
     </li>
   
@@ -944,7 +960,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-boot/spring-boot-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/service-permission/permission-data/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -964,7 +980,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/spring-boot/spring-boot-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">springboot mybatis 配置</a>
+                <a href="/2018/03/24/service-permission/permission-data/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">权限系统_数据权限控制</a>
               
             
           </h2>
@@ -1030,7 +1046,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-permission/" itemprop="url" rel="index"><span itemprop="name">service-permission</span></a></span>
 
                 
                 
@@ -1066,14 +1082,34 @@
       
         
           
-            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-1c67f09d5b428ea9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>application.java 类上注解</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-d7a495778cb1f6ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+            <ul>
+<li>1、使用 query filter</li>
+</ul>
+<p>先举例说明一下数据权限，假设一个工作任务应用有以下的需求：</p>
+<p>普通员工可以查看自己的工作项<br>部门经理可以查看自己管理部门的所有工作项<br>对于普通员工和部门经理，他们访问应用的入口都是相同的，应用需要根据不同的角色返回不一样的数据结果，这就是数据权限控制。</p>
+<p>数据权限是个比较复杂的问题，规则非常灵活，在Leap中并没有内置实现，但提供了一个基础机制，可以相对简单的实现数据权限。</p>
+<ul>
+<li>1.1 查询过滤器（Query Filter）</li>
+</ul>
+<p>查询过滤器是 ORM 模块中的功能，默认是关闭的，开启后所有的查询语句都会在 where 语句的最后自动加上类似 @filter(User) 的表达式。</p>
+<p>假设执行查询语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * from user u where u.name = :name</span><br><span class="line">那么开启 Query Filter 后将会自动变为：</span><br><span class="line"></span><br><span class="line">select * from user u where ( u.name = :name )&#123;? and ( @filter(User) )&#125;</span><br><span class="line">关于查询过滤器的细节在这里不展开细说，下面具体说明如何使用查询过滤器实现数据权限。</span><br></pre></td></tr></table></figure></p>
 <p>{———-}</p>
-<p>遇到的问题<br><img src="http://upload-images.jianshu.io/upload_images/6434888-cce1ad48fbe029ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>Factory method ‘sqlSessionFactory’ threw exception; nested exception is java.io.FileNotFoundException: Could not open ServletContext resource [/false]</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-6897cf05c50b4289.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>如果没有本地配置mybatis-config.xml的话 不要加这个配置</p>
+<ul>
+<li><p>1.2 基于 Query Filter 实现数据权限</p>
+</li>
+<li><p>1.3 开启</p>
+</li>
+</ul>
+<p>修改 src/main/resources/conf/config.xml ，增加以下配置属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties prefix=&quot;orm&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;query_filter.enabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>1.4 实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">编写类 SecurityQueryFilter.java ：</span><br><span class="line"></span><br><span class="line">package hello.beans;</span><br><span class="line">import leap.lang.params.Params;</span><br><span class="line">import leap.orm.sql.Sql;</span><br><span class="line">import leap.orm.sql.SqlContext;</span><br><span class="line">import leap.orm.sql.SqlTag;</span><br><span class="line">import leap.orm.sql.SqlTagProcessor;</span><br><span class="line">public class SecurityQueryFilter implements SqlTagProcessor &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String processTag(SqlContext context, Sql sql, SqlTag tag, Params params) &#123;</span><br><span class="line">        String entityName = tag.getContent();</span><br><span class="line">        if(entityName.equals(&quot;User&quot;)) &#123;</span><br><span class="line">            return &quot;t.id = #&#123;env.user.id&#125;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">返回的表达式语法请看数据访问章节，其中别名 t. 是固定写法，在执行中会被替换为真正的别名。</span><br><span class="line"></span><br><span class="line">配置 bean 生效：</span><br><span class="line"></span><br><span class="line">&lt;bean name=&quot;filter&quot; type=&quot;leap.orm.sql.SqlTagProcessor&quot; class=&quot;hello.beans.SecurityQueryFilter&quot;/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.使用sqlMAP进行sql拼接</p>
+</li>
+</ul>
+<p>其原理也是sql拼接  不写了</p>
+<p>参考地址：<a href="http://leapframework.org/doc/security/op_perm.html" target="_blank" rel="noopener">http://leapframework.org/doc/security/op_perm.html</a></p>
 
           
         
@@ -1089,750 +1125,21 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/open-source-project/" rel="bookmark">spring官网提供的 spring boot实例</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/oauth-oauth2/" rel="bookmark">OAuth OAuth2</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/version-config/" rel="bookmark">版本问题</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-2/" rel="bookmark">权限系统_shiro_验证流程</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/02/24/spring-boot/springboot-tomcat/" rel="bookmark">springboot 配置 内嵌 tomcat</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/Hystrix/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/spring-cloud/Hystrix/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">Hystrix</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>原理</strong></p>
-<p>1、流程图<br><img src="http://upload-images.jianshu.io/upload_images/6434888-009577c3c4e7377a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官方原版流程图"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、方法标注 @HystrixCommand注解</span><br><span class="line">2、方法执行进入执行队列、方法执行、【图中标注 .toObservable()状态】</span><br><span class="line">3、缓存是否可见【有 返回缓存数据；没有进入下一步判断】</span><br><span class="line">4、断路器是否打开【未打开 直接判断信号量线程池是否拒绝 ；打开且触发断路进去fallback方法】</span><br><span class="line">5、信号量线程池是否拒绝【未拒绝 创建线程池隔离舱执行业务逻辑 ；拒绝 执行fallback方法】</span><br><span class="line">6、业务逻辑执行是否成功【成功 判断是否超时；未成功 执行fallback方法】</span><br><span class="line">7、判断是否超时【超时 不返回 未超时返回数据】</span><br><span class="line">8、fallback执行结果【成功 返回数据 ；失败 返回失败或者自行实现业务方法】</span><br><span class="line"></span><br><span class="line">其中方法执行结果要返回断路器健康状态给断路器【也就是图中绿色4】</span><br></pre></td></tr></table></figure></p>
-<p>{———-}</p>
-<p>具体信息可见官方详细：</p>
-<p><a href="https://github.com/Netflix/Hystrix/wiki/How-it-Works" target="_blank" rel="noopener">https://github.com/Netflix/Hystrix/wiki/How-it-Works</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-boot/open-source-project/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/spring-boot/open-source-project/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">spring官网提供的 spring boot实例</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://github.com/spring-projects/spring-boot.git" target="_blank" rel="noopener">github开源项目–springboot</a></p>
-<p>{———-}</p>
-<p>= Spring Boot image:<a href="https://ci.spring.io/api/v1/teams/spring-boot/pipelines/spring-boot-2.0.x/jobs/build/badge[&quot;Build" target="_blank" rel="noopener">https://ci.spring.io/api/v1/teams/spring-boot/pipelines/spring-boot-2.0.x/jobs/build/badge[&quot;Build</a> Status”, link=”<a href="https://ci.spring.io/teams/spring-boot/pipelines/spring-boot-2.0.x?groups=Build&quot;]" target="_blank" rel="noopener">https://ci.spring.io/teams/spring-boot/pipelines/spring-boot-2.0.x?groups=Build&quot;]</a> image:<a href="https://badges.gitter.im/Join" target="_blank" rel="noopener">https://badges.gitter.im/Join</a> Chat.svg[“Chat”,link=”<a href="https://gitter.im/spring-projects/spring-boot?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge&quot;]" target="_blank" rel="noopener">https://gitter.im/spring-projects/spring-boot?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge&quot;]</a><br>:docs: <a href="https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference" target="_blank" rel="noopener">https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference</a></p>
-<p>Spring Boot makes it easy to create Spring-powered, production-grade applications and<br>services with absolute minimum fuss. It takes an opinionated view of the Spring platform<br>so that new and existing users can quickly get to the bits they need.</p>
-<p>You can use Spring Boot to create stand-alone Java applications that can be started using<br><code>java -jar</code> or more traditional WAR deployments. We also provide a command line tool<br>that runs spring scripts.</p>
-<p>Our primary goals are:</p>
-<ul>
-<li>Provide a radically faster and widely accessible getting started experience for all<br>Spring development</li>
-<li>Be opinionated out of the box, but get out of the way quickly as requirements start to<br>diverge from the defaults</li>
-<li>Provide a range of non-functional features that are common to large classes of projects<br>(e.g. embedded servers, security, metrics, health checks, externalized configuration)</li>
-<li>Absolutely no code generation and no requirement for XML configuration</li>
-</ul>
-<p>== Installation and Getting Started<br>The {docs}/htmlsingle/[reference documentation] includes detailed<br>{docs}/htmlsingle/#getting-started-installing-spring-boot[installation instructions]<br>as well as a comprehensive {docs}/htmlsingle/#getting-started-first-application[<code>getting
-started</code>] guide. Documentation is published in {docs}/htmlsingle/[HTML],<br>{docs}/pdf/spring-boot-reference.pdf[PDF] and {docs}/epub/spring-boot-reference.epub[EPUB]<br>formats.</p>
-<p>Here is a quick teaser of a complete Spring Boot application in Java:</p>
-<p>[source,java,indent=0]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.*;</span><br><span class="line">import org.springframework.boot.autoconfigure.*;</span><br><span class="line">import org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class Example &#123;</span><br><span class="line"></span><br><span class="line">	@RequestMapping(&quot;/&quot;)</span><br><span class="line">	String home() &#123;</span><br><span class="line">		return &quot;Hello World!&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		SpringApplication.run(Example.class, args);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>== Getting help<br>Having trouble with Spring Boot? We’d like to help!</p>
-<ul>
-<li>Check the {docs}/htmlsingle/[reference documentation], especially the<br>{docs}/htmlsingle/#howto[How-to’s] – they provide solutions to the most common<br>questions.</li>
-<li>Learn the Spring basics – Spring Boot builds on many other Spring projects, check<br>the <a href="https://spring.io[spring.io]" target="_blank" rel="noopener">https://spring.io[spring.io]</a> web-site for a wealth of reference documentation. If<br>you are just starting out with Spring, try one of the <a href="https://spring.io/guides[guides]" target="_blank" rel="noopener">https://spring.io/guides[guides]</a>.</li>
-<li>If you are upgrading, read the <a href="https://github.com/spring-projects/spring-boot/wiki[release" target="_blank" rel="noopener">https://github.com/spring-projects/spring-boot/wiki[release</a> notes]<br>for upgrade instructions and “new and noteworthy” features.</li>
-<li>Ask a question - we monitor <a href="https://stackoverflow.com[stackoverflow.com]" target="_blank" rel="noopener">https://stackoverflow.com[stackoverflow.com]</a> for questions<br>tagged with <a href="https://stackoverflow.com/tags/spring-boot[`spring-boot`]" target="_blank" rel="noopener">https://stackoverflow.com/tags/spring-boot[`spring-boot`]</a>. You can also chat<br>with the community on <a href="https://gitter.im/spring-projects/spring-boot[Gitter]" target="_blank" rel="noopener">https://gitter.im/spring-projects/spring-boot[Gitter]</a>.</li>
-<li>Report bugs with Spring Boot at <a href="https://github.com/spring-projects/spring-boot/issues[github.com/spring-projects/spring-boot/issues]" target="_blank" rel="noopener">https://github.com/spring-projects/spring-boot/issues[github.com/spring-projects/spring-boot/issues]</a>.</li>
-</ul>
-<p>== Reporting Issues<br>Spring Boot uses GitHub’s integrated issue tracking system to record bugs and feature<br>requests. If you want to raise an issue, please follow the recommendations below:</p>
-<ul>
-<li>Before you log a bug, please <a href="https://github.com/spring-projects/spring-boot/search?type=Issues[search" target="_blank" rel="noopener">https://github.com/spring-projects/spring-boot/search?type=Issues[search</a> the issue tracker]<br>to see if someone has already reported the problem.</li>
-<li>If the issue doesn’t already exist, <a href="https://github.com/spring-projects/spring-boot/issues/new[create" target="_blank" rel="noopener">https://github.com/spring-projects/spring-boot/issues/new[create</a> a new issue].</li>
-<li>Please provide as much information as possible with the issue report, we like to know<br>the version of Spring Boot that you are using, as well as your Operating System and<br>JVM version.</li>
-<li>If you need to paste code, or include a stack trace use Markdown +++   +++ escapes<br>before and after your text.</li>
-<li>If possible try to create a test-case or project that replicates the issue. You can<br>submit sample projects as pull-requests against the<br><a href="https://github.com/spring-projects/spring-boot-issues[spring-boot-issues]" target="_blank" rel="noopener">https://github.com/spring-projects/spring-boot-issues[spring-boot-issues]</a> GitHub<br>project. Use the issue number for the name of your project.</li>
-</ul>
-<p>== Building from Source<br>You don’t need to build from source to use Spring Boot (binaries in<br><a href="https://repo.spring.io[repo.spring.io])" target="_blank" rel="noopener">https://repo.spring.io[repo.spring.io])</a>, but if you want to try out the latest and<br>greatest, Spring Boot can be easily built with the<br><a href="https://github.com/takari/maven-wrapper[maven" target="_blank" rel="noopener">https://github.com/takari/maven-wrapper[maven</a> wrapper]. You also need JDK 1.8.</p>
-<h2 id="indent-0"><a href="#indent-0" class="headerlink" title="[indent=0]"></a>[indent=0]</h2><pre><code>$ ./mvnw clean install
-</code></pre><hr>
-<p>If you want to build with the regular <code>mvn</code> command, you will need<br><a href="https://maven.apache.org/run-maven/index.html[Maven" target="_blank" rel="noopener">https://maven.apache.org/run-maven/index.html[Maven</a> v3.5.0 or above].</p>
-<p>NOTE: You may need to increase the amount of memory available to Maven by setting<br>a <code>MAVEN_OPTS</code> environment variable with the value <code>-Xmx512m</code>. Remember<br>to set the corresponding property in your IDE as well if you are building and running<br>tests there (e.g. in Eclipse go to <code>Preferences-&gt;Java-&gt;Installed JREs</code> and edit the<br>JRE definition so that all processes are launched with those arguments). This property<br>is automatically set if you use the maven wrapper.</p>
-<p>_Also see link:CONTRIBUTING.adoc[CONTRIBUTING.adoc] if you wish to submit pull requests,<br>and in particular please fill out the<br><a href="https://support.springsource.com/spring_committer_signup[Contributor&#39;s" target="_blank" rel="noopener">https://support.springsource.com/spring_committer_signup[Contributor&#39;s</a> Agreement]<br>before your first change, however trivial._</p>
-<p>=== Building reference documentation</p>
-<p>First of all, make sure you have built the project:</p>
-<h2 id="indent-0-1"><a href="#indent-0-1" class="headerlink" title="[indent=0]"></a>[indent=0]</h2><pre><code>$ ./mvnw clean install
-</code></pre><hr>
-<p>The reference documentation requires the documentation of the Maven plugin to be<br>available so you need to build that first since it’s not generated by default.</p>
-<h2 id="indent-0-2"><a href="#indent-0-2" class="headerlink" title="[indent=0]"></a>[indent=0]</h2><pre><code>$ ./mvnw clean install -pl spring-boot-project/spring-boot-tools/spring-boot-maven-plugin -Pdefault,full
-</code></pre><hr>
-<p>The documentation also includes auto-generated information about the starters. You might<br>have that in your local repository already (per the first step) but if you want to refresh<br>it:</p>
-<h2 id="indent-0-3"><a href="#indent-0-3" class="headerlink" title="[indent=0]"></a>[indent=0]</h2><pre><code>$ ./mvnw clean install -f spring-boot-project/spring-boot-starters
-</code></pre><hr>
-<p>Once this is done, you can build the reference documentation with the command below:</p>
-<h2 id="indent-0-4"><a href="#indent-0-4" class="headerlink" title="[indent=0]"></a>[indent=0]</h2><pre><code>$ ./mvnw clean prepare-package -pl spring-boot-project/spring-boot-docs -Pdefault,full
-</code></pre><hr>
-<p>TIP: The generated documentation is available from <code>spring-boot-project/spring-boot-docs/target/contents/reference</code></p>
-<p>== Modules<br>There are a number of modules in Spring Boot, here is a quick overview:</p>
-<p>=== spring-boot<br>The main library providing features that support the other parts of Spring Boot,<br>these include:</p>
-<ul>
-<li>The <code>SpringApplication</code> class, providing static convenience methods that make it easy<br>to write a stand-alone Spring Application. Its sole job is to create and refresh an<br>appropriate Spring <code>ApplicationContext</code></li>
-<li>Embedded web applications with a choice of container (Tomcat, Jetty or Undertow)</li>
-<li>First class externalized configuration support</li>
-<li>Convenience <code>ApplicationContext</code> initializers, including support for sensible logging<br>defaults</li>
-</ul>
-<p>=== spring-boot-autoconfigure<br>Spring Boot can configure large parts of common applications based on the content<br>of their classpath. A single <code>@EnableAutoConfiguration</code> annotation triggers<br>auto-configuration of the Spring context.</p>
-<p>Auto-configuration attempts to deduce which beans a user might need. For example, if<br><code>HSQLDB</code> is on the classpath, and the user has not configured any database connections,<br>then they probably want an in-memory database to be defined. Auto-configuration will<br>always back away as the user starts to define their own beans.</p>
-<p>=== spring-boot-starters<br>Starters are a set of convenient dependency descriptors that you can include in<br>your application. You get a one-stop-shop for all the Spring and related technology<br>that you need without having to hunt through sample code and copy paste loads of<br>dependency descriptors. For example, if you want to get started using Spring and JPA for<br>database access just include the <code>spring-boot-starter-data-jpa</code> dependency in your<br>project, and you are good to go.</p>
-<p>=== spring-boot-cli<br>The Spring command line application compiles and runs Groovy source, making it super<br>easy to write the absolute minimum of code to get an application running. Spring CLI<br>can also watch files, automatically recompiling and restarting when they change.</p>
-<p>=== spring-boot-actuator<br>Actuator endpoints let you monitor and interact with your application.<br>Spring Boot Actuator provides the infrastructure required for actuator endpoints. It contains<br>annotation support for actuator endpoints. Out of the box, this module provides a number of endpoints<br>including the <code>HealthEndpoint</code>, <code>EnvironmentEndpoint</code>, <code>BeansEndpoints</code> and many more.</p>
-<p>=== spring-boot-actuator-autoconfigure<br>This provides auto-configuration for actuator endpoints based on the content of the classpath and a set of properties.<br>For instance, if Micrometer is on the classpath, it will auto-configure the <code>MetricsEndpoint</code>.<br>It contains configuration to expose endpoints over HTTP or JMX.<br>Just like Spring Boot AutoConfigure, this will back away as the user starts to define their own beans.</p>
-<p>=== spring-boot-test<br>This module contains core items and annotations that can be helpful when testing your application.</p>
-<p>=== spring-boot-test-autoconfigure<br>Like other Spring Boot auto-configuration modules, spring-boot-test-autoconfigure, provides auto-configuration<br>for tests based on the classpath. It includes a number of annotations that can be used to automatically<br>configure a slice of your application that needs to be tested.</p>
-<p>=== spring-boot-loader<br>Spring Boot Loader provides the secret sauce that allows you to build a single jar file<br>that can be launched using <code>java -jar</code>. Generally you will not need to use<br><code>spring-boot-loader</code> directly, but instead work with the<br>link:spring-boot-project/spring-boot-tools/spring-boot-gradle-plugin[Gradle] or<br>link:spring-boot-project/spring-boot-tools/spring-boot-maven-plugin[Maven] plugin.</p>
-<p>=== spring-boot-devtools<br>The spring-boot-devtools module provides additional development-time features such as automatic restarts,<br>for a smoother application development experience. Developer tools are automatically disabled when<br>running a fully packaged application.</p>
-<p>== Samples<br>Groovy samples for use with the command line application are available in<br>link:spring-boot-project/spring-boot-cli/samples[spring-boot-cli/samples]. To run the CLI samples type<br><code>spring run &lt;sample&gt;.groovy</code> from samples directory.</p>
-<p>Java samples are available in link:spring-boot-samples[spring-boot-samples] and should<br>be built with maven and run by invoking <code>java -jar target/&lt;sample&gt;.jar</code>.</p>
-<p>== Guides<br>The <a href="https://spring.io/[spring.io]" target="_blank" rel="noopener">https://spring.io/[spring.io]</a> site contains several guides that show how to use Spring<br>Boot step-by-step:</p>
-<ul>
-<li><a href="https://spring.io/guides/gs/spring-boot/[Building" target="_blank" rel="noopener">https://spring.io/guides/gs/spring-boot/[Building</a> an Application with Spring Boot] is a<br>very basic guide that shows you how to create a simple application, run it and add some<br>management services.</li>
-<li><a href="https://spring.io/guides/gs/actuator-service/[Building" target="_blank" rel="noopener">https://spring.io/guides/gs/actuator-service/[Building</a> a RESTful Web Service with Spring<br>Boot Actuator] is a guide to creating a REST web service and also shows how the server<br>can be configured.</li>
-<li><a href="https://spring.io/guides/gs/convert-jar-to-war/[Converting" target="_blank" rel="noopener">https://spring.io/guides/gs/convert-jar-to-war/[Converting</a> a Spring Boot JAR Application<br>to a WAR] shows you how to run applications in a web server as a WAR file.</li>
-</ul>
-<p>== License<br>Spring Boot is Open Source software released under the<br><a href="http://www.apache.org/licenses/LICENSE-2.0.html[Apache" target="_blank" rel="noopener">http://www.apache.org/licenses/LICENSE-2.0.html[Apache</a> 2.0 license].</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/spring-boot-1/" rel="bookmark">springboot mybatis 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/version-config/" rel="bookmark">版本问题</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/02/24/spring-boot/springboot-tomcat/" rel="bookmark">springboot 配置 内嵌 tomcat</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-boot/version-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/spring-boot/version-config/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">版本问题</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:38:38" itemprop="dateModified" datetime="2018-10-15T16:38:38+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring-boot</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>springboot 1.x</p>
-<p>server.context-path=/demo</p>
-<p>springboot 2.x</p>
-<p>server.servlet.context-path=/demo<br>不兼容了许多组建:sleuth.</p>
-<p>1.5的springboot 对各大开源组件兼容的版本比较低 比如es、</p>
-<p>因项目中使用es。5.X、spring-boot1.5兼容到4.X版本</p>
-<p>而springboot对es5.x的兼容是spring-boot2.0版本、干的项目里前后不能相顾、很尴尬。。</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/spring-boot-1/" rel="bookmark">springboot mybatis 配置</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/spring-boot/open-source-project/" rel="bookmark">spring官网提供的 spring boot实例</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/02/24/spring-boot/springboot-tomcat/" rel="bookmark">springboot 配置 内嵌 tomcat</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/service-permission/shiro-1/" rel="bookmark">权限系统_shiro_授权流程</a></div>
       
     </li>
   
@@ -2047,6 +1354,13 @@ started</code>] guide. Documentation is published in {docs}/htmlsingle/[HTML],<b
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
       
     </li>
@@ -2054,7 +1368,245 @@ started</code>] guide. Documentation is published in {docs}/htmlsingle/[HTML],<b
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/reactor-core/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/spring-cloud/reactor-core/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">Reactor Core</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文从以下介绍下 Reactor （反应堆）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">首先简单介绍Reactor 是什么东西、</span><br><span class="line">其次解决什么问题、</span><br><span class="line">领域应用、</span><br><span class="line">原理、</span><br><span class="line">优点和缺点、</span><br></pre></td></tr></table></figure></p>
+<h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-8bbb8b631b3797b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="2、解决问题"><a href="#2、解决问题" class="headerlink" title="2、解决问题"></a>2、解决问题</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-57e816852fa46e19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="3、领域应用"><a href="#3、领域应用" class="headerlink" title="3、领域应用"></a>3、领域应用</h2><p>举个比较熟悉的例子 dubbo<br>dubbo底层使用了netty线程模型  netty 中使用了reactor模式</p>
+<p>{———-}</p>
+<h3 id="那么什么是reactor模式？"><a href="#那么什么是reactor模式？" class="headerlink" title="那么什么是reactor模式？"></a>那么什么是reactor模式？</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-858fe9a54def75b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="Reactor三种模型"><a href="#Reactor三种模型" class="headerlink" title="Reactor三种模型"></a>Reactor三种模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-2406b26b0cca44ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="Netty线程模型"><a href="#Netty线程模型" class="headerlink" title="Netty线程模型"></a>Netty线程模型</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-7fac4e58c9c1fe4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="Netty结构"><a href="#Netty结构" class="headerlink" title="Netty结构"></a>Netty结构</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-44f3e9b29ec969cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="dubbo中使用的netty"><a href="#dubbo中使用的netty" class="headerlink" title="dubbo中使用的netty"></a>dubbo中使用的netty</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-6a1f8184f9fcfae3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="4、Reactor-原理介绍"><a href="#4、Reactor-原理介绍" class="headerlink" title="4、Reactor 原理介绍"></a>4、Reactor 原理介绍</h2><h3 id="4-1-Reactor模式结构"><a href="#4-1-Reactor模式结构" class="headerlink" title="4.1 Reactor模式结构"></a>4.1 Reactor模式结构</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-fc4c0369774e482d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-1c48977348cea778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="4-2Reactor模式模块之间的交互"><a href="#4-2Reactor模式模块之间的交互" class="headerlink" title="4.2Reactor模式模块之间的交互"></a>4.2Reactor模式模块之间的交互</h3><p><img src="http://upload-images.jianshu.io/upload_images/6434888-420d7e53a12f5a5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-9b0b54d48117cc51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-76867da8faa4836f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-de7a2593190a5eb5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="5、-Reactor优点"><a href="#5、-Reactor优点" class="headerlink" title="5、  Reactor优点"></a>5、  Reactor优点</h2><p><a href="http://www.dre.vanderbilt.edu/~schmidt/PDF/reactor-siemens.pdf" target="_blank" rel="noopener">Reactor An Object Behavioral Pattern for Demultiplexing and Dispatching Handles for Synchronous Events</a><br>解耦、提升复用性、模块化、可移植性、事件驱动、细力度的并发控制等。<br>相比 传统的实现、即线程的切换、同步、数据的移动会引起性能问题。也就是说从性能的角度上，它最大的提升就是减少了性能的使用，即不需要每个Client对应一个线程</p>
+<p>关于 减少使用线程使用 对性能提升的影响 可看这篇论文</p>
+<p><a href="http://www.eecs.harvard.edu/~mdw/papers/seda-sosp01.pdf" target="_blank" rel="noopener">SEDA: Staged Event-Driven Architecture - An Architecture for Well-Conditioned, Scalable Internet Service</a></p>
+<p>对随着线程的增长带来性能降低做了一个统计：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-27a8db8c88ddbcc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>在这个统计中，每个线程从磁盘中读8KB数据，每个线程读同一个文件，因而数据本身是缓存在操作系统内部的，即减少IO的影响；所有线程是事先分配的，不会有线程启动的影响；所有任务在测试内部产生，因而不会有网络的影响。该统计数据运行环境：Linux 2.2.14，2GB内存，4-way 500MHz Pentium III。从图中可以看出，随着线程的增长，吞吐量在线程数为8个左右的时候开始线性下降，并且到64个以后而迅速下降，其相应事件也在线程达到256个后指数上升。即1+1&lt;2，因为线程切换、同步、数据移动会有性能损失，线程数增加到一定数量时，这种性能影响效果会更加明显。</p>
+<h2 id="6-Reactor模式的缺点"><a href="#6-Reactor模式的缺点" class="headerlink" title="6.Reactor模式的缺点"></a>6.Reactor模式的缺点</h2><p><img src="http://upload-images.jianshu.io/upload_images/6434888-fc5e8ab386e2f710.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
       
     </li>
   
@@ -2278,6 +1830,13 @@ started</code>] guide. Documentation is published in {docs}/htmlsingle/[HTML],<b
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
       
     </li>
@@ -2285,7 +1844,470 @@ started</code>] guide. Documentation is published in {docs}/htmlsingle/[HTML],<b
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/ribbon/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/spring-cloud/ribbon/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">Ribbon</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>官方wiki地址：<a href="https://github.com/Netflix/ribbon/wiki" target="_blank" rel="noopener">https://github.com/Netflix/ribbon/wiki</a></p>
+<p>功能简介：</p>
+<ul>
+<li>1、多重和可插入的负载平衡</li>
+<li>2、与eureka服务整合</li>
+<li>3、内置故障发现能力</li>
+<li>4、云启用</li>
+<li>5、与负载均衡器集成客户端</li>
+<li>6、Archaius配置驱动客户端工厂</li>
+</ul>
+<p>三个子项目：</p>
+<ul>
+<li>ribbon-core：包括负载均衡器和客户端接口定义、通用负载均衡器实现、客户端与负载均衡器和客户端工厂集成</li>
+<li>ribbon-eureka：包含基于Eureka客户端的负载均衡器实现、这是用于服务注册和发现的liberary</li>
+<li>ribbon-httpclient：包含基于JSR-311的Rest客户端与服务均衡器集成的实现</li>
+</ul>
+<p>{———-}</p>
+<p>配置 sample-client.properties<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># Max number of retries on the same server (excluding the first try)</span><br><span class="line">sample-client.ribbon.MaxAutoRetries=1</span><br><span class="line"></span><br><span class="line"># Max number of next servers to retry (excluding the first server)</span><br><span class="line">sample-client.ribbon.MaxAutoRetriesNextServer=1</span><br><span class="line"></span><br><span class="line"># Whether all operations can be retried for this client</span><br><span class="line">sample-client.ribbon.OkToRetryOnAllOperations=true</span><br><span class="line"></span><br><span class="line"># Interval to refresh the server list from the source</span><br><span class="line">sample-client.ribbon.ServerListRefreshInterval=2000</span><br><span class="line"></span><br><span class="line"># Connect timeout used by Apache HttpClient</span><br><span class="line">sample-client.ribbon.ConnectTimeout=3000</span><br><span class="line"></span><br><span class="line"># Read timeout used by Apache HttpClient</span><br><span class="line">sample-client.ribbon.ReadTimeout=3000</span><br><span class="line"></span><br><span class="line"># Initial list of servers, can be changed via Archaius dynamic property at runtime</span><br><span class="line">sample-client.ribbon.listOfServers=www.microsoft.com:80,www.yahoo.com:80,www.google.com:80</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/spring-boot-mybatis-config/" rel="bookmark">spring boot mybatis 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/03/18/spring-cloud/zuul-2/" rel="bookmark">zuul 熔断和重试</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/spring-cloud/spring-cloud-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/spring-cloud/spring-cloud-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/27/index.html">spring cloud 族谱</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring-cloud</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>功能简介来自官网<br>整理人：上善若水</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-62c252d188cc323b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （一）_7.jpg"></p>
+<p>{———-}</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-cbaa0e5231ad5957.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （二）_8.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-d83fdc2d81c655a0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （三）_9.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-8ae4d6293e2169ea.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （四）_10.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-81c3451edd0b17ef.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Model__spring cloud （五）_11.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">总结下 ： 可以说 spring cloud 服务中 包括各种spring 基础服务也有了很多更新</span><br><span class="line"></span><br><span class="line">有RPC 框架的 注册 netflix</span><br><span class="line">有 关于配置的 远程仓库配置 config</span><br><span class="line">有 关于消息 bus stream</span><br><span class="line">有关于app的 for android (提供RestTemplate)</span><br><span class="line">有关任务调度 的 task</span><br><span class="line">有关于 shell 编程</span><br><span class="line">有关于安全方面的</span><br><span class="line">有关于系统拦截 zuul</span><br><span class="line">等等。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">那么看名字可以分为两种</span><br><span class="line">1、Spring * --- spring 为了完善&quot;应用&quot;增加的功能机制  例如 spring security 、spring vault、等等</span><br><span class="line">2、Spring Cloud * ---spring cloud * 是在 微服务中 为了&quot;微服务系统&quot;更方便的集成 对各个功能模块进行封装的结果、</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/05/12/spring-cloud/logger-config/" rel="bookmark">springboot logger  配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/hystrix-config/" rel="bookmark">feign ribbon 配置</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2019/04/12/spring-cloud/feign-ribbon-config/" rel="bookmark">feign ribbon 配置</a></div>
       
     </li>
   
