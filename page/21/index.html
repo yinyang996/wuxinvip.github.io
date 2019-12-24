@@ -467,7 +467,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/jdk/jvm-memory-structure/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/load-balance/dns/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -487,229 +487,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/jdk/jvm-memory-structure/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">jvm内存结构</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:10" itemprop="dateModified" datetime="2019-09-03T13:45:10+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/jdk/" itemprop="url" rel="index"><span itemprop="name">jdk</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>jvm内存 一条线<br>线程共享 线程不共线【也叫非线程共享】</p>
-<p>线程共享： 堆【Heap】、 方法区【method area】<br>非线程共享： 程序计数器、虚拟机栈、本地方法栈</p>
-<p>方法区还包含 运行时常量池【类常量数据】<br><img src="https://upload-images.jianshu.io/upload_images/6434888-56f59944c8ae5b02.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="内存.jpg"></p>
-<p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">异常：</span><br><span class="line">jvm中定义两种异常 StackOverflow、outofmemory</span><br><span class="line">一种是栈溢出 一种是内存溢出</span><br><span class="line">官方定义栈溢出：线程请求深度大于虚拟机允许深度、抛出StackOverflow</span><br><span class="line">官方定义内存溢出：java内存扩展、当虚拟机申请不到足够的内存、抛出outofmemory</span><br></pre></td></tr></table></figure>
-<p><strong>jvm堆</strong><br>细分：新生代、老年代【分代收集算法】<br>再细分：Eden、From Survivor、To Survivor空间<br>再内存分配黑可以分出多个线程私有的分配缓冲区<br>存放内容：对象实例、细致的划分只是为了更好的回收<br>堆是回收主要区域</p>
-<p>edgn区域 首次存放数据 内存不够会触发 MinorGC </p>
-<p>针对老年代 还有MajorGC、Full GC、其中 FUll GC较慢 量级：10倍</p>
-<p><strong>jvm方法区</strong><br>1、线程共享<br>2、存储已被虚拟机加载、类信息、常量、静态变量、即时编译器编译后的代码数据</p>
-<p><strong>jvm运行时常量池</strong><br>1、方法区一部分<br>2、存放编译期生成各种字面量和符号引用、</p>
-<p><strong>直接内存</strong><br>1、不属于jvm运行时数据取一部分 再五大板块外、<br>2、jdk1.4中 引入NIO、引用了一种基于通道（channel）与缓冲区（Buffer）的IO方式、它可以使用Native函数库直接分配对外内存、然后通过一个存储再java堆中的DirectByteBuffer对象来作为这一块内存引用、来进行操作、避免了java堆和native堆中来回复制数据<br>3、该内存受限于 操作系统和物理内存</p>
-<p><strong>虚拟机栈</strong><br>1、虚拟机执行java程序使用栈</p>
-<p><strong>本地方法栈</strong><br>1、执行native方法使用栈</p>
-<p><strong>程序计数器</strong><br>1、与c交界点、一个线程一个程序计数器、内存耗费较小、记录执行指针</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-classloader/" rel="bookmark">类加载过程</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-memory-recovery/" rel="bookmark">jvm内存回收</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/jdk/jvm-total/" rel="bookmark">jvm内存一条线路</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/message-queue/rabbitmq-install/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">Rabbitmq 安装</a>
+                <a href="/2018/03/24/load-balance/dns/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">DNS负载均衡</a>
               
             
           </h2>
@@ -775,6 +553,540 @@
                   ，
                 
               
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/load-balance/" itemprop="url" rel="index"><span itemprop="name">load-balance</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>dns重定向<br>存储:本地.阿里云.万网dns服务器</p>
+<p>dns 在网络上其实就是域名解析到ip的一个过程叫dns解析</p>
+<p>本站域名 <a href="http://www.wuxinvip.com">www.wuxinvip.com</a> </p>
+<p>解析ip 为 39.107.82.228 </p>
+<p>{———-}</p>
+<p>以此为例、过程</p>
+<pre><code>1、用户请求数据、发送域名到域名解析服务器
+2、将域名发送到dns服务解析器【国外顶级域名dns服务器、万网dns服务器、阿里dns服务器】
+一般你的域名在哪里买的 会有相应的dns解析服务器【免费提供】
+
+当然这个解析的过程、请求会发到一个主机器、这个机器按照不同规则、将解析
+分发个各个dns解析器、然后返回域名对应的外网ip地址
+
+用户拿个这个ip 呼叫公网上叫这个ip的服务器 建立会话
+</code></pre><h2 id="域名攻击"><a href="#域名攻击" class="headerlink" title="域名攻击"></a>域名攻击</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    域名直接污染</span><br><span class="line">    域名间接污染</span><br><span class="line"></span><br><span class="line">域名直接污染: 在用户请求域名的ip地址途中、通过拦截域名解析、把ip指向别的服务器、</span><br><span class="line">    比如很普通的、当年百度网站被指向了一个荷兰的一个ip、这就是dns劫持攻击、简单暴力直接瘫痪你的网站</span><br><span class="line">    </span><br><span class="line">域名间接污染：这个就比较复杂了、dns解析服务器也是一个梯度服务器、上游将域名解析列表发送给下游服务器</span><br><span class="line"></span><br><span class="line">如果在上游服务器到下游服务器之间做一个拦截、那么将导致下游的dns解析全部错误、</span><br><span class="line">现在的google不能访问就是这个样子、所以有了各大host访问谷歌的功能、</span><br><span class="line"></span><br><span class="line">不过把google真正的ip解析放到自己的电脑里直接访问ip方式、也只能解决很小一部分墙问题、这些ip后续防火墙也会封掉的、</span><br><span class="line"></span><br><span class="line">这个就涉及到国家的网络与国际链接的国际出入口的防火墙上（像我天朝“G/.F/.W/.”）、基本上也算是最大的dns污染源</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/load-balance/maglev/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/load-balance/maglev/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">maglev</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/load-balance/" itemprop="url" rel="index"><span itemprop="name">load-balance</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>简介</strong><br>Google Maglev 是一个牛逼的负载均衡器，之所以牛逼，是因为它不用部署专门的物理设备，不像 LVS 一样工作在内核，它是运行在通用 Linux 服务器上的大型分布式软件系统。</p>
+<p><img src="/img/load-balance/img/maglev.png" alt="图片">Google Maglev 工作流程</p>
+<p>每个 Google 服务都有一个或者多个 VIP，一个 VIP 和物理 IP 的区别在于 VIP 没有绑给某个特定的网卡。</p>
+<p><strong>VIP 注解</strong><br>Maglev 关联每个 VIP 到具体的 Endpoint，然后通过 BGP 将 VIP 宣告给上游路由器，然后路由器再把 VIP 宣告给 Google 的骨干网，这样使得 VIP 能被访问到。</p>
+<p>{———-}</p>
+<p><strong>流程</strong><br>当用户访问 <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> 时：</p>
+<ul>
+<li>浏览器先发送一个 DNS 请求， DNS 服务返回 VIP。 然后浏览器尝试与该 VIP 建立连接。</li>
+<li>当路由器接收到 VIP 数据包，通过 ECMP 将数据包路由到 Maglev 集群中的某台机器上。</li>
+<li>当 Maglev 的机器接收到数据包， 从关联到该 VIP 的 Endpoint 中选择一个， 然后用 GRE 封包发送，外层的 IP 即 Endpoint 的物理 IP。</li>
+<li>当 Endpoint 处理完数据包进行响应时，源地址用 VIP 填充，目的地址为用户 IP。</li>
+<li>使用直接服务返回(Direct Server Return， DSR) ，将响应直接发送给路由器， 这样 Maglev 无需处理响应包。</li>
+</ul>
+<p><img src="/img/load-balance/img/maglev-1.png" alt="图片">Google Maglev 结构”&gt;}}</p>
+<p><strong>结构</strong><br>Maglev 由控制器（Controller）和 转发器（Forwarder）组成：</p>
+<ul>
+<li>控制器向路由器宣告 VIP。控制器周期性地检查转发器的健康状态，来宣告或者撤回 VIP。确保路由器只转发包到健康的 Magvel。</li>
+<li>转发器转发 VIP 流量到 Endpoint。每个 VIP 都有一个后端池（BP），BP 可能包含 Endpoint 的 IP，也有可能包含其它 BP。<br>每个 BP 会对 Endpoint 进行健康检查，保证数据包转发到健康的 Endpoint。</li>
+</ul>
+<p><strong>转发器的设计和实现</strong></p>
+<p><img src="/img/load-balance/img/maglev-2.png" alt="图片">Google Maglev 转发器结构”&gt;}}</p>
+<p><strong>设计</strong><br>转发器直接从网卡接收数据包，通过 GRE/IP 封包，再将它们发回网卡。 Linux 内核不参与这个过程。</p>
+<ul>
+<li>Steering 处理从 NIC（网卡）接收来的数据包，通过五元组（IP地址，源端口，目的IP地址，目的端口和传输层协议）哈希，然后交给不同的接收队列。</li>
+<li>包重写线程从接收队列取包，然后进行后端选择，用 GRE 封包后，发送到传输队列。</li>
+<li>Muxing 轮询从所有的传输队列取包，再发送给网卡。</li>
+</ul>
+<p><img src="/img/load-balance/img/maglev-3.png" alt="图片">Google Maglev 快速包处理”&gt;}}</p>
+<p><strong>Maglev 在包处理时绕开了 Linux 内核，因为内核开销非常严重。</strong></p>
+<p>如图，转发器和网卡共用数据包池（Packet Pool），转发器中的 Steering 和 Muxing 都通过指针的环形队列，指向该池。</p>
+<p>对于 Seering：</p>
+<ul>
+<li>当网卡接收到数据包时，放在 Recieved 所指位置，并向前移动指针。</li>
+<li>分发包到接收队列时，向前移动Processed 指针。</li>
+<li>预留未使用数据包，放入队列中并向前移动 Reserved 指针。</li>
+</ul>
+<p>对于 Muxing：</p>
+<ul>
+<li>网卡将 Sent 所指的数据包发出去，并向前移动指针。</li>
+<li>将被重写的数据包放入队列中，并向前移动 Ready 指针。</li>
+<li>同时将已被发送的包归回给数据包池，并向前移动 Recycled 指针。</li>
+<li>整个过程都没有包拷贝。</li>
+</ul>
+<p><strong>后端选择</strong></p>
+<p>Maglev首先检查本地的连接跟踪表，看看该数据包是否属于任何一个已有的连接，如果连接已经建立，则直接将数据包发到该连接对应的服务器上去。</p>
+<p>如果连接没有建立，此时就需要一致性哈希函数选择一个后端服务器了，并添加到连接跟踪表。</p>
+<p>Maglev 一致性哈希的基本思想就是：</p>
+<ul>
+<li>有一个共享的Entry表，可以通过Entry[Hash % M]选择对应后端，M为Entry表大小。</li>
+<li>每个后端对所有Entry表位置有自己的优先级排序，存在permutation表里。</li>
+<li>所有的后端通过优先级顺序轮流填充Entry 中的空白位置，直至填满。每次都填充自己优先级最高的空位置。<br>例如，假设M = 6，且<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">B0: permutation[] = &#123; 3, 0, 4, 1, 5, 2, 6 &#125;</span><br><span class="line">B1: permutation[] = &#123; 0, 2, 4, 6, 1, 3, 5 &#125;</span><br><span class="line">B2: permutation[] = &#123; 3, 4, 5, 6, 0, 1, 2 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">permutation优先级是从大到小，那么最后填充后的Entry表为：</span><br><span class="line"></span><br><span class="line">Entry[] = &#123; B1, B0, B1, B0, B2, B2, B0 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">说明：</span><br><span class="line"></span><br><span class="line">B0 的优先级最高的位置是Entry[3]，其为空，则Entry[3] = B0。</span><br><span class="line">B1 是Entry[0]，则Entry[0]=B1。</span><br><span class="line">B2 是Entry[3]，但是已被占，下一个是Entry[4]，为空，则Entry[4]=B2。</span><br><span class="line">以此类推，直至填满。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>操作经验</strong></p>
+<p><img src="/img/load-balance/img/maglev-4.png" alt="图片">Google Maglev VIP 匹配”&gt;}}</p>
+<p>有时候，我们需要利用 Maglev 封包将流量重定向到其他的集群中的相同服务，这就有点麻烦了，因为集群间是独立的，我们不知道其它集群相同服务的 VIP。</p>
+<p>VIP 可以通过最长前缀匹配，来决定集群，利用最长后缀匹配决定那个后端池。</p>
+<p>如图中的例子，当请求 173.194.71.1 时，通过最长前缀（173.194.71.0/24）选择 C2 集群，通过最长后缀（0.0.0.1/8）决定是 Service 1 后端池。</p>
+<p>假定 Maglev 需要将流量转发到 C3（173.194.72.0/24），只需要用相同的后缀构造出 VIP （173.194.72.1）进行转发，即可转发到 Maglev 的 Service 1 后端池。</p>
+<p><strong>分片处理</strong></p>
+<p>分片时，非首个分片只包含三元组（目的IP地址，目的端口和传输层协议），这便无法正确决定如何转发，因为转发根据的是五元组。</p>
+<p>解决方法是：</p>
+<ul>
+<li><p>每个 Maglev 配置了一个特殊的后端池，包含所有的 Maglev 机器。</p>
+</li>
+<li><p>一旦接收到分片， Maglev 用三元组哈希选择特定的 Maglev 作为后端进行转发，将它们重定向给相同的 Maglev。</p>
+</li>
+<li><p>Maglev 为未分片数据包和第二跳的首分片使用相同的后端决策算法，以保证非分片、首个分片和非首个分片选择同一个后端。</p>
+</li>
+<li><p>Magelv 维护了一个固定大小的分片表，记录了首分片的转发决策。</p>
+</li>
+<li><p>当 Maglev 收到一个第二跳非首分片， 会从分片表中查找，若匹配则立即转发； 否则，会缓存到分片表中，直到首分片收到或者老化。</p>
+</li>
+</ul>
+<p><a href="https://simpleyyt.com/2017/07/05/introduction-to-google-maglev/" target="_blank" rel="noopener">转载地址</a></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-controller/" rel="bookmark">nginx-controller</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/07/03/load-balance/nginx-plus/" rel="bookmark">nginx-plus</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/24/load-balance/total/" rel="bookmark">负载均衡</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/05/23/load-balance/algorithm/" rel="bookmark">负载均衡算法</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/25/load-balance/nginx/" rel="bookmark">nginx</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-exception/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/message-queue/rabbitmq-exception/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">RabbitMQ Exception</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
 
                 
@@ -811,8 +1123,10 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">eralng官方地址 : https://github.com/rabbitmq/erlang-rpm/releases</span><br><span class="line"></span><br><span class="line">socat官方地址 : https://centos.pkgs.org/7/lux/socat-1.7.3.2-5.el7.lux.x86_64.rpm.html</span><br><span class="line"></span><br><span class="line">rabbitmq 官方地址: http://www.rabbitmq.com/install-rpm.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下载命令</span><br><span class="line"></span><br><span class="line">erlang : curl -L -O https://github.com/rabbitmq/erlang-rpm/releases/download/v20.1.7/erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br></pre></td></tr></table></figure>
-<p>{———-}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">安装: socat</span><br><span class="line">yum  install socat</span><br><span class="line"></span><br><span class="line">rabbitmq : curl -L -O https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.0/rabbitmq-server-3.7.0-1.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh rabbitmq-server-3.7.0-1.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看 rabbit状态</span><br><span class="line">service rabbitmq-server status</span><br><span class="line"></span><br><span class="line">启动rabbit</span><br><span class="line"></span><br><span class="line">service rabbitmq-server start</span><br><span class="line"></span><br><span class="line">安装 web插件</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br><span class="line"></span><br><span class="line">添加用户</span><br><span class="line">rabbitmqctl add_user  admin admin</span><br><span class="line"></span><br><span class="line">给予管理权限</span><br><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure></p>
+            <p>需求@RabbitListener - defining queues from properties</p>
+<p><a href="https://jira.spring.io/browse/AMQP-533?jql=project = AMQP AND fixVersion =" title="1.5 GA" target="_blank" rel="noopener">issues</a></p>
+<p>1.5.RA版本修复</p>
+<p>修复方式 spel表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@RabbitListener(queues = &#123;&quot;#&#123;&apos;$&#123;listener.channel&#125;&apos;.split(&apos;,&apos;)&#125;&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -828,14 +1142,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
       
     </li>
   
@@ -1126,6 +1440,223 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/message-queue/rabbitmq-install/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">Rabbitmq 安装</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/message-queue/" itemprop="url" rel="index"><span itemprop="name">message-queue</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">eralng官方地址 : https://github.com/rabbitmq/erlang-rpm/releases</span><br><span class="line"></span><br><span class="line">socat官方地址 : https://centos.pkgs.org/7/lux/socat-1.7.3.2-5.el7.lux.x86_64.rpm.html</span><br><span class="line"></span><br><span class="line">rabbitmq 官方地址: http://www.rabbitmq.com/install-rpm.html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下载命令</span><br><span class="line"></span><br><span class="line">erlang : curl -L -O https://github.com/rabbitmq/erlang-rpm/releases/download/v20.1.7/erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh erlang-20.1.7-1.el7.centos.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>{———-}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">安装: socat</span><br><span class="line">yum  install socat</span><br><span class="line"></span><br><span class="line">rabbitmq : curl -L -O https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.0/rabbitmq-server-3.7.0-1.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh rabbitmq-server-3.7.0-1.el7.noarch.rpm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查看 rabbit状态</span><br><span class="line">service rabbitmq-server status</span><br><span class="line"></span><br><span class="line">启动rabbit</span><br><span class="line"></span><br><span class="line">service rabbitmq-server start</span><br><span class="line"></span><br><span class="line">安装 web插件</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br><span class="line"></span><br><span class="line">添加用户</span><br><span class="line">rabbitmqctl add_user  admin admin</span><br><span class="line"></span><br><span class="line">给予管理权限</span><br><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-exception/" rel="bookmark">RabbitMQ Exception</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rocketmq/" rel="bookmark">RocketMQ</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/message-queue/rabbitmq-test/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1278,14 +1809,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
       
     </li>
   
@@ -1349,7 +1880,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/log/elk-1/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mybatis-index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1369,7 +1900,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/log/elk-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">ELK 搭建</a>
+                <a href="/2018/03/24/mysql/mybatis-index/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">mysql-index 索引</a>
               
             
           </h2>
@@ -1435,7 +1966,7 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
 
                 
                 
@@ -1471,42 +2002,28 @@
       
         
           
-            <p><strong>elasticsearch 安装</strong></p>
-<p>官方下载地址：<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/downloads/elasticsearch</a><br>linux执行 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>下载解压 【建议使用zsh】</p>
-<p>修改配置文件<br>config/elasticsearch.yml</p>
+            <h2 id="mysql-索引"><a href="#mysql-索引" class="headerlink" title="mysql 索引"></a>mysql 索引</h2><ul>
+<li>原文索引 <a href="https://cloud.tencent.com/developer/article/1125452" target="_blank" rel="noopener">MySQL索引及其实现原理(基于MyISAM及InnoDB引擎)</a></li>
+</ul>
+<p>本文介绍了 磁盘索引结构 索引结构、索引与文件的规划 </p>
+<p>其中可以了解到 为什么innodb 为什么使用自增主键、</p>
 <p>{———-}</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 集群的名字  </span><br><span class="line">cluster.name: cloud</span><br><span class="line"># 节点名字  </span><br><span class="line">node.name: node-1   </span><br><span class="line"># 数据存储目录（多个路径用逗号分隔）  </span><br><span class="line">path.data: /usr/local/logUtils/elasticsearch/es-data</span><br><span class="line"># 日志目录  </span><br><span class="line">path.logs: /usr/local/logUtils/elasticsearch/log</span><br><span class="line">#本机的ip地址</span><br><span class="line">network.host: 192.168.0.135  </span><br><span class="line">#设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点</span><br><span class="line">discovery.zen.ping.unicast.hosts: [&quot;192.168.161.128&quot;]</span><br><span class="line"># 设置节点间交互的tcp端口（集群）,(默认9300)  </span><br><span class="line">transport.tcp.port: 9300  </span><br><span class="line"># 监听端口（默认）  </span><br><span class="line">http.port: 9200  </span><br><span class="line"># 增加参数，使head插件可以访问es  </span><br><span class="line">http.cors.enabled: true  </span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br></pre></td></tr></table></figure>
-<p>运行 bin下的 elasticsearch 进行启动<br>后台启动 bin/elasticsearch  -d</p>
-<p>启动结果如下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-c3defbf97ceb3d06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>启动会遇到的问题<br>1、非root权限启动<br>新建用户  es<br>然后把 elasticsearch 文件夹权限归给 新用户es<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R  es:es  elasticsearch</span><br></pre></td></tr></table></figure></p>
-<p>2、 软硬进程限制</p>
-<p>max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]</p>
-<p>解决办法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf</span><br></pre></td></tr></table></figure></p>
-<p>文后添加<br><img src="http://upload-images.jianshu.io/upload_images/6434888-2291db66448586cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>然后使用source 重新加载<br>并使用 ulimit -n 查看 是否为 65536 如果还是1024 那么重新连接linux 试下<br><img src="http://upload-images.jianshu.io/upload_images/6434888-032a906cd27eeca9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>3、<br>.max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</p>
-<p>解决办法 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">执行    ：sysctl -w vm.max_map_count=655360</span><br><span class="line">查看执行结果 ： sysctl -a | grep vm.max_map_count</span><br></pre></td></tr></table></figure></p>
-<p><strong>elasticsearch 插件 head 安装</strong></p>
-<p>下载head插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/mobz/elasticsearch-head/archive/master.zip</span><br><span class="line">安装node</span><br><span class="line">wget https://npm.taobao.org/mirrors/node/latest-v4.x/node-v4.4.7-linux-x64.tar.gz</span><br><span class="line">tar -zxvf node-v4.4.7-linux-x64.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>配置环境变量<br><img src="http://upload-images.jianshu.io/upload_images/6434888-0b86cce5f1787b61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>安装 grunt<br>cd /opt/elasticsearch-head-master<br>npm install -g grunt-cli  //执行后会生成node_modules文件夹<br>grunt是基于Node.js的项目构建工具，可以进行打包压缩、测试、执行等等的工作，head插件就是通过grunt启动</p>
-<p>检查是否安装成功<br>grunt -version</p>
-<p>修改head 插件源码<br>vi  Gruntfile.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e777189ec26ea9b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>vi _site/app.js<br><img src="http://upload-images.jianshu.io/upload_images/6434888-99ec0f1955f299a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>文件较大 建议下载下来 使用文本编辑器查找<br>或者使用命令替换localhost 为 你的ip</p>
-<p>运行head<br>head根目录<br>运行 npm install<br>启动head grunt server<br>后台启动 nohup grunt server  &amp;<br><img src="http://upload-images.jianshu.io/upload_images/6434888-e00e0f1850d2b2f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong>Logstash 安装</strong></p>
-<p>官方下载地址 ：<a href="https://www.elastic.co/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/downloads/logstash</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">linux安装：curl -L -O https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.tar.gz</span><br><span class="line"></span><br><span class="line">config 添加 配置文件</span><br><span class="line"></span><br><span class="line">vi logstash.conf</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  # stdin &#123; &#125;</span><br><span class="line">  tcp &#123;</span><br><span class="line">    # host:port就是上面appender中的 destination，</span><br><span class="line">    # 这里其实把logstash作为服务，开启9250端口接收logback发出的消息</span><br><span class="line">    host =&gt; &quot;192.168.0.135&quot;</span><br><span class="line">     port =&gt; 9250</span><br><span class="line">     mode =&gt; &quot;server&quot;</span><br><span class="line">    tags :&gt; [&quot;tags&quot;]</span><br><span class="line">    codec =&gt; json_lines</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123; hosts =&gt; [&quot;localhost:9200&quot;] &#125;</span><br><span class="line">  stdout &#123; codec =&gt; rubydebug &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>启动logstash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./logstash -f ../config/logstash.conf  &amp;</span><br></pre></td></tr></table></figure></p>
-<p><strong>Kibana 安装</strong></p>
-<p>官方下载地址：<a href="https://www.elastic.co/downloads/kibana" target="_blank" rel="noopener">https://www.elastic.co/downloads/kibana</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim config/kibana.yml</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server.host:&quot;192.168.0.135&quot;</span><br><span class="line">elasticsearch.url:http://192.168.0.135:9200</span><br><span class="line"></span><br><span class="line">启动kibana</span><br><span class="line"></span><br><span class="line">bin/kibana</span><br></pre></td></tr></table></figure></p>
-<p>启动服务 <a href="http://192.168.0.135:5601" target="_blank" rel="noopener">http://192.168.0.135:5601</a></p>
-<p>至此 ELK服务单机版部署完成</p>
-<p>springcloud 集成logback</p>
-<p>引入pom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--日志发送logstash--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p>logback-spring.xml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=&quot;LOGSTASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">        destination 是 logstash 服务的 host:port，</span><br><span class="line">        相当于和 logstash 建立了管道，将日志数据定向传输到 logstash</span><br><span class="line">        --&gt;</span><br><span class="line">        &lt;destination&gt;192.168.0.135:9250&lt;/destination&gt;</span><br><span class="line">        &lt;encoder charset=&quot;UTF-8&quot; class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">  &lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">          &lt;appender-ref ref=&quot;LOGSTASH&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br></pre></td></tr></table></figure>
+<p>主要查看两种索引引擎 MYISAM、InnoDB</p>
+<p>两者相同特点：都是B+ TRee</p>
+<p>不同点：</p>
+<ul>
+<li><p>myisam 是非聚集索引  索引与数据分开存储 叶子节点执行 数据的物理地址</p>
+</li>
+<li><p>innodb是 聚集索引、索引即是 数据主键</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">把主键作为索引key、有好处也有缺点、</span><br><span class="line">好处查询IO次数减少、</span><br><span class="line">坏处、每次更新主键都要遍历整个列表来保证主键唯一性、</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>所有索引中 、主键索引和辅助索引区分、主键索引不可重复、辅助索引可重复</p>
+<p>myisam可认为是 双索引或者多索引结构、每一个索引都会生成一个索引树、而innodb是层级关系、</p>
+<h3 id="建立索引注意事项："><a href="#建立索引注意事项：" class="headerlink" title="建立索引注意事项："></a>建立索引注意事项：</h3><ul>
+<li>记录少 不建索引</li>
+<li>选择性低 不建索引【重复率低 即命中率低】</li>
+</ul>
 
           
         
@@ -1515,32 +2032,6 @@
 
     
       
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-2/" rel="bookmark">ELK 简介</a></div>
-      
-    </li>
-  
-  </ul>
 
 
     
@@ -1754,13 +2245,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/message-queue/kafka-1/" rel="bookmark">Kafka-1.0.0版本</a></div>
       
     </li>
@@ -1768,464 +2252,14 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-install/" rel="bookmark">Rabbitmq 安装</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/message-queue/rabbitmq-test/" rel="bookmark">RabbitMQ test</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/log/elk-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/log/elk-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">ELK 简介</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/log/" itemprop="url" rel="index"><span itemprop="name">log</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">转载链接：http://www.jianshu.com/p/97fcb10c3556</span><br></pre></td></tr></table></figure>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a>是一个基于<a href="https://link.jianshu.com/?t=http://lucene.apache.org/core/documentation.html" target="_blank" rel="noopener">Lucene</a>构建的开源，分布式，RESTful 搜索引擎。</p>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a>传输和处理你的日志、事务或其他数据。</p>
-<p><a href="https://link.jianshu.com/?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a>将 Elasticsearch 的数据分析并渲染为可视化的报表。</p>
-<p>{———-}</p>
-<p>为什么使用 ELK ？</p>
-<p>对于有一定规模的公司来说，通常会很多个应用，并部署在大量的服务器上。运维和开发人员常常需要通过查看日志来定位问题。如果应用是集群化部署，试想如果登录一台台服务器去查看日志，是多么费时费力。</p>
-<p>而通过 ELK 这套解决方案，可以同时实现日志收集、日志搜索和日志分析的功能。</p>
-<p>ELK 架构</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-316ba06db8ae9b10.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p><strong>说明</strong></p>
-<p>以上是 ELK 技术栈的一个架构图。从图中可以清楚的看到数据流向。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/beats" target="_blank" rel="noopener">Beats</a> 是单一用途的数据传输平台，它可以将多台机器的数据发送到 Logstash 或 ElasticSearch。但 Beats 并不是不可或缺的一环，所以本文中暂不介绍。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/logstash" target="_blank" rel="noopener">Logstash</a> 是一个动态数据收集管道。支持以 TCP/UDP/HTTP 多种方式收集数据（也可以接受 Beats 传输来的数据），并对数据做进一步丰富或提取字段处理。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">ElasticSearch</a> 是一个基于 JSON 的分布式的搜索和分析引擎。作为 ELK 的核心，它集中存储数据。</p>
-<p><a href="https://link.jianshu.com?t=https://www.elastic.co/products/kibana" target="_blank" rel="noopener">Kibana</a> 是 ELK 的用户界面。它将收集的数据进行可视化展示（各种报表、图形化数据），并提供配置、管理 ELK 的界面。</p>
-<p>支持图形各种数据图形</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-selected/" rel="bookmark">日志服务的选型</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/log/log-total/" rel="bookmark">日志发展史</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/log/elk-1/" rel="bookmark">ELK 搭建</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/rpc/dubbo-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/rpc/dubbo-0/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/21/index.html">dubbo 框架设计</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:12" itemprop="dateModified" datetime="2019-09-03T13:45:12+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/rpc/" itemprop="url" rel="index"><span itemprop="name">rpc</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>假设我们开发一个rpc远程调用框架</p>
-<p>那么这个框架需要怎么去写</p>
-<ul>
-<li>1、首先有远程配置中心config</li>
-<li>2、有服务代理层【包装业务上的服务做一个代理】</li>
-<li>3、有服务注册中心【代理了服务之后 向该注册中心注册服务代理】</li>
-<li>4、有路由【远程调用先走路由获取服务代理实例、集群必备的东西】</li>
-<li>5、有远程调用层【发起服务调用】</li>
-<li>6、有网络传输层、有信息交换层【这个是一个传输协议的实现层】</li>
-<li>7、有序列化层【针对网络IO信息编码方式的统一、传输协议最基本的东西】</li>
-<li>8、服务监控【不属于RPC、但是服务监控必不可少】</li>
-</ul>
-<p>总结：</p>
-<ul>
-<li>核心配置：服务注册中心、服务代理和服务调用</li>
-<li>优化配置：配置中心、服务监控、</li>
-<li>基石配置：网络传输以及协议、序列化方式的定制</li>
-</ul>
-<p>{———-}</p>
-<p><a href="http://dubbo.apache.org/books/dubbo-dev-book/design.html" target="_blank" rel="noopener">dubbo框架设计</a></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/6434888-efad1aa420ebfed2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dubbo-framework.jpg"></p>
-<p><strong>简单用自己的语言描述这个图</strong></p>
-<ul>
-<li>1、左上角 Dubbo Framework</li>
-<li>2、左上角往右简单标识 每个颜色代表什么意思、更好理解图中数据流向</li>
-<li>消费者、提供者、开始、接口、类、继承关系、调用链方向、依赖方向</li>
-<li>3、左侧一竖列、黑体字 service\config、等等</li>
-<li>服务接口【service】、配置层【config】、服务代理层【proxy】、注册中心【registry】、</li>
-<li>路由【cluster】、监控中心【monitor】、远程调用【protocol】、</li>
-<li>信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
-</ul>
-<p>结合自己所想做一个分类</p>
-<ul>
-<li>核心配置：服务代理层【proxy】、注册中心【registry】、远程调用【protocol】</li>
-<li>优化配置：配置层【config】、路由【cluster】、监控中心【monitor】</li>
-<li>基石配置：信息交换【exchange】、网络传输【transport】、数据序列化【serialize】</li>
-</ul>
-<p><strong>简单猜想一下dubbo这么设计的代码架构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">service：对外暴露接口 API与SPI分离</span><br><span class="line"></span><br><span class="line">config：核心referenceConfig、ServiceConfig</span><br><span class="line">              serviceConfig----获取远程仓库配置、获取文件配置、貌似还可以获取环境变量</span><br><span class="line">              【实质上跟修改本地host一个道理、规定了一个locahost代理 然后操作系统去解析这个配置】</span><br><span class="line"></span><br><span class="line">referenceConfig--是消费端配置、其应该是从服务端获取配置信息</span><br><span class="line"></span><br><span class="line">proxy：不由想到代理模式、原业务逻辑bean不变、新建bean来实现原bean的代理【也算是一种封装】</span><br><span class="line"></span><br><span class="line">registry：注册中心、看过eureka、底层内存中维护了 一个双map结构数据列表、维护服务实例、服务地址、以及代理service等</span><br><span class="line"></span><br><span class="line">cluster：路由器、想到最简单的就是url转发、当然肯定没这么简单、应该还会有、实时获取服务列表、负载均衡算法等等</span><br><span class="line"></span><br><span class="line">monitor：监控中心、这个web服务把各路信息提上来做一个展示、应该没啥、最多维护一个硬盘文件</span><br><span class="line"></span><br><span class="line">protocol：远程调用、怎么调用--不太清楚--再看看</span><br><span class="line"></span><br><span class="line">exchange：信息交换、request、response封装</span><br><span class="line"></span><br><span class="line">transport：网络传输、大名鼎鼎的netty就在这吧~~</span><br><span class="line"></span><br><span class="line">seriallize：数据序列化、提供多重序列化方式、hessian【本地存根方式】、rmi等等吧</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/rpc/dubbo-1/" rel="bookmark">dubbo分析</a></div>
       
     </li>
   
