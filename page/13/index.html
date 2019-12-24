@@ -327,7 +327,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">49</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">50</span></a>
 
   </li>
         
@@ -346,7 +346,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">271</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">272</span></a>
 
   </li>
         
@@ -451,6 +451,637 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/06/mongodb/mongodb-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/06/mongodb/mongodb-4/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/13/index.html">mongodb 使用</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-06T08:00:00+08:00">2018-06-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mongodb/" itemprop="url" rel="index"><span itemprop="name">mongodb</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>mongodb 使用</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">文档性数据库 针对类型、无格式文档、只根据id、type区分</span><br><span class="line"></span><br><span class="line">代码 使用封装data-mongodb数据</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Autowired</span><br><span class="line">MongoTemplate mongoTemplate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mongoTemplate.save(logDocument);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//入参 当前第1页、显示20条数据、搜索类型demo封装类</span><br><span class="line">Query query = new Query();</span><br><span class="line">  //构造分页请求信息</span><br><span class="line">  Sort sort = new Sort(Sort.Direction.DESC,&quot;createTime&quot;);</span><br><span class="line">  PageRequest pageRequest = new PageRequest(1,20,sort);</span><br><span class="line">  query.with(pageRequest);</span><br><span class="line"></span><br><span class="line">  query.addCriteria(Criteria.where(&quot;id&quot;).is(demo.getId());</span><br><span class="line"></span><br><span class="line">mongoTemplate.find(query,LogDocument.class);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">///指定全文模糊匹配检索 代码片段 用作以后参考</span><br><span class="line">    TextCriteria criteria = new TextCriteria();</span><br><span class="line">    Map&lt;String,String&gt; map = JsonUtil.beanToMap(demo);</span><br><span class="line">    for(String string :map.values())&#123;</span><br><span class="line">        criteria.matching(string);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-2/" rel="bookmark">mongodb 集群</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-3/" rel="bookmark">mongodb 命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-1/" rel="bookmark">mongodb 简介</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/06/mongodb/mongodb-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/06/mongodb/mongodb-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/13/index.html">mongodb 集群</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-06T08:00:00+08:00">2018-06-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mongodb/" itemprop="url" rel="index"><span itemprop="name">mongodb</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>mongodb 配置</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"># mongod.conf</span><br><span class="line"></span><br><span class="line"># for documentation of all options, see:</span><br><span class="line">#   http://docs.mongodb.org/manual/reference/configuration-options/</span><br><span class="line"></span><br><span class="line"># where to write logging data.</span><br><span class="line">systemLog:</span><br><span class="line">  destination: file</span><br><span class="line">  logAppend: true</span><br><span class="line">  #path: /var/log/mongodb/mongod.log</span><br><span class="line">  path: /opt/env/mongodb-3.6.5/log/mongod.log</span><br><span class="line"></span><br><span class="line"># Where and how to store data.</span><br><span class="line">storage:</span><br><span class="line">   #dbPath: /var/lib/mongo</span><br><span class="line">   dbPath: /opt/env/mongodb-3.6.5/data</span><br><span class="line">   journal:</span><br><span class="line">    enabled: true</span><br><span class="line">#  engine:</span><br><span class="line">#  mmapv1:</span><br><span class="line">#  wiredTiger:</span><br><span class="line"></span><br><span class="line"># how the process runs</span><br><span class="line">processManagement:</span><br><span class="line">  fork: true  # fork and run in background</span><br><span class="line">  pidFilePath: /var/run/mongodb/mongod.pid  # location of pidfile</span><br><span class="line"></span><br><span class="line"># network interfaces</span><br><span class="line">net:</span><br><span class="line">  port: 27027</span><br><span class="line">  bindIp: 0.0.0.0  # Listen to local interface only, comment to listen on all interfaces.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#security:</span><br><span class="line"></span><br><span class="line">#operationProfiling:</span><br><span class="line"></span><br><span class="line">#replication:</span><br><span class="line"></span><br><span class="line">#sharding:</span><br><span class="line"></span><br><span class="line">## Enterprise-Only Options</span><br><span class="line"></span><br><span class="line">#auditLog:</span><br><span class="line"></span><br><span class="line">#snmp:</span><br></pre></td></tr></table></figure></p>
+<p>{———-}</p>
+<p><strong>mongodb 集群</strong></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-4/" rel="bookmark">mongodb 使用</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-3/" rel="bookmark">mongodb 命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-1/" rel="bookmark">mongodb 简介</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/06/mongodb/mongodb-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/06/mongodb/mongodb-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/13/index.html">mongodb 命令</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-06T08:00:00+08:00">2018-06-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mongodb/" itemprop="url" rel="index"><span itemprop="name">mongodb</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>mongodb 命令</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#启动</span><br><span class="line">/opt/env/mongodb-3.6.5/bin/mongod --config /etc/mongod.conf</span><br><span class="line"></span><br><span class="line">--config 加载配置</span><br><span class="line"></span><br><span class="line">--dbpath 数据存放路径</span><br><span class="line"></span><br><span class="line">--port 启动端口</span><br><span class="line"></span><br><span class="line">--fork 以守护方式启动进程 相当于 nohup **** &amp;</span><br><span class="line"></span><br><span class="line">--logpath  日志路径  --append 追加日志 保留以前日志</span><br><span class="line"></span><br><span class="line">--directoryperdb 每个数据库单独一个文件夹</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#数据库操作</span><br><span class="line"></span><br><span class="line">show dbs;</span><br><span class="line"></span><br><span class="line">show collections;</span><br><span class="line"></span><br><span class="line">show users;</span><br><span class="line"></span><br><span class="line">use &lt;db_name&gt;;//如果存在切换  如果不存在 新建并切换</span><br><span class="line"></span><br><span class="line">#查看帮助</span><br><span class="line">db.help();</span><br><span class="line"></span><br><span class="line">db.foo.help();</span><br><span class="line"></span><br><span class="line">db.foo.find();</span><br><span class="line"></span><br><span class="line">db.foo.find(&#123;a:1&#125;);</span><br><span class="line"></span><br><span class="line">#查看状态</span><br><span class="line">db.status();</span><br><span class="line"></span><br><span class="line">db.version();</span><br><span class="line">#查看当前链接机器地址</span><br><span class="line">db.getMongo();</span><br><span class="line"></span><br><span class="line">db.shutdownServer();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#数据操作</span><br><span class="line">db.user.find();</span><br><span class="line">db.user.findOne();</span><br><span class="line"></span><br><span class="line">db.user.update();</span><br><span class="line"></span><br><span class="line">db.user.remove();</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-4/" rel="bookmark">mongodb 使用</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-2/" rel="bookmark">mongodb 集群</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-1/" rel="bookmark">mongodb 简介</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -671,427 +1302,6 @@ TTL Indexes【TTL索引】
       
       
       <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-3/" rel="bookmark">mongodb 命令</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/06/mongodb/mongodb-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/06/mongodb/mongodb-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/13/index.html">mongodb 集群</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-06T08:00:00+08:00">2018-06-06</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mongodb/" itemprop="url" rel="index"><span itemprop="name">mongodb</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>mongodb 配置</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"># mongod.conf</span><br><span class="line"></span><br><span class="line"># for documentation of all options, see:</span><br><span class="line">#   http://docs.mongodb.org/manual/reference/configuration-options/</span><br><span class="line"></span><br><span class="line"># where to write logging data.</span><br><span class="line">systemLog:</span><br><span class="line">  destination: file</span><br><span class="line">  logAppend: true</span><br><span class="line">  #path: /var/log/mongodb/mongod.log</span><br><span class="line">  path: /opt/env/mongodb-3.6.5/log/mongod.log</span><br><span class="line"></span><br><span class="line"># Where and how to store data.</span><br><span class="line">storage:</span><br><span class="line">   #dbPath: /var/lib/mongo</span><br><span class="line">   dbPath: /opt/env/mongodb-3.6.5/data</span><br><span class="line">   journal:</span><br><span class="line">    enabled: true</span><br><span class="line">#  engine:</span><br><span class="line">#  mmapv1:</span><br><span class="line">#  wiredTiger:</span><br><span class="line"></span><br><span class="line"># how the process runs</span><br><span class="line">processManagement:</span><br><span class="line">  fork: true  # fork and run in background</span><br><span class="line">  pidFilePath: /var/run/mongodb/mongod.pid  # location of pidfile</span><br><span class="line"></span><br><span class="line"># network interfaces</span><br><span class="line">net:</span><br><span class="line">  port: 27027</span><br><span class="line">  bindIp: 0.0.0.0  # Listen to local interface only, comment to listen on all interfaces.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#security:</span><br><span class="line"></span><br><span class="line">#operationProfiling:</span><br><span class="line"></span><br><span class="line">#replication:</span><br><span class="line"></span><br><span class="line">#sharding:</span><br><span class="line"></span><br><span class="line">## Enterprise-Only Options</span><br><span class="line"></span><br><span class="line">#auditLog:</span><br><span class="line"></span><br><span class="line">#snmp:</span><br></pre></td></tr></table></figure></p>
-<p>{———-}</p>
-<p><strong>mongodb 集群</strong></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-4/" rel="bookmark">mongodb 使用</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-1/" rel="bookmark">mongodb 简介</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-3/" rel="bookmark">mongodb 命令</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/06/mongodb/mongodb-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/06/mongodb/mongodb-3/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/13/index.html">mongodb 命令</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-06 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-06T08:00:00+08:00">2018-06-06</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mongodb/" itemprop="url" rel="index"><span itemprop="name">mongodb</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>mongodb 命令</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#启动</span><br><span class="line">/opt/env/mongodb-3.6.5/bin/mongod --config /etc/mongod.conf</span><br><span class="line"></span><br><span class="line">--config 加载配置</span><br><span class="line"></span><br><span class="line">--dbpath 数据存放路径</span><br><span class="line"></span><br><span class="line">--port 启动端口</span><br><span class="line"></span><br><span class="line">--fork 以守护方式启动进程 相当于 nohup **** &amp;</span><br><span class="line"></span><br><span class="line">--logpath  日志路径  --append 追加日志 保留以前日志</span><br><span class="line"></span><br><span class="line">--directoryperdb 每个数据库单独一个文件夹</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#数据库操作</span><br><span class="line"></span><br><span class="line">show dbs;</span><br><span class="line"></span><br><span class="line">show collections;</span><br><span class="line"></span><br><span class="line">show users;</span><br><span class="line"></span><br><span class="line">use &lt;db_name&gt;;//如果存在切换  如果不存在 新建并切换</span><br><span class="line"></span><br><span class="line">#查看帮助</span><br><span class="line">db.help();</span><br><span class="line"></span><br><span class="line">db.foo.help();</span><br><span class="line"></span><br><span class="line">db.foo.find();</span><br><span class="line"></span><br><span class="line">db.foo.find(&#123;a:1&#125;);</span><br><span class="line"></span><br><span class="line">#查看状态</span><br><span class="line">db.status();</span><br><span class="line"></span><br><span class="line">db.version();</span><br><span class="line">#查看当前链接机器地址</span><br><span class="line">db.getMongo();</span><br><span class="line"></span><br><span class="line">db.shutdownServer();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#数据操作</span><br><span class="line">db.user.find();</span><br><span class="line">db.user.findOne();</span><br><span class="line"></span><br><span class="line">db.user.update();</span><br><span class="line"></span><br><span class="line">db.user.remove();</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-4/" rel="bookmark">mongodb 使用</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-1/" rel="bookmark">mongodb 简介</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/06/mongodb/mongodb-2/" rel="bookmark">mongodb 集群</a></div>
       
     </li>
   
@@ -1618,6 +1828,202 @@ http访问功能
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/04/service-mesh/service-mesh-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/04/service-mesh/service-mesh-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/13/index.html">kuberments</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-04 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-04T08:00:00+08:00">2018-06-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:38:38" itemprop="dateModified" datetime="2018-10-15T16:38:38+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-mesh/" itemprop="url" rel="index"><span itemprop="name">service-mesh</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://github.com/wuxinvip/service-mesh/blob/master/k8s/Kubernetes权威指南%20第2版.pdf" target="_blank" rel="noopener">pdf 文档</a></p>
+<p><a href="https://www.kubernetes.org.cn/%E6%96%87%E6%A1%A3%E4%B8%8B%E8%BD%BD" target="_blank" rel="noopener">社区文档下载</a></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/04/service-mesh/service-mesh-1/" rel="bookmark">service-mesh简介</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/04/service-mesh/service-mesh-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1836,433 +2242,6 @@ spring-cloud spring家族 面对现有组建众多复杂性、打造出一个clo
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/06/04/service-mesh/service-mesh-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/04/service-mesh/service-mesh-2/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/13/index.html">kuberments</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-06-04 08:00:00" itemprop="dateCreated datePublished" datetime="2018-06-04T08:00:00+08:00">2018-06-04</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:38:38" itemprop="dateModified" datetime="2018-10-15T16:38:38+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/service-mesh/" itemprop="url" rel="index"><span itemprop="name">service-mesh</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://github.com/wuxinvip/service-mesh/blob/master/k8s/Kubernetes权威指南%20第2版.pdf" target="_blank" rel="noopener">pdf 文档</a></p>
-<p><a href="https://www.kubernetes.org.cn/%E6%96%87%E6%A1%A3%E4%B8%8B%E8%BD%BD" target="_blank" rel="noopener">社区文档下载</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/04/service-mesh/service-mesh-1/" rel="bookmark">service-mesh简介</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/05/30/essay/essay-8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/30/essay/essay-8/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/13/index.html">为什么你成不了架构师</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-05-30 08:00:00" itemprop="dateCreated datePublished" datetime="2018-05-30T08:00:00+08:00">2018-05-30</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/essay/" itemprop="url" rel="index"><span itemprop="name">essay</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>近期入职新公司 接手架构重构 感慨颇多、也学到不少东西、<br><br>学会了时间不使用timestamp 使用bigint、价格不使用decimal 而是int or bigint<br><br>以前常念叨 适合业务的技术才是最好的技术、却少有感慨</p>
-<p><strong>为什么使用bigint作为时间单位？</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1、首先兼容oracle、其次项目内部流转不容易异常【项目中是这个说法、貌似timestamp我也没碰到过异常】&lt;br&gt;</span><br><span class="line">2、还有就是int值比较容易比较 尤其针对范围查询 较快些吧、估计timestamp底层比较就是int方式</span><br></pre></td></tr></table></figure></p>
-<p>{———-}</p>
-<p><strong>为什么使用int或者bigint作为价格单位</strong></p>
-<p>1、首先这点不能一定就说项目中就一定是对的、暂时没有想到以前的设计方案<br><br>项目中的想法了解到、价格小数点取到后四位 1.0001元、<br><br>2、当然decimal肯定可以甚至可以更好的decimal（10，5）这样的设计我觉得会更好<br><br>事实上现在也出现了问题 总价格不能超过2100000.00000【int的最大值】<br></p>
-<p>系统重构是痛苦的、后续任务中涉及表重构、需要设计索引、<br><br>以前曾经擅自在项目表设计上加过联合索引、被领导小训了一顿、<br><br>从此对之是挺害怕的、甚至到之前一直都不知道为什么错了、知识水平有限</p>
-<p>回家路上是左思右想、有了这么几个猜测<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1、使用explian table查询表索引 联合索引两个字段有一个被索引另一个没有索引</span><br><span class="line">2、联合索引、更新表要更新索引缓存、而实际查询率并不高、</span><br><span class="line">    也就是说花费了巨大的代价去维护一个索引健、而用到的时候却比较少</span><br><span class="line">3、我擅自增加索引的表是用户表、用户表更新比较频繁、查询较少、</span><br><span class="line">    进一步增大了【2】的代价去干了不该干的事、</span><br><span class="line">4、一系列的骚操作、不知道底层就瞎搞胡搞、须知所有的设计都是有利有弊、</span><br><span class="line">    都是为了某些业务场景而设计、把不该用的配置用到不该用的业务上、就会与期望值南辕北辙</span><br></pre></td></tr></table></figure></p>
-<h2 id="为什么你成不了架构师？"><a href="#为什么你成不了架构师？" class="headerlink" title="为什么你成不了架构师？"></a><strong>为什么你成不了架构师？</strong></h2><p>  每一个系统都有自己的业务需求、天下没有两片一样的叶子、也没有两个一样的系统、<br><br>  即使业务需求一样、不同的程序员也会设计出不同的系统<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">都在讲架构师要有两方面准备【技术架构】和【业务架构】</span><br><span class="line"></span><br><span class="line">技术架构：从最简单的LAMP【linux+apache tomcat+mysql+php】到SOA、</span><br><span class="line">            到微服务、以及各个组件的针对场景使用</span><br><span class="line">业务架构：这个是选择来的、不同的公司在做不同的业务、没有业务架构知识、</span><br><span class="line">          你连一个表都设计不出来、不了解业务面对老系统设计都不敢动、还谈什么架构？</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">就像 我为什么在这使用中文：而不是英文:</span><br><span class="line">  因为中文间距宽 更易读、而使用英文 间距小 不容易读</span><br></pre></td></tr></table></figure></p>
-<p>只去关注技术的优缺点、永远成不了架构师、只有了解系统的特点、才能更好的设计出一个优秀的系统、又快又稳定。</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/11/12/essay/essay-22/" rel="bookmark">OpenVpn 配置保存密码</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/11/01/essay/atom-1/" rel="bookmark">atom 插件</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/10/12/essay/essay-21/" rel="bookmark">idea 好用插件 plugins</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2019/01/12/essay/essay-20/" rel="bookmark">遐想--定制应用</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/12/22/essay/essay-19/" rel="bookmark">TOGAF架构认证</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2334,7 +2313,7 @@ spring-cloud spring家族 面对现有组建众多复杂性、打造出一个clo
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">271</span>
+                    <span class="site-state-item-count">272</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2445,7 +2424,9 @@ spring-cloud spring家族 面对现有组建众多复杂性、打造出一个clo
                     
                       
                     
-                    <span class="site-state-item-count">49</span>
+                      
+                    
+                    <span class="site-state-item-count">50</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
