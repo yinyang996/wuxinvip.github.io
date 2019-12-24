@@ -467,249 +467,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-design-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/mysql/mysql-design-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">数据库设计三大范式</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1．第一范式(确保每列保持原子性)</p>
-<p>2．第二范式(确保表中的每列都和主键相关)</p>
-<p>3．第三范式(确保每列都和主键列直接相关,而不是间接相关)</p>
-<p>一、第一范式是最基本的范式。如果数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。</p>
-<p>第一范式的合理遵循需要根据系统的实际需求来定。比如某些数据库系统中需要用到“地址”这个属性，本来直接将“地址”属性设计成一个数据库表的字段就行。但是如果系统经常会访问“地址”属性中的“城市”部分，那么就非要将“地址”这个属性重新拆分为省份、城市、详细地址等多个部分进行存储，这样在对地址中某一部分操作的时候将非常方便。这样设计才算满足了数据库的第一范式，如下表所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-35bd6c5b8893c700.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>上表所示的用户信息遵循了第一范式的要求，这样在对用户使用城市进行分类的时候就非常方便，也提高了数据库的性能。</p>
-<p>{———-}</p>
-<p>二、第二范式在第一范式的基础之上更进一层。第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。</p>
-<p>比如要设计一个订单信息表，因为订单中可能会有多种商品，所以要将订单编号和商品编号作为数据库表的联合主键，如下表所示。</p>
-<p><strong>订单信息表</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-626b1b6125b7b4cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这样就产生一个问题：这个表中是以订单编号和商品编号作为联合主键。这样在该表中商品名称、单位、商品价格等信息不与该表的主键相关，而仅仅是与商品编号相关。所以在这里违反了第二范式的设计原则。</p>
-<p>而如果把这个订单信息表进行拆分，把商品信息分离到另一个表中，把订单项目表也分离到另一个表中，就非常完美了。如下所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-eb948cdf1c46f67b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这样设计，在很大程度上减小了数据库的冗余。如果要获取订单的商品信息，使用商品编号到商品信息表中查询即可。</p>
-<p>三、第三范式需要确保数据表中的每一列数据都和主键直接相关，而不能间接相关。</p>
-<p>比如在设计一个订单数据表的时候，可以将客户编号作为一个外键和订单表建立相应的关系。而不可以在订单表中添加关于客户其它信息（比如姓名、所属公司等）的字段。如下面这两个表所示的设计就是一个满足第三范式的数据库表。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/6434888-5b21ec7fd1581109.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>这样在查询订单信息的时候，就可以使用客户编号来引用客户信息表中的记录，也不必在订单信息表中多次输入客户信息的内容，减小了数据冗余。</p>
-<p><a href="https://www.cnblogs.com/chenyang920/p/5268153.html" target="_blank" rel="noopener">转载地址</a></p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-care-point/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -856,14 +613,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
       
     </li>
   
@@ -877,7 +634,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
       
     </li>
   
@@ -1099,14 +856,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
   
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
       
     </li>
   
@@ -1120,7 +877,232 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-max-connects/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/mysql-max-connects/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">mysql最大连接数</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-aaa92b6cba2ad4d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>linux默认1000  window 默认2000</p>
+<p>还要根据文件系统 性能 来调节 mysql连接数</p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
       
     </li>
   
@@ -1325,7 +1307,243 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
+      
+    </li>
+  
+  </ul>
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-design-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="上善若水">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="上善若水の技术簿">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/03/24/mysql/mysql-design-1/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">数据库设计三大范式</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-03 13:45:11" itemprop="dateModified" datetime="2019-09-03T13:45:11+08:00">2019-09-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1．第一范式(确保每列保持原子性)</p>
+<p>2．第二范式(确保表中的每列都和主键相关)</p>
+<p>3．第三范式(确保每列都和主键列直接相关,而不是间接相关)</p>
+<p>一、第一范式是最基本的范式。如果数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。</p>
+<p>第一范式的合理遵循需要根据系统的实际需求来定。比如某些数据库系统中需要用到“地址”这个属性，本来直接将“地址”属性设计成一个数据库表的字段就行。但是如果系统经常会访问“地址”属性中的“城市”部分，那么就非要将“地址”这个属性重新拆分为省份、城市、详细地址等多个部分进行存储，这样在对地址中某一部分操作的时候将非常方便。这样设计才算满足了数据库的第一范式，如下表所示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-35bd6c5b8893c700.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>上表所示的用户信息遵循了第一范式的要求，这样在对用户使用城市进行分类的时候就非常方便，也提高了数据库的性能。</p>
+<p>{———-}</p>
+<p>二、第二范式在第一范式的基础之上更进一层。第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。</p>
+<p>比如要设计一个订单信息表，因为订单中可能会有多种商品，所以要将订单编号和商品编号作为数据库表的联合主键，如下表所示。</p>
+<p><strong>订单信息表</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-626b1b6125b7b4cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这样就产生一个问题：这个表中是以订单编号和商品编号作为联合主键。这样在该表中商品名称、单位、商品价格等信息不与该表的主键相关，而仅仅是与商品编号相关。所以在这里违反了第二范式的设计原则。</p>
+<p>而如果把这个订单信息表进行拆分，把商品信息分离到另一个表中，把订单项目表也分离到另一个表中，就非常完美了。如下所示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-eb948cdf1c46f67b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这样设计，在很大程度上减小了数据库的冗余。如果要获取订单的商品信息，使用商品编号到商品信息表中查询即可。</p>
+<p>三、第三范式需要确保数据表中的每一列数据都和主键直接相关，而不能间接相关。</p>
+<p>比如在设计一个订单数据表的时候，可以将客户编号作为一个外键和订单表建立相应的关系。而不可以在订单表中添加关于客户其它信息（比如姓名、所属公司等）的字段。如下面这两个表所示的设计就是一个满足第三范式的数据库表。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/6434888-5b21ec7fd1581109.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>这样在查询订单信息的时候，就可以使用客户编号来引用客户信息表中的记录，也不必在订单信息表中多次输入客户信息的内容，减小了数据冗余。</p>
+<p><a href="https://www.cnblogs.com/chenyang920/p/5268153.html" target="_blank" rel="noopener">转载地址</a></p>
+
+          
+        
+      
+    </div>
+
+    
+      
+
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
       
     </li>
   
@@ -1346,7 +1564,14 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-stored-procedure/" rel="bookmark">mysql存储过程</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
       
     </li>
   
@@ -1550,13 +1775,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
@@ -1565,6 +1783,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
       
     </li>
   
@@ -1782,13 +2007,6 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
       
     </li>
@@ -1797,6 +2015,13 @@
       
       
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-max-connects/" rel="bookmark">mysql最大连接数</a></div>
       
     </li>
   
@@ -1860,7 +2085,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/mysql-max-connects/">
+    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-indexes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="上善若水">
@@ -1880,232 +2105,7 @@
           <h2 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/03/24/mysql/mysql-max-connects/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">mysql最大连接数</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-03-24 08:00:00" itemprop="dateCreated datePublished" datetime="2018-03-24T08:00:00+08:00">2018-03-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-15 16:31:42" itemprop="dateModified" datetime="2018-10-15T16:31:42+08:00">2018-10-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body han-init-context" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://upload-images.jianshu.io/upload_images/6434888-aaa92b6cba2ad4d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>linux默认1000  window 默认2000</p>
-<p>还要根据文件系统 性能 来调节 mysql连接数</p>
-
-          
-        
-      
-    </div>
-
-    
-      
-
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/06/29/mysql/mysql-solution/" rel="bookmark">MySQL经典架构</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-design-1/" rel="bookmark">数据库设计三大范式</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-care-point/" rel="bookmark">mysql-care点</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-common/" rel="bookmark">mysql-common</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/mysql-shell/" rel="bookmark">MySQL常用命令</a></div>
-      
-    </li>
-  
-  </ul>
-
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.wuxinvip.com/2018/03/24/mysql/optimization-sql-data-structure/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="上善若水">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="上善若水の技术簿">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/03/24/mysql/optimization-sql-data-structure/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">SQL优化【数据结构】</a>
+                <a href="/2018/03/24/mysql/optimization-sql-indexes/" class="post-title-link" itemprop="https://www.wuxinvip.com/page/22/index.html">SQL优化【SQL索引】</a>
               
             
           </h2>
@@ -2207,18 +2207,20 @@
       
         
           
-            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-99afb8532ed7f3db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>在作为数据库设计师的角色中，寻找组织模式，表和列的最有效方式。<br>与调整应用程序代码时一样，您可以最大限度地减少I / O，将相关项目集中在一起，并提前进行计划，<br>以便随着数据量的增加性能保持在较高水平 从高效的数据库设计开始，<br>团队成员可以更轻松地编写高性能的应用程序代码，并使数据库可以随应用程序的演变和重写而持续下去。</p>
-<p>8.4.1优化数据大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">设计您的表格以尽量减少磁盘空间。</span><br><span class="line">这可以通过减少写入和读取磁盘的数据量来实现巨大的改进。</span><br><span class="line">在查询执行期间，较小的表格通常需要较少的主存储器，而其内容正在被主动处理。</span><br><span class="line">表数据的任何空间减少也会导致可以更快处理的更小的索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL支持许多不同的存储引擎（表格类型）和行格式。</span><br><span class="line">对于每个表格，您可以决定使用哪种存储和索引方法。</span><br><span class="line">为您的应用程序选择适当的表格格式可以为您带来巨大的性能提升。</span><br><span class="line">请参阅 第14章InnoDB存储引擎和 第15章备用存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">通过使用此处列出的技术，您可以获得更好的表格性能并最小化存储空间：</span><br><span class="line"></span><br><span class="line">表列</span><br><span class="line"></span><br><span class="line">行格式</span><br><span class="line"></span><br><span class="line">索引</span><br><span class="line"></span><br><span class="line">加盟</span><br><span class="line"></span><br><span class="line">正常化</span><br><span class="line"></span><br><span class="line">表列</span><br><span class="line">尽可能使用最有效（最小）的数据类型。</span><br><span class="line">MySQL有很多专门的类型可以节省磁盘空间和内存。</span><br><span class="line">例如，如果可能的话，使用较小的整数类型来获得较小的表格。</span><br><span class="line"> MEDIUMINT通常是一个更好的选择，INT因为一 MEDIUMINT列使用的空间减少了25％。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NOT NULL如果可能的话， 声明列。</span><br><span class="line">通过更好地使用索引并消除测试每个值是否存在开销，它使SQL操作更快NULL。</span><br><span class="line">您还可以节省一些存储空间，每列一位。</span><br><span class="line">如果您真的需要NULL表格中的值，请使用它们。</span><br><span class="line">只需避免允许NULL每列中的值的默认设置 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行格式</span><br><span class="line">InnoDB表格DYNAMIC默认使用行格式创建 。</span><br><span class="line">要在a 或语句中明确使用除了DYNAMIC，配置 innodb_default_row_format或指定ROW_FORMAT选项以外的行格式。</span><br><span class="line"> CREATE TABLEALTER TABLE</span><br><span class="line"></span><br><span class="line">行格式的紧凑系列，其中包括 COMPACT，DYNAMIC和COMPRESSED，以减少某些操作的CPU使用为代价来减少行存储空间。</span><br><span class="line">如果您的工作负载是受缓存命中率和磁盘速度限制的典型负载，则可能会更快。</span><br><span class="line">如果这是一个受CPU速度限制的罕见情况，则可能会变慢。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">紧凑的行格式系列还可以CHAR在使用诸如utf8mb3或的可变长度字符集时优化 列存储 utf8mb4。</span><br><span class="line">使用ROW_FORMAT=REDUNDANT， 占用字符集的最大字节长度×。</span><br><span class="line">许多语言主要使用单字节字符编写 ，因此固定的存储长度通常会浪费空间。</span><br><span class="line">使用紧凑的行格式系列，可在to 范围内分配可变数量的存储空间 CHAR(N)Nutf8InnoDBNN×通过去除尾部空格来为这些列设置字符集的最大字节长度。</span><br><span class="line">最小存储长度为 N字节，便于在典型情况下进行就地更新。</span><br><span class="line">有关更多信息，请参见 第14.8.1.2节“InnoDB表的物理行结构”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要通过以压缩形式存储表数据来进一步减少空间，请ROW_FORMAT=COMPRESSED在创建InnoDB表时 指定 ，或在现有表上运行 myisampack命令 MyISAM。</span><br><span class="line">（InnoDB压缩表是可读可写的，而MyISAM压缩表是只读的。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">对于MyISAM表中，如果没有任何可变长度列（VARCHAR， TEXT，或 BLOB列），一个固定大小的行格式被使用。</span><br><span class="line">这会更快，但可能会浪费一些空间。</span><br><span class="line">请参见第15.2.3节“MyISAM表格存储格式”。</span><br><span class="line">即使VARCHAR列中包含CREATE TABLE选项 ，您也可以提示您想要固定长度的行ROW_FORMAT=FIXED。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">索引</span><br><span class="line">表格的主要索引应尽可能短。</span><br><span class="line">这使得每一行的识别简单且高效。</span><br><span class="line">对于InnoDB表，主键列在每个二级索引条目中都是重复的，所以如果有很多二级索引，则较短的主键会节省相当多的空间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">只创建您需要提高查询性能的索引。</span><br><span class="line">索引很适合检索，但会减慢插入和更新操作。</span><br><span class="line">如果您主要通过在列组合上搜索来访问表，请在其上创建一个合成索引，而不是每个列的单独索引。</span><br><span class="line">指数的第一部分应该是最常用的列。</span><br><span class="line">如果从表格中选择时总是使用多列，则索引中的第一列应该是重复次数最多的列，以便更好地压缩索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果长字符串列很可能在第一个字符数上有一个唯一的前缀，那么最好只索引这个前缀，使用MySQL支持在列的最左边部分创建一个索引（请参见第13.1.14节，“CREATE INDEX Syntax”）。</span><br><span class="line">更短的索引速度更快，不仅因为它们需要更少的磁盘空间，还因为它们还会在索引缓存中为您提供更多的点击量，因此磁盘搜索量更少。</span><br><span class="line">请参见 第5.1.1节“配置服务器”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">加盟</span><br><span class="line">在某些情况下，分割成两个经常扫描的表格可能是有益的。</span><br><span class="line">如果它是一个动态格式的表格，并且可以使用一个较小的静态格式表格来扫描表格时可以用来查找相关的行，那么情况尤其如此。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在具有相同数据类型的不同表中使用相同信息声明列，以根据相应列加快联接。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">保持列名简单，以便您可以在不同的表中使用相同的名称并简化连接查询。</span><br><span class="line">例如，在一个名为table的表中customer，使用一个列名来name代替 customer_name。</span><br><span class="line">为了让您的名字可移植到其他SQL服务器，请考虑将它们保持为少于18个字符。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">正常化</span><br><span class="line">通常，尽量保持所有数据不冗余（观察数据库理论中提到的 第三范式）。</span><br><span class="line">不必重复诸如名称和地址之类的冗长值，而是为它们分配唯一的ID，根据需要在多个较小的表中重复这些ID，并通过引用join子句中的ID来加入查询中的表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果速度比磁盘空间更重要以及保留多个数据副本的维护成本（例如，在分析大型表中的所有数据的商业智能场景中），则可以放宽规范化规则，复制信息或创建汇总表以获得更多速度。</span><br></pre></td></tr></table></figure></p>
+            <p><img src="https://upload-images.jianshu.io/upload_images/6434888-3abe1a92a6358cf8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>提高操作性能的最佳方法 SELECT是在查询中测试的一列或多列上创建索引。<br>索引条目就像指向表行的指针，允许查询快速确定哪些行与WHERE子句中的条件匹配，并检索这些行的其他列值。<br>所有的MySQL数据类型都可以被索引。</p>
+<p>尽管为查询中使用的每个可能的列创建索引是很诱人的，但不必要的索引会浪费空间并浪费时间让MySQL确定要使用的索引。<br>索引还会增加插入，更新和删除的成本，因为每个索引都必须更新。<br>您必须找到适当的平衡，才能使用最佳索引集实现快速查询。</p>
 <p>{———-}</p>
-<p>8.4.2优化MySQL数据类型<br>8.4.2.1优化数字数据<br>8.4.2.2优化字符和字符串类型<br>8.4.2.3优化BLOB类型<br>8.4.2.4使用PROCEDURE ANALYZE<br>8.4.2.1优化数字数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">对于可以表示为字符串或数字的唯一ID或其他值，首选数字列来对字符串进行字符串。</span><br><span class="line">由于较大的数值可以以比相应的字符串更少的字节存储，因此速度更快，并且需要更少的内存来传输和比较它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您使用的是数字数据，在许多情况下访问数据库（使用实时连接）的信息比访问文本文件要快。</span><br><span class="line">数据库中的信息可能以比文本文件更紧凑的格式存储，因此访问它涉及更少的磁盘访问。</span><br><span class="line">您还可以将代码保存在应用程序中，因为您可以避免解析文本文件以查找行和列边界。</span><br></pre></td></tr></table></figure></p>
-<p>8.4.2.2优化字符和字符串类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">对于字符和字符串列，请遵循以下准则：</span><br><span class="line"></span><br><span class="line">如果不需要特定于语言的归类功能，请使用二进制归类顺序进行快速比较和排序操作。</span><br><span class="line">您可以使用 BINARY操作员在特定查询中使用二进制排序规则。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在比较不同列的值时，尽可能使用相同的字符集和归类来声明这些列，以避免在运行查询时进行字符串转换。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于小于8KB大小的列值，请使用二进制 VARCHAR代替 BLOB。</span><br><span class="line">该GROUP BY 和ORDER BY条款可以生成临时表，这些临时表可以使用的 MEMORY存储引擎，如果原来的表不包含任何BLOB 列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果一个表包含字符串列（如名称和地址），但许多查询不检索这些列，请考虑将字符串列拆分为单独的表，并在必要时使用具有外键的连接查询。</span><br><span class="line">当MySQL从一行中检索任何值时，它会读取一个包含该行所有列（可能还有其他相邻行）的数据块。</span><br><span class="line">保持每行较小，只有最常用的列，允许更多的行适合每个数据块。</span><br><span class="line">这些紧凑的表格减少了常见查询的磁盘I / O和内存使用量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在表中使用随机生成的值作为主键InnoDB时，如果可能，请使用升序值（如当前日期和时间）作为前缀。</span><br><span class="line">当连续的主值被物理地存储在彼此附近时，InnoDB可以更快地插入和检索它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关数字列通常比等效字符串列更可取的原因，请参见第8.4.2.1节“针对数字数据优化”。</span><br></pre></td></tr></table></figure></p>
-<p>8.4.2.3优化BLOB类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">存储包含文本数据的大块时，请考虑先压缩它。</span><br><span class="line">当整个表被压缩，则不能使用这种技术 InnoDB或MyISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于包含多个列的表，为了减少不使用BLOB列的查询的内存要求，请考虑将BLOB列拆分为单独的表，并在需要时使用连接查询引用它。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">由于检索和显示BLOB值的性能要求可能与其他数据类型有很大的不同，因此可以将BLOB特定的表放在不同的存储设备上，甚至是单独的数据库实例中。</span><br><span class="line">例如，要检索BLOB可能需要大量的顺序磁盘读取，这比较适合传统硬盘驱动器而非 SSD设备。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关二进制列有时比等效BLOB列更可取的原因，请参见第8.4.2.2节“优化字符和字符串类型”VARCHAR。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您可以将列值的散列存储在单独的列中，对该列进行索引并在查询中测试散列值，而不是针对非常长的文本字符串测试相等性。</span><br><span class="line">（使用MD5()或 CRC32()函数来生成散列值。</span><br><span class="line">）由于散列函数可能会为不同的输入产生重复结果，因此您仍然在查询中包含一个子句 以防止错误匹配; 性能优势来自散列值的更小，易于扫描的索引。</span><br><span class="line"> AND blob_column = long_string_value</span><br></pre></td></tr></table></figure></p>
-<p>8.4.2.4使用PROCEDURE ANALYZE<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">ANALYSE([max_elements[,max_memory]])</span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">PROCEDURE ANALYSE() 从MySQL 5.7.18开始已弃用，并在MySQL 8.0中删除。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ANALYSE()检查查询的结果并返回结果分析，为每列提供最佳数据类型，这可能有助于减小表格大小。</span><br><span class="line">要获得此分析，请附加PROCEDURE ANALYSE到SELECT声明的结尾处 ：</span><br><span class="line"></span><br><span class="line">SELECT ... FROM ... WHERE ... PROCEDURE ANALYZE（[ max_elements，[ max_memory]]）</span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">SELECT col1，col2 FROM table1 PROCEDURE ANALYZE（10，2000）;</span><br><span class="line">结果显示查询返回值的一些统计信息，并为列提出最佳数据类型。</span><br><span class="line">这对于检查现有表格或导入新数据后可能会有所帮助。</span><br><span class="line">您可能需要为参数尝试不同的设置，以便在PROCEDURE ANALYSE()不适ENUM当时不会显示 数据类型。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">参数是可选的，使用如下：</span><br><span class="line"></span><br><span class="line">max_elements（默认值为256）是ANALYSE()每列通知的最大不同值的数量 。</span><br><span class="line">这用于ANALYSE()检查最佳数据类型是否应该是类型的 ENUM; 如果有多个max_elements不同的值，则ENUM不是建议的类型。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">max_memory（默认8192）是ANALYSE()在尝试查找所有不同值时应分配每列的最大内存量 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一个PROCEDURE条款是不是在允许的 UNION声明。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">8.4.3优化许多表</span><br><span class="line">8.4.3.1 MySQL如何打开和关闭表格</span><br><span class="line">8.4.3.2在同一数据库中创建多个表的缺点</span><br><span class="line">一些快速保存单个查询的技术涉及将数据分割到多个表中。</span><br><span class="line">当表的数量达到数千甚至数百万时，处理所有这些表的开销成为新的性能考虑因素。</span><br></pre></td></tr></table></figure></p>
-<p>8.4.3.1 MySQL如何打开和关闭表格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">当你执行mysqladmin status 命令时，你应该看到如下所示的内容：</span><br><span class="line"></span><br><span class="line">正常运行时间：426正在运行的线程：1问题：11082</span><br><span class="line">重新加载：1打开表格：12</span><br><span class="line">Open tables如果你只有六张桌子，12 的价值可能会有点令人费解。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL是多线程的，因此可能有很多客户端同时为给定的表发出查询。</span><br><span class="line">为了尽量减少多个客户端会话在同一个表上具有不同状态的问题，该表由每个并发会话独立打开。</span><br><span class="line">这使用额外的内存，但通常会提高性能。</span><br><span class="line">使用MyISAM表格，打开表格的每个客户端的数据文件都需要一个额外的文件描述符。</span><br><span class="line">（相比之下，索引文件描述符在所有会话之间共享。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">该table_open_cache和 max_connections系统变量影响服务器保持打开的文件的最大数量。</span><br><span class="line">如果您增加这些值中的一个或两个，则可能会遇到操作系统对每个进程打开的文件描述符数量施加的限制。</span><br><span class="line">许多操作系统允许您增加打开文件的限制，但方法在系统之间差别很大。</span><br><span class="line">请查阅您的操作系统文档以确定是否可以增加限制以及如何这样做。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">table_open_cache与...有关max_connections。</span><br><span class="line">例如，对于200个并发运行连接，请至少指定一个表缓存大小，其中 是您执行的任何查询中每个连接的最大表数量。</span><br><span class="line">您还必须为临时表和文件保留一些额外的文件描述符。</span><br><span class="line"> 200 * NN</span><br><span class="line"></span><br><span class="line">确保您的操作系统可以处理table_open_cache设置隐含的打开文件描述符的数量 。</span><br><span class="line">如果 table_open_cache设置得太高，MySQL可能会耗尽文件描述符并拒绝连接，无法执行查询，并且非常不可靠。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">您还应该考虑到MyISAM存储引擎对于每个独特的打开表格需要两个文件描述符的事实 。</span><br><span class="line">对于分区 MyISAM表，打开的表的每个分区都需要两个文件描述符。</span><br><span class="line">（还要注意，当MyISAM打开一个分区表时，它会打开这个表的每个分区，不管是否实际使用了一个给定的分区，参见 MyISAM和分区文件描述符的用法。</span><br><span class="line">）可以使用 --open-files-limit启动选项到mysqld。</span><br><span class="line">参见 第B.5.2.17节“找不到文件和类似的错误”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">打开表格的缓存保存在table_open_cache条目级别 。</span><br><span class="line">服务器在启动时自动调整缓存大小。</span><br><span class="line">要明确设置大小，请table_open_cache在启动时设置 系统变量。</span><br><span class="line">请注意，MySQL可能暂时打开更多的表来执行查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在下列情况下，MySQL会关闭一个未使用的表并将其从表缓存中删除：</span><br><span class="line"></span><br><span class="line">当缓存已满并且线程尝试打开不在缓存中的表时。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当缓存包含多个table_open_cache条目并且缓存中 的表不再被任何线程使用时。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">表冲洗操作发生时。</span><br><span class="line">当有人发出FLUSH TABLES语句或执行 mysqladmin flush-tables或 mysqladmin refresh命令时会发生这种情况。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当表缓存填满时，服务器使用以下过程来查找要使用的缓存条目：</span><br><span class="line"></span><br><span class="line">当前未使用的表格被释放，从最近使用的表格开始。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果需要打开新表，但缓存已满并且没有表可以释放，则缓存将根据需要暂时扩展。</span><br><span class="line">当缓存处于临时扩展状态并且表从已使用状态变为未使用状态时，表将关闭并从缓存中释放。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MyISAM为每个并发访问打开 一个表。</span><br><span class="line">这意味着如果两个线程访问同一个表，或者一个线程在同一个查询中访问了两次表（例如，通过将表连接到它自己），则需要打开两次表。</span><br><span class="line">每个并发打开需要表缓存中的条目。</span><br><span class="line">任何MyISAM表的第一次打开 需要两个文件描述符：一个用于数据文件，一个用于索引文件。</span><br><span class="line">该表的每次额外使用仅为数据文件提供一个文件描述符。</span><br><span class="line">索引文件描述符在所有线程之间共享。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您正在使用该语句打开一个表，则会为该线程分配一个专用表对象。</span><br><span class="line">此表对象不被其他线程共享，并且在线程调用或线程终止之前不会关闭。</span><br><span class="line">发生这种情况时，该表将放回表缓存中（如果缓存未满）。</span><br><span class="line">请参见 第13.2.4节“HANDLER语法”。</span><br><span class="line"> HANDLER tbl_name OPENHANDLER tbl_name CLOSE</span><br><span class="line"></span><br><span class="line">您可以通过检查mysqld状态变量来确定表缓存是否过小，该变量 Opened_tables指示自服务器启动以来的表开放操作数：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; SHOW GLOBAL STATUS LIKE &apos;Opened_tables&apos;;</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">| Opened_tables | 2741 |</span><br><span class="line">+ --------------- + ------- +</span><br><span class="line">如果该值非常大或快速增加，即使您没有发出很多FLUSH TABLES语句，也要增加表缓存大小。</span><br><span class="line">请参见第5.1.7节“服务器系统变量”和 第5.1.9节“服务器状态变量”。</span><br></pre></td></tr></table></figure></p>
-<p>8.4.3.2在同一数据库中创建多个表的缺点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果MyISAM在同一数据库目录中有多个表，则打开，关闭和创建操作会很慢。</span><br><span class="line">如果您SELECT 在许多不同的表上执行语句，那么当表缓存满时会有一些开销，因为对于每个必须打开的表，必须关闭另一个表。</span><br><span class="line">您可以通过增加表缓存中允许的条目数来减少此开销。</span><br></pre></td></tr></table></figure></p>
-<p>8.4.4在MySQL中使用内部临时表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">在某些情况下，服务器在处理语句时创建内部临时表。</span><br><span class="line">用户无法直接控制何时发生。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器在如下条件下创建临时表：</span><br><span class="line"></span><br><span class="line">对UNION 报表的评估，稍后会有一些例外情况。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估一些视图，例如那些使用TEMPTABLE算法 UNION或聚合的视图 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">派生表的评估（见 第13.2.10.8节“派生表”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为子查询或半连接实现创建的表（请参见第8.2.2节“优化子查询，派生表和视图引用”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估包含一个ORDER BY子句和一个不同GROUP BY子句的语句，ORDER BY或者GROUP BY包含来自除连接队列中的第一个表以外的表的列或包含该列的语句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DISTINCT结合 评估ORDER BY可能需要临时表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于使用SQL_SMALL_RESULT 修饰符的查询，MySQL使用内存中的临时表，除非查询还包含需要磁盘存储的元素（稍后介绍）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了评估 INSERT ... SELECT从同一个表中选择并插入到同一个表中的语句，MySQL创建一个内部临时表来存放来自该表的行 SELECT，然后将这些行插入到目标表中。</span><br><span class="line">请参见 第13.2.5.1节“INSERT ... SELECT语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估多表 UPDATE报表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">评估GROUP_CONCAT() 或COUNT(DISTINCT) 表达。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要确定某个语句是否需要临时表，请使用 EXPLAIN并检查该 Extra列以查看它是否显示 Using temporary（请参见 第8.8.1节“使用EXPLAIN优化查询”）。</span><br><span class="line">对于派生或物化临时表格EXPLAIN 不一定会说Using temporary。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当服务器创建内部临时表（无论是在内存中还是在磁盘上）时，它都会增加 Created_tmp_tables状态变量。</span><br><span class="line">如果服务器在磁盘上创建表（最初或通过转换内存表），它将增加 Created_tmp_disk_tables状态变量。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">某些查询条件会阻止使用内存中的临时表，在这种情况下，服务器会使用磁盘上的表：</span><br><span class="line"></span><br><span class="line">表中存在一列BLOB或一 TEXT列。</span><br><span class="line">这包括具有字符串值的用户定义变量，因为它们被视为 BLOB或 TEXT列，这取决于它们的值分别是二进制还是非二进制字符串。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SELECT如果使用UNION或 UNION ALL 使用列表中 最大长度大于512（二进制字符串的字节，非二进制字符串的字符）的任何字符串列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">的SHOW COLUMNS和 DESCRIBE语句中使用 BLOB作为用于某些列的类型，从而用于结果的临时表是磁盘上的表。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">服务器不会为UNION符合某些资格的语句使用临时表 。</span><br><span class="line">相反，它从临时表创建中仅保留执行结果列类型转换所需的数据结构。</span><br><span class="line">该表没有完全实例化，没有行被写入或读取; 行直接发送到客户端。</span><br><span class="line">结果是内存和磁盘需求减少，第一行发送到客户端之前的延迟更小，因为服务器不需要等到最后一个查询块被执行。</span><br><span class="line">EXPLAIN而优化器跟踪输出反映了这种执行策略： UNION RESULT 查询块不存在，因为该块对应于从临时表读取的部分。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些条件有资格在UNION没有临时表的情况下进行评估：</span><br><span class="line"></span><br><span class="line">工会是UNION ALL，不是 UNION或UNION DISTINCT。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">没有全球ORDER BY条款。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">联合不是&#123;INSERT | REPLACE&#125; ... SELECT ... 语句的顶级查询块 。</span><br></pre></td></tr></table></figure></p>
-<p>内部临时表存储引擎<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">内部临时表可以在内存中保持并且由处理MEMORY存储引擎，或者由存储在磁盘上InnoDB或 MyISAM存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果内部临时表被创建为内存表，但变得太大，MySQL会自动将其转换为磁盘上的表。</span><br><span class="line">内存中临时表的最大大小取决于哪个值tmp_table_size和 max_heap_table_size更小值 。</span><br><span class="line">这与MEMORY显式创建的表有所不同CREATE TABLE：对于这些表，只有 max_heap_table_size系统变量决定允许表增长多少，并且没有转换为磁盘格式。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">所述 internal_tmp_disk_storage_engine 系统变量确定哪个存储引擎服务器使用来管理的磁盘上的内部临时表。</span><br><span class="line">允许的值是INNODB（默认值）和 MYISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">使用时 internal_tmp_disk_storage_engine=INNODB，生成超出InnoDB 行或列限制的磁盘内部临时表的查询 将返回行大小过大或列 错误过多。</span><br><span class="line">解决方法是设置 internal_tmp_disk_storage_engine 为MYISAM。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">内部临时表格存储格式</span><br><span class="line">内存中的临时表由MEMORY存储引擎管理，该 引擎使用固定长度的行格式。</span><br><span class="line">VARCHAR并且 VARBINARY列值被填充到最大列长度，实际上将它们存储为 CHAR和BINARY列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在磁盘上的临时表由管理 InnoDB或MyISAM存储引擎（取决于 internal_tmp_disk_storage_engine 设置）。</span><br><span class="line">两个引擎都使用动态宽度行格式存储临时表。</span><br><span class="line">列只根据需​​要获取尽可能多的存储空间，与使用固定长度行的磁盘表相比，它减少了磁盘I / O和空间要求以及处理时间。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于最初在内存中创建内部临时表的语句，然后将其转换为磁盘上表，通过跳过转换步骤并在磁盘上创建表开始，可以获得更好的性能。</span><br><span class="line">所述 big_tables系统变量可以用来迫使内部临时表的磁盘存储。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.1 MySQL如何使用索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">索引用于快速查找具有特定列值的行。</span><br><span class="line">如果没有索引，MySQL必须从第一行开始，然后读取整个表以查找相关行。</span><br><span class="line">表格越大，成本越高。</span><br><span class="line">如果表中有相关​​列的索引，MySQL可以快速确定在数据文件中间寻找的位置，而无需查看所有数据。</span><br><span class="line">这比按顺序读取每一行要快得多。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">大多数MySQL索引（PRIMARY KEY， UNIQUE，INDEX和 FULLTEXT）存储在 B树。</span><br><span class="line">例外：空间数据类型的索引使用R树; MEMORY 表还支持散列索引 ; 索引InnoDB使用倒排列表FULLTEXT。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一般来说，索引的使用将在下面的讨论中描述。</span><br><span class="line">第8.3.8节“B树和散列索引的比较”MEMORY中描述了特定于散列索引的特性（如表中所用 ） 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL使用这些操作的索引：</span><br><span class="line"></span><br><span class="line">WHERE快速 查找与子句匹配的行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">考虑排除行。</span><br><span class="line">如果在多个索引之间有选择，MySQL通常使用找到最少行数的索引（最具 选择性的索引）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果表具有多列索引，则优化器可以使用该索引的任何最左边的前缀来查找行。</span><br><span class="line">例如，如果你有一个三列索引上 (col1, col2, col3)，你有索引的搜索功能(col1)， (col1, col2)以及(col1, col2, col3)。</span><br><span class="line">有关更多信息，请参见 第8.3.5节“多列索引”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在执行连接时从其他表中检索行。</span><br><span class="line">如果它们被声明为相同的类型和大小，MySQL可以更有效地在列上使用索引。</span><br><span class="line">在这种情况下， VARCHAR与 CHAR被认为是相同的，如果它们被声明为相同的大小。</span><br><span class="line">例如， VARCHAR(10)和 CHAR(10)大小相同，但 VARCHAR(10)与 CHAR(15)不是。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了比较非二进制字符串列，两列应使用相同的字符集。</span><br><span class="line">例如，将utf8列与 latin1列进行比较将排除索引的使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">比较不同的列（例如，比较字符串列与时间或数字列）可能会阻止使用索引，如果无法直接比较值而不进行转换。</span><br><span class="line">对于给定的值，如1 在数值列，它可能比较等于在字符串列，例如任何数量的值 &apos;1&apos;，&apos; 1&apos;， &apos;00001&apos;，或&apos;01.e1&apos;。</span><br><span class="line">这排除了字符串列的任何索引的使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">查找特定索引列的值MIN()或 MAX()值key_col。</span><br><span class="line">这由预处理器进行了优化，该预处理器检查您是否使用 索引中之前发生的所有关键部件。</span><br><span class="line">在这种情况下，MySQL会为每个表达式或 单个表达式执行单键查找，并用常量替换它。</span><br><span class="line">如果所有表达式都被常量替换，则查询立即返回。</span><br><span class="line">例如： WHERE key_part_N = constantkey_colMIN()MAX()</span><br><span class="line"></span><br><span class="line">SELECT MIN（key_part2），MAX（key_part2）</span><br><span class="line">  FROM tbl_nameWHERE key_part1= 10;</span><br><span class="line">如果排序或分组是在可用索引的最左侧前缀（例如，）上完成，则对表排序或分组 。</span><br><span class="line">如果所有关键部件都紧随其后，则按相反的顺序读取钥匙。</span><br><span class="line">请参见 第8.2.1.13节“按优化排序”和 第8.2.1.14节“GROUP BY优化”。</span><br><span class="line"> ORDER BY key_part1, key_part2DESC</span><br><span class="line"></span><br><span class="line">在某些情况下，可以优化查询以在不查询数据行的情况下检索值。</span><br><span class="line">（为查询提供所有必要结果的索引称为 覆盖索引。</span><br><span class="line">）如果查询仅使用表中某些索引中包含的列，则可以从索引树中检索所选值以获得更高的速度：</span><br><span class="line"></span><br><span class="line">SELECT key_part3FROM tbl_name</span><br><span class="line">  WHERE key_part1= 1</span><br><span class="line">索引对于小型表或查询处理大部分或全部行的大型表的查询不太重要。</span><br><span class="line">当查询需要访问大多数行时，顺序读取比通过索引处理更快。</span><br><span class="line">即使并非查询所需的所有行，顺序读取也会使磁盘搜索次数最小化。</span><br><span class="line">有关详细信息，请参见第8.2.1.19节“避免全表扫描”。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.2主键优化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">表的主键表示您在最重要的查询中使用的一列或一组列。</span><br><span class="line">它有一个关联索引，用于快速查询性能。</span><br><span class="line">查询性能从NOT NULL优化中受益，因为它不能包含任何NULL值。</span><br><span class="line">通过InnoDB存储引擎，表格数据的物理组织可以进行超快速查找，并根据主键列进行排序。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您的表格很重要，但没有明显的列或一组列作为主键，那么您可以创建一个带有自动增量值的单独列作为主键。</span><br><span class="line">当您使用外键连接表时，这些唯一ID可用作指向其他表中相应行的指针。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.3外键优化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如果一个表有许多列，并且查询了许多不同的列组合，将不常用的数据拆分为每列有几列的单独表格，并通过复制数字ID将它们关联回主表可能很有效主表中的列。</span><br><span class="line">这样，每个小表可以有一个快速查找其数据的主键，并且可以使用连接操作仅查询需要的一组列。</span><br><span class="line">根据数据的分布情况，查询可能会执行较少的I / O并占用较少的缓存内存，因为相关列在磁盘上打包在一起。</span><br><span class="line">（为了最大限度提高性能，查询尝试从磁盘读取尽可能少的数据块;</span><br></pre></td></tr></table></figure></p>
+<p>8.3.4列索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">最常见的索引类型涉及单列，将该列中值的副本存储在数据结构中，从而允许快速查找具有相应列值的行。</span><br><span class="line">B树数据结构可以让索引快速查找特定值，一组值，或值的范围，对应于运营商，如=， &gt;，≤， BETWEEN，IN，等等，一在WHERE子句。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">每个表的最大索引数和最大索引长度是根据每个存储引擎定义的。</span><br><span class="line">请参阅 第14章InnoDB存储引擎和 第15章备用存储引擎。</span><br><span class="line">所有存储引擎每个表至少支持16个索引，总索引长度至少为256个字节。</span><br><span class="line">大多数存储引擎有更高的限制。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关列索引的其他信息，请参见 第13.1.14节“CREATE INDEX语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">索引前缀</span><br><span class="line"></span><br><span class="line">FULLTEXT索引</span><br><span class="line"></span><br><span class="line">空间索引</span><br><span class="line"></span><br><span class="line">MEMORY存储引擎中的索引</span><br><span class="line"></span><br><span class="line">索引前缀</span><br><span class="line">使用 字符串列的索引规范中的语法，可以创建仅使用列的前几个字符的索引 。</span><br><span class="line">以这种方式仅索引列值的前缀可以使索引文件更小。</span><br><span class="line">索引一 列或一 列时，您 必须为该索引指定一个前缀长度。</span><br><span class="line">例如： col_name(N)NBLOBTEXT</span><br><span class="line"></span><br><span class="line">CREATE TABLE测试（blob_col BLOB，INDEX（blob_col（10）））;</span><br><span class="line">前缀长度可以达到1000字节（InnoDB表格为767字节 ，除非已 innodb_large_prefix设置）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">前缀限制以字节为单位，而在前缀长度CREATE TABLE， </span><br><span class="line">	ALTER TABLE和 CREATE INDEX语句被解释为非二进制串类型的字符数（CHAR， VARCHAR， TEXT二进制串类型（）和字节数BINARY， VARBINARY， BLOB）。</span><br><span class="line">为使用多字节字符集的非二进制字符串列指定前缀长度时，请考虑这一点。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有关索引前缀的更多信息，请参见 第13.1.14节“CREATE INDEX语法”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FULLTEXT索引</span><br><span class="line">FULLTEXT索引用于全文搜索。</span><br><span class="line">只有InnoDB和 MyISAM存储引擎支持 FULLTEXT索引和仅适用于 CHAR， VARCHAR和 TEXT列。</span><br><span class="line">索引始终在整个列上进行，并且不支持列前缀索引。</span><br><span class="line">有关详细信息，请参见 第12.9节“全文搜索功能”。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化适用于FULLTEXT针对单个InnoDB表的某些类型的 查询 。</span><br><span class="line">具有这些特征的查询特别有效：</span><br><span class="line"></span><br><span class="line">FULLTEXT 只返回文档ID或文档ID和搜索等级的查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FULLTEXT查询按匹配的降序对匹配的行进行排序，并应用一个 LIMIT子句获取前N个匹配行。</span><br><span class="line">为了应用这种优化，不得有 WHERE条款并且只有一个 ORDER BY条款按降序排列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FULLTEXT只检索COUNT(*)与搜索词相匹配的行的 值的查询，没有附加WHERE 子句。</span><br><span class="line">将该WHERE子句编码为 没有任何比较运算符。</span><br><span class="line"> WHERE MATCH(text) AGAINST (&apos;other_text&apos;)&gt; 0</span><br><span class="line"></span><br><span class="line">对于包含全文表达式的查询，MySQL会在查询执行的优化阶段评估这些表达式。</span><br><span class="line">优化器不仅查看全文表达式并进行估计，而且在开发执行计划的过程中实际评估它们。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">此行为的含义是， EXPLAIN对于全文查询，通常比在优化阶段没有进行表达式评估的非全文查询要慢。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">EXPLAIN由于在优化过程中发生匹配，全文查询可能会显示Select tables optimized away在Extra列中; 在这种情况下，在稍后的执行过程中不需要进行表访问。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">空间索引</span><br><span class="line">您可以创建空间数据类型的索引。</span><br><span class="line"> MyISAM并InnoDB 支持空间类型的R-tree索引。</span><br><span class="line">其他存储引擎使用B树来索引空间类型（除了 ARCHIVE不支持空间类型索引）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MEMORY存储引擎中的索引</span><br><span class="line">该MEMORY存储引擎使用 HASH默认的索引，而且还支持 BTREE索引。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.5多列索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">MySQL可以创建复合索引（即多列索引）。</span><br><span class="line">索引最多可以包含16列。</span><br><span class="line">对于某些数据类型，您可以索引列的前缀（请参见 第8.3.4节“列索引”）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL可以对测试索引中所有列的查询使用多列索引，或者只测试第一列，前两列，前三列等等的查询。</span><br><span class="line">如果您在索引定义中以正确顺序指定列，则单个组合索引可以加速同一个表上的多种查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">多列索引可以被认为是一个有序数组，其行包含通过连接索引列的值创建的值。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意</span><br><span class="line">作为组合索引的替代方法，您可以引入基于来自其他列的信息的“ 哈希 ”列。</span><br><span class="line">如果此列较短，合理唯一且编制索引，则它可能比许多列上的“ 宽 ”索引更快。</span><br><span class="line">在MySQL中，使用这个额外的列非常容易：</span><br><span class="line"></span><br><span class="line">SELECT * FROM tbl_name</span><br><span class="line">  WHERE hash_col= MD5（CONCAT（val1，val2））</span><br><span class="line">  AND col1= val1AND col2= val2;</span><br><span class="line">假设一张表具有以下规格：</span><br><span class="line"></span><br><span class="line">CREATE TABLE测试（</span><br><span class="line">    id INT NOT NULL，</span><br><span class="line">    last_name CHAR（30）NOT NULL，</span><br><span class="line">    first_name CHAR（30）NOT NULL，</span><br><span class="line">    PRIMARY KEY（id），</span><br><span class="line">    INDEX名称（姓氏，名字）</span><br><span class="line">）;</span><br><span class="line">该name指数是在一个索引 last_name和first_name 列。</span><br><span class="line">该索引可用于在查询中查找，以指定已知范围中的 值last_name和first_name值的组合 。</span><br><span class="line">它也可以用于仅指定last_name值的查询， 因为该列是索引的最左边的前缀（如本节后面所述）。</span><br><span class="line">因此，该name索引用于以下查询中的查找：</span><br><span class="line"></span><br><span class="line">SELECT * FROM test WHERE last_name =&apos;Widenius&apos;;</span><br><span class="line"></span><br><span class="line">SELECT * FROM测试</span><br><span class="line">  WHERE last_name =&apos;Widenius&apos;AND first_name =&apos;Michael&apos;;</span><br><span class="line"></span><br><span class="line">SELECT * FROM测试</span><br><span class="line">  WHERE last_name =&apos;Widenius&apos;</span><br><span class="line">  AND（first_name =&apos;Michael&apos;OR first_name =&apos;Monty&apos;）;</span><br><span class="line"></span><br><span class="line">SELECT * FROM测试</span><br><span class="line">  WHERE last_name =&apos;Widenius&apos;</span><br><span class="line">  AND first_name&gt; =&apos;M&apos;AND first_name &lt;&apos;N&apos;;</span><br><span class="line">但是，name索引 不用于以下查询中的查找：</span><br><span class="line"></span><br><span class="line">SELECT * FROM test WHERE first_name =&apos;Michael&apos;;</span><br><span class="line"></span><br><span class="line">SELECT * FROM测试</span><br><span class="line">  WHERE last_name =&apos;Widenius&apos;OR first_name =&apos;Michael&apos;;</span><br><span class="line">假设您发出以下 SELECT声明：</span><br><span class="line"></span><br><span class="line">SELECT * FROM tbl_name</span><br><span class="line">  WHERE col1 = val1AND col2 = val2;</span><br><span class="line">如果一个多列索引存在于col1和 col2，相应的行可以直接取出。</span><br><span class="line">如果在col1和上存在单独的单列索引 col2，优化器将尝试使用索引合并优化（请参见 第8.2.1.3节“索引合并优化”），</span><br><span class="line">	或尝试通过确定哪个索引排除更多行并使用它来尝试查找最具限制性的索引该索引来获取行。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果表具有多列索引，则优化器可以使用该索引的任何最左边的前缀来查找行。</span><br><span class="line">例如，如果你有一个三列索引上(col1, col2, col3)，你有索引的搜索功能 (col1)，(col1, col2)以及 (col1, col2, col3)。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果列不构成索引的最左边的前缀，则MySQL不能使用索引执行查找。</span><br><span class="line">假设你有SELECT这里显示的语句：</span><br><span class="line"></span><br><span class="line">SELECT * FROM tbl_nameWHERE col1 = val1;</span><br><span class="line">SELECT * FROM tbl_nameWHERE col1 = val1AND col2 = val2;</span><br><span class="line"></span><br><span class="line">SELECT * FROM tbl_nameWHERE col2 = val2;</span><br><span class="line">SELECT * FROM tbl_nameWHERE col2 = val2AND col3 = val3;</span><br><span class="line">如果索引存在(col1, col2, col3)，则只有前两个查询使用该索引。</span><br><span class="line">第三和第四个查询确实包括索引的列，但不使用索引来进行查找，因为(col2)和 (col2, col3)不是的最左边的前缀 (col1, col2, col3)。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.6检验索引使用情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">始终检查您的所有查询是否确实使用您在表中创建的索引。</span><br><span class="line">EXPLAIN如第8.8.1节“使用EXPLAIN优化查询”中所述使用该 语句。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.7 InnoDB和MyISAM指数统计收集<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">存储引擎收集关于优化器使用的表的统计信息。</span><br><span class="line">表统计信息基于值组，其中值组是具有相同关键字前缀值的一组行。</span><br><span class="line">为了优化器的目的，重要的统计数据是平均值组大小。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">MySQL通过以下方式使用平均值组大小：</span><br><span class="line"></span><br><span class="line">估计每次ref访问 必须读取的行数</span><br><span class="line"></span><br><span class="line">估计部分连接将产生多少行; 也就是说，这个表单的操作将会产生的行数：</span><br><span class="line"></span><br><span class="line">（...）JOIN tbl_nameON tbl_name。</span><br><span class="line">key=expr</span><br><span class="line">随着索引的平均值组大小增加，索引对于这两个目的的用处不大，因为每次查找的平均行数增加：为了使索引适合优化，最好每个索引值的目标是小表格中的行数。</span><br><span class="line">当一个给定的索引值产生大量的行时，该索引不太有用，而MySQL不太可能使用它。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">平均值组大小与表基数有关，这是值组的数量。</span><br><span class="line">该 SHOW INDEX语句基于表显示基数值N/S，其中 N表S是行中的行数，并且是平均值组大小。</span><br><span class="line">该比率在表格中产生了近似数量的值组。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为联接基础上，&lt;=&gt;比较运营商，NULL没有从任何其它值区别对待：NULL &lt;=&gt; NULL，就像任何其他 。</span><br><span class="line"> N &lt;=&gt; NN</span><br><span class="line"></span><br><span class="line">但是，对于基于=运算符的连接， NULL与非NULL值不同： 在或 （或两者）都不 是真时 。</span><br><span class="line">这会影响 对表单进行比较的访问：如果当前值为is ，则MySQL将不访问表 ，因为比较不成立。</span><br><span class="line"> expr1 = expr2expr1expr2NULLreftbl_name.key = exprexprNULL</span><br><span class="line"></span><br><span class="line">为了=比较，NULL表中有多少个值并不重要。</span><br><span class="line">出于优化目的，相关值是非NULL值组的平均大小。</span><br><span class="line">但是，MySQL目前不支持收集或使用平均大小。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于 表InnoDB和MyISAM表，您可以分别通过innodb_stats_method和 myisam_stats_method系统变量来控制表统计信息的收集 。</span><br><span class="line">这些变量有三个可能的值，其不同之处如下：</span><br><span class="line"></span><br><span class="line">当变量设置为时nulls_equal，所有NULL值都被视为相同（即它们都形成单个值组）。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果NULL值组大小远高于平均非NULL值组大小，则此方法会向上倾斜平均值组大小。</span><br><span class="line">这使得索引对于优化器来说显得不如对于查找非NULL值的联接有用。</span><br><span class="line">因此，该 nulls_equal方法可能会导致优化器ref在应该访问时不使用索引进行 访问。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当变量设置为时 nulls_unequal，NULL 值不被视为相同。</span><br><span class="line">相反，每个 NULL值形成一个大小为1的单独值组。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您有很多NULL值，则此方法会向下倾斜平均值组大小。</span><br><span class="line">如果平均非NULL值组大小较大，则将值计算NULL为一组大小1会导致优化程序高估查找非NULL 值的连接的索引值。</span><br><span class="line">因此，当其他方法可能更好时，该nulls_unequal 方法可以使优化器使用该索引进行 ref查找。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当变量设置为时 nulls_ignored，NULL 值将被忽略。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果你倾向于使用很多连接在使用 &lt;=&gt;，而不是=， NULL值并不特殊，在比较和一个NULL等于另一个。</span><br><span class="line">在这种情况下，nulls_equal是适当的统计方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该innodb_stats_method系统变量具有全局值; 该 myisam_stats_method系统变量有全局和会话值。</span><br><span class="line">设置全局值会影响相应存储引擎中表的统计信息收集。</span><br><span class="line">设置会话值仅影响当前客户端连接的统计信息收集。</span><br><span class="line">这意味着您可以强制使用给定方法重新生成表的统计信息，而不会通过设置会话值来影响其他客户端 myisam_stats_method。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">要重新生成MyISAM表格统计信息，可以使用以下任何一种方法：</span><br><span class="line"></span><br><span class="line">执行myisamchk --stats_method = - method_name 分析</span><br><span class="line"></span><br><span class="line">更改表使其统计信息过期（例如，插入一行然后删除它），然后设置 myisam_stats_method并发布一个ANALYZE TABLE 语句</span><br><span class="line"></span><br><span class="line">关于使用innodb_stats_method和的 一些注意事项 myisam_stats_method：</span><br><span class="line"></span><br><span class="line">如刚才所描述的，您可以强制显示表格统计信息。</span><br><span class="line">但是，MySQL也可能会自动收集统计信息。</span><br><span class="line">例如，如果在为表执行语句的过程中，其中一些语句会修改表，MySQL可能会收集统计信息。</span><br><span class="line">（例如，对于批量插入或删除，或者某些ALTER TABLE语句，可能会发生 这种情况。</span><br><span class="line">）如果发生这种情况，统计信息将使用任何值 innodb_stats_method或 myisam_stats_method在那个时候。</span><br><span class="line">因此，如果您使用一种方法收集统计信息，但是稍后自动收集表的统计信息时将系统变量设置为另一种方法，则将使用其他方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">无法确定哪种方法用于为给定的表生成统计信息。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这些变量仅适用于表格InnoDB和 MyISAM表格。</span><br><span class="line">其他存储引擎只有一种收集表格统计信息的方法。</span><br><span class="line">通常它更接近该nulls_equal方法。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.8 B树和散列索引的比较<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">了解B树和散列数据结构可以帮助预测不同的查询在使用索引中的这些数据结构的不同存储引擎上的性能，特别是用于MEMORY允许您选择B树或散列索引的存储引擎。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">B树索引特征</span><br><span class="line"></span><br><span class="line">哈希指数特征</span><br><span class="line"></span><br><span class="line">B树索引特征</span><br><span class="line">A B树索引可以在使用表达式中使用的对列的比较 =， &gt;， &gt;=， &lt;， &lt;=，或BETWEEN运营商。</span><br><span class="line">LIKE 如果参数为LIKE不是以通配符开头的常量字符串，则索引也可用于比较 。</span><br><span class="line">例如，以下SELECT语句使用索引：</span><br><span class="line"></span><br><span class="line">选择*从tbl_name哪里key_col &apos;帕特里克％&apos;;</span><br><span class="line">SELECT * FROM tbl_nameWHERE key_colLIKE &apos;％专利％_ck&apos;;</span><br><span class="line">在第一条语句中，只考虑了行。</span><br><span class="line">在第二条语句中，只考虑了行。</span><br><span class="line"> &apos;Patrick&apos; &lt;= key_col &lt; &apos;Patricl&apos;&apos;Pat&apos; &lt;= key_col &lt; &apos;Pau&apos;</span><br><span class="line"></span><br><span class="line">以下SELECT语句不使用索引：</span><br><span class="line"></span><br><span class="line">选择*从tbl_name哪里key_col&apos;％Patrick％&apos;;</span><br><span class="line">SELECT * FROM tbl_nameWHERE key_colLIKE other_col;</span><br><span class="line">在第一个语句中，该LIKE 值以通配符开头。</span><br><span class="line">在第二个声明中，该LIKE值不是一个常数。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果您使用并且 长度超过三个字符，则MySQL使用Turbo Boyer-Moore算法来初始化字符串的模式，然后使用此模式更快地执行搜索。</span><br><span class="line"> ... LIKE &apos;%string%&apos;string</span><br><span class="line"></span><br><span class="line">使用col_name IS NULL索引 搜索col_name索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">不跨越子句中所有AND级别的 任何索引 WHERE都不用于优化查询。</span><br><span class="line">换句话说，为了能够使用索引，必须在每个AND组中使用索引的前缀 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以下WHERE条款使用索引：</span><br><span class="line"></span><br><span class="line">... WHERE index_part1= 1 AND index_part2= 2 AND other_column= 3</span><br><span class="line"></span><br><span class="line">    / * index= 1 OR index= 2 * /</span><br><span class="line">... WHERE index= 1或A = 10 AND index= 2</span><br><span class="line"></span><br><span class="line">    / *优化如“ index_part1=&apos;hello&apos;”* /</span><br><span class="line">... WHERE index_part1=&apos;你好&apos;AND index_part3= 5</span><br><span class="line"></span><br><span class="line">    / *可以使用索引index1但不是index2或index3* /</span><br><span class="line">... WHERE index1= 1 AND index2= 2 OR index1= 3 AND index3= 3;</span><br><span class="line">这些WHERE条款 不使用索引：</span><br><span class="line"></span><br><span class="line">    / * index_part1未使用* /</span><br><span class="line">... WHERE index_part2= 1 AND index_part3= 2</span><br><span class="line"></span><br><span class="line">    / *索引不用于WHERE子句的两个部分* /</span><br><span class="line">... WHERE index= 1或A = 10</span><br><span class="line"></span><br><span class="line">    / *没有索引跨越所有行* /</span><br><span class="line">... WHERE index_part1= 1 OR index_part2= 10</span><br><span class="line">有时MySQL不使用索引，即使有索引。</span><br><span class="line">出现这种情况的一种情况是，优化程序估计使用索引需要MySQL访问表中非常大部分的行。</span><br><span class="line">（在这种情况下，表扫描可能会快得多，因为它需要更少的搜索。</span><br><span class="line">）但是，如果这样的查询LIMIT仅用于检索某些行，则MySQL无论如何都会使用索引，因为它可以更快地找到结果中返回的行数很少。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">哈希指数特征</span><br><span class="line">哈希索引与刚刚讨论的哈希索引有些不同：</span><br><span class="line"></span><br><span class="line">它们只用于使用等于比较 =或&lt;=&gt; 运营商（但非常快）。</span><br><span class="line">它们不用于比较运算符，比如 &lt;找到一系列值。</span><br><span class="line">依赖这种单值查找的系统被称为“ 键值存储 ” ; 为这些应用程序使用MySQL，尽可能使用散列索引。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化器不能使用散列索引来加速 ORDER BY操作。</span><br><span class="line">（这种类型的索引不能用于按顺序搜索下一个条目。</span><br><span class="line">）</span><br><span class="line"></span><br><span class="line">MySQL不能确定两个值之间大约有多少行（范围优化器使用它来决定使用哪个索引）。</span><br><span class="line">如果您将某个表MyISAM或 InnoDB表更改为散列索引 MEMORY表，这可能会影响某些查询。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">只有整个键才能用来搜索一行。</span><br><span class="line">（使用B树索引，可以使用密钥的任何最左边的前缀来查找行。</span><br><span class="line">）</span><br></pre></td></tr></table></figure></p>
+<p>8.3.9使用索引扩展<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line">InnoDB通过附加主键列来自动扩展每个二级索引。</span><br><span class="line">考虑这个表格定义：</span><br><span class="line"></span><br><span class="line">CREATE TABLE t1（</span><br><span class="line">  i1 INT NOT NULL DEFAULT 0，</span><br><span class="line">  i2 INT NOT NULL DEFAULT 0，</span><br><span class="line">  d DATE DEFAULT NULL，</span><br><span class="line">  PRIMARY KEY（i1，i2），</span><br><span class="line">  INDEX k_d（d）</span><br><span class="line">）ENGINE = InnoDB;</span><br><span class="line">该表定义列上的主键(i1, i2)。</span><br><span class="line">它还k_d在列上定义了二级索引 (d)，但在内部InnoDB扩展此索引并将其视为列(d, i1, i2)。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化程序在确定如何以及是否使用该索引时会考虑扩展二级索引的主键列。</span><br><span class="line">这可以导致更高效的查询执行计划和更好的性能。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化器可以使用扩展次要索引 ref，range和 index_merge索引访问，为松散索引扫描，对于加入和排序的优化，以及用于 MIN()/ MAX() 优化。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以下示例显示了执行计划如何受到优化程序是否使用扩展辅助索引的影响。</span><br><span class="line">假设t1这些行被填充：</span><br><span class="line"></span><br><span class="line">INSERT INTO t1 VALUES</span><br><span class="line">（1,1，&apos;1998-01-01&apos;），（1,2，&apos;1999-01-01&apos;），</span><br><span class="line">（1，3，&apos;2000-01-01&apos;），（1，4，&apos;2001-01-01&apos;），</span><br><span class="line">（1，5，&apos;2002-01-01&apos;），（2,1，&apos;1998-01-01&apos;），</span><br><span class="line">（2，2，&apos;1999-01-01&apos;），（2,3，&apos;2000-01-01&apos;），</span><br><span class="line">（2,4，&apos;2001-01-01&apos;），（2，5，&apos;2002-01-01&apos;），</span><br><span class="line">（3,1，&apos;1998-01-01&apos;），（3,2，&apos;1999-01-01&apos;），</span><br><span class="line">（3,3，&apos;2000-01-01&apos;），（3,4，&apos;2001-01-01&apos;），</span><br><span class="line">（3，5，&apos;2002-01-01&apos;），（4,1，&apos;1998-01-01&apos;），</span><br><span class="line">（4，2，&apos;1999-01-01&apos;），（4，3，&apos;2000-01-01&apos;），</span><br><span class="line">（4，4，&apos;2001-01-01&apos;），（4，5，&apos;2002-01-01&apos;），</span><br><span class="line">（5,1，&apos;1998-01-01&apos;），（5,2，&apos;1999-01-01&apos;），</span><br><span class="line">（5，3，&apos;2000-01-01&apos;），（5，4，&apos;2001-01-01&apos;），</span><br><span class="line">（5，5，&apos;2002-01-01&apos;）;</span><br><span class="line">现在考虑这个查询：</span><br><span class="line"></span><br><span class="line">EXPLAIN SELECT COUNT（*）FROM t1 WHERE i1 = 3 AND d =&apos;2000-01-01&apos;</span><br><span class="line">在这种情况下，优化器不能使用主键，因为它包含列(i1, i2)并且查询没有引用i2。</span><br><span class="line">取而代之的是，优化器可以使用二级索引k_d上 (d)，并且执行计划依赖于扩展索引是否被使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当优化器不考虑索引扩展时，它将索引k_d视为唯一(d)。</span><br><span class="line"> EXPLAIN为查询产生这个结果：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; EXPLAIN SELECT COUNT(*) FROM t1 WHERE i1 = 3 AND d = &apos;2000-01-01&apos;\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">           ID：1</span><br><span class="line">  select_type：SIMPLE</span><br><span class="line">        表：t1</span><br><span class="line">         键入：ref</span><br><span class="line">possible_keys：PRIMARY，k_d</span><br><span class="line">          键：k_d</span><br><span class="line">      key_len：4</span><br><span class="line">          ref：const</span><br><span class="line">         行数：5</span><br><span class="line">        额外：使用where; 使用索引</span><br><span class="line">当优化需要索引扩展到帐户，它把k_d作为(d, i1, i2)。</span><br><span class="line">在这种情况下，它可以使用最左边的索引前缀(d, i1)来产生更好的执行计划：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; EXPLAIN SELECT COUNT(*) FROM t1 WHERE i1 = 3 AND d = &apos;2000-01-01&apos;\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">           ID：1</span><br><span class="line">  select_type：SIMPLE</span><br><span class="line">        表：t1</span><br><span class="line">         键入：ref</span><br><span class="line">possible_keys：PRIMARY，k_d</span><br><span class="line">          键：k_d</span><br><span class="line">      key_len：8</span><br><span class="line">          ref：const，const</span><br><span class="line">         行：1</span><br><span class="line">        额外：使用索引</span><br><span class="line">在这两种情况下，都key表示优化器将使用二级索引，k_d但EXPLAIN输出显示了使用扩展索引的这些改进：</span><br><span class="line"></span><br><span class="line">key_len从4个字节到8个字节去，表明键查找中使用的列d 和i1，而不仅仅是d。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该ref从价值变动 const到const,const ，因为键查找使用两个关键部分，没有之一。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">的rows计数降低从5到1，表明InnoDB应该需要检查更少的行，以产生结果。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">该Extra值从变化 Using where; Using index到 Using index。</span><br><span class="line">这意味着可以仅使用索引读取行，而无需查阅数据行中的列。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">使用扩展索引的优化器行为差异也可以通过以下方式看出SHOW STATUS：</span><br><span class="line"></span><br><span class="line">FLUSH TABLE t1;</span><br><span class="line">FLUSH STATUS;</span><br><span class="line">SELECT COUNT（*）FROM t1 WHERE i1 = 3 AND d =&apos;2000-01-01&apos;;</span><br><span class="line">SHOW STATUS LIKE&apos;handler_read％&apos;</span><br><span class="line">前面的语句包含FLUSH TABLES并FLUSH STATUS 刷新表缓存并清除状态计数器。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">没有索引扩展，SHOW STATUS产生这样的结果：</span><br><span class="line"></span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">| Handler_read_first | 0 |</span><br><span class="line">| Handler_read_key | 1 |</span><br><span class="line">| Handler_read_last | 0 |</span><br><span class="line">| Handler_read_next | 5 |</span><br><span class="line">| Handler_read_prev | 0 |</span><br><span class="line">| Handler_read_rnd | 0 |</span><br><span class="line">| Handler_read_rnd_next | 0 |</span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">通过索引扩展，SHOW STATUS生成此结果。</span><br><span class="line">该 Handler_read_next值从5减少到1，表示更有效地使用该指数：</span><br><span class="line"></span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">| 变量名| 值|</span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">| Handler_read_first | 0 |</span><br><span class="line">| Handler_read_key | 1 |</span><br><span class="line">| Handler_read_last | 0 |</span><br><span class="line">| Handler_read_next | 1 |</span><br><span class="line">| Handler_read_prev | 0 |</span><br><span class="line">| Handler_read_rnd | 0 |</span><br><span class="line">| Handler_read_rnd_next | 0 |</span><br><span class="line">+ ----------------------- + ------- +</span><br><span class="line">在确定如何使用表的二级索引时use_index_extensions，optimizer_switch系统变量 的标志 允许控制优化程序是否考虑主键列 InnoDB。</span><br><span class="line">默认情况下， use_index_extensions已启用。</span><br><span class="line">要检查禁用索引扩展是否会提高性能，请使用以下语句：</span><br><span class="line"></span><br><span class="line">SET optimizer_switch =&apos;use_index_extensions = off&apos;;</span><br><span class="line">优化器使用索引扩展受索引（16）中关键部分数量和最大关键字长度（3072字节）的通常限制。</span><br></pre></td></tr></table></figure></p>
+<p>8.3.10优化器使用生成的列索引<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">MySQL支持生成列上的索引。</span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">CREATE TABLE t1（f1 INT，gc INT AS（f1 + 1）STORED，INDEX（gc））;</span><br><span class="line">生成的列gc被定义为表达式f1 + 1。</span><br><span class="line">该列也被编入索引，并且优化程序可以在执行计划构建期间考虑该索引。</span><br><span class="line">在以下查询中，该 WHERE子句引用gc 并且优化器考虑该列上的索引是否产生更高效的计划：</span><br><span class="line"></span><br><span class="line">SELECT * FROM t1 WHERE gc&gt; 9;</span><br><span class="line">优化器可以在生成的列上使用索引来生成执行计划，即使在没有按名称对这些列进行查询时直接引用也是如此。</span><br><span class="line">会发生此如果 WHERE，ORDER BY或 GROUP BY条款是指一些索引生成列的定义相匹配的表达式。</span><br><span class="line">以下查询不直接引用，gc 但使用的表达式符合以下定义 gc：</span><br><span class="line"></span><br><span class="line">SELECT * FROM t1 WHERE f1 + 1&gt; 9;</span><br><span class="line">优化器识别出表达f1 + 1的定义相匹配gc，并且gc被索引，因此它认为执行计划在施工期间的索引。</span><br><span class="line">你可以看到这个使用 EXPLAIN：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; EXPLAIN SELECT * FROM t1 WHERE f1 + 1 &gt; 9\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">           ID：1</span><br><span class="line">  select_type：SIMPLE</span><br><span class="line">        表：t1</span><br><span class="line">   分区：NULL</span><br><span class="line">         键入：范围</span><br><span class="line">possible_keys：gc</span><br><span class="line">          key：gc</span><br><span class="line">      key_len：5</span><br><span class="line">          ref：NULL</span><br><span class="line">         行：1</span><br><span class="line">     过滤：100.00</span><br><span class="line">        额外：使用索引条件</span><br><span class="line">实际上，优化程序已将表达式替换为与表达式f1 + 1匹配的生成列的名称。</span><br><span class="line">在以下EXPLAIN 显示的扩展信息中可用的重写查询中也很明显SHOW WARNINGS：</span><br><span class="line"></span><br><span class="line">MySQL的&gt; SHOW WARNINGS\G</span><br><span class="line">*************************** 1. row ******************** *******</span><br><span class="line">  级别：注意</span><br><span class="line">   代码：1003</span><br><span class="line">Message：/ * select＃1 * / select`test`.`t1`.`f1` as``f1`，`test`.`t1`.`gc`</span><br><span class="line">         as```````````````gc`</span><br><span class="line">以下限制和条件适用于优化器使用生成的列索引：</span><br><span class="line"></span><br><span class="line">对于查询表达式来匹配生成的列定义，表达式必须是相同的，并且它必须具有相同的结果类型。</span><br><span class="line">例如，如果生成的列表达式是f1 + 1，如果查询使用1 + f1，或者f1 + 1 （整数表达式）与字符串进行比较，则优化器不会识别匹配 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">优化适用于这些操作符： =， &lt;， &lt;=， &gt;， &gt;=， BETWEEN，和 IN()。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于BETWEEN和 以外的 IN()操作符，可以用匹配的生成列替换操作数。</span><br><span class="line">对于 BETWEEN和 IN()，只有第一个参数可以被匹配的生成列替换，其他参数必须具有相同的结果类型。</span><br><span class="line"> BETWEEN并且 IN()尚未支持涉及JSON值的比较。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">生成的列必须被定义为一个表达式，该表达式至少包含一个函数调用或上述项目中提到的某个操作符。</span><br><span class="line">表达式不能包含对另一列的简单引用。</span><br><span class="line">例如，gc INT AS (f1) STORED仅由一个列引用组成，因此gc不考虑索引 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">为了将字符串与索引生成列进行比较，这些字段从返回带引号字符串的JSON函数计算值，JSON_UNQUOTE()需要在列定义中从函数值中删除多余的引号。</span><br><span class="line">（对于字符串与函数结果的直接比较，JSON比较器处理引用移除，但这不会发生在索引查找中）。</span><br><span class="line">例如，不是像这样写一个列定义：</span><br><span class="line"></span><br><span class="line">doc_name TEXT AS（JSON_EXTRACT（jdoc，&apos;$ .name&apos;））存储</span><br><span class="line">这样写：</span><br><span class="line"></span><br><span class="line">doc_name TEXT AS（JSON_UNQUOTE（JSON_EXTRACT（jdoc，&apos;$ .name&apos;）））STORED</span><br><span class="line">对于后者的定义，优化器可以检测这两个比较的匹配情况：</span><br><span class="line"></span><br><span class="line">... WHERE JSON_EXTRACT（jdoc，&apos;$ .name&apos;）=&apos; some_string&apos;...</span><br><span class="line">... WHERE JSON_UNQUOTE（JSON_EXTRACT（jdoc，&apos;$ .name&apos;））=&apos; some_string&apos;...</span><br><span class="line">如果没有JSON_UNQUOTE()在列定义中，优化器只会对这些比较中的第一个进行匹配。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果优化器未能选择所需的索引，则可以使用索引提示来强制优化器做出不同的选择。</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -2234,6 +2236,13 @@
     <li class="popular-posts-item">
       
       
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-data-structure/" rel="bookmark">SQL优化【数据结构】</a></div>
+      
+    </li>
+  
+    <li class="popular-posts-item">
+      
+      
       <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-lock/" rel="bookmark">SQL优化【锁优化】</a></div>
       
     </li>
@@ -2241,7 +2250,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-innodb/" rel="bookmark">SQL优化【InnoDB-表优化】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-sentence/" rel="bookmark">SQL优化【SQL语句】</a></div>
       
     </li>
   
@@ -2255,14 +2264,7 @@
     <li class="popular-posts-item">
       
       
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-indexes/" rel="bookmark">SQL优化【SQL索引】</a></div>
-      
-    </li>
-  
-    <li class="popular-posts-item">
-      
-      
-      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-performance-measurement/" rel="bookmark">SQL优化【绩效衡量】</a></div>
+      <div class="popular-posts-title"><a href="/2018/03/24/mysql/optimization-sql-cached/" rel="bookmark">SQL优化【缓存优化】</a></div>
       
     </li>
   
